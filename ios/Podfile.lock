@@ -673,7 +673,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   blue_print_pos: 23e8b4bede0fc07cd75b3257783523ca332bf3cb
-  blue_thermal_printer: e0f989c1ba2cae289f6472ebae0a22611958f2bc
+  blue_thermal_printer: c83405103d2c17f8d67aaa43fcff94df5d616a66
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   camera: 3164201dc344383e62282964016528c4f5a9ad50
   charset_converter: 215c7b04932ec2b9ba43be96a9bc34afed3e5322

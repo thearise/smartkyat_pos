@@ -418,44 +418,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     );
   }
 
-  Future<List<String>>changeData3(list) async {
+  changeData3(list, snpsht) {
     // list[0].toString()
-
-    for(int i = 0; i < list.length; i++) {
-      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(list[i].split('^')[3])
-          .get().then((value) async {
-        if(value.exists) {
-          print('customer name ' + value.data()!['customer_name'].toString());
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
           list[i] = list[i].split('^')[0] +
               '^' +
               list[i].split('^')[1] +
               '^' +
               list[i].split('^')[2] +
               '^' +
-              value.data()!['customer_name'].toString() +
-              '&' +
-              list[i].split('^')[3] +
-              '^' +
-              list[i].split('^')[4] +
-              '^' +
-              list[i].split('^')[5] +
-              '^' +
-              list[i].split('^')[6] +
-              '^' +
-              list[i].split('^')[7] +
-              '^' +
-              list[i].split('^')[8]+
-              '^' + 's'
-          ;
-        } else {
-          print('customer name ' + value.data()!['customer_name'].toString());
-          list[i] = list[i].split('^')[0] +
-              '^' +
-              list[i].split('^')[1] +
-              '^' +
-              list[i].split('^')[2] +
-              '^' +
-              'Loading' +
+              document['customer_name'].toString() +
               '&' +
               list[i].split('^')[3] +
               '^' +
@@ -471,38 +445,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               '^' + 's'
           ;
         }
-        // length = int.parse(value.data()!['customer_name'].toString());
-
-      });
-    }
-    // snpsht.docs.map((document) async {
-    //   for (var i = 0; i < list.length; i++) {
-    //     if (document.id.toString() == list[i].split('^')[3]) {
-    //       list[i] = list[i].split('^')[0] +
-    //           '^' +
-    //           list[i].split('^')[1] +
-    //           '^' +
-    //           list[i].split('^')[2] +
-    //           '^' +
-    //           document['customer_name'].toString() +
-    //           '&' +
-    //           list[i].split('^')[3] +
-    //           '^' +
-    //           list[i].split('^')[4] +
-    //           '^' +
-    //           list[i].split('^')[5] +
-    //           '^' +
-    //           list[i].split('^')[6] +
-    //           '^' +
-    //           list[i].split('^')[7] +
-    //           '^' +
-    //           list[i].split('^')[8]+
-    //           '^' + 's'
-    //       ;
-    //     }
-    //   }
+      }
       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-    // }).toList();
+    }).toList();
 
     // print('changeData ' + snpsht.da);
     return list;
@@ -617,9 +562,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
             await FirebaseFirestore.instance.collection('shops').doc(
                 shopId).collection('merchants')
-                .where("merchant_name", arrayContains: searchValue)
                 .limit(10)
-                .get()
+                .get(GetOptions(source: Source.cache))
                 .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
@@ -714,14 +658,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               });
             });
 
-            // await FirebaseFirestore.instance.collection('shops').doc(
-            //     shopId).collection('customers')
-            //     .get()
-            //     .then((QuerySnapshot querySnapshot3) {
-            //
-            // });
-
-            changeData3(detailIdList.cast<String>()).then((value) {
+            await FirebaseFirestore.instance.collection('shops').doc(
+                shopId).collection('customers')
+                .limit(10)
+                .get(GetOptions(source: Source.cache))
+                .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
                 // if(detailIdList.length == 0) {
@@ -733,7 +674,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
                 var saleOrders = ExampleSection()
                   ..header = 'Sale orders^' + detailIdList.length.toString()
-                  ..items = value.cast<String>()
+                  ..items = changeData3(detailIdList.cast<String>(), querySnapshot3)
                 // ..items = detailIdList.cast<String>()
                   ..expanded = true;
 
@@ -748,8 +689,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 sectionList2 = sections;
               });
             });
-
-
           });
         }
 
@@ -785,9 +724,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items1 = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
-            .where("search_name", arrayContains: searchValue)
             .limit(10)
-            .get()
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -816,9 +754,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
-            .where("search_name", arrayContains: searchValue)
             .limit(10)
-            .get()
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -894,8 +831,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         // .startAt([searchtxt,])
         // .endAt([searchtxt+'\uf8ff',])
             .where("search_name", arrayContains: searchValue)
-            .limit(10)
-            .get()
+            .orderBy('search_name', descending: true)
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) async {
           String sps = '^sps^';
           querySnapshot.docs.forEach((doc) {
@@ -922,8 +859,43 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           });
 
           if(items.length == 0) {
-            setState(() {
-              noSearchData = true;
+            await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
+                .where('search_name', arrayContains: searchValue)
+                .limit(10)
+                .get(GetOptions(source: Source.serverAndCache))
+                .then((QuerySnapshot querySnapshotPS) {
+              querySnapshot.docs.forEach((doc) {
+                setState(() {
+                  items.add(doc.id + sps +
+                      doc['prod_name'] + sps +
+                      doc['img_1'] + sps +
+                      doc['unit_sell'] + '~' + doc['inStock1'].toString() + '~' + doc['unit_name'] + sps +
+                      doc['sub1_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub1_name'] + sps +
+                      doc['sub2_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub2_name']);
+                });
+                // if(doc['prod_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+                //   setState(() {
+                //     items.add(doc.id + sps +
+                //         doc['prod_name'] + sps +
+                //         doc['img_1'] + sps +
+                //         doc['unit_sell'] + '~' + doc['inStock1'].toString() + '~' + doc['unit_name'] + sps +
+                //         doc['sub1_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub1_name'] + sps +
+                //         doc['sub2_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub2_name']);
+                //   });
+                //
+                //   print(doc['prod_name'].toString());
+                // }
+              });
+
+              if(items.length == 0) {
+                setState(() {
+                  noSearchData = true;
+                });
+              } else {
+                setState(() {
+                  noSearchData = false;
+                });
+              }
             });
           } else {
             setState(() {

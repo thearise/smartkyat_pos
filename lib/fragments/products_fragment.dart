@@ -658,6 +658,176 @@ class ProductsFragmentState extends State<ProductsFragment>
                           //   return true;
                           // },
                           child: PaginateFirestore(
+                            onEmpty: Align(
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                    child: Container(
+                                      height: 32,
+                                      width: MediaQuery.of(context).size.width,
+                                      // color: Colors.yellow,
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              FlatButton(
+                                                padding: EdgeInsets.only(left: 10, right: 10),
+                                                color: AppTheme.secButtonColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.skBorderColor2,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  widget._callback();
+                                                  //print('execution');
+                                                  // print('array -> ' + textSplitFunction('abcde').toString());
+                                                  // getStoreId().then((value) async {
+                                                  //   await FirebaseFirestore.instance.collection('shops').doc(
+                                                  //       value.toString()).collection('products')
+                                                  //       .get(GetOptions(source: Source.server))
+                                                  //       .then((QuerySnapshot querySnapshotProdChange) {
+                                                  //     querySnapshotProdChange.docs.map((document) async {
+                                                  //       int length = 0;
+                                                  //       length = document['search_name'].length;
+                                                  //       print('id    -> ' + length.toString());
+                                                  //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+                                                  //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
+
+
+                                                  // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                                  // productId.doc(document.id).update({
+                                                  //   'name_length': ,
+                                                  // }).then((value) {
+                                                  // }).catchError((error) => print("Failed to update: $error"));
+                                                  //     }).toList();
+                                                  //   });
+                                                  // });
+                                                },
+                                                child: Container(
+                                                  child: Row(
+                                                    // mainAxisAlignment: Main,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                        child: Icon(
+                                                          SmartKyat_POS.add_plus,
+                                                          size: 17,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        textSetNewItem,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 12),
+                                              Container(
+                                                color: Colors.grey.withOpacity(0.2),
+                                                width: 1.5,
+                                                height: 30,
+                                              )
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: ListView(
+                                              controller: cateScCtler,
+                                              scrollDirection: Axis.horizontal,
+                                              children: [
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                  child: FlatButton(
+                                                    minWidth: 0,
+                                                    padding: EdgeInsets.only(left: 12, right: 12),
+                                                    color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      _animateToIndex(0);
+                                                      setState(() {
+                                                        cateScIndex = 0;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        textSetAll,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                  child: FlatButton(
+                                                    minWidth: 0,
+                                                    padding: EdgeInsets.only(left: 12, right: 12),
+                                                    color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      _animateToIndex(5.4);
+                                                      setState(() {
+                                                        cateScIndex = 1;
+                                                        filter = 1;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        textSetLowStocks,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 11,
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      // color: AppTheme.lightBgColor,
+                                      color: Colors.white,
+                                      child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                             key: cateScIndex == 0? ValueKey<String>('1'): ValueKey<String>('2'),
                             header:SliverAppBar(
                               elevation: 0,
@@ -687,24 +857,26 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             ),
                                             onPressed: () async {
                                               widget._callback();
-                                              // print('execution');
-                                              // // print('array -> ' + textSplitFunction('abcde').toString());
+                                              //print('execution');
+                                              // print('array -> ' + textSplitFunction('abcde').toString());
                                               // getStoreId().then((value) async {
                                               //   await FirebaseFirestore.instance.collection('shops').doc(
                                               //       value.toString()).collection('products')
                                               //       .get(GetOptions(source: Source.server))
                                               //       .then((QuerySnapshot querySnapshotProdChange) {
                                               //     querySnapshotProdChange.docs.map((document) async {
-                                              //       print('id    -> ' + document['prod_name'].toString());
+                                              //       int length = 0;
+                                              //       length = document['search_name'].length;
+                                              //       print('id    -> ' + length.toString());
                                               //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                              //       print('array -> ' + textSplitFunction(document['prod_name']).toString());
-                                              //
-                                              //
-                                              //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
-                                              //       productId.doc(document.id).update({
-                                              //         'search_name': textSplitFunction(document['prod_name']),
-                                              //       }).then((value) {
-                                              //       }).catchError((error) => print("Failed to update: $error"));
+                                              //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
+
+
+                                              // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                              // productId.doc(document.id).update({
+                                              //   'name_length': ,
+                                              // }).then((value) {
+                                              // }).catchError((error) => print("Failed to update: $error"));
                                               //     }).toList();
                                               //   });
                                               // });
@@ -938,7 +1110,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         ),
                                                       ),
                                                       Text(
-                                                        data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub2_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
+                                                        data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub1_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
                                                         style: TextStyle(
                                                           height: 1.3,
                                                           fontSize: 15,
@@ -1771,266 +1943,266 @@ class ProductsFragmentState extends State<ProductsFragment>
   }
 }
 
-class SubUnit extends StatefulWidget {
-  @override
-  State<SubUnit> createState() => _SubUnitState();
-}
-
-class _SubUnitState extends State<SubUnit> {
-  final List<String> prodFieldsValue = [];
-
-  var nameTECs = <TextEditingController>[];
-
-  var ageTECs = <TextEditingController>[];
-
-  var jobTECs = <TextEditingController>[];
-
-  var cards = <Padding>[];
-
-  Padding createCard() {
-    var nameController = TextEditingController();
-    var ageController = TextEditingController();
-    var jobController = TextEditingController();
-    nameTECs.add(nameController);
-    ageTECs.add(ageController);
-    jobTECs.add(jobController);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  "#${cards.length + 1} SUB UNIT QUANTITY",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: 2,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.only(top: 15),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      cards.length--;
-                      cards.remove(cards);
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 1.74,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Units / main unit',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 2.9,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Unit name',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'This field is required';
-              }
-              prodFieldsValue.add(value);
-              return null;
-            },
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-              focusedBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skThemeColor2, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-              suffixText: 'MMK',
-              suffixStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-                fontSize: 12,
-                //fontFamily: 'capsulesans',
-              ),
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              // errorText: 'Error message',
-              labelText: 'Sale price',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              //filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-          child: ButtonTheme(
-            splashColor: AppTheme.buttonColor2,
-            minWidth: MediaQuery.of(context).size.width,
-            height: 61,
-            child: RaisedButton(
-              color: AppTheme.buttonColor2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                  side: BorderSide(
-                    color: AppTheme.buttonColor2,
-                  )),
-              onPressed: () {
-                if (cards.length == 3) {
-                  print('Cards limit reached');
-                } else
-                  setState(() => cards.add(createCard()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('New sub unit?',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(Icons.add_box_rounded),
-                ],
-              ),
-            ),
-          ),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: cards.length,
-          itemBuilder: (BuildContext context, int index) {
-            return cards[index];
-          },
-        ),
-      ],
-    );
-  }
-}
+// class SubUnit extends StatefulWidget {
+//   @override
+//   State<SubUnit> createState() => _SubUnitState();
+// }
+//
+// class _SubUnitState extends State<SubUnit> {
+//   final List<String> prodFieldsValue = [];
+//
+//   var nameTECs = <TextEditingController>[];
+//
+//   var ageTECs = <TextEditingController>[];
+//
+//   var jobTECs = <TextEditingController>[];
+//
+//   var cards = <Padding>[];
+//
+//   Padding createCard() {
+//     var nameController = TextEditingController();
+//     var ageController = TextEditingController();
+//     var jobController = TextEditingController();
+//     nameTECs.add(nameController);
+//     ageTECs.add(ageController);
+//     jobTECs.add(jobController);
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: <Widget>[
+//           Row(
+//             children: [
+//               Container(
+//                 alignment: Alignment.topLeft,
+//                 padding: EdgeInsets.only(top: 15),
+//                 child: Text(
+//                   "#${cards.length + 1} SUB UNIT QUANTITY",
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 13,
+//                     letterSpacing: 2,
+//                     color: Colors.grey,
+//                   ),
+//                 ),
+//               ),
+//               Spacer(),
+//               Container(
+//                 padding: EdgeInsets.only(top: 15),
+//                 child: IconButton(
+//                   icon: Icon(
+//                     Icons.close,
+//                     size: 20,
+//                     color: Colors.blue,
+//                   ),
+//                   onPressed: () {
+//                     setState(() {
+//                       cards.length--;
+//                       cards.remove(cards);
+//                     });
+//                   },
+//                 ),
+//               ),
+//             ],
+//           ),
+//           SizedBox(
+//             height: 5,
+//           ),
+//           Row(
+//             children: [
+//               Container(
+//                 width: (MediaQuery.of(context).size.width - 30) / 1.74,
+//                 child: TextFormField(
+//                   // The validator receives the text that the user has entered.
+//                   validator: (value) {
+//                     if (value == null || value.isEmpty) {
+//                       return 'This field is required';
+//                     }
+//                     prodFieldsValue.add(value);
+//                     return null;
+//                   },
+//                   decoration: InputDecoration(
+//                     enabledBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skBorderColor, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//                     focusedBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skThemeColor2, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//                     contentPadding: const EdgeInsets.only(
+//                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//                     suffixText: 'Required',
+//                     suffixStyle: TextStyle(
+//                       color: Colors.grey,
+//                       fontSize: 12,
+//                       fontFamily: 'capsulesans',
+//                     ),
+//                     labelStyle: TextStyle(
+//                       fontWeight: FontWeight.w500,
+//                       color: Colors.black,
+//                     ),
+//                     // errorText: 'Error message',
+//                     labelText: 'Units / main unit',
+//                     floatingLabelBehavior: FloatingLabelBehavior.auto,
+//                     //filled: true,
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               Spacer(),
+//               Container(
+//                 width: (MediaQuery.of(context).size.width - 30) / 2.9,
+//                 child: TextFormField(
+//                   // The validator receives the text that the user has entered.
+//                   validator: (value) {
+//                     if (value == null || value.isEmpty) {
+//                       return 'This field is required';
+//                     }
+//                     prodFieldsValue.add(value);
+//                     return null;
+//                   },
+//                   decoration: InputDecoration(
+//                     enabledBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skBorderColor, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//                     focusedBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skThemeColor2, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//                     contentPadding: const EdgeInsets.only(
+//                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//                     suffixText: 'Required',
+//                     suffixStyle: TextStyle(
+//                       color: Colors.grey,
+//                       fontSize: 12,
+//                       fontFamily: 'capsulesans',
+//                     ),
+//                     labelStyle: TextStyle(
+//                       fontWeight: FontWeight.w500,
+//                       color: Colors.black,
+//                     ),
+//                     // errorText: 'Error message',
+//                     labelText: 'Unit name',
+//                     floatingLabelBehavior: FloatingLabelBehavior.auto,
+//                     //filled: true,
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//           SizedBox(
+//             height: 16,
+//           ),
+//           TextFormField(
+//             // The validator receives the text that the user has entered.
+//             validator: (value) {
+//               if (value == null || value.isEmpty) {
+//                 return 'This field is required';
+//               }
+//               prodFieldsValue.add(value);
+//               return null;
+//             },
+//             decoration: InputDecoration(
+//               enabledBorder: const OutlineInputBorder(
+//                 // width: 0.0 produces a thin "hairline" border
+//                   borderSide: const BorderSide(
+//                       color: AppTheme.skBorderColor, width: 2.0),
+//                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//               focusedBorder: const OutlineInputBorder(
+//                 // width: 0.0 produces a thin "hairline" border
+//                   borderSide: const BorderSide(
+//                       color: AppTheme.skThemeColor2, width: 2.0),
+//                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//               contentPadding: const EdgeInsets.only(
+//                   left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//               //suffixText: ,
+//               suffixStyle: TextStyle(
+//                 fontWeight: FontWeight.w500,
+//                 color: Colors.grey,
+//                 fontSize: 12,
+//                 //fontFamily: 'capsulesans',
+//               ),
+//               labelStyle: TextStyle(
+//                 fontWeight: FontWeight.w500,
+//                 color: Colors.black,
+//               ),
+//               // errorText: 'Error message',
+//               labelText: 'Sale price',
+//               floatingLabelBehavior: FloatingLabelBehavior.auto,
+//               //filled: true,
+//               border: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(10),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: <Widget>[
+//         Padding(
+//           padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+//           child: ButtonTheme(
+//             splashColor: AppTheme.buttonColor2,
+//             minWidth: MediaQuery.of(context).size.width,
+//             height: 61,
+//             child: RaisedButton(
+//               color: AppTheme.buttonColor2,
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(7.0),
+//                   side: BorderSide(
+//                     color: AppTheme.buttonColor2,
+//                   )),
+//               onPressed: () {
+//                 if (cards.length == 3) {
+//                   print('Cards limit reached');
+//                 } else
+//                   setState(() => cards.add(createCard()));
+//               },
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('New sub unit?',
+//                       style: TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                       )),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   Icon(Icons.add_box_rounded),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//         ListView.builder(
+//           shrinkWrap: true,
+//           physics: NeverScrollableScrollPhysics(),
+//           itemCount: cards.length,
+//           itemBuilder: (BuildContext context, int index) {
+//             return cards[index];
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
