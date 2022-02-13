@@ -1019,7 +1019,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             // );
                                             // var output2 = snapshot2.data!.data();
                                             var image = data['img_1'];
-                                            print('image htwet heree' + prodListView[i].toString());
+                                            print('image htwet cache heree' + prodListView[i].toString());
                                             if(firstBuild) {
                                               if(i == 0) {
                                                 prodListPrint.add(
@@ -1166,7 +1166,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                 // ),
                                               ],
                                             ): Container();
-                                          } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                          } else if(!ssFuture.hasData) {
                                             return FutureBuilder(
                                               // future: getDetailProd(prodListView[i].split('-')[0]),
                                               future: FirebaseFirestore.instance
@@ -1182,7 +1182,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   // );
                                                   // var output2 = snapshot2.data!.data();
                                                   var image = data['img_1'];
-                                                  print('image htwet heree' + prodListView[i].toString());
+                                                  print('image htwet server heree' + prodListView[i].toString());
                                                   if(firstBuild) {
                                                     prodListPrint.add(
                                                         data['prod_name'] + '^' +
@@ -1321,11 +1321,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       // ),
                                                     ],
                                                   ): Container();
-                                                } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                                } else if(!ssFuture.hasData) {
                                                   if(firstBuild) {
                                                     prodListPrint.add(
                                                         'Unknown' + '^' +
-                                                            prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
+                                                            prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
                                                             prodListView[i].split('-')[4] + '^' +
                                                             (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                                     );
@@ -1358,7 +1358,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 padding: const EdgeInsets.only(top: 4.0),
                                                                 child: Row(
                                                                   children: [
-                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
                                                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                     )),
                                                                     if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
@@ -1751,6 +1751,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                     ),
                                     if(ttlR.round().toString() != '0')
                                       Container(
+                                        width: double.infinity,
                                         decoration: (ttlQ - ttlR).round().toString() != '0' ? BoxDecoration(
                                             border: Border(
                                               top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
@@ -1909,7 +1910,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ],
                                               ) : Container();
-                                            } else if (ssFutureRef.hasData && !ssFutureRef.data!.exists) {
+                                            } else if (!ssFutureRef.hasData) {
                                               return FutureBuilder(
                                                 // future: getDetailProd(prodListView[i].split('-')[0]),
                                                 future: FirebaseFirestore.instance
@@ -2047,7 +2048,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         ),
                                                       ],
                                                     ) : Container();
-                                                  } else if (ssFutureRefSC.hasData && !ssFutureRefSC.data!.exists) {
+                                                  } else if (!ssFutureRefSC.hasData) {
                                                     return double.parse(prodListView[i].split('-')[7]).round().toString() != '0' ? Stack(
                                                       children: [
                                                         Container(
@@ -2072,7 +2073,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   padding: const EdgeInsets.only(top: 4.0),
                                                                   child: Row(
                                                                     children: [
-                                                                      Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                      Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
                                                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                       )),
                                                                       if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
