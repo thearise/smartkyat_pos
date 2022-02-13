@@ -39,6 +39,21 @@ class _EditCustomerState extends State<EditCustomer> {
     super.dispose();
   }
 
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult.toLowerCase());
+      }
+      intResult = '';
+    }
+    return result;
+  }
+
   bool cusLoading = false;
   bool disableTouch = false;
 
@@ -441,6 +456,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 'customer_name': cusNameCtrl.text,
                                 'customer_address': cusAddressCtrl.text,
                                 'customer_phone' : cusPhoneCtrl.text,
+                                'search_name' : textSplitFunction(cusNameCtrl.text.toString()),
                               }).then((value) {
                                 Future.delayed(const Duration(milliseconds: 2000), () {
                                   setState(() {

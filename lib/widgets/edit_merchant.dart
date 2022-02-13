@@ -39,6 +39,21 @@ class _EditMerchantState extends State<EditMerchant> {
     super.dispose();
   }
 
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult.toLowerCase());
+      }
+      intResult = '';
+    }
+    return result;
+  }
+
   bool merchLoading = false;
   bool disableTouch = false;
 
@@ -439,6 +454,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                 'merchant_name': merchNameCtrl.text,
                                 'merchant_address': merchAddressCtrl.text,
                                 'merchant_phone' : merchPhoneCtrl.text,
+                                 'search_name': textSplitFunction(merchNameCtrl.text.toString()),
                               }).then((value) {
                                 Future.delayed(const Duration(milliseconds: 2000), () {
                                   setState(() {
