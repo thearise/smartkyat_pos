@@ -235,7 +235,6 @@ class MerchantCartState extends State<MerchantCart>
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-
                           ],
                         ),
                       ],
@@ -1006,7 +1005,7 @@ class MerchantCartState extends State<MerchantCart>
     }).catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> Detail2(date, length , subs, docId) async {
+  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
 
@@ -1021,6 +1020,8 @@ class MerchantCartState extends State<MerchantCart>
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),
       'documentId' : docId,
+      'refund_filter': reFilter,
+      'debt_filter': deFilter,
     })
 
         .then((value) => print("User Updated"))
@@ -2181,6 +2182,8 @@ class MerchantCartState extends State<MerchantCart>
                                       int debts = 0;
                                       var dateExist = false;
                                       var dateId = '';
+                                      bool reFilter = false;
+                                      bool deFilter = false;
                                       double debtAmounts = 0 ;
                                       print('order creating here2');
 
@@ -2298,13 +2301,13 @@ class MerchantCartState extends State<MerchantCart>
                                           });
 
                                           if (dateExist) {
-                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
-                                            Detail2(now, length.toString() , subList2, dateId);
+                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '<>' + widget.merchantId.split('^')[1] +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                            Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter);
                                             print('adddateexist added');
                                           }
                                           else {
-                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
-                                            Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '<>' + widget.merchantId.split('^')[1] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                            Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
                                             print('adddateexist not');
                                           }
                                         });
@@ -2312,9 +2315,11 @@ class MerchantCartState extends State<MerchantCart>
                                         if(debt2.toString() != '0.0') {
                                           debts = 1;
                                           debtAmounts = debt2;
+                                          deFilter = true;
                                         } else {
                                           debts = 0;
                                           debtAmounts = 0;
+                                          deFilter = true;
                                         }
                                           totalOrders = totalOrders + 1;
                                           merchOrder(totalOrders, debts, debtAmounts);

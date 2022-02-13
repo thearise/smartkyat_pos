@@ -854,6 +854,8 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                               double debt = double.parse(widget.data.split('^')[5]);
                                               String refundAmount = 'FALSE';
+                                              bool reFilter = false;
+                                              bool deFilter = false;
 
                                               if(total <= double.parse(widget.data.split('^')[5])) {
                                                 debt = total;
@@ -869,9 +871,37 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                               if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
                                                 refundAmount = 'TRUE';
+                                                reFilter = true;
                                               }
                                               if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
                                                 refundAmount = 'PART';
+                                                reFilter = true;
+                                              }
+
+                                              int totalRefunds = 0;
+                                              double chgDebts = 0;
+                                              int ttlDebts = 0;
+                                              print('leesin ' +widget.data.split('^')[4].toString());
+
+
+                                              if (double.parse(widget.data.split('^')[5]) != debt) {
+                                                chgDebts = double.parse(widget.data.split('^')[5]) - debt;
+                                              } else {
+                                                chgDebts = 0;
+                                              }
+
+                                              if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
+                                                deFilter = false;
+                                                ttlDebts = 1;
+                                              } else {
+                                                deFilter = true;
+                                                ttlDebts = 0;
+                                              }
+
+                                              if(widget.data.split('^')[4] == 'FALSE') {
+                                                totalRefunds = 1;
+                                              } else {
+                                                totalRefunds = 0;
                                               }
 
                                               String data = widget.data;
@@ -922,32 +952,11 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 'total': total.toString(),
                                                 'refund' : refundAmount,
                                                 'debt' : debt,
+                                                'refund_filter' : reFilter,
+                                                'debt_filter' : deFilter,
                                               }).then((value) { print('detail updated');})
                                                   .catchError((error) => print("Failed to update user: $error"));
 
-                                              int totalRefunds = 0;
-                                              double chgDebts = 0;
-                                              int ttlDebts = 0;
-                                              print('leesin ' +widget.data.split('^')[4].toString());
-
-
-                                              if (double.parse(widget.data.split('^')[5]) != debt) {
-                                                chgDebts = double.parse(widget.data.split('^')[5]) - debt;
-                                              } else {
-                                                chgDebts = 0;
-                                              }
-
-                                              if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
-                                                ttlDebts = 1;
-                                              } else {
-                                                ttlDebts = 0;
-                                              }
-
-                                              if(widget.data.split('^')[4] == 'FALSE') {
-                                                totalRefunds = 1;
-                                              } else {
-                                                totalRefunds = 0;
-                                              }
                                                 cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
                                                   'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
                                                   'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
