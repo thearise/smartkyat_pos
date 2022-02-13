@@ -414,6 +414,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'debts' : 0,
                                         'debtAmount' : 0,
                                         'total_refunds' : 0,
+                                         'search_name': textSplitFunction(merchFieldsValue[0].toString()),
                                       }).then((value) {
                                         print('product added 2');
 
@@ -500,6 +501,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'debts' : 0,
                                         'debtAmount' : 0,
                                         'total_refunds' : 0,
+                                        'search_name': textSplitFunction(merchFieldsValue[0].toString()),
                                       }).then((value) {
                                         print('product added 2');
                                         // showFlash(
@@ -598,6 +600,22 @@ class _AddMerchantState extends State<AddMerchant> {
       ),
     );
   }
+
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult.toLowerCase());
+      }
+      intResult = '';
+    }
+    return result;
+  }
+
   void smartKyatFlash(String text, String type) {
     Widget widgetCon = Container();
     Color bdColor = Color(0xffffffff);
