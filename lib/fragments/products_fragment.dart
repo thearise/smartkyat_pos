@@ -658,6 +658,176 @@ class ProductsFragmentState extends State<ProductsFragment>
                           //   return true;
                           // },
                           child: PaginateFirestore(
+                            onEmpty: Align(
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                    child: Container(
+                                      height: 32,
+                                      width: MediaQuery.of(context).size.width,
+                                      // color: Colors.yellow,
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              FlatButton(
+                                                padding: EdgeInsets.only(left: 10, right: 10),
+                                                color: AppTheme.secButtonColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.skBorderColor2,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  widget._callback();
+                                                  //print('execution');
+                                                  // print('array -> ' + textSplitFunction('abcde').toString());
+                                                  // getStoreId().then((value) async {
+                                                  //   await FirebaseFirestore.instance.collection('shops').doc(
+                                                  //       value.toString()).collection('products')
+                                                  //       .get(GetOptions(source: Source.server))
+                                                  //       .then((QuerySnapshot querySnapshotProdChange) {
+                                                  //     querySnapshotProdChange.docs.map((document) async {
+                                                  //       int length = 0;
+                                                  //       length = document['search_name'].length;
+                                                  //       print('id    -> ' + length.toString());
+                                                  //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+                                                  //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
+
+
+                                                  // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                                  // productId.doc(document.id).update({
+                                                  //   'name_length': ,
+                                                  // }).then((value) {
+                                                  // }).catchError((error) => print("Failed to update: $error"));
+                                                  //     }).toList();
+                                                  //   });
+                                                  // });
+                                                },
+                                                child: Container(
+                                                  child: Row(
+                                                    // mainAxisAlignment: Main,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                        child: Icon(
+                                                          SmartKyat_POS.add_plus,
+                                                          size: 17,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        textSetNewItem,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 12),
+                                              Container(
+                                                color: Colors.grey.withOpacity(0.2),
+                                                width: 1.5,
+                                                height: 30,
+                                              )
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: ListView(
+                                              controller: cateScCtler,
+                                              scrollDirection: Axis.horizontal,
+                                              children: [
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                  child: FlatButton(
+                                                    minWidth: 0,
+                                                    padding: EdgeInsets.only(left: 12, right: 12),
+                                                    color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      _animateToIndex(0);
+                                                      setState(() {
+                                                        cateScIndex = 0;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        textSetAll,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                  child: FlatButton(
+                                                    minWidth: 0,
+                                                    padding: EdgeInsets.only(left: 12, right: 12),
+                                                    color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      _animateToIndex(5.4);
+                                                      setState(() {
+                                                        cateScIndex = 1;
+                                                        filter = 1;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        textSetLowStocks,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 11,
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      // color: AppTheme.lightBgColor,
+                                      color: Colors.white,
+                                      child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                             key: cateScIndex == 0? ValueKey<String>('1'): ValueKey<String>('2'),
                             header:SliverAppBar(
                               elevation: 0,
@@ -702,11 +872,11 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
 
 
-                                                    // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
-                                                    // productId.doc(document.id).update({
-                                                    //   'name_length': ,
-                                                    // }).then((value) {
-                                                    // }).catchError((error) => print("Failed to update: $error"));
+                                              // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                              // productId.doc(document.id).update({
+                                              //   'name_length': ,
+                                              // }).then((value) {
+                                              // }).catchError((error) => print("Failed to update: $error"));
                                               //     }).toList();
                                               //   });
                                               // });
