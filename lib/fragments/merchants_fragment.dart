@@ -1379,7 +1379,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                                                       top: 10.0),
   //                                                   child: Container(
   //                                                     child: Row(
-  //                                                       mainAxisSize: MainAxisSize.min,
+  //                                                       mainAxisSize: MainAxisSize.min,=
   //                                                       mainAxisAlignment: MainAxisAlignment.start,
   //                                                       crossAxisAlignment: CrossAxisAlignment.start,
   //                                                       children: [

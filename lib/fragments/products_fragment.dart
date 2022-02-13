@@ -687,24 +687,26 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             ),
                                             onPressed: () async {
                                               widget._callback();
-                                              // print('execution');
-                                              // // print('array -> ' + textSplitFunction('abcde').toString());
+                                              //print('execution');
+                                              // print('array -> ' + textSplitFunction('abcde').toString());
                                               // getStoreId().then((value) async {
                                               //   await FirebaseFirestore.instance.collection('shops').doc(
                                               //       value.toString()).collection('products')
                                               //       .get(GetOptions(source: Source.server))
                                               //       .then((QuerySnapshot querySnapshotProdChange) {
                                               //     querySnapshotProdChange.docs.map((document) async {
-                                              //       print('id    -> ' + document['prod_name'].toString());
+                                              //       int length = 0;
+                                              //       length = document['search_name'].length;
+                                              //       print('id    -> ' + length.toString());
                                               //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                              //       print('array -> ' + textSplitFunction(document['prod_name']).toString());
-                                              //
-                                              //
-                                              //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
-                                              //       productId.doc(document.id).update({
-                                              //         'search_name': textSplitFunction(document['prod_name']),
-                                              //       }).then((value) {
-                                              //       }).catchError((error) => print("Failed to update: $error"));
+                                              //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
+
+
+                                                    // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                                    // productId.doc(document.id).update({
+                                                    //   'name_length': ,
+                                                    // }).then((value) {
+                                                    // }).catchError((error) => print("Failed to update: $error"));
                                               //     }).toList();
                                               //   });
                                               // });
@@ -938,7 +940,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         ),
                                                       ),
                                                       Text(
-                                                        data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub2_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
+                                                        data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub1_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
                                                         style: TextStyle(
                                                           height: 1.3,
                                                           fontSize: 15,
@@ -1771,266 +1773,266 @@ class ProductsFragmentState extends State<ProductsFragment>
   }
 }
 
-class SubUnit extends StatefulWidget {
-  @override
-  State<SubUnit> createState() => _SubUnitState();
-}
-
-class _SubUnitState extends State<SubUnit> {
-  final List<String> prodFieldsValue = [];
-
-  var nameTECs = <TextEditingController>[];
-
-  var ageTECs = <TextEditingController>[];
-
-  var jobTECs = <TextEditingController>[];
-
-  var cards = <Padding>[];
-
-  Padding createCard() {
-    var nameController = TextEditingController();
-    var ageController = TextEditingController();
-    var jobController = TextEditingController();
-    nameTECs.add(nameController);
-    ageTECs.add(ageController);
-    jobTECs.add(jobController);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  "#${cards.length + 1} SUB UNIT QUANTITY",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: 2,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.only(top: 15),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      cards.length--;
-                      cards.remove(cards);
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 1.74,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Units / main unit',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 2.9,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Unit name',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'This field is required';
-              }
-              prodFieldsValue.add(value);
-              return null;
-            },
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-              focusedBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skThemeColor2, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-              suffixText: 'MMK',
-              suffixStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-                fontSize: 12,
-                //fontFamily: 'capsulesans',
-              ),
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              // errorText: 'Error message',
-              labelText: 'Sale price',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              //filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-          child: ButtonTheme(
-            splashColor: AppTheme.buttonColor2,
-            minWidth: MediaQuery.of(context).size.width,
-            height: 61,
-            child: RaisedButton(
-              color: AppTheme.buttonColor2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                  side: BorderSide(
-                    color: AppTheme.buttonColor2,
-                  )),
-              onPressed: () {
-                if (cards.length == 3) {
-                  print('Cards limit reached');
-                } else
-                  setState(() => cards.add(createCard()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('New sub unit?',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(Icons.add_box_rounded),
-                ],
-              ),
-            ),
-          ),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: cards.length,
-          itemBuilder: (BuildContext context, int index) {
-            return cards[index];
-          },
-        ),
-      ],
-    );
-  }
-}
+// class SubUnit extends StatefulWidget {
+//   @override
+//   State<SubUnit> createState() => _SubUnitState();
+// }
+//
+// class _SubUnitState extends State<SubUnit> {
+//   final List<String> prodFieldsValue = [];
+//
+//   var nameTECs = <TextEditingController>[];
+//
+//   var ageTECs = <TextEditingController>[];
+//
+//   var jobTECs = <TextEditingController>[];
+//
+//   var cards = <Padding>[];
+//
+//   Padding createCard() {
+//     var nameController = TextEditingController();
+//     var ageController = TextEditingController();
+//     var jobController = TextEditingController();
+//     nameTECs.add(nameController);
+//     ageTECs.add(ageController);
+//     jobTECs.add(jobController);
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: <Widget>[
+//           Row(
+//             children: [
+//               Container(
+//                 alignment: Alignment.topLeft,
+//                 padding: EdgeInsets.only(top: 15),
+//                 child: Text(
+//                   "#${cards.length + 1} SUB UNIT QUANTITY",
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 13,
+//                     letterSpacing: 2,
+//                     color: Colors.grey,
+//                   ),
+//                 ),
+//               ),
+//               Spacer(),
+//               Container(
+//                 padding: EdgeInsets.only(top: 15),
+//                 child: IconButton(
+//                   icon: Icon(
+//                     Icons.close,
+//                     size: 20,
+//                     color: Colors.blue,
+//                   ),
+//                   onPressed: () {
+//                     setState(() {
+//                       cards.length--;
+//                       cards.remove(cards);
+//                     });
+//                   },
+//                 ),
+//               ),
+//             ],
+//           ),
+//           SizedBox(
+//             height: 5,
+//           ),
+//           Row(
+//             children: [
+//               Container(
+//                 width: (MediaQuery.of(context).size.width - 30) / 1.74,
+//                 child: TextFormField(
+//                   // The validator receives the text that the user has entered.
+//                   validator: (value) {
+//                     if (value == null || value.isEmpty) {
+//                       return 'This field is required';
+//                     }
+//                     prodFieldsValue.add(value);
+//                     return null;
+//                   },
+//                   decoration: InputDecoration(
+//                     enabledBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skBorderColor, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//                     focusedBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skThemeColor2, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//                     contentPadding: const EdgeInsets.only(
+//                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//                     suffixText: 'Required',
+//                     suffixStyle: TextStyle(
+//                       color: Colors.grey,
+//                       fontSize: 12,
+//                       fontFamily: 'capsulesans',
+//                     ),
+//                     labelStyle: TextStyle(
+//                       fontWeight: FontWeight.w500,
+//                       color: Colors.black,
+//                     ),
+//                     // errorText: 'Error message',
+//                     labelText: 'Units / main unit',
+//                     floatingLabelBehavior: FloatingLabelBehavior.auto,
+//                     //filled: true,
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               Spacer(),
+//               Container(
+//                 width: (MediaQuery.of(context).size.width - 30) / 2.9,
+//                 child: TextFormField(
+//                   // The validator receives the text that the user has entered.
+//                   validator: (value) {
+//                     if (value == null || value.isEmpty) {
+//                       return 'This field is required';
+//                     }
+//                     prodFieldsValue.add(value);
+//                     return null;
+//                   },
+//                   decoration: InputDecoration(
+//                     enabledBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skBorderColor, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//                     focusedBorder: const OutlineInputBorder(
+//                       // width: 0.0 produces a thin "hairline" border
+//                         borderSide: const BorderSide(
+//                             color: AppTheme.skThemeColor2, width: 2.0),
+//                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//                     contentPadding: const EdgeInsets.only(
+//                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//                     suffixText: 'Required',
+//                     suffixStyle: TextStyle(
+//                       color: Colors.grey,
+//                       fontSize: 12,
+//                       fontFamily: 'capsulesans',
+//                     ),
+//                     labelStyle: TextStyle(
+//                       fontWeight: FontWeight.w500,
+//                       color: Colors.black,
+//                     ),
+//                     // errorText: 'Error message',
+//                     labelText: 'Unit name',
+//                     floatingLabelBehavior: FloatingLabelBehavior.auto,
+//                     //filled: true,
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//           SizedBox(
+//             height: 16,
+//           ),
+//           TextFormField(
+//             // The validator receives the text that the user has entered.
+//             validator: (value) {
+//               if (value == null || value.isEmpty) {
+//                 return 'This field is required';
+//               }
+//               prodFieldsValue.add(value);
+//               return null;
+//             },
+//             decoration: InputDecoration(
+//               enabledBorder: const OutlineInputBorder(
+//                 // width: 0.0 produces a thin "hairline" border
+//                   borderSide: const BorderSide(
+//                       color: AppTheme.skBorderColor, width: 2.0),
+//                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//               focusedBorder: const OutlineInputBorder(
+//                 // width: 0.0 produces a thin "hairline" border
+//                   borderSide: const BorderSide(
+//                       color: AppTheme.skThemeColor2, width: 2.0),
+//                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//               contentPadding: const EdgeInsets.only(
+//                   left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+//               //suffixText: ,
+//               suffixStyle: TextStyle(
+//                 fontWeight: FontWeight.w500,
+//                 color: Colors.grey,
+//                 fontSize: 12,
+//                 //fontFamily: 'capsulesans',
+//               ),
+//               labelStyle: TextStyle(
+//                 fontWeight: FontWeight.w500,
+//                 color: Colors.black,
+//               ),
+//               // errorText: 'Error message',
+//               labelText: 'Sale price',
+//               floatingLabelBehavior: FloatingLabelBehavior.auto,
+//               //filled: true,
+//               border: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(10),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: <Widget>[
+//         Padding(
+//           padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+//           child: ButtonTheme(
+//             splashColor: AppTheme.buttonColor2,
+//             minWidth: MediaQuery.of(context).size.width,
+//             height: 61,
+//             child: RaisedButton(
+//               color: AppTheme.buttonColor2,
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(7.0),
+//                   side: BorderSide(
+//                     color: AppTheme.buttonColor2,
+//                   )),
+//               onPressed: () {
+//                 if (cards.length == 3) {
+//                   print('Cards limit reached');
+//                 } else
+//                   setState(() => cards.add(createCard()));
+//               },
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('New sub unit?',
+//                       style: TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                       )),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   Icon(Icons.add_box_rounded),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//         ListView.builder(
+//           shrinkWrap: true,
+//           physics: NeverScrollableScrollPhysics(),
+//           itemCount: cards.length,
+//           itemBuilder: (BuildContext context, int index) {
+//             return cards[index];
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
