@@ -11420,27 +11420,27 @@ class HomePageState extends State<HomePage>
                       'Apple 1kg',
                       'Rp30.000',
                       leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.small,
+                      leftSize: ReceiptTextSizeType.extraSmall,
                       rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.small,
+                      rightSize: ReceiptTextSizeType.extraSmall,
                     );
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addLeftRightText(
                       'TOTAL',
                       'Rp30.000',
                       leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.small,
+                      leftSize: ReceiptTextSizeType.extraSmall,
                       rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.small,
+                      rightSize: ReceiptTextSizeType.extraSmall,
                     );
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addLeftRightText(
                       'Payment',
                       'Cash',
                       leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.small,
+                      leftSize: ReceiptTextSizeType.extraSmall,
                       rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.small,
+                      rightSize: ReceiptTextSizeType.extraSmall,
                     );
                     receiptText.addSpacer(count: 2);
 
