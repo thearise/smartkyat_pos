@@ -683,24 +683,24 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                 ),
                                                 onPressed: () async {
                                                   widget._callback();
-                                                  //print('execution');
+                                                  print('execution');
                                                   // print('array -> ' + textSplitFunction('abcde').toString());
                                                   // getStoreId().then((value) async {
                                                   //   await FirebaseFirestore.instance.collection('shops').doc(
-                                                  //       value.toString()).collection('products')
+                                                  //       value.toString()).collection('customers')
                                                   //       .get(GetOptions(source: Source.server))
                                                   //       .then((QuerySnapshot querySnapshotProdChange) {
                                                   //     querySnapshotProdChange.docs.map((document) async {
                                                   //       int length = 0;
-                                                  //       length = document['search_name'].length;
+                                                  //       length = document['customer_name'].length;
                                                   //       print('id    -> ' + length.toString());
                                                   //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                                  //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
-
-
-                                                  // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                                  //       print('array -> ' + textSplitFunction(document['customer_name']).length.toString());
+                                                  //
+                                                  //
+                                                  // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('customers');
                                                   // productId.doc(document.id).update({
-                                                  //   'name_length': ,
+                                                  //   'search_name': textSplitFunction(document['customer_name']),
                                                   // }).then((value) {
                                                   // }).catchError((error) => print("Failed to update: $error"));
                                                   //     }).toList();
@@ -861,22 +861,22 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               // print('array -> ' + textSplitFunction('abcde').toString());
                                               // getStoreId().then((value) async {
                                               //   await FirebaseFirestore.instance.collection('shops').doc(
-                                              //       value.toString()).collection('products')
+                                              //       value.toString()).collection('merchants')
                                               //       .get(GetOptions(source: Source.server))
                                               //       .then((QuerySnapshot querySnapshotProdChange) {
                                               //     querySnapshotProdChange.docs.map((document) async {
                                               //       int length = 0;
-                                              //       length = document['search_name'].length;
+                                              //       length = document['merchant_name'].length;
                                               //       print('id    -> ' + length.toString());
                                               //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                              //       print('array -> ' + textSplitFunction(document['prod_name']).length.toString());
-
-
-                                              // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
-                                              // productId.doc(document.id).update({
-                                              //   'name_length': ,
-                                              // }).then((value) {
-                                              // }).catchError((error) => print("Failed to update: $error"));
+                                              //       print('array -> ' + textSplitFunction(document['merchant_name']).length.toString());
+                                              //
+                                              //
+                                              //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('merchants');
+                                              //       productId.doc(document.id).update({
+                                              //         'search_name': textSplitFunction(document['merchant_name']),
+                                              //       }).then((value) {
+                                              //       }).catchError((error) => print("Failed to update: $error"));
                                               //     }).toList();
                                               //   });
                                               // });
