@@ -1289,7 +1289,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           'prod_name'],
                                                           style:
                                                           TextStyle(
-                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                         ),
                                                         subtitle: Padding(
                                                           padding: const EdgeInsets.only(top: 4.0),
@@ -1444,7 +1444,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 'prod_name'],
                                                                 style:
                                                                 TextStyle(
-                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                               ),
                                                               subtitle: Padding(
                                                                 padding: const EdgeInsets.only(top: 4.0),
@@ -1555,7 +1555,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 'Unknown',
                                                                 style:
                                                                 TextStyle(
-                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                               ),
                                                               subtitle: Padding(
                                                                 padding: const EdgeInsets.only(top: 4.0),
@@ -2036,7 +2036,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                               'prod_name'],
                                                               style:
                                                               TextStyle(
-                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                             ),
                                                             subtitle: Padding(
                                                               padding: const EdgeInsets.only(top: 4.0),
@@ -2175,7 +2175,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   'prod_name'],
                                                                   style:
                                                                   TextStyle(
-                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                                 ),
                                                                 subtitle: Padding(
                                                                   padding: const EdgeInsets.only(top: 4.0),
@@ -2270,7 +2270,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   'Unknown',
                                                                   style:
                                                                   TextStyle(
-                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
                                                                 ),
                                                                 subtitle: Padding(
                                                                   padding: const EdgeInsets.only(top: 4.0),

@@ -11402,54 +11402,60 @@ class HomePageState extends State<HomePage>
 
 
 
-                    // final ReceiptSectionText receiptText = ReceiptSectionText();
-                    // receiptText.addSpacer();
-                    // receiptText.addText(
-                    //   'MY STORE',
-                    //   size: ReceiptTextSizeType.medium,
-                    //   style: ReceiptTextStyleType.bold,
-                    // );
-                    // receiptText.addText(
-                    //   'Black White Street, Jakarta, Indonesia',
-                    //   size: ReceiptTextSizeType.small,
-                    // );
-                    // receiptText.addSpacer(useDashed: true);
-                    // receiptText.addLeftRightText('Time', '04/06/21, 10:00');
-                    // receiptText.addSpacer(useDashed: true);
-                    // receiptText.addLeftRightText(
-                    //   'Apple 1kg',
-                    //   'Rp30.000',
-                    //   leftStyle: ReceiptTextStyleType.normal,
-                    //   rightStyle: ReceiptTextStyleType.bold,
-                    // );
-                    // receiptText.addSpacer(useDashed: true);
-                    // receiptText.addLeftRightText(
-                    //   'TOTAL',
-                    //   'Rp30.000',
-                    //   leftStyle: ReceiptTextStyleType.normal,
-                    //   rightStyle: ReceiptTextStyleType.bold,
-                    // );
-                    // receiptText.addSpacer(useDashed: true);
-                    // receiptText.addLeftRightText(
-                    //   'Payment',
-                    //   'Cash',
-                    //   leftStyle: ReceiptTextStyleType.normal,
-                    //   rightStyle: ReceiptTextStyleType.normal,
-                    // );
-                    // receiptText.addSpacer(count: 2);
-                    //
-                    // await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-                    //
-                    // /// Example for print QR
-                    // await _bluePrintPos.printQR('www.google.com', size: 250);
-                    //
-                    // /// Text after QR
-                    // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
-                    // receiptSecondText.addText('Powered by ayeee',
-                    //     size: ReceiptTextSizeType.small);
-                    // receiptSecondText.addSpacer();
-                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
-                    await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    final ReceiptSectionText receiptText = ReceiptSectionText();
+                    receiptText.addSpacer();
+                    receiptText.addText(
+                      'MY STORE',
+                      size: ReceiptTextSizeType.medium,
+                      style: ReceiptTextStyleType.bold,
+                    );
+                    receiptText.addText(
+                      'Black White Street, Jakarta, Indonesia',
+                      size: ReceiptTextSizeType.small,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText('Time', '04/06/21, 10:00');
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'Apple 1kg',
+                      'Rp30.000',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      leftSize: ReceiptTextSizeType.small,
+                      rightStyle: ReceiptTextStyleType.normal,
+                      rightSize: ReceiptTextSizeType.small,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'TOTAL',
+                      'Rp30.000',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      leftSize: ReceiptTextSizeType.small,
+                      rightStyle: ReceiptTextStyleType.normal,
+                      rightSize: ReceiptTextSizeType.small,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'Payment',
+                      'Cash',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      leftSize: ReceiptTextSizeType.small,
+                      rightStyle: ReceiptTextStyleType.normal,
+                      rightSize: ReceiptTextSizeType.small,
+                    );
+                    receiptText.addSpacer(count: 2);
+
+                    await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+
+                    /// Example for print QR
+                    await _bluePrintPos.printQR('www.google.com', size: 250);
+
+                    /// Text after QR
+                    final ReceiptSectionText receiptSecondText = ReceiptSectionText();
+                    receiptSecondText.addText('Powered by ayeee',
+                        size: ReceiptTextSizeType.small);
+                    receiptSecondText.addSpacer();
+                    await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
+                    // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
 
                   });
                 }

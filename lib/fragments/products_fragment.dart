@@ -1088,7 +1088,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     child: Text(
                                                       data['prod_name'],
                                                       style: TextStyle(
-                                                        height: 1,
+                                                        height: 0.95,
                                                         fontSize: 18,
                                                         fontWeight:
                                                         FontWeight.w500,
