@@ -43,6 +43,8 @@ class OrderInfoSub extends StatefulWidget {
 
 class _OrderInfoSubState extends State<OrderInfoSub>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OrderInfoSub> {
+  List prodListView = [];
+
   @override
   bool get wantKeepAlive => true;
   var docId = '';
@@ -131,6 +133,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   String textSetFullyRef = 'FULLY REFUNDED';
   @override
   initState() {
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   print('list check ' + prodListView.toString());
+    // });
+
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -323,7 +329,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
-                          List prodListView = [];
+                          prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
                           totalRealPrice = 0;
@@ -592,12 +598,15 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           .split('^')[6];
 
 
-                                                      print('shit shit ' + prodListPrint.toString());
+
+
+                                                      print('shit shit here' + prodListView.toString());
+
 
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
                                                       );
                                                     },
                                                     child: Container(
@@ -1021,6 +1030,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             var image = data['img_1'];
                                             print('image htwet cache heree' + prodListView[i].toString());
                                             if(firstBuild) {
+                                              print('first prodlistprint ' + prodListPrint.toString());
                                               if(i == 0) {
                                                 prodListPrint.add(
                                                     data['prod_name'] + '^' +
@@ -1035,9 +1045,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                                 );
                                               }
+
                                             }
+
                                             if(i == prodListView.length-1) {
                                               firstBuild = false;
+                                              retrieveForPrint();
                                             }
 
                                             return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1193,6 +1206,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   }
                                                   if(i == prodListView.length-1) {
                                                     firstBuild = false;
+                                                    retrieveForPrint();
                                                   }
 
                                                   return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1332,6 +1346,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   }
                                                   if(i == prodListView.length-1) {
                                                     firstBuild = false;
+                                                    retrieveForPrint();
                                                   }
 
                                                   return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -2605,5 +2620,40 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         .doc(docId)
         .get();
     return a;
+  }
+
+  bool firstRetFPrint = true;
+  List<String> prodListPrintMod = [];
+  Future<void> retrieveForPrint() async {
+    if(firstRetFPrint) {
+      firstRetFPrint = false;
+      print('retrieveForPrint ' + prodListView.toString());
+
+      for(int i = 0; i< prodListView.length; i++) {
+        await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
+            .get().then((value) async {
+          if(value.exists) {
+            prodListPrintMod.add(
+                value.data()!['prod_name'] + '^' +
+                    value.data()![prodListView[i].split('-')[5]] + '^' +
+                    prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+            );
+          } else {
+            prodListPrintMod.add(
+                'Product' + '^' +
+                    prodListView[i].split('-')[5] + '^' +
+                    prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+            );
+          }
+
+          if(i == prodListView.length - 1) {
+            print('GGG ' + prodListPrintMod.toString());
+          }
+
+        });
+
+      }
+
+    }
   }
 }

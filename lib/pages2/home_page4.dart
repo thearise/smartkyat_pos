@@ -3507,66 +3507,29 @@ class HomePageState extends State<HomePage>
                                                                       width: double.infinity,
                                                                       child: Stack(
                                                                         children: [
-                                                                          Container(
-                                                                            height: 67,
-                                                                            width: double.infinity,
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border(
-                                                                                    bottom: BorderSide(
-                                                                                        color: Colors.grey
-                                                                                            .withOpacity(0.3),
-                                                                                        width: 1.0))),
-                                                                            child: Padding(
-                                                                              padding: EdgeInsets.only(
-                                                                                  left: 15.0,
-                                                                                  right: 15.0,
-                                                                                  top: 5.5,
-                                                                                  bottom: 0.0
-                                                                              ),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    color: Colors.black,
-                                                                                    fontSize: 13,
-                                                                                  )),
-                                                                                  SizedBox(height: 1),
-                                                                                  Text('Cash acceptance', style: TextStyle(
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 20
-                                                                                  )),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ),
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                top: 71.0,
-                                                                                left: 0.0,
-                                                                                right: 0.0),
+                                                                            padding: const EdgeInsets.only(top: 67.0),
                                                                             child: Container(
+                                                                                // color: Colors.yellow,
                                                                                 child: ListView(
                                                                                   children: [
-                                                                                    SizedBox(
-                                                                                      height: 15,
-                                                                                    ),
                                                                                     Padding(
                                                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                                                                       child: Column(
                                                                                           crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          mainAxisAlignment: MainAxisAlignment.start,
                                                                                           children: [
-                                                                                            SizedBox(height: 30),
                                                                                             Container(
-                                                                                              // decoration: BoxDecoration(
-                                                                                              //     // borderRadius: BorderRadius.all(
-                                                                                              //     //   Radius.circular(10.0),
-                                                                                              //     // ),
-                                                                                              //     // border: Border.all(
-                                                                                              //     //     color: Colors.grey.withOpacity(0.2),
-                                                                                              //     //     width: 1.0),
-                                                                                              //     color: AppTheme.lightBgColor),
-                                                                                              // height:  100,
+                                                                                                decoration: BoxDecoration(
+                                                                                                    borderRadius: BorderRadius.all(
+                                                                                                      Radius.circular(10.0),
+                                                                                                    ),
+                                                                                                    border: Border.all(
+                                                                                                        // color: Colors.black,
+                                                                                                        color: Colors.grey.withOpacity(0.2),
+                                                                                                        width: 1.0),
+                                                                                                    color: AppTheme.lightBgColor),
+                                                                                                height:  133,
                                                                                                 width: MediaQuery.of(context).size.width,
                                                                                                 child: Column(
                                                                                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -3575,17 +3538,19 @@ class HomePageState extends State<HomePage>
                                                                                                     Text('Total sale - $currencyUnit',
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
-                                                                                                            fontSize: 30, fontWeight: FontWeight.w700
+                                                                                                          fontSize: 20,
+                                                                                                          fontWeight: FontWeight.w500,
+                                                                                                          color: Colors.grey,
                                                                                                         )),
-                                                                                                    SizedBox(height: 3),
+                                                                                                    SizedBox(height: 8),
                                                                                                     Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
-                                                                                                            fontSize: 30, fontWeight: FontWeight.w700
+                                                                                                          fontSize: 23, fontWeight: FontWeight.w500,
                                                                                                         )),
                                                                                                   ],
                                                                                                 )),
-                                                                                            SizedBox(height: 40),
+                                                                                            SizedBox(height: 15),
                                                                                             Text('CASH RECEIVED', style: TextStyle(
                                                                                                 letterSpacing: 2,
                                                                                                 fontWeight: FontWeight.bold,
@@ -3769,6 +3734,39 @@ class HomePageState extends State<HomePage>
                                                                                     // orderLoading?Text('Loading'):Text('')
                                                                                   ],
                                                                                 )),
+                                                                          ),
+                                                                          Container(
+                                                                            height: 67,
+                                                                            width: double.infinity,
+                                                                            decoration: BoxDecoration(
+                                                                                border: Border(
+                                                                                    bottom: BorderSide(
+                                                                                        color: Colors.grey
+                                                                                            .withOpacity(0.3),
+                                                                                        width: 1.0))),
+                                                                            child: Padding(
+                                                                              padding: EdgeInsets.only(
+                                                                                  left: 15.0,
+                                                                                  right: 15.0,
+                                                                                  top: 5.5,
+                                                                                  bottom: 0.0
+                                                                              ),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.black,
+                                                                                    fontSize: 13,
+                                                                                  )),
+                                                                                  SizedBox(height: 1),
+                                                                                  Text('Cash acceptance', style: TextStyle(
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 20
+                                                                                  )),
+                                                                                ],
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                           Align(
                                                                             alignment: Alignment.bottomCenter,
@@ -8150,184 +8148,188 @@ class HomePageState extends State<HomePage>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 71.0,
+                                              padding: EdgeInsets.only(
+                                                  top: 67.0,
                                                   left: 0.0,
-                                                  right: 0.0),
+                                                  right: 0.0,
+                                                  bottom: homeBotPadding + 129
+                                                  ),
                                               child: Container(
                                                   child: ListView(
                                                     children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                        child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              SizedBox(height: 15),
-                                                              Container(
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.all(
-                                                                        Radius.circular(10.0),
-                                                                      ),
-                                                                      border: Border.all(
-                                                                          color: Colors.grey.withOpacity(0.2),
-                                                                          width: 1.0),
-                                                                      color: AppTheme.lightBgColor),
-                                                                  height:  133,
-                                                                  width: MediaQuery.of(context).size.width,
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    children: [
-                                                                      Text('Total sale - $currencyUnit',
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                            fontSize: 20,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          )),
-                                                                      SizedBox(height: 3),
-                                                                      Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                            fontSize: 23, fontWeight: FontWeight.w500,
-                                                                          )),
-                                                                    ],
-                                                                  )),
-                                                              SizedBox(height: 15),
-                                                              Text('CASH RECEIVED', style: TextStyle(
-                                                                letterSpacing: 2,
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 14,color: Colors.grey,
-                                                              ),),
-                                                              SizedBox(height: 15),
-                                                              TextField(
-                                                                style: TextStyle(
-                                                                    height: 0.95
-                                                                ),
-                                                                decoration: InputDecoration(
-                                                                  enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                      borderSide: const BorderSide(
-                                                                          color: AppTheme.skBorderColor,
-                                                                          width: 2.0),
-                                                                      borderRadius: BorderRadius.all(
-                                                                          Radius.circular(10.0))),
-
-                                                                  focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                      borderSide: const BorderSide(
-                                                                          color: AppTheme.themeColor,
-                                                                          width: 2.0),
-                                                                      borderRadius: BorderRadius.all(
-                                                                          Radius.circular(10.0))),
-                                                                  contentPadding: const EdgeInsets.only(
-                                                                      left: 15.0,
-                                                                      right: 15.0,
-                                                                      top: 20.0,
-                                                                      bottom: 20.0),
-                                                                  suffixText: '$currencyUnit' ,
-                                                                  // tooltip: 'Increase volume by 10',
-                                                                  suffixStyle: TextStyle(
-                                                                    color: Colors.grey,
-                                                                    fontSize: 15,
-                                                                    fontFamily: 'capsulesans',
+                                                      Container(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                          child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(height: 15),
+                                                                Container(
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.all(
+                                                                          Radius.circular(10.0),
+                                                                        ),
+                                                                        border: Border.all(
+                                                                            color: Colors.grey.withOpacity(0.2),
+                                                                            width: 1.0),
+                                                                        color: AppTheme.lightBgColor),
+                                                                    height:  133,
+                                                                    width: MediaQuery.of(context).size.width,
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                      children: [
+                                                                        Text('Total sale - $currencyUnit',
+                                                                            textAlign: TextAlign.center,
+                                                                            style: TextStyle(
+                                                                              fontSize: 20,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.grey,
+                                                                            )),
+                                                                        SizedBox(height: 8),
+                                                                        Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                            textAlign: TextAlign.center,
+                                                                            style: TextStyle(
+                                                                              fontSize: 23, fontWeight: FontWeight.w500,
+                                                                            )),
+                                                                      ],
+                                                                    )),
+                                                                SizedBox(height: 15),
+                                                                Text('CASH RECEIVED', style: TextStyle(
+                                                                  letterSpacing: 2,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 14,color: Colors.grey,
+                                                                ),),
+                                                                SizedBox(height: 15),
+                                                                TextField(
+                                                                  style: TextStyle(
+                                                                      height: 0.95
                                                                   ),
-                                                                  errorStyle: TextStyle(
-                                                                      backgroundColor: Colors.white,
-                                                                      fontSize: 12,
+                                                                  decoration: InputDecoration(
+                                                                    enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                        borderSide: const BorderSide(
+                                                                            color: AppTheme.skBorderColor,
+                                                                            width: 2.0),
+                                                                        borderRadius: BorderRadius.all(
+                                                                            Radius.circular(10.0))),
+
+                                                                    focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                        borderSide: const BorderSide(
+                                                                            color: AppTheme.themeColor,
+                                                                            width: 2.0),
+                                                                        borderRadius: BorderRadius.all(
+                                                                            Radius.circular(10.0))),
+                                                                    contentPadding: const EdgeInsets.only(
+                                                                        left: 15.0,
+                                                                        right: 15.0,
+                                                                        top: 20.0,
+                                                                        bottom: 20.0),
+                                                                    suffixText: '$currencyUnit' ,
+                                                                    // tooltip: 'Increase volume by 10',
+                                                                    suffixStyle: TextStyle(
+                                                                      color: Colors.grey,
+                                                                      fontSize: 15,
                                                                       fontFamily: 'capsulesans',
-                                                                      height: 0.1
-                                                                  ),
-                                                                  labelStyle: TextStyle(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.black,
-                                                                  ),
+                                                                    ),
+                                                                    errorStyle: TextStyle(
+                                                                        backgroundColor: Colors.white,
+                                                                        fontSize: 12,
+                                                                        fontFamily: 'capsulesans',
+                                                                        height: 0.1
+                                                                    ),
+                                                                    labelStyle: TextStyle(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black,
+                                                                    ),
 // errorText: 'Error message',
-                                                                  labelText: 'Custom price',
-                                                                  floatingLabelBehavior:
-                                                                  FloatingLabelBehavior.auto,
+                                                                    labelText: 'Custom price',
+                                                                    floatingLabelBehavior:
+                                                                    FloatingLabelBehavior.auto,
 //filled: true,
-                                                                  border: OutlineInputBorder(
-                                                                    borderRadius: BorderRadius.circular(10),
+                                                                    border: OutlineInputBorder(
+                                                                      borderRadius: BorderRadius.circular(10),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                                keyboardType: TextInputType.number,
-                                                                onChanged: (value) {
-                                                                  mystate(() {
-                                                                    totalAmount = double.parse(TtlProdListPrice());
-                                                                    value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                    if((totalAmount - paidAmount).isNegative){
-                                                                      debt = 0;
-                                                                    } else { debt = (totalAmount - paidAmount);
-                                                                    }
-                                                                    if((paidAmount - totalAmount).isNegative){
-                                                                      refund = 0;
-                                                                    } else { refund = (paidAmount - totalAmount);
-                                                                    }
-                                                                  });
-                                                                },
-                                                                controller: _textFieldController,
-                                                              ),
-                                                              SizedBox(height: 15),
-
-                                                              ButtonTheme(
-                                                                minWidth: double.infinity,
-                                                                //minWidth: 50,
-                                                                splashColor: AppTheme.buttonColor2,
-                                                                height: 50,
-                                                                child: FlatButton(
-                                                                  color: AppTheme.buttonColor2,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(7.0),
-                                                                  ),
-                                                                  onPressed: () async {
-                                                                    setState(() {
-                                                                      mystate(() {
-                                                                        totalAmount =
-                                                                            double
-                                                                                .parse(
-                                                                                TtlProdListPrice());
-                                                                        _textFieldController
-                                                                            .text =
-                                                                            totalAmount
-                                                                                .toString();
-                                                                        paidAmount =
-                                                                            totalAmount;
-                                                                        if ((totalAmount -
-                                                                            paidAmount)
-                                                                            .isNegative) {
-                                                                          debt = 0;
-                                                                        } else {
-                                                                          debt =
-                                                                          (totalAmount -
-                                                                              paidAmount);
-                                                                        }
-                                                                        if ((paidAmount -
-                                                                            totalAmount)
-                                                                            .isNegative) {
-                                                                          refund =
-                                                                          0;
-                                                                        } else {
-                                                                          refund =
-                                                                          (paidAmount -
-                                                                              totalAmount);
-                                                                        }
-                                                                      });
+                                                                  keyboardType: TextInputType.number,
+                                                                  onChanged: (value) {
+                                                                    mystate(() {
+                                                                      totalAmount = double.parse(TtlProdListPrice());
+                                                                      value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                      if((totalAmount - paidAmount).isNegative){
+                                                                        debt = 0;
+                                                                      } else { debt = (totalAmount - paidAmount);
+                                                                      }
+                                                                      if((paidAmount - totalAmount).isNegative){
+                                                                        refund = 0;
+                                                                      } else { refund = (paidAmount - totalAmount);
+                                                                      }
                                                                     });
                                                                   },
-                                                                  child: Container(
-                                                                    child: Text( '$currencyUnit ' +
-                                                                        TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 17
+                                                                  controller: _textFieldController,
+                                                                ),
+                                                                SizedBox(height: 15),
+
+                                                                ButtonTheme(
+                                                                  minWidth: double.infinity,
+                                                                  //minWidth: 50,
+                                                                  splashColor: AppTheme.buttonColor2,
+                                                                  height: 50,
+                                                                  child: FlatButton(
+                                                                    color: AppTheme.buttonColor2,
+                                                                    shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(7.0),
+                                                                    ),
+                                                                    onPressed: () async {
+                                                                      setState(() {
+                                                                        mystate(() {
+                                                                          totalAmount =
+                                                                              double
+                                                                                  .parse(
+                                                                                  TtlProdListPrice());
+                                                                          _textFieldController
+                                                                              .text =
+                                                                              totalAmount
+                                                                                  .toString();
+                                                                          paidAmount =
+                                                                              totalAmount;
+                                                                          if ((totalAmount -
+                                                                              paidAmount)
+                                                                              .isNegative) {
+                                                                            debt = 0;
+                                                                          } else {
+                                                                            debt =
+                                                                            (totalAmount -
+                                                                                paidAmount);
+                                                                          }
+                                                                          if ((paidAmount -
+                                                                              totalAmount)
+                                                                              .isNegative) {
+                                                                            refund =
+                                                                            0;
+                                                                          } else {
+                                                                            refund =
+                                                                            (paidAmount -
+                                                                                totalAmount);
+                                                                          }
+                                                                        });
+                                                                      });
+                                                                    },
+                                                                    child: Container(
+                                                                      child: Text( '$currencyUnit ' +
+                                                                          TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight.w600,
+                                                                            fontSize: 17
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              SizedBox(height: 20),
-                                                            ]
+                                                                SizedBox(height: 20),
+                                                              ]
+                                                          ),
                                                         ),
                                                       ),
                                                       // orderLoading?Text('Loading'):Text('')

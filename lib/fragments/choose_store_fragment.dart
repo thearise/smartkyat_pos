@@ -294,7 +294,9 @@ class chooseStoreState extends State<chooseStore> {
                         .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
                         .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      // print('CAGAIN ' + auth.currentUser!.email.toString());
                       if(snapshot.hasData) {
+                        print('CAGAIN ' + auth.currentUser!.email.toString());
                         var index = 0;
                         return Expanded(
                           child: ListView(
