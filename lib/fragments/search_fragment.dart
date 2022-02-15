@@ -1187,7 +1187,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                         border: Border(
                                             bottom: index == length-1 ?
                                             BorderSide(
-                                                color: Colors.transparent,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3),
                                                 width: 1.0) :
 
                                             BorderSide(
@@ -1371,7 +1372,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               length -
                                                   1 ?
                                           BorderSide(
-                                              color: Colors.transparent,
+                                              color: Colors.grey
+                                                  .withOpacity(0.3),
                                               width: 1.0)
                                               :
                                           BorderSide(
