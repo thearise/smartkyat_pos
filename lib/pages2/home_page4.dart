@@ -2986,7 +2986,7 @@ class HomePageState extends State<HomePage>
                                                                                                         sell3 =output2?['sub2_sell'];
 
                                                                                                         productName = output2?['prod_name'];
-                                                                                                        myControllerTablet.text = double.parse(prodList[i].split('^')[4]).round().toString();
+                                                                                                        myControllerTablet.text = prodList[i].split('^')[4];
                                                                                                         sellPriceControllerTablet.text = prodList[i].split('^')[2];
                                                                                                         // sellDone = false;
                                                                                                         onChangeAmountTab = true;
@@ -3082,9 +3082,9 @@ class HomePageState extends State<HomePage>
                                                                                                                   )),
                                                                                                               child: Padding(
                                                                                                                 padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                                                                                child: Text(double.parse(prodList[i]
+                                                                                                                child: Text(prodList[i]
                                                                                                                     .split(
-                                                                                                                    '^')[4]).round().toString(), style: TextStyle(
+                                                                                                                    '^')[4], style: TextStyle(
                                                                                                                     fontSize: 11, fontWeight: FontWeight.w500
                                                                                                                 )),
                                                                                                               ),
@@ -3899,7 +3899,7 @@ class HomePageState extends State<HomePage>
                                                                                                   print('CHECK POINT 0' + deviceIdNum.toString());
                                                                                                   print('CHECK POINT 1');
                                                                                                   orderLengthIncrease();
-                                                                                                  print('prodListPR' + prodList.toString());
+                                                                                                  print('productList' + prodList.toString());
 
                                                                                                   for (String str in prodList) {
 
@@ -4156,15 +4156,61 @@ class HomePageState extends State<HomePage>
                                                                       child:
                                                                       eachProd.length!=0 ? Stack(
                                                                         children: [
+                                                                          Container(
+                                                                            width: double.infinity,
+                                                                            height: 67,
+                                                                            decoration: BoxDecoration(
+                                                                                border: Border(
+                                                                                    bottom: BorderSide(
+                                                                                        color: Colors.blue
+                                                                                            .withOpacity(0.1),
+                                                                                        width: 1.0))),
+                                                                            child:
+
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(
+                                                                                  left: 15.0,
+                                                                                  right: 15.0,
+                                                                                  top: 6),
+                                                                              child:
+                                                                              Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 13
+                                                                                      )),
+                                                                                      SizedBox(width: 5),
+                                                                                      // if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                                      // else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                                      // else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
+                                                                                      //   else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 1),
+                                                                                  Text(productName, style: TextStyle(
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontSize: 20
+                                                                                  )),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(
-                                                                                top: 60.0,
+                                                                                top: 68.0,
                                                                                 left: 15.0,
-                                                                                right: 15.0),
-                                                                            child: Expanded(
+                                                                                right: 15.0,
+                                                                                bottom: 158,
+                                                                                ),
+                                                                            child: Container(
                                                                                 child: ListView(
                                                                                   children: [
                                                                                     Text('QUANTITY', style: TextStyle(
+                                                                                        height: 0.3,
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontSize: 14,
                                                                                         letterSpacing: 2,
@@ -4180,7 +4226,7 @@ class HomePageState extends State<HomePage>
                                                                                             // });
                                                                                             setState(() {
                                                                                               quantity = double.parse(myControllerTablet.text) -1;
-                                                                                              myControllerTablet.text = quantity.round().toString();
+                                                                                              myControllerTablet.text = quantity.toString();
                                                                                               print('qqq' + quantity.toString());
                                                                                             });
                                                                                           },
@@ -4258,7 +4304,7 @@ class HomePageState extends State<HomePage>
                                                                                               // });
                                                                                               setState(() {
                                                                                                 quantity = double.parse(myControllerTablet.text) +1;
-                                                                                                myControllerTablet.text = quantity.round().toString();
+                                                                                                myControllerTablet.text = quantity.toString();
                                                                                                 print('qqq' + quantity.toString());
                                                                                               });
                                                                                             });
@@ -4378,7 +4424,6 @@ class HomePageState extends State<HomePage>
                                                                                       letterSpacing: 2,
                                                                                       color: Colors.grey,
                                                                                     ),),
-                                                                                    SizedBox(height: 15,),
                                                                                     Container(
                                                                                       height: 220,
                                                                                       decoration: BoxDecoration(
@@ -4400,8 +4445,8 @@ class HomePageState extends State<HomePage>
                                                                                                 children: [
                                                                                                   Text('Sell price', style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
                                                                                                   eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
@@ -4412,14 +4457,14 @@ class HomePageState extends State<HomePage>
                                                                                                   ),) :
                                                                                                   eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),) :  Text('$currencyUnit ' +  sell3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),),
                                                                                                 ],
                                                                                               ),
@@ -4436,25 +4481,25 @@ class HomePageState extends State<HomePage>
                                                                                                 children: [
                                                                                                   Text('In stock', style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
                                                                                                   eachProd.split('^')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),) : eachProd.split('^')[3]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),) : Text(sub2Qty.toString() + ' ' + sub2Name, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),),
                                                                                                 ],
                                                                                               ),
@@ -4471,25 +4516,25 @@ class HomePageState extends State<HomePage>
                                                                                                 children: [
                                                                                                   Text('Loss', style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
                                                                                                   eachProd.split('^')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),) : eachProd.split('^')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),) : Text(sub2Loss.toString() + ' ' + sub2Name, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),),
                                                                                                 ],
                                                                                               ),
@@ -4500,15 +4545,15 @@ class HomePageState extends State<HomePage>
                                                                                                 children: [
                                                                                                   Text('Barcode', style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
                                                                                                   Text(barcode, style:
                                                                                                   TextStyle(
-                                                                                                    fontSize: 15,
-                                                                                                    fontWeight: FontWeight.w500,
-                                                                                                    color: Colors.grey,
+                                                                                                      fontSize: 15,
+                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                      color: Colors.grey
                                                                                                   ),),
                                                                                                 ],
                                                                                               ),
@@ -4517,49 +4562,13 @@ class HomePageState extends State<HomePage>
                                                                                         ),
                                                                                       ),
                                                                                     ),
+                                                                                    SizedBox(height: 20,),
+                                                                                    //     }
+                                                                                    //     return Container();
+                                                                                    //   },
+                                                                                    // ),
                                                                                   ],
                                                                                 )),
-                                                                          ),
-                                                                          Container(
-                                                                            height: 67,
-                                                                            width: double.infinity,
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border(
-                                                                                    bottom: BorderSide(
-                                                                                        color: Colors.grey
-                                                                                            .withOpacity(0.3),
-                                                                                        width: 1.0))),
-                                                                            child: Padding(
-                                                                              padding: EdgeInsets.only(
-                                                                                  left: 15.0,
-                                                                                  right: 15.0,
-                                                                                  top: 5.5,
-                                                                                  bottom: 0.0
-                                                                              ),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Row(
-                                                                                    children: [
-                                                                                      Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          color: Colors.grey
-                                                                                      )),
-                                                                                      SizedBox(width: 5),
-                                                                                      // if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                                      // else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                                                      // else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
-                                                                                      //   else Icon( Icons.check, size: 17, color: Colors.grey,),
-                                                                                    ],
-                                                                                  ),
-                                                                                  SizedBox(height: 1),
-                                                                                  Text(productName, style: TextStyle(
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontSize: 21
-                                                                                  )),
-                                                                                ],
-                                                                              ),
-                                                                            ),
                                                                           ),
                                                                           Align(
                                                                             alignment: Alignment.bottomCenter,
@@ -4575,111 +4584,60 @@ class HomePageState extends State<HomePage>
                                                                                     )),
                                                                                 width: double.infinity,
                                                                                 height: 158,
-                                                                                child: Container(
-                                                                                  color: Colors.white,
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment:
-                                                                                    MainAxisAlignment.end,
-                                                                                    crossAxisAlignment:
-                                                                                    CrossAxisAlignment.end,
-                                                                                    children: [
-                                                                                      ListTile(
-                                                                                        title: Text(
-                                                                                          'Total',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                        trailing: Text('$currencyUnit '+
-                                                                                            (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
+                                                                                child: Column(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment.end,
+                                                                                  crossAxisAlignment:
+                                                                                  CrossAxisAlignment.end,
+                                                                                  children: [
+                                                                                    ListTile(
+                                                                                      title: Text(
+                                                                                        'Total',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 17,
+                                                                                            fontWeight:
+                                                                                            FontWeight
+                                                                                                .w500),
                                                                                       ),
-                                                                                      SizedBox(height: 10),
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () {
-                                                                                                    setState((){
-                                                                                                      // mystate(() {
-                                                                                                      _controllerTablet.animateTo(0);
-                                                                                                      _textFieldControllerTablet.clear();
-                                                                                                      paidAmount = 0;
-                                                                                                      debt = 0;
-                                                                                                      refund = 0;
-                                                                                                      totalAmount = double.parse(TtlProdListPrice());
-                                                                                                      // });
-                                                                                                    });
+                                                                                      trailing: Text('$currencyUnit '+
+                                                                                          (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 17,
+                                                                                            fontWeight:
+                                                                                            FontWeight
+                                                                                                .w500),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(height: 10),
+                                                                                    Padding(
+                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                                                        child: Row(
+                                                                                            children: [
+                                                                                              GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  setState((){
+                                                                                                    // mystate(() {
+                                                                                                    _controllerTablet.animateTo(0);
+                                                                                                    _textFieldControllerTablet.clear();
+                                                                                                    paidAmount = 0;
+                                                                                                    debt = 0;
+                                                                                                    refund = 0;
+                                                                                                    totalAmount = double.parse(TtlProdListPrice());
+                                                                                                    // });
+                                                                                                  });
 
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                    height: 55,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.secButtonColor),
-                                                                                                    child: Padding(
-                                                                                                      padding: const EdgeInsets.only(
-                                                                                                          top: 15.0,
-                                                                                                          bottom: 15.0),
-                                                                                                      child: Row(
-                                                                                                        mainAxisAlignment:
-                                                                                                        MainAxisAlignment
-                                                                                                            .center,
-                                                                                                        children: [
-                                                                                                          Expanded(
-                                                                                                            child: Padding(
-                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                              child: Container(
-                                                                                                                  child: Text(
-                                                                                                                    'Back',
-                                                                                                                    textAlign: TextAlign.center,
-                                                                                                                    style: TextStyle(
-                                                                                                                        fontSize: 18,
-                                                                                                                        fontWeight: FontWeight.w600,
-                                                                                                                        color: Colors.black
-                                                                                                                    ),
-                                                                                                                  )
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ],
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                                Spacer(),
-                                                                                                GestureDetector(
-                                                                                                  onTap: () {
-                                                                                                    if (_formKey2.currentState!.validate()) {
-                                                                                                      print('eachProduct' +eachProd);
-                                                                                                      for (int j = 0; j < prodList.length; j++)
-                                                                                                        if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
-                                                                                                          setState((){
-                                                                                                            eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
-                                                                                                            prodList[j] = eachProd;
-                                                                                                          });
-                                                                                                          print('leepae' + prodList[j]);
-                                                                                                        } else print('leelar');
-                                                                                                      _controllerTablet.animateTo(0);
-                                                                                                    }
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
+                                                                                                },
+                                                                                                child: Container(
+                                                                                                  width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                  height: 55,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                      borderRadius:
+                                                                                                      BorderRadius.circular(10.0),
+                                                                                                      color: AppTheme.secButtonColor),
+                                                                                                  child: Padding(
+                                                                                                    padding: const EdgeInsets.only(
+                                                                                                        top: 15.0,
+                                                                                                        bottom: 15.0),
                                                                                                     child: Row(
                                                                                                       mainAxisAlignment:
                                                                                                       MainAxisAlignment
@@ -4690,10 +4648,10 @@ class HomePageState extends State<HomePage>
                                                                                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                             child: Container(
                                                                                                                 child: Text(
-                                                                                                                  'Done',
+                                                                                                                  'Back',
                                                                                                                   textAlign: TextAlign.center,
                                                                                                                   style: TextStyle(
-                                                                                                                      fontSize: 17,
+                                                                                                                      fontSize: 18,
                                                                                                                       fontWeight: FontWeight.w600,
                                                                                                                       color: Colors.black
                                                                                                                   ),
@@ -4705,25 +4663,66 @@ class HomePageState extends State<HomePage>
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                              ]
-                                                                                          )
-                                                                                      )
-                                                                                    ],
-                                                                                  ),
+                                                                                              ),
+                                                                                              Spacer(),
+                                                                                              GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  if (_formKey2.currentState!.validate()) {
+                                                                                                    print('eachProduct' +eachProd);
+                                                                                                    for (int j = 0; j < prodList.length; j++)
+                                                                                                      if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
+                                                                                                        setState((){
+                                                                                                          eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
+                                                                                                          prodList[j] = eachProd;
+                                                                                                        });
+                                                                                                        print('leepae' + prodList[j]);
+                                                                                                      } else print('leelar');
+                                                                                                    _controllerTablet.animateTo(0);
+                                                                                                  }
+                                                                                                },
+                                                                                                child: Container(
+                                                                                                  width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                  height: 50,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                      borderRadius:
+                                                                                                      BorderRadius.circular(10.0),
+                                                                                                      color: AppTheme.themeColor),
+                                                                                                  child: Row(
+                                                                                                    mainAxisAlignment:
+                                                                                                    MainAxisAlignment
+                                                                                                        .center,
+                                                                                                    children: [
+                                                                                                      Expanded(
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                          child: Container(
+                                                                                                              child: Text(
+                                                                                                                'Done',
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                                style: TextStyle(
+                                                                                                                    fontSize: 17,
+                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    color: Colors.black
+                                                                                                                ),
+                                                                                                              )
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ]
+                                                                                        )
+                                                                                    )
+                                                                                  ],
                                                                                 ),
                                                                               ),
                                                                             ),
                                                                           ),
+
                                                                         ],
-                                                                      ) :  Expanded(
-                                                                        child: Center(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(bottom: 15.0),
-                                                                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                child: CupertinoActivityIndicator(radius: 15,)),
-                                                                          ),
-                                                                        ),
-                                                                      ),
+                                                                      ) : Container(),
                                                                     ),
                                                                   ),
                                                                   Container(
@@ -6459,7 +6458,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) - 1;
-                                                                  barcodeCtrl.text = qty.round().toString();
+                                                                  barcodeCtrl.text = qty.toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -6522,7 +6521,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) + 1;
-                                                                  barcodeCtrl.text = qty.round().toString();
+                                                                  barcodeCtrl.text = qty.toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -9053,6 +9052,43 @@ class HomePageState extends State<HomePage>
                                                                 color: Colors.grey,
                                                               ),),
                                                               SizedBox(height: 15,),
+                                                              // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                              //   stream: FirebaseFirestore
+                                                              //       .instance
+                                                              //       .collection('space')
+                                                              //       .doc(
+                                                              //       '0NHIS0Jbn26wsgCzVBKT')
+                                                              //       .collection('shops')
+                                                              //       .doc(
+                                                              //       shopId)
+                                                              //       .collection('products')
+                                                              //       .doc(eachProd.split('^')[0])
+                                                              //       .snapshots(),
+                                                              //   builder: (BuildContext context, snapshot2) {
+                                                              //     if (snapshot2.hasData) {
+                                                              // var output = snapshot2.data!.data();
+                                                              // // var prodName = output?['prod_name'];
+                                                              // var mainName = output?['unit_name'];
+                                                              // var sub1Name = output?['sub1_name'];
+                                                              // var sub2Name = output?['sub2_name'];
+                                                              // // var sub3Name = output?['sub3_name'];
+                                                              // var barcode = output?['bar_code'];
+                                                              // // var mainPrice = output?['unit_sell'];
+                                                              // // var sub1Price = output?['sub1_sell'];
+                                                              // // var sub2Price = output?['sub2_sell'];
+                                                              // // var sub3Price = output?['sub3_sell'];
+                                                              // // var sub1Unit = output?['sub1_link'];
+                                                              // // var sub2Unit = output?['sub2_link'];
+                                                              // // var sub3Unit = output?['sub3_link'];
+                                                              // // var subExist = output?['sub_exist'];
+                                                              // var mainLoss = output?['Loss1'].round();
+                                                              // var sub1Loss = output?['Loss2'].round();
+                                                              // var sub2Loss = output?['Loss3'].round();
+                                                              // var mainQty = output?['inStock1'].round();
+                                                              // var sub1Qty = output?['inStock2'].round();
+                                                              // var sub2Qty = output?['inStock3'].round();
+                                                              // var image = output?['img_1'];
+                                                              //return
                                                               Container(
                                                                 height: 220,
                                                                 decoration: BoxDecoration(
@@ -9215,114 +9251,60 @@ class HomePageState extends State<HomePage>
                                                           )),
                                                       width: double.infinity,
                                                       height: 158,
-                                                      child: Container(
-                                                        color: Colors.white,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.end,
-                                                          children: [
-                                                            ListTile(
-                                                              title: Text(
-                                                                'Total',
-                                                                style: TextStyle(
-                                                                    fontSize: 17,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                              ),
-                                                              trailing: Text('$currencyUnit '+
-                                                                  (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                style: TextStyle(
-                                                                    fontSize: 17,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                              ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                        children: [
+                                                          ListTile(
+                                                            title: Text(
+                                                              'Total',
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
                                                             ),
-                                                            SizedBox(height: 10),
-                                                            Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                                                child: Row(
-                                                                    children: [
-                                                                      GestureDetector(
-                                                                        onTap: () {
-                                                                          setState((){
-                                                                            mystate(() {
-                                                                              _controller.animateTo(0);
-                                                                              _textFieldController.clear();
-                                                                              paidAmount = 0;
-                                                                              debt = 0;
-                                                                              refund = 0;
-                                                                              totalAmount = double.parse(TtlProdListPrice());
-                                                                            });
-                                                                          });
-
-                                                                        },
-                                                                        child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                          height: 55,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.secButtonColor),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                top: 15.0,
-                                                                                bottom: 15.0),
-                                                                            child: Row(
-                                                                              mainAxisAlignment:
-                                                                              MainAxisAlignment
-                                                                                  .center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                    child: Container(
-                                                                                        child: Text(
-                                                                                          'Back',
-                                                                                          textAlign: TextAlign.center,
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 18,
-                                                                                              fontWeight: FontWeight.w600,
-                                                                                              color: Colors.black
-                                                                                          ),
-                                                                                        )
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Spacer(),
-                                                                      GestureDetector(
-                                                                        onTap: () {
-                                                                          if (_formKey.currentState!.validate()) {
-                                                                            print('eachProduct' +eachProd);
-                                                                            for (int j = 0; j < prodList.length; j++)
-                                                                              if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
-                                                                                setState((){
-                                                                                  mystate((){
-                                                                                    eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
-                                                                                    prodList[j] = eachProd;
-                                                                                  }); });
-                                                                                print('leepae' + prodList[j]);
-                                                                              } else print('leelar');
+                                                            trailing: Text('$currencyUnit '+
+                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                              child: Row(
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: () {
+                                                                        setState((){
+                                                                          mystate(() {
                                                                             _controller.animateTo(0);
-                                                                            // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+                                                                            _textFieldController.clear();
+                                                                            paidAmount = 0;
+                                                                            debt = 0;
+                                                                            refund = 0;
+                                                                            totalAmount = double.parse(TtlProdListPrice());
+                                                                          });
+                                                                        });
 
-                                                                          }
-                                                                        },
-                                                                        child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                          height: 50,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.themeColor),
+                                                                      },
+                                                                      child: Container(
+                                                                        width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                        height: 55,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                            color: AppTheme.secButtonColor),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              top: 15.0,
+                                                                              bottom: 15.0),
                                                                           child: Row(
                                                                             mainAxisAlignment:
                                                                             MainAxisAlignment
@@ -9333,10 +9315,10 @@ class HomePageState extends State<HomePage>
                                                                                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                   child: Container(
                                                                                       child: Text(
-                                                                                        'Done',
+                                                                                        'Back',
                                                                                         textAlign: TextAlign.center,
                                                                                         style: TextStyle(
-                                                                                            fontSize: 17,
+                                                                                            fontSize: 18,
                                                                                             fontWeight: FontWeight.w600,
                                                                                             color: Colors.black
                                                                                         ),
@@ -9348,11 +9330,62 @@ class HomePageState extends State<HomePage>
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ]
-                                                                )
-                                                            )
-                                                          ],
-                                                        ),
+                                                                    ),
+                                                                    Spacer(),
+                                                                    GestureDetector(
+                                                                      onTap: () {
+                                                                        if (_formKey.currentState!.validate()) {
+                                                                          print('eachProduct' +eachProd);
+                                                                          for (int j = 0; j < prodList.length; j++)
+                                                                            if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
+                                                                              setState((){
+                                                                                mystate((){
+                                                                                  eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
+                                                                                  prodList[j] = eachProd;
+                                                                                }); });
+                                                                              print('leepae' + prodList[j]);
+                                                                            } else print('leelar');
+                                                                          _controller.animateTo(0);
+                                                                          // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+
+                                                                        }
+                                                                      },
+                                                                      child: Container(
+                                                                        width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                        height: 50,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                            color: AppTheme.themeColor),
+                                                                        child: Row(
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                child: Container(
+                                                                                    child: Text(
+                                                                                      'Done',
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 17,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ]
+                                                              )
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
@@ -11241,7 +11274,7 @@ class HomePageState extends State<HomePage>
   }
 
   printFromOrders(File file, var prodListPR,) {
-  
+
     print('PRRRRR ' +   prodListPR[prodListPR.length-1].split('<>')[4].toString());
 
     printClosed = false;
@@ -11415,13 +11448,13 @@ class HomePageState extends State<HomePage>
                       subTotal += double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3]);
                     }
                     receiptText.addTableList(tableList, '0.5em', 'normal');
-                  //  receiptText.addSpacer(count: 1);
+                    //  receiptText.addSpacer(count: 1);
                     receiptText.addSpacer(useDashed: true);
-                      receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDiscount,'Dis' + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[totalVPrice, 'Total' + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VPaid,'paid' + ' $currencyUnit']], '0.5em', '500');
-                   receiptText.addTableList([[VDebt,  'debt' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDebt,  'debt' + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addSpacer(count: 1);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',
