@@ -11273,18 +11273,20 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  printFromOrders(File file, var prodListPR) {
-    print('PRRRRR ' + prodListPR.toString());
+  printFromOrders(File file, var prodListPR,) {
+
+    print('PRRRRR ' +   prodListPR[prodListPR.length-1].split('<>')[4].toString());
+
     printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
+    double subTotal = 0.0;
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
         context: context,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
-
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter mystate) {
               Future<void> _onScanPressedOrder() async {
@@ -11398,63 +11400,126 @@ class HomePageState extends State<HomePage>
                     // mystate(() {
                     //   priInProgOrders = false;
                     // });
-
-
-
-
                     final ReceiptSectionText receiptText = ReceiptSectionText();
                     receiptText.addSpacer();
                     receiptText.addText(
-                      'MY STORE',
-                      size: ReceiptTextSizeType.medium,
+                      shopGloName.toString(),
+                      size: ReceiptTextSizeType.small,
                       style: ReceiptTextStyleType.bold,
                     );
                     receiptText.addText(
-                      'Black White Street, Jakarta, Indonesia',
+                      shopGloAddress,
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addText(
+                      shopGloPhone,
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addText(
+                      'Receipt info:',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addText(
+                      'Name:',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addText(
+                      'Date',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addSpacer(count: 1);
+                    receiptText.addLeftRightText(
+                      '   Items', 'Total   ',
+                      leftStyle: ReceiptTextStyleType.bold,
+                      leftSize: ReceiptTextSizeType.extraextraSmall,
+                      rightStyle: ReceiptTextStyleType.bold,
+                      rightSize: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addSpacer(count: 1);
+                    List<List<String>> tableList = [];
+                    for(int i = 0; i <  prodListPR.length -1 ; i++) {
+                      List<String> innerLRList = ['', ''];
+                      innerLRList[0] =  prodListPR[i].split('^')[0].toString() + ' (' +
+                          prodListPR[i].split('^')[1].toString() + ' - ' +  prodListPR[i].split('^')[2].toString() + ' x ' +
+                          prodListPR[i].split('^')[3].toString() + ')';
+                      innerLRList[1] = (double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
+                      tableList.add(innerLRList);
+                      subTotal += double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3]);
+                    }
+                    receiptText.addTableList(tableList, '0.5em', 'normal');
+                    //  receiptText.addSpacer(count: 1);
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDiscount,'Dis' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[totalVPrice, 'Total' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VPaid,'paid' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDebt,  'debt' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addSpacer(count: 1);
+                    receiptText.addText(
+                      'ကျေးဇူးတင်ပါသည်။',
                       size: ReceiptTextSizeType.small,
+                      style: ReceiptTextStyleType.bold,
                     );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText('Time', '04/06/21, 10:00');
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'Apple 1kg',
-                      'Rp30.000',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.extraSmall,
-                      rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.extraSmall,
-                    );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'TOTAL',
-                      'Rp30.000',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.extraSmall,
-                      rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.extraSmall,
-                    );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'Payment',
-                      'Cash',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.extraSmall,
-                      rightStyle: ReceiptTextStyleType.normal,
-                      rightSize: ReceiptTextSizeType.extraSmall,
-                    );
-                    receiptText.addSpacer(count: 2);
 
+                    // receiptText.addLeftRightText(
+                    //   subVTotal,
+                    //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    // receiptText.addLeftRightText(
+                    //   VDiscount,
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    // receiptText.addLeftRightText(
+                    //   totalVPrice,
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    // receiptText.addLeftRightText(
+                    //   VPaid,
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    // receiptText.addLeftRightText(
+                    //   VDebt,
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    receiptText.addSpacer(count: 1);
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-
-                    /// Example for print QR
-                    await _bluePrintPos.printQR('www.google.com', size: 250);
-
-                    /// Text after QR
-                    final ReceiptSectionText receiptSecondText = ReceiptSectionText();
-                    receiptSecondText.addText('Powered by ayeee',
-                        size: ReceiptTextSizeType.small);
-                    receiptSecondText.addSpacer();
-                    await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
+                    mystate(() {
+                      priInProgOrders = false;
+                    });
+                    // /// Example for print QR
+                    // await _bluePrintPos.printQR('www.google.com', size: 250);
+                    //
+                    // /// Text after QR
+                    // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
+                    // receiptSecondText.addText('Powered by ayeee',
+                    //     size: ReceiptTextSizeType.small);
+                    // receiptSecondText.addSpacer();
+                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
                     // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
 
                   });
