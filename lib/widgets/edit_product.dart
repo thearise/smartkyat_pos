@@ -496,7 +496,10 @@ class _EditProductState extends State<EditProduct> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                  width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
+                                      (2.41 / 4) : (MediaQuery.of(context).size.width -
+                                      30) *
+                                      (2.41 / 4),
                                   child: TextFormField(
                                     controller: mainQtyCtrl,
                                     keyboardType: TextInputType.number,
@@ -560,7 +563,11 @@ class _EditProductState extends State<EditProduct> {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
+                                  width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
+                                      30) *
+                                      (1.41 / 4) : (MediaQuery.of(context).size.width -
+                                      30) *
+                                      (1.41 / 4),
                                   child: TextFormField(
                                     controller: mainUnitNameCtrl,
                                     keyboardType: TextInputType.name,

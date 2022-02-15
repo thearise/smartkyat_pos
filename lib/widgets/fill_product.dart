@@ -196,7 +196,7 @@ class _FillProductState extends State<FillProduct> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                          width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                           child: TextFormField(
                                             controller: munitCtrl,
                                             keyboardType: TextInputType.number,
@@ -262,10 +262,10 @@ class _FillProductState extends State<FillProduct> {
                                         ),
                                         Spacer(),
                                         Container(
-                                          width: (MediaQuery.of(context)
-                                                      .size
-                                                      .width -
+                                          width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
                                                   30) *
+                                              (1.41 / 4) : (MediaQuery.of(context).size.width -
+                                              30) *
                                               (1.41 / 4),
                                           child: Text(
                                             mainName,
