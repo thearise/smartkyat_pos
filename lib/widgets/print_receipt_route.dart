@@ -94,13 +94,14 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
         });
       }
     });
+
     print('printing route1 ' + widget.data.toString());
     print('printing route2 ' + widget.prodList.toString());
     print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
-
     initOrderData();
     super.initState();
   }
+
 
   initOrderData() async {
     List<String> subNameList = [];
@@ -394,7 +395,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                           _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
                                         },
                                         child: Container(
-                                          width: (MediaQuery.of(context).size.width - 45)* (3/4),
+                                          width: MediaQuery.of(context).size.width > 900 ?  ((MediaQuery.of(context).size.width * (2 / 3.5))  - 45) * (3/4) :  (MediaQuery.of(context).size.width - 45) * (3/4),
                                           height: 50,
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -441,7 +442,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                           //         builder: (context) => PrinterCheckRoute(data: widget.data,)));
                                         },
                                         child: Container(
-                                          width: (MediaQuery.of(context).size.width - 45)* (1/4),
+                                          width: MediaQuery.of(context).size.width > 900 ?  ((MediaQuery.of(context).size.width * (2 / 3.5))- 45)* (1/4) : (MediaQuery.of(context).size.width - 45)* (1/4),
                                           height: 50,
                                           decoration: BoxDecoration(
                                               borderRadius:
