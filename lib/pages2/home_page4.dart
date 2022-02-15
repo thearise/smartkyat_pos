@@ -2959,7 +2959,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                  'img_1'];
+                                                                                                    'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -3510,7 +3510,7 @@ class HomePageState extends State<HomePage>
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(top: 67.0),
                                                                             child: Container(
-                                                                                // color: Colors.yellow,
+                                                                              // color: Colors.yellow,
                                                                                 child: ListView(
                                                                                   children: [
                                                                                     Padding(
@@ -3525,7 +3525,7 @@ class HomePageState extends State<HomePage>
                                                                                                       Radius.circular(10.0),
                                                                                                     ),
                                                                                                     border: Border.all(
-                                                                                                        // color: Colors.black,
+                                                                                                      // color: Colors.black,
                                                                                                         color: Colors.grey.withOpacity(0.2),
                                                                                                         width: 1.0),
                                                                                                     color: AppTheme.lightBgColor),
@@ -4145,16 +4145,15 @@ class HomePageState extends State<HomePage>
                                                                     // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                                                     width: double.infinity,
                                                                     decoration: BoxDecoration(
+                                                                        color: Colors.white,
                                                                       borderRadius: BorderRadius.only(
                                                                         topLeft: Radius.circular(20.0),
                                                                         topRight: Radius.circular(20.0),
                                                                       ),
-                                                                      color: Colors.white,
                                                                     ),
                                                                     child: Container(
                                                                       width: double.infinity,
-                                                                      child:
-                                                                      eachProd.length!=0 ? Stack(
+                                                                      child: Stack(
                                                                         children: [
                                                                           Container(
                                                                             width: double.infinity,
@@ -4201,16 +4200,19 @@ class HomePageState extends State<HomePage>
                                                                           ),
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(
-                                                                                top: 68.0,
-                                                                                left: 15.0,
-                                                                                right: 15.0,
-                                                                                bottom: 158,
-                                                                                ),
+                                                                              top: 67.0,
+                                                                              left: 15.0,
+                                                                              right: 15.0,
+                                                                              bottom: 138,
+                                                                            ),
                                                                             child: Container(
                                                                                 child: ListView(
+                                                                                  padding: EdgeInsets.zero,
                                                                                   children: [
+                                                                                    SizedBox(
+                                                                                      height: 15,
+                                                                                    ),
                                                                                     Text('QUANTITY', style: TextStyle(
-                                                                                        height: 0.3,
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontSize: 14,
                                                                                         letterSpacing: 2,
@@ -4232,7 +4234,7 @@ class HomePageState extends State<HomePage>
                                                                                           },
                                                                                           child: Container(
                                                                                             width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                            height: 55,
+                                                                                            height: 50,
                                                                                             decoration: BoxDecoration(
                                                                                                 borderRadius:
                                                                                                 BorderRadius.circular(10.0),
@@ -4264,7 +4266,7 @@ class HomePageState extends State<HomePage>
                                                                                         SizedBox(width: 15),
                                                                                         Container(
                                                                                           width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                          height: 55,
+                                                                                          height: 50,
                                                                                           child: TextField(
                                                                                             textAlign: TextAlign.center,
                                                                                             decoration: InputDecoration(
@@ -4279,7 +4281,7 @@ class HomePageState extends State<HomePage>
                                                                                                   borderSide: const BorderSide(
                                                                                                       color: AppTheme.skThemeColor2, width: 2.0),
                                                                                                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                                                                              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                                                                              contentPadding: EdgeInsets.symmetric(vertical: 19.0, horizontal: 10.0),
                                                                                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                                                                                               //filled: true,
                                                                                               border: OutlineInputBorder(
@@ -4311,7 +4313,7 @@ class HomePageState extends State<HomePage>
                                                                                           },
                                                                                           child: Container(
                                                                                             width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                            height: 55,
+                                                                                            height: 50,
                                                                                             decoration: BoxDecoration(
                                                                                                 borderRadius:
                                                                                                 BorderRadius.circular(10.0),
@@ -4424,6 +4426,7 @@ class HomePageState extends State<HomePage>
                                                                                       letterSpacing: 2,
                                                                                       color: Colors.grey,
                                                                                     ),),
+                                                                                    SizedBox(height: 15,),
                                                                                     Container(
                                                                                       height: 220,
                                                                                       decoration: BoxDecoration(
@@ -4449,7 +4452,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
-                                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                  eachProd.length != 0? eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                   TextStyle(
                                                                                                     fontSize: 15,
                                                                                                     fontWeight: FontWeight.w500,
@@ -4465,7 +4468,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontSize: 15,
                                                                                                       fontWeight: FontWeight.w500,
                                                                                                       color: Colors.grey
-                                                                                                  ),),
+                                                                                                  ),): Text(''),
                                                                                                 ],
                                                                                               ),
                                                                                             ),
@@ -4485,7 +4488,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
-                                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
+                                                                                                  eachProd.length != 0? eachProd.split('^')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
                                                                                                   TextStyle(
                                                                                                       fontSize: 15,
                                                                                                       fontWeight: FontWeight.w500,
@@ -4500,7 +4503,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontSize: 15,
                                                                                                       fontWeight: FontWeight.w500,
                                                                                                       color: Colors.grey
-                                                                                                  ),),
+                                                                                                  ),): Text(''),
                                                                                                 ],
                                                                                               ),
                                                                                             ),
@@ -4520,7 +4523,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontWeight: FontWeight.w500
                                                                                                   ),),
                                                                                                   Spacer(),
-                                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
+                                                                                                  eachProd.length != 0? eachProd.split('^')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
                                                                                                   TextStyle(
                                                                                                       fontSize: 15,
                                                                                                       fontWeight: FontWeight.w500,
@@ -4535,7 +4538,7 @@ class HomePageState extends State<HomePage>
                                                                                                       fontSize: 15,
                                                                                                       fontWeight: FontWeight.w500,
                                                                                                       color: Colors.grey
-                                                                                                  ),),
+                                                                                                  ),): Text(''),
                                                                                                 ],
                                                                                               ),
                                                                                             ),
@@ -4573,7 +4576,7 @@ class HomePageState extends State<HomePage>
                                                                           Align(
                                                                             alignment: Alignment.bottomCenter,
                                                                             child: Padding(
-                                                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                                              padding: EdgeInsets.only(bottom: 0),
                                                                               child: Container(
                                                                                 decoration: BoxDecoration(
                                                                                     border: Border(
@@ -4583,34 +4586,43 @@ class HomePageState extends State<HomePage>
                                                                                           width: 1.0),
                                                                                     )),
                                                                                 width: double.infinity,
-                                                                                height: 158,
+                                                                                height: 138,
                                                                                 child: Column(
                                                                                   mainAxisAlignment:
                                                                                   MainAxisAlignment.end,
                                                                                   crossAxisAlignment:
                                                                                   CrossAxisAlignment.end,
                                                                                   children: [
-                                                                                    ListTile(
-                                                                                      title: Text(
-                                                                                        'Total',
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .w500),
-                                                                                      ),
-                                                                                      trailing: Text('$currencyUnit '+
-                                                                                          (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .w500),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16),
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            'Total',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                          Expanded(
+                                                                                            child: Text('$currencyUnit '+
+                                                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                              textAlign: TextAlign.right,
+                                                                                              style: TextStyle(
+                                                                                                  fontSize: 17,
+                                                                                                  fontWeight:
+                                                                                                  FontWeight
+                                                                                                      .w500),
+                                                                                            )
+                                                                                          )
+                                                                                        ]
                                                                                       ),
                                                                                     ),
+                                                                                    
                                                                                     SizedBox(height: 10),
                                                                                     Padding(
-                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
                                                                                         child: Row(
                                                                                             children: [
                                                                                               GestureDetector(
@@ -4629,7 +4641,7 @@ class HomePageState extends State<HomePage>
                                                                                                 },
                                                                                                 child: Container(
                                                                                                   width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                  height: 55,
+                                                                                                  height: 50,
                                                                                                   decoration: BoxDecoration(
                                                                                                       borderRadius:
                                                                                                       BorderRadius.circular(10.0),
@@ -4714,7 +4726,8 @@ class HomePageState extends State<HomePage>
                                                                                               ),
                                                                                             ]
                                                                                         )
-                                                                                    )
+                                                                                    ),
+                                                                                    SizedBox(height: 15),
                                                                                   ],
                                                                                 ),
                                                                               ),
@@ -4722,7 +4735,7 @@ class HomePageState extends State<HomePage>
                                                                           ),
 
                                                                         ],
-                                                                      ) : Container(),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                   Container(
@@ -7689,7 +7702,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                    'img_1'];
+                                                                      'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
@@ -8153,7 +8166,7 @@ class HomePageState extends State<HomePage>
                                                   left: 0.0,
                                                   right: 0.0,
                                                   bottom: homeBotPadding + 129
-                                                  ),
+                                              ),
                                               child: Container(
                                                   child: ListView(
                                                     children: [
@@ -11417,15 +11430,15 @@ class HomePageState extends State<HomePage>
                     );
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addText(
-                      'Receipt info:',
+                      'Receipt info: ' + prodListPR[prodListPR.length-1].split('<>')[6].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addText(
-                      'Name:',
+                      'Name: ' + prodListPR[prodListPR.length-1].split('<>')[7].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addText(
-                      'Date',
+                      'Date ' + prodListPR[prodListPR.length-1].split('<>')[8].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addSpacer(count: 1);
