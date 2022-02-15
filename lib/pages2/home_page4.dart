@@ -3899,7 +3899,7 @@ class HomePageState extends State<HomePage>
                                                                                                   print('CHECK POINT 0' + deviceIdNum.toString());
                                                                                                   print('CHECK POINT 1');
                                                                                                   orderLengthIncrease();
-                                                                                                  print('productList' + prodList.toString());
+                                                                                                  print('prodListPR' + prodList.toString());
 
                                                                                                   for (String str in prodList) {
 
@@ -11240,9 +11240,10 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  printFromOrders(File file, var prodListPR) {
-    print('PRRRRR ' + prodListPR.toString());
-    print('name' + shopGloName);
+  printFromOrders(File file, var prodListPR,) {
+  
+    print('PRRRRR ' +   prodListPR[prodListPR.length-1].split('<>')[4].toString());
+
     printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
@@ -11253,7 +11254,6 @@ class HomePageState extends State<HomePage>
         context: context,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
-
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter mystate) {
               Future<void> _onScanPressedOrder() async {
@@ -11383,29 +11383,52 @@ class HomePageState extends State<HomePage>
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addSpacer(useDashed: true);
+                    receiptText.addText(
+                      'Receipt info:',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addText(
+                      'Name:',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addText(
+                      'Date',
+                      size: ReceiptTextSizeType.extraextraSmall,
+                    );
+                    receiptText.addSpacer(count: 1);
                     receiptText.addLeftRightText(
-                      'Item', 'Total',
+                      '   Items', 'Total   ',
                       leftStyle: ReceiptTextStyleType.bold,
-                      leftSize: ReceiptTextSizeType.extraSmall,
+                      leftSize: ReceiptTextSizeType.extraextraSmall,
                       rightStyle: ReceiptTextStyleType.bold,
-                      rightSize: ReceiptTextSizeType.extraSmall,
-
+                      rightSize: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addSpacer(count: 1);
                     List<List<String>> tableList = [];
-                    for(int i = 0; i < prodListPR.length; i++) {
+                    for(int i = 0; i <  prodListPR.length -1 ; i++) {
                       List<String> innerLRList = ['', ''];
-                      innerLRList[0] = prodListPR[i].split('^')[0].toString() + ' (' +
-                                    prodListPR[i].split('^')[1].toString() + ' - ' + prodListPR[i].split('^')[2].toString() + ' x ' +
-                                    prodListPR[i].split('^')[3].toString() + ')';
-                      innerLRList[1] = (double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
+                      innerLRList[0] =  prodListPR[i].split('^')[0].toString() + ' (' +
+                          prodListPR[i].split('^')[1].toString() + ' - ' +  prodListPR[i].split('^')[2].toString() + ' x ' +
+                          prodListPR[i].split('^')[3].toString() + ')';
+                      innerLRList[1] = (double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
                       tableList.add(innerLRList);
-                      subTotal += double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[3]);
+                      subTotal += double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3]);
                     }
                     receiptText.addTableList(tableList, '0.5em', 'normal');
                   //  receiptText.addSpacer(count: 1);
                     receiptText.addSpacer(useDashed: true);
-                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                      receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDiscount,'Dis' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[totalVPrice, 'Total' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VPaid,'paid' + ' $currencyUnit']], '0.5em', '500');
+                   receiptText.addTableList([[VDebt,  'debt' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addSpacer(count: 1);
+                    receiptText.addText(
+                      'ကျေးဇူးတင်ပါသည်။',
+                      size: ReceiptTextSizeType.small,
+                      style: ReceiptTextStyleType.bold,
+                    );
+
                     // receiptText.addLeftRightText(
                     //   subVTotal,
                     //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
@@ -11450,9 +11473,11 @@ class HomePageState extends State<HomePage>
                     //   rightStyle: ReceiptTextStyleType.normal,
                     //   rightSize: ReceiptTextSizeType.extraextraSmall,
                     // );
-                    receiptText.addSpacer(count: 2);
+                    receiptText.addSpacer(count: 1);
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-
+                    mystate(() {
+                      priInProgOrders = false;
+                    });
                     // /// Example for print QR
                     // await _bluePrintPos.printQR('www.google.com', size: 250);
                     //

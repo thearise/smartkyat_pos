@@ -99,7 +99,18 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
     print('printing route2 ' + widget.prodList.toString());
     print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
     initOrderData();
+    infoData();
     super.initState();
+  }
+
+  List ttlInfoList = [];
+  infoData() async {
+    List <String> infoList = [];
+    final date = DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
+    final dueDate = date.add(Duration(days: 7));
+    final discount = widget.data.split('^')[6] != '0.0' ? '-' + (widget.data.split('^')[6].split('-')[1]).toString() : '';
+    infoList.add(widget.data.split('^')[1]+ '<>' +widget.data.split('^')[3].split('&')[0]+ '<>' + dueDate.toString() + '<>' +discount + '<>' +widget.data.split('^')[6].split('-')[0]+ '<>' + widget.data.split('^')[5]);
+    ttlInfoList = widget.prodList + infoList;
   }
 
 
@@ -435,7 +446,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                       Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          widget._printFromOrders(pdfFilePRoll, widget.prodList);
+                                          widget._printFromOrders(pdfFilePRoll, ttlInfoList);
                                           // Navigator.push(
                                           //     context,
                                           //     MaterialPageRoute(
