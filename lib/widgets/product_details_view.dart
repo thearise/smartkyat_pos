@@ -495,9 +495,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
                                                 fontSize: 13,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
+                                                  color: Colors.black
                                               ),
                                             ),
+                                            SizedBox(height: 1),
                                             Text(
                                               prodName,
                                               textAlign: TextAlign.right,
