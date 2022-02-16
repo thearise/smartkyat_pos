@@ -3082,9 +3082,7 @@ class HomePageState extends State<HomePage>
                                                                                                                   )),
                                                                                                               child: Padding(
                                                                                                                 padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                                                                                child: Text(prodList[i]
-                                                                                                                    .split(
-                                                                                                                    '^')[4], style: TextStyle(
+                                                                                                                child: Text(double.parse(prodList[i].split('^')[4]).round().toString(), style: TextStyle(
                                                                                                                     fontSize: 11, fontWeight: FontWeight.w500
                                                                                                                 )),
                                                                                                               ),
@@ -4228,7 +4226,7 @@ class HomePageState extends State<HomePage>
                                                                                             // });
                                                                                             setState(() {
                                                                                               quantity = double.parse(myControllerTablet.text) -1;
-                                                                                              myControllerTablet.text = quantity.toString();
+                                                                                              myControllerTablet.text = quantity.round().toString();
                                                                                               print('qqq' + quantity.toString());
                                                                                             });
                                                                                           },
@@ -4306,7 +4304,7 @@ class HomePageState extends State<HomePage>
                                                                                               // });
                                                                                               setState(() {
                                                                                                 quantity = double.parse(myControllerTablet.text) +1;
-                                                                                                myControllerTablet.text = quantity.toString();
+                                                                                                myControllerTablet.text = quantity.round().toString();
                                                                                                 print('qqq' + quantity.toString());
                                                                                               });
                                                                                             });
@@ -6471,7 +6469,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) - 1;
-                                                                  barcodeCtrl.text = qty.toString();
+                                                                  barcodeCtrl.text = qty.round().toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -6534,7 +6532,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) + 1;
-                                                                  barcodeCtrl.text = qty.toString();
+                                                                  barcodeCtrl.text = qty.round().toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -11415,7 +11413,7 @@ class HomePageState extends State<HomePage>
                     //   priInProgOrders = false;
                     // });
                     final ReceiptSectionText receiptText = ReceiptSectionText();
-                    receiptText.addSpacer();
+                    receiptText.addSpacer(count: 1);
                     receiptText.addText(
                       shopGloName.toString(),
                       size: ReceiptTextSizeType.small,
@@ -11475,13 +11473,19 @@ class HomePageState extends State<HomePage>
                      receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                      receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addSpacer(count: 1);
+                    receiptText.addSpacer(emptyLine: true);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',
                       size: ReceiptTextSizeType.small,
                       style: ReceiptTextStyleType.bold,
                     );
-
+                    final ByteData logoBytes = await rootBundle.load(
+                      'assets/system/poweredby.png',
+                    );
+                    receiptText.addImage(
+                      base64.encode(Uint8List.view(logoBytes.buffer)),
+                      width: 150,
+                    );
                     // receiptText.addLeftRightText(
                     //   subVTotal,
                     //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
@@ -11526,7 +11530,7 @@ class HomePageState extends State<HomePage>
                     //   rightStyle: ReceiptTextStyleType.normal,
                     //   rightSize: ReceiptTextSizeType.extraextraSmall,
                     // );
-                    receiptText.addSpacer(count: 1);
+                    receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
