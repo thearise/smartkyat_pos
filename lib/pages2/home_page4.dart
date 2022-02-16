@@ -11444,13 +11444,14 @@ class HomePageState extends State<HomePage>
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     //receiptText.addSpacer(count: 1);
-                    receiptText.addLeftRightText(
-                      '   Items', 'Total   ',
-                      leftStyle: ReceiptTextStyleType.bold,
-                      leftSize: ReceiptTextSizeType.extraextraSmall,
-                      rightStyle: ReceiptTextStyleType.bold,
-                      rightSize: ReceiptTextSizeType.extraextraSmall,
-                    );
+                    // receiptText.addLeftRightText(
+                    //   '   Items', 'Total   ',
+                    //   leftStyle: ReceiptTextStyleType.bold,
+                    //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                    //   rightStyle: ReceiptTextStyleType.bold,
+                    //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                    // );
+                    receiptText.addTableList([['Items', 'Total']], '0.5em', '500');
                     //receiptText.addSpacer(count: 1);
                     List<List<String>> tableList = [];
                     for(int i = 0; i <  prodListPR.length -1 ; i++) {
