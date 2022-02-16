@@ -11316,6 +11316,7 @@ class HomePageState extends State<HomePage>
                 });
               }
 
+
               void _onDisconnectDeviceOrder() {
                 _bluePrintPos.disconnect().then((ConnectionStatus status) {
                   if (status == ConnectionStatus.disconnect) {
@@ -11429,19 +11430,20 @@ class HomePageState extends State<HomePage>
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addSpacer(useDashed: true);
-                    receiptText.addText(
+                    receiptText.addLeftText(
                       'Receipt info: ' + prodListPR[prodListPR.length-1].split('<>')[6].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
+                      style: ReceiptTextStyleType.bold,
                     );
-                    receiptText.addText(
+                    receiptText.addLeftText(
                       'Name: ' + prodListPR[prodListPR.length-1].split('<>')[7].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
-                    receiptText.addText(
+                    receiptText.addLeftText(
                       'Date ' + prodListPR[prodListPR.length-1].split('<>')[8].toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
-                    receiptText.addSpacer(count: 1);
+                    //receiptText.addSpacer(count: 1);
                     receiptText.addLeftRightText(
                       '   Items', 'Total   ',
                       leftStyle: ReceiptTextStyleType.bold,
@@ -11449,7 +11451,7 @@ class HomePageState extends State<HomePage>
                       rightStyle: ReceiptTextStyleType.bold,
                       rightSize: ReceiptTextSizeType.extraextraSmall,
                     );
-                    receiptText.addSpacer(count: 1);
+                    //receiptText.addSpacer(count: 1);
                     List<List<String>> tableList = [];
                     for(int i = 0; i <  prodListPR.length -1 ; i++) {
                       List<String> innerLRList = ['', ''];
@@ -11460,14 +11462,18 @@ class HomePageState extends State<HomePage>
                       tableList.add(innerLRList);
                       subTotal += double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3]);
                     }
+                    double disAmt = 0.0;
+                    if(prodListPR[prodListPR.length-1].split('<>')[3].toString() == 'p') {
+                      disAmt = subTotal * (double.parse(prodListPR[prodListPR.length-1].split('<>')[4])/100);
+                    } else {disAmt = double.parse(prodListPR[prodListPR.length-1].split('<>')[4]);}
                     receiptText.addTableList(tableList, '0.5em', 'normal');
                     //  receiptText.addSpacer(count: 1);
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VDiscount,'Dis' + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[totalVPrice, 'Total' + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VPaid,'paid' + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VDebt,  'debt' + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                     receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                     receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addSpacer(count: 1);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',
