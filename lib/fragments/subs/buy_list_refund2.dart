@@ -92,7 +92,7 @@ class _BuyListRefundState extends State<BuyListRefund>
       quantityCtrlList.add(TextEditingController());
       quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
     }
-    print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
+    print('phyopyaesohn' + widget.data.toString());
     super.initState();
   }
   void smartKyatFlash(String text, String type) {
@@ -906,13 +906,18 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                               String data = widget.data;
 
+                                              String noCustomer = '';
+                                              if(data.split('^')[3].split('&')[0] == 'No customer') {
+                                                noCustomer = 'name';
+                                              } else {noCustomer = data.split('^')[3].split('&')[0];}
+
                                               String dataRm = data.split('^')[0] +
                                                   '^' +
                                                   data.split('^')[1] +
                                                   '^' +
                                                   data.split('^')[2] +
                                                   '^' +
-                                                  data.split('^')[3].split('&')[1] +
+                                                  data.split('^')[3].split('&')[1] + '<>' + noCustomer  +
                                                   '^' +
                                                   data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
 
@@ -922,9 +927,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   '^' +
                                                   total.toString() +
                                                   '^' +
-                                                  data
-                                                      .split('^')[3]
-                                                      .split('&')[1] +
+                                                  data.split('^')[3].split('&')[1] + '<>' + noCustomer  +
                                                   '^' +
                                                   refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
 
