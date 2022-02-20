@@ -90,6 +90,7 @@ dependencies:
   connectivity: ^3.0.6
   metooltip: ^0.0.7
   flutter_bloc:
+  jiffy: ^5.0.0
 
 #  esc_pos_bluetooth:
 #  flutter_bluetooth_basic:

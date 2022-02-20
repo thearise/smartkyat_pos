@@ -4143,7 +4143,7 @@ class HomePageState extends State<HomePage>
                                                                     // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                                                     width: double.infinity,
                                                                     decoration: BoxDecoration(
-                                                                        color: Colors.white,
+                                                                      color: Colors.white,
                                                                       borderRadius: BorderRadius.only(
                                                                         topLeft: Radius.circular(20.0),
                                                                         topRight: Radius.circular(20.0),
@@ -4594,30 +4594,30 @@ class HomePageState extends State<HomePage>
                                                                                     Padding(
                                                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16),
                                                                                       child: Row(
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            'Total',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 17,
-                                                                                                fontWeight:
-                                                                                                FontWeight
-                                                                                                    .w500),
-                                                                                          ),
-                                                                                          Expanded(
-                                                                                            child: Text('$currencyUnit '+
-                                                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                              textAlign: TextAlign.right,
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              'Total',
                                                                                               style: TextStyle(
                                                                                                   fontSize: 17,
                                                                                                   fontWeight:
                                                                                                   FontWeight
                                                                                                       .w500),
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                                child: Text('$currencyUnit '+
+                                                                                                    (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                                  textAlign: TextAlign.right,
+                                                                                                  style: TextStyle(
+                                                                                                      fontSize: 17,
+                                                                                                      fontWeight:
+                                                                                                      FontWeight
+                                                                                                          .w500),
+                                                                                                )
                                                                                             )
-                                                                                          )
-                                                                                        ]
+                                                                                          ]
                                                                                       ),
                                                                                     ),
-                                                                                    
+
                                                                                     SizedBox(height: 10),
                                                                                     Padding(
                                                                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
@@ -7323,13 +7323,13 @@ class HomePageState extends State<HomePage>
                   } else {disAmt = double.parse(saleInfo.split('^')[0]);}
                   receiptText.addTableList(tableList, '0.5em', 'normal');
                   // //  receiptText.addSpacer(count: 1);
-                   receiptText.addSpacer(useDashed: true);
-                   receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                   receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                   receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                   receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addSpacer(useDashed: true);
+                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                   receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                   receiptText.addSpacer(emptyLine: true);
+                  receiptText.addSpacer(emptyLine: true);
                   receiptText.addText(
                     'ကျေးဇူးတင်ပါသည်။',
                     size: ReceiptTextSizeType.small,
@@ -7388,7 +7388,7 @@ class HomePageState extends State<HomePage>
                   // );
                   receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
                   await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-                 // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                  // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
                   mystate(() {
                     priInProgHome = false;
                   });
@@ -8825,7 +8825,7 @@ class HomePageState extends State<HomePage>
                                                                             final dueDate = date.add(Duration(days: 7));
                                                                             print('CUZMER CHECK ' + customerId.toString());
                                                                             for(int i=0; i<prodList.length; i++) {
-                                                                            productSale.add(prodList[i].split('^')[1].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                              productSale.add(prodList[i].split('^')[1].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
                                                                             }
                                                                             saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
                                                                             final invoice = Invoice(
@@ -11699,8 +11699,8 @@ class HomePageState extends State<HomePage>
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                     receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                     receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addSpacer(emptyLine: true);
                     receiptText.addText(
