@@ -611,7 +611,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             }
             querySnapshot2.docs.forEach((doc) {
               setState(() {
-                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                detailIdList.add(doc['date'].toDate().year.toString() + zeroToTen(doc['date'].toDate().month.toString()) + zeroToTen(doc['date'].toDate().day.toString()) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
@@ -710,7 +710,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             querySnapshot2.docs.forEach((doc) {
 
               setState(() {
-                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                detailIdList.add(doc['date'].toDate().year.toString() + zeroToTen(doc['date'].toDate().month.toString()) + zeroToTen(doc['date'].toDate().day.toString()) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
@@ -3083,4 +3083,12 @@ setStoreId(String id) async {
   // return(prefs.getString('store'));
 
   prefs.setString('store', id);
+}
+
+zeroToTen(String string) {
+  if (int.parse(string) > 9) {
+    return string;
+  } else {
+    return '0' + string;
+  }
 }

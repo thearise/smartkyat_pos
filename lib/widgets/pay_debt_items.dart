@@ -605,13 +605,19 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     loadingState = true;
                                     disableTouch = true;
                                   });
+                                  String noCustomer = '';
+
+                                  if(widget.data.split('^')[3].split('&')[0] == 'No customer') {
+                                    noCustomer = 'name';
+                                  } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
+
                                   String dataRm = widget.data.split('^')[0] +
                                       '^' +
                                       widget.data.split('^')[1] +
                                       '^' +
                                       widget.data.split('^')[2] +
                                       '^' +
-                                      widget.data.split('^')[3].split('&')[1] +
+                                      widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
                                       '^' +
                                       widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
                                   String data = widget.data.split('^')[0] +
@@ -620,7 +626,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       '^' +
                                       widget.data.split('^')[2] +
                                       '^' +
-                                      widget.data.split('^')[3].split('&')[1] +
+                                      widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
                                       '^' +
                                       widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
                                   bool deFilter = false;

@@ -97,7 +97,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
     print('printing route1 ' + widget.data.toString());
     print('printing route2 ' + widget.prodList.toString());
-    print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
+   // print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
     initOrderData();
     infoData();
     super.initState();

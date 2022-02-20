@@ -457,6 +457,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
+                                                      print('Result'+ result.toString());
+
                                                       await Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
