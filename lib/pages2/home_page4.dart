@@ -3082,9 +3082,7 @@ class HomePageState extends State<HomePage>
                                                                                                                   )),
                                                                                                               child: Padding(
                                                                                                                 padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                                                                                child: Text(prodList[i]
-                                                                                                                    .split(
-                                                                                                                    '^')[4], style: TextStyle(
+                                                                                                                child: Text(double.parse(prodList[i].split('^')[4]).round().toString(), style: TextStyle(
                                                                                                                     fontSize: 11, fontWeight: FontWeight.w500
                                                                                                                 )),
                                                                                                               ),
@@ -3962,7 +3960,7 @@ class HomePageState extends State<HomePage>
                                                                                                     deFilter = false;
                                                                                                   }
 
-                                                                                                  print('subList2 ' + subList2.toString());
+                                                                                                  print('subList ' + subList.toString());
 
                                                                                                   if(customerId.split('^')[0] != 'name') {
                                                                                                     totalOrders = totalOrders + 1;
@@ -4145,7 +4143,7 @@ class HomePageState extends State<HomePage>
                                                                     // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                                                     width: double.infinity,
                                                                     decoration: BoxDecoration(
-                                                                        color: Colors.white,
+                                                                      color: Colors.white,
                                                                       borderRadius: BorderRadius.only(
                                                                         topLeft: Radius.circular(20.0),
                                                                         topRight: Radius.circular(20.0),
@@ -4228,7 +4226,7 @@ class HomePageState extends State<HomePage>
                                                                                             // });
                                                                                             setState(() {
                                                                                               quantity = double.parse(myControllerTablet.text) -1;
-                                                                                              myControllerTablet.text = quantity.toString();
+                                                                                              myControllerTablet.text = quantity.round().toString();
                                                                                               print('qqq' + quantity.toString());
                                                                                             });
                                                                                           },
@@ -4306,7 +4304,7 @@ class HomePageState extends State<HomePage>
                                                                                               // });
                                                                                               setState(() {
                                                                                                 quantity = double.parse(myControllerTablet.text) +1;
-                                                                                                myControllerTablet.text = quantity.toString();
+                                                                                                myControllerTablet.text = quantity.round().toString();
                                                                                                 print('qqq' + quantity.toString());
                                                                                               });
                                                                                             });
@@ -4596,30 +4594,30 @@ class HomePageState extends State<HomePage>
                                                                                     Padding(
                                                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16),
                                                                                       child: Row(
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            'Total',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 17,
-                                                                                                fontWeight:
-                                                                                                FontWeight
-                                                                                                    .w500),
-                                                                                          ),
-                                                                                          Expanded(
-                                                                                            child: Text('$currencyUnit '+
-                                                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                              textAlign: TextAlign.right,
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              'Total',
                                                                                               style: TextStyle(
                                                                                                   fontSize: 17,
                                                                                                   fontWeight:
                                                                                                   FontWeight
                                                                                                       .w500),
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                                child: Text('$currencyUnit '+
+                                                                                                    (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                                  textAlign: TextAlign.right,
+                                                                                                  style: TextStyle(
+                                                                                                      fontSize: 17,
+                                                                                                      fontWeight:
+                                                                                                      FontWeight
+                                                                                                          .w500),
+                                                                                                )
                                                                                             )
-                                                                                          )
-                                                                                        ]
+                                                                                          ]
                                                                                       ),
                                                                                     ),
-                                                                                    
+
                                                                                     SizedBox(height: 10),
                                                                                     Padding(
                                                                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
@@ -5881,6 +5879,12 @@ class HomePageState extends State<HomePage>
   }
 
   List<String> prodList = [];
+
+  List<String> productSale = [];
+
+  String saleInfo = '';
+
+
   late final SlidableController slidableController;
   addProduct(data) async {
     for (var i = 0; i < prodList.length; i++) {
@@ -6471,7 +6475,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) - 1;
-                                                                  barcodeCtrl.text = qty.toString();
+                                                                  barcodeCtrl.text = qty.round().toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -6534,7 +6538,7 @@ class HomePageState extends State<HomePage>
                                                               setState(() {
                                                                 stateful((){
                                                                   qty = double.parse(barcodeCtrl.text) + 1;
-                                                                  barcodeCtrl.text = qty.toString();
+                                                                  barcodeCtrl.text = qty.round().toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
                                                             },
@@ -6940,6 +6944,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> _onPrintReceipt() async {
+
     // final ReceiptSectionText receiptText = ReceiptSectionText();
 
     final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -7077,6 +7082,7 @@ class HomePageState extends State<HomePage>
   }
 
   saleCart(priContext) {
+    int orderLength = 0;
     mainLoss = 0;
     sub1Loss=0;
     sub2Loss = 0;
@@ -7197,12 +7203,6 @@ class HomePageState extends State<HomePage>
                 mystate(() {
                   priInProgHome = true;
                 });
-                // Future.delayed(const Duration(milliseconds: 1500), () {
-                //   mystate(() {
-                //     priInProgHome = false;
-                //   });
-                // });
-                // final ReceiptSectionText receiptText = ReceiptSectionText();
 
                 final doc = await PdfDocument.openFile(pdfFile!.path);
                 final pages = doc.pageCount;
@@ -7263,6 +7263,7 @@ class HomePageState extends State<HomePage>
 
                 // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
 
+                print('Got Snapshot' + saleInfo.toString());
                 getPaperId().then((value) async {
                   print('VVAALLUUEE ' + value.toString());
                   int width = 570;
@@ -7271,7 +7272,123 @@ class HomePageState extends State<HomePage>
                   } else if(value == 'Roll-80') {
                     width = 570;
                   }
-                  await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                  final ReceiptSectionText receiptText = ReceiptSectionText();
+                  receiptText.addSpacer(count: 1);
+                  receiptText.addText(
+                    shopGloName.toString(),
+                    size: ReceiptTextSizeType.small,
+                    style: ReceiptTextStyleType.bold,
+                  );
+                  receiptText.addText(
+                    shopGloAddress,
+                    size: ReceiptTextSizeType.extraextraSmall,
+                  );
+                  receiptText.addText(
+                    shopGloPhone,
+                    size: ReceiptTextSizeType.extraextraSmall,
+                  );
+                  receiptText.addSpacer(useDashed: true);
+                  receiptText.addLeftText(
+                    'Receipt info: ' + deviceIdNum.toString() + '-' +orderLength.toString(),
+                    size: ReceiptTextSizeType.extraextraSmall,
+                    style: ReceiptTextStyleType.bold,
+                  );
+                  receiptText.addLeftText(
+                    'Name: ' + saleInfo.split('^')[3].toString(),
+                    size: ReceiptTextSizeType.extraextraSmall,
+                  );
+                  var dateNow = DateTime.now();
+                  final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+                  receiptText.addLeftText(
+                    'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
+                    size: ReceiptTextSizeType.extraextraSmall,
+                  );
+                  receiptText.addTableList([['Items', 'Total']], '0.5em', '500');
+                  //receiptText.addSpacer(count: 1);
+                  List<List<String>> tableList = [];
+
+                  double sTotal = 0;
+                  for(int i = 0; i <  productSale.length ; i++) {
+                    List<String> innerLRList = ['', ''];
+                    innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
+                        productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
+                        productSale[i].split('^')[3].toString() + ')';
+                    innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
+                    tableList.add(innerLRList);
+                    sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
+                  }
+                  double disAmt = 0.0;
+                  if(saleInfo.split('^')[1].toString() == '-p') {
+                    disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
+                  } else {disAmt = double.parse(saleInfo.split('^')[0]);}
+                  receiptText.addTableList(tableList, '0.5em', 'normal');
+                  // //  receiptText.addSpacer(count: 1);
+                  receiptText.addSpacer(useDashed: true);
+                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addSpacer(emptyLine: true);
+                  receiptText.addText(
+                    'ကျေးဇူးတင်ပါသည်။',
+                    size: ReceiptTextSizeType.small,
+                    style: ReceiptTextStyleType.bold,
+                  );
+                  final ByteData logoBytes = await rootBundle.load(
+                    'assets/system/poweredby.png',
+                  );
+                  receiptText.addImage(
+                    base64.encode(Uint8List.view(logoBytes.buffer)),
+                    width: 150,
+                  );
+                  // receiptText.addLeftRightText(
+                  //   subVTotal,
+                  //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
+                  //   leftStyle: ReceiptTextStyleType.normal,
+                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                  //   rightStyle: ReceiptTextStyleType.normal,
+                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                  // );
+                  // receiptText.addSpacer(count: 2);
+                  // receiptText.addLeftRightText(
+                  //   VDiscount,
+                  //   'Cash',
+                  //   leftStyle: ReceiptTextStyleType.normal,
+                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                  //   rightStyle: ReceiptTextStyleType.normal,
+                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                  // );
+                  // receiptText.addSpacer(count: 2);
+                  // receiptText.addLeftRightText(
+                  //   totalVPrice,
+                  //   'Cash',
+                  //   leftStyle: ReceiptTextStyleType.normal,
+                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                  //   rightStyle: ReceiptTextStyleType.normal,
+                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                  // );
+                  // receiptText.addSpacer(count: 2);
+                  // receiptText.addLeftRightText(
+                  //   VPaid,
+                  //   'Cash',
+                  //   leftStyle: ReceiptTextStyleType.normal,
+                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                  //   rightStyle: ReceiptTextStyleType.normal,
+                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                  // );
+                  // receiptText.addSpacer(count: 2);
+                  // receiptText.addLeftRightText(
+                  //   VDebt,
+                  //   'Cash',
+                  //   leftStyle: ReceiptTextStyleType.normal,
+                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                  //   rightStyle: ReceiptTextStyleType.normal,
+                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                  // );
+                  receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
+                  await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+                  // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
                   mystate(() {
                     priInProgHome = false;
                   });
@@ -7728,6 +7845,7 @@ class HomePageState extends State<HomePage>
                                                                             sell1 =output2?['unit_sell'];
                                                                             sell2 =output2?['sub1_sell'];
                                                                             sell3 =output2?['sub2_sell'];
+
 
                                                                             productName = output2?['prod_name'];
                                                                             myController.text = double.parse(prodList[i].split('^')[4]).round().toString();
@@ -8459,13 +8577,17 @@ class HomePageState extends State<HomePage>
                                                                 GestureDetector(
                                                                   onTap: () async {
                                                                     discountAmount = discount;
-                                                                    subList2 = [];
+                                                                    subList = [];
                                                                     DateTime now = DateTime.now();
                                                                     int length = 0;
                                                                     int totalOrders = 0;
                                                                     int debts = 0;
                                                                     var dateExist = false;
                                                                     var dateId = '';
+                                                                    var monthId = '';
+                                                                    bool monthExist = false;
+                                                                    var yearId = '';
+                                                                    bool yearExist = false;
                                                                     bool reFilter = false;
                                                                     bool deFilter = false;
                                                                     double debtAmounts = 0 ;
@@ -8488,6 +8610,8 @@ class HomePageState extends State<HomePage>
                                                                       print('lengthsss' + length.toString());
                                                                       length = length + 1;
 
+                                                                      orderLength = length;
+
                                                                       print('CHECK POINT 0' + deviceIdNum.toString());
                                                                       print('CHECK POINT 1');
 
@@ -8496,7 +8620,7 @@ class HomePageState extends State<HomePage>
                                                                       for (String str in prodList) {
                                                                         CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                        subList2.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                        subList.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
 
                                                                         productsFire.doc(str.split('^')[0])
                                                                             .get().then((val22) async {
@@ -8543,6 +8667,105 @@ class HomePageState extends State<HomePage>
                                                                         });
                                                                       }
 
+
+                                                                      CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+
+                                                                      monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                                                          .get()
+                                                                          .then((QuerySnapshot querySnapshot)  async {
+                                                                        querySnapshot.docs.forEach((doc) {
+                                                                          monthExist = true;
+                                                                          monthId = doc.id;
+                                                                        });
+                                                                        print('month ' + monthExist.toString());
+                                                                        if (monthExist) {
+                                                                          monthlyData.doc(monthId).update({
+                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+
+                                                                          }).then((value) => print("data Updated"))
+                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                        }
+                                                                        else {
+                                                                          monthlyData.add({
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                            for(int j = 1; j<= 31; j++)
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                            'date': now,
+
+                                                                          }).then((value) {
+                                                                            print('valueid' + value.id.toString());
+                                                                            monthlyData.doc(value.id).update({
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+
+                                                                            }).then((value) => print("Data Updated"))
+                                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                                          }).catchError((error) => print("Failed to update user: $error"));
+                                                                        }
+                                                                      });
+
+                                                                      CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+
+                                                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                                          .get()
+                                                                          .then((QuerySnapshot querySnapshot)  async {
+                                                                        querySnapshot.docs.forEach((doc) {
+                                                                          yearExist = true;
+                                                                          yearId = doc.id;
+                                                                        });
+                                                                        print('year ' + yearExist.toString());
+                                                                        if (yearExist) {
+                                                                          yearlyData.doc(yearId).update({
+                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+
+                                                                          }).then((value) => print("data Updated"))
+                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                        }
+                                                                        else {
+                                                                          yearlyData.add({
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                            for(int j = 1; j<= 12; j++)
+                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                            'date': now,
+
+                                                                          }).then((value) {
+                                                                            print('valueid' + value.id.toString());
+                                                                            yearlyData.doc(value.id).update({
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+
+                                                                            }).then((value) => print("Data Updated"))
+                                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                                          }).catchError((error) => print("Failed to update user: $error"));
+                                                                        }
+                                                                      });
+
+
+
                                                                       if( debt.toString() != '0.0') {
                                                                         debts = 1;
                                                                         debtAmounts = debt;
@@ -8553,7 +8776,7 @@ class HomePageState extends State<HomePage>
                                                                         deFilter = false;
                                                                       }
 
-                                                                      print('subList2 ' + subList2.toString());
+                                                                      print('subList ' + subList.toString());
 
                                                                       totalOrders = totalOrders + 1;
                                                                       CusOrder(totalOrders, debts, debtAmounts);
@@ -8570,12 +8793,12 @@ class HomePageState extends State<HomePage>
 
                                                                         if (dateExist) {
                                                                           addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          Detail(now, length.toString(),subList2, dateId, reFilter, deFilter);
+                                                                          Detail(now, length.toString(),subList, dateId, reFilter, deFilter);
                                                                           print('adddateexist added');
                                                                         }
                                                                         else {
                                                                           DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                          Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
+                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
                                                                           print('adddateexist not');
                                                                         }
                                                                       });
@@ -8601,6 +8824,10 @@ class HomePageState extends State<HomePage>
                                                                             final date = now;
                                                                             final dueDate = date.add(Duration(days: 7));
                                                                             print('CUZMER CHECK ' + customerId.toString());
+                                                                            for(int i=0; i<prodList.length; i++) {
+                                                                              productSale.add(prodList[i].split('^')[1].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                            }
+                                                                            saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
                                                                             final invoice = Invoice(
                                                                               supplier: Supplier(
                                                                                 name: shopGloName,
@@ -11288,7 +11515,7 @@ class HomePageState extends State<HomePage>
 
   printFromOrders(File file, var prodListPR,) {
 
-    print('PRRRRR ' +   prodListPR[prodListPR.length-1].split('<>')[4].toString());
+    print('PRRRRR ' +   prodListPR.toString());
 
     printClosed = false;
     bool firstTimeOrderPri = true;
@@ -11415,7 +11642,7 @@ class HomePageState extends State<HomePage>
                     //   priInProgOrders = false;
                     // });
                     final ReceiptSectionText receiptText = ReceiptSectionText();
-                    receiptText.addSpacer();
+                    receiptText.addSpacer(count: 1);
                     receiptText.addText(
                       shopGloName.toString(),
                       size: ReceiptTextSizeType.small,
@@ -11472,16 +11699,22 @@ class HomePageState extends State<HomePage>
                     receiptText.addSpacer(useDashed: true);
                     receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                     receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                     receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
                     receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addSpacer(count: 1);
+                    receiptText.addSpacer(emptyLine: true);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',
                       size: ReceiptTextSizeType.small,
                       style: ReceiptTextStyleType.bold,
                     );
-
+                    final ByteData logoBytes = await rootBundle.load(
+                      'assets/system/poweredby.png',
+                    );
+                    receiptText.addImage(
+                      base64.encode(Uint8List.view(logoBytes.buffer)),
+                      width: 150,
+                    );
                     // receiptText.addLeftRightText(
                     //   subVTotal,
                     //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
@@ -11526,7 +11759,7 @@ class HomePageState extends State<HomePage>
                     //   rightStyle: ReceiptTextStyleType.normal,
                     //   rightSize: ReceiptTextSizeType.extraextraSmall,
                     // );
-                    receiptText.addSpacer(count: 1);
+                    receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
