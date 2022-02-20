@@ -851,7 +851,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               keyboardType: TextInputType.name,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
-                                                  return ' This field is required ';
+                                                  return ' This field is required. ';
+                                                }
+                                                if(textSplitFunction(value).length > 30 ) {
+                                                  return '  You have reached maximum no of characters.';
                                                 }
                                                 prodFieldsValue.add(value);
                                                 return null;
