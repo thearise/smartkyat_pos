@@ -329,6 +329,9 @@ class _EditProductState extends State<EditProduct> {
                                 if (value == null || value.isEmpty) {
                                   return ' This field is required ';
                                 }
+                                if(textSplitFunction(value).length > 30 ) {
+                                  return '  You have reached maximum no of characters.';
+                                }
                                 return null;
                               },
                               style: TextStyle(
