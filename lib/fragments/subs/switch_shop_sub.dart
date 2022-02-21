@@ -410,8 +410,24 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                     }
 
                                                     setDeviceId(deviceIdNum.toString()).then((value) {
-                                                      _getId().then((val) {
+                                                      _getId().then((val) async {
                                                         String deviceId = val!;
+                                                        print('valuee ' + val.toString());
+                                                        await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                            .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
+                                                            .get()
+                                                            .then((QuerySnapshot querySnapshot) async {
+                                                          print('shit ' + querySnapshot.docs[0].id.toString());
+                                                          await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                            // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                            'device0': deviceId,
+                                                          }).then((value3) async {
+                                                            print('done');
+                                                          });
+                                                          // if(querySnapshot.docs[0]['devices'].length != 2) {
+                                                          //
+                                                          // }
+                                                        });
                                                         Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
                                                       });
                                                     });
