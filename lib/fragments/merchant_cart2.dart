@@ -2182,6 +2182,10 @@ class MerchantCartState extends State<MerchantCart>
                                       int debts = 0;
                                       var dateExist = false;
                                       var dateId = '';
+                                      var monthId = '';
+                                      bool monthExist = false;
+                                      var yearId = '';
+                                      bool yearExist = false;
                                       bool reFilter = false;
                                       bool deFilter = false;
                                       double debtAmounts = 0 ;
@@ -2290,6 +2294,119 @@ class MerchantCartState extends State<MerchantCart>
                                           }
                                         }
 
+                                        if(debt2.toString() != '0.0') {
+                                          debts = 1;
+                                          debtAmounts = debt2;
+                                          deFilter = true;
+                                        } else {
+                                          debts = 0;
+                                          debtAmounts = 0;
+                                          deFilter = true;
+                                        }
+                                        totalOrders = totalOrders + 1;
+                                        merchOrder(totalOrders, debts, debtAmounts);
+
+                                      });
+
+                                        CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+
+                                        monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                            .get()
+                                            .then((QuerySnapshot querySnapshot)  async {
+                                          querySnapshot.docs.forEach((doc) {
+                                            monthExist = true;
+                                            monthId = doc.id;
+                                          });
+                                          print('month ' + monthExist.toString());
+                                          if (monthExist) {
+                                            monthlyData.doc(monthId).update({
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
+                                            }).then((value) => print("data Updated"))
+                                                .catchError((error) => print("Failed to update user: $error"));
+                                          }
+                                          else {
+                                            monthlyData.add({
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                              for(int j = 1; j<= 31; j++)
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                              'date': now,
+
+                                            }).then((value) {
+                                              print('valueid' + value.id.toString());
+                                              monthlyData.doc(value.id).update({
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
+
+                                              }).then((value) => print("Data Updated"))
+                                                  .catchError((error) => print("Failed to update user: $error"));
+                                            }).catchError((error) => print("Failed to update user: $error"));
+                                          }
+                                        });
+
+                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+
+                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                            .get()
+                                            .then((QuerySnapshot querySnapshot)  async {
+                                          querySnapshot.docs.forEach((doc) {
+                                            yearExist = true;
+                                            yearId = doc.id;
+                                          });
+                                          print('year ' + yearExist.toString());
+                                          if (yearExist) {
+                                            yearlyData.doc(yearId).update({
+                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
+
+                                            }).then((value) => print("data Updated"))
+                                                .catchError((error) => print("Failed to update user: $error"));
+                                          }
+                                          else {
+                                            yearlyData.add({
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                              for(int j = 1; j<= 12; j++)
+                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                              'date': now,
+
+                                            }).then((value) {
+                                              print('valueid' + value.id.toString());
+                                              yearlyData.doc(value.id).update({
+                                                now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                                now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
+                                              }).then((value) => print("Data Updated"))
+                                                  .catchError((error) => print("Failed to update user: $error"));
+                                            }).catchError((error) => print("Failed to update user: $error"));
+                                          }
+                                        });
+
+
                                         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
                                             .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
                                             .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
@@ -2312,19 +2429,7 @@ class MerchantCartState extends State<MerchantCart>
                                           }
                                         });
 
-                                        if(debt2.toString() != '0.0') {
-                                          debts = 1;
-                                          debtAmounts = debt2;
-                                          deFilter = true;
-                                        } else {
-                                          debts = 0;
-                                          debtAmounts = 0;
-                                          deFilter = true;
-                                        }
-                                          totalOrders = totalOrders + 1;
-                                          merchOrder(totalOrders, debts, debtAmounts);
 
-                                      });
 
                                       widget.clearMerch();
                                       widget.clearProd();

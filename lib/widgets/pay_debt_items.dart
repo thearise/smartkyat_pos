@@ -611,6 +611,9 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     noCustomer = 'name';
                                   } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
 
+                                  var refundId = '';
+                                  print('textpaid ' + paidAmount.toString());
+
                                   String dataRm = widget.data.split('^')[0] +
                                       '^' +
                                       widget.data.split('^')[1] +
@@ -663,8 +666,38 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       .then((value) => print("User Updated"))
                                       .catchError((error) => print("Failed to update user: $error"));
 
+                                  CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
+                                  double paidMoney = paidAmount;
+                                  monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
+                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
+                                      .get()
+                                      .then((QuerySnapshot querySnapshot)  async {
+                                    querySnapshot.docs.forEach((doc) {
+                                      refundId = doc.id;
+                                    });
+                                    monthlyData.doc(refundId).update({
+                                      widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
+                                    }).then((value) => print("data Updated"))
+                                        .catchError((error) => print("Failed to update user: $error"));
+                                  });
 
+                                  CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
+                                  var refundYearId = '';
 
+                                  yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                      .get()
+                                      .then((QuerySnapshot querySnapshot)  async {
+                                    querySnapshot.docs.forEach((doc) {
+                                      refundYearId = doc.id;
+                                    });
+                                    print('textpaid2 '+ paidMoney.toString() + ' ' + widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) );
+                                    yearlyData.doc(refundYearId).update({
+                                      widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
+
+                                    }).then((value) => print("data Updated"))
+                                        .catchError((error) => print("Failed to update user: $error"));
+                                  });
                                     customerDebt.doc(
                                         widget.data.split('^')[3].split('&')[1])
                                         .update({
