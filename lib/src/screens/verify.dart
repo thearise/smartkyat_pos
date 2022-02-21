@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -158,8 +160,50 @@ class _VerifyScreenState extends State<VerifyScreen> {
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage()));
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => HomePage()));
+      _getId().then((val) {
+        String deviceId = val!;
+        Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+      });
     }
   }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+  }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
 }
