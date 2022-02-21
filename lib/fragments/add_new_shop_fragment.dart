@@ -492,6 +492,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                         'owner_id' : uid.toString(),
                                         'shop_name': shopFieldsValue[0],
                                         'shop_address' : shopFieldsValue[1],
+                                        'plan_type' : 'basic',
                                         'shop_phone': shopFieldsValue[2],
                                         'users': FieldValue.arrayUnion([email.toString()]),
                                         'orders_length': 1000,
