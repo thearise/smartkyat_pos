@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
@@ -497,6 +498,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                     shops.doc(value.id).collection('users').add({
                                       'email': email.toString(),
                                       'role' : 'owner',
+                                      'device0': await _getId()
                                     }).catchError((error) => print("Failed to update user: $error"));
                                     setStoreId(value.id.toString());
                                     CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
@@ -582,5 +584,16 @@ class _AddNewShopState extends State<AddNewShop> {
   getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('store');
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
   }
 }
