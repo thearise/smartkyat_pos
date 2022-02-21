@@ -558,6 +558,28 @@ class chooseStoreState extends State<chooseStore> {
                                             });
                                           });
                                         } else {
+                                          await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                              .where('email', isEqualTo: auth.currentUser!.email)
+                                              .get()
+                                              .then((QuerySnapshot querySnapshot) async {
+                                            print('shit ' + querySnapshot.docs[0].id.toString());
+                                            await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                              // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                              'device0': await _getId(),
+                                            }).then((value3) async {
+                                              print('done');
+                                            });
+                                            // if(querySnapshot.docs[0]['devices'].length != 2) {
+                                            //
+                                            // }
+                                          });
+
+                                          // await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                          //   .where('email', isEqualTo: auth.currentUser!.email)
+                                          //   .get()
+                                          //   .then((QuerySnapshot querySnapshot) {
+                                          //   print('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                          // });
                                           setStoreId(_result);
                                           List devicesList = value2.data()!['devices'];
                                           int? deviceIdNum;

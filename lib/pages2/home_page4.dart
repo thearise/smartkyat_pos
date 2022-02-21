@@ -1711,6 +1711,13 @@ class HomePageState extends State<HomePage>
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
               if(snapshotUser.hasData) {
                 Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
+                _getId().then((value) async {
+                  if(dataUser['device0'] != value) {
+                    await FirebaseAuth.instance.signOut();
+                  }
+                });
+                // print('deviceidnum ' + await );
+                // if(dataUser['device0'] != )
                 var role = dataUser['role'];
                 if(ayinHar != role) {
                   if(role=='cashier') {
@@ -5766,7 +5773,7 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                         Expanded(
                                                           child: GestureDetector(
-                                                            onTap: () {
+                                                            onTap: () async {
                                                               print('go to cart 3');
                                                             },
                                                             child: Container(),
@@ -5776,71 +5783,81 @@ class HomePageState extends State<HomePage>
                                                           children: [
                                                             // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
                                                             //SizedBox(width:15),
-                                                            Padding(
-                                                                padding: const EdgeInsets.only(
-                                                                    right: 15.0, left: 10.0, top: 2.0
-                                                                ),
-                                                                child: _connectionStatus?
-                                                                Center(
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 2),
-                                                                    child: Icon(
-                                                                      Icons.wifi_tethering_rounded,
-                                                                      size: 24.5,
-                                                                      color: Colors.green,
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
+                                                                    .where('email', isEqualTo: auth.currentUser!.email)
+                                                                    .get()
+                                                                    .then((QuerySnapshot querySnapshot) {
+                                                                  print('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                      right: 15.0, left: 10.0, top: 2.0
+                                                                  ),
+                                                                  child: _connectionStatus?
+                                                                  Center(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 2),
+                                                                      child: Icon(
+                                                                        Icons.wifi_tethering_rounded,
+                                                                        size: 24.5,
+                                                                        color: Colors.green,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ) :
-                                                                Center(
-                                                                  child: Icon(
-                                                                    Icons.portable_wifi_off_rounded,
-                                                                    size: 24.5,
-                                                                    color: Colors.grey,
-                                                                  ),
-                                                                )
-                                                              // child: StreamBuilder(
-                                                              //     stream: Connectivity().onConnectivityChanged,
-                                                              //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
-                                                              //       if (!snapShot.hasData)
-                                                              //         return Center(
-                                                              //           child: Icon(
-                                                              //             Icons.cloud_off_rounded,
-                                                              //             size: 25,
-                                                              //             color: Colors.black,
-                                                              //           ),
-                                                              //         );
-                                                              //       var result = snapShot.data;
-                                                              //       switch (result) {
-                                                              //         case ConnectivityResult.none:
-                                                              //
-                                                              //           return Center(
-                                                              //             child: Icon(
-                                                              //               Icons.cloud_off_rounded,
-                                                              //               size: 25,
-                                                              //               color: Colors.black,
-                                                              //             ),
-                                                              //           );
-                                                              //         case ConnectivityResult.mobile:
-                                                              //         case ConnectivityResult.wifi:
-                                                              //
-                                                              //           return Center(
-                                                              //             child: Icon(
-                                                              //               Icons.cloud_rounded,
-                                                              //               size: 25,
-                                                              //               color: Colors.black,
-                                                              //             ),
-                                                              //           );
-                                                              //         default:
-                                                              //           return Center(
-                                                              //             child: Icon(
-                                                              //               Icons.cloud_off_rounded,
-                                                              //               size: 25,
-                                                              //               color: Colors.black,
-                                                              //             ),
-                                                              //           );
-                                                              //       }
-                                                              //
-                                                              //     })
+                                                                  ) :
+                                                                  Center(
+                                                                    child: Icon(
+                                                                      Icons.portable_wifi_off_rounded,
+                                                                      size: 24.5,
+                                                                      color: Colors.grey,
+                                                                    ),
+                                                                  )
+                                                                // child: StreamBuilder(
+                                                                //     stream: Connectivity().onConnectivityChanged,
+                                                                //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
+                                                                //       if (!snapShot.hasData)
+                                                                //         return Center(
+                                                                //           child: Icon(
+                                                                //             Icons.cloud_off_rounded,
+                                                                //             size: 25,
+                                                                //             color: Colors.black,
+                                                                //           ),
+                                                                //         );
+                                                                //       var result = snapShot.data;
+                                                                //       switch (result) {
+                                                                //         case ConnectivityResult.none:
+                                                                //
+                                                                //           return Center(
+                                                                //             child: Icon(
+                                                                //               Icons.cloud_off_rounded,
+                                                                //               size: 25,
+                                                                //               color: Colors.black,
+                                                                //             ),
+                                                                //           );
+                                                                //         case ConnectivityResult.mobile:
+                                                                //         case ConnectivityResult.wifi:
+                                                                //
+                                                                //           return Center(
+                                                                //             child: Icon(
+                                                                //               Icons.cloud_rounded,
+                                                                //               size: 25,
+                                                                //               color: Colors.black,
+                                                                //             ),
+                                                                //           );
+                                                                //         default:
+                                                                //           return Center(
+                                                                //             child: Icon(
+                                                                //               Icons.cloud_off_rounded,
+                                                                //               size: 25,
+                                                                //               color: Colors.black,
+                                                                //             ),
+                                                                //           );
+                                                                //       }
+                                                                //
+                                                                //     })
+                                                              ),
                                                             ),
                                                           ],
                                                         )
