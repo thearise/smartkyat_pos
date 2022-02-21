@@ -9835,6 +9835,7 @@ class HomePageState extends State<HomePage>
                                                                   _onScanPressedHome();
                                                                   Future.delayed(const Duration(milliseconds: 1000), () {
                                                                     _controller.animateTo(4);
+
                                                                   });
                                                                 },
                                                                 child: Container(
@@ -10532,6 +10533,8 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
+      productSale.clear();
+      saleInfo = '';
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
@@ -12303,6 +12306,7 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
+      prodListPR.clear();
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {

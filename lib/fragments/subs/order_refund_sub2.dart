@@ -716,12 +716,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   chgDebts = 0;
                                                 }
 
-                                                if (double.parse(widget.data.split('^')[2]) != total) {
-                                                  chgTotal = double.parse(widget.data.split('^')[2]) - total;
-                                                } else {
-                                                  chgTotal = 0;
-                                                }
-
                                                 if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
                                                   deFilter = false;
                                                   ttlDebts = 1;
@@ -734,6 +728,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   totalRefunds = 1;
                                                 } else {
                                                   totalRefunds = 0;
+                                                }
+
+                                                if (double.parse(widget.data.split('^')[2]) != total) {
+                                                  chgTotal = double.parse(widget.data.split('^')[2]) - total;
+                                                } else {
+                                                  chgTotal = 0;
                                                 }
 
                                                 var refundId = '';
