@@ -42,6 +42,8 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
 
   bool isLoading = true;
 
+  var shopSnapshot;
+
 
   @override
   bool get wantKeepAlive => true;
@@ -52,6 +54,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   var ownerEmail = '';
   @override
   initState() {
+
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
@@ -62,9 +65,10 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
 
     var getEmail = '';
     getStoreId().then((value) {
-      setState(() {
+      // setState(() {
         _result = value.toString();
-      });
+        shopSnapshot =  FirebaseFirestore.instance.collection('shops').doc(_result).snapshots();
+      // });
 
     });
 
@@ -165,100 +169,95 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       body: SafeArea(
         bottom: true,
         top: true,
-        child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('shops')
-                .doc(_result)
-                .snapshots(),
-            builder: (BuildContext context, snapshot) {
-              if(snapshot.hasData) {
-                var output = snapshot.data!.data();
-                var usersList = output?['users'];
-               // var ownerId = output?['owner_id'];
-
-
-                print(usersList.toString());
-                return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
-                    // mainAxisAlignment: MainAxisAlignment.end,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 80,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0, right: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Container(
-                                  width: 37,
-                                  height: 37,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(35.0),
-                                      ),
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_back_ios_rounded,
-                                          size: 17,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                         // getEmail(ownerId);
-                                         // print('getEmail' + getEmail(ownerId).toString());
-                                          Navigator.pop(context);
-                                        }),
-                                  ),
-                                ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(35.0),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            'Information',
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        'Staff settings',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 3.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 17,
+                                  color: Colors.black,
                                 ),
-                              )
-                            ],
+                                onPressed: () {
+                                  // getEmail(ownerId);
+                                  // print('getEmail' + getEmail(ownerId).toString());
+                                  Navigator.pop(context);
+                                }),
                           ),
                         ),
                       ),
                       Expanded(
-                        child: ListView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Information',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Staff settings',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: shopSnapshot,
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData) {
+                        var output = snapshot.data != null? snapshot.data!.data(): null;
+                        int staffCount = output?['users'].length;
+                        print('staff ' + staffCount.toString() + output?['plan_type']);
+                        var usersList = output?['users'];
+                        return ListView(
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
@@ -268,57 +267,9 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 fontSize: 14,color: Colors.grey,
                               )),
                             ),
-                            SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: ButtonTheme(
-                                minWidth: MediaQuery.of(context).size.width,
-                                splashColor: Colors.transparent,
-                                height: 50,
-                                child: FlatButton(
-                                  color: AppTheme.buttonColor2,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                      color: AppTheme.buttonColor2,
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      final result = await InternetAddress.lookup('google.com');
-                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => AddStaffSub()),
-                                        );
-                                      }
-                                    } on SocketException catch (_) {
-                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                    }
+                            addStaffBtn(output?['plan_type'], staffCount),
 
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                        bottom: 2.0),
-                                    child: Container(
-                                      child: Text(
-                                        'Add staff',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing:-0.1
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 10,),
                             !isLoading?
                             Container(
                               child: Column(
@@ -785,14 +736,18 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                   child: CupertinoActivityIndicator(radius: 15,)),
                             )
                           ],
-                        ),
-                      ),
+                        );
+                      }
+                      return Center(
+                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 15,)),
+                      );
 
-                    ]
-                );
-              }
-              return Container();
-          }
+                    }
+                ),
+              ),
+
+            ]
         ),
       ),
     );
@@ -1037,6 +992,121 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   final _shopName = TextEditingController();
   final _address = TextEditingController();
   final _phone = TextEditingController();
+
+  addStaffBtn(output, int staffCount) {
+    if(output == 'basic') {
+      if(staffCount >= 5) {
+        return Container();
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+          child: ButtonTheme(
+            minWidth: MediaQuery.of(context).size.width,
+            splashColor: Colors.transparent,
+            height: 50,
+            child: FlatButton(
+              color: AppTheme.buttonColor2,
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(10.0),
+                side: BorderSide(
+                  color: AppTheme.buttonColor2,
+                ),
+              ),
+              onPressed: () async {
+                try {
+                  final result = await InternetAddress.lookup('google.com');
+                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddStaffSub()),
+                    );
+                  }
+                } on SocketException catch (_) {
+                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                }
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 5.0,
+                    right: 5.0,
+                    bottom: 2.0),
+                child: Container(
+                  child: Text(
+                    'Add staff',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing:-0.1
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    } else if(output == 'medium') {
+      if(staffCount >= 9) {
+        return Container();
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+          child: ButtonTheme(
+            minWidth: MediaQuery.of(context).size.width,
+            splashColor: Colors.transparent,
+            height: 50,
+            child: FlatButton(
+              color: AppTheme.buttonColor2,
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(10.0),
+                side: BorderSide(
+                  color: AppTheme.buttonColor2,
+                ),
+              ),
+              onPressed: () async {
+                try {
+                  final result = await InternetAddress.lookup('google.com');
+                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddStaffSub()),
+                    );
+                  }
+                } on SocketException catch (_) {
+                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                }
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 5.0,
+                    right: 5.0,
+                    bottom: 2.0),
+                child: Container(
+                  child: Text(
+                    'Add staff',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing:-0.1
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    } else {
+      return Container();
+    }
+
+  }
 
   
 

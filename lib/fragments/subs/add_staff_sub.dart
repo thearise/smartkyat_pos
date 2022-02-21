@@ -284,7 +284,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                         icon: Icon(
                           Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
                         ),
-                        hint: Text('Sale'),
+                        hint: Text('Cashier'),
                         value: _selectedTest,
                         items: _dropdownTestItems,
                         onChanged: onChangeDropdownTests,
@@ -412,7 +412,8 @@ class _AddStaffSubState extends State<AddStaffSub> {
 
                                     FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').add({
                                       'email': _accountName.text,
-                                      'role': roleModify()
+                                      'role': roleModify(),
+                                      'device0': ''
                                     }).then((value) async {
                                       setState(() {
                                         loadingState = false;
