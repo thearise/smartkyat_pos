@@ -37,7 +37,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
-import 'package:smartkyat_pos/fragments/home_fragment3.dart';
+import 'package:smartkyat_pos/fragments/home_fragment5.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
@@ -8667,6 +8667,20 @@ class HomePageState extends State<HomePage>
                                                                         });
                                                                       }
 
+                                                                      if( debt.toString() != '0.0') {
+                                                                        debts = 1;
+                                                                        debtAmounts = debt;
+                                                                        deFilter = true;
+                                                                      } else {
+                                                                        debts = 0;
+                                                                        debtAmounts = 0;
+                                                                        deFilter = false;
+                                                                      }
+
+                                                                      print('subList ' + subList.toString());
+
+                                                                      totalOrders = totalOrders + 1;
+                                                                      CusOrder(totalOrders, debts, debtAmounts);
 
                                                                       CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
@@ -8681,7 +8695,8 @@ class HomePageState extends State<HomePage>
                                                                         print('month ' + monthExist.toString());
                                                                         if (monthExist) {
                                                                           monthlyData.doc(monthId).update({
-                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
 
                                                                           }).then((value) => print("data Updated"))
                                                                               .catchError((error) => print("Failed to update user: $error"));
@@ -8708,8 +8723,8 @@ class HomePageState extends State<HomePage>
                                                                           }).then((value) {
                                                                             print('valueid' + value.id.toString());
                                                                             monthlyData.doc(value.id).update({
-                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
-
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
                                                                             }).then((value) => print("Data Updated"))
                                                                                 .catchError((error) => print("Failed to update user: $error"));
                                                                           }).catchError((error) => print("Failed to update user: $error"));
@@ -8729,7 +8744,8 @@ class HomePageState extends State<HomePage>
                                                                         print('year ' + yearExist.toString());
                                                                         if (yearExist) {
                                                                           yearlyData.doc(yearId).update({
-                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
+                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
 
                                                                           }).then((value) => print("data Updated"))
                                                                               .catchError((error) => print("Failed to update user: $error"));
@@ -8756,30 +8772,13 @@ class HomePageState extends State<HomePage>
                                                                           }).then((value) {
                                                                             print('valueid' + value.id.toString());
                                                                             yearlyData.doc(value.id).update({
-                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice()))
-
+                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
                                                                             }).then((value) => print("Data Updated"))
                                                                                 .catchError((error) => print("Failed to update user: $error"));
                                                                           }).catchError((error) => print("Failed to update user: $error"));
                                                                         }
                                                                       });
-
-
-
-                                                                      if( debt.toString() != '0.0') {
-                                                                        debts = 1;
-                                                                        debtAmounts = debt;
-                                                                        deFilter = true;
-                                                                      } else {
-                                                                        debts = 0;
-                                                                        debtAmounts = 0;
-                                                                        deFilter = false;
-                                                                      }
-
-                                                                      print('subList ' + subList.toString());
-
-                                                                      totalOrders = totalOrders + 1;
-                                                                      CusOrder(totalOrders, debts, debtAmounts);
 
                                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                           .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
