@@ -856,6 +856,12 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               String refundAmount = 'FALSE';
                                               bool reFilter = false;
                                               bool deFilter = false;
+                                              var monthId = '';
+                                              bool monthExist = false;
+                                              var yearId = '';
+                                              bool yearExist = false;
+                                              DateTime now = DateTime.now();
+                                              double chgTotal = 0;
 
                                               if(total <= double.parse(widget.data.split('^')[5])) {
                                                 debt = total;
@@ -903,6 +909,139 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               } else {
                                                 totalRefunds = 0;
                                               }
+
+                                              if (double.parse(widget.data.split('^')[2]) != total) {
+                                                chgTotal = double.parse(widget.data.split('^')[2]) - total;
+                                              } else {
+                                                chgTotal = 0;
+                                              }
+
+                                              var refundId = '';
+
+                                              CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
+
+                                              monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
+                                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
+                                                  .get()
+                                                  .then((QuerySnapshot querySnapshot)  async {
+                                                querySnapshot.docs.forEach((doc) {
+                                                  refundId = doc.id;
+                                                });
+                                                monthlyData.doc(refundId).update({
+                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
+                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+
+                                                }).then((value) => print("data Updated"))
+                                                    .catchError((error) => print("Failed to update user: $error"));
+                                              });
+
+
+                                              monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                                  .get()
+                                                  .then((QuerySnapshot querySnapshot)  async {
+                                                querySnapshot.docs.forEach((doc) {
+                                                  monthExist = true;
+                                                  monthId = doc.id;
+                                                });
+                                                print('month ' + monthExist.toString());
+                                                if (monthExist) {
+                                                  monthlyData.doc(monthId).update({
+                                                    now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+
+                                                  }).then((value) => print("data Updated"))
+                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                                else {
+                                                  monthlyData.add({
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                    for(int j = 1; j<= 31; j++)
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                    'date': now,
+
+                                                  }).then((value) {
+                                                    print('valueid' + value.id.toString());
+                                                    monthlyData.doc(value.id).update({
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                    }).then((value) => print("Data Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                  }).catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                              });
+
+                                              CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
+                                              var refundYearId = '';
+
+                                              yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                  .get()
+                                                  .then((QuerySnapshot querySnapshot)  async {
+                                                querySnapshot.docs.forEach((doc) {
+                                                  refundYearId = doc.id;
+                                                });
+                                                yearlyData.doc(refundYearId).update({
+                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
+                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+
+                                                }).then((value) => print("data Updated"))
+                                                    .catchError((error) => print("Failed to update user: $error"));
+                                              });
+                                              yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                  .get()
+                                                  .then((QuerySnapshot querySnapshot)  async {
+                                                querySnapshot.docs.forEach((doc) {
+                                                  yearExist = true;
+                                                  yearId = doc.id;
+                                                });
+                                                print('year ' + yearExist.toString());
+                                                if (yearExist) {
+                                                  yearlyData.doc(yearId).update({
+                                                    now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc' : FieldValue.increment(chgTotal),
+
+                                                  }).then((value) => print("data Updated"))
+                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                                else {
+                                                  yearlyData.add({
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                    for(int j = 1; j<= 12; j++)
+                                                      now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                    'date': now,
+
+                                                  }).then((value) {
+                                                    print('valueid' + value.id.toString());
+                                                    yearlyData.doc(value.id).update({
+                                                      now.year.toString() +  zeroToTen(now.month.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                    }).then((value) => print("Data Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                  }).catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                              });
 
                                               String data = widget.data;
 
