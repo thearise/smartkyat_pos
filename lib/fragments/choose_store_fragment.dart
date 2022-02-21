@@ -593,7 +593,11 @@ class chooseStoreState extends State<chooseStore> {
                                             }
                                           }
                                           setDeviceId(deviceIdNum.toString()).then((value) {
-                                            Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                            // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                            _getId().then((val) {
+                                              String deviceId = val!;
+                                              Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                            });
                                           });
                                         }
                                       });

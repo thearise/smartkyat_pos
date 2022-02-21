@@ -32,9 +32,14 @@ class _AddNewShopState extends State<AddNewShop> {
 
   bool loadingState = false;
 
+  String deviceId = '';
+
 
   @override
   initState() {
+    _getId().then((val) {
+      deviceId = val!;
+    });
     super.initState();
   }
 
@@ -525,7 +530,8 @@ class _AddNewShopState extends State<AddNewShop> {
                                     }).then((value) {})
                                         .catchError((error) => print("Failed to update user: $error"));
 
-                                    var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                    var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+
                                     //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                                     print('shop added');
                                   });

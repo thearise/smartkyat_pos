@@ -23,6 +23,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
@@ -74,6 +75,10 @@ import 'first_launch_page.dart';
 import 'transparent.dart';
 
 class HomePage extends StatefulWidget {
+
+  const HomePage(
+      {Key? key, required this.deviceId,});
+  final String deviceId;
 
   @override
   State<StatefulWidget> createState() => HomePageState();
@@ -328,6 +333,7 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
+    print('dev check ' + widget.deviceId.toString());
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -1711,11 +1717,31 @@ class HomePageState extends State<HomePage>
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
               if(snapshotUser.hasData) {
                 Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
-                _getId().then((value) async {
-                  if(dataUser['device0'] != value) {
-                    await FirebaseAuth.instance.signOut();
-                  }
-                });
+                print('waiting? ' + dataUser['device0']);
+                // _getId().then((value) async {
+                if(dataUser['device0'] != widget.deviceId) {
+                  print('matuu');
+                  FirebaseAuth.instance.signOut();
+                  setStoreId('').then((_) {
+                    Navigator.of(context).pushReplacement(
+                      FadeRoute(page: Welcome()),
+                    );
+                  });
+
+                  // SchedulerBinding.instance!.addPostFrameCallback((_) async {
+                  //   // FirebaseAuth.instance.signOut();
+                  //   // await setStoreId('');
+                  //   // Navigator.of(context).pushReplacement(
+                  //   //   FadeRoute(page: Welcome()),
+                  //   // );
+                  //   // setState(() {
+                  //   //
+                  //   // });
+                  // });
+
+                }
+                // });
+
                 // print('deviceidnum ' + await );
                 // if(dataUser['device0'] != )
                 var role = dataUser['role'];

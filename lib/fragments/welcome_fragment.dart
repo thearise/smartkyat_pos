@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,11 +109,14 @@ class _WelcomeState extends State<Welcome>
       } else {
         getStoreId().then((value) {
           print('ID -> ' + value.toString());
-          Future.delayed(const Duration(milliseconds: 1000), () {
+          Future.delayed(const Duration(milliseconds: 1000), () async {
             if(value.toString() != '' && value.toString() != 'idk') {
               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
 
-              Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()),);
+              _getId().then((val) {
+                String deviceId = val!;
+                Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+              });
             } else {
               Future.delayed(const Duration(milliseconds: 1000), () {
                 setState(() {
@@ -2178,6 +2182,17 @@ class _WelcomeState extends State<Welcome>
         );
       },
     );
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
   }
 }
 
