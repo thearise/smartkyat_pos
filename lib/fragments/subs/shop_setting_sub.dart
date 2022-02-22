@@ -16,9 +16,11 @@ import 'switch_shop_sub.dart';
 
 class ShopSettingsSub extends StatefulWidget {
   final _chgShopCB2;
+  final _homePageLoadingOn;
+  final _homePageLoadingOff;
 
-  ShopSettingsSub( {required void changeShopCallback2()} ) :
-        _chgShopCB2 = changeShopCallback2;
+  ShopSettingsSub( {required void changeShopCallback2(), required void homePageLoadingOn(), required void homePageLoadingOff()} ) :
+        _chgShopCB2 = changeShopCallback2, _homePageLoadingOn = homePageLoadingOn, _homePageLoadingOff = homePageLoadingOff;
 
   @override
   _ShopSettingsSubState createState() => _ShopSettingsSubState();
@@ -47,6 +49,14 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
   String? nameShop;
   String? addressShop;
   String? phoneShop;
+
+  homePageLoadingOn() {
+    widget._homePageLoadingOn();
+  }
+
+  homePageLoadingOff() {
+    widget._homePageLoadingOff();
+  }
 
   Future<String> getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -239,7 +249,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                               if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => SwitchShopSub(changeShopCallback3: chgShopFromSubSwitch)),
+                                  MaterialPageRoute(builder: (context) => SwitchShopSub(homePageLoadingOn: homePageLoadingOn, homePageLoadingOff: homePageLoadingOff, changeShopCallback3: chgShopFromSubSwitch)),
                                 );
                               }
                             } on SocketException catch (_) {
@@ -248,6 +258,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
 
                           },
                           child:  Container(
+                            color: Colors.white,
                             height: 72,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
@@ -330,7 +341,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                                   stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                     if(snapshot.hasData) {
-                                                      return Text('Total - ' + snapshot.data!.docs.length.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                                      return Text('total ' + snapshot.data!.docs.length.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
                                                     }
                                                     return Container();
                                                   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -572,9 +573,24 @@ class _AddShopState extends State<AddShop> {
                                         'total_refunds' : 0,
                                       }).then((value) {})
                                           .catchError((error) => print("Failed to update user: $error"));
-                                      var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
-                                      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                      print('shop added'); });
+                                      // Navigator.of(context).pop();
+                                      // var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                      // //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                      // print('shop added');
+                                        showOkAlertDialog(
+                                            context: context,
+                                            title: 'Restart required',
+                                            message: 'New shop created and please restart the application to enter your shop.'
+                                        ).then((result) async {
+                                          if (Platform.isAndroid) {
+                                            SystemNavigator.pop();
+                                          } else if (Platform.isIOS) {
+                                            exit(0);
+                                          }
+                                        });
+
+
+                                    });
                                   }
                                 }
                               } on SocketException catch (_) {
