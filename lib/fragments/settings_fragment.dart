@@ -21,9 +21,11 @@ class SettingsFragment extends StatefulWidget {
   final _openDrawerBtn;
   final _closeDrawerBtn;
   final _premiumCart;
+  final _homePageLoadingOn;
+  final _homePageLoadingOff;
   SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), required void closeDrawerBtn(String str),
-    required void openDrawerBtn(String str), required void premiumCart(), Key? key,}):
-        _chgShopCB = changeShopCallback,_openDrawerBtn = openDrawerBtn,
+    required void openDrawerBtn(String str), required void premiumCart(), Key? key, required void homePageLoadingOn(), required void homePageLoadingOff()}):
+        _chgShopCB = changeShopCallback,_openDrawerBtn = openDrawerBtn, _homePageLoadingOn = homePageLoadingOn, _homePageLoadingOff = homePageLoadingOff,
         _closeDrawerBtn = closeDrawerBtn, _premiumCart = premiumCart, super(key: key);
   final usersSnapshot;
 
@@ -60,6 +62,14 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
     } else {
       return index;
     }
+  }
+
+  homePageLoadingOn() {
+    widget._homePageLoadingOn();
+  }
+
+  homePageLoadingOff() {
+    widget._homePageLoadingOff();
   }
 
   getCurrency() async {
@@ -390,7 +400,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             closeDrawerFrom();
                             await Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ShopSettingsSub(changeShopCallback2: chgShopFromSubSet)),
+                              MaterialPageRoute(builder: (context) => ShopSettingsSub(homePageLoadingOn: homePageLoadingOn, homePageLoadingOff: homePageLoadingOff, changeShopCallback2: chgShopFromSubSet)),
                             );
                             openDrawerFrom();
                           },

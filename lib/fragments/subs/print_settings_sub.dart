@@ -107,17 +107,28 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
   }
 
   onChangeDropdownTests(selectedTest) {
-    // String gg = '';
-    //
-    // gg = selectedTest;
+    showOkCancelAlertDialog(
+      context: context,
+      title: 'Are you sure you want to change to ' + selectedTest['keyword'].toString() +'?',
+      message: 'This action will restart the application',
+      defaultType: OkCancelAlertDefaultType.cancel,
+    ).then((result) async {
+      if(result == OkCancelResult.ok) {
+        // String gg = '';
+        //
+        // gg = selectedTest;
 
 
-    setState(() {
-      _selectedTest = selectedTest;
+        setState(() {
+          _selectedTest = selectedTest;
+        });
+
+        setPaperId(selectedTest['keyword'].toString());
+        print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-57'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+      }
     });
 
-    setPaperId(selectedTest['keyword'].toString());
-    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-57'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    //print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   addShop(shopName) {

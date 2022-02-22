@@ -91,7 +91,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     showOkCancelAlertDialog(
       context: context,
       title: 'Are you sure you want to change to ' + selectedTest['keyword'].toString() +'?',
-      message: '\nThis action will restart the application',
+      message: 'This action will restart the application',
       defaultType: OkCancelAlertDefaultType.cancel,
     ).then((result) async {
       if(result == OkCancelResult.ok) {
@@ -108,8 +108,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
         });
 
       }
-    }
-    );
+    });
 
     print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
