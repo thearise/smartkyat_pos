@@ -3668,7 +3668,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: widget.customersSnapshot,
+                            stream:  FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('customers').where('archive' , isEqualTo: false).snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 // AsyncSnapshot<QuerySnapshot> snapshotModify;

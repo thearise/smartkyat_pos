@@ -3577,7 +3577,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
 
                           child: StreamBuilder(
-                              stream: widget.merchantsSnapshot,
+                              stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('merchants').where('archive' , isEqualTo: false).snapshots(),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if(snapshot.hasData) {
                                   orderList = [];
