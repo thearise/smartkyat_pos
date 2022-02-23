@@ -993,12 +993,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 ),
                               ),),
                             footer: SliverToBoxAdapter(child: Padding(
-                              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                              padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
                               child: Center(child: Text('End of results')),
                             )),
-                            // bottomLoader: Container(
-                            //   child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                            // ),
+                            initialLoader: Center(child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 15,))),
+                            bottomLoader: Container(
+                              child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                            ),
                             itemBuilderType:
                             PaginateBuilderType.listView,
                             itemBuilder: (context1, documentSnapshots, index) {

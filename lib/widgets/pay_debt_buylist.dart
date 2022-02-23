@@ -143,7 +143,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     //               order.doc(
     //                   widget.docId)
     //                   .update({
-    //                 'debt' : debtAmount
+    //                 'debt6' : debtAmount
     //               })
     //                   .then((value) => print("User Updated"))
     //                   .catchError((error) => print("Failed to update user: $error"));
@@ -305,7 +305,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
             //                       order.doc(
             //                           widget.docId)
             //                           .update({
-            //                         'debt' : debtAmount
+            //                         'debt6' : debtAmount
             //                       })
             //                           .then((value) => print("User Updated"))
             //                           .catchError((error) => print("Failed to update user: $error"));
@@ -452,7 +452,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                         //           order.doc(
                         //               widget.docId)
                         //               .update({
-                        //             'debt' : debtAmount
+                        //             'debt6' : debtAmount
                         //           })
                         //               .then((value) => print("User Updated"))
                         //               .catchError((error) => print("Failed to update user: $error"));

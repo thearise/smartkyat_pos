@@ -357,7 +357,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                       //                             onPressed: () {
                                                       //                               showOkCancelAlertDialog(
                                                       //                                 context: context,
-                                                      //                                 title: 'Confirmation alert!\n',
+                                                      //                                 title: 'Confirmation alert',
                                                       //                                 message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
                                                       //                                 defaultType: OkCancelAlertDefaultType.cancel,
                                                       //                               ).then((result) async {
@@ -431,7 +431,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                                                                           showOkCancelAlertDialog(
                                                                                             context: context,
-                                                                                            title: 'Confirmation alert!\n',
+                                                                                            title: 'Confirmation alert',
                                                                                             message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
                                                                                             defaultType: OkCancelAlertDefaultType.cancel,
                                                                                           ).then((result) async {
@@ -591,7 +591,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                                                                         showOkCancelAlertDialog(
                                                                                           context: context,
-                                                                                          title: 'Confirmation alert!\n',
+                                                                                          title: 'Confirmation alert',
                                                                                           message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
                                                                                           defaultType: OkCancelAlertDefaultType.cancel,
                                                                                         ).then((result) async {
