@@ -853,7 +853,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required. ';
                                                 }
-                                                if(textSplitFunction(value).length > 30 ) {
+                                                if(value.length > 30 ) {
                                                   return '  You have reached maximum no of characters.';
                                                 }
                                                 prodFieldsValue.add(value);
