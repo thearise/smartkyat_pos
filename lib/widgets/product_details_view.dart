@@ -2083,8 +2083,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
                                                         onPressed: () async {
-
-                                                        },
+                                                          CollectionReference product = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+                                                           product.doc(widget.idString).update({
+                                                           'archive' : true
+                                                           }).then((value) {
+                                                           }).catchError((error) => print("Failed to update: $error"));
+                                                           Navigator.pop(context);
+                                                           },
                                                         child: Text(
                                                           'Remove',
                                                           textAlign: TextAlign.center,

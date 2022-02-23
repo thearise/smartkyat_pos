@@ -1183,7 +1183,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               );
                             },
                             // orderBy is compulsory to enable pagination
-                            query: cateScIndex == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('update_time', descending: true) : FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('inStock1', descending: false),
+                            query: cateScIndex == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').where('archive' , isEqualTo: false).orderBy('update_time', descending: true) : FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').where('archive' , isEqualTo: false).orderBy('inStock1', descending: false),
                             // to fetch real-time data
                             isLive: true,
                           ),
