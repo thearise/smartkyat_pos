@@ -29,6 +29,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
 import 'package:ntp/ntp.dart';
+import 'package:one_context/one_context.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
@@ -1757,9 +1758,15 @@ class HomePageState extends State<HomePage>
                       print('matuu');
                       FirebaseAuth.instance.signOut();
                       setStoreId('').then((_) {
-                        Navigator.of(context).pushReplacement(
-                          FadeRoute(page: Welcome()),
-                        );
+                        showOkAlertDialog(
+                            context: OneContext().context!,
+                            title: 'Restricted activity',
+                            message: 'Your account was signed in to this same shop from another device.'
+                        ).then((result) async {
+                          // Navigator.of(context).pushReplacement(
+                          //   FadeRoute(page: Welcome()),
+                          // );
+                        });
                       });
 
                       // SchedulerBinding.instance!.addPostFrameCallback((_) async {
