@@ -861,7 +861,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               },
                                               decoration: InputDecoration(
                                                 enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
+
                                                     borderSide: const BorderSide(
                                                         color: AppTheme.skBorderColor,
                                                         width: 2.0),
@@ -1680,6 +1680,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             'img_1': '',
                                             'search_name': textSplitFunction(prodFieldsValue[0].toString()),
                                             'update_time' : DateTime.now(),
+                                            'archive' : false
                                           }).then((value) {
                                             print('product added');
                                           });
