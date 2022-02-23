@@ -224,14 +224,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                   Padding(
                                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                     child: Container(
-                                      height: 110,
+                                      height: 100,
                                       child: ListView(
                                         scrollDirection: Axis.horizontal,
                                         children: [
                                           merchantName != 'No merchant' ? Padding(
                                             padding: const EdgeInsets.only(right: 10.0),
                                             child: ButtonTheme(
-                                              minWidth: 133,
+                                              minWidth: 131,
                                               //minWidth: 50,
                                               splashColor: Colors.transparent,
                                               height: 100,
@@ -312,7 +312,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           ) : Container(),
                                           //SizedBox(width: 10),
                                           ButtonTheme(
-                                            minWidth: 133,
+                                            minWidth: 131,
                                             //minWidth: 50,
                                             splashColor: Colors.transparent,
                                             height: 100,
@@ -504,7 +504,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5.0),
                                     child: Container(
-                                      height: 300,
+                                      height: 249,
                                       child: TabBarView(
                                         controller: _controller,
                                         physics: NeverScrollableScrollPhysics(),
@@ -789,7 +789,100 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                         ],
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  SizedBox(height: 15,),
+                                  merchantName != 'No customer' ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: AppTheme.skBorderColor2,
+                                                    width: 0.5)
+                                            )),
+                                        height: 1,
+                                      ),
+
+                                  SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: Text(
+                                      'ARCHIVE MERCHANT',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 13,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                        color: AppTheme.lightBgColor,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 15.0),
+                                        child: Container(
+                                          // color: Colors.yellow,
+                                          child: ListTile(
+                                            // leading: Padding(
+                                            //   padding: const EdgeInsets.only(top: 2.0),
+                                            //   child: Text('jsidfaj'),
+                                            // ),
+                                            minLeadingWidth: 15,
+                                            horizontalTitleGap: 10,
+                                            minVerticalPadding: 0,
+                                            title: Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 8.0),
+                                                child: Text('Remove this merchant', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.2)),
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding: const EdgeInsets.only(bottom: 8.0),
+                                              child: Text('Once you remove it, there is no going back.', style: TextStyle(height: 1.2)),
+                                            ),
+                                            trailing: Container(
+                                              height: 33,
+                                              child: FlatButton(
+                                                padding: EdgeInsets.only(left: 0, right: 0),
+                                                color: AppTheme.badgeBgDanger2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                onPressed: () async {
+                                                  CollectionReference product = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
+                                                  product.doc(widget.id).update({
+                                                    'archive' : true
+                                                  }).then((value) {
+                                                  }).catchError((error) => print("Failed to update: $error"));
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  'Remove',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: AppTheme.badgeFgDanger2),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 18,),
+                                    ],
+                                  ) : Container(),
                                 ],
                               ),
                             ),

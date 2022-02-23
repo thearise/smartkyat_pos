@@ -785,6 +785,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items1 = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
+            .where('archive' ,isNotEqualTo: true)
             .where("search_name", arrayContains: searchValue)
             .limit(10)
             .get()
@@ -816,6 +817,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
+            .where('archive' ,isNotEqualTo: true)
             .where("search_name", arrayContains: searchValue)
             .limit(10)
             .get()
@@ -889,7 +891,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items = [];
         String searchtxt = searchValue;
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-        // .where("prod_name",isNotEqualTo:searchtxt)
+          .where('archive' ,isNotEqualTo: true)
         // .orderBy("prod_name")
         // .startAt([searchtxt,])
         // .endAt([searchtxt+'\uf8ff',])
