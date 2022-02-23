@@ -594,7 +594,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                   //               order.doc(
                   //                   widget.docId)
                   //                   .update({
-                  //                 'debt' : debtAmount
+                  //                 'debt6' : debtAmount
                   //               })
                   //                   .then((value) => print("User Updated"))
                   //                   .catchError((error) => print("Failed to update user: $error"));
