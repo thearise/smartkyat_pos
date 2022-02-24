@@ -487,25 +487,36 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                       ),
                                       Expanded(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
+                                            SizedBox(height: 16),
                                             Text(
                                               '$currencyUnit $mainPrice',
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
-                                                  color: Colors.black
+                                                // height: 1.5
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.4,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
                                               ),
                                             ),
-                                            SizedBox(height: 1),
                                             Text(
                                               prodName,
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
+                                                // height: 1.3
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.7,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
                                               ),
                                             ),
                                           ],
@@ -622,7 +633,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   child: Text(
                                                                     textSetAddtoCart, overflow: TextOverflow.ellipsis,
                                                                     style: TextStyle(
-                                                                      fontWeight: FontWeight.bold,
+                                                                      fontWeight: FontWeight.w600,
                                                                       fontSize: 16,
                                                                     ),
                                                                   ),
@@ -723,7 +734,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             child: Text(
                                                               textSetRefill,overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
+                                                                fontWeight: FontWeight.w600,
                                                                 fontSize: 16,
                                                               ),
                                                             ),
