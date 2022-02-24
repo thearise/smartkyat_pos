@@ -615,8 +615,8 @@ class _WelcomeState extends State<Welcome>
                                                                                   });
 
                                                                                   if(shopExists) {
-                                                                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                                                  } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+                                                                                    Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                                  } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
                                                                                 });
                                                                               } on FirebaseAuthException catch (e) {
                                                                                 print(e.code.toString());
@@ -1627,8 +1627,8 @@ class _WelcomeState extends State<Welcome>
                                                                 });
 
                                                                 if(shopExists) {
-                                                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                                } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+                                                                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
 
                                                                 print('username' + mail.toString() + uid.toString());
                                                               });
