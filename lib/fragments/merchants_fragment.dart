@@ -3924,7 +3924,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                 FontWeight
                                                     .w500,
                                                 height: 1.1,
-                                              ),),
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
                                             subtitle: Padding(
                                               padding: const EdgeInsets
                                                   .only(
@@ -3942,7 +3948,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         color: Colors
                                                             .grey,
                                                         height: 1.1,
-                                                      )),
+                                                      ),
+                                                    strutStyle: StrutStyle(
+                                                      height: 1.2,
+                                                      // fontSize:,
+                                                      forceStrutHeight: true,
+                                                    ),
+                                                  ),
                                                   SizedBox(
                                                     height: 5,),
                                                   Text(
@@ -3954,7 +3966,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         color: Colors
                                                             .grey,
                                                         height: 1.1,
-                                                      )),
+                                                      ),
+                                                    strutStyle: StrutStyle(
+                                                      height: 1,
+                                                      // fontSize:,
+                                                      forceStrutHeight: true,
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
