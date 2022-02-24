@@ -4273,7 +4273,13 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                             fontSize: 15,
                                                                             fontWeight: FontWeight.w500,
                                                                             color: Colors.grey,
-                                                                          ),),
+                                                                          ),
+                                                                          strutStyle: StrutStyle(
+                                                                            height: 1.3,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                        ),
 
                                                                       ],
                                                                     ),
@@ -4499,7 +4505,14 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
-                                                                      )),
+                                                                      ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1.3,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+
+                                                                      ),
 
                                                                     ],
                                                                   ),
