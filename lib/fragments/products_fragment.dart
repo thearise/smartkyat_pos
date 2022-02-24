@@ -1051,11 +1051,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             data['img_1'],
                                                         width: 75,
                                                         height: 75,
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                                errorWidget: (context,
-                                                          url,
-                                                          error) =>
-                                                          Icon(Icons
-                                                              .error),
+                                                        errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75),
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
                                                         fadeInDuration:
                                                         Duration(
                                                             milliseconds:

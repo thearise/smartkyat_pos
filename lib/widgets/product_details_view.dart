@@ -555,7 +555,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             width: 133,
                                                             height: 100,
                                                             // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                            errorWidget: (context, url, error) => Container(
+                                                                height: 100,
+                                                                width: 130,
+                                                                color: AppTheme.themeColor
+                                                            ),
                                                             fadeInDuration: Duration(milliseconds: 100),
                                                             fadeOutDuration: Duration(milliseconds: 10),
                                                             fadeInCurve: Curves.bounceIn,
