@@ -3668,7 +3668,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream:  FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('customers').where('archive' , isEqualTo: false).snapshots(),
+                            stream:  FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('customers').orderBy('customer_name').snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 // AsyncSnapshot<QuerySnapshot> snapshotModify;
@@ -3893,6 +3893,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500,
+                                                              height: 1.1,
                                                           ),),
                                                         subtitle: Padding(
                                                           padding: const EdgeInsets
@@ -3910,6 +3911,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                         .w500,
                                                                     color: Colors
                                                                         .grey,
+                                                                    height: 1.1,
                                                                   )),
                                                               SizedBox(
                                                                 height: 5,),
@@ -3921,110 +3923,105 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                         .w500,
                                                                     color: Colors
                                                                         .grey,
+                                                                    height: 1.1,
                                                                   )),
                                                             ],
                                                           ),
                                                         ),
-                                                        trailing: Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(
-                                                              top: 10.0),
-                                                          child: Container(
-                                                            child: Row(
-                                                              mainAxisSize: MainAxisSize.min,
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                data['debts'] > 0? Container(
-                                                                  height: 21,
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(20.0),
-                                                                    color: AppTheme.badgeFgDanger,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                    child: Text(data['debts'].round().toString() + ' unpaid',
-                                                                      style: TextStyle(
-                                                                          fontSize: 13,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.white
-                                                                      ),
+                                                        trailing: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              data['debts'] > 0? Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                  child: Text(data['debts'].round().toString() + ' unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.white
                                                                     ),
                                                                   ),
-                                                                ): Container(
                                                                 ),
+                                                              ): Container(height: 21,),
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // ),
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
 
-                                                                // Text(orderList.toString()),
+                                                              // Text(orderList.toString()),
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text('2 unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // )
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text('2 unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // )
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // ),
-                                                                SizedBox(
-                                                                    width: 12),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top: 2.0),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .arrow_forward_ios_rounded,
-                                                                    size: 16,
-                                                                    color: Colors
-                                                                        .blueGrey
-                                                                        .withOpacity(
-                                                                        0.8),
-                                                                  ),
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
 
@@ -4096,7 +4093,8 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                             fontSize: 18,
                                                             fontWeight:
                                                             FontWeight
-                                                                .w500,
+                                                                    .w500,
+                                                            height: 1.1,
                                                           ),),
                                                         subtitle: Padding(
                                                           padding: const EdgeInsets
@@ -4114,6 +4112,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                         .w500,
                                                                     color: Colors
                                                                         .grey,
+                                                                    height: 1.1,
                                                                   )),
                                                               SizedBox(
                                                                 height: 5,),
@@ -4125,110 +4124,105 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                         .w500,
                                                                     color: Colors
                                                                         .grey,
+                                                                    height: 1.1,
                                                                   )),
                                                             ],
                                                           ),
                                                         ),
-                                                        trailing: Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(
-                                                              top: 10.0),
-                                                          child: Container(
-                                                            child: Row(
-                                                              mainAxisSize: MainAxisSize.min,
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                data['debts'] > 0? Container(
-                                                                  height: 21,
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(20.0),
-                                                                    color: AppTheme.badgeFgDanger,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                    child: Text(data['debts'].round().toString() + ' unpaid',
-                                                                      style: TextStyle(
-                                                                          fontSize: 13,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.white
-                                                                      ),
+                                                        trailing: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              data['debts'] > 0? Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                  child: Text(data['debts'].round().toString() + ' unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.white
                                                                     ),
                                                                   ),
-                                                                ): Container(
                                                                 ),
+                                                              ): Container(height: 21,),
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // ),
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
 
-                                                                // Text(orderList.toString()),
+                                                              // Text(orderList.toString()),
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text('2 unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // )
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text('2 unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // )
 
-                                                                // Container(
-                                                                //   height: 21,
-                                                                //   decoration: BoxDecoration(
-                                                                //     borderRadius: BorderRadius.circular(20.0),
-                                                                //     color: AppTheme.badgeFgDanger,
-                                                                //   ),
-                                                                //   child: Padding(
-                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 13,
-                                                                //           fontWeight: FontWeight.w500,
-                                                                //           color: Colors.white
-                                                                //       ),
-                                                                //     ),
-                                                                //   ),
-                                                                // ),
-                                                                SizedBox(
-                                                                    width: 12),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top: 2.0),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .arrow_forward_ios_rounded,
-                                                                    size: 16,
-                                                                    color: Colors
-                                                                        .blueGrey
-                                                                        .withOpacity(
-                                                                        0.8),
-                                                                  ),
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
 

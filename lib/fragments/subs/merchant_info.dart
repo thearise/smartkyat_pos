@@ -188,15 +188,22 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                               ),
                               Expanded(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
+                                    SizedBox(height: 15.5),
                                     Text(
                                       address,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
+                                        height: 1.5,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.4,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
                                       ),
                                     ),
                                     Text(
@@ -205,6 +212,12 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
+                                        height: 1.3
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.7,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
                                       ),
                                     ),
                                   ],
@@ -504,7 +517,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5.0),
                                     child: Container(
-                                      height: 249,
+                                      height: 252,
                                       child: TabBarView(
                                         controller: _controller,
                                         physics: NeverScrollableScrollPhysics(),
@@ -613,8 +626,9 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                           decoration: BoxDecoration(
                                                               border: Border(
                                                                   bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
+                                                                      // color: Colors.grey
+                                                                      //     .withOpacity(0.2),
+                                                                      color: Colors.transparent,
                                                                       width: 1.0))),
                                                           child: Row(
                                                             children: [
