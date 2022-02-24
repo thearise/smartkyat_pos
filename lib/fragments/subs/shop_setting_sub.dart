@@ -272,24 +272,26 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 // mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text('Switch shop', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  Spacer(),
-                                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                      builder: (BuildContext context, snapshot) {
-                                        if(snapshot.hasData) {
-                                          var output = snapshot.data!.data();
-                                          var shopName = output?['shop_name'];
-                                          nameShop = output?['shop_name'];
-                                          addressShop = output?['shop_address'];
-                                          phoneShop = output?['shop_phone'];
-                                          ownerId = output?['owner_id'];
-                                          return Container(
-                                              width: MediaQuery.of(context).size.width/2,
-                                              child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
-                                          );
+                                  // Spacer(),
+                                  Expanded(
+                                    child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                        builder: (BuildContext context, snapshot) {
+                                          if(snapshot.hasData) {
+                                            var output = snapshot.data!.data();
+                                            var shopName = output?['shop_name'];
+                                            nameShop = output?['shop_name'];
+                                            addressShop = output?['shop_address'];
+                                            phoneShop = output?['shop_phone'];
+                                            ownerId = output?['owner_id'];
+                                            return Container(
+                                                // width: MediaQuery.of(context).size.width/2,
+                                                child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
+                                            );
+                                          }
+                                          return Container();
                                         }
-                                        return Container();
-                                      }
+                                    ),
                                   ),
                                   SizedBox(width: 8,),
                                   Icon(
