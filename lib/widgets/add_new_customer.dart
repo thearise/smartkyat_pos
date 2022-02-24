@@ -404,6 +404,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                             'debtAmount' : 0,
                                             'total_refunds' : 0,
                                             'search_name' : textSplitFunction(merchFieldsValue[0].toString()),
+                                            'archive' : false,
                                           }).then((value) {
                                             print('product added 2');
                                           });
@@ -427,6 +428,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                             'debts' : 0,
                                             'debtAmount' : 0,
                                             'total_refunds' : 0,
+                                            'archive' : false,
                                           }).then((value) {
                                             print('name created');
                                           });
@@ -440,6 +442,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                             'debtAmount' : 0,
                                             'total_refunds' : 0,
                                             'search_name' : textSplitFunction(merchFieldsValue[0].toString()),
+                                            'archive' : false,
                                           }).then((value) {
                                             print('product added 2');
                                           });
