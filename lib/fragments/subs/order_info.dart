@@ -263,19 +263,32 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             ),
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+                                  SizedBox(height: 15.7,),
                                   Text('$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                    ),),
-
+                                      height: 1.5,
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.4,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                   Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
+                                      height: 1.3,
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
                                     ),
                                   ),
                                   // Text(widget.selectedDev.toString())

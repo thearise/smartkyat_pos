@@ -489,7 +489,7 @@ class HomeFragmentState extends State<HomeFragment>
     weekRefundTotal = 0;
 
 
-    for(int loopOrd = 0; loopOrd < snapshot0.data7!.docs.length; loopOrd++) {
+    for(int loopOrd = 0; loopOrd < snapshot0.data!.docs.length; loopOrd++) {
       // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 

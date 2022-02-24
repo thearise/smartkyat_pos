@@ -65,7 +65,7 @@ class _AccountSettingState extends State<AccountSetting> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
-                        height: 81,
+                        height: 80,
                         child:
                         Row(
                           children: [
@@ -95,19 +95,24 @@ class _AccountSettingState extends State<AccountSetting> {
                             ),
                             Spacer(),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                SizedBox(
+                                  height: 15.5,
+                                ),
                                 Text('Information',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
+                                    height: 1.5
                                     // color: Colors.grey,
                                   ),),
                                 Text('Account setting',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
+                                    height: 1.3
                                   ),
                                 )
                               ],

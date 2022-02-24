@@ -233,26 +233,22 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Display',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                'Display',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  height: 1.5,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                               Text(
                                 'Currency',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
+                                  height: 1.3
                                 ),
                               ),
                             ],

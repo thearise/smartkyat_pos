@@ -3820,21 +3820,23 @@ class HomePageState extends State<HomePage>
                                                                                   padding: EdgeInsets.only(
                                                                                       left: 15.0,
                                                                                       right: 15.0,
-                                                                                      top: 5.5,
+                                                                                      top: 2,
                                                                                       bottom: 0.0
                                                                                   ),
                                                                                   child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
                                                                                       Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
                                                                                         fontWeight: FontWeight.w500,
                                                                                         color: Colors.black,
                                                                                         fontSize: 13,
+                                                                                        height: 1.5,
                                                                                       )),
-                                                                                      SizedBox(height: 1),
                                                                                       Text('Cash acceptance', style: TextStyle(
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 20
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontSize: 18,
+                                                                                        height: 1.3
                                                                                       )),
                                                                                     ],
                                                                                   ),
@@ -4242,29 +4244,43 @@ class HomePageState extends State<HomePage>
                                                                                   padding: EdgeInsets.only(
                                                                                       left: 15.0,
                                                                                       right: 15.0,
-                                                                                      top: 6),
+                                                                                      top: 2),
                                                                                   child:
                                                                                   Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
                                                                                       Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                                                         children: [
+
                                                                                           Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
                                                                                               fontWeight: FontWeight.w500,
                                                                                               color: Colors.black,
-                                                                                              fontSize: 13
+                                                                                              fontSize: 13,
+                                                                                            height: 1.5,
                                                                                           )),
-                                                                                          SizedBox(width: 5),
-                                                                                          // if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                                          // else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                                                          // else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
-                                                                                          //   else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                                                          // SizedBox(width: 5),
+                                                                                          if (unit == 'unit_name') Padding(
+                                                                                            padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                            child: Icon( SmartKyat_POS.prodm, size: 13, color: Colors.grey,),
+                                                                                          )
+                                                                                          else if(unit == 'sub1_name') Padding(
+                                                                                            padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                            child: Icon(SmartKyat_POS.prods1, size: 13, color: Colors.grey,),
+                                                                                          )
+                                                                                          else if(unit == 'sub2_name') Padding(
+                                                                                              padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                            child: Icon(SmartKyat_POS.prods2, size: 13, color: Colors.grey,),
+                                                                                          )
+                                                                                            // else Icon( Icons.check, size: 17, color: Colors.grey,),
                                                                                         ],
                                                                                       ),
-                                                                                      SizedBox(height: 1),
                                                                                       Text(productName, style: TextStyle(
                                                                                           fontWeight: FontWeight.w600,
-                                                                                          fontSize: 20
+                                                                                          fontSize: 18,
+                                                                                          height: 1.3
                                                                                       )),
                                                                                     ],
                                                                                   ),

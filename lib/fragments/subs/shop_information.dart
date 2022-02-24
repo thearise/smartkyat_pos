@@ -108,7 +108,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 16),
+                                  padding: const EdgeInsets.only(top: 22),
                                   child: Container(
                                     width: 37,
                                     height: 37,
@@ -138,26 +138,32 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              'Information',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w600,color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         Text(
-                                          'Shop settings',
+                                          'Information',
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 13,
+                                            height: 1.5,
                                             fontWeight: FontWeight.w600,
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            height: 1.4,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Shop info',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            height: 1.3,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            height: 1.7,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
                                           ),
                                         ),
                                       ],
