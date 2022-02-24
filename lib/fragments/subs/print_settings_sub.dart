@@ -306,7 +306,9 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: DropdownBelow(
-                            itemWidth: MediaQuery.of(context).size.width-30,
+                            itemWidth: (MediaQuery.of(context).size.width > 900
+                                ? MediaQuery.of(context).size.width * (2 / 3.5)
+                                : MediaQuery.of(context).size.width)-30,
                             itemTextstyle: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
                             boxTextstyle: TextStyle(
