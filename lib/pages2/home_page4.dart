@@ -2527,12 +2527,28 @@ class HomePageState extends State<HomePage>
                                                             ),
                                                           ),
                                                           onPressed: () async {
-                                                            _selectTab(0);
-                                                            await FirebaseAuth.instance.signOut();
-                                                            setStoreId('');
-                                                            Navigator.of(context).pushReplacement(
-                                                              FadeRoute(page: Welcome()),
+                                                            final result =
+                                                            await showModalActionSheet<String>(
+                                                              context: context,
+                                                              message: 'Are you sure you want to log out?',
+                                                              // title: '',
+                                                              actions: [
+                                                                SheetAction(
+                                                                  label: 'Logout',
+                                                                  key: 'logout',
+                                                                  isDestructiveAction: true,
+                                                                ),
+                                                              ],
                                                             );
+                                                            print('clicked log ' + result.toString());
+                                                            if(result.toString() == 'logout') {
+                                                              _selectTab(0);
+                                                              await FirebaseAuth.instance.signOut();
+                                                              setStoreId('');
+                                                              Navigator.of(context).pushReplacement(
+                                                                FadeRoute(page: Welcome()),
+                                                              );
+                                                            }
                                                           },
                                                           child: Container(
                                                             child: Text(

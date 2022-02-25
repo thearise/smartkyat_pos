@@ -20,7 +20,7 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  runApp(MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -34,21 +34,27 @@ class _MyAppState extends State<MyApp> {
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: OneContext().key,
-      title: 'Smart Kyat',
-      debugShowCheckedModeBanner: false,
-
-      theme: new ThemeData(
-        canvasColor: Colors.transparent,
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        textScaleFactor: 1.0,
       ),
-      navigatorObservers: [OneContext().heroController],
-      builder: OneContext().builder,
-      // home: Container(
-      //   color: Colors.white,
-      // ),
-      home: Welcome(),
+      child: MaterialApp(
+        navigatorKey: OneContext().key,
+        title: 'Smart Kyat',
+        debugShowCheckedModeBanner: false,
+
+        theme: new ThemeData(
+          canvasColor: Colors.transparent,
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+        ),
+        navigatorObservers: [OneContext().heroController],
+        builder: OneContext().builder,
+        // home: Container(
+        //   color: Colors.white,
+        // ),
+        home: Welcome(),
+        // home: Container()
+      ),
     );
   }
 
