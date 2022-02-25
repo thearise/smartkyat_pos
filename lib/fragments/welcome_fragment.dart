@@ -77,14 +77,14 @@ class _WelcomeState extends State<Welcome>
   @override
   initState() {
     if(Platform.isIOS)
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     if(Platform.isAndroid)
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // navigation bar color
-      statusBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.dark// status bar color
-    ));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.white, // navigation bar color
+          statusBarColor: Colors.white,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark// status bar color
+      ));
 
     FirebaseAuth.instance
         .authStateChanges()
@@ -528,7 +528,7 @@ class _WelcomeState extends State<Welcome>
                                                         padding: const EdgeInsets.only(top: 160.0),
                                                         child: Column(
                                                           children: [
-                                                             Row(
+                                                            Row(
                                                               children: [
                                                                 ButtonTheme(
                                                                   // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
@@ -1294,7 +1294,7 @@ class _WelcomeState extends State<Welcome>
                                                       right: 15.0,
                                                       top: 20.0,
                                                       bottom: 20.0),
-                                                 // suffixText: 'Required',
+                                                  // suffixText: 'Required',
                                                   suffixStyle: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 12,
@@ -1569,7 +1569,7 @@ class _WelcomeState extends State<Welcome>
                                             padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
                                             child: Column(
                                               children: [
-                                               ButtonTheme(
+                                                ButtonTheme(
                                                   minWidth: MediaQuery.of(context).size.width,
                                                   splashColor: Colors.transparent,
                                                   height: 50,
@@ -1609,6 +1609,7 @@ class _WelcomeState extends State<Welcome>
                                                                       'user_id' : uid.toString(),
                                                                       'name': _name.text.toString(),
                                                                       'email': mail.toString(),
+                                                                      'plan_type' : 'basic',
                                                                     }
                                                                 );
                                                                 print('uid +' + mail.toString());
@@ -1765,7 +1766,7 @@ class _WelcomeState extends State<Welcome>
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).viewInsets.bottom
+                            height: MediaQuery.of(context).viewInsets.bottom
                         )
                       ],
                     ),

@@ -111,7 +111,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   int _sliding = 0;
 
   String textSetAll = 'All';
-  String textSetTUnpaid = 'Unpadis';
+  String textSetTUnpaid = 'Unpaids';
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
   String textSetSearch = 'Search';
@@ -230,7 +230,7 @@ class OrdersFragmentState extends State<OrdersFragment>
       } else if(value=='english') {
         setState(() {
           textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
+          textSetTUnpaid = 'Unpaids';
           textSetTRefunds = 'Refunds';
           textSetTPaid = 'Paids';
           textSetSearch = 'Search';
@@ -3869,7 +3869,10 @@ class OrdersFragmentState extends State<OrdersFragment>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: StreamBuilder(
-                              stream: widget.ordersSnapshot,
+                              stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+                                  .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+                                  .orderBy('date', descending: true).snapshots(),
                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                                 if(snapshot.hasData) {
@@ -4012,22 +4015,22 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         ),
                                                       ),
                                                       onPressed: () {
+                                                        // widget._callback();
                                                         _showDatePicker(OneContext().context);
-                                                        // widget._closeCartBtn();
                                                       },
                                                       child: Container(
                                                         child: Row(
                                                           // mainAxisAlignment: Main,
                                                           children: [
                                                             Padding(
-                                                              padding: const EdgeInsets.only(right: 1.0),
+                                                              padding: const EdgeInsets.only(right: 3.0),
                                                               child: Icon(
                                                                 Icons.calendar_view_day_rounded,
                                                                 size: 18,
                                                               ),
                                                             ),
                                                             Text(
-                                                              selectDaysCast(),
+                                                              selectDaysCast() + ' (7D)',
                                                               textAlign: TextAlign.center,
                                                               style: TextStyle(
                                                                   fontSize: 14,
@@ -5393,7 +5396,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   DateTime today = DateTime.now();
   DateTime? _dateTime;
-  String _format = 'yyyy-MMMM';
+  String _format = 'yyyy-MMMM-dd';
 
 
 
@@ -5475,29 +5478,29 @@ class OrdersFragmentState extends State<OrdersFragment>
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
-      return 'Sep, ' + today.year.toString();
+      return 'Sep ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 1) {
-      return 'Jan, ' + today.year.toString();
+      return 'Jan ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 2) {
-      return 'Feb, ' + today.year.toString();
+      return 'Feb ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 3) {
-      return 'Mar, ' + today.year.toString();
+      return 'Mar ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 4) {
-      return 'Apr, ' + today.year.toString();
+      return 'Apr ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 5) {
-      return 'May, ' + today.year.toString();
+      return 'May ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 6) {
-      return 'Jun, ' + today.year.toString();
+      return 'Jun ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 7) {
-      return 'Jul, ' + today.year.toString();
+      return 'Jul ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 8) {
-      return 'Aug, ' + today.year.toString();
+      return 'Aug ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 10) {
-      return 'Oct, ' + today.year.toString();
+      return 'Oct ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 11) {
-      return 'Nov, ' + today.year.toString();
+      return 'Nov ' + today.day.toString() + ', ' + today.year.toString();
     } else if(today.month == 12) {
-      return 'Dec, ' + today.year.toString();
+      return 'Dec ' + today.day.toString() + ', ' + today.year.toString();
     } else {
       return '';
     }
