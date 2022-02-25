@@ -7440,7 +7440,7 @@ class HomePageState extends State<HomePage>
                     'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
                     size: ReceiptTextSizeType.extraextraSmall,
                   );
-                  receiptText.addTableList([['Items', 'Total']], '0.5em', '500');
+                  receiptText.addTableList([['Items', 'Total']], '1rem', '500');
                   //receiptText.addSpacer(count: 1);
                   List<List<String>> tableList = [];
 
@@ -7458,14 +7458,14 @@ class HomePageState extends State<HomePage>
                   if(saleInfo.split('^')[1].toString() == '-p') {
                     disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
                   } else {disAmt = double.parse(saleInfo.split('^')[0]);}
-                  receiptText.addTableList(tableList, '0.5em', 'normal');
+                  receiptText.addTableList(tableList, '1rem', 'normal');
                   // //  receiptText.addSpacer(count: 1);
                   receiptText.addSpacer(useDashed: true);
-                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
                   receiptText.addSpacer(emptyLine: true);
                   receiptText.addText(
                     'ကျေးဇူးတင်ပါသည်။',
@@ -11817,7 +11817,7 @@ class HomePageState extends State<HomePage>
                     //   rightStyle: ReceiptTextStyleType.bold,
                     //   rightSize: ReceiptTextSizeType.extraextraSmall,
                     // );
-                    receiptText.addTableList([['Items', 'Total']], '0.5em', '500');
+                    receiptText.addTableList([['Items', 'Total']], '1rem', '500');
                     //receiptText.addSpacer(count: 1);
                     List<List<String>> tableList = [];
                     for(int i = 0; i <  prodListPR.length -1 ; i++) {
@@ -11833,14 +11833,14 @@ class HomePageState extends State<HomePage>
                     if(prodListPR[prodListPR.length-1].split('<>')[3].toString() == 'p') {
                       disAmt = subTotal * (double.parse(prodListPR[prodListPR.length-1].split('<>')[4])/100);
                     } else {disAmt = double.parse(prodListPR[prodListPR.length-1].split('<>')[4]);}
-                    receiptText.addTableList(tableList, '0.5em', 'normal');
+                    receiptText.addTableList(tableList, '1rem', 'normal');
                     //  receiptText.addSpacer(count: 1);
                     receiptText.addSpacer(useDashed: true);
-                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
-                    receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '0.5em', '500');
+                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
                     receiptText.addSpacer(emptyLine: true);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',

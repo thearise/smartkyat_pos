@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/add_shop_fragment.dart';
+import 'package:smartkyat_pos/fragments/add_shop_from_setting.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 
@@ -306,7 +307,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => AddShop()),);
+                                                          builder: (context) => AddShopFromSetting()),);
                                                   }
                                                 } on SocketException catch (_) {
                                                   smartKyatFlash('Internet connection is required to take this action.', 'w');
