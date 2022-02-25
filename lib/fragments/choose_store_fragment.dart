@@ -402,12 +402,56 @@ class chooseStoreState extends State<chooseStore> {
                           SizedBox(width: 15),
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddShop()),
-                                );
+                              onTap: () async {
+                                try {
+                                  final result = await InternetAddress.lookup('google.com');
+                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                    await FirebaseFirestore.instance.collection('users')
+                                        .where('user_id' ,isEqualTo: auth.currentUser!.uid)
+                                        .limit(1)
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot) async {
+                                      Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
+                                      await FirebaseFirestore.instance.collection('shops')
+                                          .where('owner_id' ,isEqualTo: auth.currentUser!.uid)
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) async {
+                                        int shopCount = querySnapshot.docs.length;
+                                        if(userData['plan_type'] == 'basic' && shopCount >= 5) {
+                                          showOkAlertDialog(
+                                              context: context,
+                                              title: 'Maximum shops reached',
+                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                          ).then((result) async {
+                                          });
+                                          setState(() {
+                                            loadingState = false;
+                                          });
+                                        } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
+                                          showOkAlertDialog(
+                                              context: context,
+                                              title: 'Maximum shops reached',
+                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                          ).then((result) async {
+                                          });
+                                          setState(() {
+                                            loadingState = false;
+                                          });
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AddShop()),
+                                          );
+                                        }
+                                      });
+                                    });
+                                  }
+                                } on SocketException catch (_) {
+                                  setState(() {
+                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                  });
+                                }
                                 // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
                               },
                               child: Container(

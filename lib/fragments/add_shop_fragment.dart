@@ -529,74 +529,125 @@ class _AddShopState extends State<AddShop> {
                                   final User? user = auth.currentUser;
                                   final uid = user!.uid;
                                   final email = user.email;
+
+                                  // String shopId = await getStoreId();
+
+
+
+
+
+
+
                                   if (_formKey.currentState!.validate()) {
                                     setState(() {
                                       loadingState = true;
                                     });
-                                    shops.add(
-                                        {
-                                          'owner_id' : uid.toString(),
-                                          'shop_name': shopFieldsValue[0],
-                                          'shop_address' : shopFieldsValue[1],
-                                          'plan_type' : 'basic',
-                                          'shop_phone': shopFieldsValue[2],
-                                          'users': FieldValue.arrayUnion([email.toString()]),
-                                          'orders_length': 1000,
-                                          'buyOrders_length': 1000,
-                                          'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                    await FirebaseFirestore.instance.collection('users')
+                                        .where('user_id' ,isEqualTo: user.uid)
+                                        .limit(1)
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot) async {
+                                      Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
+                                      await FirebaseFirestore.instance.collection('shops')
+                                          .where('owner_id' ,isEqualTo: user.uid)
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) async {
+                                        int shopCount = querySnapshot.docs.length;
+                                        if(userData['plan_type'] == 'basic' && shopCount >= 5) {
+                                          showOkAlertDialog(
+                                              context: context,
+                                              title: 'Maximum shops reached',
+                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                          ).then((result) async {
+                                          });
+                                          setState(() {
+                                            loadingState = false;
+                                          });
+                                        } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
+                                          showOkAlertDialog(
+                                              context: context,
+                                              title: 'Maximum shops reached',
+                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                          ).then((result) async {
+                                          });
+                                          setState(() {
+                                            loadingState = false;
+                                          });
+                                        } else {
+                                          shops.add(
+                                              {
+                                                'owner_id' : uid.toString(),
+                                                'shop_name': shopFieldsValue[0],
+                                                'shop_address' : shopFieldsValue[1],
+                                                'plan_type' : 'basic',
+                                                'shop_phone': shopFieldsValue[2],
+                                                'users': FieldValue.arrayUnion([email.toString()]),
+                                                'orders_length': 1000,
+                                                'buyOrders_length': 1000,
+                                                'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                              }
+                                          ).then((value) async {
+                                            shops.doc(value.id).collection('users').add({
+                                              'email': email.toString(),
+                                              'role' : 'owner',
+                                              'device0': await _getId()
+                                            }).then((value) {
+
+                                            })
+                                                .catchError((error) => print("Failed to update user: $error"));
+                                            setStoreId(value.id.toString());
+
+                                            CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                            cusName.doc('name').set({
+                                              'customer_name': 'No customer',
+                                              'customer_address': 'unknown',
+                                              'customer_phone': '',
+                                              'total_orders' : 0,
+                                              'debts' : 0,
+                                              'debtAmount' : 0,
+                                              'total_refunds' : 0,
+                                            }).then((value) {})
+                                                .catchError((error) => print("Failed to update user: $error"));
+
+                                            CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                            merchName.doc('name').set({
+                                              'merchant_name': 'No merchant',
+                                              'merchant_address': 'unknown',
+                                              'merchant_phone': '',
+                                              'total_orders' : 0,
+                                              'debts' : 0,
+                                              'debtAmount' : 0,
+                                              'total_refunds' : 0,
+                                            }).then((value) {})
+                                                .catchError((error) => print("Failed to update user: $error"));
+                                            // Navigator.of(context).pop();
+                                            // var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                            // //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                            // print('shop added');
+                                            showOkAlertDialog(
+                                                context: context,
+                                                title: 'Restart required',
+                                                message: 'New shop created and please restart the application to enter your shop.'
+                                            ).then((result) async {
+                                              if (Platform.isAndroid) {
+                                                SystemNavigator.pop();
+                                              } else if (Platform.isIOS) {
+                                                exit(0);
+                                              }
+                                            });
+
+
+                                          });
                                         }
-                                    ).then((value) async {
-                                      shops.doc(value.id).collection('users').add({
-                                        'email': email.toString(),
-                                        'role' : 'owner',
-                                        'device0': await _getId()
-                                      }).then((value) {
-
-                                      })
-                                          .catchError((error) => print("Failed to update user: $error"));
-                                      setStoreId(value.id.toString());
-
-                                      CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
-                                      cusName.doc('name').set({
-                                        'customer_name': 'No customer',
-                                        'customer_address': 'unknown',
-                                        'customer_phone': '',
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                      }).then((value) {})
-                                          .catchError((error) => print("Failed to update user: $error"));
-
-                                      CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
-                                      merchName.doc('name').set({
-                                        'merchant_name': 'No merchant',
-                                        'merchant_address': 'unknown',
-                                        'merchant_phone': '',
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                      }).then((value) {})
-                                          .catchError((error) => print("Failed to update user: $error"));
-                                      // Navigator.of(context).pop();
-                                      // var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
-                                      // //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                      // print('shop added');
-                                        showOkAlertDialog(
-                                            context: context,
-                                            title: 'Restart required',
-                                            message: 'New shop created and please restart the application to enter your shop.'
-                                        ).then((result) async {
-                                          if (Platform.isAndroid) {
-                                            SystemNavigator.pop();
-                                          } else if (Platform.isIOS) {
-                                            exit(0);
-                                          }
-                                        });
-
-
+                                      });
                                     });
+
+
+
+
+
+
+
                                   }
                                 }
                               } on SocketException catch (_) {
