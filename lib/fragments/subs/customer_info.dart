@@ -241,7 +241,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                           customerName != 'No customer' ? Padding(
                                             padding: const EdgeInsets.only(right: 10.0),
                                             child: ButtonTheme(
-                                              minWidth: 131,
+                                              minWidth: 133,
                                               //minWidth: 50,
                                               splashColor: Colors.transparent,
                                               height: 100,
@@ -262,7 +262,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                   child: Stack(
                                                     children: [
                                                       Positioned(
-                                                        top: 10,
+                                                        top: 15,
                                                         left: 0,
                                                         child: Stack(
                                                           children: [
@@ -270,28 +270,28 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                               padding: const EdgeInsets.only(top: 7.0),
                                                               child: Icon(
                                                                 SmartKyat_POS.customer1,
-                                                                size: 17.5,
+                                                                size: 15,
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                                                              padding: const EdgeInsets.only(left: 13.0, top: 11.0),
                                                               child: Icon(
                                                                 SmartKyat_POS.customer2,
-                                                                size: 9,
+                                                                size: 8,
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(left: 5.0, top: 5),
+                                                              padding: const EdgeInsets.only(left: 4.0, top: 4),
                                                               child: Container(
-                                                                width: 8,
-                                                                height: 7.5,
+                                                                width: 7.5,
+                                                                height: 7,
                                                                 decoration: BoxDecoration(
                                                                     borderRadius: BorderRadius.circular(10.0),
                                                                     color: Colors.black),
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                                                              padding: const EdgeInsets.only(left: 13, top: 7.5),
                                                               child: Container(
                                                                 width: 5,
                                                                 height: 4.5,
@@ -304,12 +304,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                         ),
                                                       ),
                                                       Positioned(
-                                                        bottom: 10,
+                                                        bottom: 15,
                                                         left: 0,
                                                         child: Text(
                                                           textSetSaleCart,
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.bold,
+                                                            fontWeight: FontWeight.w600,
                                                             fontSize: 16,
                                                           ),
                                                         ),
@@ -348,20 +348,20 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                 child: Stack(
                                                   children: [
                                                     Positioned(
-                                                      top: 10,
+                                                      top: 15,
                                                       left: 0,
                                                       child: Icon(
                                                         SmartKyat_POS.order,
-                                                        size: 21,
+                                                        size: 20,
                                                       ),
                                                     ),
                                                     Positioned(
-                                                      bottom: 10,
+                                                      bottom: 15,
                                                       left: 0,
                                                       child: Text(
                                                         textSetPurchasedOrders,
                                                         style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight: FontWeight.w600,
                                                           fontSize: 16,
                                                         ),
                                                       ),
