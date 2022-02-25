@@ -57,10 +57,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
       // home: HomePage(),
-      home: MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          child: Welcome()
-      ),
+      home: Welcome(),
     );
   }
 }

@@ -1611,10 +1611,11 @@ class _WelcomeState extends State<Welcome>
                                                                       'email': mail.toString(),
                                                                     }
                                                                 );
+                                                                print('uid +' + mail.toString());
                                                                 bool shopExists = false;
                                                                 await FirebaseFirestore.instance
                                                                     .collection('shops')
-                                                                    .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                    .where('users', arrayContains: mail.toString())
                                                                     .get()
                                                                     .then((QuerySnapshot querySnapshot) {
                                                                   querySnapshot.docs.forEach((doc) {
