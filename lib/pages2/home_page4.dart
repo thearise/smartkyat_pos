@@ -2528,10 +2528,22 @@ class HomePageState extends State<HomePage>
                                                           ),
                                                           onPressed: () async {
                                                             final result =
+                                                            Platform.isIOS ?
                                                             await showModalActionSheet<String>(
                                                               context: context,
+                                                              //title: 'Confirmation alert',
                                                               message: 'Are you sure you want to log out?',
-                                                              // title: '',
+                                                              actions: [
+                                                                SheetAction(
+                                                                  label: 'Logout',
+                                                                  key: 'logout',
+                                                                  isDestructiveAction: true,
+                                                                ),
+                                                              ],
+                                                            ) : await showModalActionSheet<String>(
+                                                              context: context,
+                                                              title: 'Confirmation alert',
+                                                              message: 'Are you sure you want to log out?',
                                                               actions: [
                                                                 SheetAction(
                                                                   label: 'Logout',
@@ -3049,7 +3061,7 @@ class HomePageState extends State<HomePage>
                                                                                                           .data!
                                                                                                           .data();
                                                                                                       var image = output2?[
-                                                                                                        'img_1'];
+                                                                                                      'img_1'];
                                                                                                       prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                           prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                       return GestureDetector(
@@ -3850,9 +3862,9 @@ class HomePageState extends State<HomePage>
                                                                                         height: 1.5,
                                                                                       )),
                                                                                       Text('Cash acceptance', style: TextStyle(
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontSize: 18,
-                                                                                        height: 1.3
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontSize: 18,
+                                                                                          height: 1.3
                                                                                       )),
                                                                                     ],
                                                                                   ),
@@ -4272,9 +4284,9 @@ class HomePageState extends State<HomePage>
                                                                                         children: [
 
                                                                                           Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              color: Colors.black,
-                                                                                              fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.black,
+                                                                                            fontSize: 13,
                                                                                             height: 1.5,
                                                                                           )),
                                                                                           // SizedBox(width: 5),
@@ -4288,9 +4300,9 @@ class HomePageState extends State<HomePage>
                                                                                           )
                                                                                           else if(unit == 'sub2_name') Padding(
                                                                                               padding: const EdgeInsets.only(left: 5.0, top: 4.7),
-                                                                                            child: Icon(SmartKyat_POS.prods2, size: 13, color: Colors.grey,),
-                                                                                          )
-                                                                                            // else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                                                              child: Icon(SmartKyat_POS.prods2, size: 13, color: Colors.grey,),
+                                                                                            )
+                                                                                          // else Icon( Icons.check, size: 17, color: Colors.grey,),
                                                                                         ],
                                                                                       ),
                                                                                       Text(productName, style: TextStyle(
@@ -7944,7 +7956,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                      'img_1'];
+                                                                    'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
