@@ -1609,6 +1609,7 @@ class _WelcomeState extends State<Welcome>
                                                                       'user_id' : uid.toString(),
                                                                       'name': _name.text.toString(),
                                                                       'email': mail.toString(),
+                                                                      'plan_type' : 'basic',
                                                                     }
                                                                 );
                                                                 print('uid +' + mail.toString());
