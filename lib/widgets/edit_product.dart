@@ -195,9 +195,10 @@ class _EditProductState extends State<EditProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-    homeBotPadding = MediaQuery.of(context).padding.bottom;
+    // homeBotPadding = MediaQuery.of(context).padding.bottom;
+    print('homebotpad ' + homeBotPadding.toString());
     if(firstTime) {
-      // homeBotPadding = MediaQuery.of(context).padding.bottom;
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
     }
     return Container(
@@ -947,7 +948,8 @@ class _EditProductState extends State<EditProduct> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
+                  // padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
                   child: Container(
                     color: Colors.white,
                     child: Padding(
@@ -1116,6 +1118,8 @@ class _EditProductState extends State<EditProduct> {
               ),
               Container(
                 color: Colors.white,
+                // height: MediaQuery.of(context).viewInsets.bottom,
+                // height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
             ],

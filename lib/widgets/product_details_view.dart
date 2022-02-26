@@ -554,11 +554,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 image,
                                                             width: 133,
                                                             height: 100,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                Center(child: Container(
+                                                                    height: 100,
+                                                                    width: 130,
+                                                                    color: Color(0xFFdca409)
+                                                                )),
                                                             // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
                                                             errorWidget: (context, url, error) => Container(
                                                                 height: 100,
                                                                 width: 130,
-                                                                color: AppTheme.themeColor
+                                                                color: Color(0xFFdca409)
                                                             ),
                                                             fadeInDuration: Duration(milliseconds: 100),
                                                             fadeOutDuration: Duration(milliseconds: 10),
@@ -567,7 +573,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ): Container(
                                                               height: 100,
                                                               width: 130,
-                                                              color: AppTheme.themeColor
+                                                              // color: AppTheme.themeColor
+                                                              color: Color(0xFFdca409)
                                                           )
                                                         // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
                                                       ),
@@ -577,11 +584,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         splashColor: Colors.transparent,
                                                         height: 100,
                                                         child: FlatButton(
-                                                          color: Colors.white.withOpacity(0.85),
+                                                          color: Colors.white.withOpacity(0.78),
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(7.0),
                                                             side: BorderSide(
-                                                              color: Colors.white.withOpacity(0.85),
+                                                              color: Colors.white.withOpacity(0.78),
                                                             ),
                                                           ),
                                                           onPressed: () async {
@@ -935,7 +942,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               child: Text(
                                                                 textSetAddLoss,overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  fontWeight: FontWeight.bold,
+                                                                  fontWeight: FontWeight.w600,
                                                                   fontSize: 16,
                                                                 ),
                                                               ),
