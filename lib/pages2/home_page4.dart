@@ -5790,11 +5790,17 @@ class HomePageState extends State<HomePage>
                                                                           child: Container(
                                                                             child: Text(
                                                                               textSetGotoCart,
+                                                                              textScaleFactor: 1,
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                   fontSize: 18,
                                                                                   fontWeight: FontWeight.w500,
                                                                                   color: Colors.black),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1.3,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
