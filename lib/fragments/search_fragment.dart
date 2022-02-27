@@ -508,6 +508,95 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     return list;
   }
 
+  Future<List<String>>changeData4Fut(list) async {
+    // list[0].toString()
+
+    for(int i = 0; i < list.length; i++) {
+      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(list[i].split('^')[3])
+          .get().then((value) async {
+        if(value.exists) {
+          print('merchant name ' + value.data()!['merchant_name'].toString());
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              value.data()!['merchant_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8]+
+              '^' + 's'
+          ;
+        } else {
+          print('merchant name ' + value.data()!['merchant_name'].toString());
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              'Loading' +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8]+
+              '^' + 's'
+          ;
+        }
+        // length = int.parse(value.data()!['customer_name'].toString());
+
+      });
+    }
+    // snpsht.docs.map((document) async {
+    //   for (var i = 0; i < list.length; i++) {
+    //     if (document.id.toString() == list[i].split('^')[3]) {
+    //       list[i] = list[i].split('^')[0] +
+    //           '^' +
+    //           list[i].split('^')[1] +
+    //           '^' +
+    //           list[i].split('^')[2] +
+    //           '^' +
+    //           document['customer_name'].toString() +
+    //           '&' +
+    //           list[i].split('^')[3] +
+    //           '^' +
+    //           list[i].split('^')[4] +
+    //           '^' +
+    //           list[i].split('^')[5] +
+    //           '^' +
+    //           list[i].split('^')[6] +
+    //           '^' +
+    //           list[i].split('^')[7] +
+    //           '^' +
+    //           list[i].split('^')[8]+
+    //           '^' + 's'
+    //       ;
+    //     }
+    //   }
+    // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    // }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
   changeData4(list, snpsht) {
     // list[0].toString()
     snpsht.docs.map((document) async {
@@ -615,12 +704,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               });
             });
 
-            await FirebaseFirestore.instance.collection('shops').doc(
-                shopId).collection('merchants')
-                .where("merchant_name", arrayContains: searchValue)
-                .limit(10)
-                .get()
-                .then((QuerySnapshot querySnapshot3) {
+
+            changeData4Fut(detailIdList.cast<String>()).then((value) {
               setState(() {
 
                 // if(detailIdList.length == 0) {
@@ -632,7 +717,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
                 var saleOrders = ExampleSection()
                   ..header = 'Buy orders^' + detailIdList.length.toString()
-                  ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
+                  ..items = value.cast<String>()
                 // ..items = detailIdList.cast<String>()
                   ..expanded = true;
 
@@ -641,12 +726,46 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 //   ..items = detailIdList.cast<String>()
                 //   ..expanded = true;
 
-                //  print('buy ord ' + detailIdList.length.toString());
+                // print('buy ord ' + detailIdList.length.toString());
                 sections.add(saleOrders);
                 // sections.add(buyOrders);
                 sectionList2 = sections;
               });
             });
+
+            // await FirebaseFirestore.instance.collection('shops').doc(
+            //     shopId).collection('merchants')
+            //     .where("merchant_name", arrayContains: searchValue)
+            //     .limit(10)
+            //     .get()
+            //     .then((QuerySnapshot querySnapshot3) {
+            //   setState(() {
+            //
+            //     // if(detailIdList.length == 0) {
+            //     //   noSearchData = true;
+            //     // } else {
+            //     //   noSearchData = false;
+            //     // }
+            //
+            //     var sections = List<ExampleSection>.empty(growable: true);
+            //
+            //     var saleOrders = ExampleSection()
+            //       ..header = 'Buy orders^' + detailIdList.length.toString()
+            //       ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
+            //     // ..items = detailIdList.cast<String>()
+            //       ..expanded = true;
+            //
+            //     // var buyOrders = ExampleSection()
+            //     //   ..header = 'Buy orders^' + detailIdList.length.toString()
+            //     //   ..items = detailIdList.cast<String>()
+            //     //   ..expanded = true;
+            //
+            //     //  print('buy ord ' + detailIdList.length.toString());
+            //     sections.add(saleOrders);
+            //     // sections.add(buyOrders);
+            //     sectionList2 = sections;
+            //   });
+            // });
           });
         } else {
           if(searchValue.contains('-')) {
