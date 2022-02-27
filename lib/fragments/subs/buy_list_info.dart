@@ -42,20 +42,16 @@ class BuyListInfo extends StatefulWidget {
 
 class _BuyListInfoState extends State<BuyListInfo>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<BuyListInfo> {
+  List prodListView = [];
+
   @override
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
-  Stream<DocumentSnapshot>? buyInfoSnapshot;
-  Stream<DocumentSnapshot>? prodSnapshot;
-  Stream<DocumentSnapshot>? merchantSnapshot;
-
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-
-  bool firstBuild = true;
   bool _connectionStatus = false;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  bool firstBuild = true;
 
   Future<void> initConnectivity() async {
     ConnectivityResult result = ConnectivityResult.none;
@@ -66,6 +62,9 @@ class _BuyListInfoState extends State<BuyListInfo>
       print(e.toString());
     }
 
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
     if (!mounted) {
       return Future.value(null);
     }
@@ -112,6 +111,14 @@ class _BuyListInfoState extends State<BuyListInfo>
     return prefs.getString('currency');
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   String textSetPurchase = 'PURCHASED ITEMS';
   String textSetRefund = 'REFUNDED ITEMS';
   String textSetDebt = 'Debt Amount';
@@ -123,11 +130,12 @@ class _BuyListInfoState extends State<BuyListInfo>
   String textSetPercent = 'Percentage';
   String textSetAllRefund = 'All Items Refunded';
   String textSetFullyRef = 'FULLY REFUNDED';
-
-
-
   @override
   initState() {
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   print('list check ' + prodListView.toString());
+    // });
+
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -174,7 +182,8 @@ class _BuyListInfoState extends State<BuyListInfo>
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    var innerId = '';
+    // print('WIDGET-' + widget.data);
+    // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -192,24 +201,8 @@ class _BuyListInfoState extends State<BuyListInfo>
         .split('^')[6];
 
     print('ccccccc' + result.split('^')[0].split('-')[0].toString());
-    // FirebaseFirestore.instance
-    //     .collection('shops')
-    //     .doc(widget.shopId)
-    //     .collection('buyOrder')
-    //     .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
-    //     .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     innerId = doc.id;
-    //   });
-    //   setState(() {
-    //     docId = innerId;
-    //   });
     docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
-    print('DOC ID ' + docId.toString());
-    // return docId;
-    // return Container();
+
     super.initState();
   }
 
@@ -219,202 +212,11 @@ class _BuyListInfoState extends State<BuyListInfo>
     super.dispose();
   }
 
-  List prodListPrint = [];
-  double ttlQ = 0;
-  double ttlR = 0;
-  void smartKyatFlash(String text, String type) {
-    Widget widgetCon = Container();
-    Color bdColor = Color(0xffffffff);
-    Color bgColor = Color(0xffffffff);
-    if(type == 's') {
-      bdColor = Color(0xffB1D3B1);
-      bgColor = Color(0xffCFEEE0);
-      widgetCon = Container(
-        width: 18,
-        height: 18,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-            color: Color(0xff419373)),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 1.0),
-          child: Icon(
-            Icons.check_rounded,
-            size: 15,
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-    else if(type == 'w') {
-      bdColor = Color(0xffF2E0BC);
-      bgColor = Color(0xffFCF4E2);
-      widgetCon = Container(
-        width: 18,
-        height: 18,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-            color: Color(0xffF5C04A)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
-          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
-          // child: Icon(
-          //   Icons.warning_rounded,
-          //   size: 15,
-          //   color: Colors.white,
-          // ),
-        ),
-      );
-    }
-    else if(type == 'e') {
-      bdColor = Color(0xffEAD2C8);
-      bgColor = Color(0xffFAEEEC);
-      widgetCon = Container(
-        width: 18,
-        height: 18,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-            color: Color(0xffE9625E)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: Icon(
-            Icons.close_rounded,
-            size: 15,
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-    else if(type == 'i') {
-      bdColor = Color(0xffBCCEEA);
-      bgColor = Color(0xffE8EEF9);
-      widgetCon = Container(
-        width: 18,
-        height: 18,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-            color: Color(0xff4788E2)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
-          child: Text('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
-          // child: Icon(
-          //   Icons.warning_rounded,
-          //   size: 15,
-          //   color: Colors.white,
-          // ),
-        ),
-      );
-    }
-    showFlash(
-      context: context,
-      duration: const Duration(milliseconds: 2500),
-      persistent: true,
-      transitionDuration: Duration(milliseconds: 300),
-      builder: (_, controller) {
-        return Flash(
-          controller: controller,
-          backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
-          // boxShadows: [BoxShadow(blurRadius: 4)],
-          // barrierBlur: 3.0,
-          // barrierColor: Colors.black38,
-          barrierDismissible: true,
-          behavior: FlashBehavior.floating,
-          position: FlashPosition.top,
-          child: Padding(
-            padding: const EdgeInsets.only(
-                top: 93.0, left: 15, right: 15),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-                color: bgColor,
-                border: Border.all(
-                    color: bdColor,
-                    width: 1.0
-                ),
-              ),
-              child: ListTile(
-                leading: Padding(
-                  padding: const EdgeInsets.only(top: 2.0),
-                  child: widgetCon,
-                ),
-                minLeadingWidth: 15,
-                horizontalTitleGap: 10,
-                minVerticalPadding: 0,
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
-                  child: Container(
-                    child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
-                  ),
-                ),
-                // subtitle: Text('shit2'),
-                // trailing: Text('GGG',
-                //   style: TextStyle(
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.w500,
-                //   ),),
-              ),
-            ),
-          ),
-          // child: Padding(
-          //   padding: const EdgeInsets.only(
-          //       top: 93.0, left: 15, right: 15),
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(10.0),
-          //       ),
-          //       color: bgColor,
-          //       border: Border.all(
-          //           color: bdColor,
-          //           width: 1.0
-          //       ),
-          //     ),
-          //     child: Padding(
-          //         padding: const EdgeInsets.only(
-          //             top: 15.0, left: 10, right: 10, bottom: 15),
-          //         child: Row(
-          //           children: [
-          //             SizedBox(width: 5),
-          //             widgetCon,
-          //             SizedBox(width: 10),
-          //             Padding(
-          //               padding: const EdgeInsets.only(bottom: 2.5),
-          //               child: Container(
-          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
-          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
-          //               ),
-          //             )
-          //           ],
-          //         )
-          //     ),
-          //   ),
-          // ),
-        );
-      },
-    );
-  }
-
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   double totalPrice = 0;
   double totalRealPrice = 0.0;
+  double ttlQ = 0;
+  double ttlR = 0;
+  List prodListPrint = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -460,19 +262,32 @@ class _BuyListInfoState extends State<BuyListInfo>
                             ),
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+                                  SizedBox(height: 15.7,),
                                   Text('$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                    ),),
-
+                                      height: 1.5,
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.4,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                   Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
+                                      height: 1.3,
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
                                     ),
                                   ),
                                   // Text(widget.selectedDev.toString())
@@ -526,7 +341,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
-                          List prodListView = [];
+                          prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
                           totalRealPrice = 0;
@@ -654,6 +469,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
+                                                      print('Result'+ result.toString());
+
                                                       await Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -723,7 +540,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                              builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                       );
                                                       widget._openCartBtn();
                                                     },
@@ -795,12 +612,15 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           .split('^')[6];
 
 
-                                                      print('shit shit ' + prodListPrint.toString());
+
+
+                                                      print('shit shit here' + prodListView.toString());
+
 
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
                                                       );
                                                     },
                                                     child: Container(
@@ -1222,8 +1042,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                                             // );
                                             // var output2 = snapshot2.data!.data();
                                             var image = data['img_1'];
-                                            print('image htwet heree' + prodListView[i].toString());
+                                            print('image htwet cache heree' + prodListView[i].toString());
                                             if(firstBuild) {
+                                              print('first prodlistprint ' + prodListPrint.toString());
                                               if(i == 0) {
                                                 prodListPrint.add(
                                                     data['prod_name'] + '^' +
@@ -1238,9 +1059,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                                 );
                                               }
+
                                             }
+
                                             if(i == prodListView.length-1) {
                                               firstBuild = false;
+                                              retrieveForPrint();
                                             }
 
                                             return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1369,7 +1193,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                 // ),
                                               ],
                                             ): Container();
-                                          } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                          } else if(!ssFuture.hasData) {
                                             return FutureBuilder(
                                               // future: getDetailProd(prodListView[i].split('-')[0]),
                                               future: FirebaseFirestore.instance
@@ -1385,7 +1209,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   // );
                                                   // var output2 = snapshot2.data!.data();
                                                   var image = data['img_1'];
-                                                  print('image htwet heree' + prodListView[i].toString());
+                                                  print('image htwet server heree' + prodListView[i].toString());
                                                   if(firstBuild) {
                                                     prodListPrint.add(
                                                         data['prod_name'] + '^' +
@@ -1396,6 +1220,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   }
                                                   if(i == prodListView.length-1) {
                                                     firstBuild = false;
+                                                    retrieveForPrint();
                                                   }
 
                                                   return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1524,17 +1349,18 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       // ),
                                                     ],
                                                   ): Container();
-                                                } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                                } else if(!ssFuture.hasData) {
                                                   if(firstBuild) {
                                                     prodListPrint.add(
                                                         'Unknown' + '^' +
-                                                            prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
+                                                            prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
                                                             prodListView[i].split('-')[4] + '^' +
                                                             (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                                     );
                                                   }
                                                   if(i == prodListView.length-1) {
                                                     firstBuild = false;
+                                                    retrieveForPrint();
                                                   }
 
                                                   return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1561,7 +1387,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 padding: const EdgeInsets.only(top: 4.0),
                                                                 child: Row(
                                                                   children: [
-                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
                                                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                     )),
                                                                     if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
@@ -2113,7 +1939,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ],
                                               ) : Container();
-                                            } else if (ssFutureRef.hasData && !ssFutureRef.data!.exists) {
+                                            } else if (!ssFutureRef.hasData) {
                                               return FutureBuilder(
                                                 // future: getDetailProd(prodListView[i].split('-')[0]),
                                                 future: FirebaseFirestore.instance
@@ -2251,7 +2077,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         ),
                                                       ],
                                                     ) : Container();
-                                                  } else if (ssFutureRefSC.hasData && !ssFutureRefSC.data!.exists) {
+                                                  } else if (!ssFutureRefSC.hasData) {
                                                     return double.parse(prodListView[i].split('-')[7]).round().toString() != '0' ? Stack(
                                                       children: [
                                                         Container(
@@ -2276,7 +2102,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   padding: const EdgeInsets.only(top: 4.0),
                                                                   child: Row(
                                                                     children: [
-                                                                      Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                      Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
                                                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                       )),
                                                                       if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
@@ -2573,7 +2399,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    color: Colors.yellow,
                     height: 100,
                   ),
                 )
@@ -2582,6 +2407,186 @@ class _BuyListInfoState extends State<BuyListInfo>
           );
         });
 
+  }
+
+  void smartKyatFlash(String text, String type) {
+    Widget widgetCon = Container();
+    Color bdColor = Color(0xffffffff);
+    Color bgColor = Color(0xffffffff);
+    if(type == 's') {
+      bdColor = Color(0xffB1D3B1);
+      bgColor = Color(0xffCFEEE0);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff419373)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 1.0),
+          child: Icon(
+            Icons.check_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'w') {
+      bdColor = Color(0xffF2E0BC);
+      bgColor = Color(0xffFCF4E2);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffF5C04A)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    } else if(type == 'e') {
+      bdColor = Color(0xffEAD2C8);
+      bgColor = Color(0xffFAEEEC);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffE9625E)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Icon(
+            Icons.close_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'i') {
+      bdColor = Color(0xffBCCEEA);
+      bgColor = Color(0xffE8EEF9);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff4788E2)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
+          child: Text('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    }
+    showFlash(
+      context: context,
+      duration: const Duration(milliseconds: 2500),
+      persistent: true,
+      transitionDuration: Duration(milliseconds: 300),
+      builder: (_, controller) {
+        return Flash(
+          controller: controller,
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          // boxShadows: [BoxShadow(blurRadius: 4)],
+          // barrierBlur: 3.0,
+          // barrierColor: Colors.black38,
+          barrierDismissible: true,
+          behavior: FlashBehavior.floating,
+          position: FlashPosition.top,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 93.0, left: 15, right: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                color: bgColor,
+                border: Border.all(
+                    color: bdColor,
+                    width: 1.0
+                ),
+              ),
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: widgetCon,
+                ),
+                minLeadingWidth: 15,
+                horizontalTitleGap: 10,
+                minVerticalPadding: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                  child: Container(
+                    child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                  ),
+                ),
+                // subtitle: Text('shit2'),
+                // trailing: Text('GGG',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),),
+              ),
+            ),
+          ),
+          // child: Padding(
+          //   padding: const EdgeInsets.only(
+          //       top: 93.0, left: 15, right: 15),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(10.0),
+          //       ),
+          //       color: bgColor,
+          //       border: Border.all(
+          //           color: bdColor,
+          //           width: 1.0
+          //       ),
+          //     ),
+          //     child: Padding(
+          //         padding: const EdgeInsets.only(
+          //             top: 15.0, left: 10, right: 10, bottom: 15),
+          //         child: Row(
+          //           children: [
+          //             SizedBox(width: 5),
+          //             widgetCon,
+          //             SizedBox(width: 10),
+          //             Padding(
+          //               padding: const EdgeInsets.only(bottom: 2.5),
+          //               child: Container(
+          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
+          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
+          //               ),
+          //             )
+          //           ],
+          //         )
+          //     ),
+          //   ),
+          // ),
+        );
+      },
+    );
   }
 
   Widget discSub(String str, String prodList) {
@@ -2616,5 +2621,53 @@ class _BuyListInfoState extends State<BuyListInfo>
         ),);
     }
 
+  }
+
+  String whatTheFuck() {
+    print('GGGGGGG');
+    return '';
+  }
+
+  getDetailProd(String docId) async {
+    var a = await FirebaseFirestore.instance
+        .collection("met_with")
+        .doc(docId)
+        .get();
+    return a;
+  }
+
+  bool firstRetFPrint = true;
+  List<String> prodListPrintMod = [];
+  Future<void> retrieveForPrint() async {
+    if(firstRetFPrint) {
+      firstRetFPrint = false;
+      print('retrieveForPrint ' + prodListView.toString());
+
+      for(int i = 0; i< prodListView.length; i++) {
+        await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
+            .get().then((value) async {
+          if(value.exists) {
+            prodListPrintMod.add(
+                value.data()!['prod_name'] + '^' +
+                    value.data()![prodListView[i].split('-')[5]] + '^' +
+                    prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+            );
+          } else {
+            prodListPrintMod.add(
+                'Product' + '^' +
+                    prodListView[i].split('-')[5] + '^' +
+                    prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+            );
+          }
+
+          if(i == prodListView.length - 1) {
+            print('GGG ' + prodListPrintMod.toString());
+          }
+
+        });
+
+      }
+
+    }
   }
 }
