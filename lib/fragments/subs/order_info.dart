@@ -1092,8 +1092,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             errorWidget: (context,
                                                                 url,
                                                                 error) =>
-                                                                Icon(Icons
-                                                                    .error),
+                                                                Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                             fadeInDuration:
                                                             Duration(
                                                                 milliseconds:
@@ -1248,8 +1247,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   errorWidget: (context,
                                                                       url,
                                                                       error) =>
-                                                                      Icon(Icons
-                                                                          .error),
+                                                                      Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                                   fadeInDuration:
                                                                   Duration(
                                                                       milliseconds:
@@ -1841,8 +1839,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 errorWidget: (context,
                                                                     url,
                                                                     error) =>
-                                                                    Icon(Icons
-                                                                        .error),
+                                                                    Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                                 fadeInDuration:
                                                                 Duration(
                                                                     milliseconds:
@@ -1980,8 +1977,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                     errorWidget: (context,
                                                                         url,
                                                                         error) =>
-                                                                        Icon(Icons
-                                                                            .error),
+                                                                        Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                                     fadeInDuration:
                                                                     Duration(
                                                                         milliseconds:

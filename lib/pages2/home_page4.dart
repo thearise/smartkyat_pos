@@ -2965,6 +2965,7 @@ class HomePageState extends State<HomePage>
                                                                                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                                                                                             child: Row(
                                                                                                               children: [
+                                                                                                                SizedBox(width: 1),
                                                                                                                 Container(
                                                                                                                   height: 58,
                                                                                                                   width: 58,
@@ -2972,8 +2973,7 @@ class HomePageState extends State<HomePage>
                                                                                                                       borderRadius:
                                                                                                                       BorderRadius.circular(
                                                                                                                           5.0),
-                                                                                                                      color: Colors.grey
-                                                                                                                          .withOpacity(0.5)
+                                                                                                                      color: AppTheme.buttonColor2
                                                                                                                   ),
                                                                                                                   child: Icon(
                                                                                                                     SmartKyat_POS.order,
@@ -3014,25 +3014,32 @@ class HomePageState extends State<HomePage>
                                                                                                   customerId != 'name^name' ? Positioned(
                                                                                                     top : 11,
                                                                                                     right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
-                                                                                                    child: Container(
-                                                                                                      // height: 20,
-                                                                                                      // width: 30,
-                                                                                                      alignment: Alignment.center,
-                                                                                                      decoration: BoxDecoration(
-                                                                                                          color: Color(0xffE9625E),
-                                                                                                          borderRadius:
-                                                                                                          BorderRadius.circular(
-                                                                                                              10.0),
-                                                                                                          border: Border.all(
+                                                                                                    child: GestureDetector(
+                                                                                                      onTap: () {
+                                                                                                        setState(() {
+                                                                                                          customerId = 'name^name';
+                                                                                                        });
+                                                                                                      },
+                                                                                                      child: Container(
+                                                                                                        // height: 20,
+                                                                                                        // width: 30,
+                                                                                                        alignment: Alignment.center,
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            color: Color(0xffE9625E),
+                                                                                                            borderRadius:
+                                                                                                            BorderRadius.circular(
+                                                                                                                10.0),
+                                                                                                            border: Border.all(
+                                                                                                              color: Colors.white,
+                                                                                                              width: 2,
+                                                                                                            )),
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                                                          child: Icon(
+                                                                                                            Icons.close_rounded,
+                                                                                                            size: 13,
                                                                                                             color: Colors.white,
-                                                                                                            width: 2,
-                                                                                                          )),
-                                                                                                      child: Padding(
-                                                                                                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                                                        child: Icon(
-                                                                                                          Icons.close_rounded,
-                                                                                                          size: 13,
-                                                                                                          color: Colors.white,
+                                                                                                          ),
                                                                                                         ),
                                                                                                       ),
                                                                                                     ),
@@ -3122,11 +3129,11 @@ class HomePageState extends State<HomePage>
                                                                                                                             width: 58,
                                                                                                                             height: 58,
                                                                                                                             // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                                                            errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                                                                                                                             fadeInDuration: Duration(milliseconds: 100),
                                                                                                                             fadeOutDuration: Duration(milliseconds: 10),
                                                                                                                             fadeInCurve: Curves.bounceIn,
-                                                                                                                            fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
+                                                                                                                            fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,)),
                                                                                                                       title: Text(output2?['prod_name'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                                                                                                       subtitle: Padding(
                                                                                                                         padding: const EdgeInsets.only(top: 4.0),
@@ -7864,6 +7871,7 @@ class HomePageState extends State<HomePage>
                                                                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                                                           child: Row(
                                                                             children: [
+                                                                              SizedBox(width: 1),
                                                                               Container(
                                                                                 height: 58,
                                                                                 width: 58,
@@ -7871,8 +7879,7 @@ class HomePageState extends State<HomePage>
                                                                                     borderRadius:
                                                                                     BorderRadius.circular(
                                                                                         5.0),
-                                                                                    color: Colors.grey
-                                                                                        .withOpacity(0.5)
+                                                                                    color: AppTheme.buttonColor2
                                                                                 ),
                                                                                 child: Icon(
                                                                                   SmartKyat_POS.order,
@@ -7913,25 +7920,34 @@ class HomePageState extends State<HomePage>
                                                                 customerId != 'name^name' ? Positioned(
                                                                   top : 11,
                                                                   right: MediaQuery.of(context).size.width - 80,
-                                                                  child: Container(
-                                                                    // height: 20,
-                                                                    // width: 30,
-                                                                    alignment: Alignment.center,
-                                                                    decoration: BoxDecoration(
-                                                                        color: Color(0xffE9625E),
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0),
-                                                                        border: Border.all(
+                                                                  child: GestureDetector(
+                                                                    onTap: () {
+                                                                      setState(() {
+                                                                        mystate(() {
+                                                                          customerId = 'name^name';
+                                                                        });
+                                                                      });
+                                                                    },
+                                                                    child: Container(
+                                                                      // height: 20,
+                                                                      // width: 30,
+                                                                      alignment: Alignment.center,
+                                                                      decoration: BoxDecoration(
+                                                                          color: Color(0xffE9625E),
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                          border: Border.all(
+                                                                            color: Colors.white,
+                                                                            width: 2,
+                                                                          )),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                        child: Icon(
+                                                                          Icons.close_rounded,
+                                                                          size: 13,
                                                                           color: Colors.white,
-                                                                          width: 2,
-                                                                        )),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                      child: Icon(
-                                                                        Icons.close_rounded,
-                                                                        size: 13,
-                                                                        color: Colors.white,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -8033,11 +8049,11 @@ class HomePageState extends State<HomePage>
                                                                                           width: 58,
                                                                                           height: 58,
                                                                                           // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                                                                                           fadeInDuration: Duration(milliseconds: 100),
                                                                                           fadeOutDuration: Duration(milliseconds: 10),
                                                                                           fadeInCurve: Curves.bounceIn,
-                                                                                          fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
+                                                                                          fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,)),
                                                                                     title: Text(output2?['prod_name'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                                                                     subtitle: Padding(
                                                                                       padding: const EdgeInsets.only(top: 4.0),

@@ -1337,7 +1337,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                             item.split('^sps^')[2],
                                                         width: 75,
                                                         height: 75,
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
                                                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
                                                         errorWidget: (context,
                                                             url,
