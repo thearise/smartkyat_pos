@@ -21,6 +21,7 @@ import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
 import '../app_theme.dart';
+import 'bloc_firestore.dart';
 
 class OrdersFragment extends StatefulWidget {
   final _callback2;
@@ -3871,7 +3872,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           child: StreamBuilder(
                               stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
                                   .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
                                   .orderBy('date', descending: true).snapshots(),
                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
@@ -5505,6 +5506,14 @@ class OrdersFragmentState extends State<OrdersFragment>
       return '';
     }
 
+  }
+
+  ordersQuery() {
+    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+        .orderBy('date', descending: true);
   }
 // List<String> orderItems(String id) {}
 }
