@@ -49,6 +49,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   var deviceIdNum;
   final auth = FirebaseAuth.instance;
 
+  bool isEnglish = true;
+
   addProduct2(data) {
     widget._callback(data);
   }
@@ -341,7 +343,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAddtoCart = 'အရောင်းစာရင်း\nထည့်ရန်';
+          isEnglish = false;
+          textSetAddtoCart = 'ရောင်းရန်\nစာရင်းထည့်';
           textSetRefill =  'ကုန်းပစ္စည်း\nပြန်ဖြည့်ရန်';
           textSetAddLoss = 'ဆုံးရှုံးပစ္စည်း\nထည့်ရန်';
           textSetEdit = 'ပြင်ဆင်ရန်';
@@ -360,6 +363,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
         });
       } else if(value=='english') {
         setState(() {
+          isEnglish = true;
           textSetAddtoCart = 'Add to\nsell cart';
           textSetRefill =  'Refill to\ninventory';
           textSetAddLoss = 'Add\nLoss item';
@@ -647,6 +651,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       fontWeight: FontWeight.w600,
                                                                       fontSize: 16,
                                                                     ),
+                                                                    strutStyle: StrutStyle(
+                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      forceStrutHeight: true,
+                                                                    )
                                                                   ),
                                                                 ),
                                                               ],
@@ -748,6 +756,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 fontWeight: FontWeight.w600,
                                                                 fontSize: 16,
                                                               ),
+                                                              strutStyle: StrutStyle(
+                                                                height: isEnglish? 1.4: 1.6,
+                                                                forceStrutHeight: true,
+                                                              )
                                                             ),
                                                           ),
                                                         ],
@@ -945,6 +957,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   fontWeight: FontWeight.w600,
                                                                   fontSize: 16,
                                                                 ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: isEnglish? 1.4: 1.6,
+                                                                  forceStrutHeight: true,
+                                                                )
                                                               ),
                                                             ),
                                                           ],
