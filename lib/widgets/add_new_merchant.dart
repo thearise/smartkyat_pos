@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -145,7 +146,12 @@ class _AddMerchantState extends State<AddMerchant> {
                                         padding: const EdgeInsets.only(
                                             left: 15.0, right: 15.0, top: 30),
                                         child: TextFormField(
-                                          keyboardType: TextInputType.text,
+                                          keyboardType: TextInputType.name,
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(30),
+                                            FilteringTextInputFormatter.deny('^'),
+                                            FilteringTextInputFormatter.deny('<>'),
+                                          ],
 // The validator receives the text that the user has entered.
                                           controller: mnameCtrl,
                                           validator: (value) {

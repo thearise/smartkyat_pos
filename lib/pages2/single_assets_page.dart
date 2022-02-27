@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
@@ -57,6 +58,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   final mnameCtrl = TextEditingController();
   final msaleCtrl = TextEditingController();
   final mcostCtrl = TextEditingController();
+  final bool allowDecimal = false;
 
   bool prodAdding = false;
 
@@ -82,6 +84,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     }
     return prefs.getString('lang');
   }
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
 
   String currencyUnit = 'MMK';
 
@@ -849,6 +857,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // The validator receives the text that the user has entered.
                                               controller: pnameCtrl,
                                               keyboardType: TextInputType.name,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(30),
+                                              ],
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required. ';
@@ -1081,13 +1092,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   // ),
                                                   child: TextFormField(
                                                     controller: munitCtrl,
-                                                    keyboardType: TextInputType.number,
+                                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                                    inputFormatters: <TextInputFormatter>[
+                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
 // The validator receives the text that the user has entered.
                                                     validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
+                                                      if (value == null || value.isEmpty) {
                                                         return ' This field is required ';
                                                       }
+
                                                       prodFieldsValue.add(value);
                                                       return null;
                                                     },
@@ -1227,7 +1240,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 left: 15.0, right: 15.0, top: 256),
                                             child: TextFormField(
                                               controller: msaleCtrl,
-                                              keyboardType: TextInputType.number,
+                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
 // The validator receives the text that the user has entered.
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -1290,7 +1305,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 left: 15.0, right: 15.0, top: 327),
                                             child: TextFormField(
                                               controller: mcostCtrl,
-                                              keyboardType: TextInputType.number,
+                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
 // The validator receives the text that the user has entered.
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -2407,7 +2424,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                     child: TextFormField(
                       controller: nameController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(decimal: false),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -2516,7 +2535,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 padding: const EdgeInsets.only(top: 71.0),
                 child: TextFormField(
                   controller: priceController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: false),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -2570,7 +2591,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 padding: const EdgeInsets.only(top: 142.0, bottom: 13),
                 child: TextFormField(
                   controller: jobController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {

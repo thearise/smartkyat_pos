@@ -2122,12 +2122,25 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ),
                                                         onPressed: () async {
                                                           CollectionReference product = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-                                                           product.doc(widget.idString).update({
-                                                           'archive' : true
-                                                           }).then((value) {
-                                                           }).catchError((error) => print("Failed to update: $error"));
-                                                           Navigator.pop(context);
-                                                           },
+                                                          showOkCancelAlertDialog(
+                                                            context: context,
+                                                            title: 'Are you sure you want to remove this product?',
+                                                            message: 'This action cannot go back later.',
+                                                            defaultType: OkCancelAlertDefaultType.cancel,
+                                                          ).then((result) {
+                                                            if(result == OkCancelResult.ok) {
+                                                              product.doc(
+                                                                  widget.idString)
+                                                                  .update({
+                                                                'archive': true
+                                                              }).then((value) {
+                                                                Navigator.pop(context);
+                                                                smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
+                                                              }).catchError((error) => print("Failed to update: $error"));
+
+                                                            }
+                                                          });
+                                                          },
                                                         child: Text(
                                                           'Remove',
                                                           textAlign: TextAlign.center,

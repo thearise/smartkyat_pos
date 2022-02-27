@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +38,12 @@ getDeviceId() async {
 class _LossProductState extends State<LossProduct> {
 
   String currencyUnit = 'MMK';
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -207,7 +214,9 @@ class _LossProductState extends State<LossProduct> {
                                           width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                           child: TextFormField(
                                             controller: lossAmount,
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                            inputFormatters: <TextInputFormatter>[
+                                              FilteringTextInputFormatter.allow(RegExp(_getNum())),],
 // The validator receives the text that the user has entered.
                                             validator: (value) {
                                               if (value == null ||
@@ -291,7 +300,9 @@ class _LossProductState extends State<LossProduct> {
                                         left: 15.0, right: 15.0, top: 118),
                                     child: TextFormField(
                                       controller: priceAmount,
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
 // The validator receives the text that the user has entered.
                                       validator: (value) {
                                         if (value == null ||

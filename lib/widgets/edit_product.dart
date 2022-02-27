@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/constants/picker_method.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
@@ -95,6 +96,13 @@ class _EditProductState extends State<EditProduct> {
     }
     return prefs.getString('lang');
   }
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
+
 
   String currencyUnit = 'MMK';
 
@@ -326,6 +334,9 @@ class _EditProductState extends State<EditProduct> {
                             child: TextFormField(
                               controller: prodNameCtrl,
                               keyboardType: TextInputType.name,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(30),
+                              ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return ' This field is required ';
@@ -506,7 +517,9 @@ class _EditProductState extends State<EditProduct> {
                                       (2.41 / 4),
                                   child: TextFormField(
                                     controller: mainQtyCtrl,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return ' This field is required ';
@@ -640,7 +653,9 @@ class _EditProductState extends State<EditProduct> {
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: TextFormField(
                               controller: mainBuyCtrl,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return ' This field is required ';
@@ -703,7 +718,9 @@ class _EditProductState extends State<EditProduct> {
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
                             child: TextFormField(
                               controller: mainSellCtrl,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return ' This field is required ';
@@ -1283,7 +1300,9 @@ class _EditProductState extends State<EditProduct> {
                     width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                     child: TextFormField(
                       controller: controller1,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(decimal: false),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -1392,7 +1411,9 @@ class _EditProductState extends State<EditProduct> {
                 padding: const EdgeInsets.only(top: 71.0),
                 child: TextFormField(
                   controller: controller3,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: false),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -1446,7 +1467,10 @@ class _EditProductState extends State<EditProduct> {
                 padding: const EdgeInsets.only(top: 142.0, bottom: 13),
                 child: TextFormField(
                   controller: controller4,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
