@@ -60,7 +60,7 @@ class MerchantCartState extends State<MerchantCart>
     return prefs.getString('lang');
   }
 
-  String textSetMerchOrders = 'Merchant orders';
+  String textSetMerchOrders = 'Merchant cart';
   String textSetClearCart = 'Clear cart';
   String textSetDiscount = 'Discount';
   String textSetNoMerchant = 'No merchant';
@@ -77,7 +77,9 @@ class MerchantCartState extends State<MerchantCart>
 
   @override
   initState() {
-
+    merchId = widget.merchantId.split('^')[1];
+    merchRealId = widget.merchantId.split('^')[0];
+    print('initializing ' + widget.merchantId.toString());
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -111,7 +113,7 @@ class MerchantCartState extends State<MerchantCart>
       }
       else if(value=='english') {
         setState(() {
-           textSetMerchOrders = 'Merchant orders';
+           textSetMerchOrders = 'Merchant cart';
            textSetClearCart = 'Clear cart';
            textSetDiscount = 'Discount';
            textSetNoMerchant = 'No merchant';
@@ -173,6 +175,8 @@ class MerchantCartState extends State<MerchantCart>
   String buy2 = '';
   String buy3 = '';
   int disPercent2 =0;
+  String merchId = 'name';
+  String merchRealId = 'name';
 
   TextEditingController myController = TextEditingController();
   TextEditingController buyPriceController = TextEditingController();
@@ -223,16 +227,28 @@ class MerchantCartState extends State<MerchantCart>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1],
+                            Text(merchId == 'name' ? 'No merchant' : merchId,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),),
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
+                            ),
                             Text(textSetMerchOrders,
                               style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.3
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.7,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
                             ),
                           ],
@@ -257,7 +273,7 @@ class MerchantCartState extends State<MerchantCart>
                     .collection('shops')
                     .doc(shopId)
                     .collection('merchants')
-                    .doc(widget.merchantId.split('^')[0].toString())
+                    .doc(merchRealId.toString())
                     .snapshots(),
                 builder: (BuildContext context, snapshot5) {
                   if(snapshot5.hasData) {
@@ -267,7 +283,7 @@ class MerchantCartState extends State<MerchantCart>
                       child: ListView(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 2),
                             child: Row(
                               children: [
                                 Container(
@@ -277,7 +293,7 @@ class MerchantCartState extends State<MerchantCart>
                                       .width /
                                       2) -
                                       22.5,
-                                  height: 55,
+                                  height: 50,
                                   decoration: BoxDecoration(
                                       borderRadius:
                                       BorderRadius
@@ -313,17 +329,17 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Container(
                                             child: Text(
                                               textSetClearCart,
-                                              textAlign:
-                                              TextAlign
-                                                  .center,
+                                              textScaleFactor: 1,
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontSize:
-                                                  18,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .w600,
-                                                  color: Colors
-                                                      .black),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
                                             )),
                                       ),
                                     ),
@@ -338,13 +354,12 @@ class MerchantCartState extends State<MerchantCart>
                                       .width /
                                       2) -
                                       22.5,
-                                  height: 55,
+                                  height: 50,
                                   decoration: BoxDecoration(
                                       borderRadius:
                                       BorderRadius.circular(
                                           10.0),
-                                      color: Colors.grey
-                                          .withOpacity(0.5)),
+                                      color: AppTheme.buttonColor2),
                                   child: Padding(
                                     padding:
                                     const EdgeInsets.only(
@@ -427,17 +442,17 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Container(
                                             child: Text(
                                               textSetDiscount,
-                                              textAlign:
-                                              TextAlign
-                                                  .center,
+                                              textScaleFactor: 1,
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontSize:
-                                                  18,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .w600,
-                                                  color: Colors
-                                                      .black),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
                                             )),
                                       ),
                                     ),
@@ -446,91 +461,110 @@ class MerchantCartState extends State<MerchantCart>
                               ],
                             ),
                           ),
-                          Slidable(
-                            key: UniqueKey(),
-                            actionPane:
-                            SlidableDrawerActionPane(),
-                            actionExtentRatio:
-                            0.25,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: 58,
-                                        width: 58,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                5.0),
-                                            color: Colors.grey
-                                                .withOpacity(0.5)
-                                        ),
-                                        child: Icon(
-                                          SmartKyat_POS.merchant,
-                                          size: 25,
+                          Stack(
+                            children: [
+
+                              Padding(
+                                padding: const EdgeInsets.only(top: 19.0),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // setState(() {
+                                        //   customerId = 'name^name';
+                                        // });
+                                        setState((){
+                                          merchId = 'name';
+                                          merchRealId = 'name';
+                                        });
+                                        widget.clearMerch();
+                                        // Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 1),
+                                            Container(
+                                              height: 58,
+                                              width: 58,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      5.0),
+                                                  color: AppTheme.buttonColor2
+                                              ),
+                                              child: Icon(
+                                                SmartKyat_POS.merchant,
+                                                size: 25,
+                                              ),
+                                            ),
+                                            SizedBox(width: 15),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(merchId == 'name' ? 'No merchant' : merchId , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                //     style: TextStyle(
+                                                //       fontSize: 14,
+                                                //       color: Colors.grey
+                                                //     )),
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(width: 15),
+                                    ),
+                                    SizedBox(height: 8,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0),
+                                      child: Container(height: 12,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                              bottom:
+                                              BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                            )),),
+                                    ),
 
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1] , style: TextStyle(
-                                            fontSize: 17, fontWeight: FontWeight.w600,
-                                          )),
-                                          // Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                          //     style: TextStyle(
-                                          //       fontSize: 14,
-                                          //       color: Colors.grey,
-                                          //     )),
-                                        ],
-                                      )
-                                    ],
+                                  ],
+                                ),
+                              ),
+                              merchId != 'name' ? Positioned(
+                                top : 11,
+                                left: 53,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState((){
+                                      merchId = 'name';
+                                      merchRealId = 'name';
+                                    });
+                                    widget.clearMerch();
+                                  },
+                                  child: Container(
+                                    // height: 20,
+                                    // width: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffE9625E),
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            10.0),
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2,
+                                        )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                      child: Icon(
+                                        Icons.close_rounded,
+                                        size: 13,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 8,),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: Container(height: 12,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom:
-                                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                        )),),
-                                ),
-
-                              ],
-                            ),
-                            dismissal:
-                            SlidableDismissal(
-                              child:
-                              SlidableDrawerDismissal(),
-                              onDismissed:
-                                  (actionType) {
-                                setState((){
-                                  widget.clearMerch();
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
-                            secondaryActions: <
-                                Widget>[
-                              IconSlideAction(
-                                caption: 'Delete',
-                                color: Colors.red,
-                                icon:
-                                Icons.delete,
-                                onTap: () {
-                                  setState((){
-                                    widget.clearMerch();
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
+                              ): Container(),
                             ],
                           ),
                           for (int i = 0;
@@ -604,7 +638,7 @@ class MerchantCartState extends State<MerchantCart>
                                             color: Colors.white,
                                             child: Column(
                                               children: [
-                                                SizedBox(height: 7,),
+                                                SizedBox(height: 12,),
                                                 ListTile(
                                                   leading: ClipRRect(
                                                     borderRadius:
@@ -619,11 +653,11 @@ class MerchantCartState extends State<MerchantCart>
                                                       width: 58,
                                                       height: 58,
                                                       // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                      placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58, fit: BoxFit.cover,),
                                                       errorWidget: (context,
                                                           url,
                                                           error) =>
-                                                          Icon(Icons
-                                                              .error),
+                                                          Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                                                       fadeInDuration:
                                                       Duration(
                                                           milliseconds:
@@ -638,20 +672,20 @@ class MerchantCartState extends State<MerchantCart>
                                                       fit: BoxFit
                                                           .cover,
                                                     )
-                                                        : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                        : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),),
                                                   title: Text(
                                                     output2?[
                                                       'prod_name'],
                                                     style:
                                                     TextStyle(
-                                                        fontWeight: FontWeight.w500, fontSize: 16),
+                                                        fontWeight: FontWeight.w500, fontSize: 16,  height: 0.9),
                                                   ),
                                                   subtitle: Padding(
                                                     padding: const EdgeInsets.only(top: 4.0),
                                                     child: Row(
                                                       children: [
                                                         Text(output2?[widget.prodList2[i].split('^')[4]] + ' ', style: TextStyle(
-                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                         )),
                                                         if (widget.prodList2[i].split('^')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                         else if(widget.prodList2[i].split('^')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -674,22 +708,22 @@ class MerchantCartState extends State<MerchantCart>
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 15.0),
-                                                  child: Container(height: 9,
+                                                  child: Container(height: 12,
                                                     decoration: BoxDecoration(
                                                         border: Border(
                                                           bottom:
-                                                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                          BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
                                                         )),),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           Positioned(
-                                            top : 8,
-                                            left : 50,
+                                            top : 11,
+                                            right: MediaQuery.of(context).size.width - 80,
                                             child: Container(
-                                              height: 20,
-                                              width: 30,
+                                              // height: 20,
+                                              // width: 30,
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   color: AppTheme.skBorderColor2,
@@ -700,11 +734,35 @@ class MerchantCartState extends State<MerchantCart>
                                                     color: Colors.white,
                                                     width: 2,
                                                   )),
-                                              child: Text(widget.prodList2[i].split('^')[2], style: TextStyle(
-                                                fontSize: 11, fontWeight: FontWeight.w500,
-                                              )),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                child: Text(double.parse(widget.prodList2[i].split('^')[2]).round().toString(), style: TextStyle(
+                                                    fontSize: 11, fontWeight: FontWeight.w500
+                                                )),
+                                              ),
                                             ),
                                           ),
+                                          // Positioned(
+                                          //   top : 8,
+                                          //   left : 50,
+                                          //   child: Container(
+                                          //     height: 20,
+                                          //     width: 30,
+                                          //     alignment: Alignment.center,
+                                          //     decoration: BoxDecoration(
+                                          //         color: AppTheme.skBorderColor2,
+                                          //         borderRadius:
+                                          //         BorderRadius.circular(
+                                          //             10.0),
+                                          //         border: Border.all(
+                                          //           color: Colors.white,
+                                          //           width: 2,
+                                          //         )),
+                                          //     child: Text(widget.prodList2[i].split('^')[2], style: TextStyle(
+                                          //       fontSize: 11, fontWeight: FontWeight.w500,
+                                          //     )),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                       dismissal:
@@ -808,52 +866,51 @@ class MerchantCartState extends State<MerchantCart>
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        top: BorderSide(
-                            color:
-                            AppTheme.skBorderColor2,
-                            width: 1.0),
-                      )),
-                  width: double.infinity,
-                  height: 158,
-                  child: Column(
-                    mainAxisAlignment:
-                    MainAxisAlignment.end,
-                    crossAxisAlignment:
-                    CrossAxisAlignment.end,
-                    children: [
-                      ListTile(
-                        title: Text(
-                         textSetTotalSale,
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight:
-                              FontWeight
-                                  .w500),
-                        ),
-                        subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set',
-                            style: TextStyle(
-                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                            )) : Text(totalItems2() + ' item sets',
-                            style: TextStyle(
-                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                            )),
-                        trailing: Text('$currencyUnit '+
-                            TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight:
-                              FontWeight
-                                  .w500),
-                        ),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      top: BorderSide(
+                          color:
+                          AppTheme.skBorderColor2,
+                          width: 1.0),
+                    )),
+                width: double.infinity,
+                height: 142,
+                child: Column(
+                  mainAxisAlignment:
+                  MainAxisAlignment.start,
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text(
+                       textSetTotalSale,
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight:
+                            FontWeight
+                                .w500),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                      subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set',
+                          style: TextStyle(
+                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                          )) : Text(totalItems2() + ' item sets',
+                          style: TextStyle(
+                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                          )),
+                      trailing: Text('$currencyUnit '+
+                          TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight:
+                            FontWeight
+                                .w500),
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -871,7 +928,7 @@ class MerchantCartState extends State<MerchantCart>
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width - 30,
-                            height: 55,
+                            height: 50,
                             decoration: BoxDecoration(
                                 borderRadius:
                                 BorderRadius.circular(10.0),
@@ -890,12 +947,17 @@ class MerchantCartState extends State<MerchantCart>
                                       padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                       child: Container(
                                           child: Text(
-                                           textSetCheckout,
+                                            textSetCheckout,
+                                            textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black),
+                                            strutStyle: StrutStyle(
+                                            height: 1.3,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
                                             ),
                                           )
                                       ),
@@ -906,9 +968,9 @@ class MerchantCartState extends State<MerchantCart>
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -1016,7 +1078,7 @@ class MerchantCartState extends State<MerchantCart>
       'discount' : discountAmount2.toString() + disText2,
       'refund': 'FALSE',
       'subs': subs,
-      'merchantId' : widget.merchantId.split('^')[0],
+      'merchantId' : merchRealId,
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),
       'documentId' : docId,
@@ -1032,7 +1094,7 @@ class MerchantCartState extends State<MerchantCart>
     print('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants');
 
-    cusOrder.doc(widget.merchantId.split('^')[0]).update({
+    cusOrder.doc(merchRealId).update({
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
@@ -1922,7 +1984,7 @@ class MerchantCartState extends State<MerchantCart>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1],
+                                    Text(merchId == 'name' ? 'No merchant' : merchId,
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
@@ -2418,12 +2480,12 @@ class MerchantCartState extends State<MerchantCart>
                                           });
 
                                           if (dateExist) {
-                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '<>' + widget.merchantId.split('^')[1] +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
                                             Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter);
                                             print('adddateexist added');
                                           }
                                           else {
-                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '<>' + widget.merchantId.split('^')[1] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
                                             Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
                                             print('adddateexist not');
                                           }
