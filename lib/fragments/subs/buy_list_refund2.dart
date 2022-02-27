@@ -1046,7 +1046,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               String data = widget.data;
 
                                               String noCustomer = '';
-                                              if(data.split('^')[3].split('&')[0] == 'No customer') {
+                                              if(data.split('^')[3].split('&')[0] == 'No merchant') {
                                                 noCustomer = 'name';
                                               } else {noCustomer = data.split('^')[3].split('&')[0];}
 
