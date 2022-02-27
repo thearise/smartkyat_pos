@@ -105,6 +105,9 @@ class _WelcomeState extends State<Welcome>
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           checkFirstSeen();
+          // Navigator.of(context).push(
+          //     FadeRoute(page: FirstLaunchPage(),)
+          // );
         });
       } else {
         getStoreId().then((value) {

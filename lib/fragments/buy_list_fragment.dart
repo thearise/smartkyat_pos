@@ -3865,7 +3865,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                           child: StreamBuilder(
                               stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders')
                                   .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
                                   .orderBy('date', descending: true).snapshots(),
                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if(snapshot.hasData) {
