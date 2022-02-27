@@ -5568,7 +5568,7 @@ class HomePageState extends State<HomePage>
                                         ),
                                         (prodList2.length != 0 || merchantId != 'name^name') ?
                                         Positioned(
-                                          bottom: 157,
+                                          bottom: homeBotPadding + 157,
                                           right: 15,
                                           child: GestureDetector(
                                             onTap: (){
