@@ -65,14 +65,16 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
   String textSetSaleTitle = 'SALE INFORMATION';
+  bool isEnglish = true;
 
   @override
   void initState() {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetSaleCart = 'Add to\nbuy cart';
-          textSetPurchasedOrders = 'Purchased\norders';
+          isEnglish = false;
+          textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
+          textSetPurchasedOrders = 'ဝယ်ထားသော\norders များ';
           textSetEdit = 'Edit merchant';
           textSetSaleInfo = 'Sale info';
           textSetContactInfo = 'Contact info';
@@ -90,6 +92,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
       }
       else if(value=='english') {
         setState(() {
+          isEnglish = true;
           textSetSaleCart = 'Add to\nbuy cart';
           textSetPurchasedOrders = 'Purchased\norders';
           textSetEdit = 'Edit merchant';
@@ -281,6 +284,10 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                             fontWeight: FontWeight.w600,
                                                             fontSize: 16,
                                                           ),
+                                                          strutStyle: StrutStyle(
+                                                            height: isEnglish? 1.4: 1.6,
+                                                            forceStrutHeight: true,
+                                                          )
                                                         ),
                                                       ),
                                                     ],
@@ -333,6 +340,10 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 16,
                                                         ),
+                                                        strutStyle: StrutStyle(
+                                                          height: isEnglish? 1.4: 1.6,
+                                                          forceStrutHeight: true,
+                                                        )
                                                       ),
                                                     ),
                                                   ],

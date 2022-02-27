@@ -56,13 +56,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
   String textSetSaleTitle = 'SALE INFORMATION';
+  bool isEnglish = true;
   @override
   void initState() {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetSaleCart = 'Add to\nsale cart';
-          textSetPurchasedOrders = 'Purchased\norders';
+          isEnglish = false;
+          textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
+          textSetPurchasedOrders = 'ရောင်းထားသော\norders များ';
           textSetEdit = 'Edit customer';
           textSetSaleInfo = 'Sale info';
           textSetContactInfo = 'Contact info';
@@ -81,6 +83,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
       }
       else if(value=='english') {
         setState(() {
+          isEnglish = true;
           textSetSaleCart = 'Add to\nsale cart';
           textSetPurchasedOrders = 'Purchased\norders';
           textSetEdit = 'Edit customer';
@@ -312,6 +315,10 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             fontWeight: FontWeight.w600,
                                                             fontSize: 16,
                                                           ),
+                                                          strutStyle: StrutStyle(
+                                                            height: isEnglish? 1.4: 1.6,
+                                                            forceStrutHeight: true,
+                                                          )
                                                         ),
                                                       ),
                                                     ],
@@ -364,6 +371,10 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 16,
                                                         ),
+                                                        strutStyle: StrutStyle(
+                                                          height: isEnglish? 1.4: 1.6,
+                                                          forceStrutHeight: true,
+                                                        )
                                                       ),
                                                     ),
                                                   ],
