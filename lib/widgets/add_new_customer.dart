@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -150,7 +151,12 @@ class _AddCustomerState extends State<AddCustomer> {
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
                                               controller: mnameCtrl,
-                                              keyboardType: TextInputType.text,
+                                              keyboardType: TextInputType.name,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(30),
+                                                FilteringTextInputFormatter.deny('^'),
+                                                FilteringTextInputFormatter.deny('<>'),
+                                              ],
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required ';

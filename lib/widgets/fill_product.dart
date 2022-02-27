@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -43,7 +44,11 @@ class _FillProductState extends State<FillProduct> {
   final mcostCtrl = TextEditingController();
   bool prodAdding = false;
 
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
 
+  String _getNum() =>
+      r'[0-9]';
 
   String currencyUnit = 'MMK';
 
@@ -199,7 +204,9 @@ class _FillProductState extends State<FillProduct> {
                                           width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                           child: TextFormField(
                                             controller: munitCtrl,
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                            inputFormatters: <TextInputFormatter>[
+                                              FilteringTextInputFormatter.allow(RegExp(_getNum())),],
 // The validator receives the text that the user has entered.
                                             validator: (value) {
                                               if (value == null ||
@@ -284,7 +291,9 @@ class _FillProductState extends State<FillProduct> {
                                         left: 15.0, right: 15.0, top: 118),
                                     child: TextFormField(
                                       controller: msaleCtrl,
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                       validator: (value) {
                                         if (value == null ||
                                             value.isEmpty) {
