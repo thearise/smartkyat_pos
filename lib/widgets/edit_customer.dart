@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../app_theme.dart';
 
@@ -161,7 +162,12 @@ class _EditCustomerState extends State<EditCustomer> {
                             Padding(
                               padding: const EdgeInsets.only(top: 45.0, right: 15.0, left:15.0),
                               child: TextFormField(
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.name,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(30),
+                                  FilteringTextInputFormatter.deny('^'),
+                                  FilteringTextInputFormatter.deny('<>'),
+                                ],
                                 controller: cusNameCtrl,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
