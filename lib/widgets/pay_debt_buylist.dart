@@ -674,7 +674,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
                             String noCustomer = '';
 
-                            if(widget.data.split('^')[3].split('&')[0] == 'No customer') {
+                            if(widget.data.split('^')[3].split('&')[0] == 'No merchant') {
                               noCustomer = 'name';
                             } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
 
