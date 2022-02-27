@@ -60,6 +60,10 @@ class _WelcomeState extends State<Welcome>
   bool isLoading = true;
   bool loadingState = false;
 
+  String lang = 'english';
+
+  bool isEnglish = true;
+
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
@@ -72,6 +76,14 @@ class _WelcomeState extends State<Welcome>
       );
       await prefs.setBool('seen', true);
     }
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
   }
 
   @override
@@ -105,9 +117,26 @@ class _WelcomeState extends State<Welcome>
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           checkFirstSeen();
-          // Navigator.of(context).push(
+          // await Navigator.of(context).push(
           //     FadeRoute(page: FirstLaunchPage(),)
           // );
+
+          getLangId().then((val) {
+            print('ffirs ' + val.toString());
+            setState(() {
+              lang = val;
+              if(lang == 'english') {
+                isEnglish = true;
+              } else {
+                isEnglish = false;
+              }
+            });
+          });
+
+          // setState(() {
+          //   print('setting state ' + lang.toString());
+          // });
+
         });
       } else {
         getStoreId().then((value) {
@@ -289,12 +318,17 @@ class _WelcomeState extends State<Welcome>
                                                             bottom: 3.0),
                                                         child: Container(
                                                           child: Text(
-                                                            'Create an account',
+                                                            isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 17.5,
                                                                 fontWeight: FontWeight.w600,
                                                                 letterSpacing:-0.1
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1.3,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
                                                             ),
                                                           ),
                                                         ),
@@ -303,22 +337,29 @@ class _WelcomeState extends State<Welcome>
                                                   ),
                                                   SizedBox(height: 22,),
                                                   RichText(
+                                                    strutStyle: StrutStyle(
+                                                      height: 1,
+                                                      // fontSize:,
+                                                      forceStrutHeight: true,
+                                                    ),
                                                     text: new TextSpan(
                                                       children: [
                                                         new TextSpan(
-                                                          text: 'By signing up, you agree to our ',
+                                                          text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
                                                           style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.grey,
-                                                              fontWeight: FontWeight.w500
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
                                                           ),
                                                         ),
                                                         new TextSpan(
                                                           text: 'Terms',
                                                           style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.blue,
-                                                              fontWeight: FontWeight.w500
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
                                                           ),
                                                           recognizer: new TapGestureRecognizer()
                                                             ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
@@ -327,41 +368,55 @@ class _WelcomeState extends State<Welcome>
                                                         new TextSpan(
                                                           text: ', ',
                                                           style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.grey,
-                                                              fontWeight: FontWeight.w500
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
                                                           ),
                                                         ),
                                                         new TextSpan(
                                                           text: 'Privacy Policy',
                                                           style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.blue,
-                                                              fontWeight: FontWeight.w500
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
                                                           ),
                                                           recognizer: new TapGestureRecognizer()
                                                             ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                                                             },
                                                         ),
                                                         new TextSpan(
-                                                          text: ', and ',
+                                                          text: isEnglish? ', and ': ', နှင့် ',
                                                           style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
+                                                          ),
+                                                        ),
+                                                        new TextSpan(
+                                                          text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                          style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
+                                                          ),
+                                                          recognizer: new TapGestureRecognizer()
+                                                            ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                            },
+                                                        ),
+                                                        if(!isEnglish)
+                                                          new TextSpan(
+                                                            text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                            style: new TextStyle(
                                                               fontSize: 12.5,
                                                               color: Colors.grey,
-                                                              fontWeight: FontWeight.w500
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new TextSpan(
-                                                          text: 'Cookie Use.',
-                                                          style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.blue,
-                                                              fontWeight: FontWeight.w500
-                                                          ),
-                                                          recognizer: new TapGestureRecognizer()
-                                                            ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                            },
-                                                        ),
                                                       ],
                                                     ),
                                                   )
@@ -396,6 +451,11 @@ class _WelcomeState extends State<Welcome>
                                                             style: TextStyle(
                                                                 height: 0.95
                                                             ),
+                                                            // strutStyle: StrutStyle(
+                                                            //   height: 1,
+                                                            //   // fontSize:,
+                                                            //   forceStrutHeight: true,
+                                                            // ),
                                                             maxLines: 1,
                                                             decoration: InputDecoration(
                                                               enabledBorder: const OutlineInputBorder(
@@ -436,9 +496,15 @@ class _WelcomeState extends State<Welcome>
                                                               labelStyle: TextStyle(
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.black,
+                                                                height: 1
                                                               ),
 // errorText: 'Error message',
-                                                              labelText: 'Email address',
+                                                              labelText: isEnglish? 'Email address': 'အီးမေးလ်',
+                                                              // labelStrutStyle: StrutStyle(
+                                                              //   height: 1,
+                                                              //   // fontSize:,
+                                                              //   forceStrutHeight: true,
+                                                              // ),
                                                               floatingLabelBehavior:
                                                               FloatingLabelBehavior.auto,
 //filled: true,
@@ -517,7 +583,7 @@ class _WelcomeState extends State<Welcome>
                                                               color: Colors.black,
                                                             ),
 // errorText: 'Error message',
-                                                            labelText: 'Password',
+                                                            labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
                                                             floatingLabelBehavior:
                                                             FloatingLabelBehavior.auto,
 //filled: true,
@@ -556,13 +622,17 @@ class _WelcomeState extends State<Welcome>
                                                                           bottom: 2.0),
                                                                       child: Container(
                                                                         child: Text(
-                                                                          'Forgot?',
+                                                                          isEnglish? 'Forgot?': 'မေ့နေလား?',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 17.5,
                                                                               fontWeight: FontWeight.w600,
                                                                               letterSpacing:-0.1
                                                                           ),
+                                                                          strutStyle: StrutStyle(
+                                                                              height: 1.3,
+                                                                              forceStrutHeight: true
+                                                                          )
                                                                         ),
                                                                       ),
                                                                     ),
@@ -668,13 +738,17 @@ class _WelcomeState extends State<Welcome>
                                                                             bottom: 2.0),
                                                                         child: Container(
                                                                           child: Text(
-                                                                            'Login',
+                                                                            isEnglish? 'Login': 'လော့ဂ်အင်',
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                                 fontSize: 17.5,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 letterSpacing:-0.1
                                                                             ),
+                                                                              strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  forceStrutHeight: true
+                                                                              )
                                                                           ),
                                                                         ),
                                                                       ),
@@ -685,22 +759,29 @@ class _WelcomeState extends State<Welcome>
                                                             ),
                                                             SizedBox(height: 22,),
                                                             RichText(
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
                                                               text: new TextSpan(
                                                                 children: [
                                                                   new TextSpan(
-                                                                    text: 'By signing up, you agree to our ',
+                                                                    text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
                                                                     style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.grey,
-                                                                        fontWeight: FontWeight.w500
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
                                                                     ),
                                                                   ),
                                                                   new TextSpan(
                                                                     text: 'Terms',
                                                                     style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.blue,
-                                                                        fontWeight: FontWeight.w500
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
                                                                     ),
                                                                     recognizer: new TapGestureRecognizer()
                                                                       ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
@@ -709,41 +790,55 @@ class _WelcomeState extends State<Welcome>
                                                                   new TextSpan(
                                                                     text: ', ',
                                                                     style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.grey,
-                                                                        fontWeight: FontWeight.w500
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
                                                                     ),
                                                                   ),
                                                                   new TextSpan(
                                                                     text: 'Privacy Policy',
                                                                     style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.blue,
-                                                                        fontWeight: FontWeight.w500
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
                                                                     ),
                                                                     recognizer: new TapGestureRecognizer()
                                                                       ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                                                                       },
                                                                   ),
                                                                   new TextSpan(
-                                                                    text: ', and ',
+                                                                    text: isEnglish? ', and ': ', နှင့် ',
                                                                     style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
+                                                                    ),
+                                                                  ),
+                                                                  new TextSpan(
+                                                                    text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                                    style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      height: 1.2,
+                                                                    ),
+                                                                    recognizer: new TapGestureRecognizer()
+                                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                      },
+                                                                  ),
+                                                                  if(!isEnglish)
+                                                                    new TextSpan(
+                                                                      text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                                      style: new TextStyle(
                                                                         fontSize: 12.5,
                                                                         color: Colors.grey,
-                                                                        fontWeight: FontWeight.w500
+                                                                        fontWeight: FontWeight.w500,
+                                                                        height: 1.2,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: 'Cookie Use.',
-                                                                    style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.blue,
-                                                                        fontWeight: FontWeight.w500
-                                                                    ),
-                                                                    recognizer: new TapGestureRecognizer()
-                                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                      },
-                                                                  ),
                                                                 ],
                                                               ),
                                                             )
@@ -1315,7 +1410,7 @@ class _WelcomeState extends State<Welcome>
                                                     color: Colors.black,
                                                   ),
 // errorText: 'Error message',
-                                                  labelText: 'Name',
+                                                  labelText: isEnglish? 'Name': 'အမည်',
                                                   floatingLabelBehavior:
                                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -1385,7 +1480,7 @@ class _WelcomeState extends State<Welcome>
                                                   color: Colors.black,
                                                 ),
 // errorText: 'Error message',
-                                                labelText: 'Email Address',
+                                                labelText: isEnglish? 'Email address': 'အီးမေးလ်',
                                                 floatingLabelBehavior:
                                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -1478,7 +1573,7 @@ class _WelcomeState extends State<Welcome>
                                                     color: Colors.black,
                                                   ),
 // errorText: 'Error message',
-                                                  labelText: 'Password',
+                                                  labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
                                                   floatingLabelBehavior:
                                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -1558,7 +1653,7 @@ class _WelcomeState extends State<Welcome>
                                                   color: Colors.black,
                                                 ),
 // errorText: 'Error message',
-                                                labelText: 'Confirm Password',
+                                                labelText: isEnglish? 'Confirm password': 'လျှိုဝှက်စာလုံး ပြန်ရိုက်ပါ',
                                                 floatingLabelBehavior:
                                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -1678,13 +1773,17 @@ class _WelcomeState extends State<Welcome>
                                                           bottom: 2.0),
                                                       child: Container(
                                                         child: Text(
-                                                          'Sign up',
+                                                          isEnglish? 'Sign up': 'ဆိုင်းအပ်',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 17.5,
                                                               fontWeight: FontWeight.w600,
                                                               letterSpacing:-0.1
                                                           ),
+                                                          strutStyle: StrutStyle(
+                                                            height: 1.3,
+                                                            forceStrutHeight: true
+                                                          )
                                                         ),
                                                       ),
                                                     ),
@@ -1692,22 +1791,29 @@ class _WelcomeState extends State<Welcome>
                                                 ),
                                                 SizedBox(height: 22,),
                                                 RichText(
+                                                  strutStyle: StrutStyle(
+                                                    height: 1,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   text: new TextSpan(
                                                     children: [
                                                       new TextSpan(
-                                                        text: 'By signing up, you agree to our ',
+                                                        text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
                                                         style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
                                                         ),
                                                       ),
                                                       new TextSpan(
                                                         text: 'Terms',
                                                         style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
                                                         ),
                                                         recognizer: new TapGestureRecognizer()
                                                           ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
@@ -1716,41 +1822,55 @@ class _WelcomeState extends State<Welcome>
                                                       new TextSpan(
                                                         text: ', ',
                                                         style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
                                                         ),
                                                       ),
                                                       new TextSpan(
                                                         text: 'Privacy Policy',
                                                         style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
                                                         ),
                                                         recognizer: new TapGestureRecognizer()
                                                           ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                                                           },
                                                       ),
                                                       new TextSpan(
-                                                        text: ', and ',
+                                                        text: isEnglish? ', and ': ', နှင့် ',
                                                         style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
+                                                        ),
+                                                      ),
+                                                      new TextSpan(
+                                                        text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                        style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1.2,
+                                                        ),
+                                                        recognizer: new TapGestureRecognizer()
+                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                          },
+                                                      ),
+                                                      if(!isEnglish)
+                                                        new TextSpan(
+                                                          text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                          style: new TextStyle(
                                                             fontSize: 12.5,
                                                             color: Colors.grey,
-                                                            fontWeight: FontWeight.w500
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 1.2,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      new TextSpan(
-                                                        text: 'Cookie Use.',
-                                                        style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500
-                                                        ),
-                                                        recognizer: new TapGestureRecognizer()
-                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                          },
-                                                      ),
                                                     ],
                                                   ),
                                                 )
@@ -1788,12 +1908,18 @@ class _WelcomeState extends State<Welcome>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text('New to smart kyat pos?',
+                                  child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         letterSpacing: 0.02
-                                    ),),
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                    ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
@@ -1815,11 +1941,16 @@ class _WelcomeState extends State<Welcome>
                                     },
                                     child: Container(
                                       child: Text(
-                                        'Sign up',
+                                        isEnglish? 'Sign up': 'ဆိုင်းအပ်',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.2,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
                                         ),
                                       ),
                                     ),
@@ -1836,12 +1967,18 @@ class _WelcomeState extends State<Welcome>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text('Have an account already?',
+                                  child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         letterSpacing: 0.02
-                                    ),),
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                    ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
@@ -1872,11 +2009,16 @@ class _WelcomeState extends State<Welcome>
                                     },
                                     child: Container(
                                       child: Text(
-                                        'Login',
+                                        isEnglish? 'Login': 'လော့ဂ်အင်',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.2,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
                                         ),
                                       ),
                                     ),
@@ -1891,12 +2033,18 @@ class _WelcomeState extends State<Welcome>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text('New to smart kyat pos?',
+                                  child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         letterSpacing: 0.02
-                                    ),),
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
@@ -1918,11 +2066,16 @@ class _WelcomeState extends State<Welcome>
                                     },
                                     child: Container(
                                       child: Text(
-                                        'Sign up',
+                                        isEnglish? 'Sign up': 'ဆိုင်းအပ်',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.2,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
                                         ),
                                       ),
                                     ),
@@ -1938,12 +2091,18 @@ class _WelcomeState extends State<Welcome>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text('Have an account already?',
+                                  child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         letterSpacing: 0.02
-                                    ),),
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
@@ -1966,11 +2125,16 @@ class _WelcomeState extends State<Welcome>
                                     },
                                     child: Container(
                                       child: Text(
-                                        'Login',
+                                        isEnglish? 'Login': 'လော့ဂ်အင်',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.2,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
                                         ),
                                       ),
                                     ),
