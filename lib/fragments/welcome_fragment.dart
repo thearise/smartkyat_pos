@@ -596,6 +596,8 @@ class _WelcomeState extends State<Welcome>
                                                       Padding(
                                                         padding: const EdgeInsets.only(top: 160.0),
                                                         child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             Row(
                                                               children: [
@@ -767,7 +769,7 @@ class _WelcomeState extends State<Welcome>
                                                               text: new TextSpan(
                                                                 children: [
                                                                   new TextSpan(
-                                                                    text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
+                                                                    text: isEnglish? 'By signing in, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
                                                                     style: new TextStyle(
                                                                       fontSize: 12.5,
                                                                       color: Colors.grey,
@@ -1666,6 +1668,8 @@ class _WelcomeState extends State<Welcome>
                                           Padding(
                                             padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
                                             child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 ButtonTheme(
                                                   minWidth: MediaQuery.of(context).size.width,
