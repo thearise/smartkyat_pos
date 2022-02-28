@@ -783,7 +783,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     ),
                                   ),
                                   SizedBox(height: 15,),
-                                  merchantName != 'No customer' ? Column(
+                                  merchantName != 'No merchant' ? Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
 

@@ -501,6 +501,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                               ),
                                               SizedBox(width: 4),
+                                              Text(
+                                                covertToDayNum(data['date'].toDate().day.toString()) + '/' + zeroToTen(data['date'].toDate().month.toString()) + ' ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
                                               Text(convertToHour(data['date'].toDate().hour.toString()) + ':' + convertToMinutes(data['date'].toDate().minute.toString()) + ' ' + convertToAMPM(data['date'].toDate().hour.toString()),
                                                 style: TextStyle(
                                                   fontSize: 14,
@@ -761,6 +769,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
 
 
+  }
+
+  covertToDayNum(String input) {
+    if(input[0]=='0') {
+      return input[1];
+    } else {
+      return input;
+    }
   }
 
   queryFilter() {

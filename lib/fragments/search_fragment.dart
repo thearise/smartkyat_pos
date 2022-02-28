@@ -2116,6 +2116,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                           child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                         ),
                                                         SizedBox(width: 4),
+                                                        Text(
+                                                          covertToDayNum(item.split('^')[0].substring(6,8)) + '/' + item.split('^')[0].substring(4,6) + ' ',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
                                                         Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
                                                           style: TextStyle(
                                                             fontSize: 14,
@@ -2362,6 +2370,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                           child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                         ),
                                                         SizedBox(width: 4),
+                                                        Text(
+                                                          covertToDayNum(item.split('^')[0].substring(6,8)) + '/' + item.split('^')[0].substring(4,6) + ' ',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
                                                         Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
                                                           style: TextStyle(
                                                             fontSize: 14,
@@ -3045,6 +3061,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //       return Container();
     //     }
     // );
+  }
+
+  covertToDayNum(String input) {
+    if(input[0]=='0') {
+      return input[1];
+    } else {
+      return input;
+    }
   }
 
   convertToAMPM(String input){
