@@ -323,7 +323,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                             fit: BoxFit
                                                                 .cover,
                                                           )
-                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),),
                                                         title: Text(
                                                           output2?[
                                                             'prod_name'],

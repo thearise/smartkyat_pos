@@ -1051,8 +1051,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             data['img_1'],
                                                         width: 75,
                                                         height: 75,
-                                                        errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75),
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
+                                                        errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
                                                         fadeInDuration:
                                                         Duration(
                                                             milliseconds:
@@ -1067,7 +1067,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         fit: BoxFit
                                                             .cover,
                                                       )
-                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
+                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
                                                 ],
                                               ),
                                               SizedBox(
