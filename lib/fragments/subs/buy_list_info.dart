@@ -540,7 +540,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                              builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                       );
                                                       widget._openCartBtn();
                                                     },

@@ -101,37 +101,37 @@ class MerchantCartState extends State<MerchantCart>
       if(value=='burmese') {
         setState(() {
           textSetMerchOrders = 'အ၀ယ်စာရင်း';
-           textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
-           textSetDiscount = 'လျော့ဈေး';
-           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
-           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
-           textSetCheckout = 'ငွေရှင်းမည်';
-           textSetAmountApplied = 'Amount applied';
-           textSetPercent = 'Percentage';
-           textSetCashAccept = 'Cash acceptance';
-           textSetCashRev = 'CASH RECEIVED';
-           textSetCustom = 'Custom amount';
-           textSetDebt = 'Unpaid amount';
-           textSetRefund = 'Cash refund';
-           textSetDone = 'ငွေရှင်းမည်';
+          textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
+          textSetDiscount = 'လျော့ဈေး';
+          textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
+          textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
+          textSetCheckout = 'ငွေရှင်းမည်';
+          textSetAmountApplied = 'Amount applied';
+          textSetPercent = 'Percentage';
+          textSetCashAccept = 'Cash acceptance';
+          textSetCashRev = 'CASH RECEIVED';
+          textSetCustom = 'Custom amount';
+          textSetDebt = 'Unpaid amount';
+          textSetRefund = 'Cash refund';
+          textSetDone = 'ငွေရှင်းမည်';
         });
       }
       else if(value=='english') {
         setState(() {
-           textSetMerchOrders = 'Merchant cart';
-           textSetClearCart = 'Clear cart';
-           textSetDiscount = 'Discount';
-           textSetNoMerchant = 'No merchant';
-           textSetTotalSale = 'Total sale';
-           textSetCheckout = 'Checkout';
-           textSetAmountApplied = 'Amount applied';
-           textSetPercent = 'Percentage';
-           textSetCashAccept = 'Cash acceptance';
-           textSetCashRev = 'CASH RECEIVED';
-           textSetCustom = 'Custom amount';
-           textSetDebt = 'Unpaid amount';
-           textSetRefund = 'Cash refund';
-           textSetDone = 'Done';
+          textSetMerchOrders = 'Merchant cart';
+          textSetClearCart = 'Clear cart';
+          textSetDiscount = 'Discount';
+          textSetNoMerchant = 'No merchant';
+          textSetTotalSale = 'Total sale';
+          textSetCheckout = 'Checkout';
+          textSetAmountApplied = 'Amount applied';
+          textSetPercent = 'Percentage';
+          textSetCashAccept = 'Cash acceptance';
+          textSetCashRev = 'CASH RECEIVED';
+          textSetCustom = 'Custom amount';
+          textSetDebt = 'Unpaid amount';
+          textSetRefund = 'Cash refund';
+          textSetDone = 'Done';
         });
       }
     });
@@ -593,7 +593,7 @@ class MerchantCartState extends State<MerchantCart>
                                       .data!
                                       .data();
                                   var image = output2?[
-                                    'img_1'];
+                                  'img_1'];
                                   salePrice = output2?['buyPrice1'];
 
                                   widget.prodList2[i] = widget.prodList2[i].split('^')[0] + '^' + widget.prodList2[i].split('^')[1] + '^' +
@@ -680,7 +680,7 @@ class MerchantCartState extends State<MerchantCart>
                                                         : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),),
                                                   title: Text(
                                                     output2?[
-                                                      'prod_name'],
+                                                    'prod_name'],
                                                     style:
                                                     TextStyle(
                                                         fontWeight: FontWeight.w500, fontSize: 16,  height: 0.9),
@@ -690,7 +690,7 @@ class MerchantCartState extends State<MerchantCart>
                                                     child: Row(
                                                       children: [
                                                         Text(output2?[widget.prodList2[i].split('^')[4]] + ' ', style: TextStyle(
-                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                         )),
                                                         if (widget.prodList2[i].split('^')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                         else if(widget.prodList2[i].split('^')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -898,7 +898,7 @@ class MerchantCartState extends State<MerchantCart>
                   children: [
                     ListTile(
                       title: Text(
-                       textSetTotalSale,
+                        textSetTotalSale,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight:
@@ -964,13 +964,13 @@ class MerchantCartState extends State<MerchantCart>
                                             textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
                                             strutStyle: StrutStyle(
-                                            height: 1.3,
-                                            // fontSize:,
-                                            forceStrutHeight: true,
+                                              height: 1.3,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
                                             ),
                                           )
                                       ),
@@ -1080,7 +1080,7 @@ class MerchantCartState extends State<MerchantCart>
     }).catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter) async {
+  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter, dateTime) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
 
@@ -1097,6 +1097,7 @@ class MerchantCartState extends State<MerchantCart>
       'documentId' : docId,
       'refund_filter': reFilter,
       'debt_filter': deFilter,
+      'dateTime': dateTime.toString()
     })
 
         .then((value) => print("User Updated"))
@@ -1190,20 +1191,35 @@ class MerchantCartState extends State<MerchantCart>
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13,
+                                          height: 1.5
                                       )),
                                       SizedBox(width: 5),
-                                      if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                      else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                      else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
-                                        else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                      if (unit == 'unit_name') Padding(
+                                        padding: const EdgeInsets.only(top: 2.0),
+                                        child: Icon( SmartKyat_POS.prodm, size: 15, color: Colors.grey,),
+                                      )
+                                      else if(unit == 'sub1_name') Padding(
+                                        padding: const EdgeInsets.only(top: 2.0),
+                                        child: Icon(SmartKyat_POS.prods1, size: 15, color: Colors.grey,),
+                                      )
+                                      else if(unit == 'sub2_name') Padding(
+                                          padding: const EdgeInsets.only(top: 2.0),
+                                          child: Icon(SmartKyat_POS.prods2, size: 15, color: Colors.grey,),
+                                        )
+                                        else Icon( Icons.check, size: 15, color: Colors.grey,),
                                     ],
                                   ),
                                   Text(productName,
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.3
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      forceStrutHeight: true,
                                     ),
                                   ),
 
@@ -1257,7 +1273,7 @@ class MerchantCartState extends State<MerchantCart>
                                           },
                                           child: Container(
                                             width: (MediaQuery.of(context).size.width - 60)/3,
-                                            height: 55,
+                                            height: 50,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1287,22 +1303,33 @@ class MerchantCartState extends State<MerchantCart>
                                         SizedBox(width: 15),
                                         Container(
                                           width: (MediaQuery.of(context).size.width - 60)/3,
-                                          height: 55,
+                                          height: 50,
                                           child: TextField(
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                height: 0.95
+                                            ),
                                             decoration: InputDecoration(
                                               enabledBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
+// width: 0.0 produces a thin "hairline" border
                                                   borderSide: const BorderSide(
-                                                      color: AppTheme.skBorderColor, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                      color: AppTheme.skBorderColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
 
                                               focusedBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
+// width: 0.0 produces a thin "hairline" border
                                                   borderSide: const BorderSide(
-                                                      color: AppTheme.skThemeColor2, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                                      color: AppTheme.themeColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+                                              contentPadding: const EdgeInsets.only(
+                                                  left: 15.0,
+                                                  right: 15.0,
+                                                  top: 20,
+                                                  bottom: 20.0),
                                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                                               //filled: true,
                                               border: OutlineInputBorder(
@@ -1331,7 +1358,7 @@ class MerchantCartState extends State<MerchantCart>
                                           },
                                           child: Container(
                                             width: (MediaQuery.of(context).size.width - 60)/3,
-                                            height: 55,
+                                            height: 50,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1642,25 +1669,25 @@ class MerchantCartState extends State<MerchantCart>
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                  color:
-                                  AppTheme.skBorderColor2,
-                                  width: 1.0),
-                            )),
-                        width: double.infinity,
-                        height: 158,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.end,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.end,
-                          children: [
-                            ListTile(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                                color:
+                                AppTheme.skBorderColor2,
+                                width: 1.0),
+                          )),
+                      width: double.infinity,
+                      height: 142,
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.start,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 72,
+                            child: ListTile(
                               title: Text(
                                 'Total',
                                 style: TextStyle(
@@ -1678,66 +1705,65 @@ class MerchantCartState extends State<MerchantCart>
                                         .w500),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      print('eachProduct' +eachProd);
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    print('eachProduct' +eachProd);
 
-                                      for (int j = 0; j < widget.prodList2.length; j++)
-                                        if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
-                                          setState((){
-                                            mystate((){
-                                              eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+eachProd.split('^')[3]+ '^'+ eachProd.split('^')[4]+'^'+eachProd.split('^')[5]+'^'+eachProd.split('^')[6];
-                                              widget.prodList2[j] = eachProd;
-                                            });  });
-                                        } else print('leelar');
+                                    for (int j = 0; j < widget.prodList2.length; j++)
+                                      if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
+                                        setState((){
+                                          mystate((){
+                                            eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+eachProd.split('^')[3]+ '^'+ eachProd.split('^')[4]+'^'+eachProd.split('^')[5]+'^'+eachProd.split('^')[6];
+                                            widget.prodList2[j] = eachProd;
+                                          });  });
+                                      } else print('leelar');
 
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                  child: Container(
-                                    width: (MediaQuery.of(context).size.width),
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        color: AppTheme.themeColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0,
-                                          bottom: 15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .center,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                              child: Container(
-                                                  child: Text(
-                                                    'Save',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Colors.black
-                                                    ),
-                                                  )
-                                              ),
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Container(
+                                  width: (MediaQuery.of(context).size.width),
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      color: AppTheme.themeColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15.0,
+                                        bottom: 15.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                            child: Container(
+                                                child: Text(
+                                                  'Save',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  ),
+                                                )
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                )
-                            )
-                          ],
-                        ),
+                                ),
+                              )
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -2383,126 +2409,126 @@ class MerchantCartState extends State<MerchantCart>
 
                                       });
 
-                                        CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+                                      CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
-                                        monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot)  async {
-                                          querySnapshot.docs.forEach((doc) {
-                                            monthExist = true;
-                                            monthId = doc.id;
-                                          });
-                                          print('month ' + monthExist.toString());
-                                          if (monthExist) {
-                                            monthlyData.doc(monthId).update({
+                                      monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot)  async {
+                                        querySnapshot.docs.forEach((doc) {
+                                          monthExist = true;
+                                          monthId = doc.id;
+                                        });
+                                        print('month ' + monthExist.toString());
+                                        if (monthExist) {
+                                          monthlyData.doc(monthId).update({
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
+                                          }).then((value) => print("data Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
+                                        }
+                                        else {
+                                          monthlyData.add({
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                            for(int j = 1; j<= 31; j++)
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                            'date': now,
+
+                                          }).then((value) {
+                                            print('valueid' + value.id.toString());
+                                            monthlyData.doc(value.id).update({
                                               now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                               now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
-                                            }).then((value) => print("data Updated"))
+
+                                            }).then((value) => print("Data Updated"))
                                                 .catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                          else {
-                                            monthlyData.add({
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+                                          }).catchError((error) => print("Failed to update user: $error"));
+                                        }
+                                      });
 
-                                              'date': now,
+                                      CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
 
-                                            }).then((value) {
-                                              print('valueid' + value.id.toString());
-                                              monthlyData.doc(value.id).update({
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
-
-                                              }).then((value) => print("Data Updated"))
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }).catchError((error) => print("Failed to update user: $error"));
-                                          }
+                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot)  async {
+                                        querySnapshot.docs.forEach((doc) {
+                                          yearExist = true;
+                                          yearId = doc.id;
                                         });
+                                        print('year ' + yearExist.toString());
+                                        if (yearExist) {
+                                          yearlyData.doc(yearId).update({
+                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
 
-                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+                                          }).then((value) => print("data Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
+                                        }
+                                        else {
+                                          yearlyData.add({
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                            for(int j = 1; j<= 12; j++)
+                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
 
-                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot)  async {
-                                          querySnapshot.docs.forEach((doc) {
-                                            yearExist = true;
-                                            yearId = doc.id;
-                                          });
-                                          print('year ' + yearExist.toString());
-                                          if (yearExist) {
-                                            yearlyData.doc(yearId).update({
-                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                            'date': now,
+
+                                          }).then((value) {
+                                            print('valueid' + value.id.toString());
+                                            yearlyData.doc(value.id).update({
+                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                               now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
-
-                                            }).then((value) => print("data Updated"))
+                                            }).then((value) => print("Data Updated"))
                                                 .catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                          else {
-                                            yearlyData.add({
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+                                          }).catchError((error) => print("Failed to update user: $error"));
+                                        }
+                                      });
 
-                                              'date': now,
 
-                                            }).then((value) {
-                                              print('valueid' + value.id.toString());
-                                              yearlyData.doc(value.id).update({
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                                now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
-                                              }).then((value) => print("Data Updated"))
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }).catchError((error) => print("Failed to update user: $error"));
-                                          }
+                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
+                                          .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) {
+                                        querySnapshot.docs.forEach((doc) {
+                                          dateExist = true;
+                                          dateId = doc.id;
                                         });
 
-
-                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-                                            .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot) {
-                                          querySnapshot.docs.forEach((doc) {
-                                            dateExist = true;
-                                            dateId = doc.id;
-                                          });
-
-                                          if (dateExist) {
-                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
-                                            Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter);
-                                            print('adddateexist added');
-                                          }
-                                          else {
-                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
-                                            Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
-                                            print('adddateexist not');
-                                          }
-                                        });
+                                        if (dateExist) {
+                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                          Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                          print('adddateexist added');
+                                        }
+                                        else {
+                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                          Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                          print('adddateexist not');
+                                        }
+                                      });
 
 
 
@@ -2538,7 +2564,7 @@ class MerchantCartState extends State<MerchantCart>
                                           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                           child: Container(
                                             child: Text(
-                                            textSetDone,
+                                              textSetDone,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,
