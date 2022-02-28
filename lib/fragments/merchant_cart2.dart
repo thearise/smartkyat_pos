@@ -101,37 +101,37 @@ class MerchantCartState extends State<MerchantCart>
       if(value=='burmese') {
         setState(() {
           textSetMerchOrders = 'အ၀ယ်စာရင်း';
-           textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
-           textSetDiscount = 'လျော့ဈေး';
-           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
-           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
-           textSetCheckout = 'ငွေရှင်းမည်';
-           textSetAmountApplied = 'Amount applied';
-           textSetPercent = 'Percentage';
-           textSetCashAccept = 'Cash acceptance';
-           textSetCashRev = 'CASH RECEIVED';
-           textSetCustom = 'Custom amount';
-           textSetDebt = 'Unpaid amount';
-           textSetRefund = 'Cash refund';
-           textSetDone = 'ငွေရှင်းမည်';
+          textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
+          textSetDiscount = 'လျော့ဈေး';
+          textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
+          textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
+          textSetCheckout = 'ငွေရှင်းမည်';
+          textSetAmountApplied = 'Amount applied';
+          textSetPercent = 'Percentage';
+          textSetCashAccept = 'Cash acceptance';
+          textSetCashRev = 'CASH RECEIVED';
+          textSetCustom = 'Custom amount';
+          textSetDebt = 'Unpaid amount';
+          textSetRefund = 'Cash refund';
+          textSetDone = 'ငွေရှင်းမည်';
         });
       }
       else if(value=='english') {
         setState(() {
-           textSetMerchOrders = 'Merchant cart';
-           textSetClearCart = 'Clear cart';
-           textSetDiscount = 'Discount';
-           textSetNoMerchant = 'No merchant';
-           textSetTotalSale = 'Total sale';
-           textSetCheckout = 'Checkout';
-           textSetAmountApplied = 'Amount applied';
-           textSetPercent = 'Percentage';
-           textSetCashAccept = 'Cash acceptance';
-           textSetCashRev = 'CASH RECEIVED';
-           textSetCustom = 'Custom amount';
-           textSetDebt = 'Unpaid amount';
-           textSetRefund = 'Cash refund';
-           textSetDone = 'Done';
+          textSetMerchOrders = 'Merchant cart';
+          textSetClearCart = 'Clear cart';
+          textSetDiscount = 'Discount';
+          textSetNoMerchant = 'No merchant';
+          textSetTotalSale = 'Total sale';
+          textSetCheckout = 'Checkout';
+          textSetAmountApplied = 'Amount applied';
+          textSetPercent = 'Percentage';
+          textSetCashAccept = 'Cash acceptance';
+          textSetCashRev = 'CASH RECEIVED';
+          textSetCustom = 'Custom amount';
+          textSetDebt = 'Unpaid amount';
+          textSetRefund = 'Cash refund';
+          textSetDone = 'Done';
         });
       }
     });
@@ -690,7 +690,7 @@ class MerchantCartState extends State<MerchantCart>
                                                     child: Row(
                                                       children: [
                                                         Text(output2?[widget.prodList2[i].split('^')[4]] + ' ', style: TextStyle(
-                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                         )),
                                                         if (widget.prodList2[i].split('^')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                         else if(widget.prodList2[i].split('^')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -898,7 +898,7 @@ class MerchantCartState extends State<MerchantCart>
                   children: [
                     ListTile(
                       title: Text(
-                       textSetTotalSale,
+                        textSetTotalSale,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight:
@@ -964,13 +964,13 @@ class MerchantCartState extends State<MerchantCart>
                                             textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
                                             strutStyle: StrutStyle(
-                                            height: 1.3,
-                                            // fontSize:,
-                                            forceStrutHeight: true,
+                                              height: 1.3,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
                                             ),
                                           )
                                       ),
@@ -1080,7 +1080,7 @@ class MerchantCartState extends State<MerchantCart>
     }).catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter) async {
+  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter, dateTime) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
 
@@ -1097,6 +1097,7 @@ class MerchantCartState extends State<MerchantCart>
       'documentId' : docId,
       'refund_filter': reFilter,
       'debt_filter': deFilter,
+      'dateTime': dateTime.toString()
     })
 
         .then((value) => print("User Updated"))
@@ -1190,20 +1191,35 @@ class MerchantCartState extends State<MerchantCart>
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13,
+                                          height: 1.5
                                       )),
                                       SizedBox(width: 5),
-                                      if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                      else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                      else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
-                                        else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                      if (unit == 'unit_name') Padding(
+                                        padding: const EdgeInsets.only(top: 2.0),
+                                        child: Icon( SmartKyat_POS.prodm, size: 15, color: Colors.grey,),
+                                      )
+                                      else if(unit == 'sub1_name') Padding(
+                                        padding: const EdgeInsets.only(top: 2.0),
+                                        child: Icon(SmartKyat_POS.prods1, size: 15, color: Colors.grey,),
+                                      )
+                                      else if(unit == 'sub2_name') Padding(
+                                          padding: const EdgeInsets.only(top: 2.0),
+                                          child: Icon(SmartKyat_POS.prods2, size: 15, color: Colors.grey,),
+                                        )
+                                        else Icon( Icons.check, size: 15, color: Colors.grey,),
                                     ],
                                   ),
                                   Text(productName,
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.3
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      forceStrutHeight: true,
                                     ),
                                   ),
 
@@ -1257,7 +1273,7 @@ class MerchantCartState extends State<MerchantCart>
                                           },
                                           child: Container(
                                             width: (MediaQuery.of(context).size.width - 60)/3,
-                                            height: 55,
+                                            height: 50,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1287,22 +1303,33 @@ class MerchantCartState extends State<MerchantCart>
                                         SizedBox(width: 15),
                                         Container(
                                           width: (MediaQuery.of(context).size.width - 60)/3,
-                                          height: 55,
+                                          height: 50,
                                           child: TextField(
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                height: 0.95
+                                            ),
                                             decoration: InputDecoration(
                                               enabledBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
+// width: 0.0 produces a thin "hairline" border
                                                   borderSide: const BorderSide(
-                                                      color: AppTheme.skBorderColor, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                      color: AppTheme.skBorderColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
 
                                               focusedBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
+// width: 0.0 produces a thin "hairline" border
                                                   borderSide: const BorderSide(
-                                                      color: AppTheme.skThemeColor2, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                                      color: AppTheme.themeColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+                                              contentPadding: const EdgeInsets.only(
+                                                  left: 15.0,
+                                                  right: 15.0,
+                                                  top: 20,
+                                                  bottom: 20.0),
                                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                                               //filled: true,
                                               border: OutlineInputBorder(
@@ -1331,7 +1358,7 @@ class MerchantCartState extends State<MerchantCart>
                                           },
                                           child: Container(
                                             width: (MediaQuery.of(context).size.width - 60)/3,
-                                            height: 55,
+                                            height: 50,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1642,102 +1669,108 @@ class MerchantCartState extends State<MerchantCart>
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                  color:
-                                  AppTheme.skBorderColor2,
-                                  width: 1.0),
-                            )),
-                        width: double.infinity,
-                        height: 158,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.end,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.end,
-                          children: [
-                            ListTile(
-                              title: Text(
-                                'Total',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
-                              ),
-                              trailing: Text('$currencyUnit '+
-                                  (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                                color:
+                                AppTheme.skBorderColor2,
+                                width: 1.0),
+                          )),
+                      width: double.infinity,
+                      height: 142,
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.start,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 72,
+                            child: Center(
+                              child: ListTile(
+                                title: Text(
+                                  'Total',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
+                                trailing: Text('$currencyUnit '+
+                                    (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      print('eachProduct' +eachProd);
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    print('eachProduct' +eachProd);
 
-                                      for (int j = 0; j < widget.prodList2.length; j++)
-                                        if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
-                                          setState((){
-                                            mystate((){
-                                              eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+eachProd.split('^')[3]+ '^'+ eachProd.split('^')[4]+'^'+eachProd.split('^')[5]+'^'+eachProd.split('^')[6];
-                                              widget.prodList2[j] = eachProd;
-                                            });  });
-                                        } else print('leelar');
+                                    for (int j = 0; j < widget.prodList2.length; j++)
+                                      if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
+                                        setState((){
+                                          mystate((){
+                                            eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+eachProd.split('^')[3]+ '^'+ eachProd.split('^')[4]+'^'+eachProd.split('^')[5]+'^'+eachProd.split('^')[6];
+                                            widget.prodList2[j] = eachProd;
+                                          });  });
+                                      } else print('leelar');
 
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                  child: Container(
-                                    width: (MediaQuery.of(context).size.width),
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        color: AppTheme.themeColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0,
-                                          bottom: 15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .center,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                              child: Container(
-                                                  child: Text(
-                                                    'Save',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Colors.black
-                                                    ),
-                                                  )
-                                              ),
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Container(
+                                  width: (MediaQuery.of(context).size.width),
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      color: AppTheme.themeColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15.0,
+                                        bottom: 15.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                            child: Container(
+                                                child: Text(
+                                                  'Save',
+                                                  textScaleFactor: 1,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                )
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                )
-                            )
-                          ],
-                        ),
+                                ),
+                              )
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -2001,12 +2034,22 @@ class MerchantCartState extends State<MerchantCart>
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                      ),),
+                                        height: 1.5
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.4,
+                                        forceStrutHeight: true,
+                                      ),
+                                    ),
                                     Text(textSetCashAccept,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.3
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.7,
+                                        forceStrutHeight: true,
                                       ),
                                     ),
                                   ],
@@ -2051,17 +2094,47 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(textSetTotalSale, style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                          )),
-                                          SizedBox(height: 3),
-                                          Text('$currencyUnit ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
-                                            fontSize: 23, fontWeight: FontWeight.w500,
-                                          )),
-                                        ],
-                                      )),
+                                          Text('Total sale - $currencyUnit',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              )),
+                                          SizedBox(height: 8),
+                                          Text(TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                                              fontSize: 23, fontWeight: FontWeight.w500,
+                                                                            )),
+                                                                      ],
+                                                                    )),
+                                  // Container(
+                                  //     decoration: BoxDecoration(
+                                  //         borderRadius: BorderRadius.all(
+                                  //           Radius.circular(10.0),
+                                  //         ),
+                                  //         border: Border.all(
+                                  //             color: Colors.grey.withOpacity(0.2),
+                                  //             width: 1.0),
+                                  //         color: AppTheme.lightBgColor),
+                                  //     height:  133,
+                                  //     width: MediaQuery.of(context).size.width,
+                                  //     child: Column(
+                                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                                  //       mainAxisAlignment: MainAxisAlignment.center,
+                                  //       children: [
+                                  //         Text(textSetTotalSale, style: TextStyle(
+                                  //           fontSize: 20,
+                                  //           fontWeight: FontWeight.w500,
+                                  //           color: Colors.grey,
+                                  //         )),
+                                  //         SizedBox(height: 3),
+                                  //         Text('$currencyUnit ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
+                                  //           fontSize: 23, fontWeight: FontWeight.w500,
+                                  //         )),
+                                  //       ],
+                                  //     )),
                                   SizedBox(height: 15),
                                   Text(textSetCashRev,style: TextStyle(
                                       letterSpacing: 2,
@@ -2172,8 +2245,8 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Text( '$currencyUnit ' +
                                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                           style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ),
@@ -2188,372 +2261,378 @@ class MerchantCartState extends State<MerchantCart>
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border(
-                                top: BorderSide(
-                                    color:
-                                    AppTheme.skBorderColor2,
-                                    width: 1.0),
-                              )),
-                          width: double.infinity,
-                          height: 158,
-                          child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.end,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.end,
-                            children: [
-                              debt2!= 0 ? ListTile(
-                                title: Text(
-                                  textSetDebt,
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight:
-                                      FontWeight
-                                          .w500),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                              top: BorderSide(
+                                  color:
+                                  AppTheme.skBorderColor2,
+                                  width: 1.0),
+                            )),
+                        width: double.infinity,
+                        height: 142,
+                        child: Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment.start,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 72,
+                              child: Center(
+                                child: debt2!= 0 ? ListTile(
+                                  title: Text(
+                                    textSetDebt,
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
+                                  trailing: Text('- $currencyUnit '+
+                                      debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
+                                ) : ListTile(
+                                  title: Text(
+                                    textSetRefund,
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
+                                  trailing: Text('$currencyUnit '+
+                                      refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
                                 ),
-                                trailing: Text('- $currencyUnit '+
-                                    debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight:
-                                      FontWeight
-                                          .w500),
-                                ),
-                              ) : ListTile(
-                                title: Text(
-                                  textSetRefund,
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight:
-                                      FontWeight
-                                          .w500),
-                                ),
-                                trailing: Text('$currencyUnit '+
-                                    refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight:
-                                      FontWeight
-                                          .w500),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      discountAmount2 = discount2;
-                                      subList2 = [];
-                                      DateTime now = DateTime.now();
-                                      CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
-                                          shopId).collection('products');
-                                      int length = 0;
-                                      int totalOrders = 0;
-                                      int debts = 0;
-                                      var dateExist = false;
-                                      var dateId = '';
-                                      var monthId = '';
-                                      bool monthExist = false;
-                                      var yearId = '';
-                                      bool yearExist = false;
-                                      bool reFilter = false;
-                                      bool deFilter = false;
-                                      double debtAmounts = 0 ;
-                                      print('order creating here2');
+                              )
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    discountAmount2 = discount2;
+                                    subList2 = [];
+                                    DateTime now = DateTime.now();
+                                    CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
+                                        shopId).collection('products');
+                                    int length = 0;
+                                    int totalOrders = 0;
+                                    int debts = 0;
+                                    var dateExist = false;
+                                    var dateId = '';
+                                    var monthId = '';
+                                    bool monthExist = false;
+                                    var yearId = '';
+                                    bool yearExist = false;
+                                    bool reFilter = false;
+                                    bool deFilter = false;
+                                    double debtAmounts = 0 ;
+                                    print('order creating here2');
 
+                                    mystate(() {
+                                      setState(() {
+                                        disableTouch = true;
+                                        merchCartCreating = true;
+                                        widget.merchCartLoadingState();
+                                      });
+                                    });
+
+                                    FirebaseFirestore.instance.collection('shops').doc(shopId).get().then((value) async {
+                                      length = int.parse(
+                                          value.data()!['buyOrders_length']
+                                              .toString());
+                                      print('lengthsss' + length.toString());
+
+                                      length = length + 1;
+
+                                      buyOrderLengthIncrease();
+
+                                      for (String str in widget.prodList2) {
+                                        subList2.add(
+                                            str.split('^')[0] + '-' + 'veriD' +
+                                                '-' + 'buy0' + '-' +
+                                                str.split('^')[2] + '-' +
+                                                str.split('^')[1] + '-' +
+                                                str.split('^')[4] + '-' +
+                                                str.split('^')[2] + '-0-' +
+                                                'date');
+
+                                        List<String> subLink = [];
+                                        List<String> subName = [];
+                                        List<double> subStock = [];
+
+                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
+
+                                        if (docSnapshot10.exists) {
+                                          Map<String,
+                                              dynamic>? data10 = docSnapshot10
+                                              .data();
+
+                                          for (int i = 0; i < int.parse(
+                                              data10 ? ["sub_exist"]) +
+                                              1; i++) {
+                                            subLink.add(data10 ? ['sub' +
+                                                (i + 1).toString() + '_link']);
+                                            subName.add(data10 ? ['sub' +
+                                                (i + 1).toString() + '_name']);
+                                            print(
+                                                'inStock' + (i + 1).toString());
+                                            subStock.add(double.parse(
+                                                (data10 ? ['inStock' +
+                                                    (i + 1).toString()])
+                                                    .toString()));
+                                          }
+                                        }
+
+                                        if (str.split('^')[4] == 'unit_name') {
+                                          prods.doc(
+                                              str.split('^')[0])
+                                              .update({
+                                            'inStock1': FieldValue.increment(
+                                                double.parse(str.split('^')[2]
+                                                    .toString())),
+                                            'buyPrice1': str.split('^')[1]
+                                                .toString(),
+                                          })
+                                              .then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) => print(
+                                              "Failed to update user: $error"));
+                                        }
+                                        else
+                                        if (str.split('^')[4] == 'sub1_name') {
+                                          prods.doc(
+                                              str.split('^')[0])
+                                              .update({
+                                            'inStock2': FieldValue.increment(
+                                                double.parse(str.split('^')[2]
+                                                    .toString())),
+                                            'buyPrice2': str.split('^')[1]
+                                                .toString(),
+                                          })
+                                              .then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) => print(
+                                              "Failed to update user: $error"));
+                                        } else
+                                        if (str.split('^')[4] == 'sub2_name') {
+                                          prods.doc(
+                                              str.split('^')[0])
+                                              .update({
+                                            'inStock3': FieldValue.increment(
+                                                double.parse(str.split('^')[2]
+                                                    .toString())),
+                                            'buyPrice3': str.split('^')[1]
+                                                .toString(),
+                                          })
+                                              .then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) => print(
+                                              "Failed to update user: $error"));
+                                        }
+                                      }
+
+                                      if(debt2.toString() != '0.0') {
+                                        debts = 1;
+                                        debtAmounts = debt2;
+                                        deFilter = true;
+                                      } else {
+                                        debts = 0;
+                                        debtAmounts = 0;
+                                        deFilter = true;
+                                      }
+                                      totalOrders = totalOrders + 1;
+                                      merchOrder(totalOrders, debts, debtAmounts);
+
+                                    });
+
+                                    CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+
+                                    monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot)  async {
+                                      querySnapshot.docs.forEach((doc) {
+                                        monthExist = true;
+                                        monthId = doc.id;
+                                      });
+                                      print('month ' + monthExist.toString());
+                                      if (monthExist) {
+                                        monthlyData.doc(monthId).update({
+                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
+                                        }).then((value) => print("data Updated"))
+                                            .catchError((error) => print("Failed to update user: $error"));
+                                      }
+                                      else {
+                                        monthlyData.add({
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                          for(int j = 1; j<= 31; j++)
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                          'date': now,
+
+                                        }).then((value) {
+                                          print('valueid' + value.id.toString());
+                                          monthlyData.doc(value.id).update({
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
+
+                                          }).then((value) => print("Data Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
+                                        }).catchError((error) => print("Failed to update user: $error"));
+                                      }
+                                    });
+
+                                    CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+
+                                    yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot)  async {
+                                      querySnapshot.docs.forEach((doc) {
+                                        yearExist = true;
+                                        yearId = doc.id;
+                                      });
+                                      print('year ' + yearExist.toString());
+                                      if (yearExist) {
+                                        yearlyData.doc(yearId).update({
+                                          now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                          now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
+
+                                        }).then((value) => print("data Updated"))
+                                            .catchError((error) => print("Failed to update user: $error"));
+                                      }
+                                      else {
+                                        yearlyData.add({
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                          for(int j = 1; j<= 12; j++)
+                                            now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                          'date': now,
+
+                                        }).then((value) {
+                                          print('valueid' + value.id.toString());
+                                          yearlyData.doc(value.id).update({
+                                            now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
+                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
+                                          }).then((value) => print("Data Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
+                                        }).catchError((error) => print("Failed to update user: $error"));
+                                      }
+                                    });
+
+
+                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
+                                        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot) {
+                                      querySnapshot.docs.forEach((doc) {
+                                        dateExist = true;
+                                        dateId = doc.id;
+                                      });
+
+                                      if (dateExist) {
+                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                        Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                        print('adddateexist added');
+                                      }
+                                      else {
+                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                        Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                        print('adddateexist not');
+                                      }
+                                    });
+
+
+
+                                    widget.clearMerch();
+                                    widget.clearProd();
+
+                                    Future.delayed(const Duration(milliseconds: 3000), () {
                                       mystate(() {
                                         setState(() {
-                                          disableTouch = true;
-                                          merchCartCreating = true;
-                                          widget.merchCartLoadingState();
+                                          widget.endMerchCartLoadingState();
+                                          disableTouch = false;
+                                          merchCartCreating = false;
                                         });
                                       });
-
-                                      FirebaseFirestore.instance.collection('shops').doc(shopId).get().then((value) async {
-                                        length = int.parse(
-                                            value.data()!['buyOrders_length']
-                                                .toString());
-                                        print('lengthsss' + length.toString());
-
-                                        length = length + 1;
-
-                                        buyOrderLengthIncrease();
-
-                                        for (String str in widget.prodList2) {
-                                          subList2.add(
-                                              str.split('^')[0] + '-' + 'veriD' +
-                                                  '-' + 'buy0' + '-' +
-                                                  str.split('^')[2] + '-' +
-                                                  str.split('^')[1] + '-' +
-                                                  str.split('^')[4] + '-' +
-                                                  str.split('^')[2] + '-0-' +
-                                                  'date');
-
-                                          List<String> subLink = [];
-                                          List<String> subName = [];
-                                          List<double> subStock = [];
-
-                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
-
-                                          if (docSnapshot10.exists) {
-                                            Map<String,
-                                                dynamic>? data10 = docSnapshot10
-                                                .data();
-
-                                            for (int i = 0; i < int.parse(
-                                                data10 ? ["sub_exist"]) +
-                                                1; i++) {
-                                              subLink.add(data10 ? ['sub' +
-                                                  (i + 1).toString() + '_link']);
-                                              subName.add(data10 ? ['sub' +
-                                                  (i + 1).toString() + '_name']);
-                                              print(
-                                                  'inStock' + (i + 1).toString());
-                                              subStock.add(double.parse(
-                                                  (data10 ? ['inStock' +
-                                                      (i + 1).toString()])
-                                                      .toString()));
-                                            }
-                                          }
-
-                                          if (str.split('^')[4] == 'unit_name') {
-                                            prods.doc(
-                                                str.split('^')[0])
-                                                .update({
-                                              'inStock1': FieldValue.increment(
-                                                  double.parse(str.split('^')[2]
-                                                      .toString())),
-                                              'buyPrice1': str.split('^')[1]
-                                                  .toString(),
-                                            })
-                                                .then((value) =>
-                                                print("User Updated"))
-                                                .catchError((error) => print(
-                                                "Failed to update user: $error"));
-                                          }
-                                          else
-                                          if (str.split('^')[4] == 'sub1_name') {
-                                            prods.doc(
-                                                str.split('^')[0])
-                                                .update({
-                                              'inStock2': FieldValue.increment(
-                                                  double.parse(str.split('^')[2]
-                                                      .toString())),
-                                              'buyPrice2': str.split('^')[1]
-                                                  .toString(),
-                                            })
-                                                .then((value) =>
-                                                print("User Updated"))
-                                                .catchError((error) => print(
-                                                "Failed to update user: $error"));
-                                          } else
-                                          if (str.split('^')[4] == 'sub2_name') {
-                                            prods.doc(
-                                                str.split('^')[0])
-                                                .update({
-                                              'inStock3': FieldValue.increment(
-                                                  double.parse(str.split('^')[2]
-                                                      .toString())),
-                                              'buyPrice3': str.split('^')[1]
-                                                  .toString(),
-                                            })
-                                                .then((value) =>
-                                                print("User Updated"))
-                                                .catchError((error) => print(
-                                                "Failed to update user: $error"));
-                                          }
-                                        }
-
-                                        if(debt2.toString() != '0.0') {
-                                          debts = 1;
-                                          debtAmounts = debt2;
-                                          deFilter = true;
-                                        } else {
-                                          debts = 0;
-                                          debtAmounts = 0;
-                                          deFilter = true;
-                                        }
-                                        totalOrders = totalOrders + 1;
-                                        merchOrder(totalOrders, debts, debtAmounts);
-
-                                      });
-
-                                        CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
-
-                                        monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot)  async {
-                                          querySnapshot.docs.forEach((doc) {
-                                            monthExist = true;
-                                            monthId = doc.id;
-                                          });
-                                          print('month ' + monthExist.toString());
-                                          if (monthExist) {
-                                            monthlyData.doc(monthId).update({
-                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
-                                            }).then((value) => print("data Updated"))
-                                                .catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                          else {
-                                            monthlyData.add({
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              for(int j = 1; j<= 31; j++)
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                              'date': now,
-
-                                            }).then((value) {
-                                              print('valueid' + value.id.toString());
-                                              monthlyData.doc(value.id).update({
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
-
-                                              }).then((value) => print("Data Updated"))
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }).catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                        });
-
-                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
-
-                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot)  async {
-                                          querySnapshot.docs.forEach((doc) {
-                                            yearExist = true;
-                                            yearId = doc.id;
-                                          });
-                                          print('year ' + yearExist.toString());
-                                          if (yearExist) {
-                                            yearlyData.doc(yearId).update({
-                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
-
-                                            }).then((value) => print("data Updated"))
-                                                .catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                          else {
-                                            yearlyData.add({
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              for(int j = 1; j<= 12; j++)
-                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                              'date': now,
-
-                                            }).then((value) {
-                                              print('valueid' + value.id.toString());
-                                              yearlyData.doc(value.id).update({
-                                                now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
-                                                now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
-                                              }).then((value) => print("Data Updated"))
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }).catchError((error) => print("Failed to update user: $error"));
-                                          }
-                                        });
-
-
-                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-                                            .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                            .get()
-                                            .then((QuerySnapshot querySnapshot) {
-                                          querySnapshot.docs.forEach((doc) {
-                                            dateExist = true;
-                                            dateId = doc.id;
-                                          });
-
-                                          if (dateExist) {
-                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
-                                            Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter);
-                                            print('adddateexist added');
-                                          }
-                                          else {
-                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
-                                            Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
-                                            print('adddateexist not');
-                                          }
-                                        });
-
-
-
-                                      widget.clearMerch();
-                                      widget.clearProd();
-
-                                      Future.delayed(const Duration(milliseconds: 3000), () {
-                                        mystate(() {
-                                          setState(() {
-                                            widget.endMerchCartLoadingState();
-                                            disableTouch = false;
-                                            merchCartCreating = false;
-                                          });
-                                        });
-                                        Navigator.of(context).popUntil((route) => route.isFirst);
-                                        smartKyatFlash('Refill process has been complete successfully.', 's');
-                                      });
-                                    },
-                                    child: Container(
-                                      width: (MediaQuery.of(context).size.width),
-                                      height: 55,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(10.0),
-                                          color: AppTheme.themeColor),
-                                      child: merchCartCreating ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                          child: CupertinoActivityIndicator(radius: 10,)):
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 15.0,
-                                            bottom: 15.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                          child: Container(
-                                            child: Text(
+                                      Navigator.of(context).popUntil((route) => route.isFirst);
+                                      smartKyatFlash('Refill process has been complete successfully.', 's');
+                                    });
+                                  },
+                                  child: Container(
+                                    width: (MediaQuery.of(context).size.width),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                        color: AppTheme.themeColor),
+                                    child: merchCartCreating ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)):
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0,
+                                          bottom: 15.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                        child: Container(
+                                          child: Text(
                                             textSetDone,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black
-                                              ),
+                                            textScaleFactor: 1,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                            strutStyle: StrutStyle(
+                                              height: 1.3,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  )
-                              )
-                            ],
-                          ),
+                                  ),
+                                )
+                            )
+                          ],
                         ),
                       ),
                     ),
