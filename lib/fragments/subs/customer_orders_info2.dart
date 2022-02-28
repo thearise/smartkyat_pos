@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -455,11 +456,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                   ),
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-                    String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                    String item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                    //DateTime.fromMicrosecondsSinceEpoch(data['date'], isUtc: true);
+                    print('tmNow ' + data['date'].toDate().toString());
+                    print('date wrong ' + data['dateTime'].toString());
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(
+                        Navigator.push(
+                          context, MaterialPageRoute(
                             builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                         );
                       },
@@ -1012,4 +1016,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 //     togIndOne = !togIndOne;
 //   });
 // }
+}
+
+extension DateTimeExtension on DateTime {
+  DateTime toLocalDateTime({String format = "yyyy-MM-dd HH:mm:ss"}) {
+    var dateTime = DateFormat(format).parse(this.toString(), true);
+    return dateTime.toLocal();
+  }
 }
