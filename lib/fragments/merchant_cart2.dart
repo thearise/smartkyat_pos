@@ -16,14 +16,19 @@ class MerchantCart extends StatefulWidget {
   final clearMerch;
   final merchCartLoadingState;
   final endMerchCartLoadingState;
+  final remProdListIndFun;
 
   MerchantCart(
       {Key? key,
-        required void toggleCoinCallback3(), required void toggleCoinCallback4(), required void toggleCoinCallback(), required this.prodList2, required this.merchantId, required this.shop,required this.deviceId, required void toggleCoinCallback2(),
+        required void toggleCoinCallback3(), required void toggleCoinCallback4(), required void toggleCoinCallback(), required this.prodList2, required this.merchantId, required this.shop,
+        required this.deviceId,
+        required void toggleCoinCallback2(),
+        required void remProdListInd(int index)
       }): clearProd = toggleCoinCallback,
         clearMerch = toggleCoinCallback2,
         merchCartLoadingState = toggleCoinCallback3,
-        endMerchCartLoadingState = toggleCoinCallback4;
+        endMerchCartLoadingState = toggleCoinCallback4,
+        remProdListIndFun = remProdListInd;
 
   final String shop;
   final String deviceId;
@@ -771,11 +776,15 @@ class MerchantCartState extends State<MerchantCart>
                                         SlidableDrawerDismissal(),
                                         onDismissed:
                                             (actionType) {
-                                          setState((){
-                                            widget.prodList2
-                                                .removeAt(
-                                                i);
+                                          widget.remProdListIndFun(i);
+                                          setState(() {
+
                                           });
+                                          // setState((){
+                                          //   widget.prodList2
+                                          //       .removeAt(
+                                          //       i);
+                                          // });
                                         },
                                       ),
                                       secondaryActions: <
@@ -786,11 +795,15 @@ class MerchantCartState extends State<MerchantCart>
                                           icon:
                                           Icons.delete,
                                           onTap: () {
-                                            setState((){
-                                              widget.prodList2
-                                                  .removeAt(
-                                                  i);
+                                            widget.remProdListIndFun(i);
+                                            setState(() {
+
                                             });
+                                            // setState((){
+                                            //   widget.prodList2
+                                            //       .removeAt(
+                                            //       i);
+                                            // });
                                           },
                                         ),
                                       ],
