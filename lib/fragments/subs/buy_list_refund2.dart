@@ -91,6 +91,8 @@ class _BuyListRefundState extends State<BuyListRefund>
     for(int i=0; i<widget.data2.length; i++) {
       quantityCtrlList.add(TextEditingController());
       quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
+      quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+
     }
     print('phyopyaesohn' + widget.data.toString());
     super.initState();
@@ -532,6 +534,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                         refundItems[i] =
                                                                             refundItems[i] - 1;
                                                                         quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                        quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
                                                                       }
                                                                     });
                                                                   }
@@ -586,8 +589,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                             double.parse(prodListView[i].split('-')[3])) {
                                                                           refundItems[i] = double.parse(value);
                                                                           quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                          quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
                                                                         } else {refundItems[i] = refundItems[i];
                                                                         quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                        quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
                                                                         }
                                                                       });
                                                                     },
@@ -607,10 +612,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                         double.parse(prodListView[i]
                                                                             .split('-')[3])) {
                                                                     } else {
-                                                                      refundItems[i] =
-                                                                          refundItems[i] + 1;
+                                                                      refundItems[i] = refundItems[i] + 1;
+                                                                      quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                      quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
                                                                     }
-                                                                    quantityCtrlList[i].text = refundItems[i].round().toString();
                                                                   });
                                                                 },
                                                                 child: Container(
