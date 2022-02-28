@@ -3999,6 +3999,10 @@ class HomePageState extends State<HomePage>
                                                                                                     int debts = 0;
                                                                                                     var dateExist = false;
                                                                                                     var dateId = '';
+                                                                                                    var monthId = '';
+                                                                                                    bool monthExist = false;
+                                                                                                    var yearId = '';
+                                                                                                    bool yearExist = false;
                                                                                                     bool reFilter = false;
                                                                                                     bool deFilter = false;
                                                                                                     double debtAmounts = 0 ;
@@ -4065,12 +4069,10 @@ class HomePageState extends State<HomePage>
                                                                                                           }
                                                                                                         });
                                                                                                       }
-                                                                                                      print('subList ' + subList.toString());
-
-                                                                                                      if(debt.toString() != '0.0') {
-                                                                                                        deFilter = true;
+                                                                                                      if( debt.toString() != '0.0') {
                                                                                                         debts = 1;
                                                                                                         debtAmounts = debt;
+                                                                                                        deFilter = true;
                                                                                                       } else {
                                                                                                         debts = 0;
                                                                                                         debtAmounts = 0;
@@ -4079,10 +4081,106 @@ class HomePageState extends State<HomePage>
 
                                                                                                       print('subList ' + subList.toString());
 
-                                                                                                      if(customerId.split('^')[0] != 'name') {
-                                                                                                        totalOrders = totalOrders + 1;
-                                                                                                        CusOrder(totalOrders, debts, debtAmounts);
-                                                                                                      }
+                                                                                                      totalOrders = totalOrders + 1;
+                                                                                                      CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                                                      CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+
+                                                                                                      monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                                                                                          .get()
+                                                                                                          .then((QuerySnapshot querySnapshot)  async {
+                                                                                                        querySnapshot.docs.forEach((doc) {
+                                                                                                          monthExist = true;
+                                                                                                          monthId = doc.id;
+                                                                                                        });
+                                                                                                        print('month ' + monthExist.toString());
+                                                                                                        if (monthExist) {
+                                                                                                          monthlyData.doc(monthId).update({
+                                                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
+
+                                                                                                          }).then((value) => print("data Updated"))
+                                                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                                                        }
+                                                                                                        else {
+                                                                                                          monthlyData.add({
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                                                            for(int j = 1; j<= 31; j++)
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                                                            'date': now,
+
+                                                                                                          }).then((value) {
+                                                                                                            print('valueid' + value.id.toString());
+                                                                                                            monthlyData.doc(value.id).update({
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                                                            }).then((value) => print("Data Updated"))
+                                                                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                                                                          }).catchError((error) => print("Failed to update user: $error"));
+                                                                                                        }
+                                                                                                      });
+
+                                                                                                      CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+
+                                                                                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                                                                          .get()
+                                                                                                          .then((QuerySnapshot querySnapshot)  async {
+                                                                                                        querySnapshot.docs.forEach((doc) {
+                                                                                                          yearExist = true;
+                                                                                                          yearId = doc.id;
+                                                                                                        });
+                                                                                                        print('year ' + yearExist.toString());
+                                                                                                        if (yearExist) {
+                                                                                                          yearlyData.doc(yearId).update({
+                                                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
+
+                                                                                                          }).then((value) => print("data Updated"))
+                                                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                                                        }
+                                                                                                        else {
+                                                                                                          yearlyData.add({
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                                                            for(int j = 1; j<= 12; j++)
+                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                                                            'date': now,
+
+                                                                                                          }).then((value) {
+                                                                                                            print('valueid' + value.id.toString());
+                                                                                                            yearlyData.doc(value.id).update({
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                                                            }).then((value) => print("Data Updated"))
+                                                                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                                                                          }).catchError((error) => print("Failed to update user: $error"));
+                                                                                                        }
+                                                                                                      });
 
                                                                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                                                           .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
@@ -4096,12 +4194,12 @@ class HomePageState extends State<HomePage>
 
                                                                                                         if (dateExist) {
                                                                                                           addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                                                          Detail(now, length.toString(),subList, dateId, deFilter, reFilter);
+                                                                                                          Detail(now, length.toString(),subList, dateId,  reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                                                           print('adddateexist added');
                                                                                                         }
                                                                                                         else {
                                                                                                           DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' +  customerId.split('^')[0]+ '<>' + customerId.split('^')[1]  + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), deFilter, reFilter);
+                                                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(),  reFilter, deFilter,now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                                                           print('adddateexist not');
                                                                                                         }
                                                                                                       });
@@ -8973,12 +9071,12 @@ class HomePageState extends State<HomePage>
 
                                                                         if (dateExist) {
                                                                           addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          Detail(now, length.toString(),subList, dateId, reFilter, deFilter);
+                                                                          Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                           print('adddateexist added');
                                                                         }
                                                                         else {
                                                                           DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
+                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                           print('adddateexist not');
                                                                         }
                                                                       });
@@ -11101,7 +11199,7 @@ class HomePageState extends State<HomePage>
     return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
   }
 
-  Future<void> Detail(date, length, subs, docId, reF, deF) async {
+  Future<void> Detail(date, length, subs, docId, reF, deF, dateTime) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
     String customId = deviceIdNum.toString() + length.toString();
@@ -11119,6 +11217,7 @@ class HomePageState extends State<HomePage>
       'documentId' : docId,
       'refund_filter' : reF,
       'debt_filter' : deF,
+      'dateTime' : dateTime.toString()
     })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));

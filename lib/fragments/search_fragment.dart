@@ -700,7 +700,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             }
             querySnapshot2.docs.forEach((doc) {
               setState(() {
-                detailIdList.add(doc['date'].toDate().year.toString() + zeroToTen(doc['date'].toDate().month.toString()) + zeroToTen(doc['date'].toDate().day.toString()) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
@@ -829,7 +829,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             querySnapshot2.docs.forEach((doc) {
 
               setState(() {
-                detailIdList.add(doc['date'].toDate().year.toString() + zeroToTen(doc['date'].toDate().month.toString()) + zeroToTen(doc['date'].toDate().day.toString()) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
