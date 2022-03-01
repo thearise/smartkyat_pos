@@ -5,6 +5,9 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
@@ -45,6 +48,7 @@ class ExampleSection implements ExpandableListSection<String> {
 }
 
 class BlocFirestore extends StatefulWidget {
+
   const BlocFirestore({
     Key? key,
     required this.itemBuilder,
@@ -76,7 +80,10 @@ class BlocFirestore extends StatefulWidget {
     this.isLive = false,
     this.includeMetadataChanges = false,
     this.options,
-  }) : super(key: key);
+    this.shopId,
+    this.dateTime,
+    required void resetState(DateTime resetD),
+  }) : _resetState = resetState, super(key: key);
 
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -99,6 +106,9 @@ class BlocFirestore extends StatefulWidget {
   final DocumentSnapshot? startAfterDocument;
   final Widget? header;
   final Widget? footer;
+  final String? shopId;
+  final DateTime? dateTime;
+  final _resetState;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -144,7 +154,22 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           }
 
           if (loadedState.documentSnapshots.isEmpty) {
-            return widget.onEmpty;
+            // return widget.onEmpty;
+            return Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: [
+                  headerAppBar(),
+                  Expanded(
+                    child: Container(
+                      // color: AppTheme.lightBgColor,
+                      color: Colors.white,
+                      child: Center(child: Text('No data found for selected week', style: TextStyle(fontSize: 15),)),
+                    ),
+                  )
+                ],
+              ),
+            );
           }
           return widget.itemBuilderType == PaginateBuilderType.listView
               ? _buildListView(loadedState)
@@ -165,6 +190,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
   @override
   void initState() {
+    today = widget.dateTime!;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -195,13 +221,29 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       }
     }
 
+
+
     _cubit = PaginationCubit(
       widget.query,
       widget.itemsPerPage,
       widget.startAfterDocument,
       isLive: widget.isLive,
     )..fetchPaginatedList();
+    // _cubit = PaginationCubit(
+    //   ordersQuery(),
+    //   widget.itemsPerPage,
+    //   widget.startAfterDocument,
+    //   isLive: widget.isLive,
+    // )..fetchPaginatedList();
     super.initState();
+  }
+
+  ordersQuery() {
+    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+        .orderBy('date', descending: true);
   }
 
   Widget _buildGridView(PaginationLoaded loadedState) {
@@ -254,14 +296,14 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   }
 
   var sectionList3;
-
+  final cateScCtler = ScrollController();
+  final _width = 10.0;
+  int cateScIndex = 0;
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
       // print('bloc_fire data ' + data.toString());
     }
-
-    int cateScIndex = 0;
 
     var sections = List<ExampleSection>.empty(growable: true);
     int docInc = 0;
@@ -374,7 +416,25 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       scrollDirection: widget.scrollDirection,
       physics: widget.physics,
       slivers: [
-        if (widget.header != null) widget.header!,
+        // if (widget.header != null) widget.header!,
+        SliverAppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+
+          // Provide a standard title.
+
+          // Allows the user to reveal the app bar if they begin scrolling
+          // back up the list of items.
+          floating: true,
+          bottom: PreferredSize(                       // Add this code
+            preferredSize: Size.fromHeight(-2.0),      // Add this code
+            child: Container(),                           // Add this code
+          ),
+          flexibleSpace: headerAppBar(),
+          // Display a placeholder widget to visualize the shrinking size.
+          // Make the initial height of the SliverAppBar larger than normal.
+          expandedHeight: 20,
+        ),
         SliverExpandableList(
           builder: SliverExpandableChildDelegate(
             sectionList: sectionList3,
@@ -1363,6 +1423,295 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
+  }
+
+  // DateTime today = DateTime.now();
+  DateTime today = DateTime.now();
+  DateTime? _dateTime;
+  String _format = 'yyyy-MMMM-dd';
+
+  void _showDatePicker(context) {
+    DatePicker.showDatePicker(
+      context,
+      onMonthChangeStartWithFirstDate: true,
+      pickerTheme: DateTimePickerTheme(
+        showTitle: false,
+        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+      ),
+      minDateTime: DateTime.parse('2010-05-12'),
+      // maxDateTime: DateTime.parse('2021-11-25'),
+      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      initialDateTime: today,
+      dateFormat: _format,
+      locale: DateTimePickerLocale.en_us,
+      onClose: () {
+        setState((){
+          _dateTime = _dateTime;
+          today = today;
+          // DateTime td = DateTime.now();
+          print('closed 1 ' + today.toString());
+          // print('closed 2 ' + td.toString());
+        });
+        widget._resetState(today);
+        // fetchOrders();
+      },
+      onCancel: () => print('onCancel'),
+      onChange: (dateTime, List<int> index) {
+        // setState(() {
+        today = dateTime;
+        _dateTime = dateTime;
+        // });
+
+
+      },
+      onConfirm: (dateTime, List<int> index) {
+        setState(() {
+          today = dateTime;
+          _dateTime = dateTime;
+        });
+      },
+    );
+  }
+
+  String selectDaysCast() {
+    print("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return 'Sep ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 1) {
+      return 'Jan ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 2) {
+      return 'Feb ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 3) {
+      return 'Mar ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 4) {
+      return 'Apr ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 5) {
+      return 'May ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 6) {
+      return 'Jun ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 7) {
+      return 'Jul ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 8) {
+      return 'Aug ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 10) {
+      return 'Oct ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 11) {
+      return 'Nov ' + today.day.toString() + ', ' + today.year.toString();
+    } else if(today.month == 12) {
+      return 'Dec ' + today.day.toString() + ', ' + today.year.toString();
+    } else {
+      return '';
+    }
+
+  }
+
+  _animateToIndex(i) {
+    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    if((_width * i) > cateScCtler.position.maxScrollExtent) {
+      cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    } else {
+      cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    }
+
+  }
+
+  headerAppBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+      child: Container(
+        height: 32,
+        width: MediaQuery.of(context).size.width,
+        // color: Colors.yellow,
+        child: Row(
+          children: [
+            Row(
+              children: [
+                FlatButton(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  color: AppTheme.secButtonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(
+                      color: AppTheme.skBorderColor2,
+                    ),
+                  ),
+                  onPressed: () {
+                    // widget._callback();
+                    _showDatePicker(OneContext().context);
+                  },
+                  child: Container(
+                    child: Row(
+                      // mainAxisAlignment: Main,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 3.0),
+                          child: Icon(
+                            Icons.calendar_view_day_rounded,
+                            size: 18,
+                          ),
+                        ),
+                        Text(
+                          selectDaysCast() + ' (7D)',
+                          // '(7D)',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Container(
+                  color: Colors.grey.withOpacity(0.2),
+                  width: 1.5,
+                  height: 30,
+                )
+              ],
+            ),
+            Expanded(
+              child: ListView(
+                controller: cateScCtler,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(0);
+                        setState(() {
+                          cateScIndex = 0;
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'All',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(5.4);
+                        setState(() {
+                          cateScIndex = 1;
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'Unpaids',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(16.4);
+                        setState(() {
+                          cateScIndex = 2;
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'Refunds',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(20);
+                        setState(() {
+                          cateScIndex = 3;
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'Paids',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 11,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+
+      ),
+    );
   }
 }
 
