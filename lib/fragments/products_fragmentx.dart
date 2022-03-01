@@ -2174,14 +2174,14 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   bool searchOpening = false;
   changeSearchOpening(bool index) {
-    setState(() {
-      searchOpening = index;
-    });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        searchOpeningR = index;
-      });
-    });
+    // setState(() {
+    //   searchOpening = index;
+    // });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   setState(() {
+    //     searchOpeningR = index;
+    //   });
+    // });
   }
 
   getLangId() async {

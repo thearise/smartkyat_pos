@@ -110,14 +110,14 @@ class HomeFragmentState extends State<HomeFragment>
   bool searchOpeningR = false;
 
   changeSearchOpening(bool index) {
-    setState(() {
-      searchOpening = index;
-    });
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      setState(() {
-        searchOpeningR = index;
-      });
-    });
+    // setState(() {
+    //   searchOpening = index;
+    // });
+    // Future.delayed(const Duration(milliseconds: 3000), () {
+    //   setState(() {
+    //     searchOpeningR = index;
+    //   });
+    // });
   }
 
 
