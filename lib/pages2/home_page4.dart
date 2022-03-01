@@ -10782,8 +10782,6 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-      productSale.clear();
-      saleInfo = '';
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
