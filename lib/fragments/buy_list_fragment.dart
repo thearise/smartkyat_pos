@@ -121,14 +121,14 @@ class BuyListFragmentState extends State<BuyListFragment>
   bool searchOpeningR = false;
 
   changeSearchOpening(bool index) {
-    setState(() {
-      searchOpening = index;
-    });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        searchOpeningR = index;
-      });
-    });
+    // setState(() {
+    //   searchOpening = index;
+    // });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   setState(() {
+    //     searchOpeningR = index;
+    //   });
+    // });
   }
 
   getLangId() async {

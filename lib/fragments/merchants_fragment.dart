@@ -93,14 +93,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   bool searchOpeningR = false;
 
   changeSearchOpening(bool index) {
-    setState(() {
-      searchOpening = index;
-    });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        searchOpeningR = index;
-      });
-    });
+    // setState(() {
+    //   searchOpening = index;
+    // });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   setState(() {
+    //     searchOpeningR = index;
+    //   });
+    // });
   }
 
   void printFromOrdersFun(File file, var prodListPR) {

@@ -101,9 +101,9 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
   bool searchOpening = false;
   changeSearchOpening(bool index) {
-    setState(() {
-      searchOpening = index;
-    });
+    // setState(() {
+    //   searchOpening = index;
+    // });
   }
 
   String isPro = 'free';
