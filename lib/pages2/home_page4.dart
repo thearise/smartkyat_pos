@@ -36,6 +36,7 @@ import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/buylist_fragment2.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
@@ -619,7 +620,7 @@ class HomePageState extends State<HomePage>
             ),
             page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag, selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -669,10 +670,10 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: BuyListFragment( selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+            page: BuyListFragment2( selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               key: bordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Champions",
@@ -3543,7 +3544,7 @@ class HomePageState extends State<HomePage>
                                                                                                 .w500),
                                                                                       ),
                                                                                     ),
-                                                                                    Container(
+                                                                                    prodList.length != 0 ? Container(
                                                                                       child: Padding(
                                                                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                                                         child: GestureDetector(
@@ -3564,6 +3565,46 @@ class HomePageState extends State<HomePage>
                                                                                               debt = double.parse(TtlProdListPrice().toString());
                                                                                             }
                                                                                             // sellDone = false;
+                                                                                          },
+                                                                                          child: Container(
+                                                                                            width: MediaQuery.of(context).size.width - 30,
+                                                                                            height: 50,
+                                                                                            decoration: BoxDecoration(
+                                                                                                borderRadius:
+                                                                                                BorderRadius.circular(10.0),
+                                                                                                color: AppTheme.themeColor),
+                                                                                            child: Row(
+                                                                                              mainAxisAlignment:
+                                                                                              MainAxisAlignment
+                                                                                                  .center,
+                                                                                              children: [
+                                                                                                Expanded(
+                                                                                                  child: Padding(
+                                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                    child: Container(
+                                                                                                        child: Text(
+                                                                                                          'Checkout',
+                                                                                                          textAlign: TextAlign.center,
+                                                                                                          style: TextStyle(
+                                                                                                              fontSize: 17,
+                                                                                                              fontWeight: FontWeight.w600,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ) :
+                                                                                    Container(
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                                        child: GestureDetector(
+                                                                                          onTap: () {
                                                                                           },
                                                                                           child: Container(
                                                                                             width: MediaQuery.of(context).size.width - 30,
@@ -5916,7 +5957,7 @@ class HomePageState extends State<HomePage>
                                                                               bottom: 2.0),
                                                                           child: Container(
                                                                             child: Text(
-                                                                              textSetGotoCart,
+                                                                              customerId == 'name^name' ? textSetGotoCart : customerId.split('^')[1].toString(),
                                                                               textScaleFactor: 1,
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
@@ -5965,7 +6006,8 @@ class HomePageState extends State<HomePage>
                                                                                   fontWeight: FontWeight.w500,
                                                                                   color: Colors.black),
                                                                             ),
-                                                                          ) : Container(
+                                                                          ) :
+                                                                          Container(
                                                                             child:
                                                                             Text(
                                                                               totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
@@ -8390,81 +8432,17 @@ class HomePageState extends State<HomePage>
                                                                 .w500),
                                                       ),
                                                     ),
-                                                    Padding(
+                                                    prodList.length != 0 ? Padding(
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                       child: GestureDetector(
                                                         onTap: () {
+                                                          print('productList' + prodList.toString());
                                                           setState(() {
                                                             mystate(() {
                                                               totalAmount = double.parse(TtlProdListPrice());
 
                                                             });
                                                           });
-                                                          // List<double> cashMM = [500, 1000, 5000, 10000];
-                                                          // int i = 0;
-                                                          // String totalCashCal = totalAmount.toInt().toString();
-                                                          // print('CCC 0--> ' + totalAmount.toInt().toString());
-                                                          //
-                                                          // for(i = totalCashCal.toString().length-1; i>=0; i--) {
-                                                          //   if(totalCashCal.toString()[i] == '0') {
-                                                          //
-                                                          //   } else {
-                                                          //     break;
-                                                          //   }
-                                                          // }
-                                                          //
-                                                          // print('CCC 1--> ' + (totalCashCal.length - i).toString());
-                                                          // // int j = 0;
-                                                          //
-                                                          // List<String> cashMMUI = [];
-                                                          // cashMMUI.add(totalCashCal);
-                                                          // for(int j = 0; j < cashMM.length; j++) {
-                                                          //   int k = 0;
-                                                          //   int iii = 0;
-                                                          //   for(int k = cashMM[j].toInt().toString().length-1; k>=0; k--) {
-                                                          //     if(cashMM[j].toInt().toString()[k] == '0') {
-                                                          //
-                                                          //     } else {
-                                                          //       break;
-                                                          //     }
-                                                          //   }
-                                                          //   print('TEST TESET ' + i.toString() + ' ' + cashMM[j].toInt().toString() + ' ' + (cashMM[j].toInt().toString().length - k).toString());
-                                                          //
-                                                          //   String totalCashCalMod = totalCashCal;
-                                                          //   totalCashCalMod = replaceCharAt(totalCashCalMod, i, "0");
-                                                          //
-                                                          //   print('CCCC' + totalCashCal.length.toString() + ' ' + i.toString());
-                                                          //   if(totalCashCal.length-1 == i+1) {
-                                                          //     print('CHECKKK');
-                                                          //     totalCashCalMod = replaceCharAt(totalCashCalMod, i-1, "0");
-                                                          //   }
-                                                          //
-                                                          //   print('totalCashCalMod ' + totalCashCalMod + ' ' + i.toString());
-                                                          //
-                                                          //
-                                                          //
-                                                          //   if(totalCashCal.length - i <= cashMM[j].toInt().toString().length - k) {
-                                                          //     print('nyi nyi ' + cashMM[j].toInt().toString() + ' ' + totalCashCal.substring(i, totalCashCal.length));
-                                                          //     if(cashMM[j] > double.parse(totalCashCal.substring(i, totalCashCal.length))) {
-                                                          //       if(totalCashCalMod.substring(totalCashCalMod.length - i, totalCashCalMod.length).length == cashMM[j].toInt().toString().length) {
-                                                          //         iii++;
-                                                          //         if(double.parse(totalCashCalMod) < cashMM[j]) {
-                                                          //           totalCashCalMod = '0';
-                                                          //         }
-                                                          //         print('HEHRE ' + cashMM[j].toInt().toString());
-                                                          //       }
-                                                          //
-                                                          //       cashMMUI.add((double.parse(totalCashCalMod) + cashMM[j]).toInt().toString());
-                                                          //       print('NYI ' + cashMM[j].toInt().toString());
-                                                          //     }
-                                                          //   }
-                                                          //
-                                                          //
-                                                          //
-                                                          // }
-                                                          //
-                                                          // print('NYIII ' + cashMMUI.toString());
-
                                                           print('totalAmount '+ totalAmount.toString());
                                                           _controller.animateTo(1);
                                                           if(_textFieldController.text == '') {
@@ -8502,7 +8480,46 @@ class HomePageState extends State<HomePage>
                                                           ),
                                                         ),
                                                       ),
-                                                    )
+                                                    ) :
+                                                   Padding(
+                                                     padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                     child: GestureDetector(
+                                                       onTap: () {
+                                                         print('productList' + prodList.toString());
+                                                       },
+                                                       child: Container(
+                                                         width: MediaQuery.of(context).size.width - 30,
+                                                         height: 50,
+                                                         decoration: BoxDecoration(
+                                                             borderRadius:
+                                                             BorderRadius.circular(10.0),
+                                                             color: AppTheme.themeColor),
+                                                         child: Row(
+                                                           mainAxisAlignment:
+                                                           MainAxisAlignment
+                                                               .center,
+                                                           children: [
+                                                             Expanded(
+                                                               child: Padding(
+                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                 child: Container(
+                                                                     child: Text(
+                                                                       'Checkout',
+                                                                       textAlign: TextAlign.center,
+                                                                       style: TextStyle(
+                                                                           fontSize: 17,
+                                                                           fontWeight: FontWeight.w600,
+                                                                           color: Colors.black
+                                                                       ),
+                                                                     )
+                                                                 ),
+                                                               ),
+                                                             ),
+                                                           ],
+                                                         ),
+                                                       ),
+                                                     ),
+                                                   ),
                                                   ],
                                                 ),
                                               ),

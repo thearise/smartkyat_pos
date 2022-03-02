@@ -82,9 +82,10 @@ class MerchantCartState extends State<MerchantCart>
 
   @override
   initState() {
+
     merchId = widget.merchantId.split('^')[1];
     merchRealId = widget.merchantId.split('^')[0];
-    print('initializing ' + widget.merchantId.toString());
+    print('initializing ' + widget.prodList2.toString());
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -1083,7 +1084,7 @@ class MerchantCartState extends State<MerchantCart>
   Future<void> Detail2(date, length , subs, docId, reFilter, deFilter, dateTime) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
-
+   print('detailsub3 ' + subs.toString());
     detail.doc(customId).set({
       'date' : date,
       'total': TtlProdListPrice2(),
@@ -2368,6 +2369,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 str.split('^')[4] + '-' +
                                                 str.split('^')[2] + '-0-' +
                                                 'date');
+                                        print('subList2 init ' + subList2.toString());
 
                                         List<String> subLink = [];
                                         List<String> subName = [];
@@ -2442,6 +2444,7 @@ class MerchantCartState extends State<MerchantCart>
                                               .catchError((error) => print(
                                               "Failed to update user: $error"));
                                         }
+
                                       }
 
                                       if(debt2.toString() != '0.0') {
@@ -2456,8 +2459,8 @@ class MerchantCartState extends State<MerchantCart>
                                       totalOrders = totalOrders + 1;
                                       merchOrder(totalOrders, debts, debtAmounts);
 
-                                    });
 
+                                    print('subList2 Two'+ subList2.toString());
                                     CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
                                     monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
@@ -2556,7 +2559,6 @@ class MerchantCartState extends State<MerchantCart>
                                       }
                                     });
 
-
                                     FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
                                         .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
                                         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
@@ -2577,6 +2579,7 @@ class MerchantCartState extends State<MerchantCart>
                                         Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                         print('adddateexist not');
                                       }
+                                    });
                                     });
 
 
