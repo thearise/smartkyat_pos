@@ -922,6 +922,7 @@ class MerchantCartState extends State<MerchantCart>
                                 .w500),
                       ),
                     ),
+                    widget.prodList2.length != 0 ?
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
@@ -939,6 +940,57 @@ class MerchantCartState extends State<MerchantCart>
                               ),
                             );
                             if(_textFieldController2.text == '') { debt2 = double.parse(TtlProdListPrice2().toString());}
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width - 30,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                color: AppTheme.themeColor),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15.0,
+                                  bottom: 15.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .center,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                      child: Container(
+                                          child: Text(
+                                            textSetCheckout,
+                                            textScaleFactor: 1,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                            strutStyle: StrutStyle(
+                                              height: 1.3,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ) :
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                        child: GestureDetector(
+                          onTap: () {
+                          print('no products to refill');
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width - 30,
