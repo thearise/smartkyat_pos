@@ -6197,7 +6197,7 @@ class HomePageState extends State<HomePage>
           qty = 1;
           price4 = 0;
           buyPriceController.text = price4.toString();
-          barcodeCtrl.text = qty.toString();
+          barcodeCtrl.text = qty.round().toString();
           _dropdownTestItems = buildDropdownTestItems(_testList);
         });
       });
@@ -7251,9 +7251,6 @@ class HomePageState extends State<HomePage>
       }
       await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
     });
-
-
-
     // receiptText.addText(
     //   'MY Shop Name',
     //   size: ReceiptTextSizeType.medium,
@@ -7626,6 +7623,16 @@ class HomePageState extends State<HomePage>
                   // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
                   mystate(() {
                     priInProgHome = false;
+                    productSale = [];
+                    saleInfo = '';
+                    Navigator.pop(context);
+                  });
+                  printClosed = true;
+                  Future.delayed(const Duration(milliseconds: 30000), () {
+                    if(printClosed) {
+                      print('complete');
+                      _onDisconnectDevice();
+                    }
                   });
                 });
 
@@ -10722,8 +10729,7 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-       productSale = [];
-       saleInfo = '';
+
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
@@ -11747,15 +11753,16 @@ class HomePageState extends State<HomePage>
 
     }
   }
+  double subTotal = 0.0;
 
   printFromOrders(File file, var prodListPR,) {
 
     print('PRRRRR ' +   prodListPR.toString());
-
+    subTotal = 0.0;
     printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
-    double subTotal = 0.0;
+
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
@@ -11998,6 +12005,16 @@ class HomePageState extends State<HomePage>
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
+                      prodListPR = [];
+                      subTotal = 0.0;
+                      Navigator.pop(context);
+                    });
+                    printClosed = true;
+                    Future.delayed(const Duration(milliseconds: 30000), () {
+                      if(printClosed) {
+                        print('complete');
+                        _onDisconnectDevice();
+                      }
                     });
                     // /// Example for print QR
                     // await _bluePrintPos.printQR('www.google.com', size: 250);
@@ -12496,7 +12513,6 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-      prodListPR.clear();
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
