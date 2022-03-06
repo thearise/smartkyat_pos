@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
-import 'package:smartkyat_pos/fragments/bloc_home_week_buy.dart';
+import 'package:smartkyat_pos/fragments/bloc_home_week_loss.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'bloc/pagination_cubit.dart';
@@ -48,13 +48,13 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocHomeWeek extends StatefulWidget {
+class BlocHomeWeekBuy extends StatefulWidget {
 
-  const BlocHomeWeek({
+  const BlocHomeWeekBuy({
     Key? key,
     required this.itemBuilder,
     required this.query,
-    required this.itemBuilderType,
+    // required this.itemBuilderType,
     this.gridDelegate =
     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
     this.startAfterDocument,
@@ -83,14 +83,15 @@ class BlocHomeWeek extends StatefulWidget {
     this.options,
     this.shopId,
     this.dateTime,
-    required void resetState(DateTime resetD),
+    required void resetState(DateTime resetD), required this.sale,
   }) : _resetState = resetState, super(key: key);
 
+  final List<DocumentSnapshot<Object?>> sale;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
   final Widget initialLoader;
-  final PaginateBuilderType itemBuilderType;
+  // final PaginateBuilderType itemBuilderType;
   final int itemsPerPage;
   final List<ChangeNotifier>? listeners;
   final EdgeInsets padding;
@@ -118,7 +119,7 @@ class BlocHomeWeek extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocHomeWeekState createState() => _BlocHomeWeekState();
+  _BlocHomeWeekBuyState createState() => _BlocHomeWeekBuyState();
 
   final Widget Function(Exception)? onError;
 
@@ -131,7 +132,7 @@ class BlocHomeWeek extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocHomeWeekState extends State<BlocHomeWeek> {
+class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
   @override
@@ -192,8 +193,8 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
   @override
   void initState() {
-    print('loaded in bloc_home_week');
     today = widget.dateTime!;
+    print('calling buy ' + widget.sale.length.toString());
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -242,8 +243,8 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   }
 
   ordersQuery() {
-    print('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrders')
+    print('shop id loss' + widget.shopId.toString());
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
         .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
         .orderBy('date', descending: true);
@@ -252,13 +253,14 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('bloc_fire sale 1st data ' + data.toString());
+      print('bloc_fire buy data ' + data.toString());
     }
 
     var listView = Container(
-      child: BlocHomeWeekBuy(
+      child: BlocHomeWeekLoss(
         shopId: widget.shopId,
-        sale: loadedState.documentSnapshots,
+        sale: widget.sale,
+        buy: loadedState.documentSnapshots,
         key: valueKeyTog(),
         query: ordersQuery(),
         itemBuilder: (context1, documentSnapshots, index) {
@@ -270,10 +272,39 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
             child: Text('items ' + item.toString()),
           ));
         },
-        resetState: resetState,
         dateTime: widget.dateTime,
+        resetState: resetState,
       ),
     );
+    // var listView = CustomScrollView(
+    //   reverse: widget.reverse,
+    //   controller: widget.scrollController,
+    //   shrinkWrap: widget.shrinkWrap,
+    //   scrollDirection: widget.scrollDirection,
+    //   physics: widget.physics,
+    //   slivers: [
+    //     // if (widget.header != null) widget.header!,
+    //     SliverAppBar(
+    //       elevation: 0,
+    //       backgroundColor: Colors.white,
+    //
+    //       // Provide a standard title.
+    //
+    //       // Allows the user to reveal the app bar if they begin scrolling
+    //       // back up the list of items.
+    //       floating: true,
+    //       bottom: PreferredSize(                       // Add this code
+    //         preferredSize: Size.fromHeight(-2.0),      // Add this code
+    //         child: Container(),                           // Add this code
+    //       ),
+    //       flexibleSpace: headerAppBar(),
+    //       // Display a placeholder widget to visualize the shrinking size.
+    //       // Make the initial height of the SliverAppBar larger than normal.
+    //       expandedHeight: 20,
+    //     ),
+    //     if (widget.footer != null) widget.footer!,
+    //   ],
+    // );
 
     if (widget.listeners != null && widget.listeners!.isNotEmpty) {
       return MultiProvider(
@@ -306,6 +337,49 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
       cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     }
 
+  }
+
+  void _showDatePicker(context) {
+    DatePicker.showDatePicker(
+      context,
+      onMonthChangeStartWithFirstDate: true,
+      pickerTheme: DateTimePickerTheme(
+        showTitle: false,
+        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+      ),
+      minDateTime: DateTime.parse('2010-05-12'),
+      // maxDateTime: DateTime.parse('2021-11-25'),
+      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      initialDateTime: today,
+      dateFormat: _format,
+      locale: DateTimePickerLocale.en_us,
+      onClose: () {
+        setState((){
+          _dateTime = _dateTime;
+          today = today;
+          // DateTime td = DateTime.now();
+          print('closed 1 ' + today.toString());
+          // print('closed 2 ' + td.toString());
+        });
+        widget._resetState(today);
+        // fetchOrders();
+      },
+      onCancel: () => print('onCancel'),
+      onChange: (dateTime, List<int> index) {
+        // setState(() {
+        today = dateTime;
+        _dateTime = dateTime;
+        // });
+
+
+      },
+      onConfirm: (dateTime, List<int> index) {
+        setState(() {
+          today = dateTime;
+          _dateTime = dateTime;
+        });
+      },
+    );
   }
 
   String selectDaysCast() {
@@ -346,7 +420,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
   valueKeyTog() {
     valKTog = today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString());
-    return ValueKey<String>(valKTog.toString() + 'b');
+    return ValueKey<String>(valKTog.toString() + 'l');
     // if(valKTog == 0) {
     //   valKTog = 1;
     //   return ValueKey<String>(valKTog.toString());

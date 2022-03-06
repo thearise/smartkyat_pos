@@ -456,10 +456,17 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                   ),
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-                    String item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                    String item = '';
+                    if(data['dateTime'] == null) {
+                      item = data['date'].toDate().year.toString() +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString())  + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      print('tmNow ' + data['date'].toDate().toString());
+                    } else {
+                      item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      print('date wrong ' + data['dateTime'].toString());
+                    }
                     //DateTime.fromMicrosecondsSinceEpoch(data['date'], isUtc: true);
-                    print('tmNow ' + data['date'].toDate().toString());
-                    print('date wrong ' + data['dateTime'].toString());
+
+
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
