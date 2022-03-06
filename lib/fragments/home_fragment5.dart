@@ -2144,7 +2144,7 @@ class HomeFragmentState extends State<HomeFragment>
                                     //   backgroundColor: Colors.Colors.transparent,
                                     // ),
 
-                                SliverList(
+                                    SliverList(
                                           // Use a delegate to build items as they're scrolled on screen.
                                           delegate: SliverChildBuilderDelegate(
                                             // The builder function returns a ListTile with a title that

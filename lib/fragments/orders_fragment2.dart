@@ -5096,18 +5096,18 @@ class OrdersFragmentState extends State<OrdersFragment>
                       ),
                     ),
                   ),
-                if(searchOpeningR)
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 15,)),
-                      ),
-                    ),
-                  ),
+                // if(searchOpeningR)
+                //   Container(
+                //     height: MediaQuery.of(context).size.height,
+                //     color: Colors.white,
+                //     child: Center(
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(top: 30.0),
+                //         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                //             child: CupertinoActivityIndicator(radius: 15,)),
+                //       ),
+                //     ),
+                //   ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
