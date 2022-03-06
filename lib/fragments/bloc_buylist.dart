@@ -1,7 +1,6 @@
 library paginate_firestore;
 
 import 'dart:math';
-import 'dart:async';
 import 'dart:io';
 
 import 'package:blue_print_pos/models/blue_device.dart';
@@ -13,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
@@ -51,17 +51,17 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocFirestore extends StatefulWidget {
+class BlocBuyList extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
   final _openDrawerBtn;
   final _closeDrawerBtn;
 
-   BlocFirestore({
+  BlocBuyList({
     Key? key,
-     required void openDrawerBtn(),
-     required void closeDrawerBtn(),
+    required void openDrawerBtn(),
+    required void closeDrawerBtn(),
     required void closeCartBtn(),
     required void openCartBtn(),
     this.selectedDev,
@@ -70,7 +70,7 @@ class BlocFirestore extends StatefulWidget {
     required this.query,
     required this.itemBuilderType,
     this.gridDelegate =
-        const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
 
     this.startAfterDocument,
     this.itemsPerPage = 15,
@@ -100,19 +100,19 @@ class BlocFirestore extends StatefulWidget {
     this.dateTime,
     required void resetState(DateTime resetD),
   }) : _resetState = resetState,
-         _closeCartBtn = closeCartBtn,
-         _openCartBtn = openCartBtn,
-         _printFromOrders = printFromOrders,
-         _openDrawerBtn = openDrawerBtn,
+        _closeCartBtn = closeCartBtn,
+        _openCartBtn = openCartBtn,
+        _printFromOrders = printFromOrders,
+        _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn,
-          super(key: key);
+        super(key: key);
 
   final BlueDevice? selectedDev;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
   final Widget initialLoader;
-  final PaginateBuilderType itemBuilderType;
+  final PaginateBuilderType2 itemBuilderType;
   final int itemsPerPage;
   final List<ChangeNotifier>? listeners;
   final EdgeInsets padding;
@@ -140,7 +140,7 @@ class BlocFirestore extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocFirestoreState createState() => _BlocFirestoreState();
+  _BlocBuyListState createState() => _BlocBuyListState();
 
   final Widget Function(Exception)? onError;
 
@@ -153,7 +153,7 @@ class BlocFirestore extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocFirestoreState extends State<BlocFirestore> {
+class _BlocBuyListState extends State<BlocBuyList> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
   String textSetAll = 'All';
@@ -203,11 +203,11 @@ class _BlocFirestoreState extends State<BlocFirestore> {
               ),
             );
           }
-          return widget.itemBuilderType == PaginateBuilderType.listView
+          return widget.itemBuilderType == PaginateBuilderType2.listView
               ? _buildListView(loadedState)
-              : widget.itemBuilderType == PaginateBuilderType.gridView
-                  ? _buildGridView(loadedState)
-                  : _buildShweView(loadedState);
+              : widget.itemBuilderType == PaginateBuilderType2.gridView
+              ? _buildGridView(loadedState)
+              : _buildShweView(loadedState);
         }
       },
     );
@@ -299,7 +299,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
   ordersQuery() {
     // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders')
         .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
         .orderBy('date', descending: true);
@@ -319,7 +319,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           sliver: SliverGrid(
             gridDelegate: widget.gridDelegate,
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 if (index >= loadedState.documentSnapshots.length) {
                   _cubit!.fetchPaginatedList();
                   return widget.bottomLoader;
@@ -344,8 +344,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       return MultiProvider(
         providers: widget.listeners!
             .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
+          create: (context) => _listener,
+        ))
             .toList(),
         child: gridView,
       );
@@ -468,8 +468,6 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     }).toList();
     sectionList3 = sections;
 
-    print('loaded in bloc_firestore ');
-
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: widget.scrollController,
@@ -512,7 +510,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                          builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                     );
                     widget._openDrawerBtn();
                   },
@@ -750,7 +748,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                        builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                   );
                   widget._openDrawerBtn();
                 },
@@ -1028,8 +1026,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       return MultiProvider(
         providers: widget.listeners!
             .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
+          create: (context) => _listener,
+        ))
             .toList(),
         child: listView,
       );
@@ -1263,7 +1261,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
               '^' +
               list[i].split('^')[2] +
               '^' +
-              'No customer' +
+              'No merchant' +
               '&' +
               list[i].split('^')[3].split('<>')[0] +
               '^' +
@@ -1449,7 +1447,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         physics: widget.physics,
         onPageChanged: widget.onPageChanged,
         childrenDelegate: SliverChildBuilderDelegate(
-          (context, index) {
+              (context, index) {
             if (index >= loadedState.documentSnapshots.length) {
               _cubit!.fetchPaginatedList();
               return widget.bottomLoader;
@@ -1471,8 +1469,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       return MultiProvider(
         providers: widget.listeners!
             .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
+          create: (context) => _listener,
+        ))
             .toList(),
         child: pageView,
       );
@@ -1776,4 +1774,4 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   }
 }
 
-enum PaginateBuilderType { listView, gridView, pageView }
+enum PaginateBuilderType2 { listView, gridView, pageView }
