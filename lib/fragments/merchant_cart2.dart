@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,6 +57,12 @@ class MerchantCartState extends State<MerchantCart>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
   }
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -397,7 +404,9 @@ class MerchantCartState extends State<MerchantCart>
                                             context: context,
                                             textFields: [
                                               DialogTextField(
-                                                keyboardType: TextInputType.number,
+                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                // inputFormatters: <TextInputFormatter>[
+                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                 hintText: '0',
                                                 suffixText: '$currencyUnit',
                                                 // initialText: 'mono0926@gmail.com',
@@ -416,7 +425,9 @@ class MerchantCartState extends State<MerchantCart>
                                             context: context,
                                             textFields: [
                                               DialogTextField(
-                                                keyboardType: TextInputType.number,
+                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                // inputFormatters: <TextInputFormatter>[
+                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                 hintText: '0.0',
                                                 suffixText: '%',
                                                 // initialText: 'mono0926@gmail.com',
@@ -1142,7 +1153,7 @@ class MerchantCartState extends State<MerchantCart>
       'total': TtlProdListPrice2(),
       'debt' : debt2,
       'discount' : discountAmount2.toString() + disText2,
-      'refund': 'FALSE',
+      'refund': 'F',
       'subs': subs,
       'merchantId' : merchRealId,
       'deviceId' : deviceIdNum.toString() + '-',
@@ -1389,7 +1400,9 @@ class MerchantCartState extends State<MerchantCart>
                                                 borderRadius: BorderRadius.circular(10),
                                               ),
                                             ),
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                            inputFormatters: <TextInputFormatter>[
+                                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                             onChanged: (value) {
                                               setState(() {
                                                 mystate(() {
@@ -1482,7 +1495,9 @@ class MerchantCartState extends State<MerchantCart>
                                     // ),
 
                                     TextFormField(
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                       controller: buyPriceController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -2227,7 +2242,9 @@ class MerchantCartState extends State<MerchantCart>
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                     onChanged: (value) {
                                       setState(() {
                                         mystate(()
@@ -2622,12 +2639,12 @@ class MerchantCartState extends State<MerchantCart>
                                       });
 
                                       if (dateExist) {
-                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())   + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
                                         Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                         print('adddateexist added');
                                       }
                                       else {
-                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
                                         Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                         print('adddateexist not');
                                       }

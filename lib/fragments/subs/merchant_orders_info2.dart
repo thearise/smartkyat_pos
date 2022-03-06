@@ -453,7 +453,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                   ),
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-                    String item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                    String item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12)  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(context,

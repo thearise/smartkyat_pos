@@ -501,7 +501,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //       ;
     //     }
     //   }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    // print('changeData ' + document['customer_name'].toString() + list[0].toString());
     // }).toList();
 
     // print('changeData ' + snpsht.da);
@@ -700,7 +700,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             }
             querySnapshot2.docs.forEach((doc) {
               setState(() {
-                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
@@ -803,6 +803,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               .limit(10)
               .get()
               .then((QuerySnapshot querySnapshot2) async {
+            print('searching mf ' + searchValue.toString() + ' ' + querySnapshot2.docs.length.toString());
             if(querySnapshot2.docs.length == 0) {
               setState(() {
                 detailIdList = [];
@@ -829,7 +830,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             querySnapshot2.docs.forEach((doc) {
 
               setState(() {
-                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                print('trying');
+                try {
+                  detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                } catch (e) {
+                  detailIdList.add(doc['date'].toDate().year.toString() +  zeroToTen(doc['date'].toDate().month.toString()) +  zeroToTen(doc['date'].toDate().day.toString()) +  zeroToTen(doc['date'].toDate().hour.toString()) +  zeroToTen(doc['date'].toDate().minute.toString()) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                }
+
+                // if(doc['dateTime'] == null) {
+                //   detailIdList.add(doc['date'].toDate().year.toString() +  zeroToTen(doc['date'].toDate().month.toString()) +  zeroToTen(doc['date'].toDate().day.toString()) +  zeroToTen(doc['date'].toDate().hour.toString()) +  zeroToTen(doc['date'].toDate().minute.toString()) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                // } else {
+                //
+                // }
               });
             });
 
@@ -1010,7 +1022,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items = [];
         String searchtxt = searchValue;
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-          .where('archive' ,isNotEqualTo: true)
+            .where('archive' ,isNotEqualTo: true)
         // .orderBy("prod_name")
         // .startAt([searchtxt,])
         // .endAt([searchtxt+'\uf8ff',])
@@ -1513,11 +1525,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           title: Text(
                                             item.split('^sps^')[1].toString(),
                                             style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w500,
-                                              height: 1.1
+                                                fontSize: 18,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500,
+                                                height: 1.1
                                             ),
                                             strutStyle: StrutStyle(
                                               height: 1.3,
@@ -1534,14 +1546,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   .start,
                                               children: [
                                                 Text(
-                                                    item.split('^sps^')[2].toString(),
-                                                    style: TextStyle(
+                                                  item.split('^sps^')[2].toString(),
+                                                  style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight
                                                           .w500,
                                                       color: Colors.grey,
                                                       height: 1.1
-                                                    ),
+                                                  ),
                                                   strutStyle: StrutStyle(
                                                     height: 1.2,
                                                     // fontSize:,
@@ -1551,19 +1563,19 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 SizedBox(
                                                   height: 5,),
                                                 Text(
-                                                    item.split('^sps^')[3].toString(),
-                                                    style: TextStyle(
+                                                  item.split('^sps^')[3].toString(),
+                                                  style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight
                                                           .w500,
                                                       color: Colors.grey,
                                                       height: 1.1
-                                                    ),
-                                                    strutStyle: StrutStyle(
-                                                      height: 1,
-                                                      // fontSize:,
-                                                      forceStrutHeight: true,
-                                                    ),
+                                                  ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                 ),
                                               ],
                                             ),

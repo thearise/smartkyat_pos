@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +42,12 @@ class _BuyListRefundState extends State<BuyListRefund>
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   List<TextEditingController> quantityCtrlList = [];
   String currencyUnit = 'MMK';
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -582,7 +589,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                         borderRadius: BorderRadius.circular(10),
                                                                       ),
                                                                     ),
-                                                                    keyboardType: TextInputType.number,
+                                                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                                                    inputFormatters: <TextInputFormatter>[
+                                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                                                                     onChanged: (value) {
                                                                       setState(() {
                                                                         if ((double.parse(value)) <=
@@ -858,7 +867,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               }
 
                                               double debt = double.parse(widget.data.split('^')[5]);
-                                              String refundAmount = 'FALSE';
+                                              String refundAmount = 'F';
                                               bool reFilter = false;
                                               bool deFilter = false;
                                               var monthId = '';
@@ -881,11 +890,11 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                               print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                               if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
-                                                refundAmount = 'TRUE';
+                                                refundAmount = 'T';
                                                 reFilter = true;
                                               }
                                               if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
-                                                refundAmount = 'PART';
+                                                refundAmount = 'P';
                                                 reFilter = true;
                                               }
 
