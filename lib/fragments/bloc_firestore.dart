@@ -468,6 +468,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     }).toList();
     sectionList3 = sections;
 
+    print('loaded in bloc_firestore ');
+
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: widget.scrollController,
