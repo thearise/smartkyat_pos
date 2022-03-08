@@ -83,9 +83,16 @@ class BlocHomeWeekBuy extends StatefulWidget {
     this.options,
     this.shopId,
     this.dateTime,
-    required void resetState(DateTime resetD), required this.sale,
-  }) : _resetState = resetState, super(key: key);
+    required this.intValIni,
+    required void resetState(DateTime resetD),
+    required void selectedIntVal(int index),
+    required this.sale,
+  }) :
+        _resetState = resetState,
+        _selectedIntVal = selectedIntVal,
+        super(key: key);
 
+  final int intValIni;
   final List<DocumentSnapshot<Object?>> sale;
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -111,6 +118,7 @@ class BlocHomeWeekBuy extends StatefulWidget {
   final String? shopId;
   final DateTime? dateTime;
   final _resetState;
+  final _selectedIntVal;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -274,6 +282,9 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
         },
         dateTime: widget.dateTime,
         resetState: resetState,
+        selectedIntVal: selectedIntVal,
+        intValIni: widget.intValIni,
+        isLive: true,
       ),
     );
     // var listView = CustomScrollView(
@@ -442,6 +453,10 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
 
   resetState(DateTime resetD) {
     widget._resetState(resetD);
+  }
+
+  selectedIntVal(int index) {
+    widget._selectedIntVal(index);
   }
 }
 

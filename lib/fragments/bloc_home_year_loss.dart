@@ -23,9 +23,9 @@ import 'widgets_bloc/error_display.dart';
 import 'widgets_bloc/initial_loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BlocHomeWeekLoss extends StatefulWidget {
+class BlocHomeYearLoss extends StatefulWidget {
 
-  const BlocHomeWeekLoss({
+  const BlocHomeYearLoss({
     Key? key,
     required this.itemBuilder,
     required this.query,
@@ -61,7 +61,7 @@ class BlocHomeWeekLoss extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
-    required this.sale, required this.buy,
+    required this.sale,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
@@ -69,7 +69,6 @@ class BlocHomeWeekLoss extends StatefulWidget {
 
   final int intValIni;
   final List<DocumentSnapshot<Object?>> sale;
-  final List<DocumentSnapshot<Object?>> buy;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
@@ -103,7 +102,7 @@ class BlocHomeWeekLoss extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocHomeWeekLossState createState() => _BlocHomeWeekLossState();
+  _BlocHomeYearLossState createState() => _BlocHomeYearLossState();
 
   final Widget Function(Exception)? onError;
 
@@ -116,7 +115,7 @@ class BlocHomeWeekLoss extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
+class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
   String searchValue = '';
@@ -138,7 +137,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
   String textSetLastMonth = 'This month';
-  String textSetLastYear = 'Last year';
+  String textSetLastYear = 'This year';
   String textSetLast7Days = 'Last 7 Days';
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';
@@ -267,15 +266,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       print('inside loss loss ' + data.toString());
     }
 
-
     for(int i = 0; i < widget.sale.length; i++) {
       Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
-      print('inside loss sale ' + data.toString());
-    }
-
-    for(int i = 0; i < widget.buy.length; i++) {
-      Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
-      print('inside loss buy ' + data.toString());
+      print('inside loss sale 2 ' + data.toString());
     }
 
     double totalLossPrice = 0;
@@ -286,7 +279,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     print('totalLossPrice  ' + totalLossPrice.toString());
 
-    fetchOrders(widget.sale, widget.buy);
+    fetchOrdersYY(widget.sale);
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      if(widget.intValIni == 2 || widget.intValIni == 3) {
+        print('animating to ');
+        cateScCtler.jumpTo(156);
+      }
+    });
+    // fetchOrders(widget.sale, widget.buy);
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: widget.scrollController,
@@ -318,7 +318,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             // The builder function returns a ListTile with a title that
             // displays the index of the current item.
                 (context, index) {
-              if(cateScIndex == 0 || cateScIndex == 1) {
+              if(cateScIndex == 3) {
                 return Container(
                   // height: MediaQuery.of(context).size.height-353,
                   width: MediaQuery.of(context).size.width,
@@ -631,7 +631,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             ),
                                             Text(textSetUnpaid,
                                               style: TextStyle(
-                                                  fontSize: 13, height: 1.2,
+                                                  fontSize: 13, height: 0.9,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
@@ -2371,288 +2371,63 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double monthCostsTotalR = 0;
   double yearCostsTotalR = 0;
 
-  fetchOrders(snapshot0, snapshot1) async {
+  fetchOrdersYY(snapshot0) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
     DateTime monthAgo = today.subtract(const Duration(days: 31));
 
     thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-    thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     todayOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     thisYearOrdersChart =[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0];
 
-    todayCostsTotal = 0;
-    weekCostsTotal = 0;
-    monthCostsTotal = 0;
-    yearCostsTotal = 0;
+    //monthCostsTotal2 = 0;
+    yearCostsTotal2 = 0;
+    // monthUnpaidTotal = 0;
+    yearUnpaidTotal = 0;
+    // monthRefundTotal = 0;
+    yearRefundTotal = 0;
 
-    todayCostsTotalR = 0;
-    weekCostsTotalR = 0;
-    monthCostsTotalR = 0;
-    yearCostsTotalR = 0;
-    todayRefundTotal = 0;
-    weekRefundTotal = 0;
+    print('docs ' + snapshot0.toString());
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
-      // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
+      print('George Y sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
-
-      DateTime dateTimeOrders = data['date'].toDate();
-      String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-      print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
-
-      int week = 0;
-      int month = 0;
-      int year = 0;
-      sevenDaysAgo = today.subtract(const Duration(days: 8));
-      monthAgo = today.subtract(const Duration(days: 31));
-
-      while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
-        sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
-
-        // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-        // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-        // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-        if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-          double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            total += double.parse(str.split('^')[2]);
-            weekCostsTotal += double.parse(str.split('^')[5]);
-          }
-          thisWeekOrdersChart[week] = total;
-
-        }
-        week = week + 1;
-
-      }
-
-      while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
-        monthAgo = monthAgo.add(const Duration(days: 1));
-
-        // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-        // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-
-        // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-        if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-          double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            // print('testing ' + str.split('^')[2]);
-            total += double.parse(str.split('^')[2]);
-            monthCostsTotal += double.parse(str.split('^')[5]);
-          }
-          // print('tatoos ' + total.toString());
-          // setState(() {
-          thisMonthOrdersChart[month] = total;
-
-          // });
-
-        }
-        month = month + 1;
-      }
-      if (dataDate.substring(0,8) == today.year.toString() +
-          zeroToTen(today.month.toString()) +
-          zeroToTen(today.day.toString())) {
-        double total = 0;
-        for (String str in data['daily_order']) {
-          for(int i=0; i<=24 ; i++ ){
-            if(str.split('^')[0].substring(0, 10) == today.year.toString() +
-                zeroToTen(today.month.toString()) +
-                zeroToTen(today.day.toString()) +
-                zeroToTen(i.toString()))
-            {
-              total += double.parse(str.split('^')[2]);
-              todayCostsTotal += double.parse(str.split('^')[5]);
-              // setState(() {
-              todayOrdersChart[i]+=double.parse(str.split('^')[2]);
-              // });
-            }
-            // print('laos ' + total.toString());
-            // print('World ' +todayOrdersChart.toString());
-          }
-        }
-
-
-      }
-      if (dataDate.substring(0,4) == today.year.toString()){
-        double total = 0;
-        for (String str in data['daily_order']) {
-          // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
-          for(int i=1; i<=12 ; i++ ){
-            // print('helloworld '+i.toString());
-
-            if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-            {
-              total += double.parse(str.split('^')[2]);
-              yearCostsTotal += double.parse(str.split('^')[5]);
-              // setState(() {
-              thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
-              // print('fortune ' +thisYearOrdersChart.toString());
-              // });
-            }
-            //print('laos ' + total.toString());
-
-          }
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+          thisYearOrdersChart[i] += thisYearOrdersChart[i] + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
+          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'] != null) {
+          yearCostsTotal2 +=  data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'];
+          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'].toString());
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
+          yearUnpaidTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
+          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
+          yearRefundTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
+          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
+        }
+      }
+
     }
 
-    // print('each ');
-    if(snapshot1 != null) {
-      for(int loopOrd = 0; loopOrd < snapshot1.length; loopOrd++) {
-        print('DOC IIDDCost ' + snapshot1[loopOrd].id.toString());
-        Map<String, dynamic> data = snapshot1[loopOrd].data()! as Map<String, dynamic>;
 
-        DateTime dateTimeOrders = data['date'].toDate();
-        String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-        print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
-
-        int week = 0;
-        int month = 0;
-        int year = 0;
-        sevenDaysAgo = today.subtract(const Duration(days: 8));
-        monthAgo = today.subtract(const Duration(days: 31));
-
-        while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
-          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
-
-          // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-          // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-          // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-          if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in data['daily_order']) {
-              // print(double.parse(str));
-              weekCostsTotalR += double.parse(str.split('^')[2]);
-            }
-
-          }
-          week = week + 1;
-
-        }
-
-        while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
-          monthAgo = monthAgo.add(const Duration(days: 1));
-
-          // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-          // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-
-          // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-          if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in data['daily_order']) {
-              monthCostsTotalR += double.parse(str.split('^')[2]);
-            }
-
-          }
-          month = month + 1;
-        }
-        if (dataDate.substring(0,8) == today.year.toString() +
-            zeroToTen(today.month.toString()) +
-            zeroToTen(today.day.toString())) {
-          double total = 0;
-          for (String str in data['daily_order']) {
-            for(int i=0; i<=24 ; i++ ){
-              if(str.split('^')[0].substring(0, 10) == today.year.toString() +
-                  zeroToTen(today.month.toString()) +
-                  zeroToTen(today.day.toString()) +
-                  zeroToTen(i.toString()))
-              {
-                todayCostsTotalR += double.parse(str.split('^')[2]);
-              }
-            }
-          }
-
-
-        }
-        if (dataDate.substring(0,4) == today.year.toString()){
-          double total = 0;
-          for (String str in data['daily_order']) {
-            // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
-            for(int i=1; i<=12 ; i++ ) {
-              // print('helloworld '+i.toString());
-
-              if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-              {
-                yearCostsTotalR += double.parse(str.split('^')[2]);
-                // print('fortune ' +thisYearOrdersChart.toString());
-                // });
-              }
-              //print('laos ' + total.toString());
-
-            }
-          }
-        }
-
-        // setState(() {
-        //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
-        // });
-
-        // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
-        //   yearAgo = yearAgo.add(const Duration(days: 1));
-        //
-        //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
-        //     double total = 0;
-        //     // print(doc['daily_order'].toString());
-        //     for(String str in doc['daily_order']) {
-        //       // print(double.parse(str));
-        //       total += double.parse(str.split('^')[2]);
-        //     }
-        //     print('total ' + total.toString());
-        //     setState(() {
-        //       thisYearOrdersChart[year] = total;
-        //     });
-        //
-        //   }
-        //   year = year + 1;
-        //
-        // }
-        // print('this year' + thisYearOrdersChart.toString());
-        // print('this week ' + thisWeekOrdersChart.toString());
-        // for(int j = 20210909; j <= 20210915; j++) {
-        //
-        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-        //   print('here shwe 2 ' + j.toString());
-        //   // if(doc['date'] == j.toString()) {
-        //   //   double total = 0;
-        //   //   // print(doc['daily_order'].toString());
-        //   //   for(String str in doc['daily_order']) {
-        //   //     // print(double.parse(str));
-        //   //     total += double.parse(str.split('^')[2]);
-        //   //   }
-        //   //   print('total ' + total.toString());
-        //   //   setState(() {
-        //   //     thisWeekOrdersChart[ij] = total;
-        //   //   });
-        //   //
-        //   // }
-        //   // ij = ij + 1;
-        //   // print(ij);
-        // }
-
-
-        // print('this week 2' + thisWeekOrdersChart.toString());
-
-        // print('each ' + doc.id.toString());
-      }
-    } else {
-      print('null pix');
-    }
 
   }
 
