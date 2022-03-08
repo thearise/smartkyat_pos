@@ -39,8 +39,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/buylist_fragment2.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
-// import 'package:smartkyat_pos/fragments/home_fragment.dart';
-import 'package:smartkyat_pos/fragments/home_fragment5.dart';
+import 'package:smartkyat_pos/fragments/home_fragment6.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
@@ -150,6 +149,12 @@ class HomePageState extends State<HomePage>
       _fabColor = isOpen! ? Colors.green : Colors.blue;
     });
   }
+
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
+  String _getNum() =>
+      r'[0-9]';
 
   List<String> subList = [];
   List<String> subList2 = [];
@@ -3339,7 +3344,9 @@ class HomePageState extends State<HomePage>
                                                                                             context: context,
                                                                                             textFields: [
                                                                                               DialogTextField(
-                                                                                                keyboardType: TextInputType.number,
+                                                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                // inputFormatters: <TextInputFormatter>[
+                                                                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                 hintText: '0',
                                                                                                 suffixText: '$currencyUnit',
                                                                                                 // initialText: 'mono0926@gmail.com',
@@ -3358,7 +3365,9 @@ class HomePageState extends State<HomePage>
                                                                                             context: context,
                                                                                             textFields: [
                                                                                               DialogTextField(
-                                                                                                keyboardType: TextInputType.number,
+                                                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                // inputFormatters: <TextInputFormatter>[
+                                                                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                 hintText: '0.0',
                                                                                                 suffixText: '%',
                                                                                                 // initialText: 'mono0926@gmail.com',
@@ -3685,7 +3694,9 @@ class HomePageState extends State<HomePage>
                                                                                                       borderRadius: BorderRadius.circular(10),
                                                                                                     ),
                                                                                                   ),
-                                                                                                  keyboardType: TextInputType.number,
+                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                  inputFormatters: <TextInputFormatter>[
+                                                                                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                   onChanged: (value) {
                                                                                                     // mystate(() {
                                                                                                     //   totalAmount = double.parse(TtlProdListPrice());
@@ -4157,12 +4168,12 @@ class HomePageState extends State<HomePage>
                                                                                                         });
 
                                                                                                         if (dateExist) {
-                                                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
                                                                                                           Detail(now, length.toString(),subList, dateId,  reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                                                           print('adddateexist added');
                                                                                                         }
                                                                                                         else {
-                                                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' +  customerId.split('^')[0]+ '<>' + customerId.split('^')[1]  + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' +  customerId.split('^')[0]+ '<>' + customerId.split('^')[1]  + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
                                                                                                           Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(),  reFilter, deFilter,now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                                                           print('adddateexist not');
                                                                                                         }
@@ -4464,6 +4475,9 @@ class HomePageState extends State<HomePage>
                                                                                               width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
                                                                                               height: 50,
                                                                                               child: TextField(
+                                                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                inputFormatters: <TextInputFormatter>[
+                                                                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                 textAlign: TextAlign.center,
                                                                                                 style: TextStyle(
                                                                                                     height: 0.95
@@ -4495,7 +4509,6 @@ class HomePageState extends State<HomePage>
                                                                                                     borderRadius: BorderRadius.circular(10),
                                                                                                   ),
                                                                                                 ),
-                                                                                                keyboardType: TextInputType.number,
                                                                                                 onChanged: (value) {
                                                                                                   setState(() {
                                                                                                     quantity = double.parse(value);
@@ -4560,7 +4573,9 @@ class HomePageState extends State<HomePage>
                                                                                         ),),
                                                                                         SizedBox(height: 15,),
                                                                                         TextFormField(
-                                                                                          keyboardType: TextInputType.number,
+                                                                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                          inputFormatters: <TextInputFormatter>[
+                                                                                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                           controller: sellPriceControllerTablet,
                                                                                           validator: (value) {
                                                                                             if (value == null || value.isEmpty) {
@@ -6201,7 +6216,6 @@ class HomePageState extends State<HomePage>
           _dropdownTestItems = buildDropdownTestItems(_testList);
         });
       });
-
     }
   }
 
@@ -6735,6 +6749,9 @@ class HomePageState extends State<HomePage>
                                                               width: (MediaQuery.of(context).size.width - 60)/3,
                                                               height: 50,
                                                               child: TextField(
+                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                inputFormatters: <TextInputFormatter>[
+                                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                 textAlign: TextAlign.center,
                                                                 decoration: InputDecoration(
                                                                   enabledBorder: const OutlineInputBorder(
@@ -6755,7 +6772,7 @@ class HomePageState extends State<HomePage>
                                                                     borderRadius: BorderRadius.circular(10),
                                                                   ),
                                                                 ),
-                                                                keyboardType: TextInputType.number,
+                                                                //keyboardType: TextInputType.number,
                                                                 onChanged: (value) {
                                                                   setState(() {
                                                                     setState((){
@@ -6795,7 +6812,9 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                       SizedBox(height: 15,),
                                                       TextFormField(
-                                                        keyboardType: TextInputType.number,
+                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                        inputFormatters: <TextInputFormatter>[
+                                                          FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                         controller: buyPriceController,
                                                         validator: (value) {
                                                           if (value == null || value.isEmpty) {
@@ -7837,7 +7856,9 @@ class HomePageState extends State<HomePage>
                                                           context: context,
                                                           textFields: [
                                                             DialogTextField(
-                                                              keyboardType: TextInputType.number,
+                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                              // inputFormatters: <TextInputFormatter>[
+                                                              //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                               hintText: '0',
                                                               suffixText: '$currencyUnit',
                                                               // initialText: 'mono0926@gmail.com',
@@ -7856,7 +7877,9 @@ class HomePageState extends State<HomePage>
                                                           context: context,
                                                           textFields: [
                                                             DialogTextField(
-                                                              keyboardType: TextInputType.number,
+                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                              // inputFormatters: <TextInputFormatter>[
+                                                              //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                               hintText: '0.0',
                                                               suffixText: '%',
                                                               // initialText: 'mono0926@gmail.com',
@@ -8609,7 +8632,9 @@ class HomePageState extends State<HomePage>
                                                                       borderRadius: BorderRadius.circular(10),
                                                                     ),
                                                                   ),
-                                                                  keyboardType: TextInputType.number,
+                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                  inputFormatters: <TextInputFormatter>[
+                                                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                   onChanged: (value) {
                                                                     mystate(() {
                                                                       totalAmount = double.parse(TtlProdListPrice());
@@ -9017,12 +9042,12 @@ class HomePageState extends State<HomePage>
                                                                         });
 
                                                                         if (dateExist) {
-                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
                                                                           Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                           print('adddateexist added');
                                                                         }
                                                                         else {
-                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
                                                                           Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                           print('adddateexist not');
                                                                         }
@@ -9367,6 +9392,9 @@ class HomePageState extends State<HomePage>
                                                                     width: (MediaQuery.of(context).size.width - 60)/3,
                                                                     height: 50,
                                                                     child: TextField(
+                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                      inputFormatters: <TextInputFormatter>[
+                                                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                       textAlign: TextAlign.center,
                                                                       style: TextStyle(
                                                                           height: 0.95
@@ -9398,7 +9426,7 @@ class HomePageState extends State<HomePage>
                                                                           borderRadius: BorderRadius.circular(10),
                                                                         ),
                                                                       ),
-                                                                      keyboardType: TextInputType.number,
+                                                                      //keyboardType: TextInputType.number,
                                                                       onChanged: (value) {
                                                                         setState(() {
                                                                           quantity = double.parse(value);
@@ -9460,7 +9488,9 @@ class HomePageState extends State<HomePage>
                                                               ),),
                                                               SizedBox(height: 15,),
                                                               TextFormField(
-                                                                keyboardType: TextInputType.number,
+                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                inputFormatters: <TextInputFormatter>[
+                                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                 controller: sellPriceController,
                                                                 validator: (value) {
                                                                   if (value == null || value.isEmpty) {
@@ -11155,7 +11185,7 @@ class HomePageState extends State<HomePage>
       'total': TtlProdListPrice(),
       'debt' : debt,
       'discount' : discountAmount.toString() + disText,
-      'refund': 'FALSE',
+      'refund': 'F',
       'subs': subs,
       'customerId' : customerId.split('^')[0],
       'deviceId' : deviceIdNum.toString() + '-',

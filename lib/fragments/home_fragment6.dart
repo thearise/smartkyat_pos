@@ -161,7 +161,7 @@ class HomeFragmentState extends State<HomeFragment>
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
   String textSetLastMonth = 'This month';
-  String textSetLastYear = 'Tast year';
+  String textSetLastYear = 'Last year';
   String textSetLast7Days = 'Last 7 Days';
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';

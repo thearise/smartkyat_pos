@@ -261,8 +261,9 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   ),
                                                 ),
                                                 onPressed: () async {
-                                                  widget._callback(widget.id.toString() + '^' + merchantName);
-                                                },
+                                                  await widget._callback(widget.id.toString() + '^' + merchantName);
+                                                  smartKyatFlash(merchantName.toString() + ' has been successfully added to the buy cart.', 's');
+                                                  },
                                                 child: Container(
                                                   width: 100,
                                                   height: 100,

@@ -32,6 +32,9 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     super.dispose();
   }
 
+  String _getRegexString() =>
+      r'[0-9]+[,.]{0,1}[0-9]*';
+
   final _formKey = GlobalKey<FormState>();
 
   String currencyUnit = 'MMK';
@@ -583,7 +586,9 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                             onChanged: (value) {
                               setState(() {
                                 value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;

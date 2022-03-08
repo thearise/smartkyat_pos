@@ -373,7 +373,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       List<String> dailyOrders = [];
       for(String str in document['daily_order']) {
         if(cateScIndex == 2) {
-          if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
+          if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
             dailyOrders.add(str);
           }
         } else if(cateScIndex == 1) {
@@ -394,7 +394,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         List<String> dataLowDailyOrder = [];
         for(String str in dataLow['daily_order']) {
           if(cateScIndex == 2) {
-            if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
+            if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
               dataLowDailyOrder.add(str);
             }
           } else if(cateScIndex == 1) {
@@ -662,7 +662,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                           ),
                                         ),
                                       ),
-                                    if(item.split('^')[4] == 'TRUE')
+                                    if(item.split('^')[4] == 'T')
                                       Padding(
                                         padding: const EdgeInsets.only(left: 6.0),
                                         child: Container(
@@ -684,7 +684,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                         ),
                                       ),
 
-                                    if(item.split('^')[4] == 'PART')
+                                    if(item.split('^')[4] == 'P')
                                       Padding(
                                         padding: const EdgeInsets.only(left: 6.0),
                                         child: Container(
@@ -895,7 +895,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                         ),
                                       ),
                                     ),
-                                  if(item.split('^')[4] == 'TRUE')
+                                  if(item.split('^')[4] == 'T')
                                     Padding(
                                       padding: const EdgeInsets.only(left: 6.0),
                                       child: Container(
@@ -917,7 +917,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                       ),
                                     ),
 
-                                  if(item.split('^')[4] == 'PART')
+                                  if(item.split('^')[4] == 'P')
                                     Padding(
                                       padding: const EdgeInsets.only(left: 6.0),
                                       child: Container(
