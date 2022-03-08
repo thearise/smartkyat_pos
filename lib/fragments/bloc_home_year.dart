@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
-import 'package:smartkyat_pos/fragments/bloc_home_week_buy.dart';
+import 'package:smartkyat_pos/fragments/bloc_home_year_loss.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'bloc/pagination_cubit.dart';
@@ -48,9 +48,9 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocHomeWeek extends StatefulWidget {
+class BlocHomeYear extends StatefulWidget {
 
-  const BlocHomeWeek({
+  const BlocHomeYear({
     Key? key,
     required this.itemBuilder,
     required this.query,
@@ -87,8 +87,8 @@ class BlocHomeWeek extends StatefulWidget {
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
   }) :
-      _resetState = resetState,
-      _selectedIntVal = selectedIntVal,
+        _resetState = resetState,
+        _selectedIntVal = selectedIntVal,
         super(key: key);
 
   final int intValIni;
@@ -125,7 +125,7 @@ class BlocHomeWeek extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocHomeWeekState createState() => _BlocHomeWeekState();
+  _BlocHomeYearState createState() => _BlocHomeYearState();
 
   final Widget Function(Exception)? onError;
 
@@ -138,7 +138,7 @@ class BlocHomeWeek extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocHomeWeekState extends State<BlocHomeWeek> {
+class _BlocHomeYearState extends State<BlocHomeYear> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
   @override
@@ -250,9 +250,9 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
   ordersQuery() {
     print('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrders')
-        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-00' + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'))
         .orderBy('date', descending: true);
   }
 
@@ -263,7 +263,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
     }
 
     var listView = Container(
-      child: BlocHomeWeekBuy(
+      child: BlocHomeYearLoss(
         shopId: widget.shopId,
         sale: loadedState.documentSnapshots,
         key: valueKeyTog(),
@@ -277,10 +277,10 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
             child: Text('items ' + item.toString()),
           ));
         },
+        dateTime: widget.dateTime,
         resetState: resetState,
         selectedIntVal: selectedIntVal,
         intValIni: widget.intValIni,
-        dateTime: widget.dateTime,
         isLive: true,
       ),
     );

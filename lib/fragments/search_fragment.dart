@@ -803,6 +803,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               .limit(10)
               .get()
               .then((QuerySnapshot querySnapshot2) async {
+            print('searching mf ' + searchValue.toString() + ' ' + querySnapshot2.docs.length.toString());
             if(querySnapshot2.docs.length == 0) {
               setState(() {
                 detailIdList = [];
@@ -829,7 +830,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             querySnapshot2.docs.forEach((doc) {
 
               setState(() {
-                detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                print('trying');
+                try {
+                  detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                } catch (e) {
+                  detailIdList.add(doc['date'].toDate().year.toString() +  zeroToTen(doc['date'].toDate().month.toString()) +  zeroToTen(doc['date'].toDate().day.toString()) +  zeroToTen(doc['date'].toDate().hour.toString()) +  zeroToTen(doc['date'].toDate().minute.toString()) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                }
+
+                // if(doc['dateTime'] == null) {
+                //   detailIdList.add(doc['date'].toDate().year.toString() +  zeroToTen(doc['date'].toDate().month.toString()) +  zeroToTen(doc['date'].toDate().day.toString()) +  zeroToTen(doc['date'].toDate().hour.toString()) +  zeroToTen(doc['date'].toDate().minute.toString()) + doc['deviceId'].split('-')[0] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+                // } else {
+                //
+                // }
               });
             });
 

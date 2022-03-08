@@ -292,17 +292,17 @@ class chooseStoreState extends State<chooseStore> {
                     Text('REGISTERED SHOPS', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
                       color: Colors.grey,),),
                     SizedBox(height: 13,),
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('shops')
-                            .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
-                            .snapshots(),
-                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          // print('CAGAIN ' + auth.currentUser!.email.toString());
-                          if(snapshot.hasData) {
-                            print('CAGAIN ' + auth.currentUser!.email.toString());
-                            var index = 0;
-                            return Expanded(
-                              child: ListView(
+                    Expanded(
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance.collection('shops')
+                              .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
+                              .snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            // print('CAGAIN ' + auth.currentUser!.email.toString());
+                            if(snapshot.hasData) {
+                              print('CAGAIN ' + auth.currentUser!.email.toString());
+                              var index = 0;
+                              return ListView(
                                 // physics: NeverScrollableScrollPhysics(),
                                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                                   Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
@@ -388,11 +388,12 @@ class chooseStoreState extends State<chooseStore> {
                                   );
                                 }
                                 ).toList(),
-                              ),
-                            );
+                              );
+                            }
+                            return Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 15,));
                           }
-                          return Container();
-                        }
+                      ),
                     ),
                     Container(
                       color: Colors.white,
