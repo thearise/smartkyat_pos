@@ -259,7 +259,8 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                   ),
                                                 ),
                                                 onPressed: () async {
-                                                  widget._callback(widget.id.toString() + '^' + customerName);
+                                                  await widget._callback(widget.id.toString() + '^' + customerName);
+                                                  smartKyatFlash(customerName.toString() + ' has been successfully added to the sale cart.', 's');
                                                 },
                                                 child: Container(
                                                   width: 100,

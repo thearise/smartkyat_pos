@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
@@ -44,6 +45,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   // TextEditingController quantityCtrl = TextEditingController();
   List<TextEditingController> quantityCtrlList = [];
   String currencyUnit = 'MMK';
+
+  String _getNum() =>
+      r'[0-9]';
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -409,8 +413,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                         borderRadius: BorderRadius.circular(10),
                                                                       ),
                                                                     ),
-                                                                    keyboardType: TextInputType.number,
-                                                                    onChanged: (value) {
+                                                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                                                    inputFormatters: <TextInputFormatter>[
+                                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],                                                                    onChanged: (value) {
                                                                       setState(() {
                                                                         if ((double.parse(value)) <= double.parse(prodListView[i].split('-')[3])) {
                                                                           refundItems[i] = double.parse(value);
@@ -688,7 +693,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 }
 
                                                 double debt = double.parse(widget.data.split('^')[5]);
-                                                String refundAmount = 'FALSE';
+                                                String refundAmount = 'F';
                                                 bool reFilter = false;
                                                 bool deFilter = false;
 
@@ -705,11 +710,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                                 print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                                 if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
-                                                  refundAmount = 'TRUE';
+                                                  refundAmount = 'T';
                                                   reFilter = true;
                                                 }
                                                 if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
-                                                  refundAmount = 'PART';
+                                                  refundAmount = 'P';
                                                   reFilter = true;
                                                 }
                                                 int totalRefunds = 0;
