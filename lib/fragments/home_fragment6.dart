@@ -18,7 +18,9 @@ import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/bloc_home_month.dart' as BlocHomeMonthImp;
 import 'package:smartkyat_pos/fragments/bloc_home_week.dart';
+import 'package:smartkyat_pos/fragments/bloc_home_year.dart' as BlocHomeYearImp;
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/donut.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
@@ -868,7 +870,6 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   searchFocus() {
-
     setState(() {
       loadingSearch = true;
     });
@@ -1813,7 +1814,8 @@ class HomeFragmentState extends State<HomeFragment>
                             padding: const EdgeInsets.only(
                                 top: 0.0, left: 0.0, right: 0.0),
 
-                            child: BlocHomeWeek(
+                            child: cateScIndex == 0 || cateScIndex == 1?
+                            BlocHomeWeek(
                               dateTime: today,
                               key: valueKeyTog(),
                               shopId: widget.shopId,
@@ -1828,9 +1830,56 @@ class HomeFragmentState extends State<HomeFragment>
                                 ));
                               },
                               resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
                               itemBuilderType:
                               PaginateBuilderType.listView,
-                            ),
+                              isLive: true,
+                            ):
+                            cateScIndex == 3?
+                            BlocHomeYearImp.BlocHomeYear(
+                              dateTime: today,
+                              key: valueKeyTog(),
+                              shopId: widget.shopId,
+                              query: ordersQueryYear(),
+                              itemBuilder: (context1, documentSnapshots, index) {
+                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                return Container(child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text('items ' + item.toString()),
+                                ));
+                              },
+                              resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
+                              itemBuilderType:
+                              BlocHomeYearImp.PaginateBuilderType.listView,
+                              isLive: true,
+                            ):
+                            BlocHomeMonthImp.BlocHomeMonth(
+                              dateTime: today,
+                              key: valueKeyTog(),
+                              shopId: widget.shopId,
+                              query: ordersQueryMonth(),
+                              itemBuilder: (context1, documentSnapshots, index) {
+                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                return Container(child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text('items ' + item.toString()),
+                                ));
+                              },
+                              resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
+                              itemBuilderType:
+                              BlocHomeMonthImp.PaginateBuilderType.listView,
+                              isLive: true,
+                            )
+                            ,
                           ),
                         ),
                       ),
@@ -2339,6 +2388,18 @@ class HomeFragmentState extends State<HomeFragment>
         .orderBy('date', descending: true);
   }
 
+  ordersQueryYear() {
+    return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_yearly')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-00' + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'));
+  }
+
+  ordersQueryMonth() {
+    return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-00' + ' 00:00:00'))
+        .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 00:00:00'));
+  }
+
   String valKTog = '0';
 
   valueKeyTog() {
@@ -2357,6 +2418,12 @@ class HomeFragmentState extends State<HomeFragment>
   resetState(DateTime resetD) {
     setState(() {
       today = resetD;
+    });
+  }
+
+  selectedIntVal(int index) {
+    setState(() {
+      cateScIndex = index;
     });
   }
 }
