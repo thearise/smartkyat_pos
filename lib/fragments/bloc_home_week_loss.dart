@@ -415,13 +415,13 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: Colors.green,
+                                            color: growthRateDaySale(yestOrdersChart, todayOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
-                                          width: 50,
+                                          // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text('12%',
-                                              textAlign: TextAlign.right,
+                                            child: Text(' ' + growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() + '% ',
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -554,11 +554,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() + '%',
                                                   style: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                      color: growthRateDayCost(yestCostsTotalR, todayCostsTotalR) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -2371,6 +2372,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double monthCostsTotalR = 0;
   double yearCostsTotalR = 0;
 
+  double yestOrdersChart = 0;
+  double yestCostsTotalR = 0;
+
   fetchOrders(snapshot0, snapshot1) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
     DateTime monthAgo = today.subtract(const Duration(days: 31));
@@ -2391,6 +2395,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     yearCostsTotalR = 0;
     todayRefundTotal = 0;
     weekRefundTotal = 0;
+
+    yestCostsTotalR = 0;
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
@@ -2479,9 +2485,35 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             // print('World ' +todayOrdersChart.toString());
           }
         }
-
-
       }
+
+
+
+      if (dataDate.substring(0,8) == today.subtract(Duration(days: 1)).year.toString() +
+          zeroToTen(today.subtract(Duration(days: 1)).month.toString()) +
+          zeroToTen(today.subtract(Duration(days: 1)).day.toString())) {
+
+        yestOrdersChart = 0;
+
+        for (String str in data['daily_order']) {
+          yestOrdersChart += double.parse(str.split('^')[2]);
+          // for(int i=0; i<=24 ; i++ ){
+          //   if(str.split('^')[0].substring(0, 10) == today.subtract(Duration(days: 1)).year.toString() +
+          //       zeroToTen(today.subtract(Duration(days: 1)).month.toString()) +
+          //       zeroToTen(today.subtract(Duration(days: 1)).day.toString()) +
+          //       zeroToTen(i.toString()))
+          //   {
+          //     yestOrdersChart = double.parse(str.split('^')[2]);
+          //   }
+          //   // print('laos ' + total.toString());
+          //   // print('World ' +todayOrdersChart.toString());
+          // }
+        }
+      }
+
+      print('yest ton ka2 ' + yestOrdersChart.toString());
+
+
       if (dataDate.substring(0,4) == today.year.toString()){
         double total = 0;
         for (String str in data['daily_order']) {
@@ -2580,6 +2612,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
 
         }
+
+        if (dataDate.substring(0,8) == today.subtract(Duration(days: 1)).year.toString() +
+            zeroToTen(today.subtract(Duration(days: 1)).month.toString()) +
+            zeroToTen(today.subtract(Duration(days: 1)).day.toString())) {
+          for (String str in data['daily_order']) {
+            yestCostsTotalR += double.parse(str.split('^')[2]);
+          }
+        }
+
         if (dataDate.substring(0,4) == today.year.toString()){
           double total = 0;
           for (String str in data['daily_order']) {
@@ -2598,6 +2639,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             }
           }
         }
+
+        print('yestcost ' + yestCostsTotalR.toString());
 
         // setState(() {
         //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
@@ -2654,6 +2697,35 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       print('null pix');
     }
 
+  }
+
+  growthRateDaySale(double yestOrdersChart, List<double> todayOrdersChart) {
+    double growthRate = 0;
+    double todayTotal = 0;
+    for (int i = 0; i < todayOrdersChart.length; i++){
+      todayTotal += todayOrdersChart[i];
+    }
+
+    growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayCost(double yestOrdersChart, double todayTotalCost) {
+    double growthRate = 0;
+    double todayTotal = todayTotalCost;
+
+    growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    return growthRate.toInt();
   }
 
 }
