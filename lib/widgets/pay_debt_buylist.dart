@@ -672,6 +672,9 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+
+                            WriteBatch batch = FirebaseFirestore.instance.batch();
+
                             setState(() {
                               loadingState = true;
                               disableTouch =true;
@@ -682,6 +685,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             if(widget.data.split('^')[3].split('&')[0] == 'No merchant') {
                               noCustomer = 'name';
                             } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
+                            print('debtAmtt3' + debtAmount.toString());
 
                             String dataRm = widget.data.split('^')[0] +
                                 '^' +
@@ -715,6 +719,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             var refundYearId = '';
                             CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
                             double paidMoney = paidAmount;
+                            double debtMoney = debtAmount;
                             monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
                                 .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
                                 .get()
@@ -722,11 +727,12 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               querySnapshot.docs.forEach((doc) {
                                 refundId = doc.id;
                               });
-                              monthlyData.doc(refundId).update({
-                                widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
-                              }).then((value) => print("data Updated"))
-                                  .catchError((error) => print("Failed to update user: $error"));
-                            });
+                              batch = await updateMonthlyData(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', paidMoney);
+                              // monthlyData.doc(refundId).update({
+                              //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
+                              // }).then((value) => print("data Updated"))
+                              //     .catchError((error) => print("Failed to update user: $error"));
+
 
                             CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
 
@@ -738,49 +744,62 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               querySnapshot.docs.forEach((doc) {
                                 refundYearId = doc.id;
                               });
-                              print('textpaid2 '+ paidMoney.toString() + ' ' + widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) );
-                              yearlyData.doc(refundYearId).update({
-                                widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
+                              batch = await updateYearlyData(batch, refundYearId,  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', paidMoney);
+                              // yearlyData.doc(refundYearId).update({
+                              //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
+                              //
+                              // }).then((value) => print("data Updated"))
+                              //     .catchError((error) => print("Failed to update user: $error"));
 
-                              }).then((value) => print("data Updated"))
-                                  .catchError((error) => print("Failed to update user: $error"));
+
+                           // CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders');
+                            //CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
+                            //CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
+
+                            batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+
+                            // dailyOrders.doc(widget.documentId).update({
+                            //   'daily_order':
+                            //   FieldValue.arrayRemove([dataRm])
+                            // }).then((value) {print('array removed');})
+                            //     .catchError((error) => print("Failed to update user: $error"));
+                            //
+                            // dailyOrders.doc(widget.documentId).update({
+                            //   'daily_order':
+                            //   FieldValue.arrayUnion([data])
+                            // }).then((value) { print('array updated');})
+                            //     .catchError((error) => print("Failed to update user: $error"));
+
+
+
+                              batch = await updateOrderDetail(batch, widget.docId, debtMoney, deFilter);
+                              print('debtAmtt' + debtAmount.toString());
+
+                            // order.doc(
+                            //     widget.docId)
+                            //     .update({
+                            //   'debt' : debtAmount,
+                            //   'debt_filter': deFilter
+                            // })
+                            //     .then((value) => print("User Updated"))
+                            //     .catchError((error) => print("Failed to update user: $error"));
+
+                            batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidMoney);
+
+                            print('Paided' + paidAmount.toString());
+
+                              // customerDebt.doc(
+                              //     widget.data.split('^')[3].split('&')[1])
+                              //     .update({
+                              //   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
+                              //   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+                              // })
+                              //     .then((value) => print("User Updated"))
+                              //     .catchError((error) => print("Failed to update user: $error"));
+                              batch.commit();
+                        });
                             });
 
-                            CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders');
-                            CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
-                            CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
-
-                            dailyOrders.doc(widget.documentId).update({
-                              'daily_order':
-                              FieldValue.arrayRemove([dataRm])
-                            }).then((value) {print('array removed');})
-                                .catchError((error) => print("Failed to update user: $error"));
-
-                            dailyOrders.doc(widget.documentId).update({
-                              'daily_order':
-                              FieldValue.arrayUnion([data])
-                            }).then((value) { print('array updated');})
-                                .catchError((error) => print("Failed to update user: $error"));
-
-                            order.doc(
-                                widget.docId)
-                                .update({
-                              'debt' : debtAmount,
-                              'debt_filter': deFilter
-                            })
-                                .then((value) => print("User Updated"))
-                                .catchError((error) => print("Failed to update user: $error"));
-
-
-
-                              customerDebt.doc(
-                                  widget.data.split('^')[3].split('&')[1])
-                                  .update({
-                                'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-                                'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
-                              })
-                                  .then((value) => print("User Updated"))
-                                  .catchError((error) => print("Failed to update user: $error"));
                             Future.delayed(const Duration(milliseconds: 2000), () {
                               setState(() {
                                 loadingState = false;
@@ -973,42 +992,58 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
               ),
             ),
           ),
-          // child: Padding(
-          //   padding: const EdgeInsets.only(
-          //       top: 93.0, left: 15, right: 15),
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(10.0),
-          //       ),
-          //       color: bgColor,
-          //       border: Border.all(
-          //           color: bdColor,
-          //           width: 1.0
-          //       ),
-          //     ),
-          //     child: Padding(
-          //         padding: const EdgeInsets.only(
-          //             top: 15.0, left: 10, right: 10, bottom: 15),
-          //         child: Row(
-          //           children: [
-          //             SizedBox(width: 5),
-          //             widgetCon,
-          //             SizedBox(width: 10),
-          //             Padding(
-          //               padding: const EdgeInsets.only(bottom: 2.5),
-          //               child: Container(
-          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
-          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
-          //               ),
-          //             )
-          //           ],
-          //         )
-          //     ),
-          //   ),
-          // ),
         );
       },
     );
+  }
+  updateMonthlyData(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(0 - double.parse(price1.toString())),
+
+    });
+    return batch;
+  }
+
+  updateYearlyData(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(0 - double.parse(price1.toString())),
+    });
+    return batch;
+  }
+
+  updateDailyOrder(WriteBatch batch, id, orgData, updateData) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders').doc(id);
+
+    batch.update(documentReference, {
+      'daily_order' :  FieldValue.arrayRemove([orgData]),
+    });
+
+    batch.update(documentReference, {
+      'daily_order': FieldValue.arrayUnion([updateData])
+    });
+    return batch;
+  }
+
+  updateOrderDetail(WriteBatch batch, id,  debt, deF) {
+
+    print('debtAmtt' + debtAmount.toString());
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').doc(id);
+    batch.update(documentReference, {
+      'debt' : debt,
+      'debt_filter' : deF,
+    });
+    return batch;
+  }
+
+  updateRefund(WriteBatch batch, id, totalDes, changeDes) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(id);
+
+    batch.update(documentReference, {
+      'debts' : FieldValue.increment(0 - double.parse(totalDes.toString())),
+      'debtAmount' : FieldValue.increment(0 - double.parse(changeDes.toString())),
+    });
+    return batch;
   }
 }

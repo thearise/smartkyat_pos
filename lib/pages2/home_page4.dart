@@ -3965,6 +3965,7 @@ class HomePageState extends State<HomePage>
                                                                                                 Spacer(),
                                                                                                 GestureDetector(
                                                                                                   onTap: () async {
+                                                                                                    WriteBatch batch = FirebaseFirestore.instance.batch();
                                                                                                     discountAmount = discount;
                                                                                                     subList = [];
                                                                                                     DateTime now = DateTime.now();
@@ -3990,59 +3991,63 @@ class HomePageState extends State<HomePage>
 
                                                                                                       length = length + 1;
 
-                                                                                                      print('CHECK POINT 0' + deviceIdNum.toString());
-                                                                                                      print('CHECK POINT 1');
-                                                                                                      orderLengthIncrease();
-                                                                                                      print('productList' + prodList.toString());
+                                                                                                      batch = await updateOrderLength(batch);
 
-                                                                                                      for (String str in prodList) {
+                                                                                                      print('datacheck' + prodList.toString());
+                                                                                                      for (int k=0; k< prodList.length;  k++) {
+                                                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                                        CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                                                        subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
 
-                                                                                                        subList.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
-                                                                                                        print('strsplit' + str.split('-')[0].toString());
+                                                                                                        // productsFire.doc(prodList[k].split('^')[0])
+                                                                                                        //     .get().then((val22) async {
+                                                                                                        //
+                                                                                                        // });
 
-                                                                                                        productsFire.doc(str.split('^')[0])
-                                                                                                            .get().then((val22) async {
+                                                                                                        List<String> subLink = [];
+                                                                                                        List<String> subName = [];
+                                                                                                        List<double> subStock = [];
 
-                                                                                                          List<String> subLink = [];
-                                                                                                          List<String> subName = [];
-                                                                                                          List<double> subStock = [];
+                                                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                                                            .get();
 
-                                                                                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
-                                                                                                              .get();
+                                                                                                        if (docSnapshot10.exists) {
+                                                                                                          Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                                                          if (docSnapshot10.exists) {
-                                                                                                            Map<String, dynamic>? data10 = docSnapshot10.data();
-
-                                                                                                            for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                                                              subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                                                              subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                                                              print('inStock' + (i+1).toString());
-                                                                                                              print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                                                              subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                                                            }
+                                                                                                          for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                                                            subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                                                            subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                                                            print('inStock' + (i+1).toString());
+                                                                                                            print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                                                            subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                                                                           }
 
                                                                                                           print(subStock.toString());
 
-                                                                                                          if(str.split('^')[3] == 'unit_name') {
-                                                                                                            decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                                            prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-
-                                                                                                          } else if(str.split('^')[3] == 'sub1_name') {
-                                                                                                            sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
-                                                                                                            productsFire.doc(str.split('^')[0]).update({
-                                                                                                              'sub1SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                            });
-
-                                                                                                          } else if(str.split('^')[3] == 'sub2_name') {
-                                                                                                            sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
-                                                                                                            productsFire.doc(str.split('^')[0]).update({
-                                                                                                              'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                            });
+                                                                                                          if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                                            batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
+                                                                                                            //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                                            //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                                            // if ( k == prodList.length-1) {
+                                                                                                            //   batch.commit();
+                                                                                                            // }
+                                                                                                            //print('batch complete');
+                                                                                                            // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                                                           }
-                                                                                                        });
+                                                                                                          else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                                            batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                            // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                                            //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                            //});
+                                                                                                          }
+                                                                                                          else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                                            batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                            // productsFire.doc(str.split('^')[0]).update({
+                                                                                                            //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                                            // });
+                                                                                                          }
+                                                                                                        }
+
                                                                                                       }
                                                                                                       if( debt.toString() != '0.0') {
                                                                                                         debts = 1;
@@ -4057,7 +4062,8 @@ class HomePageState extends State<HomePage>
                                                                                                       print('subList ' + subList.toString());
 
                                                                                                       totalOrders = totalOrders + 1;
-                                                                                                      CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                                                      batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                                                       CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
@@ -4071,12 +4077,7 @@ class HomePageState extends State<HomePage>
                                                                                                         });
                                                                                                         print('month ' + monthExist.toString());
                                                                                                         if (monthExist) {
-                                                                                                          monthlyData.doc(monthId).update({
-                                                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
-
-                                                                                                          }).then((value) => print("data Updated"))
-                                                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
                                                                                                         }
                                                                                                         else {
                                                                                                           monthlyData.add({
@@ -4097,93 +4098,82 @@ class HomePageState extends State<HomePage>
 
                                                                                                             'date': now,
 
-                                                                                                          }).then((value) {
-                                                                                                            print('valueid' + value.id.toString());
-                                                                                                            monthlyData.doc(value.id).update({
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                                                                                            }).then((value) => print("Data Updated"))
-                                                                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                                                                          }).then((value) async {
+                                                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
+
                                                                                                           }).catchError((error) => print("Failed to update user: $error"));
                                                                                                         }
-                                                                                                      });
 
-                                                                                                      CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+                                                                                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
 
-                                                                                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                                                                                          .get()
-                                                                                                          .then((QuerySnapshot querySnapshot)  async {
-                                                                                                        querySnapshot.docs.forEach((doc) {
-                                                                                                          yearExist = true;
-                                                                                                          yearId = doc.id;
+                                                                                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                                                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                                                                            .get()
+                                                                                                            .then((QuerySnapshot querySnapshot)  async {
+                                                                                                          querySnapshot.docs.forEach((doc) {
+                                                                                                            yearExist = true;
+                                                                                                            yearId = doc.id;
+                                                                                                          });
+                                                                                                          print('year ' + yearExist.toString());
+                                                                                                          if (yearExist) {
+                                                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
+
+                                                                                                          }
+                                                                                                          else {
+                                                                                                            yearlyData.add({
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                                                              for(int j = 1; j<= 12; j++)
+                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                                                              'date': now,
+
+                                                                                                            }).then((value5) async {
+                                                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
+                                                                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                                                                          }
+
+
+                                                                                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                                                              .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                                                              .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                                                              .get()
+                                                                                                              .then((QuerySnapshot querySnapshot)  async {
+                                                                                                            querySnapshot.docs.forEach((doc) {
+                                                                                                              dateExist = true;
+                                                                                                              dateId = doc.id;
+                                                                                                            });
+
+                                                                                                            if (dateExist) {
+                                                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+
+                                                                                                            }
+                                                                                                            else {
+                                                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+
+                                                                                                            }
+                                                                                                            batch.commit();
+                                                                                                          });
                                                                                                         });
-                                                                                                        print('year ' + yearExist.toString());
-                                                                                                        if (yearExist) {
-                                                                                                          yearlyData.doc(yearId).update({
-                                                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-
-                                                                                                          }).then((value) => print("data Updated"))
-                                                                                                              .catchError((error) => print("Failed to update user: $error"));
-                                                                                                        }
-                                                                                                        else {
-                                                                                                          yearlyData.add({
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                                                            for(int j = 1; j<= 12; j++)
-                                                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                                                                                            'date': now,
-
-                                                                                                          }).then((value) {
-                                                                                                            print('valueid' + value.id.toString());
-                                                                                                            yearlyData.doc(value.id).update({
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                                                                                            }).then((value) => print("Data Updated"))
-                                                                                                                .catchError((error) => print("Failed to update user: $error"));
-                                                                                                          }).catchError((error) => print("Failed to update user: $error"));
-                                                                                                        }
-                                                                                                      });
-
-                                                                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                                                          .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                                                          .get(GetOptions(source: Source.cache))
-                                                                                                          .then((QuerySnapshot querySnapshot)  async {
-                                                                                                        querySnapshot.docs.forEach((doc) {
-                                                                                                          dateExist = true;
-                                                                                                          dateId = doc.id;
-                                                                                                        });
-
-                                                                                                        if (dateExist) {
-                                                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                                                          Detail(now, length.toString(),subList, dateId,  reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                                                          print('adddateexist added');
-                                                                                                        }
-                                                                                                        else {
-                                                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' +  customerId.split('^')[0]+ '<>' + customerId.split('^')[1]  + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(),  reFilter, deFilter,now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                                                          print('adddateexist not');
-                                                                                                        }
                                                                                                       });
 
                                                                                                       List<String> subNameList = [];
                                                                                                       int subNameListLength = 0;
                                                                                                       for (String str in prodList) {
                                                                                                         subNameListLength = subNameListLength + 1;
-                                                                                                        CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
                                                                                                         print('DATA CHECK PROD ' + str.toString());
                                                                                                         var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                                                             .get();
@@ -4395,11 +4385,11 @@ class HomePageState extends State<HomePage>
                                                                                           fontWeight: FontWeight.w600,
                                                                                           fontSize: 18,
                                                                                           height: 1.3
-                                                                                        ),
-                                                                                        strutStyle: StrutStyle(
-                                                                                          height: 1.7,
-                                                                                          forceStrutHeight: true,
-                                                                                        )
+                                                                                      ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.7,
+                                                                                            forceStrutHeight: true,
+                                                                                          )
                                                                                       ),
                                                                                     ],
                                                                                   ),
@@ -8434,45 +8424,45 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                       ),
                                                     ) :
-                                                   Padding(
-                                                     padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                     child: GestureDetector(
-                                                       onTap: () {
-                                                         print('productList' + prodList.toString());
-                                                       },
-                                                       child: Container(
-                                                         width: MediaQuery.of(context).size.width - 30,
-                                                         height: 50,
-                                                         decoration: BoxDecoration(
-                                                             borderRadius:
-                                                             BorderRadius.circular(10.0),
-                                                             color: AppTheme.themeColor),
-                                                         child: Row(
-                                                           mainAxisAlignment:
-                                                           MainAxisAlignment
-                                                               .center,
-                                                           children: [
-                                                             Expanded(
-                                                               child: Padding(
-                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                 child: Container(
-                                                                     child: Text(
-                                                                       'Checkout',
-                                                                       textAlign: TextAlign.center,
-                                                                       style: TextStyle(
-                                                                           fontSize: 17,
-                                                                           fontWeight: FontWeight.w600,
-                                                                           color: Colors.black
-                                                                       ),
-                                                                     )
-                                                                 ),
-                                                               ),
-                                                             ),
-                                                           ],
-                                                         ),
-                                                       ),
-                                                     ),
-                                                   ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          print('productList' + prodList.toString());
+                                                        },
+                                                        child: Container(
+                                                          width: MediaQuery.of(context).size.width - 30,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.circular(10.0),
+                                                              color: AppTheme.themeColor),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                  child: Container(
+                                                                      child: Text(
+                                                                        'Checkout',
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontSize: 17,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -8827,6 +8817,9 @@ class HomePageState extends State<HomePage>
                                                                 Spacer(),
                                                                 GestureDetector(
                                                                   onTap: () async {
+
+                                                                    WriteBatch batch = FirebaseFirestore.instance.batch();
+
                                                                     discountAmount = discount;
                                                                     subList = [];
                                                                     DateTime now = DateTime.now();
@@ -8866,56 +8859,63 @@ class HomePageState extends State<HomePage>
                                                                       print('CHECK POINT 0' + deviceIdNum.toString());
                                                                       print('CHECK POINT 1');
 
-                                                                      orderLengthIncrease();
+                                                                      batch = await updateOrderLength(batch);
+
                                                                       print('datacheck' + prodList.toString());
-                                                                      for (String str in prodList) {
-                                                                        CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                      for (int k=0; k< prodList.length;  k++) {
+                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                        subList.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                        subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
 
-                                                                        productsFire.doc(str.split('^')[0])
-                                                                            .get().then((val22) async {
-                                                                          List<String> subLink = [];
-                                                                          List<String> subName = [];
-                                                                          List<double> subStock = [];
+                                                                        // productsFire.doc(prodList[k].split('^')[0])
+                                                                        //     .get().then((val22) async {
+                                                                        //
+                                                                        // });
 
-                                                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
-                                                                              .get();
+                                                                        List<String> subLink = [];
+                                                                        List<String> subName = [];
+                                                                        List<double> subStock = [];
 
-                                                                          if (docSnapshot10.exists) {
-                                                                            Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                            .get();
 
-                                                                            for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                              subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                              subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                              print('inStock' + (i+1).toString());
-                                                                              print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                              subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                            }
+                                                                        if (docSnapshot10.exists) {
+                                                                          Map<String, dynamic>? data10 = docSnapshot10.data();
+
+                                                                          for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                            subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                            subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                            print('inStock' + (i+1).toString());
+                                                                            print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                            subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                                           }
 
                                                                           print(subStock.toString());
 
-                                                                          if(str.split('^')[3] == 'unit_name') {
-                                                                            decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                            prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                            // await productsFire.update({
-                                                                            //   'mainSellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                            // });
-
-                                                                          } else if(str.split('^')[3] == 'sub1_name') {
-                                                                            sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
-                                                                            productsFire.doc(str.split('^')[0]).update({
-                                                                              'sub1SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                            });
-
-                                                                          } else if(str.split('^')[3] == 'sub2_name') {
-                                                                            sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
-                                                                            productsFire.doc(str.split('^')[0]).update({
-                                                                              'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                            });
+                                                                          if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                            batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
+                                                                            //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                            //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                            // if ( k == prodList.length-1) {
+                                                                            //   batch.commit();
+                                                                            // }
+                                                                            //print('batch complete');
+                                                                            // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                           }
-                                                                        });
+                                                                          else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                            batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                            // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                            //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                            //});
+                                                                          }
+                                                                          else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                            batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                            // productsFire.doc(str.split('^')[0]).update({
+                                                                            //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                            // });
+                                                                          }
+                                                                        }
+
                                                                       }
 
                                                                       if( debt.toString() != '0.0') {
@@ -8931,7 +8931,11 @@ class HomePageState extends State<HomePage>
                                                                       print('subList ' + subList.toString());
 
                                                                       totalOrders = totalOrders + 1;
-                                                                      CusOrder(totalOrders, debts, debtAmounts);
+                                                                      //CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                      batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+
+
 
                                                                       CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
@@ -8945,12 +8949,15 @@ class HomePageState extends State<HomePage>
                                                                         });
                                                                         print('month ' + monthExist.toString());
                                                                         if (monthExist) {
-                                                                          monthlyData.doc(monthId).update({
-                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                            now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
 
-                                                                          }).then((value) => print("data Updated"))
-                                                                              .catchError((error) => print("Failed to update user: $error"));
+                                                                          // monthlyData.doc(monthId).update({
+                                                                          //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                          //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                          //
+                                                                          // }).then((value) => print("data Updated"))
+                                                                          //     .catchError((error) => print("Failed to update user: $error"));
+
                                                                         }
                                                                         else {
                                                                           monthlyData.add({
@@ -8971,86 +8978,99 @@ class HomePageState extends State<HomePage>
 
                                                                             'date': now,
 
-                                                                          }).then((value) {
+                                                                          }).then((value) async {
                                                                             print('valueid' + value.id.toString());
-                                                                            monthlyData.doc(value.id).update({
-                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                                                            }).then((value) => print("Data Updated"))
-                                                                                .catchError((error) => print("Failed to update user: $error"));
+
+                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
+
+                                                                            // monthlyData.doc(value.id).update({
+                                                                            //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                            //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                            // }).then((value) => print("Data Updated"))
+                                                                            //     .catchError((error) => print("Failed to update user: $error"));
                                                                           }).catchError((error) => print("Failed to update user: $error"));
                                                                         }
-                                                                      });
 
-                                                                      CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+                                                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
 
-                                                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                                                          .get()
-                                                                          .then((QuerySnapshot querySnapshot)  async {
-                                                                        querySnapshot.docs.forEach((doc) {
-                                                                          yearExist = true;
-                                                                          yearId = doc.id;
-                                                                        });
-                                                                        print('year ' + yearExist.toString());
-                                                                        if (yearExist) {
-                                                                          yearlyData.doc(yearId).update({
-                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                            now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                                            .get()
+                                                                            .then((QuerySnapshot querySnapshot)  async {
+                                                                          querySnapshot.docs.forEach((doc) {
+                                                                            yearExist = true;
+                                                                            yearId = doc.id;
+                                                                          });
+                                                                          print('year ' + yearExist.toString());
+                                                                          if (yearExist) {
+                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
 
-                                                                          }).then((value) => print("data Updated"))
-                                                                              .catchError((error) => print("Failed to update user: $error"));
-                                                                        }
-                                                                        else {
-                                                                          yearlyData.add({
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                            for(int j = 1; j<= 12; j++)
-                                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+                                                                            // yearlyData.doc(yearId).update({
+                                                                            //   now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                            //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                            //
+                                                                            // }).then((value) => print("data Updated"))
+                                                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                                                          }
+                                                                          else {
+                                                                            yearlyData.add({
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                              for(int j = 1; j<= 12; j++)
+                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
 
-                                                                            'date': now,
+                                                                              'date': now,
 
-                                                                          }).then((value) {
-                                                                            print('valueid' + value.id.toString());
-                                                                            yearlyData.doc(value.id).update({
-                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                              now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                                                            }).then((value) => print("Data Updated"))
-                                                                                .catchError((error) => print("Failed to update user: $error"));
-                                                                          }).catchError((error) => print("Failed to update user: $error"));
-                                                                        }
-                                                                      });
+                                                                            }).then((value5) async {
+                                                                              print('valueid' + value.id.toString());
+                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
 
-                                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                          .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                          .get()
-                                                                          .then((QuerySnapshot querySnapshot)  async {
-                                                                        querySnapshot.docs.forEach((doc) {
-                                                                          dateExist = true;
-                                                                          dateId = doc.id;
-                                                                        });
+                                                                              // yearlyData.doc(value.id).update({
+                                                                              //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
+                                                                              //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
+                                                                              // }).then((value) => print("Data Updated"))
+                                                                              //     .catchError((error) => print("Failed to update user: $error"));
+                                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                                          }
 
-                                                                        if (dateExist) {
-                                                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                          print('adddateexist added');
-                                                                        }
-                                                                        else {
-                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                          Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                          print('adddateexist not');
-                                                                        }
+
+                                                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                              .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                              .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                              .get()
+                                                                              .then((QuerySnapshot querySnapshot)  async {
+                                                                            querySnapshot.docs.forEach((doc) {
+                                                                              dateExist = true;
+                                                                              dateId = doc.id;
+                                                                            });
+
+                                                                            if (dateExist) {
+                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+
+                                                                              //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                              //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                              print('adddateexist added');
+                                                                            }
+                                                                            else {
+                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                              //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                              print('adddateexist not');
+                                                                            }
+
+                                                                            batch.commit();
+                                                                          });      });
                                                                       });
 
 
@@ -9320,7 +9340,7 @@ class HomePageState extends State<HomePage>
                                                           height: 1.7,
                                                           forceStrutHeight: true,
                                                         )
-                                                        ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -9755,7 +9775,7 @@ class HomePageState extends State<HomePage>
                                                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                            color: Colors.white,
+                                                          color: Colors.white,
                                                           border: Border(
                                                             top: BorderSide(
                                                                 color:
@@ -10759,7 +10779,8 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-
+      productSale = [];
+      saleInfo = '';
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
@@ -10769,6 +10790,7 @@ class HomePageState extends State<HomePage>
       print('Hey there, I\'m calling after hide bottomSheet');
       if(sellDone) {
         setState(() {
+
           // mystate(()  {
           prodList = [];
           discount = 0.0;
@@ -11175,12 +11197,9 @@ class HomePageState extends State<HomePage>
     return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
   }
 
-  Future<void> Detail(date, length, subs, docId, reF, deF, dateTime) async {
-    print('CHECKING PRODSALE ORD');
-    CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
-    String customId = deviceIdNum.toString() + length.toString();
-
-    detail.doc(customId).set({
+  updateDetail(WriteBatch batch, date, length, subs, docId, reF, deF, dateTime) {
+    DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order').doc(deviceIdNum.toString() + length.toString());
+    batch.set(documentReference, {
       'date': date,
       'total': TtlProdListPrice(),
       'debt' : debt,
@@ -11194,99 +11213,98 @@ class HomePageState extends State<HomePage>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString()
-    })
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+    });
+    return batch;
   }
 
-  Future<void> orderLengthIncrease() async {
-    print('CHECKING PRODSALE ORD');
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops');
-
-    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
-
-    users.doc(shopId).update({'orders_length': FieldValue.increment(1)}).then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+  updateOrderLength(WriteBatch batch){
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId);
+    batch.update(documentReference, {'orders_length': FieldValue.increment(1)});
+    return batch;
   }
 
-  Future<void> CusOrder(ttlOrders, debts , debtAmount) async {
-    print('CHECKING PRODSALE ORD');
-    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers');
-
-    cusOrder.doc(customerId.split('^')[0]).update({
+  updateCusOrder(WriteBatch batch, ttlOrders, debts , debtAmount){
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('^')[0]);
+    batch.update(documentReference, {
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
-    }).then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+    });
+    return batch;
   }
 
-  Future<void> prodSaleData(id, num) async {
-    print('CHECKING PRODSALE');
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-
-    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
-
-    users
-        .doc(id)
-        .update({'mainSellUnit': FieldValue.increment(double.parse(num.toString()))})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+  updateB2(WriteBatch batch, id, num) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
+    batch.update(documentReference, {'mainSellUnit': FieldValue.increment(double.parse(num.toString()))});
+    return batch;
   }
 
-  Future<void> decStockFromInv(id, unit, num) async {
+  updateMonthlyData(WriteBatch batch, id, field1, field2, price1, price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+      field2 : FieldValue.increment(double.parse(price2.toString())),
+
+    });
+    return batch;
+  }
+
+  updateYearlyData(WriteBatch batch, id, field1, field2, price1, price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+      field2 : FieldValue.increment(double.parse(price2.toString())),
+
+    });
+    return batch;
+  }
+
+  decStockFromInv(WriteBatch batch, id, unit, num) {
     print('Double Check Sub1');
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
 
-    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
+    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
 
-    users
-        .doc(id)
-        .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+    return batch;
   }
 
-  Future<void> incStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+  incStockFromInv(WriteBatch batch, id, unit, num) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
 
-    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
-
-    users
-        .doc(id)
-        .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment((double.parse(num.toString()))),});
+    return batch;
   }
 
-  Future<void> sub1Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
+  sub1Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+    //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[1] = double.parse((data10 ? ['inStock2']).toString());
       if(subStock[1] > double.parse(num)) {
-        decStockFromInv(id, 'sub1', num);
+        batch = decStockFromInv(batch, id, 'sub1', num);
       } else {
-        decStockFromInv(id, 'main', ((double.parse(num)  - subStock[1])/double.parse(subLink[0])).ceil());
-        incStockFromInv(id, 'sub1', ((double.parse(num)-subStock[1].round()) % double.parse(subLink[0])) == 0? 0: (double.parse(subLink[0]) - (double.parse(num)-subStock[1].round()) % double.parse(subLink[0])));
-        decStockFromInv(id, 'sub1', subStock[1]);
+        batch = decStockFromInv(batch, id, 'main', ((double.parse(num)  - subStock[1])/double.parse(subLink[0])).ceil());
+        batch = incStockFromInv(batch, id, 'sub1', ((double.parse(num)-subStock[1].round()) % double.parse(subLink[0])) == 0? 0: (double.parse(subLink[0]) - (double.parse(num)-subStock[1].round()) % double.parse(subLink[0])));
+        batch = decStockFromInv(batch, id, 'sub1', subStock[1]);
       }
     }
+    return batch;
   }
 
-  Future<void> sub2Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
+  sub2Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+    //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[2] = double.parse((data10 ? ['inStock3']).toString());
       if(subStock[2] > double.parse(num)) {
-        decStockFromInv(id, 'sub2', num);
+        batch = decStockFromInv(batch, id, 'sub2', num);
       } else {
-        await incStockFromInv(id, 'sub2', ((double.parse(num)-subStock[2].round()) % double.parse(subLink[1])) == 0? 0: (double.parse(subLink[1]) - (double.parse(num)-subStock[2].round()) % double.parse(subLink[1])));
-        await decStockFromInv(id, 'sub2', subStock[2]);
-        sub1Execution(subStock, subLink, id, ((double.parse(num)  - subStock[2])/double.parse(subLink[1])).ceil().toString());
+        batch =  incStockFromInv(batch, id, 'sub2', ((double.parse(num)-subStock[2].round()) % double.parse(subLink[1])) == 0? 0: (double.parse(subLink[1]) - (double.parse(num)-subStock[2].round()) % double.parse(subLink[1])));
+        batch = decStockFromInv(batch, id, 'sub2', subStock[2]);
+        batch = sub1Execution(batch, subStock, subLink, id, ((double.parse(num)  - subStock[2])/double.parse(subLink[1])).ceil().toString(), docSnapshot10);
       }
     }
+    return batch;
   }
 
   todayToYearStart(DateTime now) {
@@ -11303,13 +11321,10 @@ class HomePageState extends State<HomePage>
     return prefs.getString('paper');
   }
 
-  Future<void> addDateExist(id1, dOrder , length) async {
-    CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
-    daily.doc(id1).update({
-      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
-    })
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+  updateDateExist(WriteBatch batch, id1, dOrder , length) {
+    DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1);
+    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder.toString()]),});
+    return batch;
   }
 
   Future<void> DatenotExist(dOrder, date, length) async {
@@ -11510,6 +11525,7 @@ class HomePageState extends State<HomePage>
       closeGoToCart = true;
     });
     Future.delayed(const Duration(milliseconds: 200), () {
+
       setState(() {
         _goToCartHeight = 61;
       });
@@ -12544,6 +12560,7 @@ class HomePageState extends State<HomePage>
           );
         }).whenComplete(() {
       printClosed = true;
+
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
           print('complete');
