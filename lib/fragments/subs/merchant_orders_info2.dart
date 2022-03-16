@@ -603,7 +603,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               ),
                                             ),
                                           ),
-                                        if(data['refund'] == 'TRUE')
+                                        if(data['refund'] == 'T')
                                           Padding(
                                             padding: const EdgeInsets.only(left: 6.0),
                                             child: Container(
@@ -625,7 +625,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                             ),
                                           ),
 
-                                        if(data['refund'] == 'PART')
+                                        if(data['refund'] == 'P')
                                           Padding(
                                             padding: const EdgeInsets.only(left: 6.0),
                                             child: Container(

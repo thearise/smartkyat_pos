@@ -616,7 +616,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               ),
                                             ),
                                           ),
-                                        if(data['refund'] == 'TRUE')
+                                        if(data['refund'] == 'T')
                                           Padding(
                                             padding: const EdgeInsets.only(left: 6.0),
                                             child: Container(
@@ -638,7 +638,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                             ),
                                           ),
 
-                                        if(data['refund'] == 'PART')
+                                        if(data['refund'] == 'P')
                                           Padding(
                                             padding: const EdgeInsets.only(left: 6.0),
                                             child: Container(

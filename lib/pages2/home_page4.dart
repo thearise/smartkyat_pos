@@ -3003,7 +3003,7 @@ class HomePageState extends State<HomePage>
                                                                                                           .data!
                                                                                                           .data();
                                                                                                       var image = output2?[
-                                                                                                        'img_1'];
+                                                                                                      'img_1'];
                                                                                                       prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                           prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                       return GestureDetector(
@@ -6145,7 +6145,6 @@ class HomePageState extends State<HomePage>
     }
     if (data != 'null') {
       setState((){prodList.add(data + '^0');});
-      prodListInCartMod();
     }
   }
 
@@ -6517,7 +6516,6 @@ class HomePageState extends State<HomePage>
           barcode5 = result.split('^')[12];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
-
               if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
                 stateful((){
                   sellprice5 = result.split('^')[2];
@@ -7324,27 +7322,6 @@ class HomePageState extends State<HomePage>
     // _onDisconnectDevice();
   }
 
-  List<String> prodListInCartModData = [];
-
-  prodListInCartMod() {
-    prodListInCartModData = [];
-    for(int i = 0; i < prodList.length; i++) {
-      print('proddddd ' + prodList[i].toString());
-      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[i].split('^')[0])
-          .get().then((value) {
-        prodListInCartModData.add(
-            value.data()!['prod_name']            + '^' + value.data()!['unit_name']            + '^' + value.data()!['sub1_name']            + '^' + value.data()!['sub2_name']           + '^' +
-                value.data()!['img_1']                + '^' + value.data()!['Loss1'].toString()     + '^' + value.data()!['Loss2'].toString()     + '^' + value.data()!['Loss3'].toString()    + '^' +
-                value.data()!['bar_code']             + '^' + value.data()!['inStock1'].toString()  + '^' + value.data()!['inStock2'].toString()  + '^' + value.data()!['inStock3'].toString() + '^' +
-                value.data()!['unit_sell'].toString() + '^' + value.data()!['sub1_sell'].toString() + '^' + value.data()!['sub2_sell'].toString()
-        );
-
-      });
-    }
-
-    setState(() {});
-  }
-
   saleCart(priContext) {
     int orderLength = 0;
     mainLoss = 0;
@@ -7386,188 +7363,6 @@ class HomePageState extends State<HomePage>
         builder: (BuildContext context) {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter mystate) {
-
-              prodInCart(String prodListInd, int index) {
-                prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[0] + '^' +
-                    prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5];
-
-
-                String image = prodList[index].split('^')[0];
-                prodListInd = prodListInd.split('^')[0] + '^' + 'prodName?' + '^' +
-                    prodListInd.split('^')[2] + '^' + prodListInd.split('^')[3] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[5];
-                return GestureDetector(
-                  onTap: (){
-                    print('error prod' + prodListInd.toString());
-                    setState((){
-                      mystate((){
-                        quantity = 0;
-                        price2 = 0;
-                        eachProd = '';
-                        unit = '';
-                        mainName =  '';
-                        sub1Name = '';
-                        sub2Name = '';
-                        salePrice = '';
-                        // mainLoss = double.parse(prodListInCartModData[index].split('^')[5]);
-                        // sub1Loss = double.parse(prodListInCartModData[index].split('^')[6]);
-                        // sub2Loss = double.parse(prodListInCartModData[index].split('^')[7]);
-                        // barcode = output2?['bar_code'];
-                        // mainQty = output2?['inStock1'].round();
-                        // sub1Qty = output2?['inStock2'].round();
-                        // sub2Qty = output2?['inStock3'].round();
-                        // sell1 =output2?['unit_sell'];
-                        // sell2 =output2?['sub1_sell'];
-                        // sell3 =output2?['sub2_sell'];
-
-
-                        productName = '';
-                        myController.text = '0';
-                        sellPriceController.text = '';
-                        // sellDone = false;
-                        onChangeAmountTab = true;
-                      });});
-                    _controller.animateTo(2);
-                    // Future.delayed(const Duration(milliseconds: 1000), () {
-                    //   setState(() {
-                    //     mystate((){
-                    //       saleLoadingState = false;
-                    //     });
-                    //
-                    //   });
-                    // });
-                  },
-                  child: Slidable(
-                    key: UniqueKey(),
-                    actionPane:
-                    SlidableDrawerActionPane(),
-                    actionExtentRatio:
-                    0.25,
-                    child: Stack(
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 12),
-                              ListTile(
-                                leading: ClipRRect(
-                                    borderRadius:
-                                    BorderRadius
-                                        .circular(
-                                        5.0),
-                                    child: image != ""
-                                        ? CachedNetworkImage(
-                                      imageUrl:
-                                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                          image,
-                                      width: 58,
-                                      height: 58,
-                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                      errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
-                                      fadeInDuration: Duration(milliseconds: 100),
-                                      fadeOutDuration: Duration(milliseconds: 10),
-                                      fadeInCurve: Curves.bounceIn,
-                                      fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,)),
-                                title: Text('prodMod title?', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Row(
-                                    children: [
-                                      Text('prod' + ' ', style: TextStyle(
-                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                      )),
-                                      if ('unit_name' == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                      else if('unit_name' == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                      else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                    ],
-                                  ),
-                                ),
-                                trailing: Text('$currencyUnit ' + (double.parse(
-                                    prodListInd.split('^')[
-                                    2]) *
-                                    double.parse(prodListInd.split('^')[4]))
-                                    .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500
-                                  ),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: Container(height: 12,
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom:
-                                        BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                      )),),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top : 11,
-                          right: MediaQuery.of(context).size.width - 80,
-                          child: Container(
-                            // height: 20,
-                            // width: 30,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: AppTheme.skBorderColor2,
-                                borderRadius:
-                                BorderRadius.circular(
-                                    10.0),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2,
-                                )),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                              child: Text(double.parse(prodListInd.split('^')[4]).round().toString(), style: TextStyle(
-                                  fontSize: 11, fontWeight: FontWeight.w500
-                              )),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    dismissal:
-                    SlidableDismissal(
-                      child:
-                      SlidableDrawerDismissal(),
-                      onDismissed:
-                          (actionType) {
-                        setState((){
-                          mystate(() {
-                            prodList
-                                .removeAt(
-                                index);
-                          });
-                        });
-                      },
-                    ),
-                    secondaryActions: <
-                        Widget>[
-                      IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon:
-                        Icons.delete,
-                        onTap: () {
-                          setState((){
-                            mystate(() {
-                              prodList
-                                  .removeAt(
-                                  index);
-                            });
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
-
-
               _textFieldController.addListener((){
                 print("value: ${_textFieldController.text}");
                 setState(() {
@@ -8264,8 +8059,212 @@ class HomePageState extends State<HomePage>
                                                                 ): Container(),
                                                               ],
                                                             ),
-                                                            for (int i = 0; i < prodList.length; i++)
-                                                              prodInCart(prodList[i], i),
+                                                            for (int i = 0;
+                                                            i < prodList.length;
+                                                            i++)
+                                                              StreamBuilder<
+                                                                  DocumentSnapshot<
+                                                                      Map<String,
+                                                                          dynamic>>>(
+                                                                stream: FirebaseFirestore
+                                                                    .instance
+                                                                    .collection('shops')
+                                                                    .doc(
+                                                                    shopId)
+                                                                    .collection('products')
+                                                                    .doc(prodList[i]
+                                                                    .split('^')[0])
+                                                                    .snapshots(),
+                                                                builder:
+                                                                    (BuildContext context,
+                                                                    snapshot2) {
+                                                                  if (snapshot2.hasData) {
+                                                                    var output2 = snapshot2
+                                                                        .data!
+                                                                        .data();
+                                                                    var image = output2?[
+                                                                    'img_1'];
+                                                                    prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
+                                                                        prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
+                                                                    return GestureDetector(
+                                                                      onTap: (){
+                                                                        print('error prod' + prodList[i].toString());
+                                                                        setState((){
+                                                                          mystate((){
+                                                                            quantity = double.parse(prodList[i].split('^')[4]);
+                                                                            price2 = double.parse(prodList[i].split('^')[2]);
+                                                                            eachProd = prodList[i];
+                                                                            unit = prodList[i].split('^')[3];
+                                                                            mainName =  output2?['unit_name'];
+                                                                            sub1Name = output2?['sub1_name'];
+                                                                            sub2Name = output2?['sub2_name'];
+                                                                            salePrice = prodList[i].split('^')[2];
+                                                                            mainLoss = output2?['Loss1'].round();
+                                                                            sub1Loss = output2?['Loss2'].round();
+                                                                            sub2Loss = output2?['Loss3'].round();
+                                                                            barcode = output2?['bar_code'];
+                                                                            mainQty = output2?['inStock1'].round();
+                                                                            sub1Qty = output2?['inStock2'].round();
+                                                                            sub2Qty = output2?['inStock3'].round();
+                                                                            sell1 =output2?['unit_sell'];
+                                                                            sell2 =output2?['sub1_sell'];
+                                                                            sell3 =output2?['sub2_sell'];
+
+
+                                                                            productName = output2?['prod_name'];
+                                                                            myController.text = double.parse(prodList[i].split('^')[4]).round().toString();
+                                                                            sellPriceController.text = prodList[i].split('^')[2];
+                                                                            // sellDone = false;
+                                                                            onChangeAmountTab = true;
+                                                                          });});
+                                                                        _controller.animateTo(2);
+                                                                        // Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                        //   setState(() {
+                                                                        //     mystate((){
+                                                                        //       saleLoadingState = false;
+                                                                        //     });
+                                                                        //
+                                                                        //   });
+                                                                        // });
+                                                                      },
+                                                                      child: Slidable(
+                                                                        key: UniqueKey(),
+                                                                        actionPane:
+                                                                        SlidableDrawerActionPane(),
+                                                                        actionExtentRatio:
+                                                                        0.25,
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            Container(
+                                                                              color: Colors.white,
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  SizedBox(height: 12),
+                                                                                  ListTile(
+                                                                                    leading: ClipRRect(
+                                                                                        borderRadius:
+                                                                                        BorderRadius
+                                                                                            .circular(
+                                                                                            5.0),
+                                                                                        child: image != ""
+                                                                                            ? CachedNetworkImage(
+                                                                                          imageUrl:
+                                                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                                              image,
+                                                                                          width: 58,
+                                                                                          height: 58,
+                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
+                                                                                          fadeInDuration: Duration(milliseconds: 100),
+                                                                                          fadeOutDuration: Duration(milliseconds: 10),
+                                                                                          fadeInCurve: Curves.bounceIn,
+                                                                                          fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,)),
+                                                                                    title: Text(output2?['prod_name'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                    subtitle: Padding(
+                                                                                      padding: const EdgeInsets.only(top: 4.0),
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Text(output2?[prodList[i].split('^')[3]] + ' ', style: TextStyle(
+                                                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                                          )),
+                                                                                          if (prodList[i].split('^')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                                          else if(prodList[i].split('^')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                                          else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                    trailing: Text('$currencyUnit ' + (double.parse(
+                                                                                        prodList[i].split('^')[
+                                                                                        2]) *
+                                                                                        double.parse(prodList[
+                                                                                        i]
+                                                                                            .split(
+                                                                                            '^')[4]))
+                                                                                        .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 16,
+                                                                                          fontWeight: FontWeight.w500
+                                                                                      ),),
+                                                                                  ),
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                                    child: Container(height: 12,
+                                                                                      decoration: BoxDecoration(
+                                                                                          border: Border(
+                                                                                            bottom:
+                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                                          )),),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            Positioned(
+                                                                              top : 11,
+                                                                              right: MediaQuery.of(context).size.width - 80,
+                                                                              child: Container(
+                                                                                // height: 20,
+                                                                                // width: 30,
+                                                                                alignment: Alignment.center,
+                                                                                decoration: BoxDecoration(
+                                                                                    color: AppTheme.skBorderColor2,
+                                                                                    borderRadius:
+                                                                                    BorderRadius.circular(
+                                                                                        10.0),
+                                                                                    border: Border.all(
+                                                                                      color: Colors.white,
+                                                                                      width: 2,
+                                                                                    )),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                                                  child: Text(double.parse(prodList[i]
+                                                                                      .split(
+                                                                                      '^')[4]).round().toString(), style: TextStyle(
+                                                                                      fontSize: 11, fontWeight: FontWeight.w500
+                                                                                  )),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        dismissal:
+                                                                        SlidableDismissal(
+                                                                          child:
+                                                                          SlidableDrawerDismissal(),
+                                                                          onDismissed:
+                                                                              (actionType) {
+                                                                            setState((){
+                                                                              mystate(() {
+                                                                                prodList
+                                                                                    .removeAt(
+                                                                                    i);
+                                                                              });
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                        secondaryActions: <
+                                                                            Widget>[
+                                                                          IconSlideAction(
+                                                                            caption: 'Delete',
+                                                                            color: Colors.red,
+                                                                            icon:
+                                                                            Icons.delete,
+                                                                            onTap: () {
+                                                                              setState((){
+                                                                                mystate(() {
+                                                                                  prodList
+                                                                                      .removeAt(
+                                                                                      i);
+                                                                                });
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }
+                                                                  return Container();
+                                                                },
+                                                              ),
                                                             Slidable(
                                                               key: UniqueKey(),
                                                               actionPane:
@@ -10780,7 +10779,8 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-
+      productSale = [];
+      saleInfo = '';
       printClosed = true;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
@@ -10790,6 +10790,7 @@ class HomePageState extends State<HomePage>
       print('Hey there, I\'m calling after hide bottomSheet');
       if(sellDone) {
         setState(() {
+
           // mystate(()  {
           prodList = [];
           discount = 0.0;
@@ -12559,6 +12560,7 @@ class HomePageState extends State<HomePage>
           );
         }).whenComplete(() {
       printClosed = true;
+
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
           print('complete');
@@ -12566,16 +12568,6 @@ class HomePageState extends State<HomePage>
         }
       });
     });
-  }
-
-  indexFromUnit(String prodListInd) {
-    if(prodListInd.split('^')[3] == 'unit_name') {
-      return 1;
-    } else if(prodListInd.split('^')[3] == 'sub1_name') {
-      return 2;
-    } else {
-      return 3;
-    }
   }
 }
 

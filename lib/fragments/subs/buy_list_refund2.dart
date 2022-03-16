@@ -759,6 +759,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               ),
                                             ),
                                             onPressed: () async {
+                                              WriteBatch batch = FirebaseFirestore.instance.batch();
                                               setState(() {
                                                 loadingState = true;
                                                 disableTouch = true;
@@ -856,12 +857,13 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                       .collection('products').doc(prodList[i].split('-')[0]).get();
                                                   if (docSnapshot.exists) {
                                                     Map<String, dynamic>? data = docSnapshot.data();
-                                                    CollectionReference prods = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-                                                    prods.doc(prodList[i].split('-')[0])
-                                                        .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(0 - double.parse(refNum.toString()))
-                                                    })
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                    batch = await updateProduct(batch, prodList[i].split('-')[0], prodList[i].split('-')[5], refNum);
+                                                    // CollectionReference prods = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+                                                    // prods.doc(prodList[i].split('-')[0])
+                                                    //     .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(0 - double.parse(refNum.toString()))
+                                                    // })
+                                                    //     .then((value) => print("User Updated"))
+                                                    //     .catchError((error) => print("Failed to update user: $error"));
                                                   }
                                                 }
                                               }
@@ -911,11 +913,15 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               }
 
                                               if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
-                                                deFilter = false;
                                                 ttlDebts = 1;
                                               } else {
-                                                deFilter = true;
                                                 ttlDebts = 0;
+                                              }
+
+                                              if (debt == 0) {
+                                                deFilter = false;
+                                              } else {
+                                                deFilter = true;
                                               }
 
                                               if(widget.data.split('^')[4] == 'FALSE') {
@@ -941,13 +947,14 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 querySnapshot.docs.forEach((doc) {
                                                   refundId = doc.id;
                                                 });
-                                                monthlyData.doc(refundId).update({
-                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
-                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                                batch = await updateMonthlyData1(batch, refundId,  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
+                                                // monthlyData.doc(refundId).update({
+                                                //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
+                                                //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                                //
+                                                // }).then((value) => print("data Updated"))
+                                                //     .catchError((error) => print("Failed to update user: $error"));
 
-                                                }).then((value) => print("data Updated"))
-                                                    .catchError((error) => print("Failed to update user: $error"));
-                                              });
 
 
                                               monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
@@ -960,11 +967,12 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 });
                                                 print('month ' + monthExist.toString());
                                                 if (monthExist) {
-                                                  monthlyData.doc(monthId).update({
-                                                    now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
-
-                                                  }).then((value) => print("data Updated"))
-                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                  batch = await updateMonthlyData2(batch, monthId, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc', chgTotal);
+                                                  // monthlyData.doc(monthId).update({
+                                                  //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                  //
+                                                  // }).then((value) => print("data Updated"))
+                                                  //     .catchError((error) => print("Failed to update user: $error"));
                                                 }
                                                 else {
                                                   monthlyData.add({
@@ -985,15 +993,16 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                                     'date': now,
 
-                                                  }).then((value) {
-                                                    print('valueid' + value.id.toString());
-                                                    monthlyData.doc(value.id).update({
-                                                      now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
-                                                    }).then((value) => print("Data Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                  }).then((value) async {
+                                                   // print('valueid' + value.id.toString());
+                                                    batch = await updateMonthlyData2(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc', chgTotal);
+                                                    // monthlyData.doc(value.id).update({
+                                                    //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                    // }).then((value) => print("Data Updated"))
+                                                    //     .catchError((error) => print("Failed to update user: $error"));
                                                   }).catchError((error) => print("Failed to update user: $error"));
                                                 }
-                                              });
+
 
                                               CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
                                               var refundYearId = '';
@@ -1005,13 +1014,14 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 querySnapshot.docs.forEach((doc) {
                                                   refundYearId = doc.id;
                                                 });
-                                                yearlyData.doc(refundYearId).update({
-                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
-                                                  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                                batch = await updateYearlyData1(batch, refundYearId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
+                                                // yearlyData.doc(refundYearId).update({
+                                                //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc' : FieldValue.increment(0 - double.parse(chgTotal.toString())),
+                                                //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                                //
+                                                // }).then((value) => print("data Updated"))
+                                                //     .catchError((error) => print("Failed to update user: $error"));
 
-                                                }).then((value) => print("data Updated"))
-                                                    .catchError((error) => print("Failed to update user: $error"));
-                                              });
                                               yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
                                                   .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
                                                   .get()
@@ -1022,11 +1032,12 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 });
                                                 print('year ' + yearExist.toString());
                                                 if (yearExist) {
-                                                  yearlyData.doc(yearId).update({
-                                                    now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc' : FieldValue.increment(chgTotal),
-
-                                                  }).then((value) => print("data Updated"))
-                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                  batch = await updateYearlyData2(batch, yearId, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
+                                                  // yearlyData.doc(yearId).update({
+                                                  //   now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                  //
+                                                  // }).then((value) => print("data Updated"))
+                                                  //     .catchError((error) => print("Failed to update user: $error"));
                                                 }
                                                 else {
                                                   yearlyData.add({
@@ -1047,15 +1058,15 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                                     'date': now,
 
-                                                  }).then((value) {
-                                                    print('valueid' + value.id.toString());
-                                                    yearlyData.doc(value.id).update({
-                                                      now.year.toString() +  zeroToTen(now.month.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
-                                                    }).then((value) => print("Data Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                  }).then((value12) async {
+                                                   batch = await updateYearlyData2(batch, value12.id,  now.year.toString() +  zeroToTen(now.month.toString()) + 'refu_merc', chgTotal);
+                                                    // yearlyData.doc(value12.id).update({
+                                                    //   now.year.toString() +  zeroToTen(now.month.toString()) + 'refu_merc' : FieldValue.increment(chgTotal),
+                                                    // }).then((value) => print("Data Updated"))
+                                                    //     .catchError((error) => print("Failed to update user: $error"));
                                                   }).catchError((error) => print("Failed to update user: $error"));
                                                 }
-                                              });
+
 
                                               String data = widget.data;
 
@@ -1090,37 +1101,42 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
                                               CollectionReference dailyOrders = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders');
 
+                                              batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
 
-                                              dailyOrders.doc(widget.documentId).update({
-                                                'daily_order':
-                                                FieldValue.arrayRemove([dataRm])
-                                              }).then((value) {print('array removed');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                              // dailyOrders.doc(widget.documentId).update({
+                                              //   'daily_order':
+                                              //   FieldValue.arrayRemove([dataRm])
+                                              // }).then((value) {print('array removed');})
+                                              //     .catchError((error) => print("Failed to update user: $error"));
+                                              //
+                                              // dailyOrders.doc(widget.documentId).update({
+                                              //   'daily_order':
+                                              //   FieldValue.arrayUnion([data])
+                                              // }).then((value) { print('array updated');})
+                                              //     .catchError((error) => print("Failed to update user: $error"));
 
-                                              dailyOrders.doc(widget.documentId).update({
-                                                'daily_order':
-                                                FieldValue.arrayUnion([data])
-                                              }).then((value) { print('array updated');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                              batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
+                                              // dOrder.doc(widget.docId).update({
+                                              //   'subs': prodList,
+                                              //   'total': total.toString(),
+                                              //   'refund' : refundAmount,
+                                              //   'debt' : debt,
+                                              //   'refund_filter' : reFilter,
+                                              //   'debt_filter' : deFilter,
+                                              // }).then((value) { print('detail updated');})
+                                              //     .catchError((error) => print("Failed to update user: $error"));
+                                              batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
 
-                                              dOrder.doc(widget.docId).update({
-                                                'subs': prodList,
-                                                'total': total.toString(),
-                                                'refund' : refundAmount,
-                                                'debt' : debt,
-                                                'refund_filter' : reFilter,
-                                                'debt_filter' : deFilter,
-                                              }).then((value) { print('detail updated');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                                // cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
+                                                //   'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
+                                                //   'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
+                                                //   'debtAmount' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                                // }).then((value) {
+                                                //   print('merchant updated');
+                                                // }).catchError((error) => print("Failed to update user: $error"));
+                                              batch.commit();
 
-                                                cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
-                                                  'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
-                                                  'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
-                                                  'debtAmount' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
-                                                }).then((value) {
-                                                  print('merchant updated');
-                                                }).catchError((error) => print("Failed to update user: $error"));
-
+                                              });});});});
 
                                               setState(() {
                                                 loadingState = false;
@@ -1330,6 +1346,87 @@ class _BuyListRefundState extends State<BuyListRefund>
     } else {
       return 'inStock' + (int.parse(split[3]) + 1).toString();
     }
+  }
+
+  updateProduct(WriteBatch batch, id, unit, num) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops')
+        .doc(widget.shopId).collection('products').doc(id);
+    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - double.parse(num.toString())),});
+    return batch;
+  }
+
+  updateMonthlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse((0 - price1).toString())),
+      field2 : FieldValue.increment(double.parse((0 - price2).toString())),
+
+    });
+    return batch;
+  }
+
+  updateMonthlyData2(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+
+    });
+    return batch;
+  }
+
+  updateYearlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse((0 - price1).toString())),
+      field2 : FieldValue.increment(double.parse((0 - price2).toString())),
+    });
+    return batch;
+  }
+
+  updateYearlyData2(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+    });
+    return batch;
+  }
+
+  updateDailyOrder(WriteBatch batch, id, orgData, updateData) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders').doc(id);
+
+    batch.update(documentReference, {
+      'daily_order' :  FieldValue.arrayRemove([orgData]),
+    });
+
+    batch.update(documentReference, {
+      'daily_order': FieldValue.arrayUnion([updateData])
+    });
+    return batch;
+  }
+
+  updateOrderDetail(WriteBatch batch, id,  lists, total, refAmt, debt, reF, deF) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').doc(id);
+    print('updateDetail '+ id.toString() + lists.toString() + total.toString() + debt.toString() + deF.toString());
+    batch.update(documentReference, {
+      'subs': lists,
+      'total': total.toString(),
+      'refund' : refAmt,
+      'debt' : debt,
+      'refund_filter' : reF,
+      'debt_filter' : deF,
+    });
+    return batch;
+  }
+
+  updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(id);
+
+    batch.update(documentReference, {
+      'total_refunds' : FieldValue.increment(double.parse(totalRefs.toString())),
+      'debts' : FieldValue.increment(0 - double.parse(totalDes.toString())),
+      'debtAmount' : FieldValue.increment(0 - double.parse(changeDes.toString())),
+    });
+    return batch;
   }
 
 }
