@@ -1099,7 +1099,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                         title: Text(
                                                           data[
-                                                          'prod_name'],
+                                                          'prod_name'] + 'check',
                                                           style:
                                                           TextStyle(
                                                               fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
@@ -1136,26 +1136,27 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top : 11,
                                                   right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
-                                                  child: Container(
-                                                    // height: 20,
-                                                    // width: 30,
-                                                    alignment: Alignment.center,
-                                                    decoration: BoxDecoration(
-                                                        color: AppTheme.skBorderColor2,
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                        border: Border.all(
-                                                          color: Colors.white,
-                                                          width: 2,
+                                                  child: Center(
+                                                    child: Container(
+                                                      // height: 20,
+                                                      // width: 30,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: AppTheme.skBorderColor2,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                          border: Border.all(
+                                                            color: Colors.white,
+                                                            width: 2,
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                        child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                            fontSize: 11, fontWeight: FontWeight.w500
                                                         )),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                      child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
-                                                          fontSize: 11, fontWeight: FontWeight.w500
-                                                      )),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

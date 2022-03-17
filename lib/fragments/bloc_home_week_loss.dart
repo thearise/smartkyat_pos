@@ -420,7 +420,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text(' ' + growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() + '% ',
+                                            child: Text(' ' + growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() == '1000'? '\u221E% ': growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() + '% ',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -554,7 +554,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() + '%',
+                                                child: Text(growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() == '1000' ? '\u221E%' : growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() + '%',
                                                   style: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w500,
@@ -2712,6 +2712,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     } else if(growthRate < -999) {
       growthRate = -999;
     }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
     return growthRate.toInt();
   }
 
@@ -2724,6 +2727,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       growthRate = 999;
     } else if(growthRate < -999) {
       growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
     }
     return growthRate.toInt();
   }
