@@ -358,8 +358,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
           textSetOtherInfo = 'OTHER INFORMATION';
           textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
           textSetBuyPrice = 'Buy price';
-           textSetLink1 = 'Items per Main Unit';
-           textSetLink2 = 'Items per Sub-1 Unit';
+          textSetLink1 = 'Items per Main Unit';
+          textSetLink2 = 'Items per Sub-1 Unit';
         });
       } else if(value=='english') {
         setState(() {
@@ -378,8 +378,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
           textSetOtherInfo = 'OTHER INFORMATION';
           textSetTotalSale = 'Total items sold';
           textSetBuyPrice = 'Buy price';
-       textSetLink1 = 'Items per Main Unit';
-           textSetLink2 = 'Items per Sub-1 Unit';
+          textSetLink1 = 'Items per Main Unit';
+          textSetLink2 = 'Items per Sub-1 Unit';
         });
       }
     });
@@ -646,15 +646,15 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   left: 0,
                                                                   bottom: 15,
                                                                   child: Text(
-                                                                    textSetAddtoCart, overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
+                                                                      textSetAddtoCart, overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontSize: 16,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: isEnglish? 1.4: 1.6,
+                                                                        forceStrutHeight: true,
+                                                                      )
                                                                   ),
                                                                 ),
                                                               ],
@@ -751,15 +751,15 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             bottom: 15,
                                                             left: 0,
                                                             child: Text(
-                                                              textSetRefill,overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.w600,
-                                                                fontSize: 16,
-                                                              ),
-                                                              strutStyle: StrutStyle(
-                                                                height: isEnglish? 1.4: 1.6,
-                                                                forceStrutHeight: true,
-                                                              )
+                                                                textSetRefill,overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 16,
+                                                                ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: isEnglish? 1.4: 1.6,
+                                                                  forceStrutHeight: true,
+                                                                )
                                                             ),
                                                           ),
                                                         ],
@@ -952,15 +952,15 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               bottom: 15,
                                                               left: 0,
                                                               child: Text(
-                                                                textSetAddLoss,overflow: TextOverflow.ellipsis,
-                                                                style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 16,
-                                                                ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: isEnglish? 1.4: 1.6,
-                                                                  forceStrutHeight: true,
-                                                                )
+                                                                  textSetAddLoss,overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ],
@@ -2066,7 +2066,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         color: AppTheme.skBorderColor2,
                                                         width: 0.5)
                                                 )),
-                                              height: 1,
+                                            height: 1,
                                           ),
                                           SizedBox(height: 15,),
                                           Padding(
@@ -2140,7 +2140,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                             }
                                                           });
-                                                          },
+                                                        },
                                                         child: Text(
                                                           'Remove',
                                                           textAlign: TextAlign.center,
