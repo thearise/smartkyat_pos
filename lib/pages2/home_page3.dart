@@ -2982,28 +2982,11 @@ class HomePageState extends State<HomePage>
                                                                                                 ],
                                                                                               ),
                                                                                               for (int i = 0; i < prodList.length; i++)
-                                                                                                StreamBuilder<
-                                                                                                    DocumentSnapshot<
-                                                                                                        Map<String,
-                                                                                                            dynamic>>>(
-                                                                                                  stream: FirebaseFirestore
-                                                                                                      .instance
-                                                                                                      .collection('shops')
-                                                                                                      .doc(
-                                                                                                      shopId)
-                                                                                                      .collection('products')
-                                                                                                      .doc(prodList[i]
-                                                                                                      .split('^')[0])
-                                                                                                      .snapshots(),
-                                                                                                  builder:
-                                                                                                      (BuildContext context,
-                                                                                                      snapshot2) {
-                                                                                                    if (snapshot2.hasData) {
-                                                                                                      var output2 = snapshot2
-                                                                                                          .data!
-                                                                                                          .data();
-                                                                                                      var image = output2?[
-                                                                                                        'img_1'];
+                                                                                                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                                                                  stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[i].split('^')[0]).snapshots(),
+                                                                                                  builder: (BuildContext context, snapshot2) {
+                                                                                                    if (snapshot2.hasData) {var output2 = snapshot2.data!.data();
+                                                                                                      var image = output2?['img_1'];
                                                                                                       prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                           prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                       return GestureDetector(
@@ -9864,12 +9847,12 @@ class HomePageState extends State<HomePage>
                                                                     GestureDetector(
                                                                       onTap: () {
                                                                         if (_formKey.currentState!.validate()) {
-                                                                          print('eachProduct' +eachProd);
+                                                                          print('eachProduct' + eachProd);
                                                                           for (int j = 0; j < prodList.length; j++)
                                                                             if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
                                                                               setState((){
                                                                                 mystate((){
-                                                                                  eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
+                                                                                  eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + eachProd.split('^')[6] + '^' + eachProd.split('^')[7];
                                                                                   prodList[j] = eachProd;
                                                                                 }); });
                                                                               print('leepae' + prodList[j]);

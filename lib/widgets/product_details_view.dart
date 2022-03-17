@@ -598,7 +598,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           onPressed: () async {
                                                             if (subExist == '0') {
                                                               widget._callback(widget.idString + '^' + '^' + output?['unit_sell'] +
-                                                                  '^unit_name^1');
+                                                                  '^unit_name^1^' + output?['prod_name'] + '^' + output?['unit_name'] + '^' + output?['img_1']);
                                                             } else {
                                                               final result =
                                                               await showModalActionSheet<String>(
@@ -611,7 +611,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         '^' +
                                                                         '^' +
                                                                         output?['unit_sell'] +
-                                                                        '^unit_name^1',
+                                                                        '^unit_name^1^' + output?['prod_name'] + '^' + output?['unit_name'],
                                                                   ),
                                                                   for(int i =0; i < subSell.length; i++)
                                                                     if(subSell[i] != '')
@@ -622,11 +622,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                             '^' + subLink[i] +
                                                                             '^' +
                                                                             subSell[i] +
-                                                                            '^sub' + (i+1).toString() + '_name^1',
+                                                                            '^sub' + (i+1).toString() + '_name^1^' + output?['prod_name'] + '^' + output?['sub' + (i+1).toString() + '_name'],
                                                                       ),
                                                                 ],
                                                               );
-                                                              widget._callback(result.toString());
+                                                              widget._callback(result.toString() + '^' + output?['img_1']);
                                                             }
                                                             //if(output?['inStock1'] - 1 <= 0) {smartKyatFlash('Out of Stock', 'w');}
                                                           },
