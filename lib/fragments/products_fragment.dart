@@ -1017,7 +1017,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 },
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.only(top: index == 0? 7.0: 13.0, left: 15),
+                                  EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
@@ -1039,125 +1039,143 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             children: [
                                               Column(
                                                 children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          5.0),
-                                                      child: data['img_1'] != ""
-                                                          ? CachedNetworkImage(
-                                                        imageUrl:
-                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                            data['img_1'],
-                                                        width: 75,
-                                                        height: 75,
-                                                        errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
-                                                        fadeInDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            100),
-                                                        fadeOutDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            10),
-                                                        fadeInCurve:
-                                                        Curves
-                                                            .bounceIn,
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      )
-                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 8.0),
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            5.0),
+                                                        child: data['img_1'] != ""
+                                                            ? CachedNetworkImage(
+                                                          imageUrl:
+                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                              data['img_1'],
+                                                          width: 75,
+                                                          height: 75,
+                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
+                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
+                                                          fadeInDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
+                                                          fadeOutDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              10),
+                                                          fadeInCurve:
+                                                          Curves
+                                                              .bounceIn,
+                                                          fit: BoxFit
+                                                              .cover,
+                                                        )
+                                                            : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
+                                                  ),
                                                 ],
                                               ),
                                               SizedBox(
                                                 width: 15,
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 0,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 4.0),
-                                                    child: Text(
-                                                      data['prod_name'],
-                                                      style: TextStyle(
-                                                        height: 0.95,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                        FontWeight.w500,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 0,
+                                                    ),
+                                                    Container(
+                                                      // color: Colors.yellow,
+                                                      child: Text(
+                                                        data['prod_name'],
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 2.2,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        '$currencyUnit ' + data['unit_sell'],
-                                                        style: TextStyle(
-                                                          height: 1.3,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                          FontWeight.w500,
+                                                    SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Flexible(
+                                                          child: Text(
+                                                            '$currencyUnit ' + data['unit_sell'],
+                                                            style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Text(
-                                                        data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub1_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
-                                                        style: TextStyle(
-                                                          height: 1.3,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                          FontWeight.w500,
+                                                        Text(
+                                                          // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
+                                                          data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub1_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
+                                                          style: TextStyle(
+                                                            height: 1.3,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                            FontWeight.w500,
+                                                            overflow: TextOverflow.ellipsis
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                          data['inStock1'].round().toString() + ' '  + data['unit_name'] + ' ',
-                                                          textScaleFactor: 1.0,
-                                                          style: TextStyle(
-                                                            height: 1.3,
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                          )),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 2.0),
-                                                        child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                      ),
-
-                                                      data['sub1_name'] != '' && data['sub2_name'] == ''?
-                                                      Text(
-                                                          '  +1 Sub item',
-                                                          textScaleFactor: 1.0,
-                                                          style: TextStyle(
-                                                            height: 1.3,
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                          )) : data['sub1_name'] != '' && data['sub2_name'] != '' ?
-                                                      Text(
-                                                          '  +2 Sub items',
-                                                          textScaleFactor: 1.0,
-                                                          style: TextStyle(
-                                                            height: 1.3,
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                          )): Container(),
-                                                    ],
-                                                  ),
-                                                ],
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 2.0),
+                                                          child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                        ),
+                                                        Flexible(
+                                                          child: Text(
+                                                              ' ' + data['inStock1'].round().toString() + ' '  + data['unit_name'] + ' ',
+                                                              textScaleFactor: 1.0,
+                                                              style: TextStyle(
+                                                                height: 1.3,
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                overflow: TextOverflow.ellipsis
+                                                              )),
+                                                        ),
+                                                        data['sub1_name'] != '' && data['sub2_name'] == ''?
+                                                        Text(
+                                                            '(+1 Sub item)',
+                                                            textScaleFactor: 1.0,
+                                                            style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                overflow: TextOverflow.ellipsis
+                                                            )) : data['sub1_name'] != '' && data['sub2_name'] != '' ?
+                                                        Text(
+                                                            '(+2 Sub items)',
+                                                            textScaleFactor: 1.0,
+                                                            style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              overflow: TextOverflow.ellipsis
+                                                            )): Container(),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              Spacer(),
                                               Padding(
                                                 padding:
                                                 const EdgeInsets.only(

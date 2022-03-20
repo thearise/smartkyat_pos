@@ -4014,12 +4014,14 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                         child: ListTile(
                                           title: Text(
                                             data['customer_name'].toString(),
+                                            maxLines: 1,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight:
                                               FontWeight
                                                   .w500,
                                               height: 1.1,
+                                              overflow: TextOverflow.ellipsis
                                             ),
                                             strutStyle: StrutStyle(
                                               height: 1.3,
@@ -4044,7 +4046,9 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       color: Colors
                                                           .grey,
                                                       height: 1.1,
+                                                      overflow: TextOverflow.ellipsis
                                                     ),
+                                                  maxLines: 1,
                                                   strutStyle: StrutStyle(
                                                     height: 1.2,
                                                     // fontSize:,
@@ -4062,7 +4066,9 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       color: Colors
                                                           .grey,
                                                       height: 1.1,
+                                                      overflow: TextOverflow.ellipsis
                                                     ),
+                                                  maxLines: 1,
                                                   strutStyle: StrutStyle(
                                                     height: 1,
                                                     // fontSize:,
