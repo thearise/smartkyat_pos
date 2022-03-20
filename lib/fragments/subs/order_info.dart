@@ -1125,9 +1125,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         ),
                                                         trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                           style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w500,
-                                                              overflow: TextOverflow.ellipsis
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w500,
+                                                            overflow: TextOverflow.ellipsis
                                                           ),),
                                                       ),
                                                       Padding(

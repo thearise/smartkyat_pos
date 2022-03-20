@@ -571,22 +571,37 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                       SizedBox(
                                         height: 6,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text(item.split('^')[3].split('&')[0],
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                            ),
-                                            strutStyle: StrutStyle(
-                                              height: 1.3,
-                                              // fontSize:,
-                                              forceStrutHeight: true,
-                                            ),
-                                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 25.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                  overflow: TextOverflow.ellipsis
+                                              ),
+                                                maxLines: 1,
+                                                strutStyle: StrutStyle(
+                                                  height: 1.3,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
+                                                ),
 
-                                        ],
+                                              ),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                            ),
+
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -717,9 +732,9 @@ class _BlocBuyListState extends State<BlocBuyList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                fontSize: 15,fontWeight: FontWeight.w500,
-                              )),
+                              // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                              //   fontSize: 15,fontWeight: FontWeight.w500,
+                              // )),
                               SizedBox(width: 10),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 2.0),
@@ -804,22 +819,37 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                     SizedBox(
                                       height: 6,
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(item.split('^')[3].split('&')[0], style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey,
-                                        ),
-                                          strutStyle: StrutStyle(
-                                            height: 1.3,
-                                            // fontSize:,
-                                            forceStrutHeight: true,
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 25.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                                overflow: TextOverflow.ellipsis
+                                            ),
+                                              maxLines: 1,
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+
+                                            ),
                                           ),
 
-                                        ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                          ),
 
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -951,10 +981,10 @@ class _BlocBuyListState extends State<BlocBuyList> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            )),
+                            // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                            //   fontSize: 15,
+                            //   fontWeight: FontWeight.w500,
+                            // )),
                             SizedBox(width: 10),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
@@ -1081,7 +1111,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                           padding: const EdgeInsets.only(right: 15.0),
                           child: Text(
                             // "#30",
-                            '#' + sectionList3[sectionIndex].items.length.toString(),
+                            '(' + sectionList3[sectionIndex].items.length.toString() + ')',
                             // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                             style: TextStyle(
                               height: 0.8,

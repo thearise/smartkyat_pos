@@ -108,6 +108,8 @@ class HomePageState extends State<HomePage>
   
   String finalTotal = '';
 
+  String finalTotal = '';
+
   homePageLoadingOn() {
     setState(() {
       homePageLoading = true;
