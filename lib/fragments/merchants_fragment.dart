@@ -3924,7 +3924,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                 FontWeight
                                                     .w500,
                                                 height: 1.1,
+                                                overflow: TextOverflow.ellipsis
                                               ),
+                                              maxLines: 1,
                                               strutStyle: StrutStyle(
                                                 height: 1.3,
                                                 // fontSize:,
@@ -3948,7 +3950,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         color: Colors
                                                             .grey,
                                                         height: 1.1,
+                                                        overflow: TextOverflow.ellipsis
                                                       ),
+                                                    maxLines: 1,
                                                     strutStyle: StrutStyle(
                                                       height: 1.2,
                                                       // fontSize:,
@@ -3966,7 +3970,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         color: Colors
                                                             .grey,
                                                         height: 1.1,
+                                                        overflow: TextOverflow.ellipsis
                                                       ),
+                                                    maxLines: 1,
                                                     strutStyle: StrutStyle(
                                                       height: 1,
                                                       // fontSize:,

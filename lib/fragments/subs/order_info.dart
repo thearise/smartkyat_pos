@@ -21,6 +21,7 @@ import 'package:smartkyat_pos/widgets/print_receipt_route.dart';
 import '../../app_theme.dart';
 import 'order_refund_sub2.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:metooltip/metooltip.dart';
 
 class OrderInfoSub extends StatefulWidget {
   final _callback;
@@ -1097,23 +1098,28 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 .cover,
                                                           )
                                                               :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                        title: Text(
-                                                          data[
-                                                          'prod_name'] + 'check',
-                                                          style:
-                                                          TextStyle(
-                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
+                                                        title: Tooltip(
+                                                          message: data['prod_name'],
+                                                          // preferOri: PreferOrientation.up,
+                                                          // isShow: false,
+                                                          child: Text(
+                                                            data['prod_name'],
+                                                            maxLines: 1,
+                                                            style:
+                                                            TextStyle(
+                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                                                          ),
                                                         ),
                                                         subtitle: Padding(
                                                           padding: const EdgeInsets.only(top: 4.0),
                                                           child: Row(
                                                             children: [
-                                                              Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                              )),
                                                               if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                               else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                               else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                              Text(' ' + data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                              )),
                                                             ],
                                                           ),
                                                         ),
@@ -1121,6 +1127,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight: FontWeight.w500,
+                                                            overflow: TextOverflow.ellipsis
                                                           ),),
                                                       ),
                                                       Padding(
@@ -1136,6 +1143,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 Positioned(
+                                                  top: 11,
                                                   right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
                                                   child: Center(
                                                     child: Container(
