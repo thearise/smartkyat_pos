@@ -739,7 +739,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 }
                                                 print('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
 
-                                                if(widget.data.split('^')[4] == 'FALSE') {
+                                                if(widget.data.split('^')[4] == 'F') {
                                                   totalRefunds = 1;
                                                 } else {
                                                   totalRefunds = 0;
@@ -752,6 +752,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 }
 
                                                 var refundId = '';
+                                                batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
 
                                                 CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
 
@@ -803,6 +804,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                      batch = await updateMonthlyData2(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
                                                     }).catchError((error) => print("Failed to update user: $error"));
                                                   }
+
 
 
                                                 CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
@@ -888,7 +890,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                  // print('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
                                                  batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                                 //
-                                                 batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+
                                                   batch.commit();
                                                     });
                                                     });

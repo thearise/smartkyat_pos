@@ -105,6 +105,8 @@ class HomePageState extends State<HomePage>
   bool printClosed = true;
 
   bool homePageLoading = false;
+  
+  String finalTotal = '';
 
   String finalTotal = '';
 

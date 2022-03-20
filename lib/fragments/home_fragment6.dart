@@ -2390,13 +2390,13 @@ class HomeFragmentState extends State<HomeFragment>
 
   ordersQueryYear() {
     return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_yearly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-00' + ' 00:00:00'))
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 365)).year.toString() + '-01-00' + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'));
   }
 
   ordersQueryMonth() {
     return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-00' + ' 00:00:00'))
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 30)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 31)).month.toString()) + '-00' + ' 00:00:00'))
         .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 00:00:00'));
   }
 

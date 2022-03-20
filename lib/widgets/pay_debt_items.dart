@@ -666,6 +666,8 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
 
+                                  batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidAmount);
+
                                   // order.doc(
                                   //     widget.docId)
                                   //     .update({
@@ -708,7 +710,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     // }).then((value) => print("data Updated"))
                                     //     .catchError((error) => print("Failed to update user: $error"));
 
-                                    batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidAmount);
+
 
                                     // customerDebt.doc(
                                     //     widget.data.split('^')[3].split('&')[1])

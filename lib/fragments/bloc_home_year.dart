@@ -251,7 +251,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   ordersQuery() {
     print('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-00' + ' 00:00:00'))
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 365)).year.toString() + '-01-00' + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'))
         .orderBy('date', descending: true);
   }

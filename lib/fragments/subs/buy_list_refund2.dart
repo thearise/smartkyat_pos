@@ -924,7 +924,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 deFilter = true;
                                               }
 
-                                              if(widget.data.split('^')[4] == 'FALSE') {
+                                              if(widget.data.split('^')[4] == 'F') {
                                                 totalRefunds = 1;
                                               } else {
                                                 totalRefunds = 0;
@@ -937,6 +937,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               }
 
                                               var refundId = '';
+
+                                              batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+
 
                                               CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
 
@@ -1125,7 +1128,6 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               //   'debt_filter' : deFilter,
                                               // }).then((value) { print('detail updated');})
                                               //     .catchError((error) => print("Failed to update user: $error"));
-                                              batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
 
                                                 // cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
                                                 //   'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
