@@ -107,6 +107,7 @@ class _FillProductState extends State<FillProduct> {
     var output1 = snapshot2.data!.data();
     var prodName = output1?['prod_name'];
     var mainName = output1?[widget.unitname];
+    var image = output1?['img_1'];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -448,7 +449,7 @@ class _FillProductState extends State<FillProduct> {
                                   '^' +
                                   'Phyo' +
 
-                                  '^'+ widget.unitname + '^' + '1'.toString());
+                                  '^'+ widget.unitname + '^' + '1' + '^' + prodName + '^' + mainName + '^' + image);
                               print(widget.idString +
                                   '^' +
                                   msaleCtrl.text +

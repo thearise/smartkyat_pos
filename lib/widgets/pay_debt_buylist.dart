@@ -717,9 +717,16 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             }
                             var refundId = '';
                             var refundYearId = '';
+
+                            batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+
+                            batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
+
+                            batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidAmount);
+
                             CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
                             double paidMoney = paidAmount;
-                            double debtMoney = debtAmount;
+
                             monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
                                 .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
                                 .get()
@@ -756,23 +763,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             //CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
                             //CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
 
-                            batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
 
-                            // dailyOrders.doc(widget.documentId).update({
-                            //   'daily_order':
-                            //   FieldValue.arrayRemove([dataRm])
-                            // }).then((value) {print('array removed');})
-                            //     .catchError((error) => print("Failed to update user: $error"));
-                            //
-                            // dailyOrders.doc(widget.documentId).update({
-                            //   'daily_order':
-                            //   FieldValue.arrayUnion([data])
-                            // }).then((value) { print('array updated');})
-                            //     .catchError((error) => print("Failed to update user: $error"));
-
-
-
-                              batch = await updateOrderDetail(batch, widget.docId, debtMoney, deFilter);
                               print('debtAmtt' + debtAmount.toString());
 
                             // order.doc(
@@ -784,7 +775,6 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             //     .then((value) => print("User Updated"))
                             //     .catchError((error) => print("Failed to update user: $error"));
 
-                            batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidMoney);
 
                             print('Paided' + paidAmount.toString());
 
