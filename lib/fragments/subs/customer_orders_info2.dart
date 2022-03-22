@@ -755,16 +755,28 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey,
+                              height: 1.5,
+                              fontWeight: FontWeight.w500,
+                              //color: Colors.grey,
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.5,
+                              // fontSize:,
+                              forceStrutHeight: true,
                             ),
                           ),
                           Text(
                             widget.custName,
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
+                              height: 1.3,
                               fontWeight: FontWeight.w600,
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.5,
+                              // fontSize:,
+                              forceStrutHeight: true,
                             ),
                           ),
                         ],

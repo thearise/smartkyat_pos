@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 
 import '../app_theme.dart';
 
@@ -347,152 +348,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
             //     ),
             //   ],
             // ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Container(
-                    height: 80,
-                    child:
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: Container(
-                            width: 37,
-                            height: 37,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(35.0),
-                                ),
-                                color: Colors.grey.withOpacity(0.3)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 3.0),
-                              child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_ios_rounded,
-                                    size: 17,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text('$currencyUnit ' + widget.data.split('^')[2].toString(),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                // color: Colors.grey,
-                              ),),
-                            Text('#' +
-                                widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Container(
-                        //   width: 37,
-                        //   height: 37,
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.all(
-                        //         Radius.circular(35.0),
-                        //       ),
-                        //       color: Colors.grey.withOpacity(0.3)),
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.only(right: 3.0),
-                        //     child: IconButton(
-                        //         icon: Icon(
-                        //           Icons.check,
-                        //           size: 17,
-                        //           color: Colors.black,
-                        //         ),
-                        //         onPressed: () async {
-                        //           String dataRm = widget.data.split('^')[0] +
-                        //               '^' +
-                        //               widget.data.split('^')[1] +
-                        //               '^' +
-                        //               widget.data.split('^')[2] +
-                        //               '^' +
-                        //               widget.data.split('^')[3].split('&')[1] +
-                        //               '^' +
-                        //               widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-                        //           String data = widget.data.split('^')[0] +
-                        //               '^' +
-                        //               widget.data.split('^')[1] +
-                        //               '^' +
-                        //               widget.data.split('^')[2] +
-                        //               '^' +
-                        //               widget.data.split('^')[3].split('&')[1] +
-                        //               '^' +
-                        //               widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-                        //
-                        //           CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-                        //           CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
-                        //           CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
-                        //
-                        //           dailyOrders.doc(widget.documentId).update({
-                        //             'daily_order':
-                        //             FieldValue.arrayRemove([dataRm])
-                        //           }).then((value) {print('array removed');})
-                        //               .catchError((error) => print("Failed to update user: $error"));
-                        //
-                        //           dailyOrders.doc(widget.documentId).update({
-                        //             'daily_order':
-                        //             FieldValue.arrayUnion([data])
-                        //           }).then((value) { print('array updated');})
-                        //               .catchError((error) => print("Failed to update user: $error"));
-                        //
-                        //           order.doc(
-                        //               widget.docId)
-                        //               .update({
-                        //             'debt6' : debtAmount
-                        //           })
-                        //               .then((value) => print("User Updated"))
-                        //               .catchError((error) => print("Failed to update user: $error"));
-                        //
-                        //           double debts = 0;
-                        //           if(debtAmount == 0.0) {
-                        //             debts = 1;
-                        //           } else debts = 0;
-                        //           if( widget.data.split('^')[3].split('&')[1] !='name') {
-                        //           customerDebt.doc(
-                        //               widget.data.split('^')[3].split('&')[1])
-                        //               .update({
-                        //             'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-                        //             'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
-                        //           })
-                        //               .then((value) => print("User Updated"))
-                        //               .catchError((error) => print("Failed to update user: $error"));}
-                        //
-                        //           _textFieldController.clear();
-                        //           Navigator.of(context).popUntil((route) => route.isFirst);
-                        //         }),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Colors.grey.withOpacity(0.3),
-                              width: 1.0))),
-                ),
-              ],
-            ),
+            Top80AppBar('#' +
+                widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
             SizedBox(
               height: 15,
             ),
@@ -521,15 +378,21 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Debt Remaining - $currencyUnit', style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey,
-                                  )),
-                                  SizedBox(height: 3),
-                                  Text( debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
-                                    fontSize: 23, fontWeight: FontWeight.w500,
-                                  )),
+                                  Text('Debt remaining - $currencyUnit',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                      )
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text( debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 23, fontWeight: FontWeight.w500,
+                                      )
+                                  ),
                                 ],
                               )),
                           SizedBox(height: 15),
@@ -579,7 +442,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 color: Colors.black,
                               ),
                               // errorText: 'Error message',
-                              labelText: 'other amount',
+                              labelText: 'Custom price',
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                               //filled: true,
                               border: OutlineInputBorder(
@@ -615,7 +478,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(7.0),
                                 side: BorderSide(
-                                  color: Colors.grey.withOpacity(0.85),
+                                  color: AppTheme.buttonColor2,
                                 ),
                               ),
                               onPressed: () async {
@@ -633,8 +496,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 child: Text( '$currencyUnit ' +
                                     widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),

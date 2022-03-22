@@ -18,6 +18,7 @@ import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:image/image.dart' as imglib;
+import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 import '../app_theme.dart';
 import 'printer_check_route.dart';
 
@@ -285,74 +286,88 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Container(
-                          height: 80,
-                          child:
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 0),
-                                child: Container(
-                                  width: 37,
-                                  height: 37,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(35.0),
-                                      ),
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_back_ios_rounded,
-                                          size: 17,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text('MMK ' + widget.data.split('^')[2].toString(),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      //color: Colors.grey,
-                                    ),),
-                                  Text('#' +
-                                      widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                      ),
-                    ],
-                  ),
+                  Top80AppBar('#' +
+                      widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')', 'MMK ' + widget.data.split('^')[2].toString()),
+                  // Column(
+                  //   children: [
+                  //     Padding(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  //       child: Container(
+                  //         height: 80,
+                  //         child:
+                  //         Row(
+                  //           children: [
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(top: 0),
+                  //               child: Container(
+                  //                 width: 37,
+                  //                 height: 37,
+                  //                 decoration: BoxDecoration(
+                  //                     borderRadius: BorderRadius.all(
+                  //                       Radius.circular(35.0),
+                  //                     ),
+                  //                     color: Colors.grey.withOpacity(0.3)),
+                  //                 child: Padding(
+                  //                   padding: const EdgeInsets.only(right: 3.0),
+                  //                   child: IconButton(
+                  //                       icon: Icon(
+                  //                         Icons.arrow_back_ios_rounded,
+                  //                         size: 17,
+                  //                         color: Colors.black,
+                  //                       ),
+                  //                       onPressed: () {
+                  //                         Navigator.pop(context);
+                  //                       }),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             Spacer(),
+                  //             Column(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               crossAxisAlignment: CrossAxisAlignment.end,
+                  //               children: [
+                  //                 Text('MMK ' + widget.data.split('^')[2].toString(),
+                  //                   style: TextStyle(
+                  //                     fontSize: 13,
+                  //                     fontWeight: FontWeight.w500,
+                  //                     height: 1.5,
+                  //                   ),
+                  //                   strutStyle: StrutStyle(
+                  //                     height: 1.4,
+                  //                     // fontSize:,
+                  //                     forceStrutHeight: true,
+                  //                   ),
+                  //                 ),
+                  //                 Text('#' +
+                  //                     widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')',
+                  //                   style: TextStyle(
+                  //                     fontSize: 18,
+                  //                     fontWeight: FontWeight.w600,
+                  //                     height: 1.3,
+                  //                   ),
+                  //                   strutStyle: StrutStyle(
+                  //                     height: 1.7,
+                  //                     // fontSize:,
+                  //                     forceStrutHeight: true,
+                  //                   ),
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ],
+                  //         ),
+                  //
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: 1,
+                  //       decoration: BoxDecoration(
+                  //           border: Border(
+                  //               bottom: BorderSide(
+                  //                   color: Colors.grey.withOpacity(0.3),
+                  //                   width: 1.0))),
+                  //     ),
+                  //   ],
+                  // ),
                   Expanded(
                     child: Container(
                       child: Column(

@@ -261,14 +261,22 @@ class _EditProductState extends State<EditProduct> {
                           children: [
                             Text(
                               widget.prodName,
+                              maxLines: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  overflow: TextOverflow.ellipsis
+                                // height: 1.5
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
                             ),
                             Text(
-                              'Edit Product',
+                              'Edit product',
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 20,

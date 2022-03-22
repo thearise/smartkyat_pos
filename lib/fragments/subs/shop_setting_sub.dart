@@ -161,7 +161,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                             color: Colors.grey.withOpacity(0.3),
                             width: 1.0))),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                  padding: const EdgeInsets.only(left: 14.0, right: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,24 +274,23 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                   Text('Switch shop', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                   // Spacer(),
                                   Expanded(
-                                    child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                        builder: (BuildContext context, snapshot) {
+                                    child: StreamBuilder(
+                                        stream: FirebaseFirestore.instance.collection('shops')
+                                            .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
+                                            .snapshots(),
+                                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                           if(snapshot.hasData) {
-                                            var output = snapshot.data!.data();
-                                            var shopName = output?['shop_name'];
-                                            nameShop = output?['shop_name'];
-                                            addressShop = output?['shop_address'];
-                                            phoneShop = output?['shop_phone'];
-                                            ownerId = output?['owner_id'];
-                                            return Container(
-                                                // width: MediaQuery.of(context).size.width/2,
-                                                child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
-                                            );
+                                            // print(snapshot.data!.docs.length);
+                                            int ownShopsCount = 0;
+                                            for(int i = 0; i < snapshot.data!.docs.length; i++) {
+                                              ownShopsCount++;
+                                            }
+                                            print('Own shop count ' + ownShopsCount.toString());
+                                            var index = 0;
+                                            return Text('total ' + ownShopsCount.toString(),textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
                                           }
                                           return Container();
-                                        }
-                                    ),
+                                        }),
                                   ),
                                   SizedBox(width: 8,),
                                   Icon(
@@ -309,10 +308,13 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 .snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
                              if(snapshotUser.hasData) {
+                               if(snapshotUser.data!.docs.length == 0) {
+                                 return Container();
+                               }
                                Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
                                var role = dataUser['role'];
 
-                            return (role == 'admin' || role == 'owner') ? Column(
+                               return (role == 'admin' || role == 'owner') ? Column(
                               children: [
                                 GestureDetector(
                                   onTap: () async {
@@ -375,41 +377,100 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                   child: Container(
                                     height: 72,
                                     decoration: BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(
-                                              color: AppTheme.skBorderColor2,
-                                              width: 1.0),
-                                        )),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 4.0),
-                                        child: ListTile(
-                                          title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              StreamBuilder<Object>(
-                                                  stream: null,
-                                                  builder: (context, snapshot) {
-                                                    return Text('' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                      color: Colors.white,
+                                      border: Border(
+                                        top: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                            width: 1.0),
+                                      )
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
+                                      child: Row(
+                                        // mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                          // Spacer(),
+                                          Expanded(
+                                            child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                                builder: (BuildContext context, snapshot) {
+                                                  if(snapshot.hasData) {
+                                                    var output = snapshot.data!.data();
+                                                    // String shopName = output?['shop_name'];
+                                                    nameShop = output?['shop_name'];
+                                                    addressShop = output?['shop_address'];
+                                                    phoneShop = output?['shop_phone'];
+                                                    ownerId = output?['owner_id'];
+                                                    return Container(
+                                                      // width: MediaQuery.of(context).size.width/2,
+                                                        child: Text(output?['shop_name'] == null? 'Loading': output?['shop_name'],textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
+                                                    );
                                                   }
-                                              ),
-                                              SizedBox(width: 8,),
-                                              Icon(
-                                                Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                              ),
-                                            ],
+                                                  return Container();
+                                                }
+                                            ),
                                           ),
-
-
-                                        ),
+                                          SizedBox(width: 8,),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
+                                  // child: Container(
+                                  //   height: 72,
+                                  //   decoration: BoxDecoration(
+                                  //       border: Border(
+                                  //         top: BorderSide(
+                                  //             color: AppTheme.skBorderColor2,
+                                  //             width: 1.0),
+                                  //       )),
+                                  //   child: Center(
+                                  //     child: Padding(
+                                  //       padding: const EdgeInsets.only(bottom: 4.0),
+                                  //       child: ListTile(
+                                  //         title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  //         trailing: Row(
+                                  //           mainAxisSize: MainAxisSize.min,
+                                  //           children: [
+                                  //             Expanded(
+                                  //               child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                  //                   stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                  //                   builder: (BuildContext context, snapshot) {
+                                  //                     if(snapshot.hasData) {
+                                  //                       var output = snapshot.data!.data();
+                                  //                       // String shopName = output?['shop_name'];
+                                  //                       nameShop = output?['shop_name'];
+                                  //                       addressShop = output?['shop_address'];
+                                  //                       phoneShop = output?['shop_phone'];
+                                  //                       ownerId = output?['owner_id'];
+                                  //                       return Container(
+                                  //                         // width: MediaQuery.of(context).size.width/2,
+                                  //                           child: Text(output?['shop_name'] == null? 'Loading': output?['shop_name'],textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
+                                  //                       );
+                                  //                     }
+                                  //                     return Container();
+                                  //                   }
+                                  //               ),
+                                  //             ),
+                                  //             SizedBox(width: 8,),
+                                  //             Icon(
+                                  //               Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //
+                                  //
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ),
                               ],
                             ) : Container();
-                           }
+                             }
                              return Container();
                           }
                         ),
