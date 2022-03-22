@@ -264,7 +264,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                                child: Text('CURRENT SHOP', style: TextStyle(
+                                child: Text('CHANGE SHOP', style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,color: Colors.grey,

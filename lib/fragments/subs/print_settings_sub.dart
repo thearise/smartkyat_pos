@@ -215,13 +215,11 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             color: Colors.grey.withOpacity(0.3),
                             width: 1.0))),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                  padding: const EdgeInsets.only(left: 14.0, right: 15.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.only(top: 0),
                         child: Container(
                           width: 37,
                           height: 37,
@@ -245,42 +243,41 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         ),
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Others',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.5
-                                ),
-                                strutStyle: StrutStyle(
-                                  height: 1.4,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
-                                ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(height: 15.5),
+                            Text(
+                              'Others',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 13,
+                                height: 1.5,
+                                fontWeight: FontWeight.w500,
+                                //color: Colors.grey,
                               ),
-                              Text(
-                                'Print settings',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.3
-                                ),
-                                strutStyle: StrutStyle(
-                                  height: 1.7,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
-                                ),
+                              strutStyle: StrutStyle(
+                                height: 1.5,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
-                            ],
-                          ),
+                            ),
+                            Text(
+                              'Print settings',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 18,
+                                height: 1.3,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.5,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     ],

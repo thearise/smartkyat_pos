@@ -5,6 +5,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 
@@ -59,7 +60,7 @@ class _FillProductState extends State<FillProduct> {
 
   @override
   initState() {
-
+    munitCtrl.text = '1';
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -108,7 +109,10 @@ class _FillProductState extends State<FillProduct> {
     var prodName = output1?['prod_name'];
     var mainName = output1?[widget.unitname];
     var image = output1?['img_1'];
-          return Column(
+    print('widget che ' + widget.unitname.toString());
+    String buyPrice = output1?['buyPrice' + buySubCheck(widget.unitname)];
+    msaleCtrl.text = buyPrice;
+    return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
@@ -156,16 +160,34 @@ class _FillProductState extends State<FillProduct> {
                               prodName,
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  overflow: TextOverflow.ellipsis
+                                // height: 1.5
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
                             ),
-                            Text(
-                              'Refill Product',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                              child: Text(
+                                'Refill to inventory',
+                                maxLines: 1,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  // height: 1.3
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.7,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
+                                ),
                               ),
                             ),
                           ],
@@ -182,18 +204,28 @@ class _FillProductState extends State<FillProduct> {
                       key: _formKey,
                       child:  Stack(
                                 children: [
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
-                                    child: Text(
-                                      "MAIN UNIT QUANTITY",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.topLeft,
+                                          padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
+                                          child: Text(
+                                            "PRICING & INVENTORY",
+                                            style: TextStyle(
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14, color: Colors.grey,
+                                              height: 0.9
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 15.0, top: 14),
+                                        child: Icon(widget.unitname == 'unit_name'? SmartKyat_POS.prodm: widget.unitname == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
+                                      ),
+                                    ],
                                   ),
 
                                   Padding(
@@ -202,7 +234,7 @@ class _FillProductState extends State<FillProduct> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                          width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) : MediaQuery.of(context).size.width - 30,
                                           child: TextFormField(
                                             controller: munitCtrl,
                                             keyboardType: TextInputType.numberWithOptions(decimal: false),
@@ -241,11 +273,12 @@ class _FillProductState extends State<FillProduct> {
                                                   right: 15.0,
                                                   top: 20.0,
                                                   bottom: 20.0),
-                                              //suffixText: 'Required',
+                                              suffixText: mainName,
                                               suffixStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 12,
                                                 fontFamily: 'capsulesans',
+                                                height: 0.8
                                               ),
                                               errorStyle: TextStyle(
                                                   backgroundColor: Colors.white,
@@ -267,22 +300,89 @@ class _FillProductState extends State<FillProduct> {
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
-                                                  30) *
-                                              (1.41 / 4) : (MediaQuery.of(context).size.width -
-                                              30) *
-                                              (1.41 / 4),
-                                          child: Text(
-                                            mainName,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
+                                        )
+//                                         Container(
+//                                           width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+//                                           child: TextFormField(
+//                                             controller: munitCtrl,
+//                                             keyboardType: TextInputType.numberWithOptions(decimal: false),
+//                                             inputFormatters: <TextInputFormatter>[
+//                                               FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+// // The validator receives the text that the user has entered.
+//                                             validator: (value) {
+//                                               if (value == null ||
+//                                                   value.isEmpty) {
+//                                                 return 'This field is required';
+//                                               }
+//                                               prodFieldsValue.add(value);
+//                                               return null;
+//                                             },
+//                                             style: TextStyle(
+//                                               height: 0.95,
+//                                             ),
+//                                             decoration: InputDecoration(
+//                                               enabledBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                                   borderSide: const BorderSide(
+//                                                       color: AppTheme.skBorderColor,
+//                                                       width: 2.0),
+//                                                   borderRadius: BorderRadius.all(
+//                                                       Radius.circular(10.0))),
+//
+//                                               focusedBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                                   borderSide: const BorderSide(
+//                                                       color: AppTheme.themeColor,
+//                                                       width: 2.0),
+//                                                   borderRadius: BorderRadius.all(
+//                                                       Radius.circular(10.0))),
+//                                               contentPadding: const EdgeInsets.only(
+//                                                   left: 15.0,
+//                                                   right: 15.0,
+//                                                   top: 20.0,
+//                                                   bottom: 20.0),
+//                                               //suffixText: 'Required',
+//                                               suffixStyle: TextStyle(
+//                                                 color: Colors.grey,
+//                                                 fontSize: 12,
+//                                                 fontFamily: 'capsulesans',
+//                                               ),
+//                                               errorStyle: TextStyle(
+//                                                   backgroundColor: Colors.white,
+//                                                   fontSize: 12,
+//                                                   fontFamily: 'capsulesans',
+//                                                   height: 0.1
+//                                               ),
+//                                               labelStyle: TextStyle(
+//                                                 fontWeight: FontWeight.w500,
+//                                                 color: Colors.black,
+//                                               ),
+// // errorText: 'Error message',
+//                                               labelText: 'Unit Quantity',
+//                                               floatingLabelBehavior:
+//                                               FloatingLabelBehavior.auto,
+// //filled: true
+//                                               border: OutlineInputBorder(
+//                                                 borderRadius: BorderRadius.circular(10),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Spacer(),
+//                                         Container(
+//                                           width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
+//                                                   30) *
+//                                               (1.41 / 4) : (MediaQuery.of(context).size.width -
+//                                               30) *
+//                                               (1.41 / 4),
+//                                           child: Text(
+//                                             mainName,
+//                                             style: TextStyle(
+//                                               fontSize: 16,
+//                                               fontWeight: FontWeight.w500,
+//                                             ),
+//                                           ),
+//                                         ),
                                       ],
                                     ),
                                   ),
@@ -501,6 +601,18 @@ class _FillProductState extends State<FillProduct> {
       return string;
     } else {
       return '0' + string;
+    }
+  }
+
+  String buySubCheck(String unitName) {
+    if(unitName == 'unit_name') {
+      return '1';
+    } else if(unitName == 'sub1_name') {
+      return '2';
+    } else if(unitName == 'sub2_name') {
+      return '3';
+    } else {
+      return '1';
     }
   }
 }

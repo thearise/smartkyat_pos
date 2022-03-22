@@ -705,7 +705,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                           color: Colors.grey.withOpacity(0.3),
                           width: 1.0))),
               child: Padding(
-                padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                padding: const EdgeInsets.only(left: 14.0, right: 15.0),
                 child: Row(
                   children: [
                     Padding(
@@ -742,16 +742,28 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey,
+                              height: 1.5,
+                              fontWeight: FontWeight.w500,
+                              //color: Colors.grey,
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.5,
+                              // fontSize:,
+                              forceStrutHeight: true,
                             ),
                           ),
                           Text(
                             widget.merchName,
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
+                              height: 1.3,
                               fontWeight: FontWeight.w600,
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.5,
+                              // fontSize:,
+                              forceStrutHeight: true,
                             ),
                           ),
                         ],

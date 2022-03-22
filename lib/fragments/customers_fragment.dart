@@ -87,7 +87,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetNewCus = 'New Customer';
+  String textSetNewCus = 'Customer';
   String textSetAll = 'All';
   String textSetUnpaids = 'Unpaids';
   String textSetSearch = 'Search';
@@ -190,7 +190,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
         });
       } else if(value=='english') {
         setState(() {
-          textSetNewCus = 'New Customer';
+          textSetNewCus = 'Customer';
           textSetAll = 'All';
           textSetUnpaids = 'Unpaids';
           textSetSearch = 'Search';
