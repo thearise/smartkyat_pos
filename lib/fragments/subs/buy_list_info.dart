@@ -20,6 +20,7 @@ import 'package:smartkyat_pos/widgets/pay_debt_buylist.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 import 'package:intl/intl.dart';
 import 'package:smartkyat_pos/widgets/print_receipt_route.dart';
+import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 import '../../app_theme.dart';
 import 'order_refund_sub2.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -130,6 +131,7 @@ class _BuyListInfoState extends State<BuyListInfo>
   String textSetPercent = 'Percentage';
   String textSetAllRefund = 'All Items Refunded';
   String textSetFullyRef = 'FULLY REFUNDED';
+  bool isEnglish = true;
   @override
   initState() {
     // WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -150,6 +152,7 @@ class _BuyListInfoState extends State<BuyListInfo>
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
           textSetFullyRef = 'FULLY REFUNDED';
+          isEnglish = false;
         });
       } else if(value=='english') {
         setState(() {
@@ -164,6 +167,7 @@ class _BuyListInfoState extends State<BuyListInfo>
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
           textSetFullyRef = 'FULLY REFUNDED';
+          isEnglish = true;
         });
       }
     });
@@ -227,88 +231,7 @@ class _BuyListInfoState extends State<BuyListInfo>
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Container(
-                        height: 80,
-                        child:
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
-                                width: 37,
-                                height: 37,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.3)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 3.0),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(height: 15.7,),
-                                  Text('$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1.5,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.4,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                  Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      height: 1.3,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.7,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                  // Text(widget.selectedDev.toString())
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ),
-                    ),
-                    Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1.0))),
-                    ),
-                  ],
-                ),
+                Top80AppBar('#' + widget.data.split('^')[1] + ' (' + widget.data.split('^')[3].split('&')[0] + ')', '$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
 
                 // orderDateId(widget.data)
                 if (docId != null && docId != '')
@@ -372,7 +295,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                               ttlQtity += double.parse(prodList[j].split('-')[3]);
                               ttlRefun += double.parse(prodList[j].split('-')[7]);
                               prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
-                                  prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
+                                  prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (double.parse(prodListView[k].split('-')[7]).round() + double.parse(prodList[j].split('-')[7]).round()).toString() + '-' +
                                   prodListView[k].split('-')[8] ;
                             } else {
                               prodListView.add(prodList[j]);
@@ -436,54 +359,63 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      widget._closeCartBtn();
-                                                      String isRef = 'p';
-                                                      double debt = double.parse(widget.data.split('^')[5]);
-                                                      print('result__1 ' + result.toString());
-                                                      for (int i = 0; i < prodListView.length; i++) {
-                                                        if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
-                                                          isRef = 'r';
+                                                      try {
+                                                        final resultInt = await InternetAddress.lookup('google.com');
+                                                        if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
+                                                          widget._closeCartBtn();
+                                                          String isRef = 'p';
+                                                          double debt = double.parse(widget.data.split('^')[5]);
+                                                          print('result__1 ' + result.toString());
+                                                          for (int i = 0; i < prodListView.length; i++) {
+                                                            if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
+                                                              isRef = 'r';
+                                                            }
+                                                            if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
+                                                              isRef = 's';
+                                                            }
+                                                          }
+
+                                                          if(totalPrice <= double.parse(widget.data.split('^')[5])) {
+                                                            debt = totalPrice;
+                                                          }
+
+                                                          result = widget.data
+                                                              .split('^')[0] +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[1] +
+                                                              '^' +
+                                                              totalPrice
+                                                                  .toString() +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[3] +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                              .split('^')[6];
+
+                                                          print('Result'+ result.toString());
+
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    BuyListRefund(
+                                                                      data: result,
+                                                                      data2: prodList,
+                                                                      realPrice: totalRealPrice,
+                                                                      toggleCoinCallback:
+                                                                          () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
+                                                          );
+                                                          widget._openCartBtn();
+                                                          print('result__2 ' + result.toString());
                                                         }
-                                                        if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
-                                                          isRef = 's';
-                                                        }
+                                                      } on SocketException catch (_) {
+                                                        setState(() {
+                                                          smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                        });
                                                       }
-
-                                                      if(totalPrice <= double.parse(widget.data.split('^')[5])) {
-                                                        debt = totalPrice;
-                                                      }
-
-                                                      result = widget.data
-                                                          .split('^')[0] +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[1] +
-                                                          '^' +
-                                                          totalPrice
-                                                              .toString() +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[3] +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                          .split('^')[6];
-
-                                                      print('Result'+ result.toString());
-
-                                                      await Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                BuyListRefund(
-                                                                  data: result,
-                                                                  data2: prodList,
-                                                                  realPrice: totalRealPrice,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
-                                                      );
-                                                      widget._openCartBtn();
-                                                      print('result__2 ' + result.toString());
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -511,9 +443,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
                                                                   ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
@@ -536,13 +472,22 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      widget._closeCartBtn();
-                                                      await Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
-                                                      );
-                                                      widget._openCartBtn();
+                                                      try {
+                                                        final resultInt = await InternetAddress.lookup('google.com');
+                                                        if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
+                                                          widget._closeCartBtn();
+                                                          await Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                          );
+                                                          widget._openCartBtn();
+                                                        }
+                                                      } on SocketException catch (_) {
+                                                        setState(() {
+                                                          smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                        });
+                                                      }
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -570,9 +515,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
                                                                   ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
@@ -649,9 +598,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
                                                                   ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
@@ -703,10 +656,16 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             left: 0,
                                                             child: Text(
                                                               textSetRefBtn,
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
+                                                                fontWeight: FontWeight.w600,
                                                                 fontSize: 16,
                                                               ),
+                                                              strutStyle: StrutStyle(
+                                                                height: isEnglish? 1.4: 1.6,
+                                                                forceStrutHeight: true,
+                                                              )
                                                             ),
                                                           ),
                                                         ],
@@ -727,7 +686,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                      smartKyatFlash('Check your internet connection and try again.', 'w');
+                                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -755,9 +714,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
                                                                   ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
@@ -828,9 +791,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
                                                                   ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: isEnglish? 1.4: 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
@@ -1108,23 +1075,28 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 .cover,
                                                           )
                                                               :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                        title: Text(
-                                                          data[
-                                                          'prod_name'],
-                                                          style:
-                                                          TextStyle(
-                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
+                                                        title: Tooltip(
+                                                          message: data['prod_name'],
+                                                          // preferOri: PreferOrientation.up,
+                                                          // isShow: false,
+                                                          child: Text(
+                                                            data['prod_name'],
+                                                            maxLines: 1,
+                                                            style:
+                                                            TextStyle(
+                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                                                          ),
                                                         ),
                                                         subtitle: Padding(
                                                           padding: const EdgeInsets.only(top: 4.0),
                                                           child: Row(
                                                             children: [
-                                                              Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                              )),
                                                               if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                               else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                               else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                              Text(' ' + data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                              )),
                                                             ],
                                                           ),
                                                         ),
@@ -1264,23 +1236,28 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                       .cover,
                                                                 )
                                                                     :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                              title: Text(
-                                                                data[
-                                                                'prod_name'],
-                                                                style:
-                                                                TextStyle(
-                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
+                                                              title: Tooltip(
+                                                                message: data['prod_name'],
+                                                                // preferOri: PreferOrientation.up,
+                                                                // isShow: false,
+                                                                child: Text(
+                                                                  data['prod_name'],
+                                                                  maxLines: 1,
+                                                                  style:
+                                                                  TextStyle(
+                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                                                                ),
                                                               ),
                                                               subtitle: Padding(
                                                                 padding: const EdgeInsets.only(top: 4.0),
                                                                 child: Row(
                                                                   children: [
-                                                                    Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                    )),
                                                                     if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                     else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                     else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                    Text(' ' + prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                    )),
                                                                   ],
                                                                 ),
                                                               ),
@@ -1387,12 +1364,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 padding: const EdgeInsets.only(top: 4.0),
                                                                 child: Row(
                                                                   children: [
-                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
-                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                    )),
                                                                     if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                     else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                     else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                    Text(' ' + prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                    )),
                                                                   ],
                                                                 ),
                                                               ),
@@ -1857,23 +1834,28 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                     .cover,
                                                               )
                                                                   :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                            title: Text(
-                                                              dataRef[
-                                                              'prod_name'],
-                                                              style:
-                                                              TextStyle(
-                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
+                                                            title: Tooltip(
+                                                              message: dataRef['prod_name'],
+                                                              // preferOri: PreferOrientation.up,
+                                                              // isShow: false,
+                                                              child: Text(
+                                                                dataRef['prod_name'],
+                                                                maxLines: 1,
+                                                                style:
+                                                                TextStyle(
+                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                                                              ),
                                                             ),
                                                             subtitle: Padding(
                                                               padding: const EdgeInsets.only(top: 4.0),
                                                               child: Row(
                                                                 children: [
-                                                                  Text(dataRef[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                  )),
                                                                   if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                   else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                   else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                  Text(' ' + dataRef[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                  )),
                                                                 ],
                                                               ),
                                                             ),
@@ -1996,23 +1978,28 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                         .cover,
                                                                   )
                                                                       :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                                title: Text(
-                                                                  dataRefSC[
-                                                                  'prod_name'],
-                                                                  style:
-                                                                  TextStyle(
-                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 1.1),
+                                                                title: Tooltip(
+                                                                  message: dataRefSC['prod_name'],
+                                                                  // preferOri: PreferOrientation.up,
+                                                                  // isShow: false,
+                                                                  child: Text(
+                                                                    dataRefSC['prod_name'],
+                                                                    maxLines: 1,
+                                                                    style:
+                                                                    TextStyle(
+                                                                      fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                                                                  ),
                                                                 ),
                                                                 subtitle: Padding(
                                                                   padding: const EdgeInsets.only(top: 4.0),
                                                                   child: Row(
                                                                     children: [
-                                                                      Text(dataRefSC[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                      )),
                                                                       if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                       else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                       else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                      Text(' ' + dataRefSC[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                      )),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -2102,12 +2089,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                   padding: const EdgeInsets.only(top: 4.0),
                                                                   child: Row(
                                                                     children: [
-                                                                      Text(prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
-                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                      )),
                                                                       if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                       else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                       else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                      Text(' ' + prodListView[i].split('-')[5] == 'unit_name'? 'main ': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                      )),
                                                                     ],
                                                                   ),
                                                                 ),

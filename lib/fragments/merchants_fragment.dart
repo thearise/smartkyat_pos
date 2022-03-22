@@ -83,7 +83,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   var docId;
   var innerId;
 
-  String textSetNewMerch = 'New Merchant';
+  String textSetNewMerch = 'Merchant';
   String textSetAll = 'All';
   String textSetDebts = 'Debts';
   String textSetSearch = 'Search';
@@ -182,7 +182,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
       }
       else if(value=='english') {
         setState(() {
-          textSetNewMerch = 'New Merchant';
+          textSetNewMerch = 'Merchant';
           textSetAll = 'All';
           textSetDebts = 'Unpaids';
           textSetSearch = 'Search';

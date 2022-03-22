@@ -2,10 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash/flash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
@@ -14,12 +18,14 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.data, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      {Key? key, required this.documentId,  required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
   final double realPrice;
   final String shopId;
+  final String docId;
+  final String documentId;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -31,1265 +37,910 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
         AutomaticKeepAliveClientMixin<OrderRefundsSub> {
   @override
   bool get wantKeepAlive => true;
-  var docId = '';
-  List<int> refundItems = [];
-  List<int> deffItems = [];
-  @override
-  initState() {
-    var innerId = '';
-    FirebaseFirestore.instance
-        .collection('shops')
-        .doc(widget.shopId)
-        .collection('order')
-    // FirebaseFirestore.instance.collection('space')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        innerId = doc.id;
-      });
-      setState(() {
-        docId = innerId;
-      });
-      // return docId;
-      // return Container();
-    });
 
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
+  List<double> refundItems = [];
+  List<double> deffItems = [];
+  // TextEditingController quantityCtrl = TextEditingController();
+  List<TextEditingController> quantityCtrlList = [];
+  String currencyUnit = 'MMK';
+
+  String _getNum() =>
+      r'[0-9]';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+
+  String textSetTtlRefund = 'Total refunds';
+  String textSetTtlRefundAmount = 'Total refund amount';
+  String textSetRefundBtn = 'Refund';
+
+  @override
+  void initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetTtlRefund = 'Total refunds';
+          textSetTtlRefundAmount = 'Total refund amount';
+          textSetRefundBtn = 'Refund';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetTtlRefund = 'Total refunds';
+          textSetTtlRefundAmount = 'Total refund amount';
+          textSetRefundBtn = 'Refund';
+        });
+      }
+    });
+    getCurrency().then((value){
+      if(value == 'US Dollar (USD)') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
+    for(int i=0; i<widget.data2.length; i++) {
+      quantityCtrlList.add(TextEditingController());
+      quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
+      quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+
+    }
+    print('phyopyaesohn' + widget.data.toString());
     super.initState();
   }
 
-  // Future orderDateId(data) async {
-  //   // var docId = '';
-  //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(widget.shopId).collection('orders')
-  //   // FirebaseFirestore.instance.collection('space')
-  //       .where('date', isEqualTo: data.split('^')[0].substring(0,8))
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //       querySnapshot.docs.forEach((doc) {
-  //         docId = doc.id;
-  //       });
-  //       return docId;
-  //     // return Container();
-  //   });
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   bool initAttempt = false;
   int changedPrice = 0;
   List<String> prodListView = [];
+  bool disableTouch = false;
+  bool loadingState = false;
+  bool firstTime = true;
+  double homeBotPadding = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          top: true,
-          bottom: true,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Container(
-                        height: 80,
-                        child:
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
-                                width: 37,
-                                height: 37,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.3)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 3.0),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text('MMK ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      //color: Colors.grey,
-                                    ),),
-
-                                  StreamBuilder<
-                                      DocumentSnapshot<
-                                          Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('shops')
-                                          .doc(widget.shopId)
-                                          .collection('customers')
-                                          .doc(widget.data
-                                          .split('^')[3]
-                                          .split('&')[1])
-                                          .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
-                                        if (snapshot2.hasData) {
-                                          var output1 = snapshot2.data!.data();
-                                          var mainUnit =
-                                          output1?['customer_name'];
-                                          return Text('#' +
-                                              widget.data.split('^')[1] +' - ' + mainUnit,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          );
-                                        }
-                                        return Container();
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ),
-                    ),
-                    Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1.0))),
-                    ),
-                  ],
-                ),
-                // orderDateId(widget.data)
-                if (docId != null && docId != '')
-                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                      stream: FirebaseFirestore.instance
-                          .collection('shops')
-                          .doc(widget.shopId)
-                          .collection('orders')
-                          .doc(docId)
-                          .collection('detail')
-                          .doc(widget.data.split('^')[0])
-                          .snapshots(),
-                      builder: (BuildContext context, snapshot2) {
-                        if (snapshot2.hasData) {
-                          var output1 = snapshot2.data!.data();
-                          // print(output1?['subs'].toString());
-                          List prodList = output1?['subs'];
-                          List prodListBefore = widget.data2;
-                          prodListView = [];
-                          prodListView.add(prodList[0]);
-
-                          int ttlQtity = int.parse(prodList[0].split('-')[3]);
-                          int ttlRefun = int.parse(prodList[0].split('-')[3]);
-                          for (int j=1;j< prodList.length; j++) {
-                            int k = prodListView.length-1;
-                            if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
-                              ttlQtity += int.parse(prodList[j].split('-')[3]);
-                              ttlRefun += int.parse(prodList[j].split('-')[7]);
-                              prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
-                                  prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
-                                  prodListView[k].split('-')[8] ;
-                            } else {
-                              prodListView.add(prodList[j]);
-                              ttlQtity = int.parse(prodList[j].split('-')[3]);
-                              ttlRefun += int.parse(prodList[j].split('-')[7]);
-                            }
-                          }
-
-                          if (!initAttempt) {
-                            for (int i = 0; i < prodListView.length; i++) {
-                              // refundItems[i] = int.parse(prodList[i].split('-')[5]);
-                              refundItems
-                                  .add(int.parse(prodListView[i].split('-')[7]));
-                              deffItems
-                                  .add(int.parse(prodListView[i].split('-')[7]));
-                            }
-                            initAttempt = true;
-                          }
-
-                          return Expanded(
-                            child: ListView(
-                              children: [
-
-                                for (int i = 0; i < prodListView.length; i++)
-                                  StreamBuilder<
-                                      DocumentSnapshot<Map<String, dynamic>>>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(widget.shopId)
-                                        .collection('products')
-                                        .doc(prodListView[i].split('-')[0])
-                                        .snapshots(),
-                                    builder: (BuildContext context, snapshot2) {
-                                      if (snapshot2.hasData) {
-                                        var output2 = snapshot2.data!.data();
-                                        var image = output2?['img_1'];
-                                        return Container(
-                                          color: Colors.white,
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 12),
-                                                    ListTile(
-                                                      leading: ClipRRect(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              5.0),
-                                                          child: image != ""
-                                                              ? CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                image,
-                                                            width: 58,
-                                                            height: 58,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )
-                                                              : CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                            width: 58,
-                                                            height: 58,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )),
-                                                      title: Text(
-                                                        output2?[
-                                                          'prod_name'],
-                                                        style:
-                                                        TextStyle(
-                                                            fontWeight: FontWeight.w500, fontSize: 16),
-                                                      ),
-                                                      subtitle: Padding(
-                                                        padding: const EdgeInsets.only(top: 4.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                            )),
-                                                            if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                            else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                            else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      trailing: Container(
-
-                                                        child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                if(prodListView[i].split('-')[7] == '0' || int.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
-                                                                  setState(() {
-                                                                    if (refundItems[i] <= 0) {
-                                                                    } else {
-                                                                      refundItems[i] =
-                                                                          refundItems[i] - 1;
-                                                                    }
-                                                                  });
-                                                                }
-                                                                print('dataRMM' + widget.data.toString());
-
-                                                              },
-                                                              child: Container(
-                                                                width: 42,
-                                                                height: 42,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(10.0),
-                                                                    color: AppTheme.buttonColor2),
-                                                                child: Container(
-                                                                    child: Icon(
-                                                                      Icons.remove, size: 20,
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: 20),
-                                                            Text(refundItems[i].toString(), style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),),
-                                                            SizedBox(width: 20),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if ((refundItems[i]) >=
-                                                                      int.parse(prodListView[i]
-                                                                          .split('-')[3])) {
-                                                                  } else {
-                                                                    refundItems[i] =
-                                                                        refundItems[i] + 1;
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                width: 42,
-                                                                height: 42,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(10.0),
-                                                                    color: AppTheme.themeColor),
-                                                                child: Container(
-                                                                    child: Icon(
-                                                                      Icons.add, size: 20,
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                      child: Container(height: 12,
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                              bottom:
-                                                              BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                            )),),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top : 8,
-                                                left : 50,
-                                                child: Container(
-                                                  height: 20,
-                                                  width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: AppTheme.skBorderColor2,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                      border: Border.all(
-                                                        color: Colors.white,
-                                                        width: 2,
-                                                      )),
-                                                  child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                    fontSize: 11, fontWeight: FontWeight.w500,
-                                                  )),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                      return Container();
-                                    },
-                                  ),
-                                ListTile(
-                                  title: Text(
-                                    'Total refunds',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight:
-                                        FontWeight
-                                            .w500),
-                                  ),
-                                  subtitle: totalItems() == 1? Text(totalItems().toString() + ' item',
-                                      style: TextStyle(
-                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      )) : Text(totalItems().toString() + ' items',
-                                      style: TextStyle(
-                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      )),
-                                  trailing: Text('MMK '+
-                                      totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight:
-                                        FontWeight
-                                            .w500),
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text(
-                                    'Total refund Amount',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight:
-                                        FontWeight
-                                            .w500),
-                                  ),
-                                  subtitle: totalItems() == 1? Text(totalItems().toString() + ' item',
-                                      style: TextStyle(
-                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      )) : Text(totalItems().toString() + ' items',
-                                      style: TextStyle(
-                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      )),
-                                  trailing: Text('MMK '+
-                                      totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight:
-                                        FontWeight
-                                            .w500),
-                                  ),
-                                ),
-
-                                // Text(
-                                //   totalPriceView().toString()
-                                // ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: ButtonTheme(
-                                    //minWidth: 50,
-                                    splashColor: Colors.transparent,
-                                    height: 50,
-                                    child: FlatButton(
-                                      color: AppTheme.skThemeColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                          color: AppTheme.skThemeColor,
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        double total = 0;
-                                        bool refund = false;
-                                        List<String> ref2Cust = [];
-                                        List<String> ref2Shop = [];
-                                        for (int i = 0; i < refundItems.length; i++) {
-                                          prodListView[i] = prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + prodListView[i].split('-')[2] + '-' +
-                                              prodListView[i].split('-')[3] + '-' + prodListView[i].split('-')[4] + '-' + prodListView[i].split('-')[5] + '-' +
-                                              prodListView[i].split('-')[6] +
-                                              '-' +
-                                              refundItems[i].toString() +
-                                              '-' +
-                                              prodListView[i].split('-')[8];
-                                          total += (int.parse(prodListView[i]
-                                              .split('-')[3]) -
-                                              refundItems[i]) *
-                                              int.parse(prodListView[i].split('-')[4]);
-
-                                          if (refundItems[i] > 0) {
-                                            refund = true;
-                                          }
-
-                                          print('unit _name' + prodListView[i]);
-                                          print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
-
-                                          ref2Cust = [];
-                                          ref2Shop = [];
-                                          for(int i=0; i < deffItems.length; i++) {
-                                            if(deffItems[i] - refundItems[i] < 0) {
-                                              print('ref to shop ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
-                                              ref2Shop.add(prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + (deffItems[i] - refundItems[i]).abs().toString() + '-' + prodListView[i].split('-')[5]);
-                                            } else if(deffItems[i] - refundItems[i] > 0) {
-                                              print('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
-                                            }
-                                          }
-                                        }
-
-                                        print('che ' + ref2Shop.toString());
-                                        print('che2 ' + prodListView.toString());
-
-                                        print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
-
-                                        if(widget.data.split('^')[6] != '0.0') {
-                                          if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                          } else {
-                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
-                                          }
-                                        }
-                                        print('result__ 3' + total.toString());
-                                        print('prodListBef 1 ' + prodListBefore.toString());
-
-                                        for(int i=0; i < prodListView.length; i++) {
-                                          // int.parse(ref2Shop[i].split('-')[2])
-                                          int value = int.parse(prodListView[i].split('-')[7]);
-                                          String prodId = prodListView[i].split('-')[0];
-                                          String prodTp = prodListView[i].split('-')[5];
-
-                                          print(prodId + ' ' + prodTp);
-
-                                          for(int j=0; j< prodList.length; j++) {
-                                            print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
-                                            int refund = 0;
-                                            if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
-                                              refund = value - int.parse(prodList[j].split('-')[7]);
-                                              print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
-                                              prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
-                                                  value.toString() + '-' + prodList[j].split('-')[8];
-
-                                              // prodListBefore[j] = prodListBefore[j].split('-')[0] + '-' + prodListBefore[j].split('-')[1] + '-' + prodListBefore[j].split('-')[2] + '-' + prodListBefore[j].split('-')[3] + '-' + prodListBefore[j].split('-')[4] + '-' + prodListBefore[j].split('-')[5] + '-' + prodListBefore[j].split('-')[6] + '-' +
-                                              //     refund.toString() + '-' + prodListBefore[j].split('-')[8];
-                                              break;
-                                            } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
-                                              refund = value - int.parse(prodList[j].split('-')[7]);
-                                              print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
-                                              prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
-                                                  prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
-                                              value = value - int.parse(prodList[j].split('-')[3]);
-                                            }
-                                          }
-                                        }
-
-                                        print('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                        print('prodListBef 2 ' + prodListBefore.toString());
-                                        List prodRets = prodList;
-                                        for(int i=0; i < prodList.length; i++) {
-                                          int refNum = int.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
-                                          if(refNum > 0) {
-                                            print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
-                                            var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
-                                                .collection('products').doc(prodList[i].split('-')[0]).get();
-                                            if (docSnapshot.exists) {
-                                              Map<String, dynamic>? data = docSnapshot.data();
-                                              CollectionReference prods = await  FirebaseFirestore.instance.collection('shops')
-                                                  .doc(widget.shopId).collection('products');
-                                              prods.doc(prodList[i].split('-')[0])
-                                                  .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(double.parse(refNum.toString()))
-                                              }).then((value) => print("User Updated"))
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }
-                                          }
-                                        }
-
-                                        double debt = double.parse(widget.data.split('^')[5]);
-                                        String refundAmount = 'FALSE';
-
-                                        if(total <= double.parse(widget.data.split('^')[5])) {
-                                          debt = total;
-                                        }
-
-                                        String isRef = 'p';
-                                        for (int i = 0; i < prodListView.length; i++) {
-                                          if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
-                                            isRef = 'r';
-                                            refundAmount = 'TRUE';
-                                          }
-                                          if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
-                                            isRef = 's';
-                                            refundAmount = 'PART';
-                                          }
-                                        }
-
-                                        String data = widget.data;
-
-                                        String dataRm = data.split('^')[0] +
-                                            '^' +
-                                            data.split('^')[1] +
-                                            '^' +
-                                            data.split('^')[2] +
-                                            '^' +
-                                            data.split('^')[3].split('&')[1] +
-                                            '^' +
-                                            data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
-
-                                        data = data.split('^')[0] +
-                                            '^' +
-                                            data.split('^')[1] +
-                                            '^' +
-                                            total.toString() +
-                                            '^' +
-                                            data
-                                                .split('^')[3]
-                                                .split('&')[1] +
-                                            '^' +
-                                            isRef +
-                                            data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
-
-
-
-
-                                        print('result___ ' + data + dataRm);
-                                        CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-                                        CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders').doc(docId).collection('detail');
-                                        CollectionReference cusOrder = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(widget.data.split('^')[3].split('&')[1]).collection('orders');
-
-                                      dOrder.doc(docId).update({
-                                          'daily_order':
-                                          FieldValue.arrayRemove([dataRm])
-                                        }).then((value) {print('array removed');})
-                                            .catchError((error) => print("Failed to update user: $error"));
-
-                                         dOrder.doc(docId).update({
-                                            'daily_order':
-                                            FieldValue.arrayUnion([data])
-                                          }).then((value) { print('array updated');})
-                                              .catchError((error) => print("Failed to update user: $error"));
-
-                                           detail.doc(data.split('^')[0]).update({
-                                              'subs': prodList,
-                                              'total': total.toString(),
-                                              'refund' : refundAmount,
-                                              'debt' : debt,
-                                            }).then((value) { print('detail updated');})
-                                                .catchError((error) => print("Failed to update user: $error"));
-
-                                            if(widget.data.split('^')[3].split('&')[1].toString() != 'name') {
-                                              cusOrder.doc(data.split('^')[0]).update({
-                                                'refund': refundAmount,
-                                                'debt' : debt,
-                                                'total' : total.toString(),
-                                              }).then((value) { print('custOrder updated');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
-                                            }
-
-                                            Navigator.pop(context, data);
-
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 2.0),
-                                        child: Container(
-                                          child: Text(
-                                            'Refund',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // orderLoading?Text('Loading'):Text('')
-                              ],
-                            ),
-                          );
-                        }
-
-                        return Container();
-                      })
-
-                // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                //     stream: FirebaseFirestore.instance
-                //         .collection('space')
-                //         .doc('0NHIS0Jbn26wsgCzVBKT')
-                //         .collection('shops')
-                //         .doc(widget.shopId)
-                //         .collection('products')
-                //         .doc(widget.idString)
-                //         .snapshots(),
-                //     builder: (BuildContext context,snapshot2) {
-                //       if (snapshot2.hasData) {
-                //         var output1 = snapshot2.data!.data();
-                //         var mainUnit = output1 ? ['unit_name'];
-                //         var sub1Unit = output1 ? ['sub1_name'];
-                //         var sub2Unit = output1 ? ['sub2_name'];
-                //         var sub3Unit = output1 ? ['sub3_name'];
-                //         return Column(
-                //           crossAxisAlignment: CrossAxisAlignment.stretch,
-                //           children: [
-                //             Container(
-                //               height: 70,
-                //               decoration: BoxDecoration(
-                //                   border: Border(
-                //                       bottom: BorderSide(
-                //                           color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                 children: [
-                //                   Container(
-                //                     width: 35,
-                //                     height: 35,
-                //                     decoration: BoxDecoration(
-                //                         borderRadius: BorderRadius.all(
-                //                           Radius.circular(5.0),
-                //                         ),
-                //                         color: Colors.grey.withOpacity(0.3)),
-                //                     child: IconButton(
-                //                         icon: Icon(
-                //                           Icons.arrow_back_ios_rounded,
-                //                           size: 16,
-                //                           color: Colors.black,
-                //                         ),
-                //                         onPressed: () {
-                //                           Navigator.pop(context);
-                //                         }),
-                //                   ),
-                //                   Text(
-                //                     'Version Details',
-                //                     style: TextStyle(
-                //                       fontSize: 20,
-                //                       fontWeight: FontWeight.bold,
-                //                     ),
-                //                   ),
-                //                   Container(
-                //                     width: 35,
-                //                     height: 35,
-                //                     decoration: BoxDecoration(
-                //                         borderRadius: BorderRadius.all(
-                //                           Radius.circular(5.0),
-                //                         ),
-                //                         color: AppTheme.skThemeColor2),
-                //                     child: IconButton(
-                //                         icon: Icon(
-                //                           Icons.check,
-                //                           size: 20,
-                //                           color: Colors.white,
-                //                         ),
-                //                         onPressed: () {
-                //                           Navigator.pop(context);
-                //                         }),
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //             SizedBox(height: 20,),
-                //             Padding(
-                //               padding: const EdgeInsets.only(right: 120.0),
-                //               child: ButtonTheme(
-                //                 //minWidth: 50,
-                //                 splashColor: Colors.transparent,
-                //                 height: 120,
-                //                 child: FlatButton(
-                //                   color: AppTheme.skThemeColor,
-                //                   shape: RoundedRectangleBorder(
-                //                     borderRadius: BorderRadius.circular(7.0),
-                //                     side: BorderSide(
-                //                       color: AppTheme.skThemeColor,
-                //                     ),
-                //                   ),
-                //                   onPressed: () async {
-                //                     final result = await showModalActionSheet<String>(
-                //                       context: context,
-                //                       actions: [
-                //                         SheetAction(
-                //                           icon: Icons.info,
-                //                           label: '1 ' + mainUnit,
-                //                           key: widget.idString + '-' + widget.versionID + '-' + mainPrice + '-unit_name-1',
-                //                         ),
-                //                         if(sub1Unit!='')
-                //                           SheetAction(
-                //                             icon: Icons.info,
-                //                             label: '1 ' + sub1Unit,
-                //                             key: widget.idString + '-' + widget.versionID + '-' + sub1Price + '-sub1_name-1',
-                //                           ),
-                //                         if(sub2Unit!='')
-                //                           SheetAction(
-                //                             icon: Icons.info,
-                //                             label: '1 ' + sub2Unit,
-                //                             key: widget.idString + '-' + widget.versionID + '-' + sub2Price + '-sub2_name-1',
-                //                           ),
-                //                         if(sub3Unit!='')
-                //                           SheetAction(
-                //                             icon: Icons.info,
-                //                             label: '1 ' + sub3Unit,
-                //                             key: widget.idString + '-' + widget.versionID + '-' + sub3Price + '-sub3_name-1',
-                //                           ),
-                //                       ],
-                //                     );
-                //                     widget._callback(result.toString());
-                //                   },
-                //                   child: Padding(
-                //                     padding: const EdgeInsets.only(right: 120.0),
-                //                     child: Column(
-                //                       crossAxisAlignment: CrossAxisAlignment.start,
-                //                       children: [
-                //                         Icon(
-                //                           Icons.add,
-                //                           size: 40,
-                //                         ),
-                //                         SizedBox(
-                //                           height: 20,
-                //                         ),
-                //                         Text(
-                //                           'Add to cart',
-                //                           style: TextStyle(
-                //                             fontWeight: FontWeight.bold,
-                //                             fontSize: 18,
-                //                           ),
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //             Container(
-                //               alignment: Alignment.topRight,
-                //               child: TextButton(
-                //                 onPressed: () {
-                //                 },
-                //                 child: Text('Edit',
-                //                   style: TextStyle(
-                //                     fontWeight: FontWeight.bold,
-                //                     fontSize: 16,
-                //                   ),),
-                //               ),
-                //             ),
-                //             Expanded(
-                //               child: Container(
-                //                 child: ListView(
-                //                     children: [
-                //                       Container(
-                //                         // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                //                         width: double.infinity,
-                //                         decoration: BoxDecoration(
-                //                           borderRadius: BorderRadius.only(
-                //                             topLeft: Radius.circular(15.0),
-                //                             topRight: Radius.circular(15.0),
-                //                           ),
-                //                           color: Colors.white,
-                //                         ),
-                //                         child: Column(
-                //                             children: [
-                //                               Container(
-                //                                 alignment: Alignment.topLeft,
-                //                                 child: Text(
-                //                                   "MERCHANT",
-                //                                   style: TextStyle(
-                //                                     fontWeight: FontWeight.bold,
-                //                                     fontSize: 16,
-                //                                     letterSpacing: 2,
-                //                                     color: Colors.grey,
-                //                                   ),
-                //                                 ),
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 20,
-                //                               ),
-                //                               Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('Merchant Name'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       quantity,
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                 ],
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 20,
-                //                               ),
-                //                               Container(
-                //                                 alignment: Alignment.topLeft,
-                //                                 child: Text(
-                //                                   "QUANTITY",
-                //                                   style: TextStyle(
-                //                                     fontWeight: FontWeight.bold,
-                //                                     fontSize: 16,
-                //                                     letterSpacing: 2,
-                //                                     color: Colors.grey,
-                //                                   ),
-                //                                 ),
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 20,
-                //                               ),
-                //                               Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('Main Unit Quantity'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$quantity $mainUnit',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                 ],
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 20,
-                //                               ),
-                //                               sub1quantity != "" ? Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#1 Sub Unit Quantity'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub1quantity $sub1Unit',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ) : Container(),
-                //                               sub2quantity != "" ? Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#2 Sub Unit Quantity'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub2quantity $sub2Unit',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ): Container(),
-                //                               sub3quantity != "" ? Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#3 Sub Unit Quantity'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub3quantity $sub3Unit',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ): Container(),
-                //                               Container(
-                //                                 alignment: Alignment.topLeft,
-                //                                 child: Text(
-                //                                   "PRICING",
-                //                                   style: TextStyle(
-                //                                     fontWeight: FontWeight.bold,
-                //                                     fontSize: 16,
-                //                                     letterSpacing: 2,
-                //                                     color: Colors.grey,
-                //                                   ),
-                //                                 ),
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 25,
-                //                               ),
-                //                               Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('Main Unit Price'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$mainPrice MMK',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                 ],
-                //                               ),
-                //                               SizedBox(
-                //                                 height: 25,
-                //                               ),
-                //
-                //                               sub1Price != "" ?  Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#1 Sub Unit Price'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub1Price MMK',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ) : Container(),
-                //                               sub2Price != "" ?  Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#2 Sub Unit Price'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub2Price MMK',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ) : Container(),
-                //                               sub3Price != "" ?  Column(
-                //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                                 children: [
-                //                                   _productDetails('#3 Sub Unit Price'),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                     width: MediaQuery.of(context).size.width,
-                //                                     child: Text(
-                //                                       '$sub3Price MMK',
-                //                                       style: TextStyle(
-                //                                         fontSize: 15,
-                //                                         //fontWeight: FontWeight.w500,
-                //                                       ),
-                //                                     ),
-                //                                   ),
-                //                                   SizedBox(height:15),
-                //                                   Container(
-                //                                       width: MediaQuery.of(context).size.width,
-                //                                       height: 1.5,
-                //                                       color: Colors.grey.withOpacity(0.3)
-                //                                   ),
-                //                                   SizedBox(height: 20,),
-                //                                 ],
-                //                               ) : Container(),
-                //                             ]
-                //                         ),
-                //                       ),
-                //                     ]
-                //                 ),
-                //               ),
-                //             )
-                //           ],
-                //         );
-                //       }
-                //       return Container();
-                //     }
-                // )
-              ])),
-    );
-  }
-
-  addDailyExp(priContext) {
-    // myController.clear();
-    showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: MediaQuery.of(priContext).padding.top,
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 6,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25.0),
-                              ),
-                              color: Colors.white.withOpacity(0.5)),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Container(
-                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0),
-                            ),
-                            color: Colors.white,
-                          ),
-
-                          child: Container(
-                            width: 150,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 50,
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+    return Container(
+      color: Colors.white,
+      child: IgnorePointer(
+        ignoring: disableTouch,
+        child: SafeArea(
+            top: true,
+            bottom: false,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Container(
+                          height: 80,
+                          child:
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0),
+                                child: Container(
+                                  width: 37,
+                                  height: 37,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15.0),
-                                      topRight: Radius.circular(15.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.1),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: Colors.transparent,
-                                        ),
-                                        onPressed: () {},
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
                                       ),
-                                      Text(
-                                        "New Expense",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 17,
-                                            fontFamily: 'capsulesans',
-                                            fontWeight: FontWeight.w600),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      IconButton(
+                                      color: Colors.grey.withOpacity(0.3)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 3.0),
+                                    child: IconButton(
                                         icon: Icon(
-                                          Icons.close,
-                                          size: 20,
+                                          Icons.arrow_back_ios_rounded,
+                                          size: 17,
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          Navigator.pop(context, changedPrice);
-                                          print('clicked');
-                                        },
-                                      )
-                                    ],
+                                          Navigator.pop(context);
+                                        }
+                                    ),
                                   ),
                                 ),
-                              ],
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text('$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        //color: Colors.grey,
+                                      ),),
+
+                                    StreamBuilder<
+                                        DocumentSnapshot<
+                                            Map<String, dynamic>>>(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('shops')
+                                            .doc(widget.shopId)
+                                            .collection('customers')
+                                            .doc(widget.data
+                                            .split('^')[3]
+                                            .split('&')[1])
+                                            .snapshots(),
+                                        builder:
+                                            (BuildContext context, snapshot3) {
+                                          if (snapshot3.hasData) {
+                                            var output1 = snapshot3.data!.data();
+                                            var mainUnit =
+                                            output1?['customer_name'];
+                                            return Text('#' +
+                                                widget.data.split('^')[1] +' - ' + mainUnit,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            );
+                                          }
+                                          return Container();
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    width: 1.0))),
+                      ),
+                    ],
+                  ),
+                  // orderDateId(widget.data)
+                  if (widget.docId != null && widget.docId != '')
+                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                        stream: FirebaseFirestore.instance
+                            .collection('shops')
+                            .doc(widget.shopId)
+                            .collection('order')
+                            .doc(widget.docId)
+                            .snapshots(),
+                        builder: (BuildContext context, snapshot2) {
+                          if (snapshot2.hasData) {
+                            var output5 = snapshot2.data!.data();
+                            // print(output1?['subs'].toString());
+                            List prodList = output5?['subs'];
+                            List prodListBefore = widget.data2;
+                            prodListView = [];
+                            prodListView.add(prodList[0]);
+
+                            double ttlQtity = double.parse(prodList[0].split('-')[3]);
+                            double ttlRefun = double.parse(prodList[0].split('-')[3]);
+                            for (int j=1;j< prodList.length; j++) {
+                              int k = prodListView.length-1;
+                              if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
+                                ttlQtity += int.parse(prodList[j].split('-')[3]);
+                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                                prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
+                                    prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
+                                    prodListView[k].split('-')[8] ;
+                              } else {
+                                prodListView.add(prodList[j]);
+                                ttlQtity = double.parse(prodList[j].split('-')[3]);
+                                ttlRefun += double.parse(prodList[j].split('-')[7]);
+                              }
+                            }
+
+                            if (!initAttempt) {
+                              for (int i = 0; i < prodListView.length; i++) {
+                                // refundItems[i] = int.parse(prodList[i].split('-')[5]);
+                                refundItems
+                                    .add(double.parse(prodListView[i].split('-')[7]));
+                                deffItems
+                                    .add(double.parse(prodListView[i].split('-')[7]));
+                              }
+                              initAttempt = true;
+                            }
+
+                            WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                              prodNamesFetch(prodListView);
+                            });
+
+                            return Expanded(
+                              child: ListView(
+                                children: [
+                                  for (int i = 0; i < prodListView.length; i++)
+                                    prodInRefunds(prodListView, i),
+                                  ListTile(
+                                    title: Text(
+                                      textSetTtlRefund,
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight:
+                                          FontWeight
+                                              .w500),
+                                    ),
+                                    subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                        style: TextStyle(
+                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        )) : Text(totalItems().toString() + ' items',
+                                        style: TextStyle(
+                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        )),
+                                    trailing: Text('$currencyUnit '+
+                                        totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight:
+                                          FontWeight
+                                              .w500),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      textSetTtlRefundAmount,
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight:
+                                          FontWeight
+                                              .w500),
+                                    ),
+                                    subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                        style: TextStyle(
+                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        )) : Text(totalItems().toString() + ' items',
+                                        style: TextStyle(
+                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        )),
+                                    trailing: Text('$currencyUnit '+
+                                        totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight:
+                                          FontWeight
+                                              .w500),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: homeBotPadding),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                                          child: ButtonTheme(
+                                            minWidth: MediaQuery.of(context).size.width,
+                                            splashColor: Colors.transparent,
+                                            height: 50,
+                                            child: FlatButton(
+                                              color: AppTheme.skThemeColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                                side: BorderSide(
+                                                  color: AppTheme.skThemeColor,
+                                                ),
+                                              ),
+                                              onPressed: ()  async {
+                                                WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                setState(() {
+                                                  loadingState = true;
+                                                  disableTouch = true;
+                                                });
+                                                double total = 0;
+                                                bool refund = false;
+                                                var monthId = '';
+                                                bool monthExist = false;
+                                                var yearId = '';
+                                                bool yearExist = false;
+                                                DateTime now = DateTime.now();
+                                                List<String> ref2Cust = [];
+                                                List<String> ref2Shop = [];
+                                                for (int i = 0; i < refundItems.length; i++) {
+                                                  prodListView[i] = prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + prodListView[i].split('-')[2] + '-' +
+                                                      prodListView[i].split('-')[3] + '-' + prodListView[i].split('-')[4] + '-' + prodListView[i].split('-')[5] + '-' +
+                                                      prodListView[i].split('-')[6] +
+                                                      '-' +
+                                                      refundItems[i].toString() +
+                                                      '-' +
+                                                      prodListView[i].split('-')[8];
+                                                  total += (double.parse(prodListView[i]
+                                                      .split('-')[3]) -
+                                                      refundItems[i]) *
+                                                      double.parse(prodListView[i].split('-')[4]);
+
+                                                  if (refundItems[i] > 0) {
+                                                    refund = true;
+                                                  }
+
+                                                  print('unit _name' + prodListView[i]);
+                                                  print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+
+                                                  ref2Cust = [];
+                                                  ref2Shop = [];
+                                                  for(int i=0; i < deffItems.length; i++) {
+                                                    if(deffItems[i] - refundItems[i] < 0) {
+                                                      print('ref to shop ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                                      ref2Shop.add(prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + (deffItems[i] - refundItems[i]).abs().toString() + '-' + prodListView[i].split('-')[5]);
+                                                    } else if(deffItems[i] - refundItems[i] > 0) {
+                                                      print('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                                    }
+                                                  }
+                                                }
+
+                                                print('che ' + ref2Shop.toString());
+                                                print('che2 ' + prodListView.toString());
+
+                                                print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+
+                                                if(widget.data.split('^')[6] != '0.0') {
+                                                  if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                                  } else {
+                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                                  }
+                                                }
+                                                print('result__ 3' + total.toString());
+                                                print('prodListBef 1 ' + prodListBefore.toString());
+
+                                                for(int i=0; i < prodListView.length; i++) {
+                                                  // int.parse(ref2Shop[i].split('-')[2])
+                                                  double value = double.parse(prodListView[i].split('-')[7]);
+                                                  String prodId = prodListView[i].split('-')[0];
+                                                  String prodTp = prodListView[i].split('-')[5];
+
+                                                  print(prodId + ' ' + prodTp);
+
+                                                  for(int j=0; j< prodList.length; j++) {
+                                                    print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                    double refund = 0;
+
+                                                    if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= double.parse(prodList[j].split('-')[3])) {
+                                                      refund = value - double.parse(prodList[j].split('-')[7]);
+                                                      print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                      prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                                          value.toString() + '-' + prodList[j].split('-')[8];
+                                                      break;
+                                                    } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
+                                                      refund = value - int.parse(prodList[j].split('-')[7]);
+                                                      print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                      prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                                          prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
+                                                      value = value - int.parse(prodList[j].split('-')[3]);
+                                                    }
+                                                  }
+                                                }
+
+                                                print('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                                print('prodListBef 2 ' + prodListBefore.toString());
+                                                List prodRets = prodList;
+                                                for(int i=0; i < prodList.length; i++) {
+                                                  double refNum = double.parse(prodList[i].split('-')[7]) - double.parse(prodListBefore[i].split('-')[7]);
+                                                  if(refNum > 0) {
+                                                    print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
+                                                    var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
+                                                        .collection('products').doc(prodList[i].split('-')[0]).get();
+                                                    if (docSnapshot.exists) {
+                                                      batch = await updateProduct(batch, prodList[i].split('-')[0], prodList[i].split('-')[5], refNum);
+                                                    }
+                                                  }
+                                                }
+
+                                                double debt = double.parse(widget.data.split('^')[5]);
+                                                String refundAmount = 'F';
+                                                bool reFilter = false;
+                                                bool deFilter = false;
+
+                                                if(total <= double.parse(widget.data.split('^')[5])) {
+                                                  debt = total;
+                                                }
+
+                                                double ttlR = 0.0;
+                                                double ttlQ = 0.0;
+                                                for (int i = 0; i < prodList.length; i++) {
+                                                  ttlR += double.parse(prodList[i].split('-')[7]);
+                                                  ttlQ += double.parse(prodList[i].split('-')[3]);
+                                                }
+
+                                                print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                                if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
+                                                  refundAmount = 'T';
+                                                  reFilter = true;
+                                                }
+                                                if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
+                                                  refundAmount = 'P';
+                                                  reFilter = true;
+                                                }
+                                                int totalRefunds = 0;
+                                                double chgDebts = 0;
+                                                int ttlDebts = 0;
+                                                double chgTotal = 0;
+
+                                                print('leesin ' +widget.data.split('^')[4].toString());
+
+
+                                                if (double.parse(widget.data.split('^')[5]) != debt) {
+                                                  chgDebts = double.parse(widget.data.split('^')[5]) - debt;
+                                                } else {
+                                                  chgDebts = 0;
+                                                }
+
+                                                if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
+                                                  ttlDebts = 1;
+                                                } else {
+                                                  ttlDebts = 0;
+                                                }
+
+                                                if (debt == 0) {
+                                                  deFilter = false;
+                                                } else {
+                                                  deFilter = true;
+                                                }
+                                                print('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
+
+                                                if(widget.data.split('^')[4] == 'F') {
+                                                  totalRefunds = 1;
+                                                } else {
+                                                  totalRefunds = 0;
+                                                }
+
+                                                if (double.parse(widget.data.split('^')[2]) != total) {
+                                                  chgTotal = double.parse(widget.data.split('^')[2]) - total;
+                                                } else {
+                                                  chgTotal = 0;
+                                                }
+
+                                                var refundId = '';
+                                                batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+
+                                                CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
+
+                                                monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
+                                                    .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
+                                                    .get()
+                                                    .then((QuerySnapshot querySnapshot)  async {
+                                                  querySnapshot.docs.forEach((doc) {
+                                                    refundId = doc.id;
+                                                  });
+                                                  batch = await updateMonthlyData1(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', chgTotal, chgDebts);
+
+
+
+
+                                                  monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                                      .get()
+                                                      .then((QuerySnapshot querySnapshot)  async {
+                                                    querySnapshot.docs.forEach((doc) {
+                                                      monthExist = true;
+                                                      monthId = doc.id;
+                                                    });
+                                                    print('month ' + monthExist.toString());
+                                                    if (monthExist) {
+                                                      batch = await updateMonthlyData2(batch, monthId, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
+                                                    }
+                                                    else {
+                                                      monthlyData.add({
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                        for(int j = 1; j<= 31; j++)
+                                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                        'date': now,
+
+                                                      }).then((value) async {
+                                                        print('valueid' + value.id.toString());
+                                                        batch = await updateMonthlyData2(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
+                                                      }).catchError((error) => print("Failed to update user: $error"));
+                                                    }
+
+
+
+                                                    CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
+                                                    var refundYearId = '';
+
+                                                    yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                        .get()
+                                                        .then((QuerySnapshot querySnapshot)  async {
+                                                      querySnapshot.docs.forEach((doc) {
+                                                        refundYearId = doc.id;
+                                                      });
+                                                      batch = await updateYearlyData1(batch, refundYearId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', chgTotal, chgDebts);
+
+                                                      yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                          .get()
+                                                          .then((QuerySnapshot querySnapshot)  async {
+                                                        querySnapshot.docs.forEach((doc) {
+                                                          yearExist = true;
+                                                          yearId = doc.id;
+                                                        });
+                                                        print('year ' + yearExist.toString());
+                                                        if (yearExist) {
+                                                          batch = await updateYearlyData2(batch, yearId, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+                                                        }
+                                                        else {
+                                                          yearlyData.add({
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                            for(int j = 1; j<= 12; j++)
+                                                              now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                            'date': now,
+
+                                                          }).then((value12) async {
+
+                                                            batch = await updateYearlyData2(batch, value12.id, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+
+                                                          }).catchError((error) => print("Failed to update user: $error"));
+                                                        }
+
+
+                                                        String data = widget.data;
+
+                                                        String noCustomer = '';
+                                                        if(data.split('^')[3].split('&')[0] == 'No customer') {
+                                                          noCustomer = 'name';
+                                                        } else {noCustomer = data.split('^')[3].split('&')[0];}
+
+                                                        String dataRm = data.split('^')[0] +
+                                                            '^' +
+                                                            data.split('^')[1] +
+                                                            '^' +
+                                                            data.split('^')[2] +
+                                                            '^' +
+                                                            data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                                            '^' +
+                                                            data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
+
+                                                        data = data.split('^')[0] +
+                                                            '^' +
+                                                            data.split('^')[1] +
+                                                            '^' +
+                                                            total.toString() +
+                                                            '^' +
+                                                            data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                                            '^' +
+                                                            refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
+
+                                                        batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+                                                        //
+                                                        // print('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
+                                                        batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
+                                                        //
+
+                                                        batch.commit();
+                                                      });
+                                                    });
+                                                  });
+                                                });
+
+                                                setState(() {
+                                                  loadingState = false;
+                                                  disableTouch = false;
+                                                });
+                                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                                smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
+                                              },
+                                              child:  loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    right: 8.0,
+                                                    bottom: 2.0),
+                                                child: Container(
+                                                  child: Text(
+                                                    textSetRefundBtn,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+
+                          return Container();
+                        }),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      // padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                          child:  ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width,
+                            splashColor: Colors.transparent,
+                            height: 50,
+                            child: FlatButton(
+                              color: AppTheme.themeColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                  color: AppTheme.themeColor,
+                                ),
+                              ),
+                              onPressed: () async {
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5.0,
+                                    right: 5.0,
+                                    bottom: 2.0),
+                                child: Container(
+                                  child: Text(
+                                    'Refund save test',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing:-0.1
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.yellow,
-                    height: 100,
+                  Container(
+                    color: Colors.white,
+                    // height: MediaQuery.of(context).viewInsets.bottom,
+                    // height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+                    height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                   ),
-                )
-              ],
-            ),
-          );
-        });
+                ])),
+      ),
+    );
   }
+
+  void smartKyatFlash(String text, String type) {
+    Widget widgetCon = Container();
+    Color bdColor = Color(0xffffffff);
+    Color bgColor = Color(0xffffffff);
+    if(type == 's') {
+      bdColor = Color(0xffB1D3B1);
+      bgColor = Color(0xffCFEEE0);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff419373)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 1.0),
+          child: Icon(
+            Icons.check_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'w') {
+      bdColor = Color(0xffF2E0BC);
+      bgColor = Color(0xffFCF4E2);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffF5C04A)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    } else if(type == 'e') {
+      bdColor = Color(0xffEAD2C8);
+      bgColor = Color(0xffFAEEEC);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffE9625E)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Icon(
+            Icons.close_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'i') {
+      bdColor = Color(0xffBCCEEA);
+      bgColor = Color(0xffE8EEF9);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff4788E2)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
+          child: Text ('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    }
+    showFlash(
+      context: context,
+      duration: const Duration(milliseconds: 2500),
+      persistent: true,
+      transitionDuration: Duration(milliseconds: 300),
+      builder: (_, controller) {
+        return Flash(
+          controller: controller,
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          // boxShadows: [BoxShadow(blurRadius: 4)],
+          // barrierBlur: 3.0,
+          // barrierColor: Colors.black38,
+          barrierDismissible: true,
+          behavior: FlashBehavior.floating,
+          position: FlashPosition.top,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 93.0, left: 15, right: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                color: bgColor,
+                border: Border.all(
+                    color: bdColor,
+                    width: 1.0
+                ),
+              ),
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: widgetCon,
+                ),
+                minLeadingWidth: 15,
+                horizontalTitleGap: 10,
+                minVerticalPadding: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                  child: Container(
+                    child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                  ),
+                ),
+                // subtitle: Text('shit2'),
+                // trailing: Text('GGG',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),),
+              ),
+            ),
+          ),
+          // child: Padding(
+          //   padding: const EdgeInsets.only(
+          //       top: 93.0, left: 15, right: 15),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(10.0),
+          //       ),
+          //       color: bgColor,
+          //       border: Border.all(
+          //           color: bdColor,
+          //           width: 1.0
+          //       ),
+          //     ),
+          //     child: Padding(
+          //         padding: const EdgeInsets.only(
+          //             top: 15.0, left: 10, right: 10, bottom: 15),
+          //         child: Row(
+          //           children: [
+          //             SizedBox(width: 5),
+          //             widgetCon,
+          //             SizedBox(width: 10),
+          //             Padding(
+          //               padding: const EdgeInsets.only(bottom: 2.5),
+          //               child: Container(
+          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
+          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
+          //               ),
+          //             )
+          //           ],
+          //         )
+          //     ),
+          //   ),
+          // ),
+        );
+      },
+    );
+  }
+
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
       return string;
@@ -1299,7 +950,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   }
 
   totalItems() {
-    int totalItems = 0;
+    double totalItems = 0;
     for(int i=0; i<refundItems.length; i++) {
       totalItems += refundItems[i];
     }
@@ -1344,4 +995,336 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     }
   }
 
+  updateProduct(WriteBatch batch, id, unit, num) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops')
+        .doc(widget.shopId).collection('products').doc(id);
+
+    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString())),});
+
+    return batch;
+  }
+
+  updateMonthlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse((0 - price1).toString())),
+      field2 : FieldValue.increment(double.parse((0 - price2).toString())),
+
+    });
+    return batch;
+  }
+
+  updateMonthlyData2(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+
+    });
+    return batch;
+  }
+
+  updateYearlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse((0 - price1).toString())),
+      field2 : FieldValue.increment(double.parse((0 - price2).toString())),
+    });
+    return batch;
+  }
+
+  updateYearlyData2(WriteBatch batch, id, field1, double price1) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.update(documentReference, {
+      field1 : FieldValue.increment(double.parse(price1.toString())),
+    });
+    return batch;
+  }
+
+  updateDailyOrder(WriteBatch batch, id, orgData, updateData) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders').doc(id);
+
+    batch.update(documentReference, {
+      'daily_order' :  FieldValue.arrayRemove([orgData]),
+    });
+
+    batch.update(documentReference, {
+      'daily_order': FieldValue.arrayUnion([updateData])
+    });
+    return batch;
+  }
+
+  updateOrderDetail(WriteBatch batch, id,  lists, total, refAmt, debt, reF, deF) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').doc(id);
+    print('updateDetail '+ id.toString() + lists.toString() + total.toString() + debt.toString() + deF.toString());
+    batch.update(documentReference, {
+      'subs': lists,
+      'total': total.toString(),
+      'refund' : refAmt,
+      'debt' : debt,
+      'refund_filter' : reF,
+      'debt_filter' : deF,
+    });
+    return batch;
+  }
+
+  updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
+
+    batch.update(documentReference, {
+      'total_refunds' : FieldValue.increment(double.parse(totalRefs.toString())),
+      'debts' : FieldValue.increment(0 - double.parse(totalDes.toString())),
+      'debtAmount' : FieldValue.increment(0 - double.parse(changeDes.toString())),
+    });
+    return batch;
+  }
+
+  prodInRefunds(List<String> prodListView, int i) {
+    String image = '';
+    return Container(
+      color: Colors.white,
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(height: 12),
+                ListTile(
+                  leading: ClipRRect(
+                    borderRadius:
+                    BorderRadius
+                        .circular(
+                        5.0),
+                    child: image != ""
+                        ? CachedNetworkImage(
+                      imageUrl:
+                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                          image,
+                      width: 56.5,
+                      height: 56.5,
+                      placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                      errorWidget: (context,
+                          url,
+                          error) =>
+                          Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                      fadeInDuration:
+                      Duration(
+                          milliseconds:
+                          100),
+                      fadeOutDuration:
+                      Duration(
+                          milliseconds:
+                          10),
+                      fadeInCurve:
+                      Curves
+                          .bounceIn,
+                      fit: BoxFit
+                          .cover,
+                    )
+                        :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                  title: Tooltip(
+                    message: 'prod-name',
+                    // preferOri: PreferOrientation.up,
+                    // isShow: false,
+                    child: Text(
+                      prodNamesData[i],
+                      maxLines: 1,
+                      style:
+                      TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 16, height: 1.3, overflow: TextOverflow.ellipsis,),
+                    ),
+                  ),
+                  subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Row(
+                        children: [
+                          if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                          else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                          else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                          Text(' ' + 'unit-name' + ' ', style: TextStyle(
+                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                          )),
+                        ],
+                      )
+
+
+                  ),
+                  trailing: Container(
+
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if(prodListView[i].split('-')[7] == '0' || double.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
+                              setState(() {
+                                if (refundItems[i] <= 0) {
+                                } else {
+                                  refundItems[i] =
+                                      refundItems[i] - 1;
+                                  quantityCtrlList[i].text = refundItems[i].round().toString();
+                                  quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+
+                                }
+                              });
+                            }
+                            print('dataRMM' + widget.data.toString());
+
+                          },
+                          child: Container(
+                            width: 42,
+                            height: 42,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                color: AppTheme.buttonColor2),
+                            child: Container(
+                                child: Icon(
+                                  Icons.remove, size: 20,
+                                )
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.5),
+                          child: Container(
+                            width: 55,
+                            height: 42,
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                //filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(decimal: false),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(_getNum())),],                                                                    onChanged: (value) {
+                              setState(() {
+                                if ((double.parse(value)) <= double.parse(prodListView[i].split('-')[3])) {
+                                  refundItems[i] = double.parse(value);
+                                  quantityCtrlList[i].text = refundItems[i].round().toString();
+                                  quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+
+                                } else {refundItems[i] = refundItems[i];
+                                quantityCtrlList[i].text = refundItems[i].round().toString();
+                                quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+
+                                }
+                              });
+                            },
+                              controller: quantityCtrlList[i],
+                            ),
+                          ),
+                        ),
+                        // Text(refundItems[i].toString(), style: TextStyle(
+                        //   fontSize: 14,
+                        //   fontWeight: FontWeight.w500,
+                        // ),),
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if ((refundItems[i]) >=
+                                  double.parse(prodListView[i]
+                                      .split('-')[3])) {
+                              } else {
+                                refundItems[i] =
+                                    refundItems[i] + 1;
+
+                                quantityCtrlList[i].text = refundItems[i].round().toString();
+                                quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 42,
+                            height: 42,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                color: AppTheme.themeColor),
+                            child: Container(
+                                child: Icon(
+                                  Icons.add, size: 20,
+                                )
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Container(height: 12,
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                        )),),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top : 8,
+            left : 50,
+            child: Container(
+              height: 20,
+              width: 30,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: AppTheme.skBorderColor2,
+                  borderRadius:
+                  BorderRadius.circular(
+                      10.0),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  )),
+              child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                fontSize: 11, fontWeight: FontWeight.w500,
+              )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<String> prodNamesData = [];
+
+  void prodNamesFetch(List<String> prodListView) {
+    prodNamesData = [];
+    for(int j = 0; j < prodListView.length; j++) {
+      FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[j].split('-')[0])
+          .get().then((value) async {
+        print('data prod names ' + value.data()!['prod_name']);
+        prodNamesData.add(value.data()!['prod_name']);
+      });
+      if(j == prodListView.length-1) {
+        setState(() {});
+      }
+    }
+  }
 }
