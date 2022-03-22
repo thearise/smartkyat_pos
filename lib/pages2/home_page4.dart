@@ -7877,10 +7877,10 @@ class HomePageState extends State<HomePage>
                   // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
                   mystate(() {
                     priInProgHome = false;
-                    productSale = [];
-                    saleInfo = '';
-                    Navigator.pop(context);
                   });
+                  productSale = [];
+                  saleInfo = '';
+                  Navigator.pop(context);
                   printClosed = true;
                   Future.delayed(const Duration(milliseconds: 30000), () {
                     if(printClosed) {
@@ -9045,13 +9045,6 @@ class HomePageState extends State<HomePage>
                                                                           print('year ' + yearExist.toString());
                                                                           if (yearExist) {
                                                                             batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
-
-                                                                            // yearlyData.doc(yearId).update({
-                                                                            //   now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                                                            //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                                                            //
-                                                                            // }).then((value) => print("data Updated"))
-                                                                            //     .catchError((error) => print("Failed to update user: $error"));
                                                                           }
                                                                           else {
                                                                             yearlyData.add({
@@ -12105,10 +12098,10 @@ class HomePageState extends State<HomePage>
                     await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
-                      prodListPR = [];
-                      subTotal = 0.0;
-                      Navigator.pop(context);
                     });
+                    prodListPR = [];
+                    subTotal = 0.0;
+                    Navigator.pop(context);
                     printClosed = true;
                     Future.delayed(const Duration(milliseconds: 30000), () {
                       if(printClosed) {
@@ -12614,7 +12607,8 @@ class HomePageState extends State<HomePage>
           );
         }).whenComplete(() {
       printClosed = true;
-
+      prodListPR = [];
+      subTotal = 0.0;
       Future.delayed(const Duration(milliseconds: 30000), () {
         if(printClosed) {
           print('complete');
