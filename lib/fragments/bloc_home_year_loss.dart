@@ -415,13 +415,13 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: Colors.green,
+                                            color: growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
-                                          width: 50,
+                                          // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text('12%',
-                                              textAlign: TextAlign.right,
+                                            child: Text(' ' +  growthRateSale(lastYearSale, thisYearOrdersChart).toString() == '1000'? '\u221E% ': growthRateSale(lastYearSale, thisYearOrdersChart).toString() + '% ',
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -554,11 +554,12 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateCost(lastYearCost, yearCostsTotal2).toString() == '1000' ? '\u221E%' : growthRateCost(lastYearCost, yearCostsTotal2).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateCost(lastYearCost, yearCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -639,11 +640,12 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+2%',
+                                                child: Text(growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() == '1000' ? '\u221E%' : growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.red),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -724,11 +726,12 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateRefund(lastYearRefund, yearRefundTotal).toString() == '1000' ? '\u221E%' : growthRateRefund(lastYearRefund, yearRefundTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.green),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateRefund(lastYearRefund, yearRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -779,7 +782,7 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalLossPrice.toString(),
+                                                  child: Text(yearLossTotal.toString(),
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -822,11 +825,12 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateLoss(lastYearLoss, yearLossTotal).toString() == '1000' ? '\u221E%' : growthRateLoss(lastYearLoss, yearLossTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:growthRateLoss(lastYearLoss, yearLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -2370,6 +2374,13 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
   double weekCostsTotalR = 0;
   double monthCostsTotalR = 0;
   double yearCostsTotalR = 0;
+  double yearLossTotal = 0;
+
+  double lastYearSale = 0;
+  double lastYearCost = 0;
+  double lastYearUnpaid = 0;
+  double lastYearRefund = 0;
+  double lastYearLoss = 0;
 
   fetchOrdersYY(snapshot0) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
@@ -2386,6 +2397,13 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
     yearUnpaidTotal = 0;
     // monthRefundTotal = 0;
     yearRefundTotal = 0;
+    yearLossTotal = 0;
+
+     lastYearSale = 0;
+     lastYearCost = 0;
+     lastYearUnpaid = 0;
+     lastYearRefund = 0;
+     lastYearLoss = 0;
 
     print('docs ' + snapshot0.toString());
 
@@ -2393,11 +2411,17 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
       print('George Y sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
+
       for(int i = 0; i<= 12; i++) {
-        print('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           thisYearOrdersChart[i] += thisYearOrdersChart[i] + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
           print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+         lastYearSale += data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
         }
       }
 
@@ -2411,9 +2435,22 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
 
       for(int i = 0; i<= 12; i++) {
         print('looping');
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'cash_merc'] != null) {
+          lastYearCost +=  data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'];
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
           yearUnpaidTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
           print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
+          lastYearUnpaid +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
         }
       }
 
@@ -2425,12 +2462,122 @@ class _BlocHomeYearLossState extends State<BlocHomeYearLoss> {
         }
       }
 
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
+          lastYearRefund +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'] != null) {
+          yearLossTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'];
+          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'].toString());
+        }
+      }
+
+      for(int i = 0; i<= 12; i++) {
+        print('looping');
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'loss_cust'] != null) {
+          lastYearLoss +=  data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'];
+        }
+      }
+
+    }
+  }
+}
+
+  growthRateSale(double lastYear, List<double> currentYear) {
+    double growthRate = 0;
+    double todayTotal = 0;
+    for (int i = 0; i < currentYear.length; i++){
+      todayTotal += currentYear[i];
     }
 
-
-
+    growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
   }
+
+  growthRateCost(double lastYear, double currentYear) {
+
+    double growthRate = 0;
+    double todayTotal = currentYear;
+
+    growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateUnpaid(double lastYear, double currentYear) {
+
+
+    double growthRate = 0;
+    double todayTotal = currentYear;
+
+    growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateRefund(double lastYear, double currentYear) {
+
+    double growthRate = 0;
+    double todayTotal = currentYear;
+
+    growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateLoss(double lastYear, double currentYear) {
+
+    double growthRate = 0;
+    double todayTotal = currentYear;
+
+    growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
 
 }
 
 enum PaginateBuilderType { listView, gridView, pageView }
+
