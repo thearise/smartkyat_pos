@@ -3004,14 +3004,14 @@ class HomePageState extends State<HomePage>
                                                                                                           subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
                                                                                                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                                                           )),
-                                                                                                          trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                          trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                                                                         ) :  ListTile (
                                                                                                           title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                                                           subtitle: Text('Amount applied', style: TextStyle(
                                                                                                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                                                           )),
-                                                                                                          trailing: Text('- $currencyUnit ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                          trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                                                         ),
                                                                                                       ) : Container(),
                                                                                                     ],
@@ -3117,7 +3117,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .center,
                                                                                                   style: TextStyle(
                                                                                                       fontSize:
-                                                                                                      18,
+                                                                                                      17,
                                                                                                       fontWeight:
                                                                                                       FontWeight
                                                                                                           .w600,
@@ -3133,74 +3133,236 @@ class HomePageState extends State<HomePage>
                                                                                     ),
                                                                                     GestureDetector(
                                                                                       onTap: () async {
-                                                                                        final result = await showModalActionSheet<String>(
-                                                                                          context: context,
-                                                                                          actions: [
-                                                                                            SheetAction(
-                                                                                              icon: Icons.info,
-                                                                                              label: 'Amount',
-                                                                                              key: 'amount',
-                                                                                            ),
-                                                                                            SheetAction(
-                                                                                              icon: Icons.info,
-                                                                                              label: 'Percent',
-                                                                                              key: 'percent',
-                                                                                            ),
-                                                                                          ],
-                                                                                        );
-                                                                                        setState(() {
-                                                                                          isDiscount = result.toString();
-                                                                                        });
-
-                                                                                        if (result == 'amount') {
-                                                                                          final amount = await showTextInputDialog(
+                                                                                        if(discount > 0) {
+                                                                                          final resultNew =
+                                                                                          Platform.isIOS ?
+                                                                                          await showModalActionSheet<String>(
                                                                                             context: context,
-                                                                                            textFields: [
-                                                                                              DialogTextField(
-                                                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                // inputFormatters: <TextInputFormatter>[
-                                                                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                hintText: '0',
-                                                                                                suffixText: '$currencyUnit',
-                                                                                                // initialText: 'mono0926@gmail.com',
+                                                                                            //title: 'Confirmation alert',
+                                                                                            message: 'Are you sure you want to change discount?',
+                                                                                            actions: [
+                                                                                              SheetAction(
+                                                                                                label: 'New discount',
+                                                                                                key: 'newdis',
+                                                                                                isDestructiveAction: true,
                                                                                               ),
                                                                                             ],
-                                                                                            title: 'Discount',
-                                                                                            message: 'Add Discount Amount to Cart',
+                                                                                          ) : await showModalActionSheet<String>(
+                                                                                            context: context,
+                                                                                            title: 'Confirmation alert',
+                                                                                            message: 'Are you sure you want to change discount?',
+                                                                                            actions: [
+                                                                                              SheetAction(
+                                                                                                label: 'New discount',
+                                                                                                key: 'newdis',
+                                                                                                isDestructiveAction: true,
+                                                                                              ),
+                                                                                            ],
+                                                                                          );
+                                                                                          if(resultNew.toString() == 'newdis') {
+                                                                                            setState(() {
+                                                                                              discountAmount = 0.0;
+                                                                                              discount = 0.0;
+                                                                                            });
+
+                                                                                            final result = await showModalActionSheet<String>(
+                                                                                              context: context,
+                                                                                              actions: [
+                                                                                                SheetAction(
+                                                                                                  icon: Icons.warning,
+                                                                                                  label: 'Amount',
+                                                                                                  key: 'amount',
+                                                                                                ),
+                                                                                                SheetAction(
+                                                                                                  icon: Icons.warning,
+                                                                                                  label: 'Percent',
+                                                                                                  key: 'percent',
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                            setState(() {
+                                                                                              isDiscount = result.toString();
+                                                                                            });
+
+                                                                                            if (result == 'amount') {
+                                                                                              final amount = await showTextInputDialog(
+                                                                                                context: context,
+                                                                                                textFields: [
+                                                                                                  DialogTextField(
+                                                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                    // inputFormatters: <TextInputFormatter>[
+                                                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                    hintText: '0',
+                                                                                                    suffixText: '$currencyUnit  ',
+                                                                                                    validator: (value) {
+                                                                                                      if (value == null || value.isEmpty) {
+                                                                                                        // return '';
+                                                                                                        return 'this field is required ';
+                                                                                                      } else {
+                                                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                          return 'no item in cart';
+                                                                                                        } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                                                          return 'much less than total sale';
+                                                                                                        } else if(double.parse(value) < 0) {
+                                                                                                          return 'invalid amount';
+                                                                                                        }
+                                                                                                      }
+                                                                                                      return null;
+                                                                                                    },
+                                                                                                    // initialText: 'mono0926@gmail.com',
+                                                                                                  ),
+                                                                                                ],
+                                                                                                title: 'Discount',
+                                                                                                message: 'Add Discount Amount to Cart',
+                                                                                              );
+                                                                                              setState(() {
+                                                                                                discount =double.parse(amount![0].toString());
+                                                                                                print('disss ' + discount.toString());
+                                                                                              });
+
+                                                                                            } else if(result == 'percent') {
+                                                                                              final percentage = await showTextInputDialog(
+                                                                                                context: context,
+                                                                                                textFields: [
+                                                                                                  DialogTextField(
+                                                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                    // inputFormatters: <TextInputFormatter>[
+                                                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                    hintText: '0',
+                                                                                                    suffixText: '%  ',
+                                                                                                    validator: (value) {
+                                                                                                      if (value == null || value.isEmpty) {
+                                                                                                        // return '';
+                                                                                                        return 'this field is required ';
+                                                                                                      } else {
+                                                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                          return 'no item in cart';
+                                                                                                        }
+                                                                                                        if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                                                          return 'invalid amount';
+                                                                                                        }
+                                                                                                      }
+                                                                                                      return null;
+                                                                                                    },
+                                                                                                    // initialText: 'mono0926@gmail.com',
+                                                                                                  ),
+                                                                                                ],
+                                                                                                title: 'Discount',
+                                                                                                message: 'Add Discount Percent to Cart',
+                                                                                              );
+                                                                                              // mystate(() {
+
+                                                                                              // });
+                                                                                              setState(() {
+                                                                                                discount =double.parse(percentage![0].toString());
+                                                                                                print('disss ' + discount.toString());
+                                                                                              });
+                                                                                            }
+                                                                                            print('dis' + result.toString());
+                                                                                            setState(() {
+                                                                                              print('do something');
+                                                                                            });
+                                                                                          }
+                                                                                        } else {
+                                                                                          final result = await showModalActionSheet<String>(
+                                                                                            context: context,
+                                                                                            actions: [
+                                                                                              SheetAction(
+                                                                                                icon: Icons.warning,
+                                                                                                label: 'Amount',
+                                                                                                key: 'amount',
+                                                                                              ),
+                                                                                              SheetAction(
+                                                                                                icon: Icons.warning,
+                                                                                                label: 'Percent',
+                                                                                                key: 'percent',
+                                                                                              ),
+                                                                                            ],
                                                                                           );
                                                                                           setState(() {
-                                                                                            discount =double.parse(amount![0].toString());
-                                                                                            print('disss ' + discount.toString());
+                                                                                            isDiscount = result.toString();
                                                                                           });
 
-                                                                                        } else {
-                                                                                          final percentage = await showTextInputDialog(
-                                                                                            context: context,
-                                                                                            textFields: [
-                                                                                              DialogTextField(
-                                                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                // inputFormatters: <TextInputFormatter>[
-                                                                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                hintText: '0.0',
-                                                                                                suffixText: '%',
-                                                                                                // initialText: 'mono0926@gmail.com',
-                                                                                              ),
-                                                                                            ],
-                                                                                            title: 'Discount',
-                                                                                            message: 'Add Discount Percent to Cart',
-                                                                                          );
-                                                                                          // mystate(() {
+                                                                                          if (result == 'amount') {
+                                                                                            final amount = await showTextInputDialog(
+                                                                                              context: context,
+                                                                                              textFields: [
+                                                                                                DialogTextField(
+                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                  // inputFormatters: <TextInputFormatter>[
+                                                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                  hintText: '0',
+                                                                                                  suffixText: '$currencyUnit  ',
+                                                                                                  validator: (value) {
+                                                                                                    if (value == null || value.isEmpty) {
+                                                                                                      // return '';
+                                                                                                      return 'this field is required ';
+                                                                                                    } else {
+                                                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                        return 'no item in cart';
+                                                                                                      } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                                                        return 'much less than total sale';
+                                                                                                      } else if(double.parse(value) < 0) {
+                                                                                                        return 'invalid amount';
+                                                                                                      }
+                                                                                                    }
+                                                                                                    return null;
+                                                                                                  },
+                                                                                                  // initialText: 'mono0926@gmail.com',
+                                                                                                ),
+                                                                                              ],
+                                                                                              title: 'Discount',
+                                                                                              message: 'Add Discount Amount to Cart',
+                                                                                            );
+                                                                                            setState(() {
+                                                                                              discount =double.parse(amount![0].toString());
+                                                                                              print('disss ' + discount.toString());
+                                                                                            });
 
-                                                                                          // });
+                                                                                          } else if(result == 'percent') {
+                                                                                            final percentage = await showTextInputDialog(
+                                                                                              context: context,
+                                                                                              textFields: [
+                                                                                                DialogTextField(
+                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                  // inputFormatters: <TextInputFormatter>[
+                                                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                  hintText: '0',
+                                                                                                  suffixText: '%  ',
+                                                                                                  validator: (value) {
+                                                                                                    if (value == null || value.isEmpty) {
+                                                                                                      // return '';
+                                                                                                      return 'this field is required ';
+                                                                                                    } else {
+                                                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                        return 'no item in cart';
+                                                                                                      }
+                                                                                                      if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                                                        return 'invalid amount';
+                                                                                                      }
+                                                                                                    }
+                                                                                                    return null;
+                                                                                                  },
+                                                                                                  // initialText: 'mono0926@gmail.com',
+                                                                                                ),
+                                                                                              ],
+                                                                                              title: 'Discount',
+                                                                                              message: 'Add Discount Percent to Cart',
+                                                                                            );
+                                                                                            // mystate(() {
+
+                                                                                            // });
+                                                                                            setState(() {
+                                                                                              discount =double.parse(percentage![0].toString());
+                                                                                              print('disss ' + discount.toString());
+                                                                                            });
+                                                                                          }
+                                                                                          print('dis' + result.toString());
                                                                                           setState(() {
-                                                                                            discount =double.parse(percentage![0].toString());
-                                                                                            print('disss ' + discount.toString());
+                                                                                            print('do something');
                                                                                           });
                                                                                         }
-                                                                                        print('dis' + result.toString());
-                                                                                        setState(() {
-                                                                                          print('do something');
-                                                                                        });
+
 
                                                                                       },
                                                                                       child: Container(
@@ -3230,7 +3392,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .center,
                                                                                                   style: TextStyle(
                                                                                                       fontSize:
-                                                                                                      18,
+                                                                                                      17,
                                                                                                       fontWeight:
                                                                                                       FontWeight
                                                                                                           .w600,
@@ -4708,33 +4870,28 @@ class HomePageState extends State<HomePage>
                                                                                                           borderRadius:
                                                                                                           BorderRadius.circular(10.0),
                                                                                                           color: AppTheme.secButtonColor),
-                                                                                                      child: Padding(
-                                                                                                        padding: const EdgeInsets.only(
-                                                                                                            top: 15.0,
-                                                                                                            bottom: 15.0),
-                                                                                                        child: Row(
-                                                                                                          mainAxisAlignment:
-                                                                                                          MainAxisAlignment
-                                                                                                              .center,
-                                                                                                          children: [
-                                                                                                            Expanded(
-                                                                                                              child: Padding(
-                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                                child: Container(
-                                                                                                                    child: Text(
-                                                                                                                      'Back',
-                                                                                                                      textAlign: TextAlign.center,
-                                                                                                                      style: TextStyle(
-                                                                                                                          fontSize: 18,
-                                                                                                                          fontWeight: FontWeight.w600,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                ),
+                                                                                                      child: Row(
+                                                                                                        mainAxisAlignment:
+                                                                                                        MainAxisAlignment
+                                                                                                            .center,
+                                                                                                        children: [
+                                                                                                          Expanded(
+                                                                                                            child: Padding(
+                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                              child: Container(
+                                                                                                                  child: Text(
+                                                                                                                    'Back',
+                                                                                                                    textAlign: TextAlign.center,
+                                                                                                                    style: TextStyle(
+                                                                                                                        fontSize: 17,
+                                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                                        color: Colors.black
+                                                                                                                    ),
+                                                                                                                  )
                                                                                                               ),
                                                                                                             ),
-                                                                                                          ],
-                                                                                                        ),
+                                                                                                          ),
+                                                                                                        ],
                                                                                                       ),
                                                                                                     ),
                                                                                                   ),
@@ -7344,29 +7501,27 @@ class HomePageState extends State<HomePage>
         ),
         dismissal:
         SlidableDismissal(
-          child:
-          SlidableDrawerDismissal(),
-          onDismissed:
-              (actionType) {
+          child: SlidableDrawerDismissal(),
+          onDismissed: (actionType) {
             setState((){
-              prodList
-                  .removeAt(
-                  index);
+              prodList.removeAt(index);
+              if(discount > double.parse(TtlProdListPriceReal())) {
+                discount = 0;
+              }
             });
           },
         ),
-        secondaryActions: <
-            Widget>[
+        secondaryActions: <Widget>[
           IconSlideAction(
             caption: 'Delete',
             color: Colors.red,
-            icon:
-            Icons.delete,
+            icon: Icons.delete,
             onTap: () {
               setState((){
-                prodList
-                    .removeAt(
-                    index);
+                prodList.removeAt(index);
+                if(discount > double.parse(TtlProdListPriceReal())) {
+                  discount = 0;
+                }
               });
             },
           ),
@@ -7573,15 +7728,14 @@ class HomePageState extends State<HomePage>
                     ),
                     dismissal:
                     SlidableDismissal(
-                      child:
-                      SlidableDrawerDismissal(),
-                      onDismissed:
-                          (actionType) {
+                      child: SlidableDrawerDismissal(),
+                      onDismissed: (actionType) {
                         setState((){
                           mystate(() {
-                            prodList
-                                .removeAt(
-                                index);
+                            prodList.removeAt(index);
+                            if(discount > double.parse(TtlProdListPriceReal())) {
+                              discount = 0;
+                            }
                           });
                         });
                       },
@@ -7591,14 +7745,14 @@ class HomePageState extends State<HomePage>
                       IconSlideAction(
                         caption: 'Delete',
                         color: Colors.red,
-                        icon:
-                        Icons.delete,
+                        icon: Icons.delete,
                         onTap: () {
                           setState((){
                             mystate(() {
-                              prodList
-                                  .removeAt(
-                                  index);
+                              prodList.removeAt(index);
+                              if(discount > double.parse(TtlProdListPriceReal())) {
+                                discount = 0;
+                              }
                             });
                           });
                         },
@@ -7799,7 +7953,7 @@ class HomePageState extends State<HomePage>
                     innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
                         productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
                         productSale[i].split('^')[3].toString() + ')';
-                    innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
+                    innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
                     tableList.add(innerLRList);
                     sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
                   }
@@ -7810,11 +7964,11 @@ class HomePageState extends State<HomePage>
                   receiptText.addTableList(tableList, '1rem', 'normal');
                   // //  receiptText.addSpacer(count: 1);
                   receiptText.addSpacer(useDashed: true);
-                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
                   receiptText.addSpacer(emptyLine: true);
                   receiptText.addText(
                     'ကျေးဇူးတင်ပါသည်။',
@@ -7830,7 +7984,7 @@ class HomePageState extends State<HomePage>
                   );
                   // receiptText.addLeftRightText(
                   //   subVTotal,
-                  //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
+                  //   subTotal.toStringAsFixed(1) + ' $currencyUnit',
                   //   leftStyle: ReceiptTextStyleType.normal,
                   //   leftSize: ReceiptTextSizeType.extraextraSmall,
                   //   rightStyle: ReceiptTextStyleType.normal,
@@ -8051,7 +8205,7 @@ class HomePageState extends State<HomePage>
                                                                     .center,
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                    18,
+                                                                    17,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -8067,72 +8221,239 @@ class HomePageState extends State<HomePage>
                                                   ),
                                                   GestureDetector(
                                                     onTap: () async {
-                                                      final result = await showModalActionSheet<String>(
-                                                        context: context,
-                                                        actions: [
-                                                          SheetAction(
-                                                            icon: Icons.info,
-                                                            label: 'Amount',
-                                                            key: 'amount',
-                                                          ),
-                                                          SheetAction(
-                                                            icon: Icons.info,
-                                                            label: 'Percent',
-                                                            key: 'percent',
-                                                          ),
-                                                        ],
-                                                      );
-                                                      mystate(() {
-                                                        isDiscount = result.toString();
-                                                      });
-
-                                                      if (result == 'amount') {
-                                                        final amount = await showTextInputDialog(
+                                                      if(discount > 0) {
+                                                        final resultNew =
+                                                        Platform.isIOS ?
+                                                        await showModalActionSheet<String>(
                                                           context: context,
-                                                          textFields: [
-                                                            DialogTextField(
-                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                              // inputFormatters: <TextInputFormatter>[
-                                                              //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                              hintText: '0',
-                                                              suffixText: '$currencyUnit',
-                                                              // initialText: 'mono0926@gmail.com',
+                                                          //title: 'Confirmation alert',
+                                                          message: 'Are you sure you want to change discount?',
+                                                          actions: [
+                                                            SheetAction(
+                                                              label: 'New discount',
+                                                              key: 'newdis',
+                                                              isDestructiveAction: true,
                                                             ),
                                                           ],
-                                                          title: 'Discount',
-                                                          message: 'Add Discount Amount to Cart',
+                                                        ) : await showModalActionSheet<String>(
+                                                          context: context,
+                                                          title: 'Confirmation alert',
+                                                          message: 'Are you sure you want to change discount?',
+                                                          actions: [
+                                                            SheetAction(
+                                                              label: 'New discount',
+                                                              key: 'newdis',
+                                                              isDestructiveAction: true,
+                                                            ),
+                                                          ],
                                                         );
-                                                        mystate(() {
-                                                          discount =double.parse(amount![0].toString());
-                                                          print('disss ' + discount.toString());
-                                                        });
+                                                        if(resultNew.toString() == 'newdis') {
+                                                          setState(() {
+                                                            mystate(() {
+                                                              discountAmount = 0.0;
+                                                              discount = 0.0;
+                                                            });
+                                                          });
+
+                                                          final result = await showModalActionSheet<String>(
+                                                            context: context,
+                                                            actions: [
+                                                              SheetAction(
+                                                                icon: Icons.error,
+                                                                label: 'Amount',
+                                                                key: 'amount',
+                                                              ),
+                                                              SheetAction(
+                                                                icon: Icons.warning,
+                                                                label: 'Percent',
+                                                                key: 'percent',
+                                                              ),
+                                                            ],
+                                                          );
+
+                                                          if(result != null) {
+                                                            mystate(() {
+                                                              isDiscount = result.toString();
+                                                            });
+
+                                                            if (result == 'amount') {
+                                                              final amount = await showTextInputDialog(
+                                                                context: context,
+                                                                textFields: [
+                                                                  DialogTextField(
+                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                    // inputFormatters: <TextInputFormatter>[
+                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                    hintText: '0',
+                                                                    suffixText: '$currencyUnit  ',
+                                                                    validator: (value) {
+                                                                      if (value == null || value.isEmpty) {
+                                                                        // return '';
+                                                                        return 'this field is required ';
+                                                                      } else {
+                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                          return 'no item in cart';
+                                                                        } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                          return 'much less than total sale';
+                                                                        } else if(double.parse(value) < 0) {
+                                                                          return 'invalid amount';
+                                                                        }
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                    // initialText: 'mono0926@gmail.com',
+                                                                  ),
+                                                                ],
+                                                                title: 'Discount',
+                                                                message: 'Add Discount Amount to Cart',
+                                                              );
+                                                              mystate(() {
+                                                                discount =double.parse(amount![0].toString());
+                                                                print('disss ' + discount.toString());
+                                                              });
+
+                                                            } else if(result == 'percent') {
+                                                              final percentage = await showTextInputDialog(
+                                                                context: context,
+                                                                textFields: [
+                                                                  DialogTextField(
+                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                    // inputFormatters: <TextInputFormatter>[
+                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                    hintText: '0',
+                                                                    suffixText: '%  ',
+                                                                    validator: (value) {
+                                                                      if (value == null || value.isEmpty) {
+                                                                        // return '';
+                                                                        return 'this field is required ';
+                                                                      } else {
+                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                          return 'no item in cart';
+                                                                        }
+                                                                        if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                          return 'invalid amount';
+                                                                        }
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                    // initialText: 'mono0926@gmail.com',
+                                                                  ),
+                                                                ],
+                                                                title: 'Discount',
+                                                                message: 'Add Discount Percent to Cart',
+                                                              );
+                                                              mystate(() {
+                                                                discount =double.parse(percentage![0].toString());
+                                                                print('disss ' + discount.toString());
+                                                              });
+                                                            }
+                                                            print('dis' + result.toString());
+                                                            setState(() {
+                                                              print('do something');
+                                                            });
+                                                          }
+                                                        }
+
 
                                                       } else {
-                                                        final percentage = await showTextInputDialog(
+                                                        final result = await showModalActionSheet<String>(
                                                           context: context,
-                                                          textFields: [
-                                                            DialogTextField(
-                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                              // inputFormatters: <TextInputFormatter>[
-                                                              //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                              hintText: '0.0',
-                                                              suffixText: '%',
-                                                              // initialText: 'mono0926@gmail.com',
+                                                          actions: [
+                                                            SheetAction(
+                                                              icon: Icons.error,
+                                                              label: 'Amount',
+                                                              key: 'amount',
+                                                            ),
+                                                            SheetAction(
+                                                              icon: Icons.warning,
+                                                              label: 'Percent',
+                                                              key: 'percent',
                                                             ),
                                                           ],
-                                                          title: 'Discount',
-                                                          message: 'Add Discount Percent to Cart',
                                                         );
-                                                        mystate(() {
-                                                          discount =double.parse(percentage![0].toString());
-                                                          print('disss ' + discount.toString());
-                                                        });
-                                                      }
-                                                      print('dis' + result.toString());
-                                                      setState(() {
-                                                        print('do something');
-                                                      });
 
+                                                        if(result != null) {
+                                                          mystate(() {
+                                                            isDiscount = result.toString();
+                                                          });
+
+                                                          if (result == 'amount') {
+                                                            final amount = await showTextInputDialog(
+                                                              context: context,
+                                                              textFields: [
+                                                                DialogTextField(
+                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                  // inputFormatters: <TextInputFormatter>[
+                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                  hintText: '0',
+                                                                  suffixText: '$currencyUnit  ',
+                                                                  validator: (value) {
+                                                                    if (value == null || value.isEmpty) {
+                                                                      // return '';
+                                                                      return 'this field is required ';
+                                                                    } else {
+                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                        return 'no item in cart';
+                                                                      } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                        return 'much less than total sale';
+                                                                      } else if(double.parse(value) < 0) {
+                                                                        return 'invalid amount';
+                                                                      }
+                                                                    }
+                                                                    return null;
+                                                                  },
+                                                                  // initialText: 'mono0926@gmail.com',
+                                                                ),
+                                                              ],
+                                                              title: 'Discount',
+                                                              message: 'Add Discount Amount to Cart',
+                                                            );
+                                                            mystate(() {
+                                                              discount =double.parse(amount![0].toString());
+                                                              print('disss ' + discount.toString());
+                                                            });
+
+                                                          } else if(result == 'percent') {
+                                                            final percentage = await showTextInputDialog(
+                                                              context: context,
+                                                              textFields: [
+                                                                DialogTextField(
+                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                  // inputFormatters: <TextInputFormatter>[
+                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                  hintText: '0',
+                                                                  suffixText: '%  ',
+                                                                  validator: (value) {
+                                                                    if (value == null || value.isEmpty) {
+                                                                      // return '';
+                                                                      return 'this field is required ';
+                                                                    } else {
+                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                        return 'no item in cart';
+                                                                      }
+                                                                      if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                        return 'invalid amount';
+                                                                      }
+                                                                    }
+                                                                    return null;
+                                                                  },
+                                                                  // initialText: 'mono0926@gmail.com',
+                                                                ),
+                                                              ],
+                                                              title: 'Discount',
+                                                              message: 'Add Discount Percent to Cart',
+                                                            );
+                                                            mystate(() {
+                                                              discount =double.parse(percentage![0].toString());
+                                                              print('disss ' + discount.toString());
+                                                            });
+                                                          }
+                                                          print('dis' + result.toString());
+                                                          setState(() {
+                                                            print('do something');
+                                                          });
+                                                        }
+                                                      }
                                                     },
                                                     child: Container(
                                                       width:
@@ -8166,7 +8487,7 @@ class HomePageState extends State<HomePage>
                                                                     .center,
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                    18,
+                                                                    17,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -8323,13 +8644,13 @@ class HomePageState extends State<HomePage>
                                                                         subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                         )),
-                                                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                       ) :  ListTile (
                                                                         title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                         subtitle: Text('Amount applied', style: TextStyle(
                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                         )),
-                                                                        trailing: Text('- $currencyUnit ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                        trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                       ),
                                                                     ) : Container(),
                                                                   ],
@@ -10960,6 +11281,15 @@ class HomePageState extends State<HomePage>
     return total.toString();
   }
 
+  TtlProdListPriceReal()  {
+    double total = 0;
+    print(prodList.toString());
+    for (String str in prodList) {
+      total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    }
+    return total.toString();
+  }
+
   totalItems2() {
     int total = 0;
     //print(prodList.toString());
@@ -11964,7 +12294,7 @@ class HomePageState extends State<HomePage>
                     // for(int i = 0; i< prodListPR.length; i++) {
                     //   receiptText.addLeftRightText(
                     //     prodListPR[i].split('^')[0] + ' (' + prodListPR[i].split('^')[1] + ' - ' + prodListPR[i].split('^')[2] + ' x ' + prodListPR[i].split('^')[3] + ')',
-                    //     (double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[2])).toStringAsFixed(2) + ' $currencyUnit',
+                    //     (double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[2])).toStringAsFixed(1) + ' $currencyUnit',
                     //     leftStyle: ReceiptTextStyleType.normal,
                     //     leftSize: ReceiptTextSizeType.small,
                     //     rightSize: ReceiptTextSizeType.small,
@@ -12021,7 +12351,7 @@ class HomePageState extends State<HomePage>
                       innerLRList[0] =  prodListPR[i].split('^')[0].toString() + ' (' +
                           prodListPR[i].split('^')[1].toString() + ' - ' +  prodListPR[i].split('^')[2].toString() + ' x ' +
                           prodListPR[i].split('^')[3].toString() + ')';
-                      innerLRList[1] = (double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3])).toStringAsFixed(2) + ' $currencyUnit' ;
+                      innerLRList[1] = (double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
                       tableList.add(innerLRList);
                       subTotal += double.parse( prodListPR[i].split('^')[2]) * double.parse( prodListPR[i].split('^')[3]);
                     }
@@ -12032,11 +12362,11 @@ class HomePageState extends State<HomePage>
                     receiptText.addTableList(tableList, '1rem', 'normal');
                     //  receiptText.addSpacer(count: 1);
                     receiptText.addSpacer(useDashed: true);
-                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
-                    receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(2) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[subVTotal, subTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[totalVPrice, (subTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VPaid, ((subTotal - disAmt) - double.parse(prodListPR[prodListPR.length-1].split('<>')[5])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                    receiptText.addTableList([[VDebt, double.parse(prodListPR[prodListPR.length-1].split('<>')[5]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
                     receiptText.addSpacer(emptyLine: true);
                     receiptText.addText(
                       'ကျေးဇူးတင်ပါသည်။',
@@ -12052,7 +12382,7 @@ class HomePageState extends State<HomePage>
                     );
                     // receiptText.addLeftRightText(
                     //   subVTotal,
-                    //   subTotal.toStringAsFixed(2) + ' $currencyUnit',
+                    //   subTotal.toStringAsFixed(1) + ' $currencyUnit',
                     //   leftStyle: ReceiptTextStyleType.normal,
                     //   leftSize: ReceiptTextSizeType.extraextraSmall,
                     //   rightStyle: ReceiptTextStyleType.normal,
