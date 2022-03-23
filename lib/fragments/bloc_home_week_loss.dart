@@ -415,12 +415,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: growthRateDaySale(yestOrdersChart, todayOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
+                                            color: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
                                           // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text(' ' + growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() == '1000'? '\u221E% ': growthRateDaySale(yestOrdersChart, todayOrdersChart).toString() + '% ',
+                                            child: Text(' ' + percentBySale().toString() == '1000'? '\u221E% ': percentBySale().toString() + '% ',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -554,11 +554,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() == '1000' ? '\u221E%' : growthRateDayCost(yestCostsTotalR, todayCostsTotalR).toString() + '%',
+                                                child: Text(percentByCost().toString() == '1000' ? '\u221E%' : percentByCost().toString() + '%',
                                                   style: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w500,
-                                                      color: growthRateDayCost(yestCostsTotalR, todayCostsTotalR) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                      color:percentByCost() < 0? Colors.green: AppTheme.badgeFgDanger,
                                                   ),
                                                 )
                                             ),
@@ -640,11 +640,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+2%',
+                                                child: Text(percentByUnpaid().toString() == '1000' ? '\u221E%' : percentByUnpaid().toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.red),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: percentByUnpaid() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -1447,6 +1448,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   String totalStockCostsBySlide() {
+    print('todaycoststotal' + todayCostsTotal.toString());
     if(_sliding == 0) {
       return todayCostsTotal.toString();
     } else if(_sliding == 1) {
@@ -1482,6 +1484,30 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
   }
 
+   percentBySale() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDaySale(yestOrdersChart, todayOrdersChart);
+    } else percent = growthRateWeekSale(lastWeekOrderChart, thisWeekOrdersChart);
+    return percent;
+  }
+
+  percentByUnpaid() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayUnpaid(yestUnpaidChart, todayCostsTotal);
+    } else percent = growthRateWeekUnpaid(lastWeekUnpaid, weekCostsTotal);
+    return percent;
+  }
+
+  percentByCost() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayCost(yestCostsTotalR, todayCostsTotalR);
+    } else percent = growthRateWeekCost(lastWeekCost, weekCostsTotalR);
+    return percent;
+  }
+
   String totalBySlide() {
     double todayTotal=0.0;
     for (int i = 0; i < todayOrdersChart.length; i++){
@@ -1507,7 +1533,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     } else if(_sliding == 1) {
       return weeklyTotal.toStringAsFixed(2);
     } else if(_sliding == 2) {
-      return monthlyTotal.toStringAsFixed(2);
+      return '50';
     } else {
       return yearlyTotal.toStringAsFixed(2);
     }
@@ -2374,10 +2400,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
   double yestOrdersChart = 0;
   double yestCostsTotalR = 0;
+  double yestUnpaidChart = 0;
+  double lastWeekOrderChart = 0;
+  double lastWeekCost = 0;
+  double lastWeekUnpaid = 0;
 
   fetchOrders(snapshot0, snapshot1) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
     DateTime monthAgo = today.subtract(const Duration(days: 31));
+    DateTime twoWeeksAgo = today.subtract(const Duration(days: 13));
 
     thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2397,6 +2428,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     weekRefundTotal = 0;
 
     yestCostsTotalR = 0;
+    yestUnpaidChart = 0;
+     lastWeekOrderChart = 0;
+     lastWeekCost = 0;
+     lastWeekUnpaid = 0;
+
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
@@ -2411,31 +2447,37 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       int month = 0;
       int year = 0;
       sevenDaysAgo = today.subtract(const Duration(days: 8));
+      twoWeeksAgo = today.subtract(const Duration(days: 13));
       monthAgo = today.subtract(const Duration(days: 31));
 
       while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
-        sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+          if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
+            double total = 0;
+            // print(doc['daily_order'].toString());
+            for(String str in data['daily_order']) {
+              // print(double.parse(str));
+              total += double.parse(str.split('^')[2]);
+              weekCostsTotal += double.parse(str.split('^')[5]);
+            }
+            thisWeekOrdersChart[week] = total;
 
-        // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-        // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-        // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-        if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-          double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            total += double.parse(str.split('^')[2]);
-            weekCostsTotal += double.parse(str.split('^')[5]);
           }
-          thisWeekOrdersChart[week] = total;
-
-        }
-        week = week + 1;
-
+          week = week + 1;
       }
+
+      while(!(today.year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
+        twoWeeksAgo = twoWeeksAgo.add(const Duration(days: 1));
+        if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
+
+          for(String str in data['daily_order']) {
+            print('1369' + '1');
+            lastWeekOrderChart  += double.parse(str.split('^')[2]);
+            lastWeekUnpaid  += double.parse(str.split('^')[5]);
+          }
+        }
+      }
+
 
       while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
         monthAgo = monthAgo.add(const Duration(days: 1));
@@ -2497,6 +2539,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
         for (String str in data['daily_order']) {
           yestOrdersChart += double.parse(str.split('^')[2]);
+          yestUnpaidChart += double.parse(str.split('^')[5]);
           // for(int i=0; i<=24 ; i++ ){
           //   if(str.split('^')[0].substring(0, 10) == today.subtract(Duration(days: 1)).year.toString() +
           //       zeroToTen(today.subtract(Duration(days: 1)).month.toString()) +
@@ -2511,7 +2554,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         }
       }
 
-      print('yest ton ka2 ' + yestOrdersChart.toString());
+
 
 
       if (dataDate.substring(0,4) == today.year.toString()){
@@ -2551,16 +2594,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         int month = 0;
         int year = 0;
         sevenDaysAgo = today.subtract(const Duration(days: 8));
+        twoWeeksAgo = today.subtract(const Duration(days: 13));
         monthAgo = today.subtract(const Duration(days: 31));
 
         while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
           sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
-
-          // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-          // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-          // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
           if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
             double total = 0;
@@ -2575,6 +2613,16 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
         }
 
+        while(!(today.year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
+          twoWeeksAgo = twoWeeksAgo.add(const Duration(days: 1));
+
+          if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
+            for(String str in data['daily_order']) {
+              lastWeekCost += double.parse(str.split('^')[2]);
+            }
+          }
+        }
+        print('yest ton ka2 ' + lastWeekCost.toString() + ' ' + weekCostsTotalR.toString());
         while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
           monthAgo = monthAgo.add(const Duration(days: 1));
 
@@ -2618,6 +2666,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             zeroToTen(today.subtract(Duration(days: 1)).day.toString())) {
           for (String str in data['daily_order']) {
             yestCostsTotalR += double.parse(str.split('^')[2]);
+
           }
         }
 
@@ -2640,7 +2689,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           }
         }
 
-        print('yestcost ' + yestCostsTotalR.toString());
+        print('yestcost ' + yestUnpaidChart.toString() + ' ' +yestCostsTotalR.toString());
 
         // setState(() {
         //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
@@ -2719,10 +2768,81 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   growthRateDayCost(double yestOrdersChart, double todayTotalCost) {
+
     double growthRate = 0;
     double todayTotal = todayTotalCost;
 
     growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayUnpaid(double yestOrdersChart, double todayTotalCost) {
+
+    double growthRate = 0;
+    double todayTotal = todayTotalCost;
+
+    growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekSale(double lastWeekOrdersChart, List<double> weekOrdersChart) {
+    double growthRate = 0;
+    double todayTotal = 0;
+    for (int i = 0; i < weekOrdersChart.length; i++){
+      todayTotal += weekOrdersChart[i];
+    }
+
+    growthRate = (todayTotal - lastWeekOrdersChart) / lastWeekOrdersChart * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekUnpaid(double lastWeekUnpaid, double weekTotalUnpaid) {
+
+    double growthRate = 0;
+    double todayTotal = weekTotalUnpaid;
+
+    growthRate = (todayTotal - lastWeekUnpaid) / lastWeekUnpaid * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekCost(double lastWeekCostTotal, double weekTotalCost) {
+
+    double growthRate = 0;
+    double todayTotal = weekTotalCost;
+
+    growthRate = (todayTotal - lastWeekCostTotal) / lastWeekCostTotal * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {
