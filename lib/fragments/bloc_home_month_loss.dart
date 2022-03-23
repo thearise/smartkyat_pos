@@ -415,13 +415,13 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: Colors.green,
+                                            color: growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
-                                          width: 50,
+                                          // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text('12%',
-                                              textAlign: TextAlign.right,
+                                            child: Text(' ' +  growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() == '1000'? '\u221E% ': growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() + '% ',
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -554,11 +554,12 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateCost(lastMonthCost, monthCostsTotal2).toString() == '1000' ? '\u221E%' : growthRateCost(lastMonthCost, monthCostsTotal2).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateCost(lastMonthCost, monthCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -639,11 +640,12 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+2%',
+                                                child: Text(growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() == '1000' ? '\u221E%' : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.red),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -724,11 +726,12 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateRefund(lastMonthRefund, monthRefundTotal).toString() == '1000' ? '\u221E%' : growthRateRefund(lastMonthRefund, monthRefundTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.green),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -779,7 +782,7 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalLossPrice.toString(),
+                                                  child: Text(monthLossTotal.toString(),
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -822,11 +825,12 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(growthRateLoss(lastMonthLoss, monthLossTotal).toString() == '1000' ? '\u221E%' : growthRateLoss(lastMonthLoss, monthLossTotal).toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateLoss(lastMonthLoss, monthLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -1481,6 +1485,7 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
     }
   }
 
+
   String totalBySlide() {
     double todayTotal=0.0;
     for (int i = 0; i < todayOrdersChart.length; i++){
@@ -1511,6 +1516,94 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
       return yearlyTotal.toStringAsFixed(2);
     }
   }
+
+  growthRateSale(double lastMonth, List<double> currentMonth) {
+    double growthRate = 0;
+    double todayTotal = 0;
+    for (int i = 0; i < currentMonth.length; i++){
+      todayTotal += currentMonth[i];
+    }
+
+    growthRate = (todayTotal - lastMonth) / lastMonth * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateCost(double lastMonth, double currentMonth) {
+
+    double growthRate = 0;
+    double todayTotal = currentMonth;
+
+    growthRate = (todayTotal - lastMonth) / lastMonth * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateUnpaid(double lastMonth, double currentMonth) {
+
+    double growthRate = 0;
+    double todayTotal = currentMonth;
+
+    growthRate = (todayTotal - lastMonth) / lastMonth * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateRefund(double lastMonth, double currentMonth) {
+
+    double growthRate = 0;
+    double todayTotal = currentMonth;
+
+    growthRate = (todayTotal - lastMonth) / lastMonth * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateLoss(double lastMonth, double currentMonth) {
+
+    double growthRate = 0;
+    double todayTotal = currentMonth;
+
+    growthRate = (todayTotal - lastMonth) / lastMonth * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
 
   lineChartByTab() {
     if(_sliding==0) {
@@ -2347,6 +2440,30 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
     // print('length ' + ten.toString().toString());
   }
 
+
+  calMonth(month) {
+    var calMonth = 0;
+    if(month == 1) {
+      calMonth = 12;
+    }
+    else
+      calMonth = month - 1;
+
+    return calMonth;
+
+  }
+
+  calYear(month, year) {
+    var  calYear = 0;
+    if(month == 1) {
+      calYear = year -1;
+    }
+    else
+      calYear = year;
+
+    return calYear;
+  }
+
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   List<double> thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   List<double> todayOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2370,10 +2487,17 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
   double weekCostsTotalR = 0;
   double monthCostsTotalR = 0;
   double yearCostsTotalR = 0;
+  double monthLossTotal = 0;
+
+  double lastMonthSale = 0;
+  double lastMonthUnpaid = 0;
+  double lastMonthRefund = 0;
+  double lastMonthCost = 0;
+  double lastMonthLoss = 0;
+
+
 
   fetchOrdersMY(snapshot0) async {
-    DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
-    DateTime monthAgo = today.subtract(const Duration(days: 31));
 
     thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2386,52 +2510,86 @@ class _BlocHomeMonthLossState extends State<BlocHomeMonthLoss> {
     yearUnpaidTotal = 0;
     monthRefundTotal = 0;
     yearRefundTotal = 0;
-
-
-
-    print('docs ' + snapshot0.toString());
+    monthLossTotal = 0;
+    lastMonthSale = 0;
+     lastMonthUnpaid = 0;
+     lastMonthRefund = 0;
+     lastMonthCost = 0;
+    lastMonthLoss = 0;
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
+
       print('George sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
 
       for(int i = 0; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'];
-          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
 
       for(int i = 0; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+          lastMonthSale += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'];
+        }
+
+      }
+
+      for(int i = 0; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'] != null) {
-          // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'].toString());
         }
       }
 
       for(int i = 0; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_merc'] != null) {
+          lastMonthCost +=  data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_merc'];
+        }
+      }
+
+      for(int i = 0; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'] != null) {
-          // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'];
           print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'].toString());
         }
       }
 
       for(int i = 0; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'debt_cust'] != null) {
+          lastMonthUnpaid +=  data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'debt_cust'];
+        }
+      }
+
+      for(int i = 0; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'] != null) {
-          // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'];
           print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'].toString());
         }
       }
+
+      for(int i = 0; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'refu_cust'] != null) {
+          lastMonthRefund +=  data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'refu_cust'];
+        }
+      }
+
+      for(int i = 0; i< 32; i++) {
+        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'loss_cust'] != null) {
+          monthLossTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'loss_cust'];
+          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'loss_cust'].toString());
+        }
+      }
+
+      for(int i = 0; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'loss_cust'] != null) {
+          lastMonthLoss +=  data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'loss_cust'];
+        }
+      }
+
     }
-
-
-
   }
-
 }
 
 enum PaginateBuilderType { listView, gridView, pageView }
