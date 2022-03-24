@@ -1296,6 +1296,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           // }
 
                           if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
+                            print('data infoo ' + item.toString());
                             return GestureDetector(
                               onTap: () async {
                                 closeDrawerFrom();
@@ -1304,7 +1305,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   MaterialPageRoute(
                                       builder: (context) => ProductDetailsView2(
                                         idString: item.split('^sps^')[0], toggleCoinCallback:
-                                      addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
+                                      addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, prodName: item.split('^sps^')[2], mainSell: item.split('^sps^')[3].split('~')[0],)),);
                                 openDrawerFrom();
                               },
                               child: Container(
@@ -1483,7 +1484,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       builder: (
                                           context) =>
                                           CustomerInfoSubs(
-                                            id: item.split('^sps^')[0],
+                                            id: item.split('^sps^')[0], custAddress: item.split('^sps^')[2].toString(), custName: item.split('^sps^')[1].toString(),
                                             toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                 );
                                 openDrawerFrom();
@@ -1702,7 +1703,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                         builder: (
                                             context) =>
                                             CustomerInfoSubs(
-                                              id: item.split('^sps^')[0],
+                                              id: item.split('^sps^')[0], custAddress: item.split('^sps^')[2].toString(), custName: item.split('^sps^')[1].toString(),
                                               toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                   );
                                   openDrawerFrom();
@@ -1885,7 +1886,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     builder: (
                                         context) =>
                                         MerchantInfoSubs(
-                                          id: item.split('^sps^')[0],
+                                          id: item.split('^sps^')[0], mercAddress: item.split('^sps^')[2].toString(), mercName: item.split('^sps^')[1].toString(),
                                           toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                               );
                               openDrawerFrom();

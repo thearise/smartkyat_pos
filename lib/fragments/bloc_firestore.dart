@@ -777,202 +777,214 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                       child: Container(
                         decoration: BoxDecoration(
                             color: AppTheme.lightBgColor,
-                            border: Border(
-                              bottom: BorderSide(
-                                  color: AppTheme.skBorderColor2,
-                                  width: 1.0),
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 1.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 1.0),
+                                    child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('#' + item.split('^')[1],
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500
-                                          ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text('#' + item.split('^')[1],
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500
+                                              ),
+                                            ),
+                                            SizedBox(width: 8),
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                              child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(width: 8),
+                                        SizedBox(
+                                          height: 6,
+                                        ),
                                         Padding(
-                                          padding: const EdgeInsets.only(bottom: 1.0),
-                                          child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
+                                          padding: const EdgeInsets.only(right: 25.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                  overflow: TextOverflow.ellipsis
+                                                ),
+                                                  maxLines: 1,
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 8.0),
+                                                child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                              ),
+
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 25.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                              overflow: TextOverflow.ellipsis
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      if(item.split('^')[5] == '0.0')
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 0.0),
+                                          child: Container(
+                                            height: 21,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              color: AppTheme.badgeBgSuccess,
                                             ),
-                                              maxLines: 1,
-                                              strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
-                                                forceStrutHeight: true,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                              child: Text('Paid',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white
+                                                ),
                                               ),
-
                                             ),
                                           ),
+                                        ),
 
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                            )),
+                                      if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 0.0),
+                                          child: Container(
+                                            height: 21,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              color: AppTheme.badgeFgDangerLight,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                              child: Text('Partially paid',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppTheme.badgeFgDanger
+                                                ),
+                                              ),
+                                            ),
                                           ),
+                                        ),
+                                      if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 0.0),
+                                          child: Container(
+                                            height: 21,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              color: AppTheme.badgeFgDanger,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                              child: Text('Unpaid',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      if(item.split('^')[4] == 'T')
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 6.0),
+                                          child: Container(
+                                            height: 21,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              color: AppTheme.badgeBgSecond,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                              child: Text('Refunded',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
 
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                      if(item.split('^')[4] == 'P')
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 6.0),
+                                          child: Container(
+                                            height: 21,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              color: AppTheme.badgeBgSecondLight,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                              child: Text('Partially refunded',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppTheme.badgeBgSecond
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: AppTheme.skBorderColor2,
+                                          width: 1.0),
+                                    )
                                 ),
                               ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  if(item.split('^')[5] == '0.0')
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
-                                      child: Container(
-                                        height: 21,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: AppTheme.badgeBgSuccess,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                          child: Text('Paid',
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                  if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
-                                      child: Container(
-                                        height: 21,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: AppTheme.badgeFgDangerLight,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                          child: Text('Partially paid',
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: AppTheme.badgeFgDanger
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
-                                      child: Container(
-                                        height: 21,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: AppTheme.badgeFgDanger,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                          child: Text('Unpaid',
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if(item.split('^')[4] == 'T')
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 6.0),
-                                      child: Container(
-                                        height: 21,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: AppTheme.badgeBgSecond,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                          child: Text('Refunded',
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                  if(item.split('^')[4] == 'P')
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 6.0),
-                                      child: Container(
-                                        height: 21,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          color: AppTheme.badgeBgSecondLight,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                          child: Text('Partially refunded',
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: AppTheme.badgeBgSecond
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

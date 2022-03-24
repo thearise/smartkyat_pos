@@ -73,7 +73,14 @@ class _EndOfProServiceState extends State<EndOfProService>
   @override
   initState() {
     setStoreId('');
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    if(Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white, // navigation bar color
+        statusBarColor: Colors.white, // status bar color
+      ));
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    }
     super.initState();
   }
 

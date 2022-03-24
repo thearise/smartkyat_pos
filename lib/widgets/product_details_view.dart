@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,8 @@ class ProductDetailsView2 extends StatefulWidget {
       {Key? key,
         required this.shopId,
         required this.idString,
+        required this.prodName,
+        required this.mainSell,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str),
         required void openCartBtn(),
@@ -37,7 +40,9 @@ class ProductDetailsView2 extends StatefulWidget {
         _closeCartBtn = closeCartBtn;
 
   final String idString;
+  final String prodName;
   final String shopId;
+  final String mainSell;
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -613,6 +618,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               final result =
                                                               await showModalActionSheet<String>(
                                                                 context: context,
+                                                                title: 'This product has multiple sub items',
                                                                 actions: [
                                                                   SheetAction(
                                                                     icon: SmartKyat_POS.prodm,
@@ -706,6 +712,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         final result =
                                                         await showModalActionSheet<String>(
                                                           context: context,
+                                                          title: 'This product has multiple sub items',
                                                           actions: [
                                                             SheetAction(
                                                                 icon: SmartKyat_POS.prodm,
@@ -805,6 +812,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           final result =
                                                           await showModalActionSheet<String>(
                                                             context: context,
+                                                            title: 'This product has multiple sub items',
                                                             actions: [
                                                               SheetAction(
                                                                 icon: SmartKyat_POS.prodm,
@@ -2175,13 +2183,119 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                               ),
                             ]);
                       }
-                      return Container();
+                      return loadingView();
                     }
                 );
               }
-              return Container();
+              return loadingView();
             }),
       ),
+    );
+  }
+
+  loadingView() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        // mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            height: 81,
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: Colors.grey.withOpacity(0.3),
+                        width: 1.0))),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Container(
+                      width: 37,
+                      height: 37,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(35.0),
+                          ),
+                          color: Colors.grey.withOpacity(0.3)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 3.0),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios_rounded,
+                              size: 17,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: Text(
+                            '$currencyUnit ' + widget.mainSell.toString(),
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis
+                              // height: 1.5
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.4,
+                              // fontSize:,
+                              forceStrutHeight: true,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                          child: Text(
+                            widget.prodName,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.ellipsis,
+                              // height: 1.3
+                            ),
+                            strutStyle: StrutStyle(
+                              height: 1.7,
+                              // fontSize:,
+                              forceStrutHeight: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 15.0),
+                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                      child: CupertinoActivityIndicator(radius: 15,)),
+                ),
+              ),
+            ),
+          ),
+        ]
     );
   }
 // changeUnitName2Stock(String split) {

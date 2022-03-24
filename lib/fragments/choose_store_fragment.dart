@@ -541,7 +541,7 @@ class chooseStoreState extends State<chooseStore> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0,
                                     right: 5.0,
-                                    bottom: 2.0),
+                                    bottom: 3.0),
                                 child: Container(
                                   child: Text(
                                     'Logout',
@@ -667,7 +667,7 @@ class chooseStoreState extends State<chooseStore> {
                                   padding: const EdgeInsets.only(
                                       left: 5.0,
                                       right: 5.0,
-                                      bottom: 2.0),
+                                      bottom: 3.0),
                                   child: Container(
                                     child: Text(
                                       'Go to dashboard',
