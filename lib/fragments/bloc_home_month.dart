@@ -250,10 +250,34 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
 
+  calMonth(month) {
+    var calMonth = 0;
+    if(month == 1) {
+      calMonth = 12;
+    }
+    else
+      calMonth = month - 1;
+
+    return calMonth;
+
+  }
+
+  calYear(month, year) {
+    var  calYear = 0;
+    if(month == 1) {
+      calYear = year -1;
+    }
+    else
+      calYear = year;
+
+    return calYear;
+  }
+
+
   ordersQuery() {
     print('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 31)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 31)).month.toString()) + '-00' + ' 00:00:00'))
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(calYear(today.month, today.year).toString() + '-' + zeroToTen( calMonth(today.month).toString()) + '-00' + ' 00:00:00'))
         .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 00:00:00'))
         .orderBy('date', descending: true);
   }
