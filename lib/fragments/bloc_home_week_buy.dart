@@ -250,12 +250,33 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
     super.initState();
   }
 
+  calMonth(month) {
+    var calMonth = 0;
+    if(month == 1) {
+      calMonth = 12;
+    }
+    else
+      calMonth = month - 1;
+
+    return calMonth;
+
+  }
+
+  calYear(month, year) {
+    var  calYear = 0;
+    if(month == 1) {
+      calYear = year -1;
+    }
+    else
+      calYear = year;
+
+    return calYear;
+  }
+
   ordersQuery() {
-    print('shop id loss' + widget.shopId.toString());
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
-        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
-        .orderBy('date', descending: true);
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders_monthly')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen( calMonth(today.month).toString()) + '-00' + ' 00:00:00'))
+        .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 00:00:00'));
   }
 
   Widget _buildListView(PaginationLoaded loadedState) {
