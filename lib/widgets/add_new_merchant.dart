@@ -421,7 +421,6 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'debtAmount' : 0,
                                         'total_refunds' : 0,
                                          'search_name': textSplitFunction(merchFieldsValue[0].toString()),
-                                        'archive' : false,
                                       }).then((value) {
                                         print('product added 2');
 
@@ -496,7 +495,6 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'debts' : 0,
                                         'debtAmount' : 0,
                                         'total_refunds' : 0,
-                                        'archive' : false,
                                       }).then((value) {
                                         print('name created');
                                       });
@@ -510,7 +508,6 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'debtAmount' : 0,
                                         'total_refunds' : 0,
                                         'search_name': textSplitFunction(merchFieldsValue[0].toString()),
-                                        'archive' : false,
                                       }).then((value) {
                                         print('product added 2');
                                         // showFlash(
