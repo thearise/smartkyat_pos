@@ -5,6 +5,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
@@ -18,8 +19,10 @@ class CustomerInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.custName, required this.custAddress, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
+  final String custName;
+  final String custAddress;
   final String shopId;
   final BlueDevice? selectedDev;
 
@@ -530,7 +533,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5.0),
                                     child: Container(
-                                      height: 252,
+                                      height: 253,
                                       child: TabBarView(
                                         controller: _controller,
                                         physics: NeverScrollableScrollPhysics(),
@@ -932,9 +935,105 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                     ]
                 );
               }
-              return Container();
+              return loadingView();
             }),
       ),
+    );
+  }
+
+  loadingView() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+        // mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            height: 81,
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: Colors.grey.withOpacity(0.3),
+                        width: 1.0))),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 14.0, right: 15.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Container(
+                      width: 37,
+                      height: 37,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(35.0),
+                          ),
+                          color: Colors.grey.withOpacity(0.3)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 3.0),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios_rounded,
+                              size: 17,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(height: 15.5),
+                        Text(
+                          widget.custAddress,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 13,
+                            height: 1.5,
+                            fontWeight: FontWeight.w500,
+                            //color: Colors.grey,
+                          ),
+                          strutStyle: StrutStyle(
+                            height: 1.5,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
+                        ),
+                        Text(
+                          widget.custName,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 18,
+                            height: 1.3,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          strutStyle: StrutStyle(
+                            height: 1.5,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 15.0),
+                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                      child: CupertinoActivityIndicator(radius: 15,)),
+                ),
+              ),
+            ),
+          ),
+        ]
     );
   }
 

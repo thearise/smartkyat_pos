@@ -419,7 +419,22 @@ class HomePageState extends State<HomePage>
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    if(Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        // systemNavigationBarColor: Colors.white,
+        // statusBarColor: Colors.white,
+        // statusBarBrightness: Brightness.light
+
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        // systemNavigationBarColor: Colors.transparent,
+        // systemNavigationBarIconBrightness: Brightness.dark,
+        // systemNavigationBarContrastEnforced: false,
+      ));
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    }
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //     statusBarColor: Colors.black
     // ));
@@ -1679,286 +1694,354 @@ class HomePageState extends State<HomePage>
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
     }
-    return Stack(
-      children: [
-        Container(
-          color: Colors.white,
-          child: IgnorePointer(
-            ignoring: disableTouch,
-            child: StreamBuilder(
-                stream: emailSnapshot,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
-                  if(snapshotUser.hasData) {
-                    Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
-                    print('waiting? ' + dataUser['device0']);
-                    // _getId().then((value) async {
-                    if(dataUser['device0'] != widget.deviceId) {
-                      print('matuu');
-                      FirebaseAuth.instance.signOut();
-                      setStoreId('').then((_) {
-                        showOkAlertDialog(
-                            context: OneContext().context!,
-                            title: 'Restricted activity',
-                            message: 'Your account was signed in to this same shop from another device.'
-                        ).then((result) async {
-                          // Navigator.of(context).pushReplacement(
-                          //   FadeRoute(page: Welcome()),
-                          // );
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            child: IgnorePointer(
+              ignoring: disableTouch,
+              child: StreamBuilder(
+                  stream: emailSnapshot,
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
+                    if(snapshotUser.hasData) {
+                      Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
+                      print('waiting? ' + dataUser['device0']);
+                      // _getId().then((value) async {
+                      if(dataUser['device0'] != widget.deviceId) {
+                        print('matuu');
+                        FirebaseAuth.instance.signOut();
+                        setStoreId('').then((_) {
+                          showOkAlertDialog(
+                              context: OneContext().context!,
+                              title: 'Restricted activity',
+                              message: 'Your account was signed in to this same shop from another device.'
+                          ).then((result) async {
+                            // Navigator.of(context).pushReplacement(
+                            //   FadeRoute(page: Welcome()),
+                            // );
+                          });
                         });
-                      });
 
-                      // SchedulerBinding.instance!.addPostFrameCallback((_) async {
-                      //   // FirebaseAuth.instance.signOut();
-                      //   // await setStoreId('');
-                      //   // Navigator.of(context).pushReplacement(
-                      //   //   FadeRoute(page: Welcome()),
-                      //   // );
-                      //   // setState(() {
-                      //   //
-                      //   // });
+                        // SchedulerBinding.instance!.addPostFrameCallback((_) async {
+                        //   // FirebaseAuth.instance.signOut();
+                        //   // await setStoreId('');
+                        //   // Navigator.of(context).pushReplacement(
+                        //   //   FadeRoute(page: Welcome()),
+                        //   // );
+                        //   // setState(() {
+                        //   //
+                        //   // });
+                        // });
+
+                      }
                       // });
 
-                    }
-                    // });
-
-                    // print('deviceidnum ' + await );
-                    // if(dataUser['device0'] != )
-                    var role = dataUser['role'];
-                    if(ayinHar != role) {
-                      if(role=='cashier') {
-                        currentTab = 3;
-                        _selectIndex = 1;
-                      } else if(role=='admin') {
-                        currentTab = 0;
-                        _selectIndex = 0;
+                      // print('deviceidnum ' + await );
+                      // if(dataUser['device0'] != )
+                      var role = dataUser['role'];
+                      if(ayinHar != role) {
+                        if(role=='cashier') {
+                          currentTab = 3;
+                          _selectIndex = 1;
+                        } else if(role=='admin') {
+                          currentTab = 0;
+                          _selectIndex = 0;
+                        }
                       }
-                    }
-                    ayinHar = role;
+                      ayinHar = role;
 
-                    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                        stream:  shopSnapshot,
-                        builder: (BuildContext context, snapshotShop) {
-                          if(snapshotShop.hasData) {
-                            var output = snapshotShop.data != null? snapshotShop.data!.data(): null;
-                            var shopName = output?['shop_name'];
-                            shopGloName = shopName;
-                            var shopAddress = output?['shop_address'];
-                            shopGloAddress = shopAddress;
-                            shopGloPhone = output?['shop_phone'];
-                            var isPro = output?['is_pro'];
-                            Timestamp isProStart = isPro['start'];
-                            Timestamp isProEnd = isPro['end'];
-                            print('isPro? ' + isProStart.toDate().toString());
-                            DateTime startDate = isProStart.toDate();
-                            DateTime endDate = isProEnd.toDate();
+                      return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                          stream:  shopSnapshot,
+                          builder: (BuildContext context, snapshotShop) {
+                            if(snapshotShop.hasData) {
+                              var output = snapshotShop.data != null? snapshotShop.data!.data(): null;
+                              var shopName = output?['shop_name'];
+                              shopGloName = shopName;
+                              var shopAddress = output?['shop_address'];
+                              shopGloAddress = shopAddress;
+                              shopGloPhone = output?['shop_phone'];
+                              var isPro = output?['is_pro'];
+                              Timestamp isProStart = isPro['start'];
+                              Timestamp isProEnd = isPro['end'];
+                              print('isPro? ' + isProStart.toDate().toString());
+                              DateTime startDate = isProStart.toDate();
+                              DateTime endDate = isProEnd.toDate();
 
-                            DateTime nowCheck = DateTime.now();
+                              DateTime nowCheck = DateTime.now();
 
-                            print('now: $nowCheck');
-                            print('startDate: $startDate');
-                            print('endDate: $endDate');
-                            print(startDate.isBefore(nowCheck));
-                            print(endDate.isAfter(nowCheck));
+                              print('now: $nowCheck');
+                              print('startDate: $startDate');
+                              print('endDate: $endDate');
+                              print(startDate.isBefore(nowCheck));
+                              print(endDate.isAfter(nowCheck));
 
-                            print('role ' + role.toString());
-                            if(firstTime == true) {
-                              // role=='cashier'
-                              print('first time');
-                              currentTab = 3;
-                              _selectIndex = 1;
-                              firstTime = false;
-                            } else if(!firstTime) {
-                              print('not first');
-                              if(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)) {
-                                settGlobalKey.currentState!.isProSet('pro');
-                              } else {
-                                settGlobalKey.currentState!.isProSet('free');
+                              print('role ' + role.toString());
+                              if(firstTime == true) {
+                                // role=='cashier'
+                                print('first time');
+                                currentTab = 3;
+                                _selectIndex = 1;
+                                firstTime = false;
+                              } else if(!firstTime) {
+                                print('not first');
+                                if(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)) {
+                                  settGlobalKey.currentState!.isProSet('pro');
+                                } else {
+                                  settGlobalKey.currentState!.isProSet('free');
+                                }
+
+                              }
+                              if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                Future.delayed(const Duration(milliseconds: 500), () {
+                                  isProFreePage();
+                                });
                               }
 
-                            }
-                            if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
-                              Future.delayed(const Duration(milliseconds: 500), () {
-                                isProFreePage();
-                              });
-                            }
-
-                            return Scaffold(
-                              // persistentFooterButtons: [
-                              //   Container(
-                              //       width: 200,
-                              //     height: 50,
-                              //     color: Colors.green,
-                              //   )
-                              // ],
-                              // appBar: AppBar(
-                              //   systemOverlayStyle: SystemUiOverlayStyle(
-                              //     statusBarBrightness: Brightness.light,
-                              //     statusBarIconBrightness: Brightness.light,
-                              //     systemNavigationBarIconBrightness: Brightness.light,
-                              //     systemNavigationBarColor: Colors.white, // Navigation bar
-                              //     statusBarColor: Colors.white, // Status bar
-                              //   ),
-                              // ),
-                              onEndDrawerChanged: (isOpened) {
-                                if(isOpened) {
-                                  print('opening 2');
+                              return Scaffold(
+                                // persistentFooterButtons: [
+                                //   Container(
+                                //       width: 200,
+                                //     height: 50,
+                                //     color: Colors.green,
+                                //   )
+                                // ],
+                                // appBar: AppBar(
+                                //   systemOverlayStyle: SystemUiOverlayStyle(
+                                //     statusBarBrightness: Brightness.light,
+                                //     statusBarIconBrightness: Brightness.light,
+                                //     systemNavigationBarIconBrightness: Brightness.light,
+                                //     systemNavigationBarColor: Colors.white, // Navigation bar
+                                //     statusBarColor: Colors.white, // Status bar
+                                //   ),
+                                // ),
+                                onEndDrawerChanged: (isOpened) {
+                                  if(isOpened) {
+                                    print('opening 2');
+                                    searchGlobalKey.currentState!.unfocusSearch();
+                                  }
+                                },
+                                onDrawerChanged: (isOpened) {
                                   searchGlobalKey.currentState!.unfocusSearch();
-                                }
-                              },
-                              onDrawerChanged: (isOpened) {
-                                searchGlobalKey.currentState!.unfocusSearch();
-                                if(isOpened) {
-                                  // print('opening ');
-                                  // searchGlobalKey.currentState!.unfocusSearch();
-                                  // homeGlobalKey.currentState!.unfocusSearch();
-                                  // prodGlobalKey.currentState!.unfocusSearch();
-                                  // custGlobalKey.currentState!.unfocusSearch();
-                                  // mercGlobalKey.currentState!.unfocusSearch();
-                                  // sordGlobalKey.currentState!.unfocusSearch();
-                                  // bordGlobalKey.currentState!.unfocusSearch();
-                                }
-                              },
-                              resizeToAvoidBottomInset: false,
-                              backgroundColor: Colors.white,
-                              key: _scaffoldKey,
-                              drawerEdgeDragWidth: drawerDrag? 0: 20,
-                              //drawerEdgeDragWidth: 0,
-                              drawer: new Drawer(
-                                child: Container(
-                                  color: Colors.white,
-                                  child: SafeArea(
-                                    top: true,
-                                    bottom: true,
-                                    child: Column(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              Container(
-                                                height: 81,
-                                                decoration: BoxDecoration(
-                                                    border: Border(
-                                                        bottom: BorderSide(
-                                                            color: Colors.grey.withOpacity(0.3),
-                                                            width: 1.0))),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () async {
-                                                      // Navigator.of(context).pop();
-                                                      // Navigator.of(context).pop();
-                                                    },
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 1,
-                                                        ),
-                                                        Text(
-                                                          shopName.toString(),overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                              height: 2, fontSize: 18, fontWeight: FontWeight.w500),
-                                                          strutStyle: StrutStyle(
-                                                            height: 2,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                  if(isOpened) {
+                                    // print('opening ');
+                                    // searchGlobalKey.currentState!.unfocusSearch();
+                                    // homeGlobalKey.currentState!.unfocusSearch();
+                                    // prodGlobalKey.currentState!.unfocusSearch();
+                                    // custGlobalKey.currentState!.unfocusSearch();
+                                    // mercGlobalKey.currentState!.unfocusSearch();
+                                    // sordGlobalKey.currentState!.unfocusSearch();
+                                    // bordGlobalKey.currentState!.unfocusSearch();
+                                  }
+                                },
+                                resizeToAvoidBottomInset: false,
+                                backgroundColor: Colors.white,
+                                key: _scaffoldKey,
+                                drawerEdgeDragWidth: drawerDrag? 0: 20,
+                                //drawerEdgeDragWidth: 0,
+                                drawer: new Drawer(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: SafeArea(
+                                      top: true,
+                                      bottom: true,
+                                      child: Column(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              children: [
+                                                Container(
+                                                  height: 81,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey.withOpacity(0.3),
+                                                              width: 1.0))),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                                                    child: GestureDetector(
+                                                      onTap: () async {
+                                                        // Navigator.of(context).pop();
+                                                        // Navigator.of(context).pop();
+                                                      },
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 1,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 0,
-                                                        ),
-                                                        Transform.translate(
-                                                          offset: Offset(0, -5),
-                                                          child: Text(
-                                                            shopAddress.toString(),overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(height: 2, fontSize: 14),
+                                                          Text(
+                                                            shopName.toString(),overflow: TextOverflow.ellipsis,
+                                                            style: TextStyle(
+                                                                height: 2, fontSize: 18, fontWeight: FontWeight.w500),
                                                             strutStyle: StrutStyle(
                                                               height: 2,
                                                               // fontSize:,
                                                               forceStrutHeight: true,
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 3,
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 0,
+                                                          ),
+                                                          Transform.translate(
+                                                            offset: Offset(0, -5),
+                                                            child: Text(
+                                                              shopAddress.toString(),overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(height: 2, fontSize: 14),
+                                                              strutStyle: StrutStyle(
+                                                                height: 2,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 3,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      // child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                      //     stream:  shopSnapshot,
+                                                      //     builder: (BuildContext context, snapshot) {
+                                                      //       if (snapshot.hasData) {
+                                                      //         var output = snapshot.data!.data();
+                                                      //         var shopName = output?['shop_name'];
+                                                      //         shopGloName = shopName;
+                                                      //         var shopAddress = output?['shop_address'];
+                                                      //         shopGloAddress = shopAddress;
+                                                      //         shopGloPhone = output?['shop_phone'];
+                                                      //         return Column(
+                                                      //           mainAxisAlignment: MainAxisAlignment.start,
+                                                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                                                      //           children: [
+                                                      //             SizedBox(
+                                                      //               height: 1,
+                                                      //             ),
+                                                      //             Text(
+                                                      //               shopName.toString(),overflow: TextOverflow.ellipsis,
+                                                      //               style: TextStyle(
+                                                      //                   height: 2, fontSize: 18, fontWeight: FontWeight.w500),
+                                                      //               strutStyle: StrutStyle(
+                                                      //                 height: 2,
+                                                      //                 // fontSize:,
+                                                      //                 forceStrutHeight: true,
+                                                      //               ),
+                                                      //             ),
+                                                      //             SizedBox(
+                                                      //               height: 0,
+                                                      //             ),
+                                                      //             Transform.translate(
+                                                      //               offset: Offset(0, -5),
+                                                      //               child: Text(
+                                                      //                 shopAddress.toString(),overflow: TextOverflow.ellipsis,
+                                                      //                 style: TextStyle(height: 2, fontSize: 14),
+                                                      //                 strutStyle: StrutStyle(
+                                                      //                   height: 2,
+                                                      //                   // fontSize:,
+                                                      //                   forceStrutHeight: true,
+                                                      //                 ),
+                                                      //               ),
+                                                      //             ),
+                                                      //             SizedBox(
+                                                      //               height: 3,
+                                                      //             ),
+                                                      //           ],
+                                                      //         );
+                                                      //       }
+                                                      //       return Container();
+                                                      //     }
+                                                      // ),
                                                     ),
-                                                    // child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                    //     stream:  shopSnapshot,
-                                                    //     builder: (BuildContext context, snapshot) {
-                                                    //       if (snapshot.hasData) {
-                                                    //         var output = snapshot.data!.data();
-                                                    //         var shopName = output?['shop_name'];
-                                                    //         shopGloName = shopName;
-                                                    //         var shopAddress = output?['shop_address'];
-                                                    //         shopGloAddress = shopAddress;
-                                                    //         shopGloPhone = output?['shop_phone'];
-                                                    //         return Column(
-                                                    //           mainAxisAlignment: MainAxisAlignment.start,
-                                                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                                                    //           children: [
-                                                    //             SizedBox(
-                                                    //               height: 1,
-                                                    //             ),
-                                                    //             Text(
-                                                    //               shopName.toString(),overflow: TextOverflow.ellipsis,
-                                                    //               style: TextStyle(
-                                                    //                   height: 2, fontSize: 18, fontWeight: FontWeight.w500),
-                                                    //               strutStyle: StrutStyle(
-                                                    //                 height: 2,
-                                                    //                 // fontSize:,
-                                                    //                 forceStrutHeight: true,
-                                                    //               ),
-                                                    //             ),
-                                                    //             SizedBox(
-                                                    //               height: 0,
-                                                    //             ),
-                                                    //             Transform.translate(
-                                                    //               offset: Offset(0, -5),
-                                                    //               child: Text(
-                                                    //                 shopAddress.toString(),overflow: TextOverflow.ellipsis,
-                                                    //                 style: TextStyle(height: 2, fontSize: 14),
-                                                    //                 strutStyle: StrutStyle(
-                                                    //                   height: 2,
-                                                    //                   // fontSize:,
-                                                    //                   forceStrutHeight: true,
-                                                    //                 ),
-                                                    //               ),
-                                                    //             ),
-                                                    //             SizedBox(
-                                                    //               height: 3,
-                                                    //             ),
-                                                    //           ],
-                                                    //         );
-                                                    //       }
-                                                    //       return Container();
-                                                    //     }
-                                                    // ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],),
-                                          Expanded(
-                                            child: ListView(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                                  // child: new Column(children: drawerOptions),
-                                                  child: Stack(
-                                                    children: [
-                                                      new Column(children: [
-                                                        if (role == 'admin' || role == 'owner')
+                                              ],),
+                                            Expanded(
+                                              child: ListView(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                                    // child: new Column(children: drawerOptions),
+                                                    child: Stack(
+                                                      children: [
+                                                        new Column(children: [
+                                                          if (role == 'admin' || role == 'owner')
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  _selectTab(0);
+                                                                  _selectIndex = 0;
+                                                                });
+                                                                closeByClick();
+                                                                if(globalSearching) {
+                                                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                                                    // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    settGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  });
+                                                                }
+                                                                _scaffoldKey.currentState!.openEndDrawer();
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                child: new Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(10.0),
+                                                                      color: _selectIndex == 0? AppTheme.secButtonColor: Colors.transparent),
+                                                                  height: 50,
+                                                                  width: double.infinity,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left: 18.0, right: 15.0, bottom: 2.0),
+                                                                        child: Icon(
+                                                                          // Icons.home_filled,
+                                                                          SmartKyat_POS.home,
+                                                                          size: 20,
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(bottom: 1.0),
+                                                                        child: Text(
+                                                                          'Home',
+                                                                          style: TextStyle(
+                                                                              fontSize: 17, fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
                                                           GestureDetector(
                                                             onTap: () {
+                                                              // homeGlobalKey.currentState!.closeSearch();
+                                                              // prodGlobalKey.currentState!.closeSearch();
+                                                              // custGlobalKey.currentState!.closeSearch();
+                                                              // mercGlobalKey.currentState!.closeSearch();
+                                                              // sordGlobalKey.currentState!.closeSearch();
+                                                              // bordGlobalKey.currentState!.closeSearch();
+
+                                                              // Future.delayed(const Duration(milliseconds: 500), () {
                                                               setState(() {
-                                                                _selectTab(0);
-                                                                _selectIndex = 0;
+                                                                _selectTab(3);
+                                                                _selectIndex = 1;
                                                               });
                                                               closeByClick();
+                                                              // });
+
                                                               if(globalSearching) {
                                                                 Future.delayed(const Duration(milliseconds: 500), () {
                                                                   // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1972,30 +2055,30 @@ class HomePageState extends State<HomePage>
                                                                 });
                                                               }
                                                               _scaffoldKey.currentState!.openEndDrawer();
+
                                                             },
                                                             child: Padding(
                                                               padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                                               child: new Container(
                                                                 decoration: BoxDecoration(
                                                                     borderRadius: BorderRadius.circular(10.0),
-                                                                    color: _selectIndex == 0? AppTheme.secButtonColor: Colors.transparent),
+                                                                    color: _selectIndex == 1? AppTheme.secButtonColor: Colors.transparent),
                                                                 height: 50,
                                                                 width: double.infinity,
                                                                 child: Row(
                                                                   children: [
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(
-                                                                          left: 18.0, right: 15.0, bottom: 2.0),
+                                                                          left: 18.0, right: 15.0, bottom: 1),
                                                                       child: Icon(
-                                                                        // Icons.home_filled,
-                                                                        SmartKyat_POS.home,
-                                                                        size: 20,
+                                                                        SmartKyat_POS.product,
+                                                                        size: 21,
                                                                       ),
                                                                     ),
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Home',
+                                                                        'Products',
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                       ),
@@ -2005,153 +2088,42 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                           ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            // homeGlobalKey.currentState!.closeSearch();
-                                                            // prodGlobalKey.currentState!.closeSearch();
-                                                            // custGlobalKey.currentState!.closeSearch();
-                                                            // mercGlobalKey.currentState!.closeSearch();
-                                                            // sordGlobalKey.currentState!.closeSearch();
-                                                            // bordGlobalKey.currentState!.closeSearch();
-
-                                                            // Future.delayed(const Duration(milliseconds: 500), () {
-                                                            setState(() {
-                                                              _selectTab(3);
-                                                              _selectIndex = 1;
-                                                            });
-                                                            closeByClick();
-                                                            // });
-
-                                                            if(globalSearching) {
-                                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                                sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                custGlobalKey.currentState!.changeSearchOpening(false);
-                                                                mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                                settGlobalKey.currentState!.changeSearchOpening(false);
-                                                              });
-                                                            }
-                                                            _scaffoldKey.currentState!.openEndDrawer();
-
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                            child: new Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: _selectIndex == 1? AppTheme.secButtonColor: Colors.transparent),
-                                                              height: 50,
-                                                              width: double.infinity,
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        left: 18.0, right: 15.0, bottom: 1),
-                                                                    child: Icon(
-                                                                      SmartKyat_POS.product,
-                                                                      size: 21,
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                                                    child: Text(
-                                                                      'Products',
-                                                                      style: TextStyle(
-                                                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                            child: new Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: Colors.transparent),
-                                                              height: 50,
-                                                              width: double.infinity,
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        left: 18.0, right: 14.0, bottom: 2),
-                                                                    child: Icon(
-                                                                      SmartKyat_POS.order,
-                                                                      size: 23,
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    'Orders',
-                                                                    style: TextStyle(
-                                                                        fontSize: 17, fontWeight: FontWeight.w500),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              _selectTab(1);
-                                                              _selectIndex = 2;
-                                                            });
-                                                            closeByClick();
-                                                            if(globalSearching) {
-                                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                                sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                custGlobalKey.currentState!.changeSearchOpening(false);
-                                                                mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                                settGlobalKey.currentState!.changeSearchOpening(false);
-                                                              });
-                                                            }
-                                                            _scaffoldKey.currentState!.openEndDrawer();
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 58.0, right: 15.0),
-                                                            child: new Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: _selectIndex == 2? AppTheme.secButtonColor: Colors.transparent),
-                                                              height: 50,
-                                                              width: double.infinity,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 13.0),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                            },
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                              child: new Container(
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: Colors.transparent),
+                                                                height: 50,
+                                                                width: double.infinity,
                                                                 child: Row(
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 1.0),
-                                                                      child: Text(
-                                                                        'Sale orders',
-                                                                        style: TextStyle(
-                                                                            fontSize: 17, fontWeight: FontWeight.w500),
+                                                                      padding: const EdgeInsets.only(
+                                                                          left: 18.0, right: 14.0, bottom: 2),
+                                                                      child: Icon(
+                                                                        SmartKyat_POS.order,
+                                                                        size: 23,
                                                                       ),
+                                                                    ),
+                                                                    Text(
+                                                                      'Orders',
+                                                                      style: TextStyle(
+                                                                          fontSize: 17, fontWeight: FontWeight.w500),
                                                                     ),
                                                                   ],
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        if (role == 'admin' || role == 'owner')
                                                           GestureDetector(
                                                             onTap: () {
                                                               setState(() {
-                                                                _selectTab(7);
-                                                                _selectIndex = 3;
+                                                                _selectTab(1);
+                                                                _selectIndex = 2;
                                                               });
                                                               closeByClick();
                                                               if(globalSearching) {
@@ -2173,7 +2145,7 @@ class HomePageState extends State<HomePage>
                                                               child: new Container(
                                                                 decoration: BoxDecoration(
                                                                     borderRadius: BorderRadius.circular(10.0),
-                                                                    color: _selectIndex == 3? AppTheme.secButtonColor: Colors.transparent),
+                                                                    color: _selectIndex == 2? AppTheme.secButtonColor: Colors.transparent),
                                                                 height: 50,
                                                                 width: double.infinity,
                                                                 child: Padding(
@@ -2183,7 +2155,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Buy orders',
+                                                                          'Sale orders',
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                         ),
@@ -2194,98 +2166,59 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                           ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              _selectTab(2);
-                                                              _selectIndex = 4;
-                                                            });
-                                                            closeByClick();
-                                                            if(globalSearching) {
-                                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                                sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                custGlobalKey.currentState!.changeSearchOpening(false);
-                                                                mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                                settGlobalKey.currentState!.changeSearchOpening(false);
-                                                              });
-                                                            }
-                                                            _scaffoldKey.currentState!.openEndDrawer();
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                            child: new Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: _selectIndex == 4? AppTheme.secButtonColor: Colors.transparent),
-                                                              height: 50,
-                                                              width: double.infinity,
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        left: 18.0, right: 15.0, bottom: 1.0),
-                                                                    child: Stack(
+                                                          if (role == 'admin' || role == 'owner')
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  _selectTab(7);
+                                                                  _selectIndex = 3;
+                                                                });
+                                                                closeByClick();
+                                                                if(globalSearching) {
+                                                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                                                    // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    settGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  });
+                                                                }
+                                                                _scaffoldKey.currentState!.openEndDrawer();
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left: 58.0, right: 15.0),
+                                                                child: new Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(10.0),
+                                                                      color: _selectIndex == 3? AppTheme.secButtonColor: Colors.transparent),
+                                                                  height: 50,
+                                                                  width: double.infinity,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(left: 13.0),
+                                                                    child: Row(
                                                                       children: [
                                                                         Padding(
-                                                                          padding: const EdgeInsets.only(top: 7.0),
-                                                                          child: Icon(
-                                                                            SmartKyat_POS.customer1,
-                                                                            size: 17.5,
+                                                                          padding: const EdgeInsets.only(bottom: 1.0),
+                                                                          child: Text(
+                                                                            'Buy orders',
+                                                                            style: TextStyle(
+                                                                                fontSize: 17, fontWeight: FontWeight.w500),
                                                                           ),
                                                                         ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 14.0, top: 11.0),
-                                                                          child: Icon(
-                                                                            SmartKyat_POS.customer2,
-                                                                            size: 9,
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 5.0, top: 5),
-                                                                          child: Container(
-                                                                            width: 8,
-                                                                            height: 7.5,
-                                                                            decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 14.5, top: 7.5),
-                                                                          child: Container(
-                                                                            width: 5,
-                                                                            height: 4.5,
-                                                                            decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                        )
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                                                    child: Text(
-                                                                      'Customers',
-                                                                      style: TextStyle(
-                                                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        if (role == 'admin' || role == 'owner')
                                                           GestureDetector(
                                                             onTap: () {
                                                               setState(() {
-                                                                _selectTab(4);
-                                                                _selectIndex = 5;
+                                                                _selectTab(2);
+                                                                _selectIndex = 4;
                                                               });
                                                               closeByClick();
                                                               if(globalSearching) {
@@ -2307,23 +2240,57 @@ class HomePageState extends State<HomePage>
                                                               child: new Container(
                                                                 decoration: BoxDecoration(
                                                                     borderRadius: BorderRadius.circular(10.0),
-                                                                    color: _selectIndex == 5? AppTheme.secButtonColor: Colors.transparent),
+                                                                    color: _selectIndex == 4? AppTheme.secButtonColor: Colors.transparent),
                                                                 height: 50,
                                                                 width: double.infinity,
                                                                 child: Row(
                                                                   children: [
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(
-                                                                          left: 20.0, right: 16.0),
-                                                                      child: Icon(
-                                                                        SmartKyat_POS.merchant,
-                                                                        size: 20,
+                                                                          left: 18.0, right: 15.0, bottom: 1.0),
+                                                                      child: Stack(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(top: 7.0),
+                                                                            child: Icon(
+                                                                              SmartKyat_POS.customer1,
+                                                                              size: 17.5,
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                                                                            child: Icon(
+                                                                              SmartKyat_POS.customer2,
+                                                                              size: 9,
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, top: 5),
+                                                                            child: Container(
+                                                                              width: 8,
+                                                                              height: 7.5,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                                  color: Colors.black),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                                                                            child: Container(
+                                                                              width: 5,
+                                                                              height: 4.5,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                                  color: Colors.black),
+                                                                            ),
+                                                                          )
+                                                                        ],
                                                                       ),
                                                                     ),
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Merchants',
+                                                                        'Customers',
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                       ),
@@ -2333,840 +2300,995 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                           ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              _selectTab(6);
-                                                              _selectIndex = 6;
-                                                            });
-                                                            closeByClick();
-                                                            if(globalSearching) {
-                                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                homeGlobalKey.currentState!.changeSearchOpening(false);
-                                                                prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                                sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                                custGlobalKey.currentState!.changeSearchOpening(false);
-                                                                mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                                settGlobalKey.currentState!.changeSearchOpening(false);
+                                                          if (role == 'admin' || role == 'owner')
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  _selectTab(4);
+                                                                  _selectIndex = 5;
+                                                                });
+                                                                closeByClick();
+                                                                if(globalSearching) {
+                                                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                                                    // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                                    settGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  });
+                                                                }
+                                                                _scaffoldKey.currentState!.openEndDrawer();
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                child: new Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(10.0),
+                                                                      color: _selectIndex == 5? AppTheme.secButtonColor: Colors.transparent),
+                                                                  height: 50,
+                                                                  width: double.infinity,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left: 20.0, right: 16.0),
+                                                                        child: Icon(
+                                                                          SmartKyat_POS.merchant,
+                                                                          size: 20,
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(bottom: 1.0),
+                                                                        child: Text(
+                                                                          'Merchants',
+                                                                          style: TextStyle(
+                                                                              fontSize: 17, fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                _selectTab(6);
+                                                                _selectIndex = 6;
                                                               });
-                                                            }
-                                                            _scaffoldKey.currentState!.openEndDrawer();
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                            child: new Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: _selectIndex == 6? AppTheme.secButtonColor: Colors.transparent),
-                                                              height: 50,
-                                                              width: double.infinity,
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        left: 20.0, right: 15.0, top: 0.0),
-                                                                    child: Icon(
-                                                                      SmartKyat_POS.setting,
-                                                                      size: 22,
+                                                              closeByClick();
+                                                              if(globalSearching) {
+                                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                                  // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  custGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                                  settGlobalKey.currentState!.changeSearchOpening(false);
+                                                                });
+                                                              }
+                                                              _scaffoldKey.currentState!.openEndDrawer();
+                                                            },
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                              child: new Container(
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: _selectIndex == 6? AppTheme.secButtonColor: Colors.transparent),
+                                                                height: 50,
+                                                                width: double.infinity,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(
+                                                                          left: 20.0, right: 15.0, top: 0.0),
+                                                                      child: Icon(
+                                                                        SmartKyat_POS.setting,
+                                                                        size: 22,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                                                    child: Text(
-                                                                      'Settings',
-                                                                      style: TextStyle(
-                                                                          fontSize: 17, fontWeight: FontWeight.w500),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 1.0),
+                                                                      child: Text(
+                                                                        'Settings',
+                                                                        style: TextStyle(
+                                                                            fontSize: 17, fontWeight: FontWeight.w500),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
+                                                        ]),
+                                                        (role == 'admin' || role == 'owner') ? Padding(
+                                                          padding: const EdgeInsets.only(left: 10.0, top: 150.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.merge_arrow,
+                                                            size: 80,
+                                                            color: Colors.grey.withOpacity(0.3),
+                                                          ),
+                                                        ): Padding(
+                                                          padding: const EdgeInsets.only(left: 10.0, top: 100.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.merge_arrow2,
+                                                            size: 80,
+                                                            color: Colors.grey.withOpacity(0.3),
+                                                          ),
                                                         ),
-                                                      ]),
-                                                      (role == 'admin' || role == 'owner') ? Padding(
-                                                        padding: const EdgeInsets.only(left: 10.0, top: 150.0),
-                                                        child: Icon(
-                                                          SmartKyat_POS.merge_arrow,
-                                                          size: 80,
-                                                          color: Colors.grey.withOpacity(0.3),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  height: 61,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          top: BorderSide(
+                                                              color: Colors.grey.withOpacity(0.3),
+                                                              width: 1.0))),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 15.0, right: 15, top: 15, bottom: 15),
+                                                    child: Row(
+                                                      children: [
+                                                        StreamBuilder(
+                                                            stream: userSnapshot,
+                                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                              if(snapshot.hasData) {
+                                                                return Expanded(
+                                                                  child: GestureDetector(
+                                                                    onTap: () {
+                                                                      print('go to cart 4');
+                                                                    },
+                                                                    child: ListView(
+                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                                                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                                        return  Container(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0),
+                                                                            child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
+                                                                                fontSize: 17,
+                                                                                fontWeight: FontWeight.w500
+                                                                            ),),
+                                                                          ),
+                                                                        );
+                                                                      }).toList(),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                              return Container();
+                                                            }
                                                         ),
-                                                      ): Padding(
-                                                        padding: const EdgeInsets.only(left: 10.0, top: 100.0),
-                                                        child: Icon(
-                                                          SmartKyat_POS.merge_arrow2,
-                                                          size: 80,
-                                                          color: Colors.grey.withOpacity(0.3),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                        ButtonTheme(
+                                                          minWidth: 35,
+                                                          splashColor: Colors.transparent,
+                                                          height: 35,
+                                                          child: FlatButton(
+                                                            color: AppTheme.buttonColor2,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                              BorderRadius.circular(8.0),
+                                                              side: BorderSide(
+                                                                color: AppTheme.buttonColor2,
+                                                              ),
+                                                            ),
+                                                            onPressed: () async {
+                                                              final result =
+                                                              Platform.isIOS ?
+                                                              await showModalActionSheet<String>(
+                                                                context: context,
+                                                                //title: 'Confirmation alert',
+                                                                title: 'Are you sure you want to log out?',
+                                                                actions: [
+                                                                  SheetAction(
+                                                                    label: 'Logout',
+                                                                    key: 'logout',
+                                                                    isDestructiveAction: true,
+                                                                  ),
+                                                                ],
+                                                              ) : await showModalActionSheet<String>(
+                                                                context: context,
+                                                                // title: 'Confirmation alert',
+                                                                title: 'Are you sure you want to log out?',
+                                                                actions: [
+                                                                  SheetAction(
+                                                                    label: 'Logout',
+                                                                    key: 'logout',
+                                                                    isDestructiveAction: true,
+                                                                  ),
+                                                                ],
+                                                              );
+                                                              print('clicked log ' + result.toString());
+                                                              if(result.toString() == 'logout') {
+                                                                _selectTab(0);
+                                                                await FirebaseAuth.instance.signOut();
+                                                                setStoreId('');
+                                                                Navigator.of(context).pushReplacement(
+                                                                  FadeRoute(page: Welcome()),
+                                                                );
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              child: Text(
+                                                                'Logout',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w500
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                height: 61,
-                                                decoration: BoxDecoration(
-                                                    border: Border(
-                                                        top: BorderSide(
-                                                            color: Colors.grey.withOpacity(0.3),
-                                                            width: 1.0))),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15.0, right: 15, top: 15, bottom: 15),
-                                                  child: Row(
-                                                    children: [
-                                                      StreamBuilder(
-                                                          stream: userSnapshot,
-                                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                                            if(snapshot.hasData) {
-                                                              return Expanded(
-                                                                child: GestureDetector(
-                                                                  onTap: () {
-                                                                    print('go to cart 4');
-                                                                  },
-                                                                  child: ListView(
-                                                                    physics: NeverScrollableScrollPhysics(),
-                                                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                                                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                                      return  Container(
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 3.0),
-                                                                          child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
-                                                                              fontSize: 17,
-                                                                              fontWeight: FontWeight.w500
-                                                                          ),),
-                                                                        ),
-                                                                      );
-                                                                    }).toList(),
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container();
-                                                          }
-                                                      ),
-                                                      ButtonTheme(
-                                                        minWidth: 35,
-                                                        splashColor: Colors.transparent,
-                                                        height: 35,
-                                                        child: FlatButton(
-                                                          color: AppTheme.buttonColor2,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                            BorderRadius.circular(8.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.buttonColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () async {
-                                                            final result =
-                                                            Platform.isIOS ?
-                                                            await showModalActionSheet<String>(
-                                                              context: context,
-                                                              //title: 'Confirmation alert',
-                                                              message: 'Are you sure you want to log out?',
-                                                              actions: [
-                                                                SheetAction(
-                                                                  label: 'Logout',
-                                                                  key: 'logout',
-                                                                  isDestructiveAction: true,
-                                                                ),
-                                                              ],
-                                                            ) : await showModalActionSheet<String>(
-                                                              context: context,
-                                                              title: 'Confirmation alert',
-                                                              message: 'Are you sure you want to log out?',
-                                                              actions: [
-                                                                SheetAction(
-                                                                  label: 'Logout',
-                                                                  key: 'logout',
-                                                                  isDestructiveAction: true,
-                                                                ),
-                                                              ],
-                                                            );
-                                                            print('clicked log ' + result.toString());
-                                                            if(result.toString() == 'logout') {
-                                                              _selectTab(0);
-                                                              await FirebaseAuth.instance.signOut();
-                                                              setStoreId('');
-                                                              Navigator.of(context).pushReplacement(
-                                                                FadeRoute(page: Welcome()),
-                                                              );
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              'Logout',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
+                                          ]),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              // extendBody: true,
-                              // bottomNavigationBar: Container(
-                              //   color: Colors.transparent,
-                              //   child: Padding(
-                              //     padding: EdgeInsets.only(
-                              //       bottom: homeBotPadding,
-                              //       // bottom: MediaQuery.of(context).viewInsets.bottom
-                              //     ),
-                              //     child: Stack(
-                              //       children: [
-                              //         if (MediaQuery.of(context).size.width > 900) Container() else Padding(
-                              //           padding: EdgeInsets.only(bottom: 100.0),
-                              //           child: Container(
-                              //             decoration: BoxDecoration(
-                              //                 color: Colors.white,
-                              //                 border: Border(
-                              //                   top: BorderSide(
-                              //                       color: AppTheme.skBorderColor2,
-                              //                       width: 1.0),
-                              //                 )
-                              //             ),
-                              //             child: Padding(
-                              //               padding:
-                              //               const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                              //               child: Container(
-                              //                 height: 50,
-                              //                 child: GestureDetector(
-                              //                   onTap: () {
-                              //                     saleCart(context);
-                              //                   },
-                              //                   child: (prodList.length == 0) ?
-                              //                   Container(
-                              //                     decoration: BoxDecoration(
-                              //                       borderRadius: BorderRadius.circular(10.0),
-                              //                       color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                              //                       // color: Colors.blue
-                              //                     ),
-                              //
-                              //                     child: Padding(
-                              //                       padding: const EdgeInsets.only(
-                              //                           top: 13.0, bottom: 15.0),
-                              //                       child: Row(
-                              //                         mainAxisAlignment:
-                              //                         MainAxisAlignment.center,
-                              //                         children: [
-                              //                           Expanded(
-                              //                             child: Padding(
-                              //                               padding: const EdgeInsets.only(
-                              //                                   left: 8.0,
-                              //                                   right: 8.0,
-                              //                                   bottom: 2.0),
-                              //                               child: Container(
-                              //                                 child: Text(
-                              //                                   'Go to cart',
-                              //                                   textAlign: TextAlign.center,
-                              //                                   style: TextStyle(
-                              //                                       fontSize: 18,
-                              //                                       fontWeight: FontWeight.w500,
-                              //                                       color: Colors.black),
-                              //                                 ),
-                              //                               ),
-                              //                             ),
-                              //                           ),
-                              //                         ],
-                              //                       ),
-                              //                     ),
-                              //                   ) :
-                              //                   Container(
-                              //                     decoration: BoxDecoration(
-                              //                       borderRadius: BorderRadius.circular(10.0),
-                              //                       color: AppTheme.themeColor,
-                              //                       // color: Colors.blue
-                              //                     ),
-                              //
-                              //                     child: Padding(
-                              //                       padding: const EdgeInsets.only(
-                              //                           top: 13.0, bottom: 15.0),
-                              //                       child: Row(
-                              //                         mainAxisAlignment:
-                              //                         MainAxisAlignment.center,
-                              //                         children: [
-                              //                           Expanded(
-                              //                             child: Padding(
-                              //                               padding: const EdgeInsets.only(
-                              //                                   left: 8.0,
-                              //                                   right: 8.0,
-                              //                                   bottom: 2.0),
-                              //                               child: double.parse(totalItems()) == 1? Container(
-                              //                                 child:
-                              //                                 Text(
-                              //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                              //                                   textAlign: TextAlign.center,
-                              //                                   style: TextStyle(
-                              //                                       fontSize: 18,
-                              //                                       fontWeight: FontWeight.w500,
-                              //                                       color: Colors.black),
-                              //                                 ),
-                              //                               ) : Container(
-                              //                                 child:
-                              //                                 Text(
-                              //                                   totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                              //                                   textAlign: TextAlign.center,
-                              //                                   style: TextStyle(
-                              //                                       fontSize: 18,
-                              //                                       fontWeight: FontWeight.w500,
-                              //                                       color: Colors.black),
-                              //                                 ),
-                              //                               ),
-                              //                             ),
-                              //                           ),
-                              //                         ],
-                              //                       ),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         Align(
-                              //           alignment: Alignment.bottomCenter,
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.only(top: 0.0),
-                              //             child: Container(
-                              //               height: 57,
-                              //               decoration: BoxDecoration(
-                              //                   color: Colors.white,
-                              //                   border: Border(
-                              //                     top: BorderSide(
-                              //                         color: AppTheme.skBorderColor2, width: 1.0),
-                              //                   )),
-                              //               child: Padding(
-                              //                 padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                              //                 child: Row(
-                              //                   mainAxisAlignment: MainAxisAlignment.center,
-                              //                   children: [
-                              //                     Padding(
-                              //                       padding: const EdgeInsets.only(
-                              //                           left: 15.0,top:0.0
-                              //                       ),
-                              //                       child: GestureDetector(
-                              //                         onTap: () {
-                              //                           _scaffoldKey.currentState!.openDrawer();
-                              //                         },
-                              //                         child: selectedTab(
-                              //
-                              //                         ),
-                              //                       ),
-                              //                     ),
-                              //                     Expanded(
-                              //                       child: Container(
-                              //                           child: Text(
-                              //                             '',
-                              //                             textAlign: TextAlign.center,
-                              //                             style: TextStyle(
-                              //                                 fontSize: 16.5,
-                              //                                 fontWeight: FontWeight.w600,
-                              //                                 color: Colors.black.withOpacity(0.6)),
-                              //                           )),
-                              //                     ),
-                              //                     GestureDetector(
-                              //                       onTap: () async {
-                              //                         // // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
-                              //                         // DateTime _myTime;
-                              //                         // DateTime _ntpTime;
-                              //                         //
-                              //                         // /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
-                              //                         // _myTime = await NTP.now();
-                              //                         //
-                              //                         // /// Or get NTP offset (in milliseconds) and add it yourself
-                              //                         // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
-                              //                         // _ntpTime = _myTime.add(Duration(milliseconds: offset));
-                              //                         //
-                              //                         // print('Date time: ' + DateTime.now().toString());
-                              //                         // print('My time: $_myTime');
-                              //                         // print('NTP time: $_ntpTime');
-                              //                         // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
-                              //                         Navigator.of(context).push(
-                              //                             FadeRoute(page: FirstLaunchPage(),)
-                              //                         );
-                              //                       },
-                              //                       child: Row(
-                              //                         children: [
-                              //                           Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'pro': 'free'),
-                              //                           Padding(
-                              //                             padding: const EdgeInsets.only(
-                              //                                 right: 13.0,top:2.0
-                              //                             ),
-                              //                             child: Container(
-                              //                                 child: Image.asset('assets/system/menu.png', height: 33,)
-                              //                             ),
-                              //                           ),
-                              //                         ],
-                              //                       ),
-                              //                     )
-                              //                   ],
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-                              body: StreamBuilder(
-                                  stream: shopFoundSnapshot,
-                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                    if(snapshot.hasData) {
-                                      List<bool> shopFound = [];
-                                      getStoreId().then((value) async {
-                                        if(snapshot.data!.docs.length == 0) {
-                                          await FirebaseAuth.instance.signOut();
-                                          setStoreId('');
-                                          // Navigator.pop(context);
-                                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                                          // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                                          Navigator.of(context).pushReplacement(
-                                            FadeRoute(page: Welcome()),
-                                          );
-                                        }
-                                      });
-
-                                      for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
-                                        Map<String, dynamic> data = snapshot.data!.docs[loop]
-                                            .data()! as Map<String, dynamic>;
-                                        var shop_name = data['shop_name'];
+                                // extendBody: true,
+                                // bottomNavigationBar: Container(
+                                //   color: Colors.transparent,
+                                //   child: Padding(
+                                //     padding: EdgeInsets.only(
+                                //       bottom: homeBotPadding,
+                                //       // bottom: MediaQuery.of(context).viewInsets.bottom
+                                //     ),
+                                //     child: Stack(
+                                //       children: [
+                                //         if (MediaQuery.of(context).size.width > 900) Container() else Padding(
+                                //           padding: EdgeInsets.only(bottom: 100.0),
+                                //           child: Container(
+                                //             decoration: BoxDecoration(
+                                //                 color: Colors.white,
+                                //                 border: Border(
+                                //                   top: BorderSide(
+                                //                       color: AppTheme.skBorderColor2,
+                                //                       width: 1.0),
+                                //                 )
+                                //             ),
+                                //             child: Padding(
+                                //               padding:
+                                //               const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                                //               child: Container(
+                                //                 height: 50,
+                                //                 child: GestureDetector(
+                                //                   onTap: () {
+                                //                     saleCart(context);
+                                //                   },
+                                //                   child: (prodList.length == 0) ?
+                                //                   Container(
+                                //                     decoration: BoxDecoration(
+                                //                       borderRadius: BorderRadius.circular(10.0),
+                                //                       color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                //                       // color: Colors.blue
+                                //                     ),
+                                //
+                                //                     child: Padding(
+                                //                       padding: const EdgeInsets.only(
+                                //                           top: 13.0, bottom: 15.0),
+                                //                       child: Row(
+                                //                         mainAxisAlignment:
+                                //                         MainAxisAlignment.center,
+                                //                         children: [
+                                //                           Expanded(
+                                //                             child: Padding(
+                                //                               padding: const EdgeInsets.only(
+                                //                                   left: 8.0,
+                                //                                   right: 8.0,
+                                //                                   bottom: 2.0),
+                                //                               child: Container(
+                                //                                 child: Text(
+                                //                                   'Go to cart',
+                                //                                   textAlign: TextAlign.center,
+                                //                                   style: TextStyle(
+                                //                                       fontSize: 18,
+                                //                                       fontWeight: FontWeight.w500,
+                                //                                       color: Colors.black),
+                                //                                 ),
+                                //                               ),
+                                //                             ),
+                                //                           ),
+                                //                         ],
+                                //                       ),
+                                //                     ),
+                                //                   ) :
+                                //                   Container(
+                                //                     decoration: BoxDecoration(
+                                //                       borderRadius: BorderRadius.circular(10.0),
+                                //                       color: AppTheme.themeColor,
+                                //                       // color: Colors.blue
+                                //                     ),
+                                //
+                                //                     child: Padding(
+                                //                       padding: const EdgeInsets.only(
+                                //                           top: 13.0, bottom: 15.0),
+                                //                       child: Row(
+                                //                         mainAxisAlignment:
+                                //                         MainAxisAlignment.center,
+                                //                         children: [
+                                //                           Expanded(
+                                //                             child: Padding(
+                                //                               padding: const EdgeInsets.only(
+                                //                                   left: 8.0,
+                                //                                   right: 8.0,
+                                //                                   bottom: 2.0),
+                                //                               child: double.parse(totalItems()) == 1? Container(
+                                //                                 child:
+                                //                                 Text(
+                                //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
+                                //                                   textAlign: TextAlign.center,
+                                //                                   style: TextStyle(
+                                //                                       fontSize: 18,
+                                //                                       fontWeight: FontWeight.w500,
+                                //                                       color: Colors.black),
+                                //                                 ),
+                                //                               ) : Container(
+                                //                                 child:
+                                //                                 Text(
+                                //                                   totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
+                                //                                   textAlign: TextAlign.center,
+                                //                                   style: TextStyle(
+                                //                                       fontSize: 18,
+                                //                                       fontWeight: FontWeight.w500,
+                                //                                       color: Colors.black),
+                                //                                 ),
+                                //                               ),
+                                //                             ),
+                                //                           ),
+                                //                         ],
+                                //                       ),
+                                //                     ),
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //         Align(
+                                //           alignment: Alignment.bottomCenter,
+                                //           child: Padding(
+                                //             padding: const EdgeInsets.only(top: 0.0),
+                                //             child: Container(
+                                //               height: 57,
+                                //               decoration: BoxDecoration(
+                                //                   color: Colors.white,
+                                //                   border: Border(
+                                //                     top: BorderSide(
+                                //                         color: AppTheme.skBorderColor2, width: 1.0),
+                                //                   )),
+                                //               child: Padding(
+                                //                 padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                //                 child: Row(
+                                //                   mainAxisAlignment: MainAxisAlignment.center,
+                                //                   children: [
+                                //                     Padding(
+                                //                       padding: const EdgeInsets.only(
+                                //                           left: 15.0,top:0.0
+                                //                       ),
+                                //                       child: GestureDetector(
+                                //                         onTap: () {
+                                //                           _scaffoldKey.currentState!.openDrawer();
+                                //                         },
+                                //                         child: selectedTab(
+                                //
+                                //                         ),
+                                //                       ),
+                                //                     ),
+                                //                     Expanded(
+                                //                       child: Container(
+                                //                           child: Text(
+                                //                             '',
+                                //                             textAlign: TextAlign.center,
+                                //                             style: TextStyle(
+                                //                                 fontSize: 16.5,
+                                //                                 fontWeight: FontWeight.w600,
+                                //                                 color: Colors.black.withOpacity(0.6)),
+                                //                           )),
+                                //                     ),
+                                //                     GestureDetector(
+                                //                       onTap: () async {
+                                //                         // // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
+                                //                         // DateTime _myTime;
+                                //                         // DateTime _ntpTime;
+                                //                         //
+                                //                         // /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
+                                //                         // _myTime = await NTP.now();
+                                //                         //
+                                //                         // /// Or get NTP offset (in milliseconds) and add it yourself
+                                //                         // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
+                                //                         // _ntpTime = _myTime.add(Duration(milliseconds: offset));
+                                //                         //
+                                //                         // print('Date time: ' + DateTime.now().toString());
+                                //                         // print('My time: $_myTime');
+                                //                         // print('NTP time: $_ntpTime');
+                                //                         // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
+                                //                         Navigator.of(context).push(
+                                //                             FadeRoute(page: FirstLaunchPage(),)
+                                //                         );
+                                //                       },
+                                //                       child: Row(
+                                //                         children: [
+                                //                           Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'pro': 'free'),
+                                //                           Padding(
+                                //                             padding: const EdgeInsets.only(
+                                //                                 right: 13.0,top:2.0
+                                //                             ),
+                                //                             child: Container(
+                                //                                 child: Image.asset('assets/system/menu.png', height: 33,)
+                                //                             ),
+                                //                           ),
+                                //                         ],
+                                //                       ),
+                                //                     )
+                                //                   ],
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                body: StreamBuilder(
+                                    stream: shopFoundSnapshot,
+                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if(snapshot.hasData) {
+                                        List<bool> shopFound = [];
                                         getStoreId().then((value) async {
-                                          if(snapshot.data!.docs[loop].id == value) {
-                                            shopFound.add(true);
-                                          } else {
-                                            shopFound.add(false);
-                                          }
-                                          if(loop == snapshot.data!.docs.length-1) {
-                                            for(int i = 0; i < shopFound.length; i++) {
-                                              if(shopFound[i]) {
-                                                break;
-                                              } else {
-                                                if(i == shopFound.length-1) {
-                                                  await FirebaseAuth.instance.signOut();
-                                                  setStoreId('');
-                                                  // Navigator.pop(context);
-                                                  // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                                                  // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                                                  Navigator.of(context).pushReplacement(
-                                                    FadeRoute(page: Welcome()),
-                                                  );
-                                                }
-                                              }
-                                            }
+                                          if(snapshot.data!.docs.length == 0) {
+                                            await FirebaseAuth.instance.signOut();
+                                            setStoreId('');
+                                            // Navigator.pop(context);
+                                            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                                            // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                                            Navigator.of(context).pushReplacement(
+                                              FadeRoute(page: Welcome()),
+                                            );
                                           }
                                         });
 
-                                      }
-
-                                    }
-                                    return Stack(
-                                      children: [
-                                        WillPopScope(
-                                          onWillPop: () async {
-                                            final isFirstRouteInCurrentTab = !await tabs[currentTab].key.currentState!.maybePop();
-                                            if (isFirstRouteInCurrentTab) {
-                                              // if not on the 'main' tab
-                                              if (currentTab != 0) {
-                                                // select 'main' tab
-                                                // _selectTab(0);
-                                                // back button handled by app
-                                                return false;
+                                        for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
+                                          Map<String, dynamic> data = snapshot.data!.docs[loop]
+                                              .data()! as Map<String, dynamic>;
+                                          var shop_name = data['shop_name'];
+                                          getStoreId().then((value) async {
+                                            if(snapshot.data!.docs[loop].id == value) {
+                                              shopFound.add(true);
+                                            } else {
+                                              shopFound.add(false);
+                                            }
+                                            if(loop == snapshot.data!.docs.length-1) {
+                                              for(int i = 0; i < shopFound.length; i++) {
+                                                if(shopFound[i]) {
+                                                  break;
+                                                } else {
+                                                  if(i == shopFound.length-1) {
+                                                    await FirebaseAuth.instance.signOut();
+                                                    setStoreId('');
+                                                    // Navigator.pop(context);
+                                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                                                    // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                                                    Navigator.of(context).pushReplacement(
+                                                      FadeRoute(page: Welcome()),
+                                                    );
+                                                  }
+                                                }
                                               }
                                             }
-                                            // let system handle back button if we're on the first route
-                                            return isFirstRouteInCurrentTab;
-                                          },
+                                          });
 
-                                          // onWillPop: () async => true,
+                                        }
 
-                                          // onWillPop: () async => false,
+                                      }
+                                      return Stack(
+                                        children: [
+                                          WillPopScope(
+                                            onWillPop: () async {
+                                              final isFirstRouteInCurrentTab = !await tabs[currentTab].key.currentState!.maybePop();
+                                              if (isFirstRouteInCurrentTab) {
+                                                // if not on the 'main' tab
+                                                if (currentTab != 0) {
+                                                  // select 'main' tab
+                                                  // _selectTab(0);
+                                                  // back button handled by app
+                                                  return false;
+                                                }
+                                              }
+                                              // let system handle back button if we're on the first route
+                                              return isFirstRouteInCurrentTab;
+                                            },
+
+                                            // onWillPop: () async => true,
+
+                                            // onWillPop: () async => false,
 
 
-                                          // this is the base scaffold
-                                          // don't put appbar in here otherwise you might end up
-                                          // with multiple appbars on one screen
-                                          // eventually breaking the app
+                                            // this is the base scaffold
+                                            // don't put appbar in here otherwise you might end up
+                                            // with multiple appbars on one screen
+                                            // eventually breaking the app
 
-                                          child: Stack(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width > 900
-                                                        ? MediaQuery.of(context).size.width * (2 / 3.5)
-                                                        : MediaQuery.of(context).size.width,
-                                                    child: AnimatedPadding(
-                                                      duration: const Duration(milliseconds: 200),
-                                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
-                                                      child: IndexedStack(
-                                                        index: currentTab,
-                                                        children: tabs.map((e) => e.page).toList(),
+                                            child: Stack(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width > 900
+                                                          ? MediaQuery.of(context).size.width * (2 / 3.5)
+                                                          : MediaQuery.of(context).size.width,
+                                                      child: AnimatedPadding(
+                                                        duration: const Duration(milliseconds: 200),
+                                                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
+                                                        child: IndexedStack(
+                                                          index: currentTab,
+                                                          children: tabs.map((e) => e.page).toList(),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  // Expanded(
-                                                  //   child: ,
-                                                  // )
-                                                ],
-                                              ),
-                                              Visibility(
-                                                visible: MediaQuery.of(context).size.width > 900,
-                                                child: Align(
-                                                  alignment: Alignment.centerRight,
-                                                  child: Container(
-                                                    width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)),
-                                                    decoration: BoxDecoration(
-                                                        border: Border(
-                                                            left: BorderSide(
-                                                                color: Colors.grey
-                                                                    .withOpacity(0.3),
-                                                                width: 1.0))),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        FocusScope.of(context).unfocus();
-                                                      },
-                                                      child: Form(
-                                                        key: _formKey2,
-                                                        child: Stack(
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                                                              child: Container(
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.only(top: 14.0, bottom: 61 + homeBotPadding),
-                                                                  child: TabBarView(
-                                                                    physics: NeverScrollableScrollPhysics(),
-                                                                    controller: _controllerTablet,
-                                                                    children: [
-                                                                      Container(
-                                                                        color: Colors.white,
-                                                                        height:
-                                                                        MediaQuery.of(context).size.height -
-                                                                            45,
-                                                                        width: double.infinity,
-                                                                        child: Stack(
-                                                                          children: [
-                                                                            StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                                                                stream: FirebaseFirestore.instance
-                                                                                    .collection('shops')
-                                                                                    .doc(shopId)
-                                                                                    .collection('customers')
-                                                                                    .doc(customerId.split('^')[0].toString())
-                                                                                    .snapshots(),
-                                                                                builder: (BuildContext context, snapshot5) {
-                                                                                  if(snapshot5.hasData){
-                                                                                    var output3 = snapshot5.data!.data();
-                                                                                    var address = output3?['customer_address'];
-                                                                                    return Padding(
-                                                                                      padding: const EdgeInsets.only(
-                                                                                          top: 43.0,
-                                                                                          left: 0.0,
-                                                                                          right: 0.0,
-                                                                                          bottom: 118),
-                                                                                      child: Container(
-                                                                                          child: ListView(
-                                                                                            children: [
-                                                                                              Stack(
-                                                                                                children: [
+                                                    // Expanded(
+                                                    //   child: ,
+                                                    // )
+                                                  ],
+                                                ),
+                                                Visibility(
+                                                  visible: MediaQuery.of(context).size.width > 900,
+                                                  child: Align(
+                                                    alignment: Alignment.centerRight,
+                                                    child: Container(
+                                                      width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)),
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              left: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(0.3),
+                                                                  width: 1.0))),
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          FocusScope.of(context).unfocus();
+                                                        },
+                                                        child: Form(
+                                                          key: _formKey2,
+                                                          child: Stack(
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                                                                child: Container(
+                                                                  child: Padding(
+                                                                    padding: EdgeInsets.only(top: 14.0, bottom: 61 + homeBotPadding),
+                                                                    child: TabBarView(
+                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                      controller: _controllerTablet,
+                                                                      children: [
+                                                                        Container(
+                                                                          color: Colors.white,
+                                                                          height:
+                                                                          MediaQuery.of(context).size.height -
+                                                                              45,
+                                                                          width: double.infinity,
+                                                                          child: Stack(
+                                                                            children: [
+                                                                              StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                                                                                  stream: FirebaseFirestore.instance
+                                                                                      .collection('shops')
+                                                                                      .doc(shopId)
+                                                                                      .collection('customers')
+                                                                                      .doc(customerId.split('^')[0].toString())
+                                                                                      .snapshots(),
+                                                                                  builder: (BuildContext context, snapshot5) {
+                                                                                    if(snapshot5.hasData){
+                                                                                      var output3 = snapshot5.data!.data();
+                                                                                      var address = output3?['customer_address'];
+                                                                                      return Padding(
+                                                                                        padding: const EdgeInsets.only(
+                                                                                            top: 43.0,
+                                                                                            left: 0.0,
+                                                                                            right: 0.0,
+                                                                                            bottom: 118),
+                                                                                        child: Container(
+                                                                                            child: ListView(
+                                                                                              children: [
+                                                                                                Stack(
+                                                                                                  children: [
 
-                                                                                                  Padding(
-                                                                                                    padding: const EdgeInsets.only(top: 19.0),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        GestureDetector(
-                                                                                                          onTap: () {
-                                                                                                            setState(() {
-                                                                                                              customerId = 'name^name';
-                                                                                                            });
-                                                                                                          },
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(top: 19.0),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          GestureDetector(
+                                                                                                            onTap: () {
+                                                                                                              setState(() {
+                                                                                                                customerId = 'name^name';
+                                                                                                              });
+                                                                                                            },
+                                                                                                            child: Padding(
+                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                                              child: Row(
+                                                                                                                children: [
+                                                                                                                  SizedBox(width: 1),
+                                                                                                                  Container(
+                                                                                                                    height: 58,
+                                                                                                                    width: 58,
+                                                                                                                    decoration: BoxDecoration(
+                                                                                                                        borderRadius:
+                                                                                                                        BorderRadius.circular(
+                                                                                                                            5.0),
+                                                                                                                        color: AppTheme.buttonColor2
+                                                                                                                    ),
+                                                                                                                    child: Icon(
+                                                                                                                      SmartKyat_POS.order,
+                                                                                                                      size: 25,
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  SizedBox(width: 15),
+                                                                                                                  Column(
+                                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                    children: [
+                                                                                                                      Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                                                      // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                                                      //     style: TextStyle(
+                                                                                                                      //       fontSize: 14,
+                                                                                                                      //       color: Colors.grey
+                                                                                                                      //     )),
+                                                                                                                    ],
+                                                                                                                  )
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          SizedBox(height: 8,),
+                                                                                                          Padding(
+                                                                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                                                                            child: Container(height: 12,
+                                                                                                              decoration: BoxDecoration(
+                                                                                                                  border: Border(
+                                                                                                                    bottom:
+                                                                                                                    BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                                                                  )),),
+                                                                                                          ),
+
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    customerId != 'name^name' ? Positioned(
+                                                                                                      top : 11,
+                                                                                                      right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
+                                                                                                      child: GestureDetector(
+                                                                                                        onTap: () {
+                                                                                                          setState(() {
+                                                                                                            customerId = 'name^name';
+                                                                                                          });
+                                                                                                        },
+                                                                                                        child: Container(
+                                                                                                          // height: 20,
+                                                                                                          // width: 30,
+                                                                                                          alignment: Alignment.center,
+                                                                                                          decoration: BoxDecoration(
+                                                                                                              color: Color(0xffE9625E),
+                                                                                                              borderRadius:
+                                                                                                              BorderRadius.circular(
+                                                                                                                  10.0),
+                                                                                                              border: Border.all(
+                                                                                                                color: Colors.white,
+                                                                                                                width: 2,
+                                                                                                              )),
                                                                                                           child: Padding(
-                                                                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                                            child: Row(
-                                                                                                              children: [
-                                                                                                                SizedBox(width: 1),
-                                                                                                                Container(
-                                                                                                                  height: 58,
-                                                                                                                  width: 58,
-                                                                                                                  decoration: BoxDecoration(
-                                                                                                                      borderRadius:
-                                                                                                                      BorderRadius.circular(
-                                                                                                                          5.0),
-                                                                                                                      color: AppTheme.buttonColor2
-                                                                                                                  ),
-                                                                                                                  child: Icon(
-                                                                                                                    SmartKyat_POS.order,
-                                                                                                                    size: 25,
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                                SizedBox(width: 15),
-                                                                                                                Column(
-                                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                  children: [
-                                                                                                                    Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                                    // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                                                    //     style: TextStyle(
-                                                                                                                    //       fontSize: 14,
-                                                                                                                    //       color: Colors.grey
-                                                                                                                    //     )),
-                                                                                                                  ],
-                                                                                                                )
-                                                                                                              ],
+                                                                                                            padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                                                            child: Icon(
+                                                                                                              Icons.close_rounded,
+                                                                                                              size: 13,
+                                                                                                              color: Colors.white,
                                                                                                             ),
                                                                                                           ),
                                                                                                         ),
-                                                                                                        SizedBox(height: 8,),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left: 15.0),
-                                                                                                          child: Container(height: 12,
-                                                                                                            decoration: BoxDecoration(
-                                                                                                                border: Border(
-                                                                                                                  bottom:
-                                                                                                                  BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                                                                                                )),),
-                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ): Container(),
+                                                                                                  ],
+                                                                                                ),
+                                                                                                for (int i = 0; i < prodList.length; i++)
+                                                                                                  prodInCartTab(prodList[i], i),
+                                                                                                Slidable(
+                                                                                                  key: UniqueKey(),
+                                                                                                  actionPane:
+                                                                                                  SlidableDrawerActionPane(),
+                                                                                                  actionExtentRatio:
+                                                                                                  0.25,
 
+                                                                                                  child: Container(
+                                                                                                    color: Colors.white,
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        discount != 0.0 ? Container(
+                                                                                                          child: isDiscount == 'percent' ?
+                                                                                                          ListTile(
+                                                                                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                            subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
+                                                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                                            )),
+                                                                                                            trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                                                                                          ) :  ListTile (
+                                                                                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                            subtitle: Text('Amount applied', style: TextStyle(
+                                                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                                            )),
+                                                                                                            trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                          ),
+                                                                                                        ) : Container(),
                                                                                                       ],
                                                                                                     ),
                                                                                                   ),
-                                                                                                  customerId != 'name^name' ? Positioned(
-                                                                                                    top : 11,
-                                                                                                    right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
-                                                                                                    child: GestureDetector(
-                                                                                                      onTap: () {
-                                                                                                        setState(() {
-                                                                                                          customerId = 'name^name';
-                                                                                                        });
-                                                                                                      },
-                                                                                                      child: Container(
-                                                                                                        // height: 20,
-                                                                                                        // width: 30,
-                                                                                                        alignment: Alignment.center,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            color: Color(0xffE9625E),
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(
-                                                                                                                10.0),
-                                                                                                            border: Border.all(
-                                                                                                              color: Colors.white,
-                                                                                                              width: 2,
-                                                                                                            )),
-                                                                                                        child: Padding(
-                                                                                                          padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                                                          child: Icon(
-                                                                                                            Icons.close_rounded,
-                                                                                                            size: 13,
-                                                                                                            color: Colors.white,
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
+                                                                                                  dismissal:
+                                                                                                  SlidableDismissal(
+                                                                                                    child: SlidableDrawerDismissal(),
+                                                                                                    onDismissed:
+                                                                                                        (actionType) {
+                                                                                                      // mystate(() {
+                                                                                                      //   discountAmount = 0.0;
+                                                                                                      //   discount = 0.0;
+                                                                                                      // });
+                                                                                                      setState(() {
+                                                                                                        discountAmount = 0.0;
+                                                                                                        discount = 0.0;
+                                                                                                      });
+                                                                                                    },
+                                                                                                  ),
+                                                                                                  secondaryActions: <
+                                                                                                      Widget>[
+                                                                                                    IconSlideAction(
+                                                                                                        caption: 'Delete',
+                                                                                                        color: Colors.red,
+                                                                                                        icon:
+                                                                                                        Icons.delete,
+                                                                                                        onTap: () {
+                                                                                                          setState(() {
+                                                                                                            discountAmount = 0.0;
+                                                                                                            discount =0.0;
+                                                                                                          });
+                                                                                                        }
+
                                                                                                     ),
-                                                                                                  ): Container(),
-                                                                                                ],
-                                                                                              ),
-                                                                                              for (int i = 0; i < prodList.length; i++)
-                                                                                                prodInCartTab(prodList[i], i),
-                                                                                              Slidable(
-                                                                                                key: UniqueKey(),
-                                                                                                actionPane:
-                                                                                                SlidableDrawerActionPane(),
-                                                                                                actionExtentRatio:
-                                                                                                0.25,
-
-                                                                                                child: Container(
-                                                                                                  color: Colors.white,
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      discount != 0.0 ? Container(
-                                                                                                        child: isDiscount == 'percent' ?
-                                                                                                        ListTile(
-                                                                                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                          subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
-                                                                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                                          )),
-                                                                                                          trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
-                                                                                                        ) :  ListTile (
-                                                                                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                          subtitle: Text('Amount applied', style: TextStyle(
-                                                                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                                          )),
-                                                                                                          trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                        ),
-                                                                                                      ) : Container(),
-                                                                                                    ],
-                                                                                                  ),
+                                                                                                  ],
                                                                                                 ),
-                                                                                                dismissal:
-                                                                                                SlidableDismissal(
-                                                                                                  child: SlidableDrawerDismissal(),
-                                                                                                  onDismissed:
-                                                                                                      (actionType) {
-                                                                                                    // mystate(() {
-                                                                                                    //   discountAmount = 0.0;
-                                                                                                    //   discount = 0.0;
-                                                                                                    // });
-                                                                                                    setState(() {
-                                                                                                      discountAmount = 0.0;
-                                                                                                      discount = 0.0;
-                                                                                                    });
-                                                                                                  },
-                                                                                                ),
-                                                                                                secondaryActions: <
-                                                                                                    Widget>[
-                                                                                                  IconSlideAction(
-                                                                                                      caption: 'Delete',
-                                                                                                      color: Colors.red,
-                                                                                                      icon:
-                                                                                                      Icons.delete,
-                                                                                                      onTap: () {
-                                                                                                        setState(() {
-                                                                                                          discountAmount = 0.0;
-                                                                                                          discount =0.0;
-                                                                                                        });
-                                                                                                      }
-
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
 
 
-                                                                                              // orderLoading?Text('Loading'):Text('')
-                                                                                            ],
-                                                                                          )),
-                                                                                    );
+                                                                                                // orderLoading?Text('Loading'):Text('')
+                                                                                              ],
+                                                                                            )),
+                                                                                      );
+                                                                                    }
+                                                                                    return Container();
                                                                                   }
-                                                                                  return Container();
-                                                                                }
-                                                                            ),
-                                                                            Container(
-                                                                              height: 67,
-                                                                              decoration: BoxDecoration(
-                                                                                  color: Colors.white,
-                                                                                  border: Border(
-                                                                                      bottom: BorderSide(
-                                                                                          color: Colors.grey
-                                                                                              .withOpacity(0.3),
-                                                                                          width: 1.0))),
-                                                                              child: Padding(
-                                                                                padding: EdgeInsets.only(
-                                                                                    left: 15.0,
-                                                                                    right: 15.0,
-                                                                                    top: 0.0,
-                                                                                    bottom: 15.0
-                                                                                ),
-                                                                                child: Row(
-                                                                                  children: [
-                                                                                    GestureDetector(
-                                                                                      onTap: () {
-                                                                                        setState((){
-                                                                                          // mystate(() {
-                                                                                          prodList = [];
-                                                                                          discount = 0.0;
-                                                                                          discountAmount = 0.0;
-                                                                                          debt =0;
-                                                                                          refund =0;
-                                                                                          customerId = 'name^name';
-                                                                                          // });
-                                                                                        });
-                                                                                      },
-                                                                                      child: Container(
-                                                                                        width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 57)/2,
-                                                                                        height: 50,
-                                                                                        decoration: BoxDecoration(
-                                                                                            borderRadius:
-                                                                                            BorderRadius
-                                                                                                .circular(10.0),
-                                                                                            color: AppTheme.clearColor),
-                                                                                        child: Center(
-                                                                                          child: Padding(
-                                                                                            padding:
-                                                                                            const EdgeInsets
-                                                                                                .only(
-                                                                                                left:
-                                                                                                8.0,
-                                                                                                right:
-                                                                                                8.0,
-                                                                                                bottom:
-                                                                                                2.0),
-                                                                                            child: Container(
-                                                                                                child: Text(
-                                                                                                  'Clear cart',
-                                                                                                  textAlign:
-                                                                                                  TextAlign
-                                                                                                      .center,
-                                                                                                  style: TextStyle(
-                                                                                                      fontSize:
-                                                                                                      17,
-                                                                                                      fontWeight:
-                                                                                                      FontWeight
-                                                                                                          .w600,
-                                                                                                      color: Colors
-                                                                                                          .black),
-                                                                                                )),
+                                                                              ),
+                                                                              Container(
+                                                                                height: 67,
+                                                                                decoration: BoxDecoration(
+                                                                                    color: Colors.white,
+                                                                                    border: Border(
+                                                                                        bottom: BorderSide(
+                                                                                            color: Colors.grey
+                                                                                                .withOpacity(0.3),
+                                                                                            width: 1.0))),
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsets.only(
+                                                                                      left: 15.0,
+                                                                                      right: 15.0,
+                                                                                      top: 0.0,
+                                                                                      bottom: 15.0
+                                                                                  ),
+                                                                                  child: Row(
+                                                                                    children: [
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          setState((){
+                                                                                            // mystate(() {
+                                                                                            prodList = [];
+                                                                                            discount = 0.0;
+                                                                                            discountAmount = 0.0;
+                                                                                            debt =0;
+                                                                                            refund =0;
+                                                                                            customerId = 'name^name';
+                                                                                            // });
+                                                                                          });
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 57)/2,
+                                                                                          height: 50,
+                                                                                          decoration: BoxDecoration(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(10.0),
+                                                                                              color: AppTheme.clearColor),
+                                                                                          child: Center(
+                                                                                            child: Padding(
+                                                                                              padding:
+                                                                                              const EdgeInsets
+                                                                                                  .only(
+                                                                                                  left:
+                                                                                                  8.0,
+                                                                                                  right:
+                                                                                                  8.0,
+                                                                                                  bottom:
+                                                                                                  3),
+                                                                                              child: Container(
+                                                                                                  child: Text(
+                                                                                                    'Clear cart',
+                                                                                                    textAlign:
+                                                                                                    TextAlign
+                                                                                                        .center,
+                                                                                                    style: TextStyle(
+                                                                                                        height: 1.3,
+                                                                                                        fontSize:
+                                                                                                        17,
+                                                                                                        fontWeight:
+                                                                                                        FontWeight
+                                                                                                            .w600,
+                                                                                                        color: Colors
+                                                                                                            .black),
+                                                                                                  )),
+                                                                                            ),
                                                                                           ),
                                                                                         ),
                                                                                       ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      width: 15.0,
-                                                                                    ),
-                                                                                    GestureDetector(
-                                                                                      onTap: () async {
-                                                                                        if(discount > 0) {
-                                                                                          final resultNew =
-                                                                                          Platform.isIOS ?
-                                                                                          await showModalActionSheet<String>(
-                                                                                            context: context,
-                                                                                            //title: 'Confirmation alert',
-                                                                                            message: 'Are you sure you want to change discount?',
-                                                                                            actions: [
-                                                                                              SheetAction(
-                                                                                                label: 'New discount',
-                                                                                                key: 'newdis',
-                                                                                                isDestructiveAction: true,
-                                                                                              ),
-                                                                                            ],
-                                                                                          ) : await showModalActionSheet<String>(
-                                                                                            context: context,
-                                                                                            title: 'Confirmation alert',
-                                                                                            message: 'Are you sure you want to change discount?',
-                                                                                            actions: [
-                                                                                              SheetAction(
-                                                                                                label: 'New discount',
-                                                                                                key: 'newdis',
-                                                                                                isDestructiveAction: true,
-                                                                                              ),
-                                                                                            ],
-                                                                                          );
-                                                                                          if(resultNew.toString() == 'newdis') {
-                                                                                            setState(() {
-                                                                                              discountAmount = 0.0;
-                                                                                              discount = 0.0;
-                                                                                            });
+                                                                                      SizedBox(
+                                                                                        width: 15.0,
+                                                                                      ),
+                                                                                      GestureDetector(
+                                                                                        onTap: () async {
+                                                                                          if(discount > 0) {
+                                                                                            final resultNew =
+                                                                                            Platform.isIOS ?
+                                                                                            await showModalActionSheet<String>(
+                                                                                              context: context,
+                                                                                              //title: 'Confirmation alert',
+                                                                                              title: 'Are you sure you want to change discount?',
+                                                                                              actions: [
+                                                                                                SheetAction(
+                                                                                                  label: 'New discount',
+                                                                                                  key: 'newdis',
+                                                                                                  isDestructiveAction: true,
+                                                                                                ),
+                                                                                              ],
+                                                                                            ) : await showModalActionSheet<String>(
+                                                                                              context: context,
+                                                                                              // title: 'Confirmation alert',
+                                                                                              title: 'Are you sure you want to change discount?',
+                                                                                              actions: [
+                                                                                                SheetAction(
+                                                                                                  label: 'New discount',
+                                                                                                  key: 'newdis',
+                                                                                                  isDestructiveAction: true,
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                            if(resultNew.toString() == 'newdis') {
+                                                                                              setState(() {
+                                                                                                discountAmount = 0.0;
+                                                                                                discount = 0.0;
+                                                                                              });
 
+                                                                                              final result = await showModalActionSheet<String>(
+                                                                                                context: context,
+                                                                                                title: 'Choose discount type',
+                                                                                                actions: [
+                                                                                                  SheetAction(
+                                                                                                    icon: Icons.warning,
+                                                                                                    label: 'Amount',
+                                                                                                    key: 'amount',
+                                                                                                  ),
+                                                                                                  SheetAction(
+                                                                                                    icon: Icons.warning,
+                                                                                                    label: 'Percent',
+                                                                                                    key: 'percent',
+                                                                                                  ),
+                                                                                                ],
+                                                                                              );
+                                                                                              setState(() {
+                                                                                                isDiscount = result.toString();
+                                                                                              });
+
+                                                                                              if (result == 'amount') {
+                                                                                                final amount = await showTextInputDialog(
+                                                                                                  context: context,
+                                                                                                  textFields: [
+                                                                                                    DialogTextField(
+                                                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                      // inputFormatters: <TextInputFormatter>[
+                                                                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                      hintText: '0',
+                                                                                                      suffixText: '$currencyUnit  ',
+                                                                                                      validator: (value) {
+                                                                                                        if (value == null || value.isEmpty) {
+                                                                                                          // return '';
+                                                                                                          return 'this field is required ';
+                                                                                                        } else {
+                                                                                                          if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                            return 'no item in cart';
+                                                                                                          } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                                                            return 'much less than total sale';
+                                                                                                          } else if(double.parse(value) < 0) {
+                                                                                                            return 'invalid amount';
+                                                                                                          }
+                                                                                                        }
+                                                                                                        return null;
+                                                                                                      },
+                                                                                                      // initialText: 'mono0926@gmail.com',
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                  title: 'Discount',
+                                                                                                  message: 'Add Discount Amount to Cart',
+                                                                                                );
+                                                                                                setState(() {
+                                                                                                  discount =double.parse(amount![0].toString());
+                                                                                                  print('disss ' + discount.toString());
+                                                                                                });
+
+                                                                                              } else if(result == 'percent') {
+                                                                                                final percentage = await showTextInputDialog(
+                                                                                                  context: context,
+                                                                                                  textFields: [
+                                                                                                    DialogTextField(
+                                                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                      // inputFormatters: <TextInputFormatter>[
+                                                                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                      hintText: '0',
+                                                                                                      suffixText: '%  ',
+                                                                                                      validator: (value) {
+                                                                                                        if (value == null || value.isEmpty) {
+                                                                                                          // return '';
+                                                                                                          return 'this field is required ';
+                                                                                                        } else {
+                                                                                                          if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                                                            return 'no item in cart';
+                                                                                                          }
+                                                                                                          if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                                                            return 'invalid amount';
+                                                                                                          }
+                                                                                                        }
+                                                                                                        return null;
+                                                                                                      },
+                                                                                                      // initialText: 'mono0926@gmail.com',
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                  title: 'Discount',
+                                                                                                  message: 'Add Discount Percent to Cart',
+                                                                                                );
+                                                                                                // mystate(() {
+
+                                                                                                // });
+                                                                                                setState(() {
+                                                                                                  discount =double.parse(percentage![0].toString());
+                                                                                                  print('disss ' + discount.toString());
+                                                                                                });
+                                                                                              }
+                                                                                              print('dis' + result.toString());
+                                                                                              setState(() {
+                                                                                                print('do something');
+                                                                                              });
+                                                                                            }
+                                                                                          } else {
                                                                                             final result = await showModalActionSheet<String>(
                                                                                               context: context,
+                                                                                              title: 'Choose discount type',
                                                                                               actions: [
                                                                                                 SheetAction(
                                                                                                   icon: Icons.warning,
@@ -3263,572 +3385,48 @@ class HomePageState extends State<HomePage>
                                                                                               print('do something');
                                                                                             });
                                                                                           }
-                                                                                        } else {
-                                                                                          final result = await showModalActionSheet<String>(
-                                                                                            context: context,
-                                                                                            actions: [
-                                                                                              SheetAction(
-                                                                                                icon: Icons.warning,
-                                                                                                label: 'Amount',
-                                                                                                key: 'amount',
-                                                                                              ),
-                                                                                              SheetAction(
-                                                                                                icon: Icons.warning,
-                                                                                                label: 'Percent',
-                                                                                                key: 'percent',
-                                                                                              ),
-                                                                                            ],
-                                                                                          );
-                                                                                          setState(() {
-                                                                                            isDiscount = result.toString();
-                                                                                          });
-
-                                                                                          if (result == 'amount') {
-                                                                                            final amount = await showTextInputDialog(
-                                                                                              context: context,
-                                                                                              textFields: [
-                                                                                                DialogTextField(
-                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                  // inputFormatters: <TextInputFormatter>[
-                                                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                  hintText: '0',
-                                                                                                  suffixText: '$currencyUnit  ',
-                                                                                                  validator: (value) {
-                                                                                                    if (value == null || value.isEmpty) {
-                                                                                                      // return '';
-                                                                                                      return 'this field is required ';
-                                                                                                    } else {
-                                                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                        return 'no item in cart';
-                                                                                                      } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                                                        return 'much less than total sale';
-                                                                                                      } else if(double.parse(value) < 0) {
-                                                                                                        return 'invalid amount';
-                                                                                                      }
-                                                                                                    }
-                                                                                                    return null;
-                                                                                                  },
-                                                                                                  // initialText: 'mono0926@gmail.com',
-                                                                                                ),
-                                                                                              ],
-                                                                                              title: 'Discount',
-                                                                                              message: 'Add Discount Amount to Cart',
-                                                                                            );
-                                                                                            setState(() {
-                                                                                              discount =double.parse(amount![0].toString());
-                                                                                              print('disss ' + discount.toString());
-                                                                                            });
-
-                                                                                          } else if(result == 'percent') {
-                                                                                            final percentage = await showTextInputDialog(
-                                                                                              context: context,
-                                                                                              textFields: [
-                                                                                                DialogTextField(
-                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                  // inputFormatters: <TextInputFormatter>[
-                                                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                  hintText: '0',
-                                                                                                  suffixText: '%  ',
-                                                                                                  validator: (value) {
-                                                                                                    if (value == null || value.isEmpty) {
-                                                                                                      // return '';
-                                                                                                      return 'this field is required ';
-                                                                                                    } else {
-                                                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                        return 'no item in cart';
-                                                                                                      }
-                                                                                                      if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                                                        return 'invalid amount';
-                                                                                                      }
-                                                                                                    }
-                                                                                                    return null;
-                                                                                                  },
-                                                                                                  // initialText: 'mono0926@gmail.com',
-                                                                                                ),
-                                                                                              ],
-                                                                                              title: 'Discount',
-                                                                                              message: 'Add Discount Percent to Cart',
-                                                                                            );
-                                                                                            // mystate(() {
-
-                                                                                            // });
-                                                                                            setState(() {
-                                                                                              discount =double.parse(percentage![0].toString());
-                                                                                              print('disss ' + discount.toString());
-                                                                                            });
-                                                                                          }
-                                                                                          print('dis' + result.toString());
-                                                                                          setState(() {
-                                                                                            print('do something');
-                                                                                          });
-                                                                                        }
 
 
-                                                                                      },
-                                                                                      child: Container(
-                                                                                        width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 57)/2,
-                                                                                        height: 50,
-                                                                                        decoration: BoxDecoration(
-                                                                                            borderRadius:
-                                                                                            BorderRadius
-                                                                                                .circular(10.0),
-                                                                                            color: AppTheme.buttonColor2),
-                                                                                        child: Center(
-                                                                                          child: Padding(
-                                                                                            padding:
-                                                                                            const EdgeInsets
-                                                                                                .only(
-                                                                                                left:
-                                                                                                8.0,
-                                                                                                right:
-                                                                                                8.0,
-                                                                                                bottom:
-                                                                                                2.0),
-                                                                                            child: Container(
-                                                                                                child: Text(
-                                                                                                  'Discount',
-                                                                                                  textAlign:
-                                                                                                  TextAlign
-                                                                                                      .center,
-                                                                                                  style: TextStyle(
-                                                                                                      fontSize:
-                                                                                                      17,
-                                                                                                      fontWeight:
-                                                                                                      FontWeight
-                                                                                                          .w600,
-                                                                                                      color: Colors
-                                                                                                          .black),
-                                                                                                )),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Align(
-                                                                              alignment: Alignment.bottomCenter,
-                                                                              child: Container(
-                                                                                decoration: BoxDecoration(
-                                                                                    color: Colors.white,
-                                                                                    border: Border(
-                                                                                      top: BorderSide(
-                                                                                          color:
-                                                                                          AppTheme.skBorderColor2,
-                                                                                          width: 1.0),
-                                                                                    )),
-                                                                                width: double.infinity,
-                                                                                height: 138,
-                                                                                child: Column(
-                                                                                  mainAxisAlignment:
-                                                                                  MainAxisAlignment.end,
-                                                                                  crossAxisAlignment:
-                                                                                  CrossAxisAlignment.end,
-                                                                                  children: [
-                                                                                    ListTile(
-                                                                                      title: Text(
-                                                                                        'Total sale',
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .w500),
-                                                                                      ),
-                                                                                      subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
-                                                                                          style: TextStyle(
-                                                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                          )) : Text(totalItems() + ' item sets',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                          )),
-                                                                                      trailing: Text('$currencyUnit '+
-                                                                                          TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontWeight:
-                                                                                            FontWeight
-                                                                                                .w500),
-                                                                                      ),
-                                                                                    ),
-                                                                                    prodList.length != 0 ? Container(
-                                                                                      child: Padding(
-                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                        child: GestureDetector(
-                                                                                          onTap: () {
-                                                                                            setState(() {
-                                                                                              totalAmount = double.parse(TtlProdListPrice());
-                                                                                            });
-
-                                                                                            int i = 0;
-                                                                                            String totalCashCal = totalAmount.toInt().toString();
-                                                                                            print('CCC 0--> ' + totalAmount.toInt().toString());
-
-                                                                                            print('CCC 1--> ' + (totalCashCal.length - i).toString());
-
-                                                                                            print('totalAmount '+ totalAmount.toString());
-                                                                                            _controllerTablet.animateTo(1);
-                                                                                            if(_textFieldControllerTablet.text == '') {
-                                                                                              debt = double.parse(TtlProdListPrice().toString());
-                                                                                            }
-                                                                                            // sellDone = false;
-                                                                                          },
-                                                                                          child: Container(
-                                                                                            width: MediaQuery.of(context).size.width - 30,
-                                                                                            height: 50,
-                                                                                            decoration: BoxDecoration(
-                                                                                                borderRadius:
-                                                                                                BorderRadius.circular(10.0),
-                                                                                                color: AppTheme.themeColor),
-                                                                                            child: Row(
-                                                                                              mainAxisAlignment:
-                                                                                              MainAxisAlignment
-                                                                                                  .center,
-                                                                                              children: [
-                                                                                                Expanded(
-                                                                                                  child: Padding(
-                                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                    child: Container(
-                                                                                                        child: Text(
-                                                                                                          'Checkout',
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(
-                                                                                                              fontSize: 17,
-                                                                                                              fontWeight: FontWeight.w600,
-                                                                                                              color: Colors.black
-                                                                                                          ),
-                                                                                                        )
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ],
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 57)/2,
+                                                                                          height: 50,
+                                                                                          decoration: BoxDecoration(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(10.0),
+                                                                                              color: AppTheme.buttonColor2),
+                                                                                          child: Center(
+                                                                                            child: Padding(
+                                                                                              padding:
+                                                                                              const EdgeInsets
+                                                                                                  .only(
+                                                                                                  left:
+                                                                                                  8.0,
+                                                                                                  right:
+                                                                                                  8.0,
+                                                                                                  bottom:
+                                                                                                  3),
+                                                                                              child: Container(
+                                                                                                  child: Text(
+                                                                                                    'Discount',
+                                                                                                    textAlign:
+                                                                                                    TextAlign
+                                                                                                        .center,
+                                                                                                    style: TextStyle(
+                                                                                                        height: 1.3,
+                                                                                                        fontSize:
+                                                                                                        17,
+                                                                                                        fontWeight:
+                                                                                                        FontWeight
+                                                                                                            .w600,
+                                                                                                        color: Colors
+                                                                                                            .black),
+                                                                                                  )),
                                                                                             ),
                                                                                           ),
                                                                                         ),
                                                                                       ),
-                                                                                    ) :
-                                                                                    Container(
-                                                                                      child: Padding(
-                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                        child: GestureDetector(
-                                                                                          onTap: () {
-                                                                                          },
-                                                                                          child: Container(
-                                                                                            width: MediaQuery.of(context).size.width - 30,
-                                                                                            height: 50,
-                                                                                            decoration: BoxDecoration(
-                                                                                                borderRadius:
-                                                                                                BorderRadius.circular(10.0),
-                                                                                                color: AppTheme.themeColor),
-                                                                                            child: Row(
-                                                                                              mainAxisAlignment:
-                                                                                              MainAxisAlignment
-                                                                                                  .center,
-                                                                                              children: [
-                                                                                                Expanded(
-                                                                                                  child: Padding(
-                                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                    child: Container(
-                                                                                                        child: Text(
-                                                                                                          'Checkout',
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(
-                                                                                                              fontSize: 17,
-                                                                                                              fontWeight: FontWeight.w600,
-                                                                                                              color: Colors.black
-                                                                                                          ),
-                                                                                                        )
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ],
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                                                        width: double.infinity,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.only(
-                                                                            topLeft: Radius.circular(20.0),
-                                                                            topRight: Radius.circular(20.0),
-                                                                          ),
-                                                                          color: Colors.white,
-                                                                        ),
-                                                                        child: Container(
-                                                                          width: double.infinity,
-                                                                          child: Stack(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(top: 67.0),
-                                                                                child: Container(
-                                                                                  // color: Colors.yellow,
-                                                                                    child: ListView(
-                                                                                      children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                                                          child: Column(
-                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                                              children: [
-                                                                                                Container(
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                          Radius.circular(10.0),
-                                                                                                        ),
-                                                                                                        border: Border.all(
-                                                                                                          // color: Colors.black,
-                                                                                                            color: Colors.grey.withOpacity(0.2),
-                                                                                                            width: 1.0),
-                                                                                                        color: AppTheme.lightBgColor),
-                                                                                                    height:  133,
-                                                                                                    width: MediaQuery.of(context).size.width,
-                                                                                                    child: Column(
-                                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                      children: [
-                                                                                                        Text('Total sale - $currencyUnit',
-                                                                                                            textAlign: TextAlign.center,
-                                                                                                            style: TextStyle(
-                                                                                                              fontSize: 20,
-                                                                                                              fontWeight: FontWeight.w500,
-                                                                                                              color: Colors.grey,
-                                                                                                            )),
-                                                                                                        SizedBox(height: 8),
-                                                                                                        Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                                            textAlign: TextAlign.center,
-                                                                                                            style: TextStyle(
-                                                                                                              fontSize: 23, fontWeight: FontWeight.w500,
-                                                                                                            )),
-                                                                                                      ],
-                                                                                                    )),
-                                                                                                SizedBox(height: 15),
-                                                                                                Text('CASH RECEIVED', style: TextStyle(
-                                                                                                    letterSpacing: 2,
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 14,color: Colors.grey
-                                                                                                ),),
-                                                                                                SizedBox(height: 13),
-                                                                                                TextField(
-                                                                                                  style: TextStyle(
-                                                                                                      height: 0.95
-                                                                                                  ),
-                                                                                                  decoration: InputDecoration(
-                                                                                                    enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                        borderSide: const BorderSide(
-                                                                                                            color: AppTheme.skBorderColor,
-                                                                                                            width: 2.0),
-                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                            Radius.circular(10.0))),
-
-                                                                                                    focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                        borderSide: const BorderSide(
-                                                                                                            color: AppTheme.themeColor,
-                                                                                                            width: 2.0),
-                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                            Radius.circular(10.0))),
-                                                                                                    contentPadding: const EdgeInsets.only(
-                                                                                                        left: 15.0,
-                                                                                                        right: 15.0,
-                                                                                                        top: 20.0,
-                                                                                                        bottom: 20.0),
-                                                                                                    suffixText: '$currencyUnit' ,
-                                                                                                    // tooltip: 'Increase volume by 10',
-                                                                                                    suffixStyle: TextStyle(
-                                                                                                      color: Colors.grey,
-                                                                                                      fontSize: 15,
-                                                                                                      fontFamily: 'capsulesans',
-                                                                                                    ),
-                                                                                                    errorStyle: TextStyle(
-                                                                                                        backgroundColor: Colors.white,
-                                                                                                        fontSize: 12,
-                                                                                                        fontFamily: 'capsulesans',
-                                                                                                        height: 0.1
-                                                                                                    ),
-                                                                                                    labelStyle: TextStyle(
-                                                                                                      fontWeight: FontWeight.w500,
-                                                                                                      color: Colors.black,
-                                                                                                    ),
-// errorText: 'Error message',
-                                                                                                    labelText: 'Custom price',
-                                                                                                    floatingLabelBehavior:
-                                                                                                    FloatingLabelBehavior.auto,
-//filled: true,
-                                                                                                    border: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(10),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                  inputFormatters: <TextInputFormatter>[
-                                                                                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                  onChanged: (value) {
-                                                                                                    // mystate(() {
-                                                                                                    //   totalAmount = double.parse(TtlProdListPrice());
-                                                                                                    //   value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                                                    //   if((totalAmount - paidAmount).isNegative){
-                                                                                                    //     debt = 0;
-                                                                                                    //   } else { debt = (totalAmount - paidAmount);
-                                                                                                    //   }
-                                                                                                    //   if((paidAmount - totalAmount).isNegative){
-                                                                                                    //     refund = 0;
-                                                                                                    //   } else { refund = (paidAmount - totalAmount);
-                                                                                                    //   }
-                                                                                                    // });
-                                                                                                    setState(() {
-                                                                                                      totalAmount = double.parse(TtlProdListPrice());
-                                                                                                      value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                                                      if((totalAmount - paidAmount).isNegative){
-                                                                                                        debt = 0;
-                                                                                                      } else { debt = (totalAmount - paidAmount);
-                                                                                                      }
-                                                                                                      if((paidAmount - totalAmount).isNegative){
-                                                                                                        refund = 0;
-                                                                                                      } else { refund = (paidAmount - totalAmount);
-                                                                                                      }
-                                                                                                    });
-                                                                                                  },
-                                                                                                  controller: _textFieldControllerTablet,
-                                                                                                ),
-                                                                                                SizedBox(height: 20),
-
-                                                                                                ButtonTheme(
-                                                                                                  minWidth: double.infinity,
-                                                                                                  //minWidth: 50,
-                                                                                                  splashColor: AppTheme.buttonColor2,
-                                                                                                  height: 50,
-                                                                                                  child: FlatButton(
-                                                                                                    color: AppTheme.buttonColor2,
-                                                                                                    shape: RoundedRectangleBorder(
-                                                                                                      borderRadius: BorderRadius.circular(7.0),
-                                                                                                    ),
-                                                                                                    onPressed: () async {
-                                                                                                      setState(() {
-                                                                                                        // mystate(() {
-                                                                                                        //   totalAmount =
-                                                                                                        //       double
-                                                                                                        //           .parse(
-                                                                                                        //           TtlProdListPrice());
-                                                                                                        //   _textFieldController
-                                                                                                        //       .text =
-                                                                                                        //       totalAmount
-                                                                                                        //           .toString();
-                                                                                                        //   paidAmount =
-                                                                                                        //       totalAmount;
-                                                                                                        //   if ((totalAmount -
-                                                                                                        //       paidAmount)
-                                                                                                        //       .isNegative) {
-                                                                                                        //     debt = 0;
-                                                                                                        //   } else {
-                                                                                                        //     debt =
-                                                                                                        //     (totalAmount -
-                                                                                                        //         paidAmount);
-                                                                                                        //   }
-                                                                                                        //   if ((paidAmount -
-                                                                                                        //       totalAmount)
-                                                                                                        //       .isNegative) {
-                                                                                                        //     refund =
-                                                                                                        //     0;
-                                                                                                        //   } else {
-                                                                                                        //     refund =
-                                                                                                        //     (paidAmount -
-                                                                                                        //         totalAmount);
-                                                                                                        //   }
-                                                                                                        // });
-                                                                                                        setState(() {
-                                                                                                          totalAmount =
-                                                                                                              double
-                                                                                                                  .parse(
-                                                                                                                  TtlProdListPrice());
-                                                                                                          _textFieldControllerTablet
-                                                                                                              .text =
-                                                                                                              totalAmount
-                                                                                                                  .toString();
-
-                                                                                                          paidAmount =
-                                                                                                              totalAmount;
-                                                                                                          if ((totalAmount -
-                                                                                                              paidAmount)
-                                                                                                              .isNegative) {
-                                                                                                            debt = 0;
-                                                                                                          } else {
-                                                                                                            debt =
-                                                                                                            (totalAmount -
-                                                                                                                paidAmount);
-                                                                                                          }
-                                                                                                          if ((paidAmount -
-                                                                                                              totalAmount)
-                                                                                                              .isNegative) {
-                                                                                                            refund =
-                                                                                                            0;
-                                                                                                          } else {
-                                                                                                            refund =
-                                                                                                            (paidAmount -
-                                                                                                                totalAmount);
-                                                                                                          }
-                                                                                                        });
-                                                                                                      });
-                                                                                                    },
-                                                                                                    child: Container(
-                                                                                                      child: Text( '$currencyUnit ' +
-                                                                                                          TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                                        style: TextStyle(
-                                                                                                            fontWeight: FontWeight.w600,
-                                                                                                            fontSize: 17
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                                SizedBox(height: 20),
-                                                                                              ]
-                                                                                          ),
-                                                                                        ),
-                                                                                        // orderLoading?Text('Loading'):Text('')
-                                                                                      ],
-                                                                                    )),
-                                                                              ),
-                                                                              Container(
-                                                                                height: 67,
-                                                                                width: double.infinity,
-                                                                                decoration: BoxDecoration(
-                                                                                    border: Border(
-                                                                                        bottom: BorderSide(
-                                                                                            color: Colors.grey
-                                                                                                .withOpacity(0.3),
-                                                                                            width: 1.0))),
-                                                                                child: Padding(
-                                                                                  padding: EdgeInsets.only(
-                                                                                      left: 15.0,
-                                                                                      right: 15.0,
-                                                                                      top: 2,
-                                                                                      bottom: 0.0
-                                                                                  ),
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: [
-                                                                                      Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.black,
-                                                                                        fontSize: 13,
-                                                                                        height: 1.5,
-                                                                                      )),
-                                                                                      Text('Cash acceptance', style: TextStyle(
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 18,
-                                                                                          height: 1.3
-                                                                                      )),
                                                                                     ],
                                                                                   ),
                                                                                 ),
@@ -3852,34 +3450,24 @@ class HomePageState extends State<HomePage>
                                                                                     crossAxisAlignment:
                                                                                     CrossAxisAlignment.end,
                                                                                     children: [
-                                                                                      debt!= 0 ? ListTile(
+                                                                                      ListTile(
                                                                                         title: Text(
-                                                                                          'Debt amount',
+                                                                                          'Total sale',
                                                                                           style: TextStyle(
                                                                                               fontSize: 17,
                                                                                               fontWeight:
                                                                                               FontWeight
                                                                                                   .w500),
                                                                                         ),
-                                                                                        trailing: Text('- $currencyUnit '+
-                                                                                            debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                      ) : ListTile(
-                                                                                        title: Text(
-                                                                                          'Cash refund',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
+                                                                                        subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                            )) : Text(totalItems() + ' item sets',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                            )),
                                                                                         trailing: Text('$currencyUnit '+
-                                                                                            refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                           style: TextStyle(
                                                                                               fontSize: 17,
                                                                                               fontWeight:
@@ -3887,922 +3475,395 @@ class HomePageState extends State<HomePage>
                                                                                                   .w500),
                                                                                         ),
                                                                                       ),
-                                                                                      SizedBox(height: 7),
-                                                                                      Padding(
+                                                                                      prodList.length != 0 ? Container(
+                                                                                        child: Padding(
                                                                                           padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () {
-                                                                                                    setState((){
-                                                                                                      // mystate(() {
-                                                                                                      _controllerTablet.animateTo(0);
-                                                                                                      _textFieldControllerTablet.clear();
-                                                                                                      paidAmount = 0;
-                                                                                                      debt = 0;
-                                                                                                      refund = 0;
-                                                                                                      totalAmount = double.parse(TtlProdListPrice());
-                                                                                                      // });
-                                                                                                    });
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 52)/2,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.secButtonColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  'Back',
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 18,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                )
+                                                                                          child: GestureDetector(
+                                                                                            onTap: () {
+                                                                                              setState(() {
+                                                                                                totalAmount = double.parse(TtlProdListPrice());
+                                                                                              });
+
+                                                                                              int i = 0;
+                                                                                              String totalCashCal = totalAmount.toInt().toString();
+                                                                                              print('CCC 0--> ' + totalAmount.toInt().toString());
+
+                                                                                              print('CCC 1--> ' + (totalCashCal.length - i).toString());
+
+                                                                                              print('totalAmount '+ totalAmount.toString());
+                                                                                              _controllerTablet.animateTo(1);
+                                                                                              if(_textFieldControllerTablet.text == '') {
+                                                                                                debt = double.parse(TtlProdListPrice().toString());
+                                                                                              }
+                                                                                              // sellDone = false;
+                                                                                            },
+                                                                                            child: Container(
+                                                                                              width: MediaQuery.of(context).size.width - 30,
+                                                                                              height: 50,
+                                                                                              decoration: BoxDecoration(
+                                                                                                  borderRadius:
+                                                                                                  BorderRadius.circular(10.0),
+                                                                                                  color: AppTheme.themeColor),
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment:
+                                                                                                MainAxisAlignment
+                                                                                                    .center,
+                                                                                                children: [
+                                                                                                  Expanded(
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
+                                                                                                      child: Container(
+                                                                                                          child: Text(
+                                                                                                            'Checkout',
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(
+                                                                                                                height: 1.3,
+                                                                                                                fontSize: 17.5,
+                                                                                                                fontWeight: FontWeight.w600,
+                                                                                                                color: Colors.black
                                                                                                             ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
+                                                                                                          )
+                                                                                                      ),
                                                                                                     ),
                                                                                                   ),
-                                                                                                ),
-                                                                                                Spacer(),
-                                                                                                GestureDetector(
-                                                                                                  onTap: () async {
-                                                                                                    WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                                                                    discountAmount = discount;
-                                                                                                    subList = [];
-                                                                                                    DateTime now = DateTime.now();
-                                                                                                    //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
-                                                                                                    int length = 0;
-                                                                                                    int totalOrders = 0;
-                                                                                                    int debts = 0;
-                                                                                                    var dateExist = false;
-                                                                                                    var dateId = '';
-                                                                                                    var monthId = '';
-                                                                                                    bool monthExist = false;
-                                                                                                    var yearId = '';
-                                                                                                    bool yearExist = false;
-                                                                                                    bool reFilter = false;
-                                                                                                    bool deFilter = false;
-                                                                                                    double debtAmounts = 0 ;
-                                                                                                    print('order creating');
-
-                                                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                                                        .get().then((value) async {
-                                                                                                      length = int.parse(value.data()!['orders_length'].toString());
-                                                                                                      print('lengthsss' + length.toString());
-
-                                                                                                      length = length + 1;
-
-                                                                                                      batch = await updateOrderLength(batch);
-
-                                                                                                      print('datacheck' + prodList.toString());
-                                                                                                      for (int k=0; k< prodList.length;  k++) {
-                                                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-
-                                                                                                        subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
-
-                                                                                                        // productsFire.doc(prodList[k].split('^')[0])
-                                                                                                        //     .get().then((val22) async {
-                                                                                                        //
-                                                                                                        // });
-
-                                                                                                        List<String> subLink = [];
-                                                                                                        List<String> subName = [];
-                                                                                                        List<double> subStock = [];
-
-                                                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                                                            .get();
-
-                                                                                                        if (docSnapshot10.exists) {
-                                                                                                          Map<String, dynamic>? data10 = docSnapshot10.data();
-
-                                                                                                          for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                                                            subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                                                            subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                                                            print('inStock' + (i+1).toString());
-                                                                                                            print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                                                            subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                                                          }
-
-                                                                                                          print(subStock.toString());
-
-                                                                                                          if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                                                            batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
-                                                                                                            //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                                            //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                                                            // if ( k == prodList.length-1) {
-                                                                                                            //   batch.commit();
-                                                                                                            // }
-                                                                                                            //print('batch complete');
-                                                                                                            // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                                                          }
-                                                                                                          else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                                                            batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
-                                                                                                            // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                                                            //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                            //});
-                                                                                                          }
-                                                                                                          else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                                                            batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
-                                                                                                            // productsFire.doc(str.split('^')[0]).update({
-                                                                                                            //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                            // });
-                                                                                                          }
-                                                                                                        }
-
-                                                                                                      }
-                                                                                                      if( debt.toString() != '0.0') {
-                                                                                                        debts = 1;
-                                                                                                        debtAmounts = debt;
-                                                                                                        deFilter = true;
-                                                                                                      } else {
-                                                                                                        debts = 0;
-                                                                                                        debtAmounts = 0;
-                                                                                                        deFilter = false;
-                                                                                                      }
-
-                                                                                                      print('subList ' + subList.toString());
-
-                                                                                                      totalOrders = totalOrders + 1;
-
-                                                                                                      batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
-
-                                                                                                      print('why total1 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-                                                                                                      String whyTotal = TtlProdListPrice().toString();
-                                                                                                      double whyDiscount = discountAmount;
-                                                                                                      String whyDisText = disText.toString();
-                                                                                                      double whyDebt = debt;
-                                                                                                      String whyCustomer = customerId.split('^')[0]+ '<>' + customerId.split('^')[1];
-                                                                                                      String detailCus = customerId.split('^')[0];
-                                                                                                      finalTotal = TtlProdListPrice().toString();
-
-                                                                                                      CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
-
-                                                                                                      monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                                                                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
-                                                                                                          .get()
-                                                                                                          .then((QuerySnapshot querySnapshot)  async {
-                                                                                                        querySnapshot.docs.forEach((doc) {
-                                                                                                          monthExist = true;
-                                                                                                          monthId = doc.id;
-                                                                                                        });
-                                                                                                        print('month ' + monthExist.toString());
-                                                                                                        if (monthExist) {
-                                                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                        }
-                                                                                                        else {
-                                                                                                          monthlyData.add({
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                                                            for(int j = 1; j<= 31; j++)
-                                                                                                              now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                                                                                            'date': now,
-
-                                                                                                          }).then((value) async {
-                                                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
-
-                                                                                                          }).catchError((error) => print("Failed to update user: $error"));
-                                                                                                        }
-
-                                                                                                        CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
-
-                                                                                                        yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                                                                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                                                                                            .get()
-                                                                                                            .then((QuerySnapshot querySnapshot)  async {
-                                                                                                          querySnapshot.docs.forEach((doc) {
-                                                                                                            yearExist = true;
-                                                                                                            yearId = doc.id;
-                                                                                                          });
-                                                                                                          print('year ' + yearExist.toString());
-                                                                                                          if (yearExist) {
-                                                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
-
-                                                                                                          }
-                                                                                                          else {
-                                                                                                            yearlyData.add({
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                                                              for(int j = 1; j<= 12; j++)
-                                                                                                                now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                                                                                              'date': now,
-
-                                                                                                            }).then((value5) async {
-                                                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                            }).catchError((error) => print("Failed to update user: $error"));
-                                                                                                          }
-
-                                                                                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                                                              .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                                                                                              .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                                                              .get()
-                                                                                                              .then((QuerySnapshot querySnapshot)  async {
-                                                                                                            querySnapshot.docs.forEach((doc) {
-                                                                                                              dateExist = true;
-                                                                                                              dateId = doc.id;
-                                                                                                            });
-
-                                                                                                            if (dateExist) {
-                                                                                                              print('why total12 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-
-                                                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + whyTotal + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), length.toString());
-                                                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-
-                                                                                                            }
-                                                                                                            else {
-                                                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-                                                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
-
-                                                                                                            }
-
-
-                                                                                                            batch.commit();
-                                                                                                          });
-                                                                                                        });
-                                                                                                      });
-
-
-                                                                                                      List<String> subNameList = [];
-                                                                                                      int subNameListLength = 0;
-                                                                                                      for (String str in prodList) {
-                                                                                                        subNameListLength = subNameListLength + 1;
-                                                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-                                                                                                        print('DATA CHECK PROD ' + str.toString());
-                                                                                                        subNameList.add(str.split('^')[7]);
-                                                                                                        if(prodList.length == subNameListLength) {
-                                                                                                          print('fianlize : ' + subNameList.toString());
-                                                                                                          final date = now;
-                                                                                                          final dueDate = date.add(Duration(days: 7));
-                                                                                                          print('CUZMER CHECK ' + customerId.toString());
-                                                                                                          final invoice = Invoice(
-                                                                                                            supplier: Supplier(
-                                                                                                              name: shopGloName,
-                                                                                                              address: shopGloAddress,
-                                                                                                              phone: shopGloPhone,
-                                                                                                              paymentInfo: '',
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ) :
+                                                                                      Container(
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                                          child: GestureDetector(
+                                                                                            onTap: () {
+                                                                                            },
+                                                                                            child: Container(
+                                                                                              width: MediaQuery.of(context).size.width - 30,
+                                                                                              height: 50,
+                                                                                              decoration: BoxDecoration(
+                                                                                                  borderRadius:
+                                                                                                  BorderRadius.circular(10.0),
+                                                                                                  color: AppTheme.themeColor),
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment:
+                                                                                                MainAxisAlignment
+                                                                                                    .center,
+                                                                                                children: [
+                                                                                                  Expanded(
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
+                                                                                                      child: Container(
+                                                                                                          child: Text(
+                                                                                                            'Checkout',
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(
+                                                                                                                height: 1.3,
+                                                                                                                fontSize: 17.5,
+                                                                                                                fontWeight: FontWeight.w600,
+                                                                                                                color: Colors.black
                                                                                                             ),
-                                                                                                            customer: Customer(
-                                                                                                              name: customerId.split('^')[1],
-                                                                                                              address: '',
-                                                                                                            ),
-                                                                                                            info: InvoiceInfo(
-                                                                                                                date: date,
-                                                                                                                dueDate: dueDate,
-                                                                                                                description: 'My description...',
-                                                                                                                // number: '${DateTime.now().year}-9999',
-                                                                                                                number: deviceIdNum.toString() + '^' + length.toString()
-                                                                                                            ),
-                                                                                                            items: [
-                                                                                                              for(int i=0; i<prodList.length; i++)
-                                                                                                                InvoiceItem(
-                                                                                                                  description: prodList[i].split('^')[6],
-                                                                                                                  // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                                                  date: subNameList[i].toString(),
-                                                                                                                  quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                                                  vat: discountAmount,
-                                                                                                                  type: disText,
-                                                                                                                  debt: debt,
-                                                                                                                  unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                                                  currencyUnit: currencyUnit,
-                                                                                                                  totalPriceText: totalVPrice,
-                                                                                                                  paidText: VPaid,
-                                                                                                                  totalDebtText: VDebt,
-                                                                                                                  subTotalText: subVTotal,
-                                                                                                                  discountText: VDiscount,
-                                                                                                                )
-
-                                                                                                            ],
-                                                                                                          );
-
-
-                                                                                                          getPaperId().then((value) async {
-                                                                                                            print('VVAALLUUEE ' + value.toString());
-                                                                                                            pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                                            Uint8List bytes = pdfFile!.readAsBytesSync();
-
-                                                                                                            // mystate(() {
-                                                                                                            //   // setState(() {
-                                                                                                            //   pdfText = pdfFile!.path.toString();
-                                                                                                            //   // });
-                                                                                                            // });
-                                                                                                            setState(() {
-                                                                                                              pdfText = pdfFile!.path.toString();
-
-                                                                                                              prodList = [];
-                                                                                                              discount = 0.0;
-                                                                                                              discountAmount =0.0;
-                                                                                                              debt =0;
-                                                                                                              refund =0;
-                                                                                                              customerId = 'name^name';
-                                                                                                              disText = '';
-                                                                                                              isDiscount = '';
-                                                                                                            });
-
-
-                                                                                                            // mystate(()  {
-                                                                                                            //   prodList = [];
-                                                                                                            //   discount = 0.0;
-                                                                                                            //   debt =0;
-                                                                                                            //   refund =0;
-                                                                                                            //   //customerId = 'name^name';
-                                                                                                            // });
-
-
-                                                                                                            _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                                          });
-
-                                                                                                        }
-
-
-                                                                                                      }
-
-
-
-
-
-                                                                                                    });
-
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 52)/2,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  'Done',
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 17,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
+                                                                                                          )
+                                                                                                      ),
                                                                                                     ),
                                                                                                   ),
-                                                                                                ),
-                                                                                              ]
-                                                                                          )
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
                                                                                       )
                                                                                     ],
                                                                                   ),
                                                                                 ),
                                                                               ),
-
                                                                             ],
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Container(
-                                                                        // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                                                        width: double.infinity,
-                                                                        decoration: BoxDecoration(
-                                                                          color: Colors.white,
-                                                                          borderRadius: BorderRadius.only(
-                                                                            topLeft: Radius.circular(20.0),
-                                                                            topRight: Radius.circular(20.0),
-                                                                          ),
-                                                                        ),
-                                                                        child: Container(
+                                                                        Container(
+                                                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                                                           width: double.infinity,
-                                                                          child: Stack(
-                                                                            children: [
-                                                                              Container(
-                                                                                width: double.infinity,
-                                                                                height: 67,
-                                                                                decoration: BoxDecoration(
-                                                                                    border: Border(
-                                                                                        bottom: BorderSide(
-                                                                                            color: Colors.blue
-                                                                                                .withOpacity(0.1),
-                                                                                            width: 1.0))),
-                                                                                child:
-
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20.0),
+                                                                              topRight: Radius.circular(20.0),
+                                                                            ),
+                                                                            color: Colors.white,
+                                                                          ),
+                                                                          child: Container(
+                                                                            width: double.infinity,
+                                                                            child: Stack(
+                                                                              children: [
                                                                                 Padding(
-                                                                                  padding: EdgeInsets.only(
-                                                                                      left: 15.0,
-                                                                                      right: 15.0,
-                                                                                      top: 2),
-                                                                                  child:
-                                                                                  Column(
-                                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: [
-                                                                                      Row(
-                                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  padding: const EdgeInsets.only(top: 67.0),
+                                                                                  child: Container(
+                                                                                    // color: Colors.yellow,
+                                                                                      child: ListView(
                                                                                         children: [
-
-                                                                                          Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            color: Colors.black,
-                                                                                            fontSize: 13,
-                                                                                            height: 1.5,
-                                                                                          )),
-                                                                                          // SizedBox(width: 5),
-                                                                                          if (unit == 'unit_name') Padding(
-                                                                                            padding: const EdgeInsets.only(left: 5.0, top: 4.7),
-                                                                                            child: Icon( SmartKyat_POS.prodm, size: 13, color: Colors.grey,),
-                                                                                          )
-                                                                                          else if(unit == 'sub1_name') Padding(
-                                                                                            padding: const EdgeInsets.only(left: 5.0, top: 4.7),
-                                                                                            child: Icon(SmartKyat_POS.prods1, size: 13, color: Colors.grey,),
-                                                                                          )
-                                                                                          else if(unit == 'sub2_name') Padding(
-                                                                                              padding: const EdgeInsets.only(left: 5.0, top: 4.7),
-                                                                                              child: Icon(SmartKyat_POS.prods2, size: 13, color: Colors.grey,),
-                                                                                            )
-                                                                                          // else Icon( Icons.check, size: 17, color: Colors.grey,),
-                                                                                        ],
-                                                                                      ),
-                                                                                      Text(productName, style: TextStyle(
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 18,
-                                                                                          height: 1.3
-                                                                                      ),
-                                                                                          strutStyle: StrutStyle(
-                                                                                            height: 1.7,
-                                                                                            forceStrutHeight: true,
-                                                                                          )
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              eachProd.length !=0 ?
-                                                                              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                                                  stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(productId).snapshots(),
-                                                                                  builder: (context, snapshot) {
-                                                                                    if(snapshot.hasData) {
-                                                                                      var output2 = snapshot.data!.data();
-                                                                                      return Padding(
-                                                                                        padding: const EdgeInsets.only(
-                                                                                          top: 67.0,
-                                                                                          left: 15.0,
-                                                                                          right: 15.0,
-                                                                                          bottom: 138,
-                                                                                        ),
-                                                                                        child: Container(
-                                                                                            child: ListView(
-                                                                                              padding: EdgeInsets.zero,
-                                                                                              children: [
-                                                                                                SizedBox(
-                                                                                                  height: 15,
-                                                                                                ),
-                                                                                                Text('QUANTITY', style: TextStyle(
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 14,
-                                                                                                    letterSpacing: 2,
-                                                                                                    color: Colors.grey
-                                                                                                ),),
-                                                                                                SizedBox(height: 15),
-                                                                                                Row(
-                                                                                                  children: [
-                                                                                                    GestureDetector(
-                                                                                                      onTap: () {
-                                                                                                        // mystate(() {
-
-                                                                                                        // });
-                                                                                                        setState(() {
-                                                                                                          quantity = double.parse(myControllerTablet.text) -1;
-                                                                                                          myControllerTablet.text = quantity.round().toString();
-                                                                                                          print('qqq' + quantity.toString());
-                                                                                                        });
-                                                                                                      },
-                                                                                                      child: Container(
-                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                                        height: 50,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(10.0),
-                                                                                                            color: AppTheme.themeColor),
-                                                                                                        child: Padding(
-                                                                                                          padding: const EdgeInsets.only(
-                                                                                                              top: 15.0,
-                                                                                                              bottom: 15.0),
-                                                                                                          child: Row(
-                                                                                                            mainAxisAlignment:
-                                                                                                            MainAxisAlignment
-                                                                                                                .center,
-                                                                                                            children: [
-                                                                                                              Expanded(
-                                                                                                                child: Padding(
-                                                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                                  child: Container(
-                                                                                                                      child: Icon(
-                                                                                                                        Icons.remove, size: 20,
-                                                                                                                      )
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ],
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                                            child: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          borderRadius: BorderRadius.all(
+                                                                                                            Radius.circular(10.0),
                                                                                                           ),
-                                                                                                        ),
+                                                                                                          border: Border.all(
+                                                                                                            // color: Colors.black,
+                                                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                                                              width: 1.0),
+                                                                                                          color: AppTheme.lightBgColor),
+                                                                                                      height:  133,
+                                                                                                      width: MediaQuery.of(context).size.width,
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                        children: [
+                                                                                                          Text('Total sale - $currencyUnit',
+                                                                                                              textAlign: TextAlign.center,
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 20,
+                                                                                                                fontWeight: FontWeight.w500,
+                                                                                                                color: Colors.grey,
+                                                                                                              )),
+                                                                                                          SizedBox(height: 8),
+                                                                                                          Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                                              textAlign: TextAlign.center,
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 23, fontWeight: FontWeight.w500,
+                                                                                                              )),
+                                                                                                        ],
+                                                                                                      )),
+                                                                                                  SizedBox(height: 15),
+                                                                                                  Text('CASH RECEIVED', style: TextStyle(
+                                                                                                      letterSpacing: 2,
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      fontSize: 14,color: Colors.grey
+                                                                                                  ),),
+                                                                                                  SizedBox(height: 13),
+                                                                                                  TextField(
+                                                                                                    style: TextStyle(
+                                                                                                        height: 0.95
+                                                                                                    ),
+                                                                                                    decoration: InputDecoration(
+                                                                                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                          borderSide: const BorderSide(
+                                                                                                              color: AppTheme.skBorderColor,
+                                                                                                              width: 2.0),
+                                                                                                          borderRadius: BorderRadius.all(
+                                                                                                              Radius.circular(10.0))),
+
+                                                                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                          borderSide: const BorderSide(
+                                                                                                              color: AppTheme.themeColor,
+                                                                                                              width: 2.0),
+                                                                                                          borderRadius: BorderRadius.all(
+                                                                                                              Radius.circular(10.0))),
+                                                                                                      contentPadding: const EdgeInsets.only(
+                                                                                                          left: 15.0,
+                                                                                                          right: 15.0,
+                                                                                                          top: 20.0,
+                                                                                                          bottom: 20.0),
+                                                                                                      suffixText: '$currencyUnit' ,
+                                                                                                      // tooltip: 'Increase volume by 10',
+                                                                                                      suffixStyle: TextStyle(
+                                                                                                        color: Colors.grey,
+                                                                                                        fontSize: 15,
+                                                                                                        fontFamily: 'capsulesans',
+                                                                                                      ),
+                                                                                                      errorStyle: TextStyle(
+                                                                                                          backgroundColor: Colors.white,
+                                                                                                          fontSize: 12,
+                                                                                                          fontFamily: 'capsulesans',
+                                                                                                          height: 0.1
+                                                                                                      ),
+                                                                                                      labelStyle: TextStyle(
+                                                                                                        fontWeight: FontWeight.w500,
+                                                                                                        color: Colors.black,
+                                                                                                      ),
+// errorText: 'Error message',
+                                                                                                      labelText: 'Custom price',
+                                                                                                      floatingLabelBehavior:
+                                                                                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(10),
                                                                                                       ),
                                                                                                     ),
-                                                                                                    SizedBox(width: 15),
-                                                                                                    Container(
-                                                                                                      width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                                      height: 50,
-                                                                                                      child: TextField(
-                                                                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                        inputFormatters: <TextInputFormatter>[
-                                                                                                          FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                        textAlign: TextAlign.center,
-                                                                                                        style: TextStyle(
-                                                                                                            height: 0.95
-                                                                                                        ),
-                                                                                                        decoration: InputDecoration(
-                                                                                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                              borderSide: const BorderSide(
-                                                                                                                  color: AppTheme.skBorderColor,
-                                                                                                                  width: 2.0),
-                                                                                                              borderRadius: BorderRadius.all(
-                                                                                                                  Radius.circular(10.0))),
+                                                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                    inputFormatters: <TextInputFormatter>[
+                                                                                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                    onChanged: (value) {
+                                                                                                      // mystate(() {
+                                                                                                      //   totalAmount = double.parse(TtlProdListPrice());
+                                                                                                      //   value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                                                      //   if((totalAmount - paidAmount).isNegative){
+                                                                                                      //     debt = 0;
+                                                                                                      //   } else { debt = (totalAmount - paidAmount);
+                                                                                                      //   }
+                                                                                                      //   if((paidAmount - totalAmount).isNegative){
+                                                                                                      //     refund = 0;
+                                                                                                      //   } else { refund = (paidAmount - totalAmount);
+                                                                                                      //   }
+                                                                                                      // });
+                                                                                                      setState(() {
+                                                                                                        totalAmount = double.parse(TtlProdListPrice());
+                                                                                                        value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                                                        if((totalAmount - paidAmount).isNegative){
+                                                                                                          debt = 0;
+                                                                                                        } else { debt = (totalAmount - paidAmount);
+                                                                                                        }
+                                                                                                        if((paidAmount - totalAmount).isNegative){
+                                                                                                          refund = 0;
+                                                                                                        } else { refund = (paidAmount - totalAmount);
+                                                                                                        }
+                                                                                                      });
+                                                                                                    },
+                                                                                                    controller: _textFieldControllerTablet,
+                                                                                                  ),
+                                                                                                  SizedBox(height: 20),
 
-                                                                                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                              borderSide: const BorderSide(
-                                                                                                                  color: AppTheme.themeColor,
-                                                                                                                  width: 2.0),
-                                                                                                              borderRadius: BorderRadius.all(
-                                                                                                                  Radius.circular(10.0))),
-                                                                                                          contentPadding: const EdgeInsets.only(
-                                                                                                              left: 15.0,
-                                                                                                              right: 15.0,
-                                                                                                              top: 20,
-                                                                                                              bottom: 20.0),
-                                                                                                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                                                                                          //filled: true,
-                                                                                                          border: OutlineInputBorder(
-                                                                                                            borderRadius: BorderRadius.circular(10),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                        onChanged: (value) {
-                                                                                                          setState(() {
-                                                                                                            quantity = double.parse(value);
-                                                                                                          });
-                                                                                                        },
-                                                                                                        controller: myControllerTablet,
+                                                                                                  ButtonTheme(
+                                                                                                    minWidth: double.infinity,
+                                                                                                    //minWidth: 50,
+                                                                                                    splashColor: AppTheme.buttonColor2,
+                                                                                                    height: 50,
+                                                                                                    child: FlatButton(
+                                                                                                      color: AppTheme.buttonColor2,
+                                                                                                      shape: RoundedRectangleBorder(
+                                                                                                        borderRadius: BorderRadius.circular(7.0),
                                                                                                       ),
-                                                                                                    ),
-                                                                                                    SizedBox(width: 15),
-                                                                                                    GestureDetector(
-                                                                                                      onTap: () {
+                                                                                                      onPressed: () async {
                                                                                                         setState(() {
                                                                                                           // mystate(() {
-
+                                                                                                          //   totalAmount =
+                                                                                                          //       double
+                                                                                                          //           .parse(
+                                                                                                          //           TtlProdListPrice());
+                                                                                                          //   _textFieldController
+                                                                                                          //       .text =
+                                                                                                          //       totalAmount
+                                                                                                          //           .toString();
+                                                                                                          //   paidAmount =
+                                                                                                          //       totalAmount;
+                                                                                                          //   if ((totalAmount -
+                                                                                                          //       paidAmount)
+                                                                                                          //       .isNegative) {
+                                                                                                          //     debt = 0;
+                                                                                                          //   } else {
+                                                                                                          //     debt =
+                                                                                                          //     (totalAmount -
+                                                                                                          //         paidAmount);
+                                                                                                          //   }
+                                                                                                          //   if ((paidAmount -
+                                                                                                          //       totalAmount)
+                                                                                                          //       .isNegative) {
+                                                                                                          //     refund =
+                                                                                                          //     0;
+                                                                                                          //   } else {
+                                                                                                          //     refund =
+                                                                                                          //     (paidAmount -
+                                                                                                          //         totalAmount);
+                                                                                                          //   }
                                                                                                           // });
                                                                                                           setState(() {
-                                                                                                            quantity = double.parse(myControllerTablet.text) +1;
-                                                                                                            myControllerTablet.text = quantity.round().toString();
-                                                                                                            print('qqq' + quantity.toString());
+                                                                                                            totalAmount =
+                                                                                                                double
+                                                                                                                    .parse(
+                                                                                                                    TtlProdListPrice());
+                                                                                                            _textFieldControllerTablet
+                                                                                                                .text =
+                                                                                                                totalAmount
+                                                                                                                    .toString();
+
+                                                                                                            paidAmount =
+                                                                                                                totalAmount;
+                                                                                                            if ((totalAmount -
+                                                                                                                paidAmount)
+                                                                                                                .isNegative) {
+                                                                                                              debt = 0;
+                                                                                                            } else {
+                                                                                                              debt =
+                                                                                                              (totalAmount -
+                                                                                                                  paidAmount);
+                                                                                                            }
+                                                                                                            if ((paidAmount -
+                                                                                                                totalAmount)
+                                                                                                                .isNegative) {
+                                                                                                              refund =
+                                                                                                              0;
+                                                                                                            } else {
+                                                                                                              refund =
+                                                                                                              (paidAmount -
+                                                                                                                  totalAmount);
+                                                                                                            }
                                                                                                           });
                                                                                                         });
                                                                                                       },
                                                                                                       child: Container(
-                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
-                                                                                                        height: 50,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(10.0),
-                                                                                                            color: AppTheme.themeColor),
-                                                                                                        child: Padding(
-                                                                                                          padding: const EdgeInsets.only(
-                                                                                                              top: 15.0,
-                                                                                                              bottom: 15.0),
-                                                                                                          child: Row(
-                                                                                                            mainAxisAlignment:
-                                                                                                            MainAxisAlignment
-                                                                                                                .center,
-                                                                                                            children: [
-                                                                                                              Expanded(
-                                                                                                                child: Padding(
-                                                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                                  child: Container(
-                                                                                                                      child: Icon(
-                                                                                                                        Icons.add, size: 20,
-                                                                                                                      )
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ],
+                                                                                                        child: Text( '$currencyUnit ' +
+                                                                                                            TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                                          style: TextStyle(
+                                                                                                              fontWeight: FontWeight.w600,
+                                                                                                              fontSize: 17
                                                                                                           ),
                                                                                                         ),
                                                                                                       ),
                                                                                                     ),
-                                                                                                  ],
-                                                                                                ),
-                                                                                                SizedBox(height: 15,),
-                                                                                                Text('COST PER UNIT', style: TextStyle(
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 14,
-                                                                                                    letterSpacing: 2,
-                                                                                                    color: Colors.grey
-                                                                                                ),),
-                                                                                                SizedBox(height: 15,),
-                                                                                                TextFormField(
-                                                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                  inputFormatters: <TextInputFormatter>[
-                                                                                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                                                  controller: sellPriceControllerTablet,
-                                                                                                  validator: (value) {
-                                                                                                    if (value == null || value.isEmpty) {
-                                                                                                      setState(() {
-                                                                                                        price2 = 0;
-                                                                                                      });
-                                                                                                      // return '';
-                                                                                                      return ' This field is required ';
-                                                                                                    }
-                                                                                                    return null;
-                                                                                                  },
-                                                                                                  style: TextStyle(
-                                                                                                      height: 0.95
                                                                                                   ),
-                                                                                                  maxLines: 1,
-                                                                                                  decoration: InputDecoration(
-                                                                                                    enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                        borderSide: const BorderSide(
-                                                                                                            color: AppTheme.skBorderColor,
-                                                                                                            width: 2.0),
-                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                            Radius.circular(10.0))),
-
-                                                                                                    focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                                                        borderSide: const BorderSide(
-                                                                                                            color: AppTheme.themeColor,
-                                                                                                            width: 2.0),
-                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                            Radius.circular(10.0))),
-                                                                                                    // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                                                                                                    // isDense: true,
-                                                                                                    contentPadding: const EdgeInsets.only(
-                                                                                                        left: 15.0,
-                                                                                                        right: 15.0,
-                                                                                                        top: 20,
-                                                                                                        bottom: 20.0),
-                                                                                                    suffixText: '$currencyUnit',
-                                                                                                    suffixStyle: TextStyle(
-                                                                                                      color: Colors.grey,
-                                                                                                      fontSize: 12,
-                                                                                                      fontFamily: 'capsulesans',
-                                                                                                    ),
-                                                                                                    //errorText: wrongEmail,
-                                                                                                    errorStyle: TextStyle(
-                                                                                                        backgroundColor: Colors.white,
-                                                                                                        fontSize: 12,
-                                                                                                        fontFamily: 'capsulesans',
-                                                                                                        height: 0.1
-                                                                                                    ),
-                                                                                                    labelStyle: TextStyle(
-                                                                                                      fontWeight: FontWeight.w500,
-                                                                                                      color: Colors.black,
-                                                                                                    ),
-// errorText: 'Error message',
-                                                                                                    labelText: 'Custom Sell Price',
-                                                                                                    floatingLabelBehavior:
-                                                                                                    FloatingLabelBehavior.auto,
-//filled: true,
-                                                                                                    border: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(10),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                                SizedBox(height: 15,),
-                                                                                                Text('UNIT PRICING', style: TextStyle(
-                                                                                                  fontWeight: FontWeight.bold,
-                                                                                                  fontSize: 14,
-                                                                                                  letterSpacing: 2,
-                                                                                                  color: Colors.grey,
-                                                                                                ),),
-                                                                                                SizedBox(height: 15,),
-                                                                                                Container(
-                                                                                                  height: 220,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    borderRadius: BorderRadius.circular(20.0),
-                                                                                                    color: AppTheme.lightBgColor,
-                                                                                                  ),
-                                                                                                  child: Padding(
-                                                                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                                                                    child: Column(
-                                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                      children: [
-                                                                                                        Container(
-                                                                                                          height: 55,
-                                                                                                          decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                                                                              color: Colors.grey
-                                                                                                                  .withOpacity(0.2),
-                                                                                                              width: 1.0))),
-                                                                                                          child: Row(
-                                                                                                            children: [
-                                                                                                              Text('Sell price', style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                              ),),
-                                                                                                              Spacer(),
-                                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  output2?['unit_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) :
-                                                                                                              eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  output2?['sub1_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) :  Text('$currencyUnit ' +  output2?['sub2_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                        Container(
-                                                                                                          height: 55,
-                                                                                                          decoration: BoxDecoration(
-                                                                                                              border: Border(
-                                                                                                                  bottom: BorderSide(
-                                                                                                                      color: Colors.grey
-                                                                                                                          .withOpacity(0.2),
-                                                                                                                      width: 1.0))),
-                                                                                                          child: Row(
-                                                                                                            children: [
-                                                                                                              Text('In stock', style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                              ),),
-                                                                                                              Spacer(),
-                                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text(output2!['inStock1'].round().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2!['inStock2'].round().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) : Text(output2!['inStock3'].round().toString().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                        Container(
-                                                                                                          height: 55,
-                                                                                                          decoration: BoxDecoration(
-                                                                                                              border: Border(
-                                                                                                                  bottom: BorderSide(
-                                                                                                                      color: Colors.grey
-                                                                                                                          .withOpacity(0.2),
-                                                                                                                      width: 1.0))),
-                                                                                                          child: Row(
-                                                                                                            children: [
-                                                                                                              Text('Loss', style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                              ),),
-                                                                                                              Spacer(),
-                                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text(output2['Loss1'].round().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2['Loss2'].round().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),) : Text(output2['Loss3'].round().toString() + ' ' + productLink, style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                        Container(
-                                                                                                          height: 55,
-                                                                                                          child: Row(
-                                                                                                            children: [
-                                                                                                              Text('Barcode', style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                              ),),
-                                                                                                              Spacer(),
-                                                                                                              Text(output2['bar_code'], style:
-                                                                                                              TextStyle(
-                                                                                                                fontSize: 15,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                                SizedBox(height: 20,),
-                                                                                                //     }
-                                                                                                //     return Container();
-                                                                                                //   },
-                                                                                                // ),
-                                                                                              ],
-                                                                                            )),
-                                                                                      );
-                                                                                    }
-                                                                                    return Padding(
-                                                                                      padding: EdgeInsets.only(bottom: homeBotPadding),
-                                                                                      child: Container(
-                                                                                        child: Center(
-                                                                                          child: Padding(
-                                                                                            padding: EdgeInsets.only(bottom: 15.0),
-                                                                                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                                child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                                  SizedBox(height: 20),
+                                                                                                ]
+                                                                                            ),
                                                                                           ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    );
-                                                                                  }
-                                                                              ):
-                                                                              Center(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.only(bottom: 15.0),
-                                                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                          // orderLoading?Text('Loading'):Text('')
+                                                                                        ],
+                                                                                      )),
                                                                                 ),
-                                                                              ),
-                                                                              Align(
-                                                                                alignment: Alignment.bottomCenter,
-                                                                                child: Padding(
-                                                                                  padding: EdgeInsets.only(bottom: 0),
+                                                                                Container(
+                                                                                  height: 67,
+                                                                                  width: double.infinity,
+                                                                                  decoration: BoxDecoration(
+                                                                                      border: Border(
+                                                                                          bottom: BorderSide(
+                                                                                              color: Colors.grey
+                                                                                                  .withOpacity(0.3),
+                                                                                              width: 1.0))),
+                                                                                  child: Padding(
+                                                                                    padding: EdgeInsets.only(
+                                                                                        left: 15.0,
+                                                                                        right: 15.0,
+                                                                                        top: 2,
+                                                                                        bottom: 0.0
+                                                                                    ),
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 13,
+                                                                                          height: 1.5,
+                                                                                        )),
+                                                                                        Text('Cash acceptance', style: TextStyle(
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 18,
+                                                                                            height: 1.3
+                                                                                        )),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Align(
+                                                                                  alignment: Alignment.bottomCenter,
                                                                                   child: Container(
                                                                                     decoration: BoxDecoration(
+                                                                                        color: Colors.white,
                                                                                         border: Border(
                                                                                           top: BorderSide(
                                                                                               color:
@@ -4817,36 +3878,44 @@ class HomePageState extends State<HomePage>
                                                                                       crossAxisAlignment:
                                                                                       CrossAxisAlignment.end,
                                                                                       children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                Text(
-                                                                                                  'Total',
-                                                                                                  style: TextStyle(
-                                                                                                      fontSize: 17,
-                                                                                                      fontWeight:
-                                                                                                      FontWeight
-                                                                                                          .w500),
-                                                                                                ),
-                                                                                                Expanded(
-                                                                                                    child: Text('$currencyUnit '+
-                                                                                                        (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                                      textAlign: TextAlign.right,
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 17,
-                                                                                                          fontWeight:
-                                                                                                          FontWeight
-                                                                                                              .w500),
-                                                                                                    )
-                                                                                                )
-                                                                                              ]
+                                                                                        debt!= 0 ? ListTile(
+                                                                                          title: Text(
+                                                                                            'Debt amount',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                          trailing: Text('- $currencyUnit '+
+                                                                                              debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                        ) : ListTile(
+                                                                                          title: Text(
+                                                                                            'Cash refund',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                          trailing: Text('$currencyUnit '+
+                                                                                              refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
                                                                                           ),
                                                                                         ),
-
-                                                                                        SizedBox(height: 10),
+                                                                                        SizedBox(height: 7),
                                                                                         Padding(
-                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                                                             child: Row(
                                                                                                 children: [
                                                                                                   GestureDetector(
@@ -4861,10 +3930,9 @@ class HomePageState extends State<HomePage>
                                                                                                         totalAmount = double.parse(TtlProdListPrice());
                                                                                                         // });
                                                                                                       });
-
                                                                                                     },
                                                                                                     child: Container(
-                                                                                                      width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                      width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 52)/2,
                                                                                                       height: 50,
                                                                                                       decoration: BoxDecoration(
                                                                                                           borderRadius:
@@ -4883,7 +3951,7 @@ class HomePageState extends State<HomePage>
                                                                                                                     'Back',
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
-                                                                                                                        fontSize: 17,
+                                                                                                                        fontSize: 18,
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
                                                                                                                     ),
@@ -4897,22 +3965,328 @@ class HomePageState extends State<HomePage>
                                                                                                   ),
                                                                                                   Spacer(),
                                                                                                   GestureDetector(
-                                                                                                    onTap: () {
-                                                                                                      if (_formKey2.currentState!.validate()) {
-                                                                                                        print('eachProduct' +eachProd);
-                                                                                                        for (int j = 0; j < prodList.length; j++)
-                                                                                                          if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
-                                                                                                            setState((){
-                                                                                                              eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8];
-                                                                                                              prodList[j] = eachProd;
+                                                                                                    onTap: () async {
+                                                                                                      WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                                                      discountAmount = discount;
+                                                                                                      subList = [];
+                                                                                                      DateTime now = DateTime.now();
+                                                                                                      //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+                                                                                                      int length = 0;
+                                                                                                      int totalOrders = 0;
+                                                                                                      int debts = 0;
+                                                                                                      var dateExist = false;
+                                                                                                      var dateId = '';
+                                                                                                      var monthId = '';
+                                                                                                      bool monthExist = false;
+                                                                                                      var yearId = '';
+                                                                                                      bool yearExist = false;
+                                                                                                      bool reFilter = false;
+                                                                                                      bool deFilter = false;
+                                                                                                      double debtAmounts = 0 ;
+                                                                                                      print('order creating');
+
+                                                                                                      FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                                                          .get().then((value) async {
+                                                                                                        length = int.parse(value.data()!['orders_length'].toString());
+                                                                                                        print('lengthsss' + length.toString());
+
+                                                                                                        length = length + 1;
+
+                                                                                                        batch = await updateOrderLength(batch);
+
+                                                                                                        print('datacheck' + prodList.toString());
+                                                                                                        for (int k=0; k< prodList.length;  k++) {
+                                                                                                          //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+
+                                                                                                          subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
+
+                                                                                                          // productsFire.doc(prodList[k].split('^')[0])
+                                                                                                          //     .get().then((val22) async {
+                                                                                                          //
+                                                                                                          // });
+
+                                                                                                          List<String> subLink = [];
+                                                                                                          List<String> subName = [];
+                                                                                                          List<double> subStock = [];
+
+                                                                                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                                                              .get();
+
+                                                                                                          if (docSnapshot10.exists) {
+                                                                                                            Map<String, dynamic>? data10 = docSnapshot10.data();
+
+                                                                                                            for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                                                              subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                                                              subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                                                              print('inStock' + (i+1).toString());
+                                                                                                              print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                                                              subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                                                            }
+
+                                                                                                            print(subStock.toString());
+
+                                                                                                            if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                                              batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
+                                                                                                              //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                                              //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                                              // if ( k == prodList.length-1) {
+                                                                                                              //   batch.commit();
+                                                                                                              // }
+                                                                                                              //print('batch complete');
+                                                                                                              // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
+                                                                                                            }
+                                                                                                            else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                                              batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                              // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                                              //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                              //});
+                                                                                                            }
+                                                                                                            else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                                              batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                              // productsFire.doc(str.split('^')[0]).update({
+                                                                                                              //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                                              // });
+                                                                                                            }
+                                                                                                          }
+
+                                                                                                        }
+                                                                                                        if( debt.toString() != '0.0') {
+                                                                                                          debts = 1;
+                                                                                                          debtAmounts = debt;
+                                                                                                          deFilter = true;
+                                                                                                        } else {
+                                                                                                          debts = 0;
+                                                                                                          debtAmounts = 0;
+                                                                                                          deFilter = false;
+                                                                                                        }
+
+                                                                                                        print('subList ' + subList.toString());
+
+                                                                                                        totalOrders = totalOrders + 1;
+
+                                                                                                        batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+
+                                                                                                        print('why total1 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
+                                                                                                        String whyTotal = TtlProdListPrice().toString();
+                                                                                                        double whyDiscount = discountAmount;
+                                                                                                        String whyDisText = disText.toString();
+                                                                                                        double whyDebt = debt;
+                                                                                                        String whyCustomer = customerId.split('^')[0]+ '<>' + customerId.split('^')[1];
+                                                                                                        String detailCus = customerId.split('^')[0];
+                                                                                                        finalTotal = TtlProdListPrice().toString();
+
+                                                                                                        CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+
+                                                                                                        monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                                                                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                                                                                            .get()
+                                                                                                            .then((QuerySnapshot querySnapshot)  async {
+                                                                                                          querySnapshot.docs.forEach((doc) {
+                                                                                                            monthExist = true;
+                                                                                                            monthId = doc.id;
+                                                                                                          });
+                                                                                                          print('month ' + monthExist.toString());
+                                                                                                          if (monthExist) {
+                                                                                                            batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
+                                                                                                          }
+                                                                                                          else {
+                                                                                                            monthlyData.add({
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                                                              for(int j = 1; j<= 31; j++)
+                                                                                                                now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                                                              'date': now,
+
+                                                                                                            }).then((value) async {
+                                                                                                              batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
+
+                                                                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                                                                          }
+
+                                                                                                          CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
+
+                                                                                                          yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                                                                                              .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                                                                                              .get()
+                                                                                                              .then((QuerySnapshot querySnapshot)  async {
+                                                                                                            querySnapshot.docs.forEach((doc) {
+                                                                                                              yearExist = true;
+                                                                                                              yearId = doc.id;
                                                                                                             });
-                                                                                                            print('leepae' + prodList[j]);
-                                                                                                          } else print('leelar');
-                                                                                                        _controllerTablet.animateTo(0);
-                                                                                                      }
+                                                                                                            print('year ' + yearExist.toString());
+                                                                                                            if (yearExist) {
+                                                                                                              batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
+
+                                                                                                            }
+                                                                                                            else {
+                                                                                                              yearlyData.add({
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
+                                                                                                                for(int j = 1; j<= 12; j++)
+                                                                                                                  now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
+
+                                                                                                                'date': now,
+
+                                                                                                              }).then((value5) async {
+                                                                                                                batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
+                                                                                                              }).catchError((error) => print("Failed to update user: $error"));
+                                                                                                            }
+
+                                                                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                                                                .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                                                                .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                                                                .get()
+                                                                                                                .then((QuerySnapshot querySnapshot)  async {
+                                                                                                              querySnapshot.docs.forEach((doc) {
+                                                                                                                dateExist = true;
+                                                                                                                dateId = doc.id;
+                                                                                                              });
+
+                                                                                                              if (dateExist) {
+                                                                                                                print('why total12 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
+
+                                                                                                                batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + whyTotal + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), length.toString());
+                                                                                                                batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
+
+                                                                                                              }
+                                                                                                              else {
+                                                                                                                batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
+                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
+
+                                                                                                              }
+
+
+                                                                                                              batch.commit();
+                                                                                                            });
+                                                                                                          });
+                                                                                                        });
+
+
+                                                                                                        List<String> subNameList = [];
+                                                                                                        int subNameListLength = 0;
+                                                                                                        for (String str in prodList) {
+                                                                                                          subNameListLength = subNameListLength + 1;
+                                                                                                          //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                                                          print('DATA CHECK PROD ' + str.toString());
+                                                                                                          subNameList.add(str.split('^')[7]);
+                                                                                                          if(prodList.length == subNameListLength) {
+                                                                                                            print('fianlize : ' + subNameList.toString());
+                                                                                                            final date = now;
+                                                                                                            final dueDate = date.add(Duration(days: 7));
+                                                                                                            print('CUZMER CHECK ' + customerId.toString());
+                                                                                                            final invoice = Invoice(
+                                                                                                              supplier: Supplier(
+                                                                                                                name: shopGloName,
+                                                                                                                address: shopGloAddress,
+                                                                                                                phone: shopGloPhone,
+                                                                                                                paymentInfo: '',
+                                                                                                              ),
+                                                                                                              customer: Customer(
+                                                                                                                name: customerId.split('^')[1],
+                                                                                                                address: '',
+                                                                                                              ),
+                                                                                                              info: InvoiceInfo(
+                                                                                                                  date: date,
+                                                                                                                  dueDate: dueDate,
+                                                                                                                  description: 'My description...',
+                                                                                                                  // number: '${DateTime.now().year}-9999',
+                                                                                                                  number: deviceIdNum.toString() + '^' + length.toString()
+                                                                                                              ),
+                                                                                                              items: [
+                                                                                                                for(int i=0; i<prodList.length; i++)
+                                                                                                                  InvoiceItem(
+                                                                                                                    description: prodList[i].split('^')[6],
+                                                                                                                    // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                                                    date: subNameList[i].toString(),
+                                                                                                                    quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                                                    vat: discountAmount,
+                                                                                                                    type: disText,
+                                                                                                                    debt: debt,
+                                                                                                                    unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                                                    currencyUnit: currencyUnit,
+                                                                                                                    totalPriceText: totalVPrice,
+                                                                                                                    paidText: VPaid,
+                                                                                                                    totalDebtText: VDebt,
+                                                                                                                    subTotalText: subVTotal,
+                                                                                                                    discountText: VDiscount,
+                                                                                                                  )
+
+                                                                                                              ],
+                                                                                                            );
+
+
+                                                                                                            getPaperId().then((value) async {
+                                                                                                              print('VVAALLUUEE ' + value.toString());
+                                                                                                              pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                                              Uint8List bytes = pdfFile!.readAsBytesSync();
+
+                                                                                                              // mystate(() {
+                                                                                                              //   // setState(() {
+                                                                                                              //   pdfText = pdfFile!.path.toString();
+                                                                                                              //   // });
+                                                                                                              // });
+                                                                                                              setState(() {
+                                                                                                                pdfText = pdfFile!.path.toString();
+
+                                                                                                                prodList = [];
+                                                                                                                discount = 0.0;
+                                                                                                                discountAmount =0.0;
+                                                                                                                debt =0;
+                                                                                                                refund =0;
+                                                                                                                customerId = 'name^name';
+                                                                                                                disText = '';
+                                                                                                                isDiscount = '';
+                                                                                                              });
+
+
+                                                                                                              // mystate(()  {
+                                                                                                              //   prodList = [];
+                                                                                                              //   discount = 0.0;
+                                                                                                              //   debt =0;
+                                                                                                              //   refund =0;
+                                                                                                              //   //customerId = 'name^name';
+                                                                                                              // });
+
+
+                                                                                                              _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                                            });
+
+                                                                                                          }
+
+
+                                                                                                        }
+
+
+
+
+
+                                                                                                      });
+
                                                                                                     },
                                                                                                     child: Container(
-                                                                                                      width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                      width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 52)/2,
                                                                                                       height: 50,
                                                                                                       decoration: BoxDecoration(
                                                                                                           borderRadius:
@@ -4931,7 +4305,7 @@ class HomePageState extends State<HomePage>
                                                                                                                     'Done',
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
-                                                                                                                        fontSize: 17,
+                                                                                                                        fontSize: 17.5,
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
                                                                                                                     ),
@@ -4945,31 +4319,1038 @@ class HomePageState extends State<HomePage>
                                                                                                   ),
                                                                                                 ]
                                                                                             )
-                                                                                        ),
-                                                                                        SizedBox(height: 15),
+                                                                                        )
                                                                                       ],
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
 
-                                                                            ],
+                                                                              ],
+                                                                            ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Container(
-                                                                        // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                                                        width: double.infinity,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.only(
-                                                                            topLeft: Radius.circular(20.0),
-                                                                            topRight: Radius.circular(20.0),
-                                                                          ),
-                                                                          color: Colors.white,
-                                                                        ),
-                                                                        child: Container(
+                                                                        Container(
+                                                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                                                           width: double.infinity,
-                                                                          child: Stack(
+                                                                          decoration: BoxDecoration(
+                                                                            color: Colors.white,
+                                                                            borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20.0),
+                                                                              topRight: Radius.circular(20.0),
+                                                                            ),
+                                                                          ),
+                                                                          child: Container(
+                                                                            width: double.infinity,
+                                                                            child: Stack(
+                                                                              children: [
+                                                                                Container(
+                                                                                  width: double.infinity,
+                                                                                  height: 67,
+                                                                                  decoration: BoxDecoration(
+                                                                                      border: Border(
+                                                                                          bottom: BorderSide(
+                                                                                              color: Colors.blue
+                                                                                                  .withOpacity(0.1),
+                                                                                              width: 1.0))),
+                                                                                  child:
+
+                                                                                  Padding(
+                                                                                    padding: EdgeInsets.only(
+                                                                                        left: 15.0,
+                                                                                        right: 15.0,
+                                                                                        top: 2),
+                                                                                    child:
+                                                                                    Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          children: [
+
+                                                                                            Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              color: Colors.black,
+                                                                                              fontSize: 13,
+                                                                                              height: 1.5,
+                                                                                            )),
+                                                                                            // SizedBox(width: 5),
+                                                                                            if (unit == 'unit_name') Padding(
+                                                                                              padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                              child: Icon( SmartKyat_POS.prodm, size: 13, color: Colors.grey,),
+                                                                                            )
+                                                                                            else if(unit == 'sub1_name') Padding(
+                                                                                              padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                              child: Icon(SmartKyat_POS.prods1, size: 13, color: Colors.grey,),
+                                                                                            )
+                                                                                            else if(unit == 'sub2_name') Padding(
+                                                                                                padding: const EdgeInsets.only(left: 5.0, top: 4.7),
+                                                                                                child: Icon(SmartKyat_POS.prods2, size: 13, color: Colors.grey,),
+                                                                                              )
+                                                                                            // else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                                                          ],
+                                                                                        ),
+                                                                                        Text(productName, style: TextStyle(
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 18,
+                                                                                            height: 1.3
+                                                                                        ),
+                                                                                            strutStyle: StrutStyle(
+                                                                                              height: 1.7,
+                                                                                              forceStrutHeight: true,
+                                                                                            )
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                eachProd.length !=0 ?
+                                                                                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                                                    stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(productId).snapshots(),
+                                                                                    builder: (context, snapshot) {
+                                                                                      if(snapshot.hasData) {
+                                                                                        var output2 = snapshot.data!.data();
+                                                                                        return Padding(
+                                                                                          padding: const EdgeInsets.only(
+                                                                                            top: 67.0,
+                                                                                            left: 15.0,
+                                                                                            right: 15.0,
+                                                                                            bottom: 138,
+                                                                                          ),
+                                                                                          child: Container(
+                                                                                              child: ListView(
+                                                                                                padding: EdgeInsets.zero,
+                                                                                                children: [
+                                                                                                  SizedBox(
+                                                                                                    height: 15,
+                                                                                                  ),
+                                                                                                  Text('QUANTITY', style: TextStyle(
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      fontSize: 14,
+                                                                                                      letterSpacing: 2,
+                                                                                                      color: Colors.grey
+                                                                                                  ),),
+                                                                                                  SizedBox(height: 15),
+                                                                                                  Row(
+                                                                                                    children: [
+                                                                                                      GestureDetector(
+                                                                                                        onTap: () {
+                                                                                                          // mystate(() {
+
+                                                                                                          // });
+                                                                                                          setState(() {
+                                                                                                            quantity = double.parse(myControllerTablet.text) -1;
+                                                                                                            myControllerTablet.text = quantity.round().toString();
+                                                                                                            print('qqq' + quantity.toString());
+                                                                                                          });
+                                                                                                        },
+                                                                                                        child: Container(
+                                                                                                          width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
+                                                                                                          height: 50,
+                                                                                                          decoration: BoxDecoration(
+                                                                                                              borderRadius:
+                                                                                                              BorderRadius.circular(10.0),
+                                                                                                              color: AppTheme.themeColor),
+                                                                                                          child: Padding(
+                                                                                                            padding: const EdgeInsets.only(
+                                                                                                                top: 15.0,
+                                                                                                                bottom: 15.0),
+                                                                                                            child: Row(
+                                                                                                              mainAxisAlignment:
+                                                                                                              MainAxisAlignment
+                                                                                                                  .center,
+                                                                                                              children: [
+                                                                                                                Expanded(
+                                                                                                                  child: Padding(
+                                                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                                    child: Container(
+                                                                                                                        child: Icon(
+                                                                                                                          Icons.remove, size: 20,
+                                                                                                                        )
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      SizedBox(width: 15),
+                                                                                                      Container(
+                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
+                                                                                                        height: 50,
+                                                                                                        child: TextField(
+                                                                                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                          inputFormatters: <TextInputFormatter>[
+                                                                                                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                          textAlign: TextAlign.center,
+                                                                                                          style: TextStyle(
+                                                                                                              height: 0.95
+                                                                                                          ),
+                                                                                                          decoration: InputDecoration(
+                                                                                                            enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                                borderSide: const BorderSide(
+                                                                                                                    color: AppTheme.skBorderColor,
+                                                                                                                    width: 2.0),
+                                                                                                                borderRadius: BorderRadius.all(
+                                                                                                                    Radius.circular(10.0))),
+
+                                                                                                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                                borderSide: const BorderSide(
+                                                                                                                    color: AppTheme.themeColor,
+                                                                                                                    width: 2.0),
+                                                                                                                borderRadius: BorderRadius.all(
+                                                                                                                    Radius.circular(10.0))),
+                                                                                                            contentPadding: const EdgeInsets.only(
+                                                                                                                left: 15.0,
+                                                                                                                right: 15.0,
+                                                                                                                top: 20,
+                                                                                                                bottom: 20.0),
+                                                                                                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                                                                                            //filled: true,
+                                                                                                            border: OutlineInputBorder(
+                                                                                                              borderRadius: BorderRadius.circular(10),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          onChanged: (value) {
+                                                                                                            setState(() {
+                                                                                                              quantity = double.parse(value);
+                                                                                                            });
+                                                                                                          },
+                                                                                                          controller: myControllerTablet,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      SizedBox(width: 15),
+                                                                                                      GestureDetector(
+                                                                                                        onTap: () {
+                                                                                                          setState(() {
+                                                                                                            // mystate(() {
+
+                                                                                                            // });
+                                                                                                            setState(() {
+                                                                                                              quantity = double.parse(myControllerTablet.text) +1;
+                                                                                                              myControllerTablet.text = quantity.round().toString();
+                                                                                                              print('qqq' + quantity.toString());
+                                                                                                            });
+                                                                                                          });
+                                                                                                        },
+                                                                                                        child: Container(
+                                                                                                          width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
+                                                                                                          height: 50,
+                                                                                                          decoration: BoxDecoration(
+                                                                                                              borderRadius:
+                                                                                                              BorderRadius.circular(10.0),
+                                                                                                              color: AppTheme.themeColor),
+                                                                                                          child: Padding(
+                                                                                                            padding: const EdgeInsets.only(
+                                                                                                                top: 15.0,
+                                                                                                                bottom: 15.0),
+                                                                                                            child: Row(
+                                                                                                              mainAxisAlignment:
+                                                                                                              MainAxisAlignment
+                                                                                                                  .center,
+                                                                                                              children: [
+                                                                                                                Expanded(
+                                                                                                                  child: Padding(
+                                                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                                    child: Container(
+                                                                                                                        child: Icon(
+                                                                                                                          Icons.add, size: 20,
+                                                                                                                        )
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                  SizedBox(height: 15,),
+                                                                                                  Text('COST PER UNIT', style: TextStyle(
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      fontSize: 14,
+                                                                                                      letterSpacing: 2,
+                                                                                                      color: Colors.grey
+                                                                                                  ),),
+                                                                                                  SizedBox(height: 15,),
+                                                                                                  TextFormField(
+                                                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                                                    inputFormatters: <TextInputFormatter>[
+                                                                                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                    controller: sellPriceControllerTablet,
+                                                                                                    validator: (value) {
+                                                                                                      if (value == null || value.isEmpty) {
+                                                                                                        setState(() {
+                                                                                                          price2 = 0;
+                                                                                                        });
+                                                                                                        // return '';
+                                                                                                        return ' This field is required ';
+                                                                                                      }
+                                                                                                      return null;
+                                                                                                    },
+                                                                                                    style: TextStyle(
+                                                                                                        height: 0.95
+                                                                                                    ),
+                                                                                                    maxLines: 1,
+                                                                                                    decoration: InputDecoration(
+                                                                                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                          borderSide: const BorderSide(
+                                                                                                              color: AppTheme.skBorderColor,
+                                                                                                              width: 2.0),
+                                                                                                          borderRadius: BorderRadius.all(
+                                                                                                              Radius.circular(10.0))),
+
+                                                                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                                          borderSide: const BorderSide(
+                                                                                                              color: AppTheme.themeColor,
+                                                                                                              width: 2.0),
+                                                                                                          borderRadius: BorderRadius.all(
+                                                                                                              Radius.circular(10.0))),
+                                                                                                      // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                                                                                      // isDense: true,
+                                                                                                      contentPadding: const EdgeInsets.only(
+                                                                                                          left: 15.0,
+                                                                                                          right: 15.0,
+                                                                                                          top: 20,
+                                                                                                          bottom: 20.0),
+                                                                                                      suffixText: '$currencyUnit',
+                                                                                                      suffixStyle: TextStyle(
+                                                                                                        color: Colors.grey,
+                                                                                                        fontSize: 12,
+                                                                                                        fontFamily: 'capsulesans',
+                                                                                                      ),
+                                                                                                      //errorText: wrongEmail,
+                                                                                                      errorStyle: TextStyle(
+                                                                                                          backgroundColor: Colors.white,
+                                                                                                          fontSize: 12,
+                                                                                                          fontFamily: 'capsulesans',
+                                                                                                          height: 0.1
+                                                                                                      ),
+                                                                                                      labelStyle: TextStyle(
+                                                                                                        fontWeight: FontWeight.w500,
+                                                                                                        color: Colors.black,
+                                                                                                      ),
+// errorText: 'Error message',
+                                                                                                      labelText: 'Custom Sell Price',
+                                                                                                      floatingLabelBehavior:
+                                                                                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(height: 15,),
+                                                                                                  Text('UNIT PRICING', style: TextStyle(
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontSize: 14,
+                                                                                                    letterSpacing: 2,
+                                                                                                    color: Colors.grey,
+                                                                                                  ),),
+                                                                                                  SizedBox(height: 15,),
+                                                                                                  Container(
+                                                                                                    height: 220,
+                                                                                                    decoration: BoxDecoration(
+                                                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                                                      color: AppTheme.lightBgColor,
+                                                                                                    ),
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                        children: [
+                                                                                                          Container(
+                                                                                                            height: 55,
+                                                                                                            decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                                                                                color: Colors.grey
+                                                                                                                    .withOpacity(0.2),
+                                                                                                                width: 1.0))),
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                Text('Sell price', style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),),
+                                                                                                                Spacer(),
+                                                                                                                eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  output2?['unit_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) :
+                                                                                                                eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  output2?['sub1_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) :  Text('$currencyUnit ' +  output2?['sub2_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            height: 55,
+                                                                                                            decoration: BoxDecoration(
+                                                                                                                border: Border(
+                                                                                                                    bottom: BorderSide(
+                                                                                                                        color: Colors.grey
+                                                                                                                            .withOpacity(0.2),
+                                                                                                                        width: 1.0))),
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                Text('In stock', style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),),
+                                                                                                                Spacer(),
+                                                                                                                eachProd.split('^')[3]== 'unit_name' ? Text(output2!['inStock1'].round().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2!['inStock2'].round().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) : Text(output2!['inStock3'].round().toString().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            height: 55,
+                                                                                                            decoration: BoxDecoration(
+                                                                                                                border: Border(
+                                                                                                                    bottom: BorderSide(
+                                                                                                                        color: Colors.grey
+                                                                                                                            .withOpacity(0.2),
+                                                                                                                        width: 1.0))),
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                Text('Loss', style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),),
+                                                                                                                Spacer(),
+                                                                                                                eachProd.split('^')[3]== 'unit_name' ? Text(output2['Loss1'].round().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2['Loss2'].round().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),) : Text(output2['Loss3'].round().toString() + ' ' + productLink, style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            height: 55,
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                Text('Barcode', style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),),
+                                                                                                                Spacer(),
+                                                                                                                Text(output2['bar_code'], style:
+                                                                                                                TextStyle(
+                                                                                                                  fontSize: 15,
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                  color: Colors.grey,
+                                                                                                                ),),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(height: 20,),
+                                                                                                  //     }
+                                                                                                  //     return Container();
+                                                                                                  //   },
+                                                                                                  // ),
+                                                                                                ],
+                                                                                              )),
+                                                                                        );
+                                                                                      }
+                                                                                      return Padding(
+                                                                                        padding: EdgeInsets.only(bottom: homeBotPadding),
+                                                                                        child: Container(
+                                                                                          child: Center(
+                                                                                            child: Padding(
+                                                                                              padding: EdgeInsets.only(bottom: 15.0),
+                                                                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                                  child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      );
+                                                                                    }
+                                                                                ):
+                                                                                Center(
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(bottom: 15.0),
+                                                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                        child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                  ),
+                                                                                ),
+                                                                                Align(
+                                                                                  alignment: Alignment.bottomCenter,
+                                                                                  child: Padding(
+                                                                                    padding: EdgeInsets.only(bottom: 0),
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                          border: Border(
+                                                                                            top: BorderSide(
+                                                                                                color:
+                                                                                                AppTheme.skBorderColor2,
+                                                                                                width: 1.0),
+                                                                                          )),
+                                                                                      width: double.infinity,
+                                                                                      height: 138,
+                                                                                      child: Column(
+                                                                                        mainAxisAlignment:
+                                                                                        MainAxisAlignment.end,
+                                                                                        crossAxisAlignment:
+                                                                                        CrossAxisAlignment.end,
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16),
+                                                                                            child: Row(
+                                                                                                children: [
+                                                                                                  Text(
+                                                                                                    'Total',
+                                                                                                    style: TextStyle(
+                                                                                                        fontSize: 17,
+                                                                                                        fontWeight:
+                                                                                                        FontWeight
+                                                                                                            .w500),
+                                                                                                  ),
+                                                                                                  Expanded(
+                                                                                                      child: Text('$currencyUnit '+
+                                                                                                          (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                                        textAlign: TextAlign.right,
+                                                                                                        style: TextStyle(
+                                                                                                            fontSize: 17,
+                                                                                                            fontWeight:
+                                                                                                            FontWeight
+                                                                                                                .w500),
+                                                                                                      )
+                                                                                                  )
+                                                                                                ]
+                                                                                            ),
+                                                                                          ),
+
+                                                                                          SizedBox(height: 10),
+                                                                                          Padding(
+                                                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
+                                                                                              child: Row(
+                                                                                                  children: [
+                                                                                                    GestureDetector(
+                                                                                                      onTap: () {
+                                                                                                        setState((){
+                                                                                                          // mystate(() {
+                                                                                                          _controllerTablet.animateTo(0);
+                                                                                                          _textFieldControllerTablet.clear();
+                                                                                                          paidAmount = 0;
+                                                                                                          debt = 0;
+                                                                                                          refund = 0;
+                                                                                                          totalAmount = double.parse(TtlProdListPrice());
+                                                                                                          // });
+                                                                                                        });
+
+                                                                                                      },
+                                                                                                      child: Container(
+                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                        height: 50,
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            borderRadius:
+                                                                                                            BorderRadius.circular(10.0),
+                                                                                                            color: AppTheme.secButtonColor),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment:
+                                                                                                          MainAxisAlignment
+                                                                                                              .center,
+                                                                                                          children: [
+                                                                                                            Expanded(
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                                child: Container(
+                                                                                                                    child: Text(
+                                                                                                                      'Back',
+                                                                                                                      textAlign: TextAlign.center,
+                                                                                                                      style: TextStyle(
+                                                                                                                          fontSize: 17.5,
+                                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    )
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Spacer(),
+                                                                                                    GestureDetector(
+                                                                                                      onTap: () {
+                                                                                                        if (_formKey2.currentState!.validate()) {
+                                                                                                          print('eachProduct' +eachProd);
+                                                                                                          for (int j = 0; j < prodList.length; j++)
+                                                                                                            if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
+                                                                                                              setState((){
+                                                                                                                eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8];
+                                                                                                                prodList[j] = eachProd;
+                                                                                                              });
+                                                                                                              print('leepae' + prodList[j]);
+                                                                                                            } else print('leelar');
+                                                                                                          _controllerTablet.animateTo(0);
+                                                                                                        }
+                                                                                                      },
+                                                                                                      child: Container(
+                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                        height: 50,
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            borderRadius:
+                                                                                                            BorderRadius.circular(10.0),
+                                                                                                            color: AppTheme.themeColor),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment:
+                                                                                                          MainAxisAlignment
+                                                                                                              .center,
+                                                                                                          children: [
+                                                                                                            Expanded(
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                                child: Container(
+                                                                                                                    child: Text(
+                                                                                                                      'Done',
+                                                                                                                      textAlign: TextAlign.center,
+                                                                                                                      style: TextStyle(
+                                                                                                                          fontSize: 17.5,
+                                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    )
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ]
+                                                                                              )
+                                                                                          ),
+                                                                                          SizedBox(height: 15),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                                                                          width: double.infinity,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20.0),
+                                                                              topRight: Radius.circular(20.0),
+                                                                            ),
+                                                                            color: Colors.white,
+                                                                          ),
+                                                                          child: Container(
+                                                                            width: double.infinity,
+                                                                            child: Stack(
+                                                                              children: [
+                                                                                Container(
+                                                                                  height: 67,
+                                                                                  width: double.infinity,
+                                                                                  decoration: BoxDecoration(
+                                                                                      border: Border(
+                                                                                          bottom: BorderSide(
+                                                                                              color: Colors.grey
+                                                                                                  .withOpacity(0.3),
+                                                                                              width: 1.0))),
+                                                                                  child: Padding(
+                                                                                    padding: EdgeInsets.only(
+                                                                                        left: 15.0,
+                                                                                        right: 15.0,
+                                                                                        top: 5.0,
+                                                                                        bottom: 0.0
+                                                                                    ),
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.grey
+                                                                                        )),
+                                                                                        SizedBox(height: 2.5),
+                                                                                        Text('Invoice receipt', style: TextStyle(
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 19
+                                                                                        )),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(
+                                                                                      top: 71.0,
+                                                                                      left: 0.0,
+                                                                                      right: 0.0),
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      Container(
+                                                                                        child: Padding(
+                                                                                            padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
+                                                                                            child: Row(
+                                                                                                children: [
+                                                                                                  GestureDetector(
+                                                                                                    onTap: () async {
+                                                                                                      final doc = await PdfDocument.openFile(pdfFile!.path);
+                                                                                                      final pages = doc.pageCount;
+                                                                                                      List<imglib.Image> images = [];
+
+// get images from all the pages
+                                                                                                      for (int i = 1; i <= pages; i++) {
+                                                                                                        var page = await doc.getPage(i);
+                                                                                                        var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+                                                                                                        var img = await imgPDF.createImageDetached();
+                                                                                                        var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+                                                                                                        var libImage = imglib.decodeImage(imgBytes!.buffer
+                                                                                                            .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+                                                                                                        images.add(libImage!);
+                                                                                                      }
+
+// stitch images
+                                                                                                      int totalHeight = 0;
+                                                                                                      images.forEach((e) {
+                                                                                                        totalHeight += e.height;
+                                                                                                      });
+                                                                                                      int totalWidth = 0;
+                                                                                                      images.forEach((element) {
+                                                                                                        totalWidth = totalWidth < element.width ? element.width : totalWidth;
+                                                                                                      });
+                                                                                                      mergedImage = imglib.Image(totalWidth, totalHeight);
+                                                                                                      int mergedHeight = 0;
+                                                                                                      images.forEach((element) {
+                                                                                                        imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+                                                                                                        mergedHeight += element.height;
+                                                                                                      });
+
+                                                                                                      // Save image as a file
+                                                                                                      // final documentDirectory = await getExternalStorageDirectory();
+                                                                                                      // Directory appDocDirectory = await getApplicationDocumentsDirectory();
+                                                                                                      // File imgFile = new File(appDocDirectory.path + 'test.jpg');
+                                                                                                      // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
+
+                                                                                                      // Save to album.
+                                                                                                      // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
+                                                                                                      _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                                                                    },
+                                                                                                    child: Container(
+                                                                                                      width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
+                                                                                                      height: 50,
+                                                                                                      decoration: BoxDecoration(
+                                                                                                        borderRadius:
+                                                                                                        BorderRadius.circular(10.0),
+                                                                                                        color: AppTheme.secButtonColor,
+                                                                                                      ),
+                                                                                                      child: Padding(
+                                                                                                        padding: const EdgeInsets.only(
+                                                                                                            top: 0.0,
+                                                                                                            bottom: 0.0),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment:
+                                                                                                          MainAxisAlignment
+                                                                                                              .center,
+                                                                                                          children: [
+                                                                                                            Expanded(
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                                child: Container(
+                                                                                                                    child: Text(
+                                                                                                                      'Save as image',
+                                                                                                                      textAlign: TextAlign.center,
+                                                                                                                      style: TextStyle(
+                                                                                                                          fontSize: 17.5,
+                                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    )
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(width: 15.0),
+                                                                                                  GestureDetector(
+                                                                                                    onTap: () async {
+                                                                                                      _onScanPressed();
+                                                                                                      setState(() {
+                                                                                                        // mystate(()  {
+                                                                                                        prodList = [];
+                                                                                                        discount = 0.0;
+                                                                                                        discountAmount =0.0;
+                                                                                                        debt =0;
+                                                                                                        refund =0;
+                                                                                                        customerId = 'name^name';
+                                                                                                        disText = '';
+                                                                                                        isDiscount = '';
+                                                                                                        // });
+                                                                                                      });
+                                                                                                      Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                                        _controllerTablet.animateTo(4);
+                                                                                                      });
+                                                                                                    },
+                                                                                                    child: Container(
+                                                                                                      // width: (MediaQuery.of(context).size.width - 45)* (1/4),
+                                                                                                      width: 85,
+                                                                                                      height: 50,
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          borderRadius:
+                                                                                                          BorderRadius.circular(10.0),
+                                                                                                          color: AppTheme.themeColor),
+                                                                                                      child: Padding(
+                                                                                                        padding: const EdgeInsets.only(
+                                                                                                            top: 0.0,
+                                                                                                            bottom: 0.0),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment:
+                                                                                                          MainAxisAlignment
+                                                                                                              .center,
+                                                                                                          children: [
+                                                                                                            Expanded(
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                                                                                child: Container(
+                                                                                                                    child: Icon(
+                                                                                                                      Icons.print_rounded,
+                                                                                                                      size: 25,
+                                                                                                                      color: Colors.black,
+                                                                                                                    )
+                                                                                                                  // child: Text(
+                                                                                                                  //   '',
+                                                                                                                  //   textAlign: TextAlign.center,
+                                                                                                                  //   style: TextStyle(
+                                                                                                                  //       fontSize: 18,
+                                                                                                                  //       fontWeight: FontWeight.w600,
+                                                                                                                  //       color: Colors.black
+                                                                                                                  //   ),
+                                                                                                                  // )
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ]
+                                                                                            )
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(height: 5),
+                                                                                      // Container(
+                                                                                      //   height: 500,
+                                                                                      //   width: 200,
+                                                                                      //   child: GestureDetector(
+                                                                                      //       onTap: () {
+                                                                                      //         print('clicked');
+                                                                                      //         PdfApi.openFile(pdfFile);
+                                                                                      //       },
+                                                                                      //       child: PdfViewer.openFile(pdfText)
+                                                                                      //   ),
+                                                                                      // )
+                                                                                      // SizedBox(
+                                                                                      //   height: 10,
+                                                                                      // ),
+                                                                                      Padding(
+                                                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                        child: Text('RECEIPT VOUCHER',
+                                                                                          textAlign: TextAlign.left,
+                                                                                          style: TextStyle(
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontSize: 14,
+                                                                                            letterSpacing: 2,
+                                                                                            color: Colors.grey,
+                                                                                          ),),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        height: 5,
+                                                                                      ),
+                                                                                      pdfText == '' ? Container(height: 20, width: 20, color: Colors.blue) :
+                                                                                      Expanded(
+                                                                                          child: GestureDetector(
+                                                                                              onTap: () {
+                                                                                                print('clicked');
+                                                                                                PdfApi.openFile(pdfFile!);
+                                                                                              },
+                                                                                              child: Padding(
+                                                                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                                                child: PdfViewer.openFile(pdfText),
+                                                                                              )
+                                                                                          )
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        height: 137,
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                                Align(
+                                                                                  alignment: Alignment.bottomCenter,
+                                                                                  child: Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                        color: Colors.white,
+                                                                                        border: Border(
+                                                                                          top: BorderSide(
+                                                                                              color:
+                                                                                              AppTheme.skBorderColor2,
+                                                                                              width: 1.0),
+                                                                                        )),
+                                                                                    width: double.infinity,
+                                                                                    height: 138,
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment:
+                                                                                      MainAxisAlignment.end,
+                                                                                      crossAxisAlignment:
+                                                                                      CrossAxisAlignment.end,
+                                                                                      children: [
+                                                                                        ListTile(
+                                                                                          title: Text(
+                                                                                            'Total price',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                          trailing: Text('$currencyUnit '+
+                                                                                              finalTotal.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                        ),
+                                                                                        SizedBox(height: 7),
+                                                                                        Padding(
+                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                                            child: Row(
+                                                                                                children: [
+                                                                                                  GestureDetector(
+                                                                                                    onTap: () async {
+                                                                                                      setState(() {
+                                                                                                        // mystate(()  {
+                                                                                                        prodList = [];
+                                                                                                        discount = 0.0;
+                                                                                                        discountAmount =0.0;
+                                                                                                        debt =0;
+                                                                                                        refund =0;
+                                                                                                        customerId = 'name^name';
+                                                                                                        disText = '';
+                                                                                                        isDiscount = '';
+                                                                                                        // });
+                                                                                                      });
+                                                                                                      // _controller.animateTo(0);
+                                                                                                      // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                                                      _textFieldControllerTablet.clear();
+                                                                                                      _controllerTablet.animateTo(0);
+                                                                                                      // Navigator.pop(context);
+                                                                                                      // sellDone = true;
+
+
+                                                                                                    },
+                                                                                                    child: Container(
+                                                                                                      width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31,
+                                                                                                      height: 50,
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          borderRadius:
+                                                                                                          BorderRadius.circular(10.0),
+                                                                                                          color: AppTheme.themeColor),
+                                                                                                      child: Row(
+                                                                                                        mainAxisAlignment:
+                                                                                                        MainAxisAlignment
+                                                                                                            .center,
+                                                                                                        children: [
+                                                                                                          Expanded(
+                                                                                                            child: Padding(
+                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                              child: Container(
+                                                                                                                  child: Text(
+                                                                                                                    'Next sale',
+                                                                                                                    textAlign: TextAlign.center,
+                                                                                                                    style: TextStyle(
+                                                                                                                        fontSize: 17.5,
+                                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                                        color: Colors.black
+                                                                                                                    ),
+                                                                                                                  )
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ]
+                                                                                            )
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          child: Column(
                                                                             children: [
                                                                               Container(
                                                                                 height: 67,
@@ -4991,11 +5372,11 @@ class HomePageState extends State<HomePage>
                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
                                                                                       Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          color: Colors.grey
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.grey,
                                                                                       )),
                                                                                       SizedBox(height: 2.5),
-                                                                                      Text('Invoice receipt', style: TextStyle(
+                                                                                      Text('Printing service', style: TextStyle(
                                                                                           fontWeight: FontWeight.w600,
                                                                                           fontSize: 19
                                                                                       )),
@@ -5003,75 +5384,248 @@ class HomePageState extends State<HomePage>
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(
-                                                                                    top: 71.0,
-                                                                                    left: 0.0,
-                                                                                    right: 0.0),
-                                                                                child: Column(
-                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Container(
-                                                                                      child: Padding(
-                                                                                          padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () async {
-                                                                                                    final doc = await PdfDocument.openFile(pdfFile!.path);
-                                                                                                    final pages = doc.pageCount;
-                                                                                                    List<imglib.Image> images = [];
-
-// get images from all the pages
-                                                                                                    for (int i = 1; i <= pages; i++) {
-                                                                                                      var page = await doc.getPage(i);
-                                                                                                      var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-                                                                                                      var img = await imgPDF.createImageDetached();
-                                                                                                      var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-                                                                                                      var libImage = imglib.decodeImage(imgBytes!.buffer
-                                                                                                          .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-                                                                                                      images.add(libImage!);
-                                                                                                    }
-
-// stitch images
-                                                                                                    int totalHeight = 0;
-                                                                                                    images.forEach((e) {
-                                                                                                      totalHeight += e.height;
-                                                                                                    });
-                                                                                                    int totalWidth = 0;
-                                                                                                    images.forEach((element) {
-                                                                                                      totalWidth = totalWidth < element.width ? element.width : totalWidth;
-                                                                                                    });
-                                                                                                    mergedImage = imglib.Image(totalWidth, totalHeight);
-                                                                                                    int mergedHeight = 0;
-                                                                                                    images.forEach((element) {
-                                                                                                      imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-                                                                                                      mergedHeight += element.height;
-                                                                                                    });
-
-                                                                                                    // Save image as a file
-                                                                                                    // final documentDirectory = await getExternalStorageDirectory();
-                                                                                                    // Directory appDocDirectory = await getApplicationDocumentsDirectory();
-                                                                                                    // File imgFile = new File(appDocDirectory.path + 'test.jpg');
-                                                                                                    // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
-
-                                                                                                    // Save to album.
-                                                                                                    // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
-                                                                                                    _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      borderRadius:
-                                                                                                      BorderRadius.circular(10.0),
-                                                                                                      color: AppTheme.secButtonColor,
+                                                                              // GestureDetector(
+                                                                              //     onTap: _isLoading ? null : _onScanPressed,
+                                                                              //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
+                                                                              // ),
+                                                                              Expanded(
+                                                                                child: _isLoading && _blueDevices.isEmpty
+                                                                                    ? Center(
+                                                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                )
+                                                                                    : _blueDevices.isNotEmpty
+                                                                                    ? SingleChildScrollView(
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: <Widget>[
+                                                                                        SizedBox(height: 5),
+                                                                                        Column(
+                                                                                          children: List<Widget>.generate(_blueDevices.length,
+                                                                                                  (int index) {
+                                                                                                return Row(
+                                                                                                  children: <Widget>[
+                                                                                                    Expanded(
+                                                                                                      child: GestureDetector(
+                                                                                                        onTap: _blueDevices[index].address ==
+                                                                                                            (_selectedDevice?.address ?? '')
+                                                                                                            ? _onDisconnectDevice
+                                                                                                            : () => _onSelectDevice(index),
+                                                                                                        child: Container(
+                                                                                                          color: Colors.white,
+                                                                                                          child: Padding(
+                                                                                                            padding: const EdgeInsets.all(8.0),
+                                                                                                            child: Column(
+                                                                                                              crossAxisAlignment:
+                                                                                                              CrossAxisAlignment.start,
+                                                                                                              children: <Widget>[
+                                                                                                                Text(
+                                                                                                                  _blueDevices[index].name,
+                                                                                                                  style: TextStyle(
+                                                                                                                      color:
+                                                                                                                      _selectedDevice?.address ==
+                                                                                                                          _blueDevices[index]
+                                                                                                                              .address
+                                                                                                                          ? AppTheme.themeColor
+                                                                                                                          : Colors.black,
+                                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                                      fontSize: 19
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Text(
+                                                                                                                  _blueDevices[index].address,
+                                                                                                                  style: TextStyle(
+                                                                                                                      color:
+                                                                                                                      _selectedDevice?.address ==
+                                                                                                                          _blueDevices[index]
+                                                                                                                              .address
+                                                                                                                          ? Colors.blueGrey
+                                                                                                                          : Colors.grey,
+                                                                                                                      fontSize: 14,
+                                                                                                                      fontWeight: FontWeight.w500
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
                                                                                                     ),
-                                                                                                    child: Padding(
-                                                                                                      padding: const EdgeInsets.only(
-                                                                                                          top: 0.0,
-                                                                                                          bottom: 0.0),
+                                                                                                    if (_loadingAtIndex == index && _isLoading)
+                                                                                                      Container(
+                                                                                                        height: 24.0,
+                                                                                                        width: 65.0,
+                                                                                                        margin: const EdgeInsets.only(right: 8.0),
+                                                                                                        child: Center(
+                                                                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                                                                                                child: CupertinoActivityIndicator(radius: 10,),
+                                                                                                              )
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    if (!_isLoading &&
+                                                                                                        _blueDevices[index].address ==
+                                                                                                            (_selectedDevice?.address ?? ''))
+                                                                                                      TextButton(
+                                                                                                        onPressed: _onPrintReceipt,
+                                                                                                        // child: Container(
+                                                                                                        //   color: _selectedDevice == null
+                                                                                                        //       ? AppTheme.buttonColor2
+                                                                                                        //       : AppTheme.themeColor,
+                                                                                                        //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
+                                                                                                        //   child: Icon(
+                                                                                                        //     Icons.print_rounded,
+                                                                                                        //     size: 25,
+                                                                                                        //     color: Colors.black,
+                                                                                                        //   )
+                                                                                                        //   // child: const Text(
+                                                                                                        //   //     'Print',
+                                                                                                        //   //     style: TextStyle(color: Colors.white)
+                                                                                                        //   // ),
+                                                                                                        // ),
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
+                                                                                                          child: Icon(
+                                                                                                            Icons.print_rounded,
+                                                                                                            size: 25,
+                                                                                                            color: Colors.black,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        style: ButtonStyle(
+                                                                                                            backgroundColor: MaterialStateProperty
+                                                                                                                .resolveWith<Color>(
+                                                                                                                  (Set<MaterialState> states) {
+                                                                                                                if (states.contains(
+                                                                                                                    MaterialState.pressed)) {
+                                                                                                                  return AppTheme.themeColor.withOpacity(0.5);
+                                                                                                                }
+                                                                                                                return AppTheme.themeColor;
+                                                                                                              },
+                                                                                                            ),
+                                                                                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                                                RoundedRectangleBorder(
+                                                                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                                                                )
+                                                                                                            )
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    SizedBox(width: 8.5)
+                                                                                                  ],
+                                                                                                );
+                                                                                              }),
+                                                                                        ),
+                                                                                        SizedBox(height: 5),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                                    : Center(
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: const <Widget>[
+                                                                                      Text(
+                                                                                        'Scan bluetooth device',
+                                                                                        style: TextStyle(fontSize: 24, color: Colors.blue),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        'Press button scan',
+                                                                                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                                // child: _devices.isEmpty
+                                                                                //     ? Center(child: Text(_devicesMsg ?? ''))
+                                                                                //     : ListView.builder(
+                                                                                //   itemCount: _devices.length,
+                                                                                //   itemBuilder: (c, i) {
+                                                                                //     return ListTile(
+                                                                                //       leading: Icon(Icons.print),
+                                                                                //       title: Text(_devices[i].name.toString()),
+                                                                                //       subtitle: Text(_devices[i].address.toString()),
+                                                                                //       onTap: () {
+                                                                                //         // _startPrint(_devices[i]);
+                                                                                //       },
+                                                                                //     );
+                                                                                //   },
+                                                                                // )
+                                                                              ),
+                                                                              Align(
+                                                                                alignment: Alignment.bottomCenter,
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                                                  child: Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                        color: Colors.white,
+                                                                                        border: Border(
+                                                                                          top: BorderSide(
+                                                                                              color:
+                                                                                              AppTheme.skBorderColor2,
+                                                                                              width: 1.0),
+                                                                                        )),
+                                                                                    width: double.infinity,
+                                                                                    height: 150,
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment:
+                                                                                      MainAxisAlignment.end,
+                                                                                      crossAxisAlignment:
+                                                                                      CrossAxisAlignment.end,
+                                                                                      children: [
+                                                                                        ListTile(
+                                                                                          title: Text(
+                                                                                            'Total price',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                          trailing: Text('$currencyUnit '+
+                                                                                              debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17,
+                                                                                                fontWeight:
+                                                                                                FontWeight
+                                                                                                    .w500),
+                                                                                          ),
+                                                                                        ),
+                                                                                        SizedBox(height: 10),
+                                                                                        Padding(
+                                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
+                                                                                            child: Row(
+                                                                                                children: [
+                                                                                                  GestureDetector(
+                                                                                                    onTap: () async {
+                                                                                                      // setState(() {
+                                                                                                      //   prodList = [];
+                                                                                                      //   discount = 0.0;
+                                                                                                      //   discountAmount =0.0;
+                                                                                                      //   debt =0;
+                                                                                                      //   refund =0;
+                                                                                                      //   customerId = 'name^name';
+                                                                                                      //   disText = '';
+                                                                                                      //   isDiscount = '';
+                                                                                                      // });
+                                                                                                      // _controller.animateTo(0);
+                                                                                                      // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                                                      _textFieldController.clear();
+                                                                                                      _textFieldControllerTablet.clear();
+                                                                                                      _controllerTablet.animateTo(0);
+
+
+                                                                                                    },
+                                                                                                    child: Container(
+                                                                                                      width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31,
+                                                                                                      height: 50,
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          borderRadius:
+                                                                                                          BorderRadius.circular(10.0),
+                                                                                                          color: AppTheme.themeColor),
                                                                                                       child: Row(
                                                                                                         mainAxisAlignment:
                                                                                                         MainAxisAlignment
@@ -5082,10 +5636,10 @@ class HomePageState extends State<HomePage>
                                                                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                               child: Container(
                                                                                                                   child: Text(
-                                                                                                                    'Save as image',
+                                                                                                                    'Next sale',
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
-                                                                                                                        fontSize: 17,
+                                                                                                                        fontSize: 17.5,
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
                                                                                                                     ),
@@ -5097,611 +5651,68 @@ class HomePageState extends State<HomePage>
                                                                                                       ),
                                                                                                     ),
                                                                                                   ),
-                                                                                                ),
-                                                                                                SizedBox(width: 15.0),
-                                                                                                GestureDetector(
-                                                                                                  onTap: () async {
-                                                                                                    _onScanPressed();
-                                                                                                    setState(() {
-                                                                                                      // mystate(()  {
-                                                                                                      prodList = [];
-                                                                                                      discount = 0.0;
-                                                                                                      discountAmount =0.0;
-                                                                                                      debt =0;
-                                                                                                      refund =0;
-                                                                                                      customerId = 'name^name';
-                                                                                                      disText = '';
-                                                                                                      isDiscount = '';
-                                                                                                      // });
-                                                                                                    });
-                                                                                                    Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                                      _controllerTablet.animateTo(4);
-                                                                                                    });
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    // width: (MediaQuery.of(context).size.width - 45)* (1/4),
-                                                                                                    width: 85,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
-                                                                                                    child: Padding(
-                                                                                                      padding: const EdgeInsets.only(
-                                                                                                          top: 0.0,
-                                                                                                          bottom: 0.0),
-                                                                                                      child: Row(
-                                                                                                        mainAxisAlignment:
-                                                                                                        MainAxisAlignment
-                                                                                                            .center,
-                                                                                                        children: [
-                                                                                                          Expanded(
-                                                                                                            child: Padding(
-                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
-                                                                                                              child: Container(
-                                                                                                                  child: Icon(
-                                                                                                                    Icons.print_rounded,
-                                                                                                                    size: 25,
-                                                                                                                    color: Colors.black,
-                                                                                                                  )
-                                                                                                                // child: Text(
-                                                                                                                //   '',
-                                                                                                                //   textAlign: TextAlign.center,
-                                                                                                                //   style: TextStyle(
-                                                                                                                //       fontSize: 18,
-                                                                                                                //       fontWeight: FontWeight.w600,
-                                                                                                                //       color: Colors.black
-                                                                                                                //   ),
-                                                                                                                // )
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ],
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ]
-                                                                                          )
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(height: 5),
-                                                                                    // Container(
-                                                                                    //   height: 500,
-                                                                                    //   width: 200,
-                                                                                    //   child: GestureDetector(
-                                                                                    //       onTap: () {
-                                                                                    //         print('clicked');
-                                                                                    //         PdfApi.openFile(pdfFile);
-                                                                                    //       },
-                                                                                    //       child: PdfViewer.openFile(pdfText)
-                                                                                    //   ),
-                                                                                    // )
-                                                                                    // SizedBox(
-                                                                                    //   height: 10,
-                                                                                    // ),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                      child: Text('RECEIPT VOUCHER',
-                                                                                        textAlign: TextAlign.left,
-                                                                                        style: TextStyle(
-                                                                                          fontWeight: FontWeight.bold,
-                                                                                          fontSize: 14,
-                                                                                          letterSpacing: 2,
-                                                                                          color: Colors.grey,
-                                                                                        ),),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 5,
-                                                                                    ),
-                                                                                    pdfText == '' ? Container(height: 20, width: 20, color: Colors.blue) :
-                                                                                    Expanded(
-                                                                                        child: GestureDetector(
-                                                                                            onTap: () {
-                                                                                              print('clicked');
-                                                                                              PdfApi.openFile(pdfFile!);
-                                                                                            },
-                                                                                            child: Padding(
-                                                                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                                                              child: PdfViewer.openFile(pdfText),
+                                                                                                ]
                                                                                             )
                                                                                         )
+                                                                                      ],
                                                                                     ),
-                                                                                    SizedBox(
-                                                                                      height: 137,
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              Align(
-                                                                                alignment: Alignment.bottomCenter,
-                                                                                child: Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                      color: Colors.white,
-                                                                                      border: Border(
-                                                                                        top: BorderSide(
-                                                                                            color:
-                                                                                            AppTheme.skBorderColor2,
-                                                                                            width: 1.0),
-                                                                                      )),
-                                                                                  width: double.infinity,
-                                                                                  height: 138,
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment:
-                                                                                    MainAxisAlignment.end,
-                                                                                    crossAxisAlignment:
-                                                                                    CrossAxisAlignment.end,
-                                                                                    children: [
-                                                                                      ListTile(
-                                                                                        title: Text(
-                                                                                          'Total price',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                        trailing: Text('$currencyUnit '+
-                                                                                            finalTotal.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                      ),
-                                                                                      SizedBox(height: 7),
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () async {
-                                                                                                    setState(() {
-                                                                                                      // mystate(()  {
-                                                                                                      prodList = [];
-                                                                                                      discount = 0.0;
-                                                                                                      discountAmount =0.0;
-                                                                                                      debt =0;
-                                                                                                      refund =0;
-                                                                                                      customerId = 'name^name';
-                                                                                                      disText = '';
-                                                                                                      isDiscount = '';
-                                                                                                      // });
-                                                                                                    });
-                                                                                                    // _controller.animateTo(0);
-                                                                                                    // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
-                                                                                                    _textFieldControllerTablet.clear();
-                                                                                                    _controllerTablet.animateTo(0);
-                                                                                                    // Navigator.pop(context);
-                                                                                                    // sellDone = true;
-
-
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  'Next sale',
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 17,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ]
-                                                                                          )
-                                                                                      )
-                                                                                    ],
                                                                                   ),
                                                                                 ),
                                                                               ),
-
                                                                             ],
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Container(
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Container(
-                                                                              height: 67,
-                                                                              width: double.infinity,
-                                                                              decoration: BoxDecoration(
-                                                                                  border: Border(
-                                                                                      bottom: BorderSide(
-                                                                                          color: Colors.grey
-                                                                                              .withOpacity(0.3),
-                                                                                          width: 1.0))),
-                                                                              child: Padding(
-                                                                                padding: EdgeInsets.only(
-                                                                                    left: 15.0,
-                                                                                    right: 15.0,
-                                                                                    top: 5.0,
-                                                                                    bottom: 0.0
-                                                                                ),
-                                                                                child: Column(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.grey,
-                                                                                    )),
-                                                                                    SizedBox(height: 2.5),
-                                                                                    Text('Printing service', style: TextStyle(
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontSize: 19
-                                                                                    )),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            // GestureDetector(
-                                                                            //     onTap: _isLoading ? null : _onScanPressed,
-                                                                            //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
-                                                                            // ),
-                                                                            Expanded(
-                                                                              child: _isLoading && _blueDevices.isEmpty
-                                                                                  ? Center(
-                                                                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                    child: CupertinoActivityIndicator(radius: 15,)),
-                                                                              )
-                                                                                  : _blueDevices.isNotEmpty
-                                                                                  ? SingleChildScrollView(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                                                                  child: Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: <Widget>[
-                                                                                      SizedBox(height: 5),
-                                                                                      Column(
-                                                                                        children: List<Widget>.generate(_blueDevices.length,
-                                                                                                (int index) {
-                                                                                              return Row(
-                                                                                                children: <Widget>[
-                                                                                                  Expanded(
-                                                                                                    child: GestureDetector(
-                                                                                                      onTap: _blueDevices[index].address ==
-                                                                                                          (_selectedDevice?.address ?? '')
-                                                                                                          ? _onDisconnectDevice
-                                                                                                          : () => _onSelectDevice(index),
-                                                                                                      child: Container(
-                                                                                                        color: Colors.white,
-                                                                                                        child: Padding(
-                                                                                                          padding: const EdgeInsets.all(8.0),
-                                                                                                          child: Column(
-                                                                                                            crossAxisAlignment:
-                                                                                                            CrossAxisAlignment.start,
-                                                                                                            children: <Widget>[
-                                                                                                              Text(
-                                                                                                                _blueDevices[index].name,
-                                                                                                                style: TextStyle(
-                                                                                                                    color:
-                                                                                                                    _selectedDevice?.address ==
-                                                                                                                        _blueDevices[index]
-                                                                                                                            .address
-                                                                                                                        ? AppTheme.themeColor
-                                                                                                                        : Colors.black,
-                                                                                                                    fontWeight: FontWeight.w600,
-                                                                                                                    fontSize: 19
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                              Text(
-                                                                                                                _blueDevices[index].address,
-                                                                                                                style: TextStyle(
-                                                                                                                    color:
-                                                                                                                    _selectedDevice?.address ==
-                                                                                                                        _blueDevices[index]
-                                                                                                                            .address
-                                                                                                                        ? Colors.blueGrey
-                                                                                                                        : Colors.grey,
-                                                                                                                    fontSize: 14,
-                                                                                                                    fontWeight: FontWeight.w500
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  if (_loadingAtIndex == index && _isLoading)
-                                                                                                    Container(
-                                                                                                      height: 24.0,
-                                                                                                      width: 65.0,
-                                                                                                      margin: const EdgeInsets.only(right: 8.0),
-                                                                                                      child: Center(
-                                                                                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                                            child: Padding(
-                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                                                                                                              child: CupertinoActivityIndicator(radius: 10,),
-                                                                                                            )
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  if (!_isLoading &&
-                                                                                                      _blueDevices[index].address ==
-                                                                                                          (_selectedDevice?.address ?? ''))
-                                                                                                    TextButton(
-                                                                                                      onPressed: _onPrintReceipt,
-                                                                                                      // child: Container(
-                                                                                                      //   color: _selectedDevice == null
-                                                                                                      //       ? AppTheme.buttonColor2
-                                                                                                      //       : AppTheme.themeColor,
-                                                                                                      //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
-                                                                                                      //   child: Icon(
-                                                                                                      //     Icons.print_rounded,
-                                                                                                      //     size: 25,
-                                                                                                      //     color: Colors.black,
-                                                                                                      //   )
-                                                                                                      //   // child: const Text(
-                                                                                                      //   //     'Print',
-                                                                                                      //   //     style: TextStyle(color: Colors.white)
-                                                                                                      //   // ),
-                                                                                                      // ),
-                                                                                                      child: Padding(
-                                                                                                        padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
-                                                                                                        child: Icon(
-                                                                                                          Icons.print_rounded,
-                                                                                                          size: 25,
-                                                                                                          color: Colors.black,
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      style: ButtonStyle(
-                                                                                                          backgroundColor: MaterialStateProperty
-                                                                                                              .resolveWith<Color>(
-                                                                                                                (Set<MaterialState> states) {
-                                                                                                              if (states.contains(
-                                                                                                                  MaterialState.pressed)) {
-                                                                                                                return AppTheme.themeColor.withOpacity(0.5);
-                                                                                                              }
-                                                                                                              return AppTheme.themeColor;
-                                                                                                            },
-                                                                                                          ),
-                                                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                                                              RoundedRectangleBorder(
-                                                                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                                                              )
-                                                                                                          )
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  SizedBox(width: 8.5)
-                                                                                                ],
-                                                                                              );
-                                                                                            }),
-                                                                                      ),
-                                                                                      SizedBox(height: 5),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              )
-                                                                                  : Center(
-                                                                                child: Column(
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  children: const <Widget>[
-                                                                                    Text(
-                                                                                      'Scan bluetooth device',
-                                                                                      style: TextStyle(fontSize: 24, color: Colors.blue),
-                                                                                    ),
-                                                                                    Text(
-                                                                                      'Press button scan',
-                                                                                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              // child: _devices.isEmpty
-                                                                              //     ? Center(child: Text(_devicesMsg ?? ''))
-                                                                              //     : ListView.builder(
-                                                                              //   itemCount: _devices.length,
-                                                                              //   itemBuilder: (c, i) {
-                                                                              //     return ListTile(
-                                                                              //       leading: Icon(Icons.print),
-                                                                              //       title: Text(_devices[i].name.toString()),
-                                                                              //       subtitle: Text(_devices[i].address.toString()),
-                                                                              //       onTap: () {
-                                                                              //         // _startPrint(_devices[i]);
-                                                                              //       },
-                                                                              //     );
-                                                                              //   },
-                                                                              // )
-                                                                            ),
-                                                                            Align(
-                                                                              alignment: Alignment.bottomCenter,
-                                                                              child: Padding(
-                                                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                                                child: Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                      color: Colors.white,
-                                                                                      border: Border(
-                                                                                        top: BorderSide(
-                                                                                            color:
-                                                                                            AppTheme.skBorderColor2,
-                                                                                            width: 1.0),
-                                                                                      )),
-                                                                                  width: double.infinity,
-                                                                                  height: 150,
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment:
-                                                                                    MainAxisAlignment.end,
-                                                                                    crossAxisAlignment:
-                                                                                    CrossAxisAlignment.end,
-                                                                                    children: [
-                                                                                      ListTile(
-                                                                                        title: Text(
-                                                                                          'Total price',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                        trailing: Text('$currencyUnit '+
-                                                                                            debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
-                                                                                      ),
-                                                                                      SizedBox(height: 10),
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () async {
-                                                                                                    // setState(() {
-                                                                                                    //   prodList = [];
-                                                                                                    //   discount = 0.0;
-                                                                                                    //   discountAmount =0.0;
-                                                                                                    //   debt =0;
-                                                                                                    //   refund =0;
-                                                                                                    //   customerId = 'name^name';
-                                                                                                    //   disText = '';
-                                                                                                    //   isDiscount = '';
-                                                                                                    // });
-                                                                                                    // _controller.animateTo(0);
-                                                                                                    // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
-                                                                                                    _textFieldController.clear();
-                                                                                                    _textFieldControllerTablet.clear();
-                                                                                                    _controllerTablet.animateTo(0);
-
-
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  'Next sale',
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 17,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ]
-                                                                                          )
-                                                                                      )
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Positioned(
-                                                              top: 42,
-                                                              child: Container(
-                                                                width: MediaQuery.of(context).size.width,
-                                                                child: Align(
-                                                                  alignment: Alignment.center,
-                                                                  child: Container(
-                                                                    width: 50,
-                                                                    height: 5,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.all(
-                                                                          Radius.circular(25.0),
-                                                                        ),
-                                                                        color: Colors.white.withOpacity(0.5)),
+                                                              Positioned(
+                                                                top: 42,
+                                                                child: Container(
+                                                                  width: MediaQuery.of(context).size.width,
+                                                                  child: Align(
+                                                                    alignment: Alignment.center,
+                                                                    child: Container(
+                                                                      width: 50,
+                                                                      height: 5,
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(
+                                                                            Radius.circular(25.0),
+                                                                          ),
+                                                                          color: Colors.white.withOpacity(0.5)),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            )
-                                                          ],
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        (prodList2.length != 0 || merchantId != 'name^name') ?
-                                        Positioned(
-                                          bottom: homeBotPadding + 157,
-                                          right: 15,
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => MerchantCart(deviceId: deviceIdNum, shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
-                                            },
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  width: 155,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      color:  AppTheme.themeColor,
-                                                      borderRadius: BorderRadius.circular(50.0),
-                                                      border: Border.all(
-                                                        color: Colors.transparent,
-                                                        width: 5,
-                                                      )
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  right: 5,
-                                                  top: 3.5,
-                                                  child: Container(
-                                                    width: 42,
-                                                    height: 42,
+                                          (prodList2.length != 0 || merchantId != 'name^name') ?
+                                          Positioned(
+                                            bottom: homeBotPadding + 157,
+                                            right: 15,
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => MerchantCart(deviceId: deviceIdNum, shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
+                                              },
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 155,
+                                                    height: 50,
                                                     decoration: BoxDecoration(
-                                                        color: Colors.white,
+                                                        color:  AppTheme.themeColor,
                                                         borderRadius: BorderRadius.circular(50.0),
                                                         border: Border.all(
                                                           color: Colors.transparent,
@@ -5709,177 +5720,189 @@ class HomePageState extends State<HomePage>
                                                         )
                                                     ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  right: 15,
-                                                  top: 13,
-                                                  child: Container(
-                                                    child: Icon( SmartKyat_POS.merchant,
-                                                      size: 22,),
+                                                  Positioned(
+                                                    right: 5,
+                                                    top: 3.5,
+                                                    child: Container(
+                                                      width: 42,
+                                                      height: 42,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(50.0),
+                                                          border: Border.all(
+                                                            color: Colors.transparent,
+                                                            width: 5,
+                                                          )
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  left: 16,
-                                                  top: 14,
-                                                  child: Text(totalItems2() + ' item set', style: TextStyle(
-                                                      fontSize: 16, fontWeight: FontWeight.w500
-                                                  )
+                                                  Positioned(
+                                                    right: 15,
+                                                    top: 13,
+                                                    child: Container(
+                                                      child: Icon( SmartKyat_POS.merchant,
+                                                        size: 22,),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                  Positioned(
+                                                    left: 16,
+                                                    top: 14,
+                                                    child: Text(totalItems2() + ' item set', style: TextStyle(
+                                                        fontSize: 16, fontWeight: FontWeight.w500
+                                                    )
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ) : Container(),
-                                        Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                              bottom: homeBotPadding,
-                                              // bottom: MediaQuery.of(context).viewInsets.bottom
-                                            ),
-                                            child: Container(
-                                              color: Colors.transparent,
-                                              // height: MediaQuery.of(context).size.width > 900 ? 61 : 142,
-                                              height: MediaQuery.of(context).size.width > 900 ? 61: _goToCartHeight,
-                                              child: Stack(
-                                                children: [
-                                                  if (MediaQuery.of(context).size.width > 900) Container() else
-                                                  // Container(
-                                                  //     decoration: BoxDecoration(
-                                                  //         color: Colors.white,
-                                                  //         border: Border(
-                                                  //           top: BorderSide(
-                                                  //               color: AppTheme.skBorderColor2,
-                                                  //               width: 1.0),
-                                                  //         )
-                                                  //     ),
-                                                  //     child: Padding(
-                                                  //       padding:
-                                                  //       const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                                                  //       child: Container(
-                                                  //         height: 50,
-                                                  //         child: GestureDetector(
-                                                  //           onTap: () {
-                                                  //             saleCart(context);
-                                                  //           },
-                                                  //           child: (prodList.length == 0) ? Container(
-                                                  //             decoration: BoxDecoration(
-                                                  //               borderRadius: BorderRadius.circular(10.0),
-                                                  //               color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                                                  //               // color: Colors.blue
-                                                  //             ),
-                                                  //
-                                                  //             child: Padding(
-                                                  //               padding: const EdgeInsets.only(
-                                                  //                   top: 13.0, bottom: 15.0),
-                                                  //               child: Row(
-                                                  //                 mainAxisAlignment:
-                                                  //                 MainAxisAlignment.center,
-                                                  //                 children: [
-                                                  //                   Expanded(
-                                                  //                     child: Padding(
-                                                  //                       padding: const EdgeInsets.only(
-                                                  //                           left: 8.0,
-                                                  //                           right: 8.0,
-                                                  //                           bottom: 2.0),
-                                                  //                       child: Container(
-                                                  //                         child: Text(
-                                                  //                           'Go to cart',
-                                                  //                           textAlign: TextAlign.center,
-                                                  //                           style: TextStyle(
-                                                  //                               fontSize: 18,
-                                                  //                               fontWeight: FontWeight.w500,
-                                                  //                               color: Colors.black),
-                                                  //                         ),
-                                                  //                       ),
-                                                  //                     ),
-                                                  //                   ),
-                                                  //                 ],
-                                                  //               ),
-                                                  //             ),
-                                                  //           ) : Container(
-                                                  //             decoration: BoxDecoration(
-                                                  //               borderRadius: BorderRadius.circular(10.0),
-                                                  //               color: AppTheme.themeColor,
-                                                  //               // color: Colors.blue
-                                                  //             ),
-                                                  //
-                                                  //             child: Padding(
-                                                  //               padding: const EdgeInsets.only(
-                                                  //                   top: 13.0, bottom: 15.0),
-                                                  //               child: Row(
-                                                  //                 mainAxisAlignment:
-                                                  //                 MainAxisAlignment.center,
-                                                  //                 children: [
-                                                  //                   Expanded(
-                                                  //                     child: Padding(
-                                                  //                       padding: const EdgeInsets.only(
-                                                  //                           left: 8.0,
-                                                  //                           right: 8.0,
-                                                  //                           bottom: 2.0),
-                                                  //                       child: double.parse(totalItems()) == 1? Container(
-                                                  //                         child:
-                                                  //                         Text(
-                                                  //                           totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                  //                           textAlign: TextAlign.center,
-                                                  //                           style: TextStyle(
-                                                  //                               fontSize: 18,
-                                                  //                               fontWeight: FontWeight.w500,
-                                                  //                               color: Colors.black),
-                                                  //                         ),
-                                                  //                       ) : Container(
-                                                  //                         child:
-                                                  //                         Text(
-                                                  //                           totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                  //                           textAlign: TextAlign.center,
-                                                  //                           style: TextStyle(
-                                                  //                               fontSize: 18,
-                                                  //                               fontWeight: FontWeight.w500,
-                                                  //                               color: Colors.black),
-                                                  //                         ),
-                                                  //                       ),
-                                                  //                     ),
-                                                  //                   ),
-                                                  //                 ],
-                                                  //               ),
-                                                  //             ),
-                                                  //           ),
-                                                  //         ),
-                                                  //       ),
-                                                  //     ),
-                                                  //   ),
-                                                    AnimatedPadding(
-                                                      curve: Curves.easeInCubic,
-                                                      duration: const Duration(milliseconds: 200),
-                                                      padding: EdgeInsets.only(top: closeGoToCart? 81.0 : 0.0),
-                                                      child: _goToCartHeight == 142 ? Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border(
-                                                              top: BorderSide(
-                                                                  color: AppTheme.skBorderColor2,
-                                                                  width: 1.0),
-                                                            )
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                                                          child: Container(
-                                                            height: 50,
-                                                            child: GestureDetector(
-                                                              onTap: () {
-                                                                saleCart(context);
-                                                              },
-                                                              child: (prodList.length == 0) ? Container(
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                                                                  // color: Colors.blue
-                                                                ),
+                                          ) : Container(),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                bottom: homeBotPadding,
+                                                // bottom: MediaQuery.of(context).viewInsets.bottom
+                                              ),
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                // height: MediaQuery.of(context).size.width > 900 ? 61 : 142,
+                                                height: MediaQuery.of(context).size.width > 900 ? 61: _goToCartHeight,
+                                                child: Stack(
+                                                  children: [
+                                                    if (MediaQuery.of(context).size.width > 900) Container() else
+                                                    // Container(
+                                                    //     decoration: BoxDecoration(
+                                                    //         color: Colors.white,
+                                                    //         border: Border(
+                                                    //           top: BorderSide(
+                                                    //               color: AppTheme.skBorderColor2,
+                                                    //               width: 1.0),
+                                                    //         )
+                                                    //     ),
+                                                    //     child: Padding(
+                                                    //       padding:
+                                                    //       const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                                                    //       child: Container(
+                                                    //         height: 50,
+                                                    //         child: GestureDetector(
+                                                    //           onTap: () {
+                                                    //             saleCart(context);
+                                                    //           },
+                                                    //           child: (prodList.length == 0) ? Container(
+                                                    //             decoration: BoxDecoration(
+                                                    //               borderRadius: BorderRadius.circular(10.0),
+                                                    //               color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                                    //               // color: Colors.blue
+                                                    //             ),
+                                                    //
+                                                    //             child: Padding(
+                                                    //               padding: const EdgeInsets.only(
+                                                    //                   top: 13.0, bottom: 15.0),
+                                                    //               child: Row(
+                                                    //                 mainAxisAlignment:
+                                                    //                 MainAxisAlignment.center,
+                                                    //                 children: [
+                                                    //                   Expanded(
+                                                    //                     child: Padding(
+                                                    //                       padding: const EdgeInsets.only(
+                                                    //                           left: 8.0,
+                                                    //                           right: 8.0,
+                                                    //                           bottom: 2.0),
+                                                    //                       child: Container(
+                                                    //                         child: Text(
+                                                    //                           'Go to cart',
+                                                    //                           textAlign: TextAlign.center,
+                                                    //                           style: TextStyle(
+                                                    //                               fontSize: 18,
+                                                    //                               fontWeight: FontWeight.w500,
+                                                    //                               color: Colors.black),
+                                                    //                         ),
+                                                    //                       ),
+                                                    //                     ),
+                                                    //                   ),
+                                                    //                 ],
+                                                    //               ),
+                                                    //             ),
+                                                    //           ) : Container(
+                                                    //             decoration: BoxDecoration(
+                                                    //               borderRadius: BorderRadius.circular(10.0),
+                                                    //               color: AppTheme.themeColor,
+                                                    //               // color: Colors.blue
+                                                    //             ),
+                                                    //
+                                                    //             child: Padding(
+                                                    //               padding: const EdgeInsets.only(
+                                                    //                   top: 13.0, bottom: 15.0),
+                                                    //               child: Row(
+                                                    //                 mainAxisAlignment:
+                                                    //                 MainAxisAlignment.center,
+                                                    //                 children: [
+                                                    //                   Expanded(
+                                                    //                     child: Padding(
+                                                    //                       padding: const EdgeInsets.only(
+                                                    //                           left: 8.0,
+                                                    //                           right: 8.0,
+                                                    //                           bottom: 2.0),
+                                                    //                       child: double.parse(totalItems()) == 1? Container(
+                                                    //                         child:
+                                                    //                         Text(
+                                                    //                           totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                    //                           textAlign: TextAlign.center,
+                                                    //                           style: TextStyle(
+                                                    //                               fontSize: 18,
+                                                    //                               fontWeight: FontWeight.w500,
+                                                    //                               color: Colors.black),
+                                                    //                         ),
+                                                    //                       ) : Container(
+                                                    //                         child:
+                                                    //                         Text(
+                                                    //                           totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                    //                           textAlign: TextAlign.center,
+                                                    //                           style: TextStyle(
+                                                    //                               fontSize: 18,
+                                                    //                               fontWeight: FontWeight.w500,
+                                                    //                               color: Colors.black),
+                                                    //                         ),
+                                                    //                       ),
+                                                    //                     ),
+                                                    //                   ),
+                                                    //                 ],
+                                                    //               ),
+                                                    //             ),
+                                                    //           ),
+                                                    //         ),
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                      AnimatedPadding(
+                                                        curve: Curves.easeInCubic,
+                                                        duration: const Duration(milliseconds: 200),
+                                                        padding: EdgeInsets.only(top: closeGoToCart? 81.0 : 0.0),
+                                                        child: _goToCartHeight == 142 ? Container(
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              border: Border(
+                                                                top: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                    width: 1.0),
+                                                              )
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                            const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                                                            child: Container(
+                                                              height: 50,
+                                                              child: GestureDetector(
+                                                                onTap: () {
+                                                                  saleCart(context);
+                                                                },
+                                                                child: (prodList.length == 0) ? Container(
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                                                    // color: Colors.blue
+                                                                  ),
 
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      top: 13.0, bottom: 15.0),
                                                                   child: Row(
                                                                     mainAxisAlignment:
                                                                     MainAxisAlignment.center,
@@ -5887,17 +5910,15 @@ class HomePageState extends State<HomePage>
                                                                       Expanded(
                                                                         child: Padding(
                                                                           padding: const EdgeInsets.only(
-                                                                              left: 8.0,
-                                                                              right: 8.0,
-                                                                              bottom: 2.0),
+                                                                              left: 8.0, right: 8.0, bottom: 2.5
+                                                                          ),
                                                                           child: Container(
                                                                             child: Text(
                                                                               customerId == 'name^name' ? textSetGotoCart : customerId.split('^')[1].toString(),
-                                                                              textScaleFactor: 1,
-                                                                              textAlign: TextAlign.center,
+                                                                                                                                                                                 textAlign: TextAlign.center,
                                                                               style: TextStyle(
-                                                                                  fontSize: 18,
-                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 17.5,
+                                                                                  fontWeight: FontWeight.w600,
                                                                                   color: Colors.black),
                                                                               strutStyle: StrutStyle(
                                                                                 height: 1.3,
@@ -5910,218 +5931,218 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                              ) : Container(
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: AppTheme.themeColor,
-                                                                  // color: Colors.blue
-                                                                ),
+                                                                ) : Container(
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: AppTheme.themeColor,
+                                                                    // color: Colors.blue
+                                                                  ),
 
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      top: 13.0, bottom: 15.0),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment.center,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 8.0,
-                                                                              right: 8.0,
-                                                                              bottom: 2.0),
-                                                                          child: double.parse(totalItems()) == 1? Container(
-                                                                            child:
-                                                                            Text(
-                                                                              totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 18,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.black),
-                                                                            ),
-                                                                          ) :
-                                                                          Container(
-                                                                            child:
-                                                                            Text(
-                                                                              totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 18,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.black),
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        top: 13.0, bottom: 15.0),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.center,
+                                                                      children: [
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 8.0,
+                                                                                right: 8.0,
+                                                                                bottom: 2.0),
+                                                                            child: double.parse(totalItems()) == 1? Container(
+                                                                              child:
+                                                                              Text(
+                                                                                totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.black),
+                                                                              ),
+                                                                            ) :
+                                                                            Container(
+                                                                              child:
+                                                                              Text(
+                                                                                totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.black),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ): Container(),
-                                                    ),
-                                                  Align(
-                                                    alignment: Alignment.bottomCenter,
-                                                    child: Container(
-                                                      height: 61,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                color: AppTheme.skBorderColor2, width: 1.0),
-                                                          )),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(
-                                                                  left: 15.0,top:0.0
-                                                              ),
-                                                              child: GestureDetector(
-                                                                onTap: () {
-                                                                  _scaffoldKey.currentState!.openDrawer();
-                                                                },
-                                                                child: selectedTab(
-
+                                                        ): Container(),
+                                                      ),
+                                                    Align(
+                                                      alignment: Alignment.bottomCenter,
+                                                      child: Container(
+                                                        height: 61,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  color: AppTheme.skBorderColor2, width: 1.0),
+                                                            )),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    left: 15.0,top:0.0
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child: GestureDetector(
-                                                                onTap: () async {
-                                                                  print('go to cart 3');
-                                                                },
-                                                                child: Container(),
-                                                              ),
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
-                                                                //SizedBox(width:15),
-                                                                GestureDetector(
-                                                                  onTap: () async {
-                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
-                                                                        .where('email', isEqualTo: auth.currentUser!.email)
-                                                                        .get()
-                                                                        .then((QuerySnapshot querySnapshot) {
-                                                                      print('shit ' + querySnapshot.docs[0]['devices'].toString());
-                                                                    });
+                                                                child: GestureDetector(
+                                                                  onTap: () {
+                                                                    _scaffoldKey.currentState!.openDrawer();
                                                                   },
-                                                                  child: Padding(
-                                                                      padding: const EdgeInsets.only(
-                                                                          right: 15.0, left: 10.0, top: 2.0
-                                                                      ),
-                                                                      child: _connectionStatus?
-                                                                      Center(
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(bottom: 2),
-                                                                          child: Icon(
-                                                                            Icons.wifi_tethering_rounded,
-                                                                            size: 24.5,
-                                                                            color: Colors.green,
-                                                                          ),
-                                                                        ),
-                                                                      ) :
-                                                                      Center(
-                                                                        child: Icon(
-                                                                          Icons.portable_wifi_off_rounded,
-                                                                          size: 24.5,
-                                                                          color: Colors.grey,
-                                                                        ),
-                                                                      )
-                                                                    // child: StreamBuilder(
-                                                                    //     stream: Connectivity().onConnectivityChanged,
-                                                                    //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
-                                                                    //       if (!snapShot.hasData)
-                                                                    //         return Center(
-                                                                    //           child: Icon(
-                                                                    //             Icons.cloud_off_rounded,
-                                                                    //             size: 25,
-                                                                    //             color: Colors.black,
-                                                                    //           ),
-                                                                    //         );
-                                                                    //       var result = snapShot.data;
-                                                                    //       switch (result) {
-                                                                    //         case ConnectivityResult.none:
-                                                                    //
-                                                                    //           return Center(
-                                                                    //             child: Icon(
-                                                                    //               Icons.cloud_off_rounded,
-                                                                    //               size: 25,
-                                                                    //               color: Colors.black,
-                                                                    //             ),
-                                                                    //           );
-                                                                    //         case ConnectivityResult.mobile:
-                                                                    //         case ConnectivityResult.wifi:
-                                                                    //
-                                                                    //           return Center(
-                                                                    //             child: Icon(
-                                                                    //               Icons.cloud_rounded,
-                                                                    //               size: 25,
-                                                                    //               color: Colors.black,
-                                                                    //             ),
-                                                                    //           );
-                                                                    //         default:
-                                                                    //           return Center(
-                                                                    //             child: Icon(
-                                                                    //               Icons.cloud_off_rounded,
-                                                                    //               size: 25,
-                                                                    //               color: Colors.black,
-                                                                    //             ),
-                                                                    //           );
-                                                                    //       }
-                                                                    //
-                                                                    //     })
+                                                                  child: selectedTab(
+
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            )
-                                                          ],
+                                                              ),
+                                                              Expanded(
+                                                                child: GestureDetector(
+                                                                  onTap: () async {
+                                                                    print('go to cart 3');
+                                                                  },
+                                                                  child: Container(),
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
+                                                                  //SizedBox(width:15),
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
+                                                                          .where('email', isEqualTo: auth.currentUser!.email)
+                                                                          .get()
+                                                                          .then((QuerySnapshot querySnapshot) {
+                                                                        print('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                                                      });
+                                                                    },
+                                                                    child: Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            right: 15.0, left: 10.0, top: 2.0
+                                                                        ),
+                                                                        child: _connectionStatus?
+                                                                        Center(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(bottom: 2),
+                                                                            child: Icon(
+                                                                              Icons.wifi_tethering_rounded,
+                                                                              size: 24.5,
+                                                                              color: Colors.green,
+                                                                            ),
+                                                                          ),
+                                                                        ) :
+                                                                        Center(
+                                                                          child: Icon(
+                                                                            Icons.portable_wifi_off_rounded,
+                                                                            size: 24.5,
+                                                                            color: Colors.grey,
+                                                                          ),
+                                                                        )
+                                                                      // child: StreamBuilder(
+                                                                      //     stream: Connectivity().onConnectivityChanged,
+                                                                      //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
+                                                                      //       if (!snapShot.hasData)
+                                                                      //         return Center(
+                                                                      //           child: Icon(
+                                                                      //             Icons.cloud_off_rounded,
+                                                                      //             size: 25,
+                                                                      //             color: Colors.black,
+                                                                      //           ),
+                                                                      //         );
+                                                                      //       var result = snapShot.data;
+                                                                      //       switch (result) {
+                                                                      //         case ConnectivityResult.none:
+                                                                      //
+                                                                      //           return Center(
+                                                                      //             child: Icon(
+                                                                      //               Icons.cloud_off_rounded,
+                                                                      //               size: 25,
+                                                                      //               color: Colors.black,
+                                                                      //             ),
+                                                                      //           );
+                                                                      //         case ConnectivityResult.mobile:
+                                                                      //         case ConnectivityResult.wifi:
+                                                                      //
+                                                                      //           return Center(
+                                                                      //             child: Icon(
+                                                                      //               Icons.cloud_rounded,
+                                                                      //               size: 25,
+                                                                      //               color: Colors.black,
+                                                                      //             ),
+                                                                      //           );
+                                                                      //         default:
+                                                                      //           return Center(
+                                                                      //             child: Icon(
+                                                                      //               Icons.cloud_off_rounded,
+                                                                      //               size: 25,
+                                                                      //               color: Colors.black,
+                                                                      //             ),
+                                                                      //           );
+                                                                      //       }
+                                                                      //
+                                                                      //     })
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              color: Colors.white,
-                                              height: homeBotPadding,
-                                            )
-                                        )
-                                      ],
-                                    );
-                                  }
-                              ),
-                            );
+                                          Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Container(
+                                                color: Colors.white,
+                                                height: homeBotPadding,
+                                              )
+                                          )
+                                        ],
+                                      );
+                                    }
+                                ),
+                              );
+                            }
+                            return Container();
                           }
-                          return Container();
-                        }
-                    );
+                      );
+                    }
+                    return Container();
                   }
-                  return Container();
-                }
+              ),
             ),
           ),
-        ),
-        homePageLoading? Positioned.fill(
-          child: Container(
-            color: Colors.white.withOpacity(0.8),
-            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                child: CupertinoActivityIndicator(radius: 15,)),
-          ),
-        ) : Container()
-      ],
+          homePageLoading? Positioned.fill(
+            child: Container(
+              color: Colors.white.withOpacity(0.8),
+              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                  child: CupertinoActivityIndicator(radius: 15,)),
+            ),
+          ) : Container()
+        ],
+      ),
     );
   }
 
@@ -7421,6 +7442,7 @@ class HomePageState extends State<HomePage>
                           width: 58,
                           height: 58,
                           // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                          progressIndicatorBuilder: (context, url, downloadProgress) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                           errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                           fadeInDuration: Duration(milliseconds: 100),
                           fadeOutDuration: Duration(milliseconds: 10),
@@ -7648,6 +7670,7 @@ class HomePageState extends State<HomePage>
                                       width: 58,
                                       height: 58,
                                       // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                      progressIndicatorBuilder: (context, url, downloadProgress) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                                       errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 58, width: 58, fit: BoxFit.cover,),
                                       fadeInDuration: Duration(milliseconds: 100),
                                       fadeOutDuration: Duration(milliseconds: 10),
@@ -8196,7 +8219,7 @@ class HomePageState extends State<HomePage>
                                                               right:
                                                               8.0,
                                                               bottom:
-                                                              2.0),
+                                                              3),
                                                           child: Container(
                                                               child: Text(
                                                                 'Clear cart',
@@ -8204,6 +8227,7 @@ class HomePageState extends State<HomePage>
                                                                 TextAlign
                                                                     .center,
                                                                 style: TextStyle(
+                                                                    height: 1.3,
                                                                     fontSize:
                                                                     17,
                                                                     fontWeight:
@@ -8227,7 +8251,7 @@ class HomePageState extends State<HomePage>
                                                         await showModalActionSheet<String>(
                                                           context: context,
                                                           //title: 'Confirmation alert',
-                                                          message: 'Are you sure you want to change discount?',
+                                                          title: 'Are you sure you want to change discount?',
                                                           actions: [
                                                             SheetAction(
                                                               label: 'New discount',
@@ -8237,8 +8261,8 @@ class HomePageState extends State<HomePage>
                                                           ],
                                                         ) : await showModalActionSheet<String>(
                                                           context: context,
-                                                          title: 'Confirmation alert',
-                                                          message: 'Are you sure you want to change discount?',
+                                                          // title: 'Confirmation alert',
+                                                          title: 'Are you sure you want to change discount?',
                                                           actions: [
                                                             SheetAction(
                                                               label: 'New discount',
@@ -8257,6 +8281,7 @@ class HomePageState extends State<HomePage>
 
                                                           final result = await showModalActionSheet<String>(
                                                             context: context,
+                                                            title: 'Choose discount type',
                                                             actions: [
                                                               SheetAction(
                                                                 icon: Icons.error,
@@ -8358,6 +8383,7 @@ class HomePageState extends State<HomePage>
                                                       } else {
                                                         final result = await showModalActionSheet<String>(
                                                           context: context,
+                                                          title: 'Choose discount type',
                                                           actions: [
                                                             SheetAction(
                                                               icon: Icons.error,
@@ -8478,7 +8504,7 @@ class HomePageState extends State<HomePage>
                                                               right:
                                                               8.0,
                                                               bottom:
-                                                              2.0),
+                                                              3),
                                                           child: Container(
                                                               child: Text(
                                                                 'Discount',
@@ -8486,6 +8512,7 @@ class HomePageState extends State<HomePage>
                                                                 TextAlign
                                                                     .center,
                                                                 style: TextStyle(
+                                                                    height: 1.3,
                                                                     fontSize:
                                                                     17,
                                                                     fontWeight:
@@ -8767,13 +8794,14 @@ class HomePageState extends State<HomePage>
                                                             children: [
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
                                                                   child: Container(
                                                                       child: Text(
                                                                         'Checkout',
                                                                         textAlign: TextAlign.center,
                                                                         style: TextStyle(
-                                                                            fontSize: 17,
+                                                                            height: 1.3,
+                                                                            fontSize: 17.5,
                                                                             fontWeight: FontWeight.w600,
                                                                             color: Colors.black
                                                                         ),
@@ -8806,13 +8834,14 @@ class HomePageState extends State<HomePage>
                                                             children: [
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.5),
                                                                   child: Container(
                                                                       child: Text(
                                                                         'Checkout',
                                                                         textAlign: TextAlign.center,
                                                                         style: TextStyle(
-                                                                            fontSize: 17,
+                                                                            height: 1.3,
+                                                                            fontSize: 17.5,
                                                                             fontWeight: FontWeight.w600,
                                                                             color: Colors.black
                                                                         ),
@@ -9609,7 +9638,7 @@ class HomePageState extends State<HomePage>
                                                                                     'Done',
                                                                                     textAlign: TextAlign.center,
                                                                                     style: TextStyle(
-                                                                                        fontSize: 17,
+                                                                                        fontSize: 17.5,
                                                                                         fontWeight: FontWeight.w600,
                                                                                         color: Colors.black
                                                                                     ),
@@ -10268,7 +10297,7 @@ class HomePageState extends State<HomePage>
                                                                                       'Done',
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 17,
+                                                                                          fontSize: 17.5,
                                                                                           fontWeight: FontWeight.w600,
                                                                                           color: Colors.black
                                                                                       ),
@@ -10430,7 +10459,7 @@ class HomePageState extends State<HomePage>
                                                                                   'Save as image',
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(
-                                                                                      fontSize: 17,
+                                                                                      fontSize: 17.5,
                                                                                       fontWeight: FontWeight.w600,
                                                                                       color: Colors.black
                                                                                   ),
@@ -10633,7 +10662,7 @@ class HomePageState extends State<HomePage>
                                                                                   'Next sale',
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(
-                                                                                      fontSize: 17,
+                                                                                      fontSize: 17.5,
                                                                                       fontWeight: FontWeight.w600,
                                                                                       color: Colors.black
                                                                                   ),
@@ -11063,7 +11092,7 @@ class HomePageState extends State<HomePage>
                                                                                         'Close',
                                                                                         textAlign: TextAlign.center,
                                                                                         style: TextStyle(
-                                                                                            fontSize: 17,
+                                                                                            fontSize: 17.5,
                                                                                             fontWeight: FontWeight.w600,
                                                                                             color: Colors.black
                                                                                         ),
@@ -12877,7 +12906,7 @@ class HomePageState extends State<HomePage>
                                                                           'Close',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 17,
+                                                                              fontSize: 17.5,
                                                                               fontWeight: FontWeight.w600,
                                                                               color: Colors.black
                                                                           ),

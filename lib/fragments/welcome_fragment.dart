@@ -321,7 +321,7 @@ class _WelcomeState extends State<Welcome>
                                                             isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                                fontSize: 17.5,
+                                                                fontSize: 17,
                                                                 fontWeight: FontWeight.w600,
                                                                 letterSpacing:-0.1
                                                             ),
@@ -627,7 +627,7 @@ class _WelcomeState extends State<Welcome>
                                                                           isEnglish? 'Forgot?': 'မေ့နေလား?',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 17.5,
+                                                                              fontSize: 17,
                                                                               fontWeight: FontWeight.w600,
                                                                               letterSpacing:-0.1
                                                                           ),
@@ -743,7 +743,7 @@ class _WelcomeState extends State<Welcome>
                                                                             isEnglish? 'Login': 'လော့ဂ်အင်',
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                                fontSize: 17.5,
+                                                                                fontSize: 17,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 letterSpacing:-0.1
                                                                             ),
@@ -1229,7 +1229,7 @@ class _WelcomeState extends State<Welcome>
 //                                                 'Sign up',
 //                                                 textAlign: TextAlign.center,
 //                                                 style: TextStyle(
-//                                                     fontSize: 17.5,
+//                                                     fontSize: 17,
 //                                                     fontWeight: FontWeight.w600,
 //                                                     letterSpacing:-0.1
 //                                                 ),
@@ -1780,7 +1780,7 @@ class _WelcomeState extends State<Welcome>
                                                           isEnglish? 'Sign up': 'ဆိုင်းအပ်',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
-                                                              fontSize: 17.5,
+                                                              fontSize: 17,
                                                               fontWeight: FontWeight.w600,
                                                               letterSpacing:-0.1
                                                           ),

@@ -9,9 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/bloc_customers.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
@@ -3566,7 +3566,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                     child: Padding(
                         padding: const EdgeInsets.only(top: 81.0),
                         child: NotificationListener<ScrollNotification>(
-                          child: PaginateFirestore(
+                          child: BlocCustomers(
                             onEmpty: Align(
                               alignment: Alignment.topCenter,
                               child: Column(
@@ -3701,6 +3701,382 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           ]
                                       ),
                                     ),
+                                  ),
+                                  StreamBuilder<DocumentSnapshot>(
+                                      stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc('name').snapshots(), //returns a Stream<DocumentSnapshot>
+                                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return GestureDetector(
+                                            onTap: () async {
+                                              closeDrawerFrom();
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (
+                                                        context) =>
+                                                        MerchantInfoSubs(
+                                                          id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
+                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                              );
+                                              openDrawerFrom();
+                                            },
+                                            child: Container(
+                                              // color: Colors.yellow,
+                                              child: Padding(
+                                                padding:
+                                                EdgeInsets.only(left: 15.0, top: 0.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors
+                                                                  .grey
+                                                                  .withOpacity(
+                                                                  0.3),
+                                                              width: 1.0)
+                                                      )),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets
+                                                            .only(
+                                                            bottom: 6.0),
+                                                        child: ListTile(
+                                                          contentPadding: const EdgeInsets
+                                                              .only(
+                                                              left: 0.0, right: 15),
+                                                          title: Text(
+                                                            'No merchant',
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500,
+                                                                height: 1.1,
+                                                                overflow: TextOverflow.ellipsis
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1.3,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                          ),
+                                                          subtitle: Padding(
+                                                            padding: const EdgeInsets
+                                                                .only(
+                                                                top: 8.0),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Default buy orders',
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight
+                                                                          .w500,
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      height: 1.1,
+                                                                      overflow: TextOverflow.ellipsis
+                                                                  ),
+                                                                  maxLines: 1,
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.2,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          trailing: Container(
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+
+
+                                                                // Container(
+                                                                //   height: 21,
+                                                                //   decoration: BoxDecoration(
+                                                                //     borderRadius: BorderRadius.circular(20.0),
+                                                                //     color: AppTheme.badgeFgDanger,
+                                                                //   ),
+                                                                //   child: Padding(
+                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                                //       style: TextStyle(
+                                                                //           fontSize: 13,
+                                                                //           fontWeight: FontWeight.w500,
+                                                                //           color: Colors.white
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
+
+                                                                // Text(orderList.toString()),
+
+                                                                // Container(
+                                                                //   height: 21,
+                                                                //   decoration: BoxDecoration(
+                                                                //     borderRadius: BorderRadius.circular(20.0),
+                                                                //     color: AppTheme.badgeFgDanger,
+                                                                //   ),
+                                                                //   child: Padding(
+                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                //     child: Text('2 unpaid',
+                                                                //       style: TextStyle(
+                                                                //           fontSize: 13,
+                                                                //           fontWeight: FontWeight.w500,
+                                                                //           color: Colors.white
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                // )
+
+                                                                // Container(
+                                                                //   height: 21,
+                                                                //   decoration: BoxDecoration(
+                                                                //     borderRadius: BorderRadius.circular(20.0),
+                                                                //     color: AppTheme.badgeFgDanger,
+                                                                //   ),
+                                                                //   child: Padding(
+                                                                //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                                //       style: TextStyle(
+                                                                //           fontSize: 13,
+                                                                //           fontWeight: FontWeight.w500,
+                                                                //           color: Colors.white
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
+                                                                SizedBox(
+                                                                    width: 12),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios_rounded,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .blueGrey
+                                                                        .withOpacity(
+                                                                        0.8),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+
+                                                        ),
+                                                      )
+
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        var userDocument = snapshot.data;
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            closeDrawerFrom();
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (
+                                                      context) =>
+                                                      MerchantInfoSubs(
+                                                        id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                            );
+                                            openDrawerFrom();
+                                          },
+                                          child: Container(
+                                            // color: Colors.yellow,
+                                            child: Padding(
+                                              padding:
+                                              EdgeInsets.only(left: 15.0, top: 0.0),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors
+                                                                .grey
+                                                                .withOpacity(
+                                                                0.3),
+                                                            width: 1.0)
+                                                    )),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(
+                                                          bottom: 6.0),
+                                                      child: ListTile(
+                                                        contentPadding: const EdgeInsets
+                                                            .only(
+                                                            left: 0.0, right: 15),
+                                                        title: Text(
+                                                          'No merchant',
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                              height: 1.1,
+                                                              overflow: TextOverflow.ellipsis
+                                                          ),
+                                                          strutStyle: StrutStyle(
+                                                            height: 1.3,
+                                                            // fontSize:,
+                                                            forceStrutHeight: true,
+                                                          ),
+                                                        ),
+                                                        subtitle: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(
+                                                              top: 8.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                'Default buy orders',
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 1.1,
+                                                                    overflow: TextOverflow.ellipsis
+                                                                ),
+                                                                maxLines: 1,
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        trailing: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              userDocument!['debts'] > 0? Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                  child: Text(userDocument['debts'].round().toString() + ' unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ): Container(height: 21,),
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+
+                                                              // Text(orderList.toString()),
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text('2 unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // )
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                      ),
+                                                    )
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
                                   ),
                                   Expanded(
                                     child: Container(
@@ -3852,6 +4228,385 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
                                 ),
                               ),),
+                            custom:
+                            SliverToBoxAdapter(
+                                child: StreamBuilder<DocumentSnapshot>(
+                                    stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc('name').snapshots(), //returns a Stream<DocumentSnapshot>
+                                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            closeDrawerFrom();
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (
+                                                      context) =>
+                                                      MerchantInfoSubs(
+                                                        id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                            );
+                                            openDrawerFrom();
+                                          },
+                                          child: Container(
+                                            // color: Colors.yellow,
+                                            child: Padding(
+                                              padding:
+                                              EdgeInsets.only(left: 15.0, top: 0.0),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors
+                                                                .grey
+                                                                .withOpacity(
+                                                                0.3),
+                                                            width: 1.0)
+                                                    )),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(
+                                                          bottom: 6.0),
+                                                      child: ListTile(
+                                                        contentPadding: const EdgeInsets
+                                                            .only(
+                                                            left: 0.0, right: 15),
+                                                        title: Text(
+                                                          'No merchant',
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                              height: 1.1,
+                                                              overflow: TextOverflow.ellipsis
+                                                          ),
+                                                          strutStyle: StrutStyle(
+                                                            height: 1.3,
+                                                            // fontSize:,
+                                                            forceStrutHeight: true,
+                                                          ),
+                                                        ),
+                                                        subtitle: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(
+                                                              top: 8.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                'Default buy orders',
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 1.1,
+                                                                    overflow: TextOverflow.ellipsis
+                                                                ),
+                                                                maxLines: 1,
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        trailing: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+
+                                                              // Text(orderList.toString()),
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text('2 unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // )
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                      ),
+                                                    )
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      var userDocument = snapshot.data;
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          closeDrawerFrom();
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (
+                                                    context) =>
+                                                    MerchantInfoSubs(
+                                                      id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
+                                                      toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                          );
+                                          openDrawerFrom();
+                                        },
+                                        child: Container(
+                                          // color: Colors.yellow,
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.only(left: 15.0, top: 0.0),
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width,
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: BorderSide(
+                                                          color: Colors
+                                                              .grey
+                                                              .withOpacity(
+                                                              0.3),
+                                                          width: 1.0)
+                                                  )),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        bottom: 6.0),
+                                                    child: ListTile(
+                                                      contentPadding: const EdgeInsets
+                                                          .only(
+                                                          left: 0.0, right: 15),
+                                                      title: Text(
+                                                        'No merchant',
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            height: 1.1,
+                                                            overflow: TextOverflow.ellipsis
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      subtitle: Padding(
+                                                        padding: const EdgeInsets
+                                                            .only(
+                                                            top: 8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            Text(
+                                                              'Default buy orders',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  height: 1.1,
+                                                                  overflow: TextOverflow.ellipsis
+                                                              ),
+                                                              maxLines: 1,
+                                                              strutStyle: StrutStyle(
+                                                                height: 1.2,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      trailing: Container(
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            userDocument!['debts'] > 0? Container(
+                                                              height: 21,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                color: AppTheme.badgeFgDanger,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                child: Text(userDocument['debts'].round().toString() + ' unpaid',
+                                                                  style: TextStyle(
+                                                                      fontSize: 13,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.white
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ): Container(height: 21,),
+
+                                                            // Container(
+                                                            //   height: 21,
+                                                            //   decoration: BoxDecoration(
+                                                            //     borderRadius: BorderRadius.circular(20.0),
+                                                            //     color: AppTheme.badgeFgDanger,
+                                                            //   ),
+                                                            //   child: Padding(
+                                                            //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                            //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                            //       style: TextStyle(
+                                                            //           fontSize: 13,
+                                                            //           fontWeight: FontWeight.w500,
+                                                            //           color: Colors.white
+                                                            //       ),
+                                                            //     ),
+                                                            //   ),
+                                                            // ),
+
+                                                            // Text(orderList.toString()),
+
+                                                            // Container(
+                                                            //   height: 21,
+                                                            //   decoration: BoxDecoration(
+                                                            //     borderRadius: BorderRadius.circular(20.0),
+                                                            //     color: AppTheme.badgeFgDanger,
+                                                            //   ),
+                                                            //   child: Padding(
+                                                            //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                            //     child: Text('2 unpaid',
+                                                            //       style: TextStyle(
+                                                            //           fontSize: 13,
+                                                            //           fontWeight: FontWeight.w500,
+                                                            //           color: Colors.white
+                                                            //       ),
+                                                            //     ),
+                                                            //   ),
+                                                            // )
+
+                                                            // Container(
+                                                            //   height: 21,
+                                                            //   decoration: BoxDecoration(
+                                                            //     borderRadius: BorderRadius.circular(20.0),
+                                                            //     color: AppTheme.badgeFgDanger,
+                                                            //   ),
+                                                            //   child: Padding(
+                                                            //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                            //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                            //       style: TextStyle(
+                                                            //           fontSize: 13,
+                                                            //           fontWeight: FontWeight.w500,
+                                                            //           color: Colors.white
+                                                            //       ),
+                                                            //     ),
+                                                            //   ),
+                                                            // ),
+                                                            SizedBox(
+                                                                width: 12),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 2.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios_rounded,
+                                                                size: 16,
+                                                                color: Colors
+                                                                    .blueGrey
+                                                                    .withOpacity(
+                                                                    0.8),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                    ),
+                                                  )
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                )
+                            ),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
                               child: Center(child: Text('End of results')),
@@ -3877,17 +4632,15 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                         builder: (
                                             context) =>
                                             MerchantInfoSubs(
-                                              id: version,
+                                              id: version, mercAddress: data['merchant_address'], mercName: data['merchant_name'],
                                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                   );
                                   openDrawerFrom();
                                 },
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.only(
-                                      top: index == 0
-                                          ? 10.0
-                                          : 15.0),
+                                  EdgeInsets.only(left: 15.0,
+                                      top: 15.0),
                                   child: Container(
                                     width: MediaQuery
                                         .of(context)
@@ -3916,6 +4669,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                               .only(
                                               bottom: 18.0),
                                           child: ListTile(
+                                            contentPadding: const EdgeInsets
+                                                .only(
+                                                left: 0.0, right: 15),
                                             title: Text(
                                               data['merchant_name'].toString(),
                                               style: TextStyle(

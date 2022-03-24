@@ -36,7 +36,7 @@ dependencies:
   pinput:
   qr_code_scanner: ^0.5.2
   shared_preferences: ^2.0.6
-  adaptive_dialog: ^1.1.0
+  adaptive_dialog: ^1.4.0
   sticky_and_expandable_list: ^1.0.0-nullsafety.1
 #  device_info: ^2.0.2
   device_info_plus: ^3.0.1
