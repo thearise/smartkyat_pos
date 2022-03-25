@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -347,10 +349,11 @@ class MerchantCartState extends State<MerchantCart>
           SlidableDrawerDismissal(),
           onDismissed:
               (actionType) {
-            setState((){
-              widget.prodList2
-                    .removeAt(
-                    index);
+             setState((){
+              widget.prodList2.removeAt(index);
+              if(discount2 > double.parse(TtlProdListPriceInit2())) {
+                discount2 = 0;
+              }
             });
           },
         ),
@@ -363,9 +366,10 @@ class MerchantCartState extends State<MerchantCart>
             Icons.delete,
             onTap: () {
               setState((){
-                widget.prodList2
-                      .removeAt(
-                      index);
+                widget.prodList2.removeAt(index);
+                if(discount2 > double.parse(TtlProdListPriceInit2())) {
+                  discount2 = 0;
+                }
               });
             },
           ),
@@ -559,72 +563,235 @@ class MerchantCartState extends State<MerchantCart>
                                         bottom: 15.0),
                                     child: GestureDetector(
                                       onTap: () async {
-                                        final result = await showModalActionSheet<String>(
-                                          context: context,
-                                          actions: [
-                                            SheetAction(
-                                              icon: Icons.info,
-                                              label: 'Amount',
-                                              key: 'amount',
-                                            ),
-                                            SheetAction(
-                                              icon: Icons.info,
-                                              label: 'Percent',
-                                              key: 'percent',
-                                            ),
-                                          ],
-                                        );
-                                        setState(() {
-                                          isDiscount2 = result.toString();
-                                        });
-
-                                        if (result == 'amount') {
-                                          final amount = await showTextInputDialog(
+                                        if(discount2 > 0) {
+                                          final resultNew =
+                                          Platform.isIOS ?
+                                          await showModalActionSheet<String>(
                                             context: context,
-                                            textFields: [
-                                              DialogTextField(
-                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                // inputFormatters: <TextInputFormatter>[
-                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                hintText: '0',
-                                                suffixText: '$currencyUnit',
-                                                // initialText: 'mono0926@gmail.com',
+                                            //title: 'Confirmation alert',
+                                            title: 'Are you sure you want to change discount?',
+                                            actions: [
+                                              SheetAction(
+                                                label: 'New discount',
+                                                key: 'newdis',
+                                                isDestructiveAction: true,
                                               ),
                                             ],
-                                            title: textSetDiscount,
-                                            message: 'Add Discount Amount to Cart',
+                                          ) : await showModalActionSheet<String>(
+                                            context: context,
+                                            // title: 'Confirmation alert',
+                                            title: 'Are you sure you want to change discount?',
+                                            actions: [
+                                              SheetAction(
+                                                label: 'New discount',
+                                                key: 'newdis',
+                                                isDestructiveAction: true,
+                                              ),
+                                            ],
                                           );
-                                          setState(() {
-                                            discount2 =double.parse(amount![0].toString());
-                                            print('disss ' + discount2.toString());
-                                          });
+                                          if(resultNew.toString() == 'newdis') {
+                                            setState(() {
+                                                discountAmount2 = 0.0;
+                                                discount2 = 0.0;
+                                            });
+
+                                            final result = await showModalActionSheet<String>(
+                                              context: context,
+                                              title: 'Choose discount type',
+                                              actions: [
+                                                SheetAction(
+                                                  icon: Icons.error,
+                                                  label: 'Amount',
+                                                  key: 'amount',
+                                                ),
+                                                SheetAction(
+                                                  icon: Icons.warning,
+                                                  label: 'Percent',
+                                                  key: 'percent',
+                                                ),
+                                              ],
+                                            );
+
+                                            if(result != null) {
+                                              setState(() {
+                                                isDiscount2 = result.toString();
+                                              });
+
+                                              if (result == 'amount') {
+                                                final amount = await showTextInputDialog(
+                                                  context: context,
+                                                  textFields: [
+                                                    DialogTextField(
+                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                      // inputFormatters: <TextInputFormatter>[
+                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                      hintText: '0',
+                                                      suffixText: '$currencyUnit  ',
+                                                      validator: (value) {
+                                                        if (value == null || value.isEmpty) {
+                                                          // return '';
+                                                          return 'this field is required ';
+                                                        } else {
+                                                          if(double.parse(TtlProdListPriceInit2()) <= 0) {
+                                                            return 'no item in cart';
+                                                          } else if(double.parse(value) > double.parse(TtlProdListPriceInit2())) {
+                                                            return 'much less than total sale';
+                                                          } else if(double.parse(value) < 0) {
+                                                            return 'invalid amount';
+                                                          }
+                                                        }
+                                                        return null;
+                                                      },
+                                                      // initialText: 'mono0926@gmail.com',
+                                                    ),
+                                                  ],
+                                                  title: 'Discount',
+                                                  message: 'Add Discount Amount to Cart',
+                                                );
+                                                setState(() {
+                                                  discount2 =double.parse(amount![0].toString());
+                                                });
+
+                                              } else if(result == 'percent') {
+                                                final percentage = await showTextInputDialog(
+                                                  context: context,
+                                                  textFields: [
+                                                    DialogTextField(
+                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                      // inputFormatters: <TextInputFormatter>[
+                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                      hintText: '0',
+                                                      suffixText: '%  ',
+                                                      validator: (value) {
+                                                        if (value == null || value.isEmpty) {
+                                                          // return '';
+                                                          return 'this field is required ';
+                                                        } else {
+                                                          if(double.parse(TtlProdListPriceInit2()) <= 0) {
+                                                            return 'no item in cart';
+                                                          }
+                                                          if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                            return 'invalid amount';
+                                                          }
+                                                        }
+                                                        return null;
+                                                      },
+                                                      // initialText: 'mono0926@gmail.com',
+                                                    ),
+                                                  ],
+                                                  title: 'Discount',
+                                                  message: 'Add Discount Percent to Cart',
+                                                );
+                                                setState(() {
+                                                  discount2 =double.parse(percentage![0].toString());
+                                                });
+                                              }
+                                              print('dis' + result.toString());
+                                              setState(() {
+                                                print('do something');
+                                              });
+                                            }
+                                          }
+
 
                                         } else {
-                                          final percentage = await showTextInputDialog(
+                                          final result = await showModalActionSheet<String>(
                                             context: context,
-                                            textFields: [
-                                              DialogTextField(
-                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                // inputFormatters: <TextInputFormatter>[
-                                                //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                hintText: '0.0',
-                                                suffixText: '%',
-                                                // initialText: 'mono0926@gmail.com',
+                                            title: 'Choose discount type',
+                                            actions: [
+                                              SheetAction(
+                                                icon: Icons.error,
+                                                label: 'Amount',
+                                                key: 'amount',
+                                              ),
+                                              SheetAction(
+                                                icon: Icons.warning,
+                                                label: 'Percent',
+                                                key: 'percent',
                                               ),
                                             ],
-                                            title: textSetDiscount,
-                                            message: 'Add Discount Percent to Cart',
                                           );
-                                          setState(() {
-                                            discount2 =double.parse(percentage![0].toString());
-                                            print('disss ' + discount2.toString());
-                                          });
-                                        }
-                                        print('dis' + result.toString());
-                                        setState(() {
-                                          print('do something');
-                                        });
 
+                                          if(result != null) {
+                                            setState(() {
+                                              isDiscount2 = result.toString();
+                                            });
+
+                                            if (result == 'amount') {
+                                              final amount = await showTextInputDialog(
+                                                context: context,
+                                                textFields: [
+                                                  DialogTextField(
+                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                    // inputFormatters: <TextInputFormatter>[
+                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                    hintText: '0',
+                                                    suffixText: '$currencyUnit  ',
+                                                    validator: (value) {
+                                                      if (value == null || value.isEmpty) {
+                                                        // return '';
+                                                        return 'this field is required ';
+                                                      } else {
+                                                        if(double.parse(TtlProdListPriceInit2()) <= 0) {
+                                                          return 'no item in cart';
+                                                        } else if(double.parse(value) > double.parse(TtlProdListPriceInit2())) {
+                                                          return 'much less than total sale';
+                                                        } else if(double.parse(value) < 0) {
+                                                          return 'invalid amount';
+                                                        }
+                                                      }
+                                                      return null;
+                                                    },
+                                                    // initialText: 'mono0926@gmail.com',
+                                                  ),
+                                                ],
+                                                title: 'Discount',
+                                                message: 'Add Discount Amount to Cart',
+                                              );
+                                              setState(() {
+                                                discount2 =double.parse(amount![0].toString());
+                                              });
+
+                                            } else if(result == 'percent') {
+                                              final percentage = await showTextInputDialog(
+                                                context: context,
+                                                textFields: [
+                                                  DialogTextField(
+                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                    // inputFormatters: <TextInputFormatter>[
+                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                    hintText: '0',
+                                                    suffixText: '%  ',
+                                                    validator: (value) {
+                                                      if (value == null || value.isEmpty) {
+                                                        // return '';
+                                                        return 'this field is required ';
+                                                      } else {
+                                                        if(double.parse(TtlProdListPriceInit2()) <= 0) {
+                                                          return 'no item in cart';
+                                                        }
+                                                        if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                          return 'invalid amount';
+                                                        }
+                                                      }
+                                                      return null;
+                                                    },
+                                                    // initialText: 'mono0926@gmail.com',
+                                                  ),
+                                                ],
+                                                title: 'Discount',
+                                                message: 'Add Discount Percent to Cart',
+                                              );
+                                              setState(() {
+                                                discount2 =double.parse(percentage![0].toString());
+                                              });
+                                            }
+                                            print('dis' + result.toString());
+                                            setState(() {
+                                              print('do something');
+                                            });
+                                          }
+                                        }
                                       },
                                       child: Padding(
                                         padding:

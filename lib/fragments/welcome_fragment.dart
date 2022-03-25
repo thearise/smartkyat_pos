@@ -155,7 +155,19 @@ class _WelcomeState extends State<Welcome>
                   isLoading = false;
                 });
               });
-              Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+              bool shopExists = false;
+              await FirebaseFirestore.instance
+                  .collection('shops')
+                  .where('users', arrayContains: auth.currentUser!.email.toString())
+                  .get()
+                  .then((QuerySnapshot querySnapshot) {
+                querySnapshot.docs.forEach((doc) {
+                  shopExists = true;
+                });
+                if(shopExists) {
+                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+              });
             }
           });
         });
@@ -684,7 +696,7 @@ class _WelcomeState extends State<Welcome>
                                                                                     querySnapshot.docs.forEach((doc) {
                                                                                       shopExists = true;
                                                                                     });
-                                                                                  });
+
                                                                                   setState(() {
                                                                                     loadingState = false;
                                                                                   });
@@ -692,7 +704,7 @@ class _WelcomeState extends State<Welcome>
                                                                                   if(shopExists) {
                                                                                     Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
                                                                                   } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-                                                                                });
+                                                                                });  });
                                                                               } on FirebaseAuthException catch (e) {
                                                                                 print(e.code.toString());
 
@@ -1724,7 +1736,7 @@ class _WelcomeState extends State<Welcome>
                                                                   querySnapshot.docs.forEach((doc) {
                                                                     shopExists = true;
                                                                   });
-                                                                });
+
 
                                                                 setState(() {
                                                                   loadingState = false;
@@ -1735,7 +1747,7 @@ class _WelcomeState extends State<Welcome>
                                                                 } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
 
                                                                 print('username' + mail.toString() + uid.toString());
-                                                              });
+                                                              }); });
                                                             } on FirebaseAuthException catch (e) {
                                                               setState(() {
                                                                 loadingState = false;
