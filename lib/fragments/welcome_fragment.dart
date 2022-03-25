@@ -155,19 +155,7 @@ class _WelcomeState extends State<Welcome>
                   isLoading = false;
                 });
               });
-              bool shopExists = false;
-              await FirebaseFirestore.instance
-                  .collection('shops')
-                  .where('users', arrayContains: auth.currentUser!.email.toString())
-                  .get()
-                  .then((QuerySnapshot querySnapshot) {
-                querySnapshot.docs.forEach((doc) {
-                  shopExists = true;
-                });
-                if(shopExists) {
-                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-              });
+              Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
             }
           });
         });
@@ -507,9 +495,9 @@ class _WelcomeState extends State<Welcome>
                                                                   height: 0.1
                                                               ),
                                                               labelStyle: TextStyle(
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black,
-                                                                height: 1
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.black,
+                                                                  height: 1
                                                               ),
 // errorText: 'Error message',
                                                               labelText: isEnglish? 'Email address': 'အီးမေးလ်',
@@ -700,14 +688,14 @@ class _WelcomeState extends State<Welcome>
                                                                                       shopExists = true;
                                                                                     });
 
-                                                                                  setState(() {
-                                                                                    loadingState = false;
-                                                                                  });
+                                                                                    setState(() {
+                                                                                      loadingState = false;
+                                                                                    });
 
-                                                                                  if(shopExists) {
-                                                                                    Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                                  } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-                                                                                });  });
+                                                                                    if(shopExists) {
+                                                                                      Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                                    } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                                  });  });
                                                                               } on FirebaseAuthException catch (e) {
                                                                                 print(e.code.toString());
 
@@ -1743,16 +1731,16 @@ class _WelcomeState extends State<Welcome>
                                                                   });
 
 
-                                                                setState(() {
-                                                                  loadingState = false;
-                                                                });
+                                                                  setState(() {
+                                                                    loadingState = false;
+                                                                  });
 
-                                                                if(shopExists) {
-                                                                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                  if(shopExists) {
+                                                                    Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                  } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
 
-                                                                print('username' + mail.toString() + uid.toString());
-                                                              }); });
+                                                                  print('username' + mail.toString() + uid.toString());
+                                                                }); });
                                                             } on FirebaseAuthException catch (e) {
                                                               setState(() {
                                                                 loadingState = false;
@@ -1942,7 +1930,7 @@ class _WelcomeState extends State<Welcome>
                                       // fontSize:,
                                       forceStrutHeight: true,
                                     ),
-                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
@@ -2001,7 +1989,7 @@ class _WelcomeState extends State<Welcome>
                                       // fontSize:,
                                       forceStrutHeight: true,
                                     ),
-                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 15,),
                                 ButtonTheme(
