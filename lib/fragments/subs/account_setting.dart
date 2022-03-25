@@ -362,7 +362,27 @@ class _AccountSettingState extends State<AccountSetting> {
                                     SizedBox(height: 10,),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                      child: Text('Choose the text box to customize your account name, and can save it.'),
+                                      // child: Text('Choose the text box to customize your account name, and can save it.'),
+                                      child: RichText(
+                                        strutStyle: StrutStyle(
+                                          height: 1,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                        text: new TextSpan(
+                                          children: [
+                                            new TextSpan(
+                                              text: 'Your account name will also be used for registering staff from other stores.',
+                                              style: new TextStyle(
+                                                fontSize: 12.5,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                height: 1.2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
 //                                 Padding(
 //                                   padding: const EdgeInsets.only(top: 20.0),
@@ -426,7 +446,7 @@ class _AccountSettingState extends State<AccountSetting> {
 //                                       ),
 //                                     ),
 //                                   ),
-                                    SizedBox(height: 15,),
+                                    SizedBox(height: 20,),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                       child: ButtonTheme(
@@ -480,9 +500,15 @@ class _AccountSettingState extends State<AccountSetting> {
                                                 'Save and exit',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 18,
+                                                    height: 1.3,
+                                                    fontSize: 17.5,
                                                     fontWeight: FontWeight.w600,
-                                                    letterSpacing: -0.1
+                                                    color: Colors.black
+                                                ),
+                                                strutStyle: StrutStyle(
+                                                  height: 1.3,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
                                                 ),
                                               ),
                                             ),
@@ -534,9 +560,29 @@ class _AccountSettingState extends State<AccountSetting> {
                                     SizedBox(height: 10.0,),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                      child: Text('You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.', textAlign: TextAlign.left,),
+                                      // child: Text('Choose the text box to customize your account name, and can save it.'),
+                                      child: RichText(
+                                        strutStyle: StrutStyle(
+                                          height: 1,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                        text: new TextSpan(
+                                          children: [
+                                            new TextSpan(
+                                              text: 'You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.',
+                                              style: new TextStyle(
+                                                fontSize: 12.5,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                height: 1.2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                    SizedBox(height: 15.0,),
+                                    SizedBox(height: 20.0,),
                                     Container(
                                       height: 1,
                                       decoration: BoxDecoration(
@@ -569,34 +615,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                         }
 
                                       },
-                                      child: Container(
-                                        height: 72,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                          child: Row(
-                                            children: [
-                                              Text('Authentication', style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 17,
-                                              ),),
-                                              Spacer(),
-                                              Text('change password', style: TextStyle(
-                                                fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              ),),
-                                              SizedBox(width: 5,),
-                                              Icon(
-                                                Icons
-                                                    .arrow_forward_ios_rounded,
-                                                size: 16,
-                                                color: Colors.blueGrey
-                                                    .withOpacity(
-                                                    0.8),
-                                              ),
-                                            ],
-                                          ),
-
-                                        ),
-                                      ),
+                                      child: eachTile('Authentication', 'Change password'),
                                     ),
                                     SizedBox(height: 20,),
                                   ],
@@ -790,6 +809,54 @@ class _AccountSettingState extends State<AccountSetting> {
           // ),
         );
       },
+    );
+  }
+
+  Widget eachTile(String leftTxt, String rightTxt) {
+    return Container(
+      color: Colors.white,
+      height: 72,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0, bottom: 3),
+              child: Text(leftTxt,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
+                  strutStyle: StrutStyle(
+                    height: 2,
+                    forceStrutHeight: true,
+                  )
+              ),
+            ),
+            // Spacer(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Container(
+                  // color: Colors.yellow,
+                  // width: MediaQuery.of(context).size.width/6,
+                    child: Text(
+                        rightTxt,
+                        textAlign: TextAlign.right,overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,),
+                        strutStyle: StrutStyle(
+                          height: 2,
+                          forceStrutHeight: true,
+                        )
+                    )
+                ),
+              ),
+            ),
+            SizedBox(width: 8,),
+            Icon(
+              Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -96,9 +96,6 @@ class _AddCustomerState extends State<AddCustomer> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
 // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      height: 10,
-                    ),
                     Expanded(
                       child: ListView(
                         children: [

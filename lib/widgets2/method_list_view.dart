@@ -35,7 +35,7 @@ class MethodListView extends StatelessWidget {
           child: ButtonTheme(
             splashColor: Colors.transparent,
             minWidth: MediaQuery.of(context).size.width,
-            height: 54,
+            height: 50,
             child: FlatButton(
               color: AppTheme.secButtonColor,
               shape: RoundedRectangleBorder(
@@ -143,9 +143,17 @@ class MethodListView extends StatelessWidget {
               },
               child: Text(
                 'Add new image',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16.5,
-                  fontWeight: FontWeight.w600,
+                    height: 1.3,
+                    fontSize: 17.5,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
+                ),
+                strutStyle: StrutStyle(
+                  height: 1.3,
+                  // fontSize:,
+                  forceStrutHeight: true,
                 ),
               ),
             ),

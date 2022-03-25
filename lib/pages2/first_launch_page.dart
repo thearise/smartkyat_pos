@@ -1079,12 +1079,13 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                           isEnglish? 'Set as default': 'Default ထားမည််',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontSize: 17,
+                                              height: 1.3,
+                                              fontSize: 17.5,
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black
                                           ),
                                           strutStyle: StrutStyle(
-                                            height: 1.5,
+                                            height: 1.3,
                                             // fontSize:,
                                             forceStrutHeight: true,
                                           ),

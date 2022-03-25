@@ -460,7 +460,14 @@ class chooseStoreState extends State<chooseStore> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text('Create new shop', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),),
+                                    Text('Create new shop',
+                                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
+                                      strutStyle: StrutStyle(
+                                        height: 1.2,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
+                                      ),
+                                    ),
                                     SizedBox(width: 5),
                                     Icon(
                                       Icons.add_circle_rounded,
@@ -512,7 +519,26 @@ class chooseStoreState extends State<chooseStore> {
                     //   ),
                     // ),
                     SizedBox(height: 10,),
-                    Text('Set up some information about your shop later in shop settings.'),
+                    RichText(
+                      strutStyle: StrutStyle(
+                        height: 1,
+                        // fontSize:,
+                        forceStrutHeight: true,
+                      ),
+                      text: new TextSpan(
+                        children: [
+                          new TextSpan(
+                            text: 'Set up some information about your shop later in shop settings.',
+                            style: new TextStyle(
+                              fontSize: 12.5,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                              height: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
                       child: Row(
@@ -547,9 +573,15 @@ class chooseStoreState extends State<chooseStore> {
                                     'Logout',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
+                                        height: 1.3,
                                         fontSize: 17.5,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing:-0.1
+                                        color: Colors.black
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
                                     ),
                                   ),
                                 ),
@@ -673,9 +705,15 @@ class chooseStoreState extends State<chooseStore> {
                                       'Go to dashboard',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                          height: 1.3,
                                           fontSize: 17.5,
                                           fontWeight: FontWeight.w600,
-                                          letterSpacing:-0.1
+                                          color: Colors.black
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.3,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
                                       ),
                                     ),
                                   ),

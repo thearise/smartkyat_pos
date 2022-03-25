@@ -311,22 +311,29 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                         ),
                         SizedBox(height: 13),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          // child: Text('Choose the text box to customize your account name, and can save it.'),
                           child: RichText(
+                            strutStyle: StrutStyle(
+                              height: 1,
+                              // fontSize:,
+                              forceStrutHeight: true,
+                            ),
                             text: new TextSpan(
                               children: [
                                 new TextSpan(
                                   text: 'This currency will be applied to your all financial amount display.',
                                   style: new TextStyle(
-                                      fontSize: 12.5,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500
+                                    fontSize: 12.5,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],

@@ -321,9 +321,10 @@ class _WelcomeState extends State<Welcome>
                                                             isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                                fontSize: 17,
+                                                                height: 1.3,
+                                                                fontSize: 17.5,
                                                                 fontWeight: FontWeight.w600,
-                                                                letterSpacing:-0.1
+                                                                color: Colors.black
                                                             ),
                                                             strutStyle: StrutStyle(
                                                               height: 1.3,
@@ -627,14 +628,16 @@ class _WelcomeState extends State<Welcome>
                                                                           isEnglish? 'Forgot?': 'မေ့နေလား?',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 17,
+                                                                              height: 1.3,
+                                                                              fontSize: 17.5,
                                                                               fontWeight: FontWeight.w600,
-                                                                              letterSpacing:-0.1
+                                                                              color: Colors.black
                                                                           ),
                                                                           strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              forceStrutHeight: true
-                                                                          )
+                                                                            height: 1.3,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -743,14 +746,16 @@ class _WelcomeState extends State<Welcome>
                                                                             isEnglish? 'Login': 'လော့ဂ်အင်',
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                                fontSize: 17,
+                                                                                height: 1.3,
+                                                                                fontSize: 17.5,
                                                                                 fontWeight: FontWeight.w600,
-                                                                                letterSpacing:-0.1
+                                                                                color: Colors.black
                                                                             ),
-                                                                              strutStyle: StrutStyle(
-                                                                                  height: 1.3,
-                                                                                  forceStrutHeight: true
-                                                                              )
+                                                                            strutStyle: StrutStyle(
+                                                                              height: 1.3,
+                                                                              // fontSize:,
+                                                                              forceStrutHeight: true,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -1780,14 +1785,16 @@ class _WelcomeState extends State<Welcome>
                                                           isEnglish? 'Sign up': 'ဆိုင်းအပ်',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
-                                                              fontSize: 17,
+                                                              height: 1.3,
+                                                              fontSize: 17.5,
                                                               fontWeight: FontWeight.w600,
-                                                              letterSpacing:-0.1
+                                                              color: Colors.black
                                                           ),
                                                           strutStyle: StrutStyle(
                                                             height: 1.3,
-                                                            forceStrutHeight: true
-                                                          )
+                                                            // fontSize:,
+                                                            forceStrutHeight: true,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

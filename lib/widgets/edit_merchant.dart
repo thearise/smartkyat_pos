@@ -481,12 +481,18 @@ class _EditMerchantState extends State<EditMerchant> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                'Save Merchant',
+                                'Save merchant',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    height: 1.3,
+                                    fontSize: 17.5,
                                     fontWeight: FontWeight.w600,
-                                    letterSpacing: -0.1
+                                    color: Colors.black
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.3,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
                                 ),
                               ),
                             ),

@@ -474,21 +474,25 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   SizedBox(height: 11,),
-                                                                                  Text('Unknown', style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,),
+                                                                                  Text(
+                                                                                    'Unknown',
+                                                                                    style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
+                                                                                    strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
+                                                                                  ),
                                                                                   Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
                                                                                   SizedBox(height: 10,),
                                                                                 ],
                                                                               ),
                                                                             ),
                                                                             SizedBox(
-                                                                              width: 0,
+                                                                              width: 5,
                                                                             ),
                                                                             Center(
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(top: 2.5),
                                                                                 child: Container(
                                                                                   height: 25,
-                                                                                  width: 70,
+                                                                                  width: 75,
                                                                                   child: ButtonTheme(
                                                                                     // minWidth: 30,
                                                                                     splashColor: Colors.transparent,
@@ -636,21 +640,25 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
                                                                                 SizedBox(height: 11,),
-                                                                                Text(data['name'], style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,),
+                                                                                Text(
+                                                                                  data['name'],
+                                                                                  style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,
+                                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
+                                                                                ),
                                                                                 Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
                                                                                 SizedBox(height: 10,),
                                                                               ],
                                                                             ),
                                                                           ),
                                                                           SizedBox(
-                                                                            width: 0,
+                                                                            width: 5,
                                                                           ),
                                                                           Center(
                                                                             child: Padding(
                                                                               padding: const EdgeInsets.only(top: 2.5),
                                                                               child: Container(
                                                                                 height: 25,
-                                                                                width: 70,
+                                                                                width: 75,
                                                                                 child: ButtonTheme(
                                                                                   // minWidth: 30,
                                                                                   splashColor: Colors.transparent,
@@ -697,6 +705,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                         style: TextStyle(
                                                                                           fontSize: 13,
                                                                                           fontWeight: FontWeight.w500,
+                                                                                          overflow: TextOverflow.ellipsis
                                                                                         ),
                                                                                       ),
                                                                                     ),
@@ -1043,9 +1052,15 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     'Add staff',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 18,
+                        height: 1.3,
+                        fontSize: 17.5,
                         fontWeight: FontWeight.w600,
-                        letterSpacing:-0.1
+                        color: Colors.black
+                    ),
+                    strutStyle: StrutStyle(
+                      height: 1.3,
+                      // fontSize:,
+                      forceStrutHeight: true,
                     ),
                   ),
                 ),
@@ -1097,9 +1112,15 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     'Add staff',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 18,
+                        height: 1.3,
+                        fontSize: 17.5,
                         fontWeight: FontWeight.w600,
-                        letterSpacing:-0.1
+                        color: Colors.black
+                    ),
+                    strutStyle: StrutStyle(
+                      height: 1.3,
+                      // fontSize:,
+                      forceStrutHeight: true,
                     ),
                   ),
                 ),

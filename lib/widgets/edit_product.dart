@@ -87,7 +87,7 @@ class _EditProductState extends State<EditProduct> {
   String textSetBuyPrice = 'Buy price';
   String textSetSalePrice = 'Sale price';
   String textSetRemove = 'REMOVE';
-  String textSetSaveProd = 'Save Product';
+  String textSetSaveProd = 'Save product';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -155,7 +155,7 @@ class _EditProductState extends State<EditProduct> {
           textSetBuyPrice = 'Buy price';
           textSetSalePrice = 'Sale price';
           textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Save Product';
+          textSetSaveProd = 'Save product';
         });
       } else if(value=='english') {
         setState(() {
@@ -169,7 +169,7 @@ class _EditProductState extends State<EditProduct> {
           textSetBuyPrice = 'Buy price';
           textSetSalePrice = 'Sale price';
           textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Save Product';
+          textSetSaveProd = 'Save product';
         });
       }
     });
@@ -520,9 +520,9 @@ class _EditProductState extends State<EditProduct> {
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
-                                      (2.41 / 4) : (MediaQuery.of(context).size.width -
+                                      (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
                                       30) *
-                                      (2.41 / 4),
+                                      (2.6 / 4) - 8,
                                   child: TextFormField(
                                     controller: mainQtyCtrl,
                                     keyboardType: TextInputType.numberWithOptions(decimal: false),
@@ -590,9 +590,9 @@ class _EditProductState extends State<EditProduct> {
                                 Container(
                                   width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
                                       30) *
-                                      (1.41 / 4) : (MediaQuery.of(context).size.width -
+                                      (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
                                       30) *
-                                      (1.41 / 4),
+                                      (1.4 / 4) - 8,
                                   child: TextFormField(
                                     controller: mainUnitNameCtrl,
                                     keyboardType: TextInputType.name,
@@ -1128,9 +1128,15 @@ class _EditProductState extends State<EditProduct> {
                                 textSetSaveProd,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    height: 1.3,
+                                    fontSize: 17.5,
                                     fontWeight: FontWeight.w600,
-                                    letterSpacing:-0.1
+                                    color: Colors.black
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.3,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
                                 ),
                               ),
                             ),
@@ -1227,6 +1233,7 @@ class _EditProductState extends State<EditProduct> {
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,color: Colors.grey,
+                      overflow: TextOverflow.ellipsis
                     ),
                   ),
                 ),
@@ -1305,7 +1312,10 @@ class _EditProductState extends State<EditProduct> {
               Row(
                 children: [
                   Container(
-                    width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                    width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
+                        (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
+                        30) *
+                        (2.6 / 4) - 8,
                     child: TextFormField(
                       controller: controller1,
                       keyboardType: TextInputType.numberWithOptions(decimal: false),
@@ -1361,7 +1371,11 @@ class _EditProductState extends State<EditProduct> {
                   ),
                   Spacer(),
                   Container(
-                    width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
+                    width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
+                        30) *
+                        (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
+                        30) *
+                        (1.4 / 4) - 8,
                     child: TextFormField(
                       controller: controller2,
                       keyboardType: TextInputType.name,
