@@ -155,19 +155,7 @@ class _WelcomeState extends State<Welcome>
                   isLoading = false;
                 });
               });
-              bool shopExists = false;
-              await FirebaseFirestore.instance
-                  .collection('shops')
-                  .where('users', arrayContains: auth.currentUser!.email.toString())
-                  .get()
-                  .then((QuerySnapshot querySnapshot) {
-                querySnapshot.docs.forEach((doc) {
-                  shopExists = true;
-                });
-                if(shopExists) {
-                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-              });
+              Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
             }
           });
         });
