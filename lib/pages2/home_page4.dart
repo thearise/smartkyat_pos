@@ -1319,22 +1319,34 @@ class HomePageState extends State<HomePage>
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Untitled', style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                      )),
+                                      Text('Untitled',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                          ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          )
+                                      ),
                                       SizedBox(height: 2.5),
-                                      Text('New merchant creation', style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 19
-                                      )),
+                                      Text('New merchant creation',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 19
+                                          ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.6
+                                          )
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 57.0,
+                                    top: 67.0,
                                     left: 0.0,
                                     right: 0.0),
                                 child: AddMerchant(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
@@ -1417,7 +1429,8 @@ class HomePageState extends State<HomePage>
                                           bottom: BorderSide(
                                               color: Colors.grey
                                                   .withOpacity(0.3),
-                                              width: 1.0))),
+                                              width: 1.0)
+                                      )),
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 15.0,
@@ -1428,21 +1441,33 @@ class HomePageState extends State<HomePage>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Untitled', style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey,
-                                        )),
+                                        Text('Untitled',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                          ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          )
+                                        ),
                                         SizedBox(height: 2.5),
-                                        Text('New customer creation', style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 19
-                                        )),
+                                        Text('New customer creation',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 19
+                                          ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.6
+                                          )
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 57.0, left: 0.0, right: 0.0),
+                                  padding: const EdgeInsets.only(top: 67.0, left: 0.0, right: 0.0),
                                   child: AddCustomer(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
                                 ),
                               ],
@@ -1539,15 +1564,27 @@ class HomePageState extends State<HomePage>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Untitled', style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey,
-                                        )),
+                                        Text('Untitled',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                          ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          )
+                                        ),
                                         SizedBox(height: 2.5),
-                                        Text('New product creation', style: TextStyle(
+                                        Text('New product creation',
+                                          style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 19
-                                        )),
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            forceStrutHeight: true,
+                                            height: 1.6
+                                          )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -2018,6 +2055,10 @@ class HomePageState extends State<HomePage>
                                                                           'Home',
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
+                                                                          strutStyle: StrutStyle(
+                                                                              forceStrutHeight: true,
+                                                                              height: 1.3
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -2081,6 +2122,10 @@ class HomePageState extends State<HomePage>
                                                                         'Products',
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
+                                                                        strutStyle: StrutStyle(
+                                                                            forceStrutHeight: true,
+                                                                            height: 1.3
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
@@ -2113,6 +2158,10 @@ class HomePageState extends State<HomePage>
                                                                       'Orders',
                                                                       style: TextStyle(
                                                                           fontSize: 17, fontWeight: FontWeight.w500),
+                                                                      strutStyle: StrutStyle(
+                                                                          forceStrutHeight: true,
+                                                                          height: 1.3
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -2158,6 +2207,10 @@ class HomePageState extends State<HomePage>
                                                                           'Sale orders',
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
+                                                                          strutStyle: StrutStyle(
+                                                                              forceStrutHeight: true,
+                                                                              height: 1.3
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -2206,6 +2259,10 @@ class HomePageState extends State<HomePage>
                                                                             'Buy orders',
                                                                             style: TextStyle(
                                                                                 fontSize: 17, fontWeight: FontWeight.w500),
+                                                                            strutStyle: StrutStyle(
+                                                                                forceStrutHeight: true,
+                                                                                height: 1.3
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -2293,6 +2350,10 @@ class HomePageState extends State<HomePage>
                                                                         'Customers',
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
+                                                                        strutStyle: StrutStyle(
+                                                                            forceStrutHeight: true,
+                                                                            height: 1.3
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
@@ -2346,6 +2407,10 @@ class HomePageState extends State<HomePage>
                                                                           'Merchants',
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
+                                                                          strutStyle: StrutStyle(
+                                                                              forceStrutHeight: true,
+                                                                              height: 1.3
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -2398,6 +2463,10 @@ class HomePageState extends State<HomePage>
                                                                         'Settings',
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
+                                                                        strutStyle: StrutStyle(
+                                                                            forceStrutHeight: true,
+                                                                            height: 1.3
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
@@ -2460,7 +2529,12 @@ class HomePageState extends State<HomePage>
                                                                             child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
                                                                                 fontSize: 17,
                                                                                 fontWeight: FontWeight.w500
-                                                                            ),),
+                                                                            ),
+                                                                              strutStyle: StrutStyle(
+                                                                                  forceStrutHeight: true,
+                                                                                  height: 1.6
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         );
                                                                       }).toList(),
@@ -3522,6 +3596,11 @@ class HomePageState extends State<HomePage>
                                                                                                                 fontWeight: FontWeight.w600,
                                                                                                                 color: Colors.black
                                                                                                             ),
+                                                                                                            strutStyle: StrutStyle(
+                                                                                                              height: 1.3,
+                                                                                                              // fontSize:,
+                                                                                                              forceStrutHeight: true,
+                                                                                                            ),
                                                                                                           )
                                                                                                       ),
                                                                                                     ),
@@ -3562,6 +3641,11 @@ class HomePageState extends State<HomePage>
                                                                                                                 fontSize: 17.5,
                                                                                                                 fontWeight: FontWeight.w600,
                                                                                                                 color: Colors.black
+                                                                                                            ),
+                                                                                                            strutStyle: StrutStyle(
+                                                                                                              height: 1.3,
+                                                                                                              // fontSize:,
+                                                                                                              forceStrutHeight: true,
                                                                                                             ),
                                                                                                           )
                                                                                                       ),
@@ -4309,6 +4393,11 @@ class HomePageState extends State<HomePage>
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
                                                                                                                     ),
+                                                                                                                    strutStyle: StrutStyle(
+                                                                                                                      height: 1.3,
+                                                                                                                      // fontSize:,
+                                                                                                                      forceStrutHeight: true,
+                                                                                                                    ),
                                                                                                                   )
                                                                                                               ),
                                                                                                             ),
@@ -4391,15 +4480,17 @@ class HomePageState extends State<HomePage>
                                                                                             // else Icon( Icons.check, size: 17, color: Colors.grey,),
                                                                                           ],
                                                                                         ),
-                                                                                        Text(productName, style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 18,
-                                                                                            height: 1.3
-                                                                                        ),
-                                                                                            strutStyle: StrutStyle(
-                                                                                              height: 1.7,
-                                                                                              forceStrutHeight: true,
-                                                                                            )
+                                                                                        Text(
+                                                                                          productName,
+                                                                                          style: TextStyle(
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 18,
+                                                                                              height: 1.3
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.7,
+                                                                                            forceStrutHeight: true,
+                                                                                          )
                                                                                         ),
                                                                                       ],
                                                                                     ),
@@ -4913,6 +5004,11 @@ class HomePageState extends State<HomePage>
                                                                                                                           fontWeight: FontWeight.w600,
                                                                                                                           color: Colors.black
                                                                                                                       ),
+                                                                                                                      strutStyle: StrutStyle(
+                                                                                                                        height: 1.3,
+                                                                                                                        // fontSize:,
+                                                                                                                        forceStrutHeight: true,
+                                                                                                                      ),
                                                                                                                     )
                                                                                                                 ),
                                                                                                               ),
@@ -4960,6 +5056,11 @@ class HomePageState extends State<HomePage>
                                                                                                                           fontSize: 17.5,
                                                                                                                           fontWeight: FontWeight.w600,
                                                                                                                           color: Colors.black
+                                                                                                                      ),
+                                                                                                                      strutStyle: StrutStyle(
+                                                                                                                        height: 1.3,
+                                                                                                                        // fontSize:,
+                                                                                                                        forceStrutHeight: true,
                                                                                                                       ),
                                                                                                                     )
                                                                                                                 ),
@@ -5114,6 +5215,11 @@ class HomePageState extends State<HomePage>
                                                                                                                           fontSize: 17.5,
                                                                                                                           fontWeight: FontWeight.w600,
                                                                                                                           color: Colors.black
+                                                                                                                      ),
+                                                                                                                      strutStyle: StrutStyle(
+                                                                                                                        height: 1.3,
+                                                                                                                        // fontSize:,
+                                                                                                                        forceStrutHeight: true,
                                                                                                                       ),
                                                                                                                     )
                                                                                                                 ),
@@ -5328,6 +5434,11 @@ class HomePageState extends State<HomePage>
                                                                                                                         fontSize: 17.5,
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
+                                                                                                                    ),
+                                                                                                                    strutStyle: StrutStyle(
+                                                                                                                      height: 1.3,
+                                                                                                                      // fontSize:,
+                                                                                                                      forceStrutHeight: true,
                                                                                                                     ),
                                                                                                                   )
                                                                                                               ),
@@ -5642,6 +5753,11 @@ class HomePageState extends State<HomePage>
                                                                                                                         fontSize: 17.5,
                                                                                                                         fontWeight: FontWeight.w600,
                                                                                                                         color: Colors.black
+                                                                                                                    ),
+                                                                                                                    strutStyle: StrutStyle(
+                                                                                                                      height: 1.3,
+                                                                                                                      // fontSize:,
+                                                                                                                      forceStrutHeight: true,
                                                                                                                     ),
                                                                                                                   )
                                                                                                               ),
@@ -8805,6 +8921,11 @@ class HomePageState extends State<HomePage>
                                                                             fontWeight: FontWeight.w600,
                                                                             color: Colors.black
                                                                         ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1.3,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
                                                                       )
                                                                   ),
                                                                 ),
@@ -8844,6 +8965,11 @@ class HomePageState extends State<HomePage>
                                                                             fontSize: 17.5,
                                                                             fontWeight: FontWeight.w600,
                                                                             color: Colors.black
+                                                                        ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1.3,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
                                                                         ),
                                                                       )
                                                                   ),
@@ -9642,6 +9768,11 @@ class HomePageState extends State<HomePage>
                                                                                         fontWeight: FontWeight.w600,
                                                                                         color: Colors.black
                                                                                     ),
+                                                                                    strutStyle: StrutStyle(
+                                                                                      height: 1.3,
+                                                                                      // fontSize:,
+                                                                                      forceStrutHeight: true,
+                                                                                    ),
                                                                                   )
                                                                               ),
                                                                             )
@@ -10301,6 +10432,11 @@ class HomePageState extends State<HomePage>
                                                                                           fontWeight: FontWeight.w600,
                                                                                           color: Colors.black
                                                                                       ),
+                                                                                      strutStyle: StrutStyle(
+                                                                                        height: 1.3,
+                                                                                        // fontSize:,
+                                                                                        forceStrutHeight: true,
+                                                                                      ),
                                                                                     )
                                                                                 ),
                                                                               ),
@@ -10462,6 +10598,11 @@ class HomePageState extends State<HomePage>
                                                                                       fontSize: 17.5,
                                                                                       fontWeight: FontWeight.w600,
                                                                                       color: Colors.black
+                                                                                  ),
+                                                                                  strutStyle: StrutStyle(
+                                                                                    height: 1.3,
+                                                                                    // fontSize:,
+                                                                                    forceStrutHeight: true,
                                                                                   ),
                                                                                 )
                                                                             ),
@@ -10665,6 +10806,11 @@ class HomePageState extends State<HomePage>
                                                                                       fontSize: 17.5,
                                                                                       fontWeight: FontWeight.w600,
                                                                                       color: Colors.black
+                                                                                  ),
+                                                                                  strutStyle: StrutStyle(
+                                                                                    height: 1.3,
+                                                                                    // fontSize:,
+                                                                                    forceStrutHeight: true,
                                                                                   ),
                                                                                 )
                                                                             ),
@@ -11096,6 +11242,11 @@ class HomePageState extends State<HomePage>
                                                                                             fontWeight: FontWeight.w600,
                                                                                             color: Colors.black
                                                                                         ),
+                                                                                        strutStyle: StrutStyle(
+                                                                                          height: 1.3,
+                                                                                          // fontSize:,
+                                                                                          forceStrutHeight: true,
+                                                                                        ),
                                                                                       )
                                                                                   ),
                                                                                 ),
@@ -11359,7 +11510,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 0.0),
                 child: Text(
-                  'Home',
+                  'Home' ,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12909,6 +13060,11 @@ class HomePageState extends State<HomePage>
                                                                               fontSize: 17.5,
                                                                               fontWeight: FontWeight.w600,
                                                                               color: Colors.black
+                                                                          ),
+                                                                          strutStyle: StrutStyle(
+                                                                            height: 1.3,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
                                                                           ),
                                                                         )
                                                                     ),

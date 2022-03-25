@@ -4799,6 +4799,10 @@ class BuyListFragmentState extends State<BuyListFragment>
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black.withOpacity(0.55)
                                         ),
+                                        strutStyle: StrutStyle(
+                                            forceStrutHeight: true,
+                                            height: textSetSearch == 'Search'? 1.6: 1.3
+                                        ),
                                       )
                                   ),
                                 ),

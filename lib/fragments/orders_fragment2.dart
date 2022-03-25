@@ -294,7 +294,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                              child: Center(child: Text('End of results')),
+                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                             )),
                             bottomLoader: Container(
                               child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
@@ -431,6 +431,10 @@ class OrdersFragmentState extends State<OrdersFragment>
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black.withOpacity(0.55)
+                                        ),
+                                        strutStyle: StrutStyle(
+                                            forceStrutHeight: true,
+                                            height: textSetSearch == 'Search'? 1.6: 1.3
                                         ),
                                       )
                                   ),

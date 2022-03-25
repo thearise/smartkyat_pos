@@ -93,9 +93,6 @@ class _AddMerchantState extends State<AddMerchant> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
 // mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
-                  height: 10,
-                ),
                 Expanded(
                   child: ListView(
                     children: [

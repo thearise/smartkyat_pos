@@ -329,16 +329,23 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         ),
                         SizedBox(height: 13),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          // child: Text('Choose the text box to customize your account name, and can save it.'),
                           child: RichText(
+                            strutStyle: StrutStyle(
+                              height: 1,
+                              // fontSize:,
+                              forceStrutHeight: true,
+                            ),
                             text: new TextSpan(
                               children: [
                                 new TextSpan(
                                   text: 'Choose the paper size correctly to work well with your printer.',
                                   style: new TextStyle(
-                                      fontSize: 12.5,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500
+                                    fontSize: 12.5,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
@@ -374,7 +381,13 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0),
                               child: ListTile(
-                                title: Text('Connect always', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                title: Text('Connect always',
+                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
+                                  strutStyle: StrutStyle(
+                                    height: 2,
+                                    forceStrutHeight: true,
+                                  )
+                                ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -676,9 +689,15 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                       'Save and exit',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          height: 1.3,
+                                          fontSize: 17.5,
                                           fontWeight: FontWeight.w600,
-                                          letterSpacing:-0.1
+                                          color: Colors.black
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.3,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
                                       ),
                                     ),
                                   ),

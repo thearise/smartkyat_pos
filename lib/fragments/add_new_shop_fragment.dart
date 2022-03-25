@@ -566,7 +566,30 @@ class _AddNewShopState extends State<AddNewShop> {
                     ),
                   ),
                       SizedBox(height: 20,),
-                      Text('Set up some information about your shop later in shop settings.'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                        // child: Text('Choose the text box to customize your account name, and can save it.'),
+                        child: RichText(
+                          strutStyle: StrutStyle(
+                            height: 1,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
+                          text: new TextSpan(
+                            children: [
+                              new TextSpan(
+                                text: 'Set up some information about your shop later in shop settings.',
+                                style: new TextStyle(
+                                  fontSize: 12.5,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 15,),
                     ],
                   ),
