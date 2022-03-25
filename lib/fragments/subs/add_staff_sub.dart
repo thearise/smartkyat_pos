@@ -299,7 +299,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                         text: new TextSpan(
                           children: [
                             new TextSpan(
-                              text: 'Choose the paper size correctly to work well with your printer.',
+                              text: 'Please enter the exact email address of your staff to add properly in your shop.',
                               style: new TextStyle(
                                   fontSize: 12.5,
                                   color: Colors.grey,
@@ -373,7 +373,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
 //                                     ),
 //                                   ),
 //
-                    SizedBox(height: 15,),
+                    SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: ButtonTheme(
@@ -442,9 +442,15 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                 'Add staff',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    height: 1.3,
+                                    fontSize: 17.5,
                                     fontWeight: FontWeight.w600,
-                                    letterSpacing: -0.1
+                                    color: Colors.black
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.3,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
                                 ),
                               ),
                             ),

@@ -449,7 +449,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                     ),),
                   footer: SliverToBoxAdapter(child: Padding(
                     padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Center(child: Text('End of results')),
+                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                   )),
                   bottomLoader: Container(
                     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),

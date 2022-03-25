@@ -46,6 +46,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   String textSetPrint = 'Print setting';
   String textInfo = 'INFORMATION';
   String textDisplay = 'DISPLAY';
+  String textSetCur = 'Currency';
 
   @override
   bool get wantKeepAlive => true;
@@ -149,9 +150,9 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
           textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
           textSetLanguage = 'ဘာသာစကား';
           textSetPrint = 'ပရင်တာအပြင်အဆင်';
-          textInfo = 'သတင်းအချက်အလက်';
+          textInfo = 'INFORMATION';
           textDisplay = 'DISPLAY';
-
+          textSetCur = 'ငွေကြေးအမျိုးအမည်';
         });
       } else if(value=='english') {
         setState(() {
@@ -163,6 +164,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
           textSetPrint = 'Print setting';
           textInfo = 'INFORMATION';
           textDisplay = 'DISPLAY';
+          textSetCur = 'Currency';
         });
       }
     });
@@ -248,9 +250,57 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   //     }
   //   });
   // }
- String name = '';
+  String name = '';
   String email = '';
   String version = '';
+
+  Widget eachTile(String leftTxt, String rightTxt) {
+    return Container(
+      color: Colors.white,
+      height: 72,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0, bottom: 3),
+              child: Text(leftTxt,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
+                  strutStyle: StrutStyle(
+                    height: 2,
+                    forceStrutHeight: true,
+                  )
+              ),
+            ),
+            // Spacer(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Container(
+                  // color: Colors.yellow,
+                  // width: MediaQuery.of(context).size.width/6,
+                    child: Text(
+                        rightTxt,
+                        textAlign: TextAlign.right,overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,),
+                        strutStyle: StrutStyle(
+                          height: 2,
+                          forceStrutHeight: true,
+                        )
+                    )
+                ),
+              ),
+            ),
+            SizedBox(width: 8,),
+            Icon(
+              Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -291,7 +341,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 Radius.circular(8.0),
                               ),
                               color: Colors.grey.withOpacity(0.3)),
-                          child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
+                          child: Text(isPro == 'free'? 'Free version': 'Pro version', style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13
                           ),),
@@ -326,65 +376,26 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             );
                             openDrawerFrom();
                           },
-                          child: Container(
-                            height: 72,
-                            // decoration: BoxDecoration(
-                            //     border: Border(
-                            //       bottom: BorderSide(
-                            //           color: AppTheme.skBorderColor2,
-                            //           width: 1.0),
-                            //     )),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                child: Row(
-                                    children: [
-                                      Container(
-                                        child: Text(textSetAccount,
-                                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      ),
-                                      StreamBuilder(
-                                          stream: widget.usersSnapshot,
-                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                            if(snapshot.hasData) {
-                                              return Expanded(
-                                                child: ListView(
-                                                  physics: NeverScrollableScrollPhysics(),
-                                                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                    name = data['name'];
-                                                    email = data['email'];
-                                                    version = document.id;
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(top: 24),
-                                                      child: Container(
-                                                        width: MediaQuery.of(context).size.width/2,
-                                                        child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
-                                                              color: Colors.grey),),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                              );
-                                            }
-                                            return Container();
-                                          }
-                                      ),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons
-                                            .arrow_forward_ios_rounded,
-                                        size: 16,
-                                        color: Colors.grey,
-                                      ),
-                                    ]
-                                ),
-                              ),
-                            ),
+                          child: StreamBuilder(
+                              stream: widget.usersSnapshot,
+                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if(snapshot.hasData) {
+                                  return Container(
+                                    height: 72,
+                                    child: ListView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                        name = data['name'];
+                                        email = data['email'];
+                                        version = document.id;
+                                        return eachTile(textSetAccount, name);
+                                      }).toList(),
+                                    ),
+                                  );
+                                }
+                                return eachTile(textSetAccount, '...');
+                              }
                           ),
                         ),
                         Padding(
@@ -404,40 +415,16 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             );
                             openDrawerFrom();
                           },
-                          child: Container(
-                            color: Colors.white,
-                            height: 72,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(textSetShopSetting, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  // Spacer(),
-                                  Expanded(
-                                    child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                        builder: (BuildContext context, snapshot) {
-                                          if(snapshot.hasData) {
-                                            var output = snapshot.data!.data();
-                                            var shopName = output?['shop_name'];
-                                            return Container(
-                                              // color: Colors.yellow,
-                                                // width: MediaQuery.of(context).size.width/6,
-                                              child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
-                                            );
-                                          }
-                                          return Container();
-                                        }
-                                    ),
-                                  ),
-                                  SizedBox(width: 8,),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                  ),
-                                ],
-                              ),
-                            ),
+                          child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                              stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                              builder: (BuildContext context, snapshot) {
+                                if(snapshot.hasData) {
+                                  var output = snapshot.data!.data();
+                                  var shopName = output?['shop_name'];
+                                  return eachTile(textSetShopSetting, shopName);
+                                }
+                                return eachTile(textSetShopSetting, '...');
+                              }
                           ),
                         ),
                         SizedBox(height: 15,),
@@ -449,32 +436,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             fontSize: 14, color: Colors.grey,
                           ),),
                         ),
-                        Container(
-                          height: 72,
-                          // decoration: BoxDecoration(
-                          //     color: AppTheme.white,
-                          //     border: Border(
-                          //       bottom: BorderSide(
-                          //           color: AppTheme.skBorderColor2,
-                          //           width: 1.0),
-                          //     )),
-                          child: Center(
-                            child: ListTile(
-                              title: Text('Dark mode', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('Off' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
-                                  SizedBox(width: 8,),
-                                  Icon(
-                                    Icons
-                                        .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        eachTile('Dark mode', 'Off'),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
@@ -492,29 +454,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             );
                             openDrawerFrom();
                           },
-                          child: Container(
-                            height: 72,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: ListTile(
-                                  title: Text(textSetLanguage, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(languageId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-
-
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: eachTile(textSetLanguage, languageId.toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
@@ -533,29 +473,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             );
                             openDrawerFrom();
                           },
-                          child: Container(
-                            height: 72,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: ListTile(
-                                  title: Text('Currency', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(currencyId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-
-
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: eachTile(textSetCur, currencyId.toString()),
                         ),
                         // Padding(
                         //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -632,22 +550,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             );
                             openDrawerFrom();
                           },
-                          child: Container(
-                            height: 72,
-                            child: Center(
-                              child: ListTile(
-                                title: Text(textSetPrint, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(paperId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                    SizedBox(width: 8,),
-                                    Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: eachTile(textSetPrint, paperId.toString()),
                         ),
                       ],
                     ),

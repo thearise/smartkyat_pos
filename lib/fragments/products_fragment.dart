@@ -994,7 +994,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               ),),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
-                              child: Center(child: Text('End of results')),
+                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                             )),
                             initialLoader: Center(child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                 child: CupertinoActivityIndicator(radius: 15,))),
@@ -1462,6 +1462,10 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black.withOpacity(0.55)
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          forceStrutHeight: true,
+                                          height: textSetSearch == 'Search'? 1.6: 1.3
                                         ),
                                       )
                                   ),
