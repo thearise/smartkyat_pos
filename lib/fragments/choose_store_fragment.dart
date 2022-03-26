@@ -298,509 +298,816 @@ class chooseStoreState extends State<chooseStore> {
                               .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
                               .snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            // print('CAGAIN ' + auth.currentUser!.email.toString());
                             if(snapshot.hasData) {
                               print('CAGAIN ' + auth.currentUser!.email.toString());
                               var index = 0;
-                              return ListView(
-                                // physics: NeverScrollableScrollPhysics(),
-                                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                  Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                  index++;
-                                  print('owerner ' + data['owner_id'] + ' -> ' + auth.currentUser!.uid.toString());
-                                  if(index == 1 && firstTime) {
-                                    _result = document.id.toString();
-                                    _shop= data['shop_name'];
-                                  }
-                                  firstTime = false;
-                                  return  Container(
-                                    height: 54,
-                                    margin: EdgeInsets.only(bottom: 17),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
-                                      color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                    ),
-                                    child: RadioListTile(
-                                        dense: true,
-                                        contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 5, right: 15),
-                                        // title: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
-                                        title: Container(
-                                          // color: Colors.blue,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 0.0),
-                                            child: Row(
-                                              children: [
-
-                                                Expanded(child: Transform.translate(
-                                                  offset: Offset(-12, 0),
-                                                  child: Container(
-                                                    child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
-                                                  ),
-                                                ),),
-                                                data['owner_id'].toString() == auth.currentUser!.uid.toString()?
-                                                Container(
-                                                  height: 23,
-                                                  width: 55,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(6.0),
-                                                      ),
-                                                      color: AppTheme.badgeBgSuccess),
-                                                  child: Text('Owner', style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      color: Colors.white
-                                                  ),),
-                                                ):
-                                                Container(
-                                                  height: 23,
-                                                  width: 55,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(6.0),
-                                                      ),
-                                                      color: AppTheme.badgeBgSecond),
-                                                  child: Text('Staff', style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      color: Colors.white
-                                                  ),),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        activeColor: AppTheme.themeColor,
-                                        value: document.id.toString(),
-                                        groupValue: _result,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _result = value;
-                                            _shop= data['shop_name'];
-                                            print(_result);
-                                          });
+                              return Column(
+                                children: [
+                                  Expanded(
+                                    child: snapshot.data!.docs.length != 0? ListView(
+                                      // physics: NeverScrollableScrollPhysics(),
+                                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                        index++;
+                                        print('owerner ' + data['owner_id'] + ' -> ' + auth.currentUser!.uid.toString());
+                                        if(index == 1 && firstTime) {
+                                          _result = document.id.toString();
+                                          _shop= data['shop_name'];
                                         }
-                                    ),
-                                  );
-                                }
-                                ).toList(),
+                                        firstTime = false;
+                                        return  Container(
+                                          height: 54,
+                                          margin: EdgeInsets.only(bottom: 17),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
+                                            color: Colors.white,
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                          ),
+                                          child: RadioListTile(
+                                              dense: true,
+                                              contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 5, right: 15),
+                                              // title: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                              title: Container(
+                                                // color: Colors.blue,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                  child: Row(
+                                                    children: [
+
+                                                      Expanded(child: Transform.translate(
+                                                        offset: Offset(-12, 0),
+                                                        child: Container(
+                                                          child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                                        ),
+                                                      ),),
+                                                      data['owner_id'].toString() == auth.currentUser!.uid.toString()?
+                                                      Container(
+                                                        height: 23,
+                                                        width: 55,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(6.0),
+                                                            ),
+                                                            color: AppTheme.badgeBgSuccess),
+                                                        child: Text('Owner', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.white
+                                                        ),),
+                                                      ):
+                                                      Container(
+                                                        height: 23,
+                                                        width: 55,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(6.0),
+                                                            ),
+                                                            color: AppTheme.badgeBgSecond),
+                                                        child: Text('Staff', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.white
+                                                        ),),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              activeColor: AppTheme.themeColor,
+                                              value: document.id.toString(),
+                                              groupValue: _result,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _result = value;
+                                                  _shop= data['shop_name'];
+                                                  print(_result);
+                                                });
+                                              }
+                                          ),
+                                        );
+                                      }
+                                      ).toList(),
+                                    ):
+                                    Center(child: Text('No shop found', style: TextStyle(fontSize: 15),))
+                                    ,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        color: Colors.white,
+                                        height: 50,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 15),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  try {
+                                                    final result = await InternetAddress.lookup('google.com');
+                                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                      await FirebaseFirestore.instance.collection('users')
+                                                          .where('user_id' ,isEqualTo: auth.currentUser!.uid)
+                                                          .limit(1)
+                                                          .get()
+                                                          .then((QuerySnapshot querySnapshot) async {
+                                                        Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
+                                                        await FirebaseFirestore.instance.collection('shops')
+                                                            .where('owner_id' ,isEqualTo: auth.currentUser!.uid)
+                                                            .get()
+                                                            .then((QuerySnapshot querySnapshot) async {
+                                                          int shopCount = querySnapshot.docs.length;
+                                                          if(userData['plan_type'] == 'basic' && shopCount >= 5) {
+                                                            showOkAlertDialog(
+                                                                context: context,
+                                                                title: 'Maximum shops reached',
+                                                                message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                                            ).then((result) async {
+                                                            });
+                                                            setState(() {
+                                                              loadingState = false;
+                                                            });
+                                                          } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
+                                                            showOkAlertDialog(
+                                                                context: context,
+                                                                title: 'Maximum shops reached',
+                                                                message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                                            ).then((result) async {
+                                                            });
+                                                            setState(() {
+                                                              loadingState = false;
+                                                            });
+                                                          } else {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => AddShop()),
+                                                            );
+                                                          }
+                                                        });
+                                                      });
+                                                    }
+                                                  } on SocketException catch (_) {
+                                                    setState(() {
+                                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                    });
+                                                  }
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
+                                                },
+                                                child: Container(
+                                                  child: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text('Create new shop',
+                                                        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.2,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 5),
+                                                      Icon(
+                                                        Icons.add_circle_rounded,
+                                                        color: Colors.blue,
+                                                        size: 18,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 15),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      RichText(
+                                        strutStyle: StrutStyle(
+                                          height: 1,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                        text: new TextSpan(
+                                          children: [
+                                            new TextSpan(
+                                              text: 'Set up some information about your shop later in shop settings.',
+                                              style: new TextStyle(
+                                                fontSize: 12.5,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                height: 1.2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
+                                        child: Row(
+                                          children: [
+                                            _result != null? ButtonTheme(
+                                              // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                              splashColor: Colors.transparent,
+                                              height: 50,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.buttonColor2,
+                                                  ),
+                                                ),
+                                                onPressed: ()  async {
+                                                  await FirebaseAuth.instance.signOut();
+                                                  setStoreId('');
+                                                  Navigator.of(context).pushReplacement(
+                                                    FadeRoute(page: Welcome()),
+                                                  );
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5.0,
+                                                      right: 5.0,
+                                                      bottom: 3.0),
+                                                  child: Container(
+                                                    child: Text(
+                                                      'Logout',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          height: 1.3,
+                                                          fontSize: 17.5,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.3,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ):
+                                            Expanded(
+                                              child: ButtonTheme(
+                                                // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                                splashColor: Colors.transparent,
+                                                height: 50,
+                                                child: FlatButton(
+                                                  color: AppTheme.buttonColor2,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.buttonColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: ()  async {
+                                                    await FirebaseAuth.instance.signOut();
+                                                    setStoreId('');
+                                                    Navigator.of(context).pushReplacement(
+                                                      FadeRoute(page: Welcome()),
+                                                    );
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 5.0,
+                                                        right: 5.0,
+                                                        bottom: 3.0),
+                                                    child: Container(
+                                                      child: Text(
+                                                        'Logout',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            height: 1.3,
+                                                            fontSize: 17.5,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.black
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: _result != null? 15: 0),
+                                            _result != null? Expanded(
+                                              child: ButtonTheme(
+                                                // minWidth: double.infinity,
+                                                // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
+                                                splashColor: Colors.transparent,
+                                                height: 50,
+                                                child: FlatButton(
+                                                  color: AppTheme.themeColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.themeColor,
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      loadingState = true;
+                                                    });
+                                                    try {
+                                                      final result = await InternetAddress.lookup('google.com');
+                                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                        print('_result lay ' + _result.toString());
+
+                                                        if(_result != null) {
+                                                          _getId().then((value1) async {
+                                                            print('IDD ' + value1.toString());
+                                                            await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                              'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                            }).then((value3) async {
+                                                              print('got it 1');
+                                                              await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                                              // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                                  .get().then((value2) async {
+                                                                print('got it 2');
+                                                                var isPro = value2.data()!['is_pro'];
+                                                                String shopName = value2.data()!['shop_name'];
+                                                                Timestamp isProStart = isPro['start'];
+                                                                Timestamp isProEnd = isPro['end'];
+
+                                                                DateTime startDate = isProStart.toDate();
+                                                                DateTime endDate = isProEnd.toDate();
+
+                                                                DateTime nowCheck = DateTime.now();
+
+                                                                if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                                                    smartKyatFlash('$shopName shop pro version ended', 'e');
+                                                                    setState(() {
+                                                                      loadingState = false;
+                                                                    });
+                                                                  });
+                                                                } else {
+                                                                  print('got it 3');
+                                                                  await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                      .where('email', isEqualTo: auth.currentUser!.email)
+                                                                      .get()
+                                                                      .then((QuerySnapshot querySnapshot) async {
+                                                                    print('got it 4');
+                                                                    print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                    await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                                      // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                                      'device0': await _getId(),
+                                                                    }).then((value3) async {
+                                                                      print('done');
+                                                                    });
+                                                                    // if(querySnapshot.docs[0]['devices'].length != 2) {
+                                                                    //
+                                                                    // }
+                                                                  });
+
+                                                                  // await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                  //   .where('email', isEqualTo: auth.currentUser!.email)
+                                                                  //   .get()
+                                                                  //   .then((QuerySnapshot querySnapshot) {
+                                                                  //   print('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                                                  // });
+                                                                  setStoreId(_result);
+                                                                  List devicesList = value2.data()!['devices'];
+                                                                  int? deviceIdNum;
+                                                                  for(int i = 0; i < devicesList.length; i++) {
+                                                                    if(devicesList[i] == value1.toString()) {
+                                                                      print('DV LIST ' + devicesList[i].toString());
+                                                                      setState(() {
+                                                                        deviceIdNum = i;
+                                                                        print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                      });
+                                                                    }
+                                                                  }
+                                                                  setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                    // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                    _getId().then((val) {
+                                                                      String deviceId = val!;
+                                                                      Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                    });
+                                                                  });
+                                                                }
+                                                              });
+                                                            });
+                                                          });
+                                                        }
+                                                      }
+                                                    } on SocketException catch (_) {
+                                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                      setState(() {
+                                                        loadingState = false;
+                                                      });
+                                                    }
+                                                  },
+                                                  child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                      child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 5.0,
+                                                        right: 5.0,
+                                                        bottom: 3.0),
+                                                    child: Container(
+                                                      child: Text(
+                                                        'Go to dashboard',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            height: 1.3,
+                                                            fontSize: 17.5,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.black
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ): Container(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               );
                             }
-                            return Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                child: CupertinoActivityIndicator(radius: 15,));
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 15,)),
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Container(
+                                      color: Colors.white,
+                                      height: 50,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                try {
+                                                  final result = await InternetAddress.lookup('google.com');
+                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                    await FirebaseFirestore.instance.collection('users')
+                                                        .where('user_id' ,isEqualTo: auth.currentUser!.uid)
+                                                        .limit(1)
+                                                        .get()
+                                                        .then((QuerySnapshot querySnapshot) async {
+                                                      Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
+                                                      await FirebaseFirestore.instance.collection('shops')
+                                                          .where('owner_id' ,isEqualTo: auth.currentUser!.uid)
+                                                          .get()
+                                                          .then((QuerySnapshot querySnapshot) async {
+                                                        int shopCount = querySnapshot.docs.length;
+                                                        if(userData['plan_type'] == 'basic' && shopCount >= 5) {
+                                                          showOkAlertDialog(
+                                                              context: context,
+                                                              title: 'Maximum shops reached',
+                                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                                          ).then((result) async {
+                                                          });
+                                                          setState(() {
+                                                            loadingState = false;
+                                                          });
+                                                        } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
+                                                          showOkAlertDialog(
+                                                              context: context,
+                                                              title: 'Maximum shops reached',
+                                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                                          ).then((result) async {
+                                                          });
+                                                          setState(() {
+                                                            loadingState = false;
+                                                          });
+                                                        } else {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => AddShop()),
+                                                          );
+                                                        }
+                                                      });
+                                                    });
+                                                  }
+                                                } on SocketException catch (_) {
+                                                  setState(() {
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                  });
+                                                }
+                                                // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
+                                              },
+                                              child: Container(
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text('Create new shop',
+                                                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.2,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Icon(
+                                                      Icons.add_circle_rounded,
+                                                      color: Colors.blue,
+                                                      size: 18,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    RichText(
+                                      strutStyle: StrutStyle(
+                                        height: 1,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
+                                      ),
+                                      text: new TextSpan(
+                                        children: [
+                                          new TextSpan(
+                                            text: 'Set up some information about your shop later in shop settings.',
+                                            style: new TextStyle(
+                                              fontSize: 12.5,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                              height: 1.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
+                                      child: Row(
+                                        children: [
+                                          _result != null? ButtonTheme(
+                                            // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                            splashColor: Colors.transparent,
+                                            height: 50,
+                                            child: FlatButton(
+                                              color: AppTheme.buttonColor2,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                                side: BorderSide(
+                                                  color: AppTheme.buttonColor2,
+                                                ),
+                                              ),
+                                              onPressed: ()  async {
+                                                await FirebaseAuth.instance.signOut();
+                                                setStoreId('');
+                                                Navigator.of(context).pushReplacement(
+                                                  FadeRoute(page: Welcome()),
+                                                );
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5.0,
+                                                    right: 5.0,
+                                                    bottom: 3.0),
+                                                child: Container(
+                                                  child: Text(
+                                                    'Logout',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        height: 1.3,
+                                                        fontSize: 17.5,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    ),
+                                                    strutStyle: StrutStyle(
+                                                      height: 1.3,
+                                                      // fontSize:,
+                                                      forceStrutHeight: true,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ):
+                                          Expanded(
+                                            child: ButtonTheme(
+                                              // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                              splashColor: Colors.transparent,
+                                              height: 50,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.buttonColor2,
+                                                  ),
+                                                ),
+                                                onPressed: ()  async {
+                                                  await FirebaseAuth.instance.signOut();
+                                                  setStoreId('');
+                                                  Navigator.of(context).pushReplacement(
+                                                    FadeRoute(page: Welcome()),
+                                                  );
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5.0,
+                                                      right: 5.0,
+                                                      bottom: 3.0),
+                                                  child: Container(
+                                                    child: Text(
+                                                      'Logout',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          height: 1.3,
+                                                          fontSize: 17.5,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.3,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: _result != null? 15: 0),
+                                          _result != null? Expanded(
+                                            child: ButtonTheme(
+                                              // minWidth: double.infinity,
+                                              // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
+                                              splashColor: Colors.transparent,
+                                              height: 50,
+                                              child: FlatButton(
+                                                color: AppTheme.themeColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.themeColor,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    loadingState = true;
+                                                  });
+                                                  try {
+                                                    final result = await InternetAddress.lookup('google.com');
+                                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                      print('_result lay ' + _result.toString());
+
+                                                      if(_result != null) {
+                                                        _getId().then((value1) async {
+                                                          print('IDD ' + value1.toString());
+                                                          await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                            'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                          }).then((value3) async {
+                                                            print('got it 1');
+                                                            await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                                            // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                                .get().then((value2) async {
+                                                              print('got it 2');
+                                                              var isPro = value2.data()!['is_pro'];
+                                                              String shopName = value2.data()!['shop_name'];
+                                                              Timestamp isProStart = isPro['start'];
+                                                              Timestamp isProEnd = isPro['end'];
+
+                                                              DateTime startDate = isProStart.toDate();
+                                                              DateTime endDate = isProEnd.toDate();
+
+                                                              DateTime nowCheck = DateTime.now();
+
+                                                              if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                                  smartKyatFlash('$shopName shop pro version ended', 'e');
+                                                                  setState(() {
+                                                                    loadingState = false;
+                                                                  });
+                                                                });
+                                                              } else {
+                                                                print('got it 3');
+                                                                await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                    .where('email', isEqualTo: auth.currentUser!.email)
+                                                                    .get()
+                                                                    .then((QuerySnapshot querySnapshot) async {
+                                                                  print('got it 4');
+                                                                  print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                  await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                                    // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                                    'device0': await _getId(),
+                                                                  }).then((value3) async {
+                                                                    print('done');
+                                                                  });
+                                                                  // if(querySnapshot.docs[0]['devices'].length != 2) {
+                                                                  //
+                                                                  // }
+                                                                });
+
+                                                                // await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                //   .where('email', isEqualTo: auth.currentUser!.email)
+                                                                //   .get()
+                                                                //   .then((QuerySnapshot querySnapshot) {
+                                                                //   print('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                                                // });
+                                                                setStoreId(_result);
+                                                                List devicesList = value2.data()!['devices'];
+                                                                int? deviceIdNum;
+                                                                for(int i = 0; i < devicesList.length; i++) {
+                                                                  if(devicesList[i] == value1.toString()) {
+                                                                    print('DV LIST ' + devicesList[i].toString());
+                                                                    setState(() {
+                                                                      deviceIdNum = i;
+                                                                      print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                    });
+                                                                  }
+                                                                }
+                                                                setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                  // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                  _getId().then((val) {
+                                                                    String deviceId = val!;
+                                                                    Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                  });
+                                                                });
+                                                              }
+                                                            });
+                                                          });
+                                                        });
+                                                      }
+                                                    }
+                                                  } on SocketException catch (_) {
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                    setState(() {
+                                                      loadingState = false;
+                                                    });
+                                                  }
+                                                },
+                                                child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                    child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5.0,
+                                                      right: 5.0,
+                                                      bottom: 3.0),
+                                                  child: Container(
+                                                    child: Text(
+                                                      'Go to dashboard',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          height: 1.3,
+                                                          fontSize: 17.5,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.3,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ): Container(),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
                           }
                       ),
                     ),
-                    Container(
-                      color: Colors.white,
-                      height: 50,
-                      child: Row(
-                        children: [
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () async {
-                                try {
-                                  final result = await InternetAddress.lookup('google.com');
-                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                    await FirebaseFirestore.instance.collection('users')
-                                        .where('user_id' ,isEqualTo: auth.currentUser!.uid)
-                                        .limit(1)
-                                        .get()
-                                        .then((QuerySnapshot querySnapshot) async {
-                                      Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
-                                      await FirebaseFirestore.instance.collection('shops')
-                                          .where('owner_id' ,isEqualTo: auth.currentUser!.uid)
-                                          .get()
-                                          .then((QuerySnapshot querySnapshot) async {
-                                        int shopCount = querySnapshot.docs.length;
-                                        if(userData['plan_type'] == 'basic' && shopCount >= 5) {
-                                          showOkAlertDialog(
-                                              context: context,
-                                              title: 'Maximum shops reached',
-                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
-                                          ).then((result) async {
-                                          });
-                                          setState(() {
-                                            loadingState = false;
-                                          });
-                                        } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
-                                          showOkAlertDialog(
-                                              context: context,
-                                              title: 'Maximum shops reached',
-                                              message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
-                                          ).then((result) async {
-                                          });
-                                          setState(() {
-                                            loadingState = false;
-                                          });
-                                        } else {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => AddShop()),
-                                          );
-                                        }
-                                      });
-                                    });
-                                  }
-                                } on SocketException catch (_) {
-                                  setState(() {
-                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                  });
-                                }
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Create new shop',
-                                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
-                                      strutStyle: StrutStyle(
-                                        height: 1.2,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.add_circle_rounded,
-                                      color: Colors.blue,
-                                      size: 18,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                    // ButtonTheme(
-                    //   minWidth: MediaQuery.of(context).size.width,
-                    //   splashColor: Colors.transparent,
-                    //   height: 50,
-                    //   child: FlatButton(
-                    //     color: AppTheme.buttonColor2,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius:
-                    //       BorderRadius.circular(10.0),
-                    //       side: BorderSide(
-                    //         color: AppTheme.buttonColor2,
-                    //       ),
-                    //     ),
-                    //     onPressed: () async {
-                    //       Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
-                    //     },
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.only(
-                    //           left: 5.0,
-                    //           right: 5.0,
-                    //           bottom: 3.0),
-                    //       child: Container(
-                    //         child: Text(
-                    //           'Create new shop',
-                    //           textAlign: TextAlign.center,
-                    //           style: TextStyle(
-                    //               fontSize: 18,
-                    //               fontWeight: FontWeight.w600,
-                    //               letterSpacing:-0.1
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(height: 10,),
-                    RichText(
-                      strutStyle: StrutStyle(
-                        height: 1,
-                        // fontSize:,
-                        forceStrutHeight: true,
-                      ),
-                      text: new TextSpan(
-                        children: [
-                          new TextSpan(
-                            text: 'Set up some information about your shop later in shop settings.',
-                            style: new TextStyle(
-                              fontSize: 12.5,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                              height: 1.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
-                      child: Row(
-                        children: [
-                          ButtonTheme(
-                            // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
-                            splashColor: Colors.transparent,
-                            height: 50,
-                            child: FlatButton(
-                              color: AppTheme.buttonColor2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                side: BorderSide(
-                                  color: AppTheme.buttonColor2,
-                                ),
-                              ),
-                              onPressed: ()  async {
-                                await FirebaseAuth.instance.signOut();
-                                setStoreId('');
-                                Navigator.of(context).pushReplacement(
-                                  FadeRoute(page: Welcome()),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5.0,
-                                    right: 5.0,
-                                    bottom: 3.0),
-                                child: Container(
-                                  child: Text(
-                                    'Logout',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        height: 1.3,
-                                        fontSize: 17.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.3,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: ButtonTheme(
-                              // minWidth: double.infinity,
-                              // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
-                              splashColor: Colors.transparent,
-                              height: 50,
-                              child: FlatButton(
-                                color: AppTheme.themeColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: AppTheme.themeColor,
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  setState(() {
-                                    loadingState = true;
-                                  });
-                                  try {
-                                    final result = await InternetAddress.lookup('google.com');
-                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                      _getId().then((value1) async {
-                                        print('IDD ' + value1.toString());
-                                        await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                                          'devices': FieldValue.arrayUnion([value1.toString()]),
-                                        }).then((value3) async {
-                                          print('got it 1');
-                                          await FirebaseFirestore.instance.collection('shops').doc(_result)
-                                          // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-                                              .get().then((value2) async {
-                                            print('got it 2');
-                                            var isPro = value2.data()!['is_pro'];
-                                            String shopName = value2.data()!['shop_name'];
-                                            Timestamp isProStart = isPro['start'];
-                                            Timestamp isProEnd = isPro['end'];
-
-                                            DateTime startDate = isProStart.toDate();
-                                            DateTime endDate = isProEnd.toDate();
-
-                                            DateTime nowCheck = DateTime.now();
-
-                                            if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
-                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                smartKyatFlash('$shopName shop pro version ended', 'e');
-                                                setState(() {
-                                                  loadingState = false;
-                                                });
-                                              });
-                                            } else {
-                                              print('got it 3');
-                                              await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                  .where('email', isEqualTo: auth.currentUser!.email)
-                                                  .get()
-                                                  .then((QuerySnapshot querySnapshot) async {
-                                                print('got it 4');
-                                                print('shit ' + querySnapshot.docs[0].id.toString());
-                                                await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
-                                                  // 'device0': FieldValue.arrayUnion([await _getId()]),
-                                                  'device0': await _getId(),
-                                                }).then((value3) async {
-                                                  print('done');
-                                                });
-                                                // if(querySnapshot.docs[0]['devices'].length != 2) {
-                                                //
-                                                // }
-                                              });
-
-                                              // await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                              //   .where('email', isEqualTo: auth.currentUser!.email)
-                                              //   .get()
-                                              //   .then((QuerySnapshot querySnapshot) {
-                                              //   print('shit ' + querySnapshot.docs[0]['devices'].toString());
-                                              // });
-                                              setStoreId(_result);
-                                              List devicesList = value2.data()!['devices'];
-                                              int? deviceIdNum;
-                                              for(int i = 0; i < devicesList.length; i++) {
-                                                if(devicesList[i] == value1.toString()) {
-                                                  print('DV LIST ' + devicesList[i].toString());
-                                                  setState(() {
-                                                    deviceIdNum = i;
-                                                    print('DV LIST 2 ' + deviceIdNum.toString());
-                                                  });
-                                                }
-                                              }
-                                              setDeviceId(deviceIdNum.toString()).then((value) {
-                                                // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                _getId().then((val) {
-                                                  String deviceId = val!;
-                                                  Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                                                });
-                                              });
-                                            }
-                                          });
-                                        });
-                                      });
-                                    }
-                                  } on SocketException catch (_) {
-                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                    setState(() {
-                                      loadingState = false;
-                                    });
-                                  }
-                                },
-                                child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                    child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      bottom: 3.0),
-                                  child: Container(
-                                    child: Text(
-                                      'Go to dashboard',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          height: 1.3,
-                                          fontSize: 17.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.3,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
-                    //   child: ButtonTheme(
-                    //     minWidth: MediaQuery.of(context).size.width,
-                    //     splashColor: Colors.transparent,
-                    //     height: 50,
-                    //     child: FlatButton(
-                    //       color: AppTheme.themeColor,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //         BorderRadius.circular(10.0),
-                    //         side: BorderSide(
-                    //           color: AppTheme.themeColor,
-                    //         ),
-                    //       ),
-                    //       onPressed: () async {
-                    //         try {
-                    //           final result = await InternetAddress.lookup('google.com');
-                    //           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                    //             setState(() {
-                    //               loadingState = true;
-                    //             });
-                    //             setStoreId(_result);
-                    //             _getId().then((value1) async {
-                    //               print('IDD ' + value1.toString());
-                    //               await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                    //                 'devices': FieldValue.arrayUnion([value1.toString()]),
-                    //               }).then((value3) async {
-                    //                 print('done');
-                    //                 await FirebaseFirestore.instance.collection('shops').doc(_result)
-                    //                 // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-                    //                     .get().then((value2) async {
-                    //                   List devicesList = value2.data()!['devices'];
-                    //                   int? deviceIdNum;
-                    //                   for(int i = 0; i < devicesList.length; i++) {
-                    //                     if(devicesList[i] == value1.toString()) {
-                    //                       print('DV LIST ' + devicesList[i].toString());
-                    //                       setState(() {
-                    //                         deviceIdNum = i;
-                    //                         print('DV LIST 2 ' + deviceIdNum.toString());
-                    //                       });
-                    //                     }
-                    //                   }
-                    //                   setDeviceId(deviceIdNum.toString()).then((value) {
-                    //                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                    //                   });
-                    //                 });
-                    //               });
-                    //             });
-                    //           }
-                    //         } on SocketException catch (_) {
-                    //             smartKyatFlash('Internet connection is required to take this action.', 'w');
-                    //         }
-                    //       },
-                    //       child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                    //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                    //         padding: const EdgeInsets.only(
-                    //             left: 5.0,
-                    //             right: 5.0,
-                    //             bottom: 3.0),
-                    //         child: Container(
-                    //           child: Text(
-                    //             // 'Switch as $_shop',
-                    //             'Go to dashboard',
-                    //             textAlign: TextAlign.center,
-                    //             style: TextStyle(
-                    //                 fontSize: 18,
-                    //                 fontWeight: FontWeight.w600,
-                    //                 letterSpacing:-0.1
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //
-                    // ),
                   ],
                 ),
               ),
