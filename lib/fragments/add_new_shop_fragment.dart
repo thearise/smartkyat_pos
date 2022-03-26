@@ -239,22 +239,25 @@ class _AddNewShopState extends State<AddNewShop> {
         bottom: true,
         top: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
-                          child: Container(
-                            child: Image.asset('assets/system/smartkyat.png', height: 68, width: 68,),
+          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
+                              child: Container(
+                                child: Image.asset('assets/system/smartkyat.png', height: 68, width: 68,),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
 
                       Container(
                         alignment: Alignment.topLeft,
@@ -565,36 +568,38 @@ class _AddNewShopState extends State<AddNewShop> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      RichText(
-                        strutStyle: StrutStyle(
-                          height: 1,
-                          // fontSize:,
-                          forceStrutHeight: true,
-                        ),
-                        text: new TextSpan(
-                          children: [
-                            new TextSpan(
-                              text: 'Set up some information about your shop later in shop settings.',
-                              style: new TextStyle(
-                                fontSize: 12.5,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                                height: 1.2,
-                              ),
+                          SizedBox(height: 20,),
+                          RichText(
+                            strutStyle: StrutStyle(
+                              height: 1,
+                              // fontSize:,
+                              forceStrutHeight: true,
                             ),
-                          ],
-                        ),
+                            text: new TextSpan(
+                              children: [
+                                new TextSpan(
+                                  text: 'Set up some information about your shop later in shop settings.',
+                                  style: new TextStyle(
+                                    fontSize: 12.5,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 15,),
+                        ],
                       ),
-                      SizedBox(height: 15,),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+                    ),
+                  ],
                 ),
-                Container(
-                  color: Colors.white,
-                  height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
-                ),
-              ],
+              ),
             ),
           ),
         ),
