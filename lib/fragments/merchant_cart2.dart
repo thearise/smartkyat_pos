@@ -2636,7 +2636,7 @@ class MerchantCartState extends State<MerchantCart>
                                       } else {
                                         debts = 0;
                                         debtAmounts = 0;
-                                        deFilter = true;
+                                        deFilter = false;
                                       }
                                       totalOrders = totalOrders + 1;
                                       //merchOrder(totalOrders, debts, debtAmounts);
