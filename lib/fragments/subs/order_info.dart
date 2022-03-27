@@ -143,17 +143,17 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetPurchase = 'PURCHASED ITEMS';
-          textSetRefund = 'REFUNDED ITEMS';
-          textSetDebt = 'Debt Amount';
-          textSetDiscount = 'Discount';
+          textSetPurchase = 'ဝယ်ယူပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
-          textSetRefBtn = 'Refund items';
-          textSetPayCashBtn = 'Pay cash remains';
-          textSetPrint = 'Print receipt';
+          textSetRefBtn = 'ပြန်ပေးပစ္စည်း';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
+          textSetPrint = 'ဖြတ်ပိုင်း';
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
-          textSetFullyRef = 'FULLY REFUNDED';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
           isEnglish = false;
         });
       } else if(value=='english') {

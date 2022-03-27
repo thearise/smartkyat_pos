@@ -248,7 +248,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
         setState(() {
           textSetAll = 'အားလုံး';
           textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTRefunds = 'ပြန်ပေး';
           textSetTPaid = 'ရှင်းပြီး';
         });
       }
@@ -555,11 +555,14 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                           ),
                                           SizedBox(width: 4),
-                                          Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.grey,
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom: Platform.isAndroid ? 2.0 : 0.0),
+                                            child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -805,11 +808,14 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                               child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                             ),
                                             SizedBox(width: 4),
-                                            Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey,
+                                            Padding(
+                                              padding: EdgeInsets.only(bottom: Platform.isAndroid ? 2.0 : 0.0),
+                                              child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
                                             ),
                                           ],

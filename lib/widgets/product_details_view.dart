@@ -295,6 +295,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   String textSetBuyPrice = 'Buy price';
   String textSetLink1 = 'Items per Main Unit';
   String textSetLink2 = 'Items per Sub-1 Unit';
+  String textSetArchive = 'ARCHIVE ITEM';
+  String textSetRemoveItem = 'Remove this item';
+  String textSetWarning = 'Once you remove it, there is no going back.';
+  String textSetRemove = 'Remove';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -362,9 +366,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
           textSetBarcode = 'Barcode';
           textSetOtherInfo = 'OTHER INFORMATION';
           textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
-          textSetBuyPrice = 'Buy price';
+          textSetBuyPrice = 'ဝယ်ဈေး';
           textSetLink1 = 'Items per Main Unit';
           textSetLink2 = 'Items per Sub-1 Unit';
+          textSetArchive = 'ARCHIVE ITEM';
+          textSetRemoveItem = 'ဤပစ္စည်းကို ဖယ်ရှားမည်';
+          textSetWarning = 'တစ်ခါဖယ်ပြီးလျှင် နောက်ထပ်ပြန်ဖော်လို့ မရနိုင်ပါ';
+          textSetRemove = 'ဖယ်ရှားမည်';
         });
       } else if(value=='english') {
         setState(() {
@@ -385,6 +393,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
           textSetBuyPrice = 'Buy price';
           textSetLink1 = 'Items per Main Unit';
           textSetLink2 = 'Items per Sub-1 Unit';
+          textSetArchive = 'ARCHIVE ITEM';
+          textSetRemoveItem = 'Remove this item';
+          textSetWarning = 'Once you remove it, there is no going back.';
+          textSetRemove = 'Remove';
         });
       }
     });
@@ -2090,7 +2102,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           Padding(
                                             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                             child: Text(
-                                              'ARCHIVE ITEM',
+                                              textSetArchive,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
@@ -2122,13 +2134,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     title: Container(
                                                       child: Padding(
                                                         padding: const EdgeInsets.only(bottom: 8.0),
-                                                        child: Text('Remove this item', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                                        child: Text(textSetRemoveItem, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16, height: 1.2)),
                                                       ),
                                                     ),
                                                     subtitle: Padding(
                                                       padding: const EdgeInsets.only(bottom: 8.0),
-                                                      child: Text('Once you remove it, there is no going back.', style: TextStyle(height: 1.2)),
+                                                      child: Text(textSetWarning, style: TextStyle(height: 1.2)),
                                                     ),
                                                     trailing: Container(
                                                       height: 33,
@@ -2160,7 +2172,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           });
                                                         },
                                                         child: Text(
-                                                          'Remove',
+                                                         textSetRemove,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
