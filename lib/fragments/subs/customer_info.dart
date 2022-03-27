@@ -201,12 +201,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        height: 1.5,
                                         fontWeight: FontWeight.w500,
-                                        //color: Colors.grey,
+                                        height: 1.5,
                                       ),
                                       strutStyle: StrutStyle(
-                                        height: 1.5,
+                                        height: 1.4,
                                         // fontSize:,
                                         forceStrutHeight: true,
                                       ),
@@ -215,12 +214,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                       customerName,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 18,
-                                        height: 1.3,
-                                        fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.3
                                       ),
                                       strutStyle: StrutStyle(
-                                        height: 1.5,
+                                        height: 1.7,
                                         // fontSize:,
                                         forceStrutHeight: true,
                                       ),

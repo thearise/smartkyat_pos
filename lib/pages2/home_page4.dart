@@ -3532,14 +3532,28 @@ class HomePageState extends State<HomePage>
                                                                                               fontWeight:
                                                                                               FontWeight
                                                                                                   .w500),
+                                                                                          strutStyle: StrutStyle(
+                                                                                              forceStrutHeight: true,
+                                                                                              height: 1.3
+                                                                                          ),
                                                                                         ),
                                                                                         subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
                                                                                             style: TextStyle(
                                                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                            )) : Text(totalItems() + ' item sets',
+                                                                                            ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                              forceStrutHeight: true,
+                                                                                              height: 1
+                                                                                          ),
+                                                                                          ) : Text(totalItems() + ' item sets',
                                                                                             style: TextStyle(
                                                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                            )),
+                                                                                            ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                              forceStrutHeight: true,
+                                                                                              height: 1
+                                                                                          ),
+                                                                                          ),
                                                                                         trailing: Text('$currencyUnit '+
                                                                                             TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                           style: TextStyle(
@@ -3928,17 +3942,30 @@ class HomePageState extends State<HomePage>
                                                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                                       children: [
-                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          color: Colors.black,
-                                                                                          fontSize: 13,
-                                                                                          height: 1.5,
-                                                                                        )),
-                                                                                        Text('Cash acceptance', style: TextStyle(
+                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1],
+                                                                                          style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                              overflow: TextOverflow.ellipsis
+                                                                                            //color: Colors.grey,
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.4,
+                                                                                            // fontSize:,
+                                                                                            forceStrutHeight: true,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text('Cash acceptance',
+                                                                                          style: TextStyle(
                                                                                             fontWeight: FontWeight.w600,
                                                                                             fontSize: 18,
-                                                                                            height: 1.3
-                                                                                        )),
+                                                                                            overflow: TextOverflow.ellipsis
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.7,
+                                                                                            forceStrutHeight: true,
+                                                                                          )
+                                                                                        ),
                                                                                       ],
                                                                                     ),
                                                                                   ),
@@ -3970,6 +3997,10 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight:
                                                                                                 FontWeight
                                                                                                     .w500),
+                                                                                            strutStyle: StrutStyle(
+                                                                                                forceStrutHeight: true,
+                                                                                                height: 1.3
+                                                                                            ),
                                                                                           ),
                                                                                           trailing: Text('- $currencyUnit '+
                                                                                               debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -3987,6 +4018,10 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight:
                                                                                                 FontWeight
                                                                                                     .w500),
+                                                                                            strutStyle: StrutStyle(
+                                                                                                forceStrutHeight: true,
+                                                                                                height: 1.3
+                                                                                            ),
                                                                                           ),
                                                                                           trailing: Text('$currencyUnit '+
                                                                                               refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -4339,6 +4374,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 discountAmount =0.0;
                                                                                                                 debt =0;
                                                                                                                 refund =0;
+                                                                                                                custPrintTitle = customerId.split('^')[1];
                                                                                                                 customerId = 'name^name';
                                                                                                                 disText = '';
                                                                                                                 isDiscount = '';
@@ -4945,6 +4981,10 @@ class HomePageState extends State<HomePage>
                                                                                                         fontWeight:
                                                                                                         FontWeight
                                                                                                             .w500),
+                                                                                                    strutStyle: StrutStyle(
+                                                                                                        forceStrutHeight: true,
+                                                                                                        height: 1.3
+                                                                                                    ),
                                                                                                   ),
                                                                                                   Expanded(
                                                                                                       child: Text('$currencyUnit '+
@@ -5111,21 +5151,37 @@ class HomePageState extends State<HomePage>
                                                                                     padding: EdgeInsets.only(
                                                                                         left: 15.0,
                                                                                         right: 15.0,
-                                                                                        top: 5.0,
+                                                                                        top: 2,
                                                                                         bottom: 0.0
                                                                                     ),
                                                                                     child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                                       children: [
-                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            color: Colors.grey
-                                                                                        )),
-                                                                                        SizedBox(height: 2.5),
-                                                                                        Text('Invoice receipt', style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 19
-                                                                                        )),
+                                                                                        Text(custPrintTitle == 'name'? 'No customer':custPrintTitle,
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              overflow: TextOverflow.ellipsis
+                                                                                            //color: Colors.grey,
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.4,
+                                                                                            // fontSize:,
+                                                                                            forceStrutHeight: true,
+                                                                                          ),
+                                                                                        ),
+                                                                                        Text('Invoice receipt',
+                                                                                            style: TextStyle(
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 18,
+                                                                                                overflow: TextOverflow.ellipsis
+                                                                                            ),
+                                                                                            strutStyle: StrutStyle(
+                                                                                              height: 1.7,
+                                                                                              forceStrutHeight: true,
+                                                                                            )
+                                                                                        ),
                                                                                       ],
                                                                                     ),
                                                                                   ),
@@ -5372,6 +5428,10 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight:
                                                                                                 FontWeight
                                                                                                     .w500),
+                                                                                            strutStyle: StrutStyle(
+                                                                                                forceStrutHeight: true,
+                                                                                                height: 1.3
+                                                                                            ),
                                                                                           ),
                                                                                           trailing: Text('$currencyUnit '+
                                                                                               finalTotal.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -5476,21 +5536,37 @@ class HomePageState extends State<HomePage>
                                                                                   padding: EdgeInsets.only(
                                                                                       left: 15.0,
                                                                                       right: 15.0,
-                                                                                      top: 5.0,
+                                                                                      top: 2,
                                                                                       bottom: 0.0
                                                                                   ),
                                                                                   child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
-                                                                                      Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.grey,
-                                                                                      )),
-                                                                                      SizedBox(height: 2.5),
-                                                                                      Text('Printing service', style: TextStyle(
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                          fontSize: 19
-                                                                                      )),
+                                                                                      Text(custPrintTitle == 'name'? 'No customer':custPrintTitle,
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            overflow: TextOverflow.ellipsis
+                                                                                          //color: Colors.grey,
+                                                                                        ),
+                                                                                        strutStyle: StrutStyle(
+                                                                                          height: 1.4,
+                                                                                          // fontSize:,
+                                                                                          forceStrutHeight: true,
+                                                                                        ),
+                                                                                      ),
+                                                                                      Text('Printing service',
+                                                                                          style: TextStyle(
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontSize: 18,
+                                                                                              overflow: TextOverflow.ellipsis
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.7,
+                                                                                            forceStrutHeight: true,
+                                                                                          )
+                                                                                      ),
                                                                                     ],
                                                                                   ),
                                                                                 ),
@@ -5694,6 +5770,10 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight:
                                                                                                 FontWeight
                                                                                                     .w500),
+                                                                                            strutStyle: StrutStyle(
+                                                                                                forceStrutHeight: true,
+                                                                                                height: 1.3
+                                                                                            ),
                                                                                           ),
                                                                                           trailing: Text('$currencyUnit '+
                                                                                               debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -6318,6 +6398,7 @@ class HomePageState extends State<HomePage>
 
 
   String customerId = 'name^name';
+  String custPrintTitle = 'name';
 
   addCustomer2Cart(data) {
     setState(() {
@@ -6779,14 +6860,23 @@ class HomePageState extends State<HomePage>
                                                     Text('$currencyUnit ' + result.split('^')[2], style: TextStyle(
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey
-                                                    )),
+                                                    ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.2
+                                                        )
+                                                    ),
                                                   ],
                                                 ),
-                                                SizedBox(height: 3),
+                                                SizedBox(height: 2.5),
                                                 Text(result.split('^')[1], style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 19
-                                                )),
+                                                ),
+                                                    strutStyle: StrutStyle(
+                                                        forceStrutHeight: true,
+                                                        height: 1.6
+                                                    )),
                                               ],
                                             ),
                                           ),
@@ -7174,6 +7264,10 @@ class HomePageState extends State<HomePage>
                                                           fontWeight:
                                                           FontWeight
                                                               .w500),
+                                                      strutStyle: StrutStyle(
+                                                          forceStrutHeight: true,
+                                                          height: 1.3
+                                                      ),
                                                     ),
                                                     trailing: Text('$currencyUnit ' + (totalFixAmount2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
@@ -8863,14 +8957,28 @@ class HomePageState extends State<HomePage>
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.3
+                                                        ),
                                                       ),
                                                       subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
                                                           style: TextStyle(
                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                          )) : Text(totalItems() + ' item sets',
+                                                          ),
+                                                          strutStyle: StrutStyle(
+                                                              forceStrutHeight: true,
+                                                              height: 1
+                                                          ),
+                                                      ) : Text(totalItems() + ' item sets',
                                                           style: TextStyle(
                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                          )),
+                                                          ),
+                                                          strutStyle: StrutStyle(
+                                                              forceStrutHeight: true,
+                                                              height: 1
+                                                          ),
+                                                      ),
                                                       trailing: Text('$currencyUnit '+
                                                           TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                         style: TextStyle(
@@ -9024,12 +9132,21 @@ class HomePageState extends State<HomePage>
                                                     Text(customerId.split('^')[1] == 'name'? 'No customer': customerId.split('^')[1], style: TextStyle(
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey
-                                                    )),
+                                                    ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.2
+                                                        )),
                                                     SizedBox(height: 2.5),
                                                     Text('Cash acceptance', style: TextStyle(
                                                         fontWeight: FontWeight.w600,
                                                         fontSize: 19
-                                                    )),
+                                                    ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.6
+                                                        )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -9254,6 +9371,10 @@ class HomePageState extends State<HomePage>
                                                               fontWeight:
                                                               FontWeight
                                                                   .w500),
+                                                          strutStyle: StrutStyle(
+                                                              forceStrutHeight: true,
+                                                              height: 1.3
+                                                          ),
                                                         ),
                                                         trailing: Text('- $currencyUnit '+
                                                             debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -9271,6 +9392,10 @@ class HomePageState extends State<HomePage>
                                                               fontWeight:
                                                               FontWeight
                                                                   .w500),
+                                                          strutStyle: StrutStyle(
+                                                              forceStrutHeight: true,
+                                                              height: 1.3
+                                                          ),
                                                         ),
                                                         trailing: Text('$currencyUnit '+
                                                             refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -9846,7 +9971,7 @@ class HomePageState extends State<HomePage>
                                                         fontSize: 19
                                                     ),
                                                         strutStyle: StrutStyle(
-                                                          height: 1.7,
+                                                          height: 1.6,
                                                           forceStrutHeight: true,
                                                         )
                                                     ),
@@ -10322,12 +10447,16 @@ class HomePageState extends State<HomePage>
                                                         children: [
                                                           ListTile(
                                                             title: Text(
-                                                              'Total ss',
+                                                              'Total',
                                                               style: TextStyle(
                                                                   fontSize: 17,
                                                                   fontWeight:
                                                                   FontWeight
                                                                       .w500),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.3
+                                                              ),
                                                             ),
                                                             trailing: Text('$currencyUnit '+
                                                                 (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -10503,12 +10632,22 @@ class HomePageState extends State<HomePage>
                                                     Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.grey,
-                                                    )),
+                                                    ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.2
+                                                        )
+                                                    ),
                                                     SizedBox(height: 2.5),
                                                     Text('Invoice receipt', style: TextStyle(
                                                         fontWeight: FontWeight.w600,
                                                         fontSize: 19
-                                                    )),
+                                                    ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1.6
+                                                        )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -10745,6 +10884,10 @@ class HomePageState extends State<HomePage>
                                                               fontWeight:
                                                               FontWeight
                                                                   .w500),
+                                                          strutStyle: StrutStyle(
+                                                              forceStrutHeight: true,
+                                                              height: 1.3
+                                                          ),
                                                         ),
                                                         trailing: Text('$currencyUnit '+
                                                             TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -11091,7 +11234,6 @@ class HomePageState extends State<HomePage>
                                                     height: 67,
                                                     width: double.infinity,
                                                     decoration: BoxDecoration(
-                                                        color: Colors.white,
                                                         border: Border(
                                                             bottom: BorderSide(
                                                                 color: Colors.grey
@@ -11110,12 +11252,22 @@ class HomePageState extends State<HomePage>
                                                           Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             color: Colors.grey,
-                                                          )),
+                                                          ),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.2
+                                                              )
+                                                          ),
                                                           SizedBox(height: 2.5),
                                                           Text('Printing service', style: TextStyle(
                                                               fontWeight: FontWeight.w600,
                                                               fontSize: 19
-                                                          )),
+                                                          ),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.6
+                                                              )
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
@@ -12910,7 +13062,6 @@ class HomePageState extends State<HomePage>
                                       height: 67,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.grey
@@ -12926,15 +13077,25 @@ class HomePageState extends State<HomePage>
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                            Text(prodListPR[prodListPR.length-1].split('<>')[7].toString(), style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
-                                            )),
+                                            ),
+                                                strutStyle: StrutStyle(
+                                                    forceStrutHeight: true,
+                                                    height: 1.2
+                                                )
+                                            ),
                                             SizedBox(height: 2.5),
                                             Text('Printing service', style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 19
-                                            )),
+                                            ),
+                                                strutStyle: StrutStyle(
+                                                    forceStrutHeight: true,
+                                                    height: 1.6
+                                                )
+                                            ),
                                           ],
                                         ),
                                       ),

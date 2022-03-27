@@ -1469,49 +1469,49 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                               children: [
                                 if(!unitLimit)
                                   ButtonTheme(
-                                    splashColor: Colors.transparent,
-                                    height: 50,
-                                    child: FlatButton(
-                                      color: AppTheme.buttonColor2,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                      ),
-                                      onPressed: () async {
-                                        if(cards.length == 0) {
-                                          setState(() => cards.add(createCard('main')));
-                                        } else if(cards.length == 1) {
-                                          setState(() {
-                                            cards.add(createCard('sub1'));
-                                            unitLimit = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            unitLimit = true;
-                                          });
-                                        };
-                                      },
-                                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                          child: CupertinoActivityIndicator(radius: 10,)) :
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5.0,
-                                            right: 5.0,
-                                            bottom: 3.0),
-                                        child: Container(
-                                          child: Text(
-                                            'More unit?',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing:-0.1
-                                            ),
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.buttonColor2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                    ),
+                                    onPressed: () async {
+                                      if(cards.length == 0) {
+                                        setState(() => cards.add(createCard('main')));
+                                      } else if(cards.length == 1) {
+                                        setState(() {
+                                          cards.add(createCard('sub1'));
+                                          unitLimit = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          unitLimit = true;
+                                        });
+                                      };
+                                    },
+                                    child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)) :
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 3.0),
+                                      child: Container(
+                                        child: Text(
+                                          'More unit?',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing:-0.1
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
+                                ),
                                 if(!unitLimit)
                                   SizedBox(
                                       width: 15.0
@@ -2632,11 +2632,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".'
                   ,
                   style: new TextStyle(
-                      fontSize: 12.5,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      height: 1.2,
-                      overflow: TextOverflow.ellipsis
+                    fontSize: 12.5,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    height: 1.2,
+                    overflow: TextOverflow.ellipsis
                   ),
                 ),
               ],
