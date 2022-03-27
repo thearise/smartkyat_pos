@@ -76,6 +76,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   String textSetRemove = 'REMOVE';
   String textSetSaveProd = 'Add Product';
 
+  bool unitLimit = false;
+
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1035,7 +1037,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           //   width: double.infinity,
                                           // ),
                                           Padding(
-                                            padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 147),
+                                            padding: const EdgeInsets.only(top: 145, left: 15.0),
+                                            child: Container(
+                                              color: AppTheme.skBorderColor2,
+                                              height: 1,
+                                              width: MediaQuery.of(context).size.width,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 160),
                                             child: Row(
                                               children: [
                                                 Expanded(
@@ -1045,40 +1055,40 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     fontSize: 14,color: Colors.grey,
                                                   ),),
                                                 ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    // final result =
-                                                    // await showModalActionSheet<String>(
-                                                    //     context: context,
-                                                    //     actions: [
-                                                    //      SheetAction(
-                                                    //           icon: Icons.info,
-                                                    //           label: 'Type One',
-                                                    //           key: 'type_one'),
-                                                    //       SheetAction(
-                                                    //           icon: Icons.info,
-                                                    //           label: 'Type Two',
-                                                    //           key: 'type_two'),
-                                                    //     ]
-                                                    // );
-                                                    if(cards.length == 0) {
-                                                      setState(() => cards.add(createCard('main')));
-                                                    } else if(cards.length == 1) {
-                                                      setState(() => cards.add(createCard('sub1')));
-                                                    } else print('sub limit reached');
-                                                  },
-                                                  child: Text(textSetSubUnit, style: TextStyle(
-                                                    letterSpacing: 1.5,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,color: Colors.blue,
-                                                  ),),
-                                                )
+                                                // GestureDetector(
+                                                //   onTap: () {
+                                                //     // final result =
+                                                //     // await showModalActionSheet<String>(
+                                                //     //     context: context,
+                                                //     //     actions: [
+                                                //     //      SheetAction(
+                                                //     //           icon: Icons.info,
+                                                //     //           label: 'Type One',
+                                                //     //           key: 'type_one'),
+                                                //     //       SheetAction(
+                                                //     //           icon: Icons.info,
+                                                //     //           label: 'Type Two',
+                                                //     //           key: 'type_two'),
+                                                //     //     ]
+                                                //     // );
+                                                //     if(cards.length == 0) {
+                                                //       setState(() => cards.add(createCard('main')));
+                                                //     } else if(cards.length == 1) {
+                                                //       setState(() => cards.add(createCard('sub1')));
+                                                //     } else print('sub limit reached');
+                                                //   },
+                                                //   child: Text(textSetSubUnit, style: TextStyle(
+                                                //     letterSpacing: 1.5,
+                                                //     fontWeight: FontWeight.bold,
+                                                //     fontSize: 14,color: Colors.blue,
+                                                //   ),),
+                                                // )
                                               ],
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 15.0, right: 15.0, top: 185),
+                                                left: 15.0, right: 15.0, top: 195),
                                             child: Row(
                                               children: [
                                                 Container(
@@ -1237,7 +1247,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 15.0, right: 15.0, top: 256),
+                                                left: 15.0, right: 15.0, top: 266),
                                             child: TextFormField(
                                               controller: msaleCtrl,
                                               keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -1302,7 +1312,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 15.0, right: 15.0, top: 327),
+                                                left: 15.0, right: 15.0, top: 337),
                                             child: TextFormField(
                                               controller: mcostCtrl,
                                               keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -1366,7 +1376,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 398.0),
+                                            padding: const EdgeInsets.only(top: 403.0),
                                             child: Column(
                                               children: <Widget>[
                                                 // Padding(
@@ -1423,6 +1433,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     return cards[index];
                                                   },
                                                 ),
+                                                SizedBox(
+                                                  height: 20,
+                                                )
                                               ],
                                             ),
                                           ),
@@ -1452,283 +1465,132 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
                         child: Column(
                           children: [
-                            ButtonTheme(
-                              minWidth: MediaQuery.of(context).size.width,
-                              splashColor: Colors.transparent,
-                              height: 50,
-                              child: FlatButton(
-                                color: AppTheme.themeColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: AppTheme.themeColor,
+                            Row(
+                              children: [
+                                if(!unitLimit)
+                                  ButtonTheme(
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.buttonColor2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                    ),
+                                    onPressed: () async {
+                                      if(cards.length == 0) {
+                                        setState(() => cards.add(createCard('main')));
+                                      } else if(cards.length == 1) {
+                                        setState(() {
+                                          cards.add(createCard('sub1'));
+                                          unitLimit = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          unitLimit = true;
+                                        });
+                                      };
+                                    },
+                                    child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)) :
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 3.0),
+                                      child: Container(
+                                        child: Text(
+                                          'More unit?',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing:-0.1
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                onPressed: () async {
-                                  prodFieldsValue = [];
+                                if(!unitLimit)
+                                  SizedBox(
+                                      width: 15.0
+                                  ),
+                                Expanded(
+                                  child: ButtonTheme(
+                                    splashColor: Colors.transparent,
+                                    height: 50,
+                                    child: FlatButton(
+                                      color: AppTheme.themeColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                        side: BorderSide(
+                                          color: AppTheme.themeColor,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        prodFieldsValue = [];
 
-                                  if (_formKey.currentState!.validate()) {
-                                    DateTime now = DateTime.now();
-                                    setState(() {
-                                      widget.prodLoadingState();
-                                      prodAdding = true;
-                                    });
-                                    print('validate ' + prodFieldsValue.toString());
-
-                                    List<PersonEntry> entries = [];
-
-                                    print('shit ' + entries.toString());
-
-                                    print('here ' + assets.length.toString());
-                                    photoUploadCount = 0;
-                                    var photoArray = ['', '', '', '', ''];
-
-                                    var prodExist = false;
-
-                                    CollectionReference productId = await FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(shopId)
-                                        .collection('products');
-
-                                    // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
-                                    //          querySnapshot) async {
-                                    //   querySnapshot.docs.forEach((doc) {
-                                    //     prodExist = true;
-                                    //   });
-                                    //
-                                    //   if (prodExist) {
-                                    //     print('product already');
-                                    //     var result = await showOkAlertDialog(
-                                    //       context: context,
-                                    //       title: 'Warning',
-                                    //       message: 'Product name already!',
-                                    //       okLabel: 'OK',
-                                    //     );
-                                    //     setState(() {
-                                    //       prodAdding = false;
-                                    //     });
-                                    //   }
-                                    //   else {
-                                    //     for (int i = 0;
-                                    //     i < assets.length;
-                                    //     i++) {
-                                    //       AssetEntity asset =
-                                    //       assets.elementAt(i);
-                                    //       asset.originFile.then((value) async {
-                                    //         addProduct(value!).then((value) {
-                                    //           photoArray[i] = value.toString();
-                                    //           photoUploaded(
-                                    //               assets.length, photoArray);
-                                    //         });
-                                    //       });
-                                    //     }
-                                    //   }
-                                    // });
-
-                                    if (assets.length == 0) {
-                                      var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
-                                      int j = -1;
-                                      for (int i = 0;
-                                      i < cards.length;
-                                      i++) {
-                                        subUnitFieldValue[++j] =
-                                            nameTECs[i].text;
-                                        subUnitFieldValue[++j] =
-                                            ageTECs[i].text;
-                                        subUnitFieldValue[++j] =
-                                            jobTECs[i].text;
-                                        subUnitFieldValue[++j] =
-                                            priceTECs[i].text;
-// var name = nameTECs[i].text;
-// var age = ageTECs[i].text;
-// var job = jobTECs[i].text;
-// entries.add(PersonEntry(name, age, job));
-                                      }
-                                      print('gg nothing' +
-                                          subUnitFieldValue.toString());
-
-
-                                      String sub1_buy;
-                                      String sub2_buy;
-                                      String sub3_buy;
-                                      String subExist;
-                                      double mainStock;
-                                      double sub1Stock;
-                                      double sub2Stock;
-                                      double sub3Stock;
-                                      String mTotal;
-
-                                      if( subUnitFieldValue[0] != ''){
-                                        sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
-                                      } else
-                                      {
-                                        sub1_buy = '0';
-                                      }
-                                      if( subUnitFieldValue[4] != ''){
-                                        sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
-                                      } else
-                                      {
-                                        sub2_buy = '0';
-                                      }
-
-                                      if( subUnitFieldValue[8] != ''){
-                                        sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
-                                      } else
-                                      {
-                                        sub3_buy = '0';
-                                      }
-
-                                      if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
-                                        subExist = '1';
-                                      } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
-                                        subExist = '2';
-                                      } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
-                                        subExist = '3';
-                                      } else subExist ='0';
-
-                                      if( prodFieldsValue[2] != '') {
-                                        mainStock=  double.parse(prodFieldsValue[2]);
-                                        mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
-                                      } else { mainStock = 0;
-                                      mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
-
-                                      if( subUnitFieldValue[3] != '') {
-                                        sub1Stock=  double.parse(subUnitFieldValue[3]);
-//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                      }
-                                      else {sub1Stock = 0;
-//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                      }
-
-                                      if( subUnitFieldValue[7] != '') {
-                                        sub2Stock=  double.parse(subUnitFieldValue[7]);
-//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                      }
-                                      else { sub2Stock = 0;
-//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                      }
-
-                                      if( subUnitFieldValue[11] != '') {
-                                        sub3Stock =  double.parse(subUnitFieldValue[11]);
-//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
-                                      }
-                                      else {
-                                        sub3Stock = 0;
-//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
-                                      }
-
-                                      productId
-                                          .where('prod_name',
-                                          isEqualTo:
-                                          prodFieldsValue[0])
-                                          .get()
-                                          .then((QuerySnapshot
-                                      querySnapshot) async {
-                                        querySnapshot.docs
-                                            .forEach((doc) {
-                                          prodExist = true;
-                                        });
-
-                                        if (prodExist) {
-                                          print('product already');
-                                          var result =
-                                          await showOkAlertDialog(
-                                            context: context,
-                                            title: 'Warning',
-                                            message:
-                                            'Product name already!',
-                                            okLabel: 'OK',
-                                          );
+                                        if (_formKey.currentState!.validate()) {
+                                          DateTime now = DateTime.now();
                                           setState(() {
-                                            widget.endProdLoadingState();
-                                            prodAdding = false;
+                                            widget.prodLoadingState();
+                                            prodAdding = true;
                                           });
-                                        }
-                                        else {
-                                          CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
-                                              shopId)
-                                              .collection(
-                                              'products');
-                                          shops.add({
-                                            'prod_name':
-                                            prodFieldsValue[0],
-                                            'bar_code':
-                                            prodFieldsValue[1],
-                                            'unit_name':
-                                            prodFieldsValue[3],
-                                            'unit_sell':
-                                            prodFieldsValue[5],
-                                            'inStock1' : mainStock,
-                                            'inStock2'  : sub1Stock,
-                                            'inStock3' : sub2Stock,
-                                            'inStock4' : sub3Stock,
-                                            'buyPrice1' : prodFieldsValue[4],
-                                            'buyPrice2' : sub1_buy,
-                                            'buyPrice3' : sub2_buy,
-                                            'buyPrice4' : sub3_buy,
-                                            'sub1_link':
-                                            subUnitFieldValue[0],
-                                            'sub1_name':
-                                            subUnitFieldValue[1],
-                                            'sub1_sell':
-                                            subUnitFieldValue[2],
-                                            'sub2_link':
-                                            subUnitFieldValue[4],
-                                            'sub2_name':
-                                            subUnitFieldValue[5],
-                                            'sub2_sell':
-                                            subUnitFieldValue[6],
-                                            'sub3_link':
-                                            subUnitFieldValue[8],
-                                            'sub3_name':
-                                            subUnitFieldValue[9],
-                                            'sub3_sell':
-                                            subUnitFieldValue[10],
-                                            'sub_exist': subExist,
-                                            'Loss1' : 0,
-                                            'Loss2' : 0,
-                                            'Loss3' : 0,
-                                            'Loss4' : 0,
-                                            'mTotal' : mTotal,
-                                            'mainSellUnit' : 0,
-                                            'sub1SellUnit' : 0,
-                                            'sub2SellUnit' : 0,
-                                            'img_1': '',
-                                            'search_name': textSplitFunction(prodFieldsValue[0].toString()),
-                                            'update_time' : DateTime.now(),
-                                            'archive' : false
-                                          }).then((value) {
-                                            print('product added');
-                                          });
-                                          Future.delayed(const Duration(milliseconds: 3000), () {
-                                            setState(() {
-                                              prodAdding = false;
-                                              widget.endProdLoadingState();
-                                              Navigator.pop(context);
-                                            });
-                                            smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
-                                          });
-                                        }
-                                        // setState(() {
-                                        //   widget.endProdLoadingState();
-                                        //   prodAdding = false;
-                                        //   Navigator.pop(context);
-                                        // });
-                                        //
-                                        // smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
-                                      });
-                                    }
-                                    else {
+                                          print('validate ' + prodFieldsValue.toString());
 
-                                      for (int i = 0;
-                                      i < assets.length;
-                                      i++) {
-                                        AssetEntity asset =
-                                        assets.elementAt(i);
-                                        asset.originFile.then((value) async {
-                                          addProduct(value!).then((value) {
-                                            photoArray[i] = value.toString();
+                                          List<PersonEntry> entries = [];
+
+                                          print('shit ' + entries.toString());
+
+                                          print('here ' + assets.length.toString());
+                                          photoUploadCount = 0;
+                                          var photoArray = ['', '', '', '', ''];
+
+                                          var prodExist = false;
+
+                                          CollectionReference productId = await FirebaseFirestore.instance
+                                              .collection('shops')
+                                              .doc(shopId)
+                                              .collection('products');
+
+                                          // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
+                                          //          querySnapshot) async {
+                                          //   querySnapshot.docs.forEach((doc) {
+                                          //     prodExist = true;
+                                          //   });
+                                          //
+                                          //   if (prodExist) {
+                                          //     print('product already');
+                                          //     var result = await showOkAlertDialog(
+                                          //       context: context,
+                                          //       title: 'Warning',
+                                          //       message: 'Product name already!',
+                                          //       okLabel: 'OK',
+                                          //     );
+                                          //     setState(() {
+                                          //       prodAdding = false;
+                                          //     });
+                                          //   }
+                                          //   else {
+                                          //     for (int i = 0;
+                                          //     i < assets.length;
+                                          //     i++) {
+                                          //       AssetEntity asset =
+                                          //       assets.elementAt(i);
+                                          //       asset.originFile.then((value) async {
+                                          //         addProduct(value!).then((value) {
+                                          //           photoArray[i] = value.toString();
+                                          //           photoUploaded(
+                                          //               assets.length, photoArray);
+                                          //         });
+                                          //       });
+                                          //     }
+                                          //   }
+                                          // });
+
+                                          if (assets.length == 0) {
                                             var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
                                             int j = -1;
                                             for (int i = 0;
@@ -1813,12 +1675,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                             if( subUnitFieldValue[11] != '') {
                                               sub3Stock =  double.parse(subUnitFieldValue[11]);
+//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
                                             else {
                                               sub3Stock = 0;
+//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
 
-                                            productId.where('prod_name',
+                                            productId
+                                                .where('prod_name',
                                                 isEqualTo:
                                                 prodFieldsValue[0])
                                                 .get()
@@ -1893,48 +1758,250 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   'mainSellUnit' : 0,
                                                   'sub1SellUnit' : 0,
                                                   'sub2SellUnit' : 0,
-                                                  'search_name' :  FieldValue.arrayUnion([]),
-                                                  'img_1': photoArray[0],
-                                                  'update_time' : DateTime.now(),
+                                                  'img_1': '',
                                                   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                                  'update_time' : DateTime.now(),
+                                                  'archive' : false
                                                 }).then((value) {
                                                   print('product added');
+                                                });
+                                                Future.delayed(const Duration(milliseconds: 3000), () {
                                                   setState(() {
-                                                    widget.endProdLoadingState();
                                                     prodAdding = false;
+                                                    widget.endProdLoadingState();
+                                                    Navigator.pop(context);
                                                   });
-                                                  Navigator.pop(context);
                                                   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                 });
                                               }
+                                              // setState(() {
+                                              //   widget.endProdLoadingState();
+                                              //   prodAdding = false;
+                                              //   Navigator.pop(context);
+                                              // });
+                                              //
+                                              // smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                             });
-                                          });
-                                        });
-                                      }
-                                    }
+                                          }
+                                          else {
 
-                                  }
-                                },
-                                child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                    child: CupertinoActivityIndicator(radius: 10,)) :
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      bottom: 3.0),
-                                  child: Container(
-                                    child: Text(
-                                      'Add product',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing:-0.1
+                                            for (int i = 0;
+                                            i < assets.length;
+                                            i++) {
+                                              AssetEntity asset =
+                                              assets.elementAt(i);
+                                              asset.originFile.then((value) async {
+                                                addProduct(value!).then((value) {
+                                                  photoArray[i] = value.toString();
+                                                  var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
+                                                  int j = -1;
+                                                  for (int i = 0;
+                                                  i < cards.length;
+                                                  i++) {
+                                                    subUnitFieldValue[++j] =
+                                                        nameTECs[i].text;
+                                                    subUnitFieldValue[++j] =
+                                                        ageTECs[i].text;
+                                                    subUnitFieldValue[++j] =
+                                                        jobTECs[i].text;
+                                                    subUnitFieldValue[++j] =
+                                                        priceTECs[i].text;
+// var name = nameTECs[i].text;
+// var age = ageTECs[i].text;
+// var job = jobTECs[i].text;
+// entries.add(PersonEntry(name, age, job));
+                                                  }
+                                                  print('gg nothing' +
+                                                      subUnitFieldValue.toString());
+
+
+                                                  String sub1_buy;
+                                                  String sub2_buy;
+                                                  String sub3_buy;
+                                                  String subExist;
+                                                  double mainStock;
+                                                  double sub1Stock;
+                                                  double sub2Stock;
+                                                  double sub3Stock;
+                                                  String mTotal;
+
+                                                  if( subUnitFieldValue[0] != ''){
+                                                    sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+                                                  } else
+                                                  {
+                                                    sub1_buy = '0';
+                                                  }
+                                                  if( subUnitFieldValue[4] != ''){
+                                                    sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+                                                  } else
+                                                  {
+                                                    sub2_buy = '0';
+                                                  }
+
+                                                  if( subUnitFieldValue[8] != ''){
+                                                    sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+                                                  } else
+                                                  {
+                                                    sub3_buy = '0';
+                                                  }
+
+                                                  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
+                                                    subExist = '1';
+                                                  } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
+                                                    subExist = '2';
+                                                  } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
+                                                    subExist = '3';
+                                                  } else subExist ='0';
+
+                                                  if( prodFieldsValue[2] != '') {
+                                                    mainStock=  double.parse(prodFieldsValue[2]);
+                                                    mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
+                                                  } else { mainStock = 0;
+                                                  mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
+
+                                                  if( subUnitFieldValue[3] != '') {
+                                                    sub1Stock=  double.parse(subUnitFieldValue[3]);
+//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                                  }
+                                                  else {sub1Stock = 0;
+//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                                  }
+
+                                                  if( subUnitFieldValue[7] != '') {
+                                                    sub2Stock=  double.parse(subUnitFieldValue[7]);
+//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                                  }
+                                                  else { sub2Stock = 0;
+//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                                  }
+
+                                                  if( subUnitFieldValue[11] != '') {
+                                                    sub3Stock =  double.parse(subUnitFieldValue[11]);
+                                                  }
+                                                  else {
+                                                    sub3Stock = 0;
+                                                  }
+
+                                                  productId.where('prod_name',
+                                                      isEqualTo:
+                                                      prodFieldsValue[0])
+                                                      .get()
+                                                      .then((QuerySnapshot
+                                                  querySnapshot) async {
+                                                    querySnapshot.docs
+                                                        .forEach((doc) {
+                                                      prodExist = true;
+                                                    });
+
+                                                    if (prodExist) {
+                                                      print('product already');
+                                                      var result =
+                                                      await showOkAlertDialog(
+                                                        context: context,
+                                                        title: 'Warning',
+                                                        message:
+                                                        'Product name already!',
+                                                        okLabel: 'OK',
+                                                      );
+                                                      setState(() {
+                                                        widget.endProdLoadingState();
+                                                        prodAdding = false;
+                                                      });
+                                                    }
+                                                    else {
+                                                      CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+                                                          shopId)
+                                                          .collection(
+                                                          'products');
+                                                      shops.add({
+                                                        'prod_name':
+                                                        prodFieldsValue[0],
+                                                        'bar_code':
+                                                        prodFieldsValue[1],
+                                                        'unit_name':
+                                                        prodFieldsValue[3],
+                                                        'unit_sell':
+                                                        prodFieldsValue[5],
+                                                        'inStock1' : mainStock,
+                                                        'inStock2'  : sub1Stock,
+                                                        'inStock3' : sub2Stock,
+                                                        'inStock4' : sub3Stock,
+                                                        'buyPrice1' : prodFieldsValue[4],
+                                                        'buyPrice2' : sub1_buy,
+                                                        'buyPrice3' : sub2_buy,
+                                                        'buyPrice4' : sub3_buy,
+                                                        'sub1_link':
+                                                        subUnitFieldValue[0],
+                                                        'sub1_name':
+                                                        subUnitFieldValue[1],
+                                                        'sub1_sell':
+                                                        subUnitFieldValue[2],
+                                                        'sub2_link':
+                                                        subUnitFieldValue[4],
+                                                        'sub2_name':
+                                                        subUnitFieldValue[5],
+                                                        'sub2_sell':
+                                                        subUnitFieldValue[6],
+                                                        'sub3_link':
+                                                        subUnitFieldValue[8],
+                                                        'sub3_name':
+                                                        subUnitFieldValue[9],
+                                                        'sub3_sell':
+                                                        subUnitFieldValue[10],
+                                                        'sub_exist': subExist,
+                                                        'Loss1' : 0,
+                                                        'Loss2' : 0,
+                                                        'Loss3' : 0,
+                                                        'Loss4' : 0,
+                                                        'mTotal' : mTotal,
+                                                        'mainSellUnit' : 0,
+                                                        'sub1SellUnit' : 0,
+                                                        'sub2SellUnit' : 0,
+                                                        'search_name' :  FieldValue.arrayUnion([]),
+                                                        'img_1': photoArray[0],
+                                                        'update_time' : DateTime.now(),
+                                                        'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                                      }).then((value) {
+                                                        print('product added');
+                                                        setState(() {
+                                                          widget.endProdLoadingState();
+                                                          prodAdding = false;
+                                                        });
+                                                        Navigator.pop(context);
+                                                        smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
+                                                      });
+                                                    }
+                                                  });
+                                                });
+                                              });
+                                            }
+                                          }
+
+                                        }
+                                      },
+                                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                          child: CupertinoActivityIndicator(radius: 10,)) :
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5.0,
+                                            right: 5.0,
+                                            bottom: 3.0),
+                                        child: Container(
+                                          child: Text(
+                                            'Add product',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing:-0.1
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
@@ -2360,6 +2427,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
+            child: Container(
+              color: AppTheme.skBorderColor2,
+              height: 1,
+              width: MediaQuery.of(context).size.width,
+            ),
+          ),
           SizedBox(
             height: 5,
           ),
@@ -2386,6 +2461,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     setState(() {
                       cards.length--;
                       cards.remove(cards);
+                      if(cards.length < 2) {
+                        unitLimit = false;
+                      }
                     });
                   },
                   child: Text(
@@ -2416,125 +2494,16 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
           SizedBox(
             height: 18,
           ),
-          Stack(
+          Row(
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
-                    child: TextFormField(
-                      controller: nameController,
-                      keyboardType: TextInputType.numberWithOptions(decimal: false),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(_getNum())),],
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return ' This field is required ';
-                        }
-                        // prodFieldsValue.add(value);
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.skBorderColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.themeColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                        contentPadding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        // suffixText: 'Required',
-                        suffixStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'capsulesans',
-                        ),
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
-                            height: 0.1
-                        ),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        // errorText: 'Error message',
-                        labelText: 'Units / $unit unit',
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        //filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
-                    child: TextFormField(
-                      controller: ageController,
-                      keyboardType: TextInputType.text,
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return ' Required ';
-                        }
-                        // prodFieldsValue.add(value);
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.skBorderColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.themeColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                        contentPadding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        // suffixText: 'Required',
-                        suffixStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'capsulesans',
-                        ),
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
-                            height: 0.1
-                        ),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        // errorText: 'Error message',
-                        labelText: textSetUnitName,
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        //filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 71.0),
+              Container(
+                height: 65,
+                width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
+                    (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
+                    30) *
+                    (2.6 / 4) - 8,
                 child: TextFormField(
-                  controller: priceController,
+                  controller: nameController,
                   keyboardType: TextInputType.numberWithOptions(decimal: false),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(_getNum())),],
@@ -2560,16 +2529,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    //suffixText: 'MMK',
-                    // suffixStyle: TextStyle(
-                    //   fontWeight: FontWeight.w500,
-                    //   color: Colors.grey,
-                    //   fontSize: 12,
-                    //   //fontFamily: 'capsulesans',
-                    // ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                    // suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
@@ -2577,8 +2541,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                     // errorText: 'Error message',
-                    labelText: textSetUnitQty,
+                    labelText: 'Units / $unit unit',
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
@@ -2587,17 +2555,21 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 142.0, bottom: 13),
+              Spacer(),
+              Container(
+                height: 65,
+                width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
+                    30) *
+                    (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
+                    30) *
+                    (1.4 / 4) - 8,
                 child: TextFormField(
-                  controller: jobController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                  controller: ageController,
+                  keyboardType: TextInputType.text,
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return ' This field is required ';
+                      return ' Required ';
                     }
                     // prodFieldsValue.add(value);
                     return null;
@@ -2616,12 +2588,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: currencyUnit,
+                    // suffixText: 'Required',
                     suffixStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
                       color: Colors.grey,
                       fontSize: 12,
-                      //fontFamily: 'capsulesans',
+                      fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
@@ -2634,7 +2605,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                       color: Colors.black,
                     ),
                     // errorText: 'Error message',
-                    labelText: textSetSalePrice,
+                    labelText: textSetUnitName,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
@@ -2644,6 +2615,150 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 3,),
+          RichText(
+            strutStyle: StrutStyle(
+              height: 1,
+              // fontSize:,
+              forceStrutHeight: true,
+            ),
+            text: new TextSpan(
+              children: [
+                new TextSpan(
+                  text:
+                  cards.length == 0 ?
+                  'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".':
+                  'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".'
+                  ,
+                  style: new TextStyle(
+                    fontSize: 12.5,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    height: 1.2,
+                    overflow: TextOverflow.ellipsis
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 17,
+          ),
+          Container(
+            height: 65,
+            child: TextFormField(
+              controller: priceController,
+              keyboardType: TextInputType.numberWithOptions(decimal: false),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                //suffixText: 'MMK',
+                // suffixStyle: TextStyle(
+                //   fontWeight: FontWeight.w500,
+                //   color: Colors.grey,
+                //   fontSize: 12,
+                //   //fontFamily: 'capsulesans',
+                // ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                // errorText: 'Error message',
+                labelText: textSetUnitQty,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 7,
+          ),
+          Container(
+            height: 65,
+            child: TextFormField(
+              controller: jobController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                suffixText: currencyUnit,
+                suffixStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 12,
+                  //fontFamily: 'capsulesans',
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                // errorText: 'Error message',
+                labelText: textSetSalePrice,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
           ),
         ],
       ),

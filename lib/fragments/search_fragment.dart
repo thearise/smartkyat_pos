@@ -3376,14 +3376,24 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                             },
                                             maxLines: 1,
                                             textAlign: TextAlign.left,
+                                            // style: TextStyle(
+                                            //     fontSize: 18,
+                                            //     fontWeight: FontWeight.w500,
+                                            //     color: Colors.black
+                                            // ),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             ),
+                                            strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.3
+                                            ),
 
                                             decoration: InputDecoration(
                                               hintText:textSetSearch,
+                                              // hintText: 'Search',
                                               isDense: true,
                                               // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
                                               enabledBorder: const OutlineInputBorder(
@@ -3403,6 +3413,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(10),
                                               ),
+                                              hintStyle: textSetSearch == 'Search' ?
+                                              TextStyle(
+                                                color: Colors.black.withOpacity(0.55)
+                                              ):
+                                              TextStyle(
+                                                color: Colors.black.withOpacity(0.55),
+                                                height: 1.38
+                                              )
+                                              ,
                                             ),
                                             keyboardType: TextInputType.text,
                                             onChanged: (value) {
