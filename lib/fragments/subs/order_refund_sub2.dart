@@ -73,13 +73,13 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetTtlRefund = 'Total refunds';
-          textSetTtlRefundAmount = 'Total refund amount';
-          textSetRefundBtn = 'Refund items';
+          textSetTtlRefund = 'ပြန်ပေးငွေ';
+          textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
+          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းများ';
         });
       } else if(value=='english') {
         setState(() {
-          textSetTtlRefund = 'Total refunds';
+          textSetTtlRefund = 'Current refund amount';
           textSetTtlRefundAmount = 'Total refund amount';
           textSetRefundBtn = 'Refund items';
         });

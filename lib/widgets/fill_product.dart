@@ -52,6 +52,19 @@ class _FillProductState extends State<FillProduct> {
       r'[0-9]';
 
   String currencyUnit = 'MMK';
+  String textSetRefill = 'Refill to inventory';
+  String textSetMainQty = 'PRICING & INVENTORY';
+  String textSetUnitQty = 'Unit quantity';
+  String textSetBuyPrice = 'Buy Price';
+  String textSetAddBuy = 'Add to Buy Cart';
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,7 +73,29 @@ class _FillProductState extends State<FillProduct> {
 
   @override
   initState() {
-    munitCtrl.text = '1';
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်';
+           textSetMainQty = 'PRICING & INVENTORY';
+           textSetUnitQty = 'အရေအတွက်';
+           textSetBuyPrice = 'ဝယ်ဈေး';
+           textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
+
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetRefill = 'Refill to inventory';
+           textSetMainQty = 'PRICING & INVENTORY';
+           textSetUnitQty = 'Unit quantity';
+           textSetBuyPrice = 'Buy Price';
+           textSetAddBuy = 'Add to Buy Cart';
+
+        });
+      }
+    });
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -174,7 +209,7 @@ class _FillProductState extends State<FillProduct> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                               child: Text(
-                                'Refill to inventory',
+                              textSetRefill,
                                 maxLines: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
@@ -211,7 +246,7 @@ class _FillProductState extends State<FillProduct> {
                                           alignment: Alignment.topLeft,
                                           padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
                                           child: Text(
-                                            "PRICING & INVENTORY",
+                                           textSetMainQty,
                                             style: TextStyle(
                                               letterSpacing: 1.5,
                                               fontWeight: FontWeight.bold,
@@ -291,7 +326,7 @@ class _FillProductState extends State<FillProduct> {
                                                 color: Colors.black,
                                               ),
 // errorText: 'Error message',
-                                              labelText: 'Unit Quantity',
+                                              labelText: textSetUnitQty,
                                               floatingLabelBehavior:
                                               FloatingLabelBehavior.auto,
 //filled: true
@@ -443,7 +478,7 @@ class _FillProductState extends State<FillProduct> {
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
                                         ),
-                                        labelText: 'Buy Price',
+                                        labelText: textSetBuyPrice,
                                         floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
 //filled: true

@@ -248,7 +248,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         setState(() {
           textSetAll = 'အားလုံး';
           textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTRefunds = 'ပြန်ပေး';
           textSetTPaid = 'ရှင်းပြီး';
         });
       }
@@ -557,11 +557,14 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                             child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                           ),
                                           SizedBox(width: 4),
-                                          Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.grey,
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                            child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -803,15 +806,18 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                             ),
                                             SizedBox(width: 8),
                                             Padding(
-                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                              padding:  EdgeInsets.only(bottom: 1.0),
                                               child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                             ),
                                             SizedBox(width: 4),
-                                            Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey,
+                                            Padding(
+                                              padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                              child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
                                             ),
                                           ],
