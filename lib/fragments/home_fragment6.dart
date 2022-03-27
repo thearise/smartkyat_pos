@@ -1998,6 +1998,10 @@ class HomeFragmentState extends State<HomeFragment>
                                               fontWeight: FontWeight.w500,
                                               color: Colors.Colors.black.withOpacity(0.55)
                                           ),
+                                          strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: textSetSearch == 'Search'? 1.6: 1.3
+                                          ),
                                         )
                                     ),
                                   ),
