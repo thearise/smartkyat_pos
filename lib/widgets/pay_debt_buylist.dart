@@ -39,6 +39,18 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
   final _formKey = GlobalKey<FormState>();
 
   String currencyUnit = 'MMK';
+  String textSetDebt = 'Debt Remaining';
+  String textSetCashRec = 'CASH RECEIVED';
+  String textSetCusPrice = 'Custom price';
+  String textSetDone = 'Done';
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,6 +59,24 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
   @override
   initState() {
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetDebt = 'ကျန်ငွေ';
+          textSetCashRec = 'လက်ခံရရှိငွေ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာ';
+          textSetDone = 'ပြီးပြီ';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetDebt = 'Debt Remaining';
+          textSetCashRec = 'CASH RECEIVED';
+          textSetCusPrice = 'Custom amount';
+          textSetDone = 'Done';
+        });
+      }
+    });
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -378,7 +408,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Debt remaining - $currencyUnit',
+                                  Text('$textSetDebt - $currencyUnit',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 20,
@@ -396,7 +426,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 ],
                               )),
                           SizedBox(height: 15),
-                          Text('CASH RECEIVED', style: TextStyle(
+                          Text(textSetCashRec, style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                             letterSpacing: 2,
@@ -442,7 +472,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 color: Colors.black,
                               ),
                               // errorText: 'Error message',
-                              labelText: 'Custom price',
+                              labelText: textSetCusPrice,
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                               //filled: true,
                               border: OutlineInputBorder(
@@ -673,7 +703,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               bottom: 2.0),
                           child: Container(
                             child: Text(
-                              'Done',
+                              textSetDone,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 18,
@@ -691,7 +721,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
             ),
             Container(
               color: Colors.white,
-              height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+              height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0 ? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
             ),
           ],
         ),
