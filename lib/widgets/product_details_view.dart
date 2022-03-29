@@ -354,7 +354,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
         setState(() {
           isEnglish = false;
           textSetAddtoCart = 'ရောင်းရန်\nစာရင်းထည့်';
-          textSetRefill =  'ကုန်းပစ္စည်း\nပြန်ဖြည့်ရန်';
+          textSetRefill =  'ကုန်ပစ္စည်း\nပြန်ဖြည့်ရန်';
           textSetAddLoss = 'ဆုံးရှုံးပစ္စည်း\nထည့်ရန်';
           textSetEdit = 'ပြင်ဆင်ရန်';
           textSetMainUnit = 'UNIT ITEM (MAIN)';

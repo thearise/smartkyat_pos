@@ -48,8 +48,6 @@ class EditProduct extends StatefulWidget {
   final String subExist;
   final String image;
 
-
-
   @override
   _EditProductState createState() => _EditProductState();
 }
@@ -77,17 +75,28 @@ class _EditProductState extends State<EditProduct> {
   bool prodAdding = false;
   bool disableTouch = false;
 
+  String textSetEdit = 'Edit product';
   String textSetProductInfo = 'PRODUCT INFORMATION';
   String textSetProdName = 'Product name';
   String textSetBarcode = 'Barcode';
   String textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-  String textSetSubUnit = 'SUB UNIT?';
   String textSetUnitQty = 'Unit quantity';
   String textSetUnitName = 'Unit name';
   String textSetBuyPrice = 'Buy price';
   String textSetSalePrice = 'Sale price';
+  String textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+  String textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+  String textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+  String textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
   String textSetRemove = 'REMOVE';
-  String textSetSaveProd = 'Save product';
+  String textSetUnitMain = 'Unit/main unit';
+  String textSetSaveProd = 'Save';
+  String textSetMoreUnit = 'More unit?';
+  String textSetUnitSub = 'Unit/sub1 unit';
+
+  bool unitLimit = false;
+
+  bool isEnglish = true;
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -145,31 +154,47 @@ class _EditProductState extends State<EditProduct> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetProductInfo = 'PRODUCT INFORMATION';
-          textSetProdName = 'Product name';
+          isEnglish = false;
+          textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
+          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+          textSetProdName = 'ပစ္စည်းအမည်';
           textSetBarcode = 'Barcode';
           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetSubUnit = 'SUB UNIT?';
-          textSetUnitQty = 'Unit quantity';
-          textSetUnitName = 'Unit name';
-          textSetBuyPrice = 'Buy price';
-          textSetSalePrice = 'Sale price';
-          textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Save product';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetUnitName = 'ယူနစ်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+          textSetRemove = 'ဖယ်ရှားပါ';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'သိမ်းဆည်းမည်';
+          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
+          textSetUnitSub = 'Unit/sub1 unit';
         });
       } else if(value=='english') {
         setState(() {
+          isEnglish = true;
+          textSetEdit = 'Edit product';
           textSetProductInfo = 'PRODUCT INFORMATION';
           textSetProdName = 'Product name';
           textSetBarcode = 'Barcode';
           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetSubUnit = 'SUB UNIT?';
           textSetUnitQty = 'Unit quantity';
           textSetUnitName = 'Unit name';
           textSetBuyPrice = 'Buy price';
           textSetSalePrice = 'Sale price';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
           textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Save product';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'Save';
+          textSetMoreUnit = 'More unit?';
+          textSetUnitSub = 'Unit/sub1 unit';
         });
       }
     });
@@ -276,12 +301,16 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                             Text(
-                              'Edit product',
+                             textSetEdit,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                               ),
+                                strutStyle: StrutStyle(
+                                  height: isEnglish? 1.4: 1.6,
+                                  forceStrutHeight: true,
+                                )
                             ),
                           ],
                         ),
@@ -307,6 +336,10 @@ class _EditProductState extends State<EditProduct> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,color: Colors.grey,
                               ),
+                                strutStyle: StrutStyle(
+                                  height: isEnglish? 1.4: 1.6,
+                                  forceStrutHeight: true,
+                                )
                             ),
                           ),
                           Padding(
@@ -484,32 +517,19 @@ class _EditProductState extends State<EditProduct> {
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: Row(
                               children: [
-                                Text(
-                                  'MAIN UNIT QUANTITY',
-                                  style: TextStyle(
-                                    letterSpacing: 1.5,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,color: Colors.grey,
+                                Expanded(
+                                  child: Text(
+                                    textSetMainUnitQty,
+                                    style: TextStyle(
+                                      letterSpacing: 1.5,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,color: Colors.grey,
+                                    ),
+                                      strutStyle: StrutStyle(
+                                        height: isEnglish? 1.4: 1.6,
+                                        forceStrutHeight: true,
+                                      )
                                   ),
-                                ),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    if(addSubUnit == 2 || subExist== '2') {
-                                      setState(() {
-                                        addSubUnit = 2;
-                                      });
-                                    } else { setState(() {
-                                      addSubUnit++;
-                                      //subExist = (int.parse(subExist) +1 ).toString();
-                                    }); }
-
-                                  },
-                                  child: Text('SUB UNIT?', style: TextStyle(
-                                    letterSpacing: 1.5,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,color: Colors.blue,
-                                  ),),
                                 ),
                               ],
                             ),
@@ -787,186 +807,26 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                           ),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == '1' ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == '1' ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
                           (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == '2' ? Column(
                             children: [
-                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
-                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
+                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
+                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
                             ],
                           ) : Container(),
 
-                          addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
-                          addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl) : Container(),
+                          addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2) : Container(),
                           addSubUnit == 2 && subExist == '0' ?
                           Column(
                             children: [
-                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
-                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
+                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
+                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
                             ],
                           ) : Container(),
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 5.0, right: 15.0, left:15.0, bottom: 15.0),
-                    //   child:  ButtonTheme(
-                    //     minWidth: MediaQuery.of(context).size.width,
-                    //     splashColor: Colors.transparent,
-                    //     height: 50,
-                    //     child: FlatButton(
-                    //       color: AppTheme.themeColor,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //         BorderRadius.circular(10.0),
-                    //         side: BorderSide(
-                    //           color: AppTheme.themeColor,
-                    //         ),
-                    //       ),
-                    //       onPressed: () async {
-                    //         if (_formKey.currentState!.validate()) {
-                    //           setState(() {
-                    //             prodAdding = true;
-                    //             disableTouch = true;
-                    //           });
-                    //           String subExistChange;
-                    //           String sub1Buy;
-                    //           String sub2Buy;
-                    //           var prodExist = false;
-                    //
-                    //           CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-                    //
-                    //           if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
-                    //             subExistChange = '1';
-                    //             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                    //             sub2Buy = '0';
-                    //           } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
-                    //             subExistChange = '2';
-                    //             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                    //             sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
-                    //           } else {
-                    //             subExistChange ='0';
-                    //             sub1Buy = '0';
-                    //             sub2Buy = '0';
-                    //           }
-                    //           productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
-                    //           querySnapshot) async {
-                    //             querySnapshot.docs
-                    //                 .forEach((doc) {
-                    //               prodExist = true;
-                    //             });
-                    //
-                    //             if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
-                    //               print('product already');
-                    //               var result =
-                    //               await showOkAlertDialog(
-                    //                 context: context,
-                    //                 title: 'Warning',
-                    //                 message:
-                    //                 'Product name already!',
-                    //                 okLabel: 'OK',
-                    //               );
-                    //               setState(() {
-                    //                 disableTouch = false;
-                    //                 prodAdding = false;
-                    //               });
-                    //             } else {
-                    //               if (assets.length == 0) {
-                    //                 productId.doc(widget.prodId).update({
-                    //                   'prod_name' : prodNameCtrl.text,
-                    //                   'bar_code' : barCodeCtrl.text,
-                    //                   'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                    //                   'unit_name' : mainUnitNameCtrl.text,
-                    //                   'buyPrice1' : mainBuyCtrl.text,
-                    //                   'unit_sell' : mainSellCtrl.text,
-                    //                   'sub_exist' : subExistChange,
-                    //                   'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                    //                   'sub1_link' : sub1perUnitCtrl.text,
-                    //                   'sub1_name' : sub1UnitNameCtrl.text,
-                    //                   'sub1_sell' : sub1SellCtrl.text,
-                    //                   'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                    //                   'sub2_link' : sub2perUnitCtrl.text,
-                    //                   'sub2_name' : sub2UnitNameCtrl.text,
-                    //                   'sub2_sell' : sub2SellCtrl.text,
-                    //                   'buyPrice2' : sub1Buy,
-                    //                   'buyPrice3' : sub2Buy,
-                    //                 }).then((value) {
-                    //                 }).catchError((error) => print("Failed to update: $error"));
-                    //
-                    //                 Future.delayed(const Duration(milliseconds: 2000), () {
-                    //                   setState(() {
-                    //                     prodAdding = false;
-                    //                     disableTouch = false;
-                    //                   });
-                    //                   Navigator.pop(context);
-                    //                   widget._openCartBtn();
-                    //                   smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                    //                 });
-                    //
-                    //                 // });
-                    //               } else {
-                    //                 for (int i = 0;
-                    //                 i < assets.length;
-                    //                 i++)
-                    //                 {
-                    //                   AssetEntity asset = assets.elementAt(i);
-                    //                   asset.originFile.then((value) async {
-                    //                     addProduct(value!, photoArray).then((value) {
-                    //                       photoArray = value.toString();
-                    //                       productId.doc(widget.prodId).update({
-                    //                         'prod_name' : prodNameCtrl.text,
-                    //                         'bar_code' : barCodeCtrl.text,
-                    //                         'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                    //                         'unit_name' : mainUnitNameCtrl.text,
-                    //                         'buyPrice1' : mainBuyCtrl.text,
-                    //                         'unit_sell' : mainSellCtrl.text,
-                    //                         'sub_exist' : subExistChange,
-                    //                         'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                    //                         'sub1_link' : sub1perUnitCtrl.text,
-                    //                         'sub1_name' : sub1UnitNameCtrl.text,
-                    //                         'sub1_sell' : sub1SellCtrl.text,
-                    //                         'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                    //                         'sub2_link' : sub2perUnitCtrl.text,
-                    //                         'sub2_name' : sub2UnitNameCtrl.text,
-                    //                         'sub2_sell' : sub2SellCtrl.text,
-                    //                         'buyPrice2' : sub1Buy,
-                    //                         'buyPrice3' : sub2Buy,
-                    //                         'img_1' : photoArray.toString(),
-                    //                       }).then((value){ Navigator.pop(context);
-                    //                       widget._openCartBtn();
-                    //                       setState(() {
-                    //                         prodAdding = false;
-                    //                         disableTouch = false;
-                    //                       });
-                    //                       Navigator.pop(context);
-                    //                       smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                    //                       }).catchError((error) => print("Failed to update: $error"));
-                    //                     }
-                    //                     );
-                    //                   });
-                    //                 }
-                    //               }  } });} },
-                    //       child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                    //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                    //         padding: const EdgeInsets.only(
-                    //             left: 5.0,
-                    //             right: 5.0,
-                    //             bottom: 2.0),
-                    //         child: Container(
-                    //           child: Text(
-                    //             'Save Product',
-                    //             textAlign: TextAlign.center,
-                    //             style: TextStyle(
-                    //                 fontSize: 18,
-                    //                 fontWeight: FontWeight.w600,
-                    //                 letterSpacing:-0.1
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
                   ],
                 ),
               ),
@@ -979,169 +839,235 @@ class _EditProductState extends State<EditProduct> {
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                      child:  ButtonTheme(
-                        minWidth: MediaQuery.of(context).size.width,
-                        splashColor: Colors.transparent,
-                        height: 50,
-                        child: FlatButton(
-                          color: AppTheme.themeColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(10.0),
-                            side: BorderSide(
-                              color: AppTheme.themeColor,
-                            ),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                prodAdding = true;
-                                disableTouch = true;
-                              });
-                              String subExistChange;
-                              String sub1Buy;
-                              String sub2Buy;
-                              var prodExist = false;
+                      child:  Column(
+                        children: [
+                          Row(
+                            children: [
+                              if(subExist != '2')
+                              if(!unitLimit)
+                                ButtonTheme(
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.buttonColor2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                    ),
+                                    onPressed: () async {
+                                      if(addSubUnit == 2 || subExist== '2') {
+                                        setState(() {
+                                          unitLimit = true;
+                                          addSubUnit = 2;
+                                        });
+                                      } else { setState(() {
+                                        addSubUnit++;
+                                      }); }
 
-                              CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-
-                              if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
-                                subExistChange = '1';
-                                sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                                sub2Buy = '0';
-                              } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
-                                subExistChange = '2';
-                                sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                                sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
-                              } else {
-                                subExistChange ='0';
-                                sub1Buy = '0';
-                                sub2Buy = '0';
-                              }
-                              productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
-                              querySnapshot) async {
-                                querySnapshot.docs
-                                    .forEach((doc) {
-                                  prodExist = true;
-                                });
-
-                                if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
-                                  print('product already');
-                                  var result =
-                                  await showOkAlertDialog(
-                                    context: context,
-                                    title: 'Warning',
-                                    message:
-                                    'Product name already!',
-                                    okLabel: 'OK',
-                                  );
-                                  setState(() {
-                                    disableTouch = false;
-                                    prodAdding = false;
-                                  });
-                                } else {
-                                  if (assets.length == 0) {
-                                    productId.doc(widget.prodId).update({
-                                      'prod_name' : prodNameCtrl.text,
-                                      'bar_code' : barCodeCtrl.text,
-                                      'inStock1' : double.parse(mainQtyCtrl.text.toString()),
-                                      'unit_name' : mainUnitNameCtrl.text,
-                                      'buyPrice1' : mainBuyCtrl.text,
-                                      'unit_sell' : mainSellCtrl.text,
-                                      'sub_exist' : subExistChange,
-                                      'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
-                                      'sub1_link' : sub1perUnitCtrl.text,
-                                      'sub1_name' : sub1UnitNameCtrl.text,
-                                      'sub1_sell' : sub1SellCtrl.text,
-                                      'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
-                                      'sub2_link' : sub2perUnitCtrl.text,
-                                      'sub2_name' : sub2UnitNameCtrl.text,
-                                      'sub2_sell' : sub2SellCtrl.text,
-                                      'buyPrice2' : sub1Buy,
-                                      'buyPrice3' : sub2Buy,
-                                      'update_time' : DateTime.now(),
-                                      'search_name': textSplitFunction(prodNameCtrl.text.toString()),
-                                    }).then((value) {
-                                    }).catchError((error) => print("Failed to update: $error"));
-
-                                    Future.delayed(const Duration(milliseconds: 2000), () {
-                                      setState(() {
-                                        prodAdding = false;
-                                        disableTouch = false;
-                                      });
-                                      Navigator.pop(context);
-                                      smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                    });
-
-                                    // });
-                                  } else {
-                                    for (int i = 0;
-                                    i < assets.length;
-                                    i++)
-                                    {
-                                      AssetEntity asset = assets.elementAt(i);
-                                      asset.originFile.then((value) async {
-                                        addProduct(value!, photoArray).then((value) {
-                                          photoArray = value.toString();
-                                          productId.doc(widget.prodId).update({
-                                            'prod_name' : prodNameCtrl.text,
-                                            'bar_code' : barCodeCtrl.text,
-                                            'inStock1' : double.parse(mainQtyCtrl.text.toString()),
-                                            'unit_name' : mainUnitNameCtrl.text,
-                                            'buyPrice1' : mainBuyCtrl.text,
-                                            'unit_sell' : mainSellCtrl.text,
-                                            'sub_exist' : subExistChange,
-                                            'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
-                                            'sub1_link' : sub1perUnitCtrl.text,
-                                            'sub1_name' : sub1UnitNameCtrl.text,
-                                            'sub1_sell' : sub1SellCtrl.text,
-                                            'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
-                                            'sub2_link' : sub2perUnitCtrl.text,
-                                            'sub2_name' : sub2UnitNameCtrl.text,
-                                            'sub2_sell' : sub2SellCtrl.text,
-                                            'buyPrice2' : sub1Buy,
-                                            'buyPrice3' : sub2Buy,
-                                            'img_1' : photoArray.toString(),
-                                            'update_time' : DateTime.now(),
-                                            'search_name': textSplitFunction(prodNameCtrl.text.toString()),
-                                          }).then((value){ Navigator.pop(context);
-                                          setState(() {
-                                            prodAdding = false;
-                                            disableTouch = false;
-                                          });
-                                          Navigator.pop(context);
-                                          smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                          }).catchError((error) => print("Failed to update: $error"));
-                                        }
-                                        );
-                                      });
-                                    }
-                                  }  } });} },
-                          child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                            padding: const EdgeInsets.only(
-                                left: 5.0,
-                                right: 5.0,
-                                bottom: 2.0),
-                            child: Container(
-                              child: Text(
-                                textSetSaveProd,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    height: 1.3,
-                                    fontSize: 17.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black
+                                      if(addSubUnit == 1 &&  subExist== '1' || addSubUnit == 2  &&  subExist== '0') {
+                                        setState(() {
+                                          unitLimit = true;
+                                        });
+                                      }
+                                    },
+                                    child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)) :
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 3.0),
+                                      child: Container(
+                                        child: Text(
+                                            textSetMoreUnit,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing:-0.1
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: isEnglish? 1.4: 1.6,
+                                              forceStrutHeight: true,
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                strutStyle: StrutStyle(
-                                  height: 1.3,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
+                              if(subExist != '2')
+                                if(!unitLimit)
+                                SizedBox(
+                                    width: 15.0
+                                ),
+                              Expanded(
+                                child: ButtonTheme(
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.themeColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: AppTheme.themeColor,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          prodAdding = true;
+                                          disableTouch = true;
+                                        });
+                                        String subExistChange;
+                                        String sub1Buy;
+                                        String sub2Buy;
+                                        var prodExist = false;
+
+                                        CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+
+                                        if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
+                                          subExistChange = '1';
+                                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                                          sub2Buy = '0';
+                                        } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
+                                          subExistChange = '2';
+                                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                                          sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
+                                        } else {
+                                          subExistChange ='0';
+                                          sub1Buy = '0';
+                                          sub2Buy = '0';
+                                        }
+                                        productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
+                                        querySnapshot) async {
+                                          querySnapshot.docs
+                                              .forEach((doc) {
+                                            prodExist = true;
+                                          });
+
+                                          if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
+                                            print('product already');
+                                            var result =
+                                            await showOkAlertDialog(
+                                              context: context,
+                                              title: 'Warning',
+                                              message:
+                                              'Product name already!',
+                                              okLabel: 'OK',
+                                            );
+                                            setState(() {
+                                              disableTouch = false;
+                                              prodAdding = false;
+                                            });
+                                          } else {
+                                            if (assets.length == 0) {
+                                              productId.doc(widget.prodId).update({
+                                                'prod_name' : prodNameCtrl.text,
+                                                'bar_code' : barCodeCtrl.text,
+                                                'inStock1' : double.parse(mainQtyCtrl.text.toString()),
+                                                'unit_name' : mainUnitNameCtrl.text,
+                                                'buyPrice1' : mainBuyCtrl.text,
+                                                'unit_sell' : mainSellCtrl.text,
+                                                'sub_exist' : subExistChange,
+                                                'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
+                                                'sub1_link' : sub1perUnitCtrl.text,
+                                                'sub1_name' : sub1UnitNameCtrl.text,
+                                                'sub1_sell' : sub1SellCtrl.text,
+                                                'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
+                                                'sub2_link' : sub2perUnitCtrl.text,
+                                                'sub2_name' : sub2UnitNameCtrl.text,
+                                                'sub2_sell' : sub2SellCtrl.text,
+                                                'buyPrice2' : sub1Buy,
+                                                'buyPrice3' : sub2Buy,
+                                                'update_time' : DateTime.now(),
+                                                'search_name': textSplitFunction(prodNameCtrl.text.toString()),
+                                              }).then((value) {
+                                              }).catchError((error) => print("Failed to update: $error"));
+
+                                              Future.delayed(const Duration(milliseconds: 2000), () {
+                                                setState(() {
+                                                  prodAdding = false;
+                                                  disableTouch = false;
+                                                });
+                                                Navigator.pop(context);
+                                                smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                              });
+
+                                              // });
+                                            } else {
+                                              for (int i = 0;
+                                              i < assets.length;
+                                              i++)
+                                              {
+                                                AssetEntity asset = assets.elementAt(i);
+                                                asset.originFile.then((value) async {
+                                                  addProduct(value!, photoArray).then((value) {
+                                                    photoArray = value.toString();
+                                                    productId.doc(widget.prodId).update({
+                                                      'prod_name' : prodNameCtrl.text,
+                                                      'bar_code' : barCodeCtrl.text,
+                                                      'inStock1' : double.parse(mainQtyCtrl.text.toString()),
+                                                      'unit_name' : mainUnitNameCtrl.text,
+                                                      'buyPrice1' : mainBuyCtrl.text,
+                                                      'unit_sell' : mainSellCtrl.text,
+                                                      'sub_exist' : subExistChange,
+                                                      'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
+                                                      'sub1_link' : sub1perUnitCtrl.text,
+                                                      'sub1_name' : sub1UnitNameCtrl.text,
+                                                      'sub1_sell' : sub1SellCtrl.text,
+                                                      'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
+                                                      'sub2_link' : sub2perUnitCtrl.text,
+                                                      'sub2_name' : sub2UnitNameCtrl.text,
+                                                      'sub2_sell' : sub2SellCtrl.text,
+                                                      'buyPrice2' : sub1Buy,
+                                                      'buyPrice3' : sub2Buy,
+                                                      'img_1' : photoArray.toString(),
+                                                      'update_time' : DateTime.now(),
+                                                      'search_name': textSplitFunction(prodNameCtrl.text.toString()),
+                                                    }).then((value){ Navigator.pop(context);
+                                                    setState(() {
+                                                      prodAdding = false;
+                                                      disableTouch = false;
+                                                    });
+                                                    Navigator.pop(context);
+                                                    smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                    }).catchError((error) => print("Failed to update: $error"));
+                                                  }
+                                                  );
+                                                });
+                                              }
+                                            }  } });} },
+                                    child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 2.0),
+                                      child: Container(
+                                        child: Text(
+                                          textSetSaveProd,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              height: 1.3,
+                                              fontSize: 17.5,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black
+                                          ),
+                                            strutStyle: StrutStyle(
+                                              height: isEnglish? 1.4: 1.6,
+                                              forceStrutHeight: true,
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -1216,7 +1142,7 @@ class _EditProductState extends State<EditProduct> {
 //     return respStr.toString();
 //   }
 
-  createCard(length, unit, controller1, controller2, controller3, controller4) {
+  createCard(length, unit, controller1, controller2, controller3, controller4, warning) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
@@ -1244,6 +1170,7 @@ class _EditProductState extends State<EditProduct> {
                   onTap: () {
                     if(addSubUnit == 2) {
                       setState(() {
+                        unitLimit = false;
                         sub2perUnitCtrl.clear();
                         sub2QtyCtrl.text = '0';
                         sub2SellCtrl.clear();
@@ -1254,6 +1181,7 @@ class _EditProductState extends State<EditProduct> {
                     } else if(addSubUnit == 0) {
                       if(subExist == '2') {
                         setState(() {
+                          unitLimit = false;
                           sub2perUnitCtrl.clear();
                           sub2QtyCtrl.text = '0';
                           sub2SellCtrl.clear();
@@ -1263,6 +1191,7 @@ class _EditProductState extends State<EditProduct> {
                         });} else
                       if(subExist == '1') {
                         setState(() {
+                          unitLimit = false;
                           sub1perUnitCtrl.clear();
                           sub1QtyCtrl.text = '0';
                           sub1SellCtrl.clear();
@@ -1273,6 +1202,7 @@ class _EditProductState extends State<EditProduct> {
                     } else if(addSubUnit == 1){
                       if(subExist == '1') {
                         setState(() {
+                          unitLimit = false;
                           sub2perUnitCtrl.clear();
                           sub2QtyCtrl.text = '0';
                           sub2SellCtrl.clear();
@@ -1283,6 +1213,7 @@ class _EditProductState extends State<EditProduct> {
                       }
                       if(subExist == '0') {
                         setState(() {
+                          unitLimit = false;
                           sub1perUnitCtrl.clear();
                           sub1QtyCtrl.text = '0';
                           sub1SellCtrl.clear();
@@ -1293,146 +1224,34 @@ class _EditProductState extends State<EditProduct> {
                       }}
                   },
                   child: Text(
-                    "REMOVE",
+                    textSetRemove,
                     style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,color: Colors.blue,
                     ),
+                      strutStyle: StrutStyle(
+                        height: isEnglish? 1.4: 1.6,
+                        forceStrutHeight: true,
+                      )
                   ),
                 ),
               ),
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 18,
           ),
-          Stack(
+          Row(
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
-                        (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
-                        30) *
-                        (2.6 / 4) - 8,
-                    child: TextFormField(
-                      controller: controller1,
-                      keyboardType: TextInputType.numberWithOptions(decimal: false),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(_getNum())),],
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return ' This field is required ';
-                        }
-                        // prodFieldsValue.add(value);
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.skBorderColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.themeColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                        contentPadding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        //suffixText: 'Required',
-                        suffixStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'capsulesans',
-                        ),
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
-                            height: 0.1
-                        ),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        // errorText: 'Error message',
-                        labelText: 'Units / $unit unit',
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        //filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
-                        30) *
-                        (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
-                        30) *
-                        (1.4 / 4) - 8,
-                    child: TextFormField(
-                      controller: controller2,
-                      keyboardType: TextInputType.name,
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return ' Required ';
-                        }
-                        // prodFieldsValue.add(value);
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.skBorderColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.themeColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                        contentPadding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        //suffixText: 'Required',
-                        suffixStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'capsulesans',
-                        ),
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
-                            height: 0.1
-                        ),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        // errorText: 'Error message',
-                        labelText: textSetUnitName,
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        //filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 71.0),
+              Container(
+                height: 65,
+                width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
+                    (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
+                    30) *
+                    (2.6 / 4) - 8,
                 child: TextFormField(
-                  controller: controller3,
+                  controller: controller1,
                   keyboardType: TextInputType.numberWithOptions(decimal: false),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(_getNum())),],
@@ -1458,16 +1277,11 @@ class _EditProductState extends State<EditProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    // suffixText: '$currencyUnit',
-                    // suffixStyle: TextStyle(
-                    //   fontWeight: FontWeight.w500,
-                    //   color: Colors.grey,
-                    //   fontSize: 12,
-                    //   //fontFamily: 'capsulesans',
-                    // ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                    //suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
@@ -1475,8 +1289,12 @@ class _EditProductState extends State<EditProduct> {
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                     // errorText: 'Error message',
-                    labelText: textSetUnitQty,
+                    labelText: 'Units / $unit unit',
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
@@ -1485,18 +1303,21 @@ class _EditProductState extends State<EditProduct> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 142.0, bottom: 13),
+              Spacer(),
+              Container(
+                height: 65,
+                width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
+                    30) *
+                    (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
+                    30) *
+                    (1.4 / 4) - 8,
                 child: TextFormField(
-                  controller: controller4,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-
+                  controller: controller2,
+                  keyboardType: TextInputType.name,
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return ' This field is required ';
+                      return ' Required ';
                     }
                     // prodFieldsValue.add(value);
                     return null;
@@ -1515,12 +1336,11 @@ class _EditProductState extends State<EditProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: '$currencyUnit',
+                    //suffixText: 'Required',
                     suffixStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
                       color: Colors.grey,
                       fontSize: 12,
-                      //fontFamily: 'capsulesans',
+                      fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
@@ -1533,7 +1353,7 @@ class _EditProductState extends State<EditProduct> {
                       color: Colors.black,
                     ),
                     // errorText: 'Error message',
-                    labelText: textSetSalePrice,
+                    labelText: textSetUnitName,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
@@ -1543,6 +1363,148 @@ class _EditProductState extends State<EditProduct> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 3,),
+          RichText(
+            strutStyle: StrutStyle(
+              height: 1,
+              // fontSize:,
+              forceStrutHeight: true,
+            ),
+            text: new TextSpan(
+              children: [
+                new TextSpan(
+                  text:
+                  warning,
+                  style: new TextStyle(
+                      fontSize: 12.5,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                      height: 1.2,
+                      overflow: TextOverflow.ellipsis
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 17,
+          ),
+          Container(
+            height: 65,
+            child: TextFormField(
+              controller: controller3,
+              keyboardType: TextInputType.numberWithOptions(decimal: false),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                // suffixText: '$currencyUnit',
+                // suffixStyle: TextStyle(
+                //   fontWeight: FontWeight.w500,
+                //   color: Colors.grey,
+                //   fontSize: 12,
+                //   //fontFamily: 'capsulesans',
+                // ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                // errorText: 'Error message',
+                labelText: textSetUnitQty,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 7,
+          ),
+          Container(
+            height: 65,
+            child: TextFormField(
+              controller: controller4,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                suffixText: '$currencyUnit',
+                suffixStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 12,
+                  //fontFamily: 'capsulesans',
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                // errorText: 'Error message',
+                labelText: textSetSalePrice,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
           ),
         ],
       ),

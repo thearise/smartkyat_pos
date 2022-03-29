@@ -68,16 +68,23 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   String textSetProdName = 'Product name';
   String textSetBarcode = 'Barcode';
   String textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-  String textSetSubUnit = 'SUB UNIT?';
   String textSetUnitQty = 'Unit quantity';
   String textSetUnitName = 'Unit name';
   String textSetBuyPrice = 'Buy price';
   String textSetSalePrice = 'Sale price';
+  String textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+  String textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+  String textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+  String textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
   String textSetRemove = 'REMOVE';
-  String textSetSaveProd = 'Add Product';
+  String textSetUnitMain = 'Unit/main unit';
+  String textSetSaveProd = 'Save as New Product';
+  String textSetMoreUnit = 'More unit?';
+  String textSetUnitSub = 'Unit/sub1 unit';
 
   bool unitLimit = false;
 
+  bool isEnglish = true;
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -119,31 +126,45 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetProductInfo = 'PRODUCT INFORMATION';
-          textSetProdName = 'Product name';
+          isEnglish = false;
+          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+          textSetProdName = 'ပစ္စည်းအမည်';
           textSetBarcode = 'Barcode';
           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetSubUnit = 'SUB UNIT?';
-          textSetUnitQty = 'Unit quantity';
-          textSetUnitName = 'Unit name';
-          textSetBuyPrice = 'Buy price';
-          textSetSalePrice = 'Sale price';
-          textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Add Product';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetUnitName = 'ယူနစ်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+          textSetRemove = 'ဖယ်ရှားပါ';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'ပစ္စည်းအသစ် မှတ်';
+          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
+          textSetUnitSub = 'Unit/sub1 unit';
         });
       } else if(value=='english') {
         setState(() {
+          isEnglish = true;
           textSetProductInfo = 'PRODUCT INFORMATION';
           textSetProdName = 'Product name';
           textSetBarcode = 'Barcode';
           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetSubUnit = 'SUB UNIT?';
           textSetUnitQty = 'Unit quantity';
           textSetUnitName = 'Unit name';
           textSetBuyPrice = 'Buy price';
           textSetSalePrice = 'Sale price';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
           textSetRemove = 'REMOVE';
-          textSetSaveProd = 'Add Product';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'Save as New Product';
+          textSetMoreUnit = 'More unit?';
+          textSetUnitSub = 'Unit/sub1 unit';
         });
       }
     });
@@ -811,6 +832,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,color: Colors.grey,
                                       ),
+                                        strutStyle: StrutStyle(
+                                          height: isEnglish? 1.4: 1.6,
+                                          forceStrutHeight: true,
+                                        ),
                                     ),
                                   ),
                                   SizedBox(
@@ -1049,40 +1074,16 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: Row(
                                               children: [
                                                 Expanded(
-                                                  child: Text('MAIN UNIT QUANTITY', style: TextStyle(
+                                                  child: Text(textSetMainUnitQty, style: TextStyle(
                                                     letterSpacing: 1.5,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14,color: Colors.grey,
-                                                  ),),
+                                                  ),
+                                                      strutStyle: StrutStyle(
+                                                        height: isEnglish? 1.4: 1.6,
+                                                        forceStrutHeight: true,
+                                                      )),
                                                 ),
-                                                // GestureDetector(
-                                                //   onTap: () {
-                                                //     // final result =
-                                                //     // await showModalActionSheet<String>(
-                                                //     //     context: context,
-                                                //     //     actions: [
-                                                //     //      SheetAction(
-                                                //     //           icon: Icons.info,
-                                                //     //           label: 'Type One',
-                                                //     //           key: 'type_one'),
-                                                //     //       SheetAction(
-                                                //     //           icon: Icons.info,
-                                                //     //           label: 'Type Two',
-                                                //     //           key: 'type_two'),
-                                                //     //     ]
-                                                //     // );
-                                                //     if(cards.length == 0) {
-                                                //       setState(() => cards.add(createCard('main')));
-                                                //     } else if(cards.length == 1) {
-                                                //       setState(() => cards.add(createCard('sub1')));
-                                                //     } else print('sub limit reached');
-                                                //   },
-                                                //   child: Text(textSetSubUnit, style: TextStyle(
-                                                //     letterSpacing: 1.5,
-                                                //     fontWeight: FontWeight.bold,
-                                                //     fontSize: 14,color: Colors.blue,
-                                                //   ),),
-                                                // )
                                               ],
                                             ),
                                           ),
@@ -1379,51 +1380,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             padding: const EdgeInsets.only(top: 403.0),
                                             child: Column(
                                               children: <Widget>[
-                                                // Padding(
-                                                //     padding: const EdgeInsets.only(
-                                                //         left: 15.0, right: 15.0),
-                                                //     child: ButtonTheme(
-                                                //       splashColor: Colors.transparent,
-                                                //       minWidth:
-                                                //           MediaQuery.of(context).size.width,
-                                                //       height: 54,
-                                                //       child: FlatButton(
-                                                //         color: AppTheme.secButtonColor,
-                                                //         shape: RoundedRectangleBorder(
-                                                //           borderRadius:
-                                                //               BorderRadius.circular(10.0),
-                                                //         ),
-                                                //         onPressed: () async {
-                                                //           // final result =
-                                                //           // await showModalActionSheet<String>(
-                                                //           //     context: context,
-                                                //            //     actions: [
-                                                //           //      SheetAction(
-                                                //           //           icon: Icons.info,
-                                                //           //           label: 'Type One',
-                                                //           //           key: 'type_one'),
-                                                //           //       SheetAction(
-                                                //           //           icon: Icons.info,
-                                                //           //           label: 'Type Two',
-                                                //           //           key: 'type_two'),
-                                                //           //     ]
-                                                //           // );
-                                                //
-                                                //           if (cards.length == 2) {
-                                                //     print('Cards limit reached');
-                                                //     } else
-                                                //             setState(() => cards.add(createCard()));
-                                                //         },
-                                                //         child: Text(
-                                                //           'Add sub unit',
-                                                //           style: TextStyle(
-                                                //             fontSize: 16.5,
-                                                //             fontWeight: FontWeight.w600,
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     )
-                                                // ),
                                                 ListView.builder(
                                                   shrinkWrap: true,
                                                   physics: NeverScrollableScrollPhysics(),
@@ -1489,7 +1445,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         setState(() {
                                           unitLimit = true;
                                         });
-                                      };
+                                      }
                                     },
                                     child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                         child: CupertinoActivityIndicator(radius: 10,)) :
@@ -1500,13 +1456,17 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           bottom: 3.0),
                                       child: Container(
                                         child: Text(
-                                          'More unit?',
+                                         textSetMoreUnit,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
                                               letterSpacing:-0.1
                                           ),
+                                              strutStyle: StrutStyle(
+                                              height: isEnglish? 1.4: 1.6,
+                                              forceStrutHeight: true,
+                                            )
                                         ),
                                       ),
                                     ),
@@ -1988,19 +1948,24 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             bottom: 3.0),
                                         child: Container(
                                           child: Text(
-                                            'Add product',
+                                            textSetSaveProd,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
                                                 letterSpacing:-0.1
                                             ),
+                                                strutStyle: StrutStyle(
+                                                height: isEnglish? 1.4: 1.6,
+                                                forceStrutHeight: true,
+                                              )
+
+                                              )
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ],
@@ -2467,11 +2432,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     });
                   },
                   child: Text(
-                    "REMOVE",
+                   textSetRemove,
                     style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,color: Colors.blue,
+                    ),
+                    strutStyle: StrutStyle(
+                      height: isEnglish? 1.4: 1.6,
+                      forceStrutHeight: true,
                     ),
                   ),
                 ),
@@ -2628,9 +2597,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 new TextSpan(
                   text:
                   cards.length == 0 ?
-                  'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".':
-                  'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".'
-                  ,
+                      textSetWarning: textSetWarning2,
                   style: new TextStyle(
                     fontSize: 12.5,
                     color: Colors.grey,
@@ -2845,6 +2812,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                 fontSize: 17,
                                 fontFamily: 'capsulesans',
                                 fontWeight: FontWeight.w600),
+                            strutStyle: StrutStyle(
+                              height: isEnglish? 1.4: 1.6,
+                              forceStrutHeight: true,
+                            ),
                             textAlign: TextAlign.left,
                           ),
                           Container(
