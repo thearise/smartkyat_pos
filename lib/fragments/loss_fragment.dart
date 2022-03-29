@@ -38,7 +38,7 @@ getDeviceId() async {
 
 class _LossProductState extends State<LossProduct> {
 
-  String currencyUnit = 'MMK';
+
 
   String _getRegexString() =>
       r'[0-9]+[,.]{0,1}[0-9]*';
@@ -46,14 +46,55 @@ class _LossProductState extends State<LossProduct> {
   String _getNum() =>
       r'[0-9]';
 
+  String currencyUnit = 'MMK';
+  String textSetAddLoss = 'Add loss item';
+  String textSetLossInventory = 'LOSS IN INVENTORY';
+  String textSetLossQty = 'Loss quantity';
+  String textSetBuyPrice = 'Buy price';
+  String textSetSave = 'Save Loss Product';
+
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('lang') == null) {
+      return 'english';
+    }
+  return prefs.getString('lang');
+}
+
+  bool isEnglish = true;
+
   @override
   initState() {
     lossAmount.text = '1';
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          isEnglish = false;
+           textSetAddLoss = 'ဆုံးရှုံးပစ္စည်းထည့်ရန်';
+           textSetLossInventory = 'LOSS IN INVENTORY';
+           textSetLossQty = 'အရေအတွက်';
+           textSetBuyPrice = 'ဝယ်ဈေး';
+           textSetSave = 'သိမ်းဆည်းမည်';
+        });
+      } else if(value =='english') {
+        setState(() {
+          isEnglish = true;
+          textSetAddLoss = 'Add loss item';
+          textSetLossInventory = 'LOSS IN INVENTORY';
+          textSetLossQty = 'Loss quantity';
+          textSetBuyPrice = 'Buy price';
+          textSetSave = 'Save';
+
+        });
+      }
+    });
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -178,12 +219,16 @@ class _LossProductState extends State<LossProduct> {
                                         ),
                                       ),
                                       Text(
-                                        'Add loss item',
+                                       textSetAddLoss,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
+                                          strutStyle: StrutStyle(
+                                            height: isEnglish? 1.4: 1.6,
+                                            forceStrutHeight: true,
+                                          )
                                       ),
                                     ],
                                   )
@@ -206,13 +251,17 @@ class _LossProductState extends State<LossProduct> {
                                           alignment: Alignment.topLeft,
                                           padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
                                           child: Text(
-                                            "LOSS IN INVENTORY",
+                                           textSetLossInventory,
                                             style: TextStyle(
                                                 letterSpacing: 1.5,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14, color: Colors.grey,
                                                 height: 0.9
                                             ),
+                                              strutStyle: StrutStyle(
+                                                height: isEnglish? 1.4: 1.6,
+                                                forceStrutHeight: true,
+                                              )
                                           ),
                                         ),
                                       ),
@@ -285,7 +334,7 @@ class _LossProductState extends State<LossProduct> {
                                                 color: Colors.black,
                                               ),
 // errorText: 'Error message',
-                                              labelText: 'Loss Quantity',
+                                              labelText: textSetLossQty,
                                               floatingLabelBehavior:
                                               FloatingLabelBehavior.auto,
 //filled: true
@@ -370,7 +419,7 @@ class _LossProductState extends State<LossProduct> {
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
                                         ),
-                                        labelText: 'Buy Price',
+                                        labelText: textSetBuyPrice,
                                         floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
 //filled: true
@@ -462,7 +511,6 @@ class _LossProductState extends State<LossProduct> {
                                             //     .catchError((error) =>
                                             //     print(
                                             //         "Failed to update datenotexist: $error"));
-                                            Navigator.pop(context);
                                             // unit = 'loss1';
                                             // buyPriceUnit = 'buyPrice1';
                                           }
@@ -483,7 +531,6 @@ class _LossProductState extends State<LossProduct> {
                                             //     .catchError((error) =>
                                             //     print(
                                             //         "Failed to update datenotexist: $error"));
-                                            Navigator.pop(context);
                                           }
                                           else if (widget.prodID.split('-')[3] == 'sub2_name') {
                                             batch = await sub2Execution(batch, subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString(), docSnapshot10);
@@ -499,7 +546,7 @@ class _LossProductState extends State<LossProduct> {
                                             //     .catchError((error) =>
                                             //     print(
                                             //         "Failed to update datenotexist: $error"));
-                                            Navigator.pop(context);
+
                                             // unit = 'loss3';
                                             // buyPriceUnit = 'buyPrice3';
                                           }
@@ -598,6 +645,7 @@ class _LossProductState extends State<LossProduct> {
                                               }
                                               batch.commit();
                                                 }); });
+                                          Navigator.pop(context);
                                         }
                                       });
                                       }
@@ -610,13 +658,17 @@ class _LossProductState extends State<LossProduct> {
                                         bottom: 2.0),
                                     child: Container(
                                       child: Text(
-                                        'Save loss product',
+                                        textSetSave,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing:-0.1
                                         ),
+                                          strutStyle: StrutStyle(
+                                            height: isEnglish? 1.4: 1.6,
+                                            forceStrutHeight: true,
+                                          )
                                       ),
                                     ),
                                   ),
