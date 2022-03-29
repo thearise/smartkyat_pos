@@ -156,15 +156,28 @@ class _EndOfProServiceState extends State<EndOfProService>
                                             SizedBox(height: 40),
                                             Center(
                                               child: Text(
-                                                  'You are on pro version', style: TextStyle(
+                                                  'Your pro version has ended', style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 26,
                                                   letterSpacing: -0.4
-                                              )),
+                                              ),
+                                                strutStyle: StrutStyle(
+                                                  height: 2.2,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
+                                                ),
+                                              ),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(top: 20.0),
-                                              child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.', style: TextStyle( fontSize: 14),),
+                                              child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.',
+                                                style: TextStyle( fontSize: 14),
+                                                strutStyle: StrutStyle(
+                                                  height: 1.2,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -194,13 +207,25 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 18,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.5,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 5),
                                                 Text('10,000 Kyats /month', style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.2,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 22),
                                               ],
                                             ),
@@ -230,13 +255,25 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 18,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.5,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 5),
                                                 Text('8,000 Kyats /month', style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.2,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 22),
                                               ],
                                             ),
@@ -266,13 +303,25 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 18,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.5,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 5),
                                                 Text('7,000 Kyats /month', style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
                                                     letterSpacing: -0.3
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.2,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                                 SizedBox(height: 22),
                                               ],
                                             ),
@@ -309,7 +358,13 @@ class _EndOfProServiceState extends State<EndOfProService>
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18,
                                               letterSpacing: -0.3
-                                          )),
+                                          ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.5,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
                                         ),
                                         subtitle: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,14 +383,26 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                 child: Text('You can contact us now to purchase above plans.', style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15, color: Colors.black,
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.35,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             SizedBox(height: 10),
                                             Text('Call now', style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 17, color: Colors.blue,
-                                            )),
+                                            ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
                                             SizedBox(height: 10),
                                           ],
                                         ),
@@ -364,7 +431,13 @@ class _EndOfProServiceState extends State<EndOfProService>
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18,
                                               letterSpacing: -0.3
-                                          )),
+                                          ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.5,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
                                         ),
                                         subtitle: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,14 +456,26 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                 child: Text('You can contact us now to purchase above plans (delay response).', style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15, color: Colors.black,
-                                                )),
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.35,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             SizedBox(height: 10),
                                             Text('Messenger', style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 17, color: Colors.blue,
-                                            )),
+                                            ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
                                             SizedBox(height: 10),
                                           ],
                                         ),
@@ -424,7 +509,14 @@ class _EndOfProServiceState extends State<EndOfProService>
                             },
                             child: Row(
                               children: [
-                                Text('Switch shop', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),),
+                                Text('Switch shop',
+                                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
+                                  strutStyle: StrutStyle(
+                                    height: 1.2,
+                                    // fontSize:,
+                                    forceStrutHeight: true,
+                                  ),
+                                ),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: Colors.blue,
