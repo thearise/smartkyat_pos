@@ -18,9 +18,9 @@ class FillProduct extends StatefulWidget {
       {Key? key,
       required this.idString, required this.unitname, required this.shopId,
       required void toggleCoinCallback(String str),
-      required void toggleCoinCallback3(String str),})
-      : _callback = toggleCoinCallback,
-        _callback3 = toggleCoinCallback3;
+      required void toggleCoinCallback3(String str),
+      }) : _callback = toggleCoinCallback,
+           _callback3 = toggleCoinCallback3;
   final String idString;
   final String unitname;
   final String shopId;
@@ -71,13 +71,16 @@ class _FillProductState extends State<FillProduct> {
     return prefs.getString('currency');
   }
 
+  bool isEnglish = true;
+
   @override
   initState() {
 
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်';
+          isEnglish = false;
+          textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်ရန်';
            textSetMainQty = 'PRICING & INVENTORY';
            textSetUnitQty = 'အရေအတွက်';
            textSetBuyPrice = 'ဝယ်ဈေး';
@@ -86,6 +89,7 @@ class _FillProductState extends State<FillProduct> {
         });
       } else if(value=='english') {
         setState(() {
+          isEnglish = true;
           textSetRefill = 'Refill to inventory';
            textSetMainQty = 'PRICING & INVENTORY';
            textSetUnitQty = 'Unit quantity';
@@ -218,11 +222,10 @@ class _FillProductState extends State<FillProduct> {
                                   overflow: TextOverflow.ellipsis,
                                   // height: 1.3
                                 ),
-                                strutStyle: StrutStyle(
-                                  height: 1.7,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
-                                ),
+                                  strutStyle: StrutStyle(
+                                    height: isEnglish? 1.4: 1.6,
+                                    forceStrutHeight: true,
+                                  )
                               ),
                             ),
                           ],
@@ -253,6 +256,10 @@ class _FillProductState extends State<FillProduct> {
                                               fontSize: 14, color: Colors.grey,
                                               height: 0.9
                                             ),
+                                              strutStyle: StrutStyle(
+                                                height: isEnglish? 1.4: 1.6,
+                                                forceStrutHeight: true,
+                                              )
                                           ),
                                         ),
                                       ),
@@ -325,6 +332,7 @@ class _FillProductState extends State<FillProduct> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black,
                                               ),
+
 // errorText: 'Error message',
                                               labelText: textSetUnitQty,
                                               floatingLabelBehavior:
@@ -603,13 +611,17 @@ class _FillProductState extends State<FillProduct> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                'Add to Buy Cart',
+                               textSetAddBuy,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing:-0.1
                                 ),
+                                  strutStyle: StrutStyle(
+                                    height: isEnglish? 1.4: 1.6,
+                                    forceStrutHeight: true,
+                                  )
                               ),
                             ),
                           ),

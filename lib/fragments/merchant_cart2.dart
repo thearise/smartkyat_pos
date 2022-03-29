@@ -2836,6 +2836,21 @@ class MerchantCartState extends State<MerchantCart>
         });
   }
 
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult.toLowerCase());
+      }
+      intResult = '';
+    }
+    return result;
+  }
+
   updateOrderLength(WriteBatch batch){
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId);
     batch.update(documentReference, {'buyOrders_length': FieldValue.increment(1)});
@@ -2902,7 +2917,8 @@ class MerchantCartState extends State<MerchantCart>
       'documentId' : docId,
       'refund_filter' : reF,
       'debt_filter' : deF,
-      'dateTime' : dateTime.toString()
+      'dateTime' : dateTime.toString(),
+      'search_name' : textSplitFunction(length.toString()),
     });
     return batch;
   }
