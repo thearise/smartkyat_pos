@@ -310,7 +310,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                           .collection('merchants')
                                           .doc(widget.data
                                           .split('^')[3]
-                                          .split('&')[1])
+                                          .split('&')[widget.data.split('^')[3].split('&').length-1])
                                           .snapshots(),
                                       builder:
                                           (BuildContext context, snapshot2) {

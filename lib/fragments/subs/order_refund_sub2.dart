@@ -143,9 +143,10 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                           .collection('customers')
                           .doc(widget.data
                           .split('^')[3]
-                          .split('&')[1])
+                          .split('&')[widget.data.split('^')[3].split('&').length-1])
                           .snapshots(),
                     builder: (BuildContext context, snapshot3) {
+                        print('item check 7 ' + widget.data.split('^')[3]);
                       if (snapshot3.hasData) {
                         var output1 = snapshot3.data!.data();
                         var mainUnit =

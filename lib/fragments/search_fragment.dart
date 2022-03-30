@@ -2334,6 +2334,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                     );
                                   } else {
+                                    print('item detail list ' + item);
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
