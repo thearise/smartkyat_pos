@@ -316,16 +316,16 @@ class _BuyListRefundState extends State<BuyListRefund>
                     stream: FirebaseFirestore.instance
                         .collection('shops')
                         .doc(widget.shopId)
-                        .collection('customers')
+                        .collection('merchants')
                         .doc(widget.data
                         .split('^')[3]
-                        .split('&')[1])
+                        .split('&')[widget.data.split('^')[3].split('&').length-1])
                         .snapshots(),
                     builder: (BuildContext context, snapshot3) {
                       if (snapshot3.hasData) {
                         var output1 = snapshot3.data!.data();
                         var mainUnit =
-                        output1?['customer_name'];
+                        output1?['merchant_name'];
                         return Top80AppBar('#' +
                             widget.data.split('^')[1] + ' (' + mainUnit + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'));
                       }
