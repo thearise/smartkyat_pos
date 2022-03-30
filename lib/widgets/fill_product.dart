@@ -16,7 +16,7 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-      required this.idString, required this.unitname, required this.shopId,
+      required this.idString, required this.unitname, required this.shopId, required this.price1, required this.price2, required this.price3,
       required void toggleCoinCallback(String str),
       required void toggleCoinCallback3(String str),
       }) : _callback = toggleCoinCallback,
@@ -24,6 +24,9 @@ class FillProduct extends StatefulWidget {
   final String idString;
   final String unitname;
   final String shopId;
+  final String price1;
+  final String price2;
+  final String price3;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -37,12 +40,10 @@ class _FillProductState extends State<FillProduct> {
   static List<String> prodFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
 
-  final pnameCtrl = TextEditingController();
-  final bcodeCtrl = TextEditingController();
+
   final munitCtrl = TextEditingController();
-  final mnameCtrl = TextEditingController();
+
   final msaleCtrl = TextEditingController();
-  final mcostCtrl = TextEditingController();
   bool prodAdding = false;
 
   String _getRegexString() =>
@@ -76,6 +77,9 @@ class _FillProductState extends State<FillProduct> {
   @override
   initState() {
 
+    munitCtrl.text = '1';
+    msaleCtrl.text = priceUnit();
+
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -87,7 +91,8 @@ class _FillProductState extends State<FillProduct> {
            textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
 
         });
-      } else if(value=='english') {
+      }
+      else if(value=='english') {
         setState(() {
           isEnglish = true;
           textSetRefill = 'Refill to inventory';
@@ -105,7 +110,8 @@ class _FillProductState extends State<FillProduct> {
         setState(() {
           currencyUnit = 'USD';
         });
-      } else if(value == 'Myanmar Kyat (MMK)') {
+      }
+      else if(value == 'Myanmar Kyat (MMK)') {
         setState(() {
           currencyUnit = 'MMK';
         });
@@ -116,16 +122,26 @@ class _FillProductState extends State<FillProduct> {
 
   @override
   void dispose() {
+    munitCtrl.clear();
+    msaleCtrl.clear();
     super.dispose();
   }
 
+  priceUnit() {
+    String buyPrice = '';
+    if( widget.unitname == 'unit_name') {
+      buyPrice = widget.price1;
+    } else if(widget.unitname == 'sub1_name') {
+      buyPrice = widget.price2;
+    } else buyPrice = widget.price3;
+    return buyPrice;
+  }
 
 
   bool firstTime = true;
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -149,8 +165,6 @@ class _FillProductState extends State<FillProduct> {
     var mainName = output1?[widget.unitname];
     var image = output1?['img_1'];
     print('widget che ' + widget.unitname.toString());
-    String buyPrice = output1?['buyPrice' + buySubCheck(widget.unitname)];
-    msaleCtrl.text = buyPrice;
     return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
