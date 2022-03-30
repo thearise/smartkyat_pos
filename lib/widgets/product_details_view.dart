@@ -717,7 +717,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   idString: widget.idString,
                                                                   toggleCoinCallback: addProduct2,
                                                                   toggleCoinCallback3: addProduct3,
-                                                                  unitname: 'unit_name', shopId: widget.shopId,
+                                                                  unitname: 'unit_name', shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
                                                                 )));
                                                         widget._openCartBtn();
                                                       } else {
@@ -756,7 +756,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
                                                                     toggleCoinCallback3: addProduct3,
-                                                                    unitname: result, shopId: widget.shopId,
+                                                                    unitname: result, shopId: widget.shopId,price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
                                                                   )));
                                                           widget._openCartBtn();
                                                         }

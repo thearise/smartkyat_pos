@@ -95,6 +95,7 @@ class MerchantCartState extends State<MerchantCart>
     merchId = widget.merchantId.split('^')[1];
     merchRealId = widget.merchantId.split('^')[0];
     print('initializing ' + widget.prodList2.toString());
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -2547,9 +2548,6 @@ class MerchantCartState extends State<MerchantCart>
                                                 'date');
                                         print('subList2 init ' + subList2.toString());
 
-                                        List<String> subLink = [];
-                                        List<String> subName = [];
-                                        List<double> subStock = [];
 
                                         var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
 
@@ -2557,76 +2555,43 @@ class MerchantCartState extends State<MerchantCart>
                                           Map<String,
                                               dynamic>? data10 = docSnapshot10
                                               .data();
-
-                                          for (int i = 0; i < int.parse(
-                                              data10 ? ["sub_exist"]) +
-                                              1; i++) {
-                                            subLink.add(data10 ? ['sub' +
-                                                (i + 1).toString() + '_link']);
-                                            subName.add(data10 ? ['sub' +
-                                                (i + 1).toString() + '_name']);
-                                            print(
-                                                'inStock' + (i + 1).toString());
-                                            subStock.add(double.parse(
-                                                (data10 ? ['inStock' +
-                                                    (i + 1).toString()])
-                                                    .toString()));
-                                          }
-                                        }
+                                          double subExist = double.parse(data10 ? ["sub_exist"]);
+                                          String sub1Buy = '';
+                                          String sub2Buy = '';
 
                                         if (str.split('^')[4] == 'unit_name') {
 
-                                          batch = await updateProduct(batch, str.split('^')[0], 'inStock1', 'buyPrice1', str.split('^')[2], str.split('^')[1]);
-                                          // prods.doc(
-                                          //     str.split('^')[0])
-                                          //     .update({
-                                          //   'inStock1': FieldValue.increment(
-                                          //       double.parse(str.split('^')[2]
-                                          //           .toString())),
-                                          //   'buyPrice1': str.split('^')[1]
-                                          //       .toString(),
-                                          // })
-                                          //     .then((value) =>
-                                          //     print("User Updated"))
-                                          //     .catchError((error) => print(
-                                          //     "Failed to update user: $error"));
+                                          if(subExist == 1) {
+                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(data10 ? ["sub1_link"])).toString();
+                                            sub2Buy = '';
+                                          } else if(subExist == 2) {
+                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(data10 ? ["sub1_link"])).toString();
+                                            sub2Buy = ((double.parse(str.split('^')[1])/ double.parse(data10 ? ["sub1_link"])) / double.parse(data10 ? ["sub2_link"])).toString();
+                                          } else {
+                                            sub1Buy = '';
+                                            sub2Buy = '';
+                                          }
+                                          batch = await updateProduct1(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy, sub2Buy);
+
                                         }
                                         else
                                         if (str.split('^')[4] == 'sub1_name') {
-                                          batch = await updateProduct(batch, str.split('^')[0], 'inStock2', 'buyPrice2', str.split('^')[2], str.split('^')[1]);
 
-                                          // prods.doc(
-                                          //     str.split('^')[0])
-                                          //     .update({
-                                          //   'inStock2': FieldValue.increment(
-                                          //       double.parse(str.split('^')[2]
-                                          //           .toString())),
-                                          //   'buyPrice2': str.split('^')[1]
-                                          //       .toString(),
-                                          // })
-                                          //     .then((value) =>
-                                          //     print("User Updated"))
-                                          //     .catchError((error) => print(
-                                          //     "Failed to update user: $error"));
+                                          if(subExist == 2) {
+                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(data10 ? ["sub2_link"])).toString();
+                                          } else {
+                                            sub1Buy = '';
+                                          }
+
+                                          batch = await updateProduct2(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy);
+
                                         } else
                                         if (str.split('^')[4] == 'sub2_name') {
-                                          batch = await updateProduct(batch, str.split('^')[0], 'inStock3', 'buyPrice3', str.split('^')[2], str.split('^')[1]);
+                                          batch = await updateProduct3(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1]);
 
-                                          // prods.doc(
-                                          //     str.split('^')[0])
-                                          //     .update({
-                                          //   'inStock3': FieldValue.increment(
-                                          //       double.parse(str.split('^')[2]
-                                          //           .toString())),
-                                          //   'buyPrice3': str.split('^')[1]
-                                          //       .toString(),
-                                          // })
-                                          //     .then((value) =>
-                                          //     print("User Updated"))
-                                          //     .catchError((error) => print(
-                                          //     "Failed to update user: $error"));
                                         }
 
+                                      }
                                       }
 
                                       if(debt2.toString() != '0.0') {
@@ -2857,11 +2822,33 @@ class MerchantCartState extends State<MerchantCart>
     return batch;
   }
 
-  updateProduct(WriteBatch batch, id, field1, field2, amount, price){
+  updateProduct1(WriteBatch batch, id, amount, price, price2, price3){
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
     batch.update(documentReference, {
-      field1: FieldValue.increment(double.parse(amount.toString())),
-      field2: price.toString(),});
+      'inStock1' : FieldValue.increment(double.parse(amount.toString())),
+      'buyPrice1' : price.toString(),
+      'buyPrice2': price2.toString(),
+      'buyPrice3': price3.toString(),
+    });
+    return batch;
+  }
+
+  updateProduct2(WriteBatch batch, id,  amount, price,  price2){
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
+    batch.update(documentReference, {
+      'inStock2' : FieldValue.increment(double.parse(amount.toString())),
+      'buyPrice2': price.toString(),
+      'buyPrice3': price2.toString(),
+    });
+    return batch;
+  }
+
+  updateProduct3(WriteBatch batch, id, amount, price){
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
+    batch.update(documentReference, {
+      'inStock3' : FieldValue.increment(double.parse(amount.toString())),
+      'buyPrice3': price.toString(),
+    });
     return batch;
   }
 

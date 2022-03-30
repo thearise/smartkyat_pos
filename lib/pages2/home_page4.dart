@@ -417,11 +417,11 @@ class HomePageState extends State<HomePage>
           textSetItemSet = 'item set';
           textSetItemSets = 'item sets';
           textSetNoCust = 'No customer';
-          textSetCashRec = 'CASH RECEIVED';
-          textSetCusPrice = 'Custom price';
-          textSetCashRef = 'Cash refund';
-          textSetDebtAmt = 'Debt amount';
-          textSetBack = 'Back';
+          textSetCashRec = 'လက်ခံရရှိငွေ‌';
+          textSetCusPrice = 'စိတ်ကြိုက် ပမာဏ';
+          textSetCashRef = 'ပြန်အမ်းငွေ';
+          textSetDebtAmt = 'ကျန်ငွေ';
+          textSetBack = 'နောက်သို့';
           textSetDone = 'Done';
           textSetInvoice = 'Invoice receipt';
           textSetSaveImage = 'Save as image';
@@ -8913,6 +8913,11 @@ class HomePageState extends State<HomePage>
                                                                         .w600,
                                                                     color: Colors
                                                                         .black),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.3,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
                                                               )),
                                                         ),
                                                       ),
