@@ -4623,7 +4623,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                               var version = documentSnapshots[index].id;
                               print('hello ' + cateScIndex.toString());
                               //String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
-                              return  GestureDetector(
+                              return GestureDetector(
                                 onTap: () async {
                                   closeDrawerFrom();
                                   await Navigator.push(

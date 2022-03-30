@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:smartkyat_pos/app_theme.dart';
 
 import '../bloc/pagination_cubit.dart';
 import '../bloc/pagination_listeners.dart';
@@ -48,7 +49,11 @@ class ProductsBloc extends StatefulWidget {
     this.isLive = false,
     this.includeMetadataChanges = false,
     this.options,
-  }) : super(key: key);
+    required this.intValIni,
+    required void selectedIntVal(int index),
+  }) :
+      _selectedIntVal = selectedIntVal,
+      super(key: key);
 
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -72,6 +77,8 @@ class ProductsBloc extends StatefulWidget {
   final Widget? header;
   final Widget? footer;
   final Widget? custom;
+  final _selectedIntVal;
+  final int intValIni;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -96,6 +103,8 @@ class ProductsBloc extends StatefulWidget {
 class _ProductsBlocState extends State<ProductsBloc> {
   PaginationCubit? _cubit;
 
+  final _width = 10.0;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit, PaginationState>(
@@ -117,7 +126,198 @@ class _ProductsBlocState extends State<ProductsBloc> {
           }
 
           if (loadedState.documentSnapshots.isEmpty) {
-            return widget.onEmpty;
+            WidgetsBinding.instance!.addPostFrameCallback((_) async {
+              print('widget.intValIni ' + widget.intValIni.toString());
+              if(widget.intValIni == 1) {
+                cateScCtlerE.jumpTo(9.2 * 10);
+              } else if(widget.intValIni == 2) {
+                cateScCtlerE.jumpTo(19.9 * 10);
+              } else if(widget.intValIni == 3) {
+                cateScCtlerE.jumpTo(30.1 * 10);
+              } else if(widget.intValIni == 4) {
+                cateScCtlerE.jumpTo(41 * 10);
+              } else {
+                cateScCtlerE.jumpTo(0);
+              }
+            });
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0, top: 12.0, bottom: 12.0),
+                  child: Container(
+                    height: 32,
+                    width: MediaQuery.of(context).size.width,
+                    // color: Colors.yellow,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            controller: cateScCtlerE,
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 11,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                child: FlatButton(
+                                  minWidth: 0,
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  color: widget.intValIni == 0 ? AppTheme.secButtonColor:Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // _animateToIndex(0);
+                                    widget._selectedIntVal(0);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Products',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                child: FlatButton(
+                                  minWidth: 0,
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  color: widget.intValIni == 1 ? AppTheme.secButtonColor:Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // _animateToIndex(5.4);
+                                    widget._selectedIntVal(1);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Customers',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                child: FlatButton(
+                                  minWidth: 0,
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  color: widget.intValIni == 2 ? AppTheme.secButtonColor:Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // _animateToIndex(2);
+                                    widget._selectedIntVal(2);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Merchants',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                child: FlatButton(
+                                  minWidth: 0,
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  color: widget.intValIni == 3 ? AppTheme.secButtonColor:Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // _animateToIndex(0);
+                                    widget._selectedIntVal(3);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Sale orders',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                child: FlatButton(
+                                  minWidth: 0,
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  color: widget.intValIni == 4 ? AppTheme.secButtonColor:Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // _animateToIndex(0);
+                                    widget._selectedIntVal(4);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Buy orders',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 11,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // color: AppTheme.lightBgColor,
+                    color: Colors.white,
+                    child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                  ),
+                )
+              ],
+            );
           }
           return widget.itemBuilderType == PaginateBuilderType.listView
               ? _buildListView(loadedState)
@@ -134,6 +334,16 @@ class _ProductsBlocState extends State<ProductsBloc> {
     widget.scrollController?.dispose();
     _cubit?.dispose();
     super.dispose();
+  }
+
+  _animateToIndex(i) {
+    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    if((_width * i) > cateScCtler.position.maxScrollExtent) {
+      cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    } else {
+      cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    }
+
   }
 
   @override
@@ -214,8 +424,25 @@ class _ProductsBlocState extends State<ProductsBloc> {
 
     return gridView;
   }
+  
+  final cateScCtler = ScrollController();
+  final cateScCtlerE = ScrollController();
 
   Widget _buildListView(PaginationLoaded loadedState) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      print('widget.intValIni ' + widget.intValIni.toString());
+      if(widget.intValIni == 1) {
+        cateScCtler.jumpTo(9.2 * 10);
+      } else if(widget.intValIni == 2) {
+        cateScCtler.jumpTo(19.9 * 10);
+      } else if(widget.intValIni == 3) {
+        cateScCtler.jumpTo(30.1 * 10);
+      } else if(widget.intValIni == 4) {
+        cateScCtler.jumpTo(41 * 10);
+      } else {
+        cateScCtler.jumpTo(0);
+      }
+    });
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: widget.scrollController,
@@ -223,7 +450,181 @@ class _ProductsBlocState extends State<ProductsBloc> {
       scrollDirection: widget.scrollDirection,
       physics: widget.physics,
       slivers: [
-        if (widget.header != null) widget.header!,
+        // if (widget.header != null) widget.header!,
+        SliverAppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          // Provide a standard title.
+          // Allows the user to reveal the app bar if they begin scrolling
+          // back up the list of items.
+          floating: true,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(left: 0.0, top: 12.0, bottom: 12.0),
+            child: Container(
+              height: 32,
+              width: MediaQuery.of(context).size.width,
+              // color: Colors.yellow,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      controller: cateScCtler,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        SizedBox(
+                          width: 11,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: FlatButton(
+                            minWidth: 0,
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            color: widget.intValIni == 0 ? AppTheme.secButtonColor:Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                              ),
+                            ),
+                            onPressed: () {
+                              // _animateToIndex(0);
+                              widget._selectedIntVal(0);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Products',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: FlatButton(
+                            minWidth: 0,
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            color: widget.intValIni == 1 ? AppTheme.secButtonColor:Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                              ),
+                            ),
+                            onPressed: () {
+                              // _animateToIndex(5.4);
+                              widget._selectedIntVal(1);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Customers',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: FlatButton(
+                            minWidth: 0,
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            color: widget.intValIni == 2 ? AppTheme.secButtonColor:Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                              ),
+                            ),
+                            onPressed: () {
+                              // _animateToIndex(2);
+                              widget._selectedIntVal(2);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Merchants',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: FlatButton(
+                            minWidth: 0,
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            color: widget.intValIni == 3 ? AppTheme.secButtonColor:Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                              ),
+                            ),
+                            onPressed: () {
+                              // _animateToIndex(0);
+                              widget._selectedIntVal(3);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Sale orders',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: FlatButton(
+                            minWidth: 0,
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            color: widget.intValIni == 4 ? AppTheme.secButtonColor:Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                              ),
+                            ),
+                            onPressed: () {
+                              // _animateToIndex(0);
+                              widget._selectedIntVal(4);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Buy orders',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+
+            ),
+          ),),
         if (widget.custom != null) widget.custom!,
         SliverPadding(
           padding: widget.padding,
@@ -364,6 +765,10 @@ class _ProductsBlocState extends State<ProductsBloc> {
     }
 
     return pageView;
+  }
+
+  void selectedIntVal(int i) {
+
   }
 }
 
