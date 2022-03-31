@@ -129,13 +129,13 @@ class _ProductsBlocState extends State<ProductsBloc> {
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               print('widget.intValIni ' + widget.intValIni.toString());
               if(widget.intValIni == 1) {
-                cateScCtlerE.jumpTo(9.2 * 10);
+                cateScCtlerE.jumpTo(9.2 * 10 > cateScCtlerE.position.maxScrollExtent? cateScCtlerE.position.maxScrollExtent: 9.2 * 10);
               } else if(widget.intValIni == 2) {
-                cateScCtlerE.jumpTo(19.9 * 10);
+                cateScCtlerE.jumpTo(19.9 * 10 > cateScCtlerE.position.maxScrollExtent? cateScCtlerE.position.maxScrollExtent: 19.9 * 10);
               } else if(widget.intValIni == 3) {
-                cateScCtlerE.jumpTo(30.1 * 10);
+                cateScCtlerE.jumpTo(30.1 * 10 > cateScCtlerE.position.maxScrollExtent? cateScCtlerE.position.maxScrollExtent: 30.1 * 10);
               } else if(widget.intValIni == 4) {
-                cateScCtlerE.jumpTo(41 * 10);
+                cateScCtlerE.jumpTo(41 * 10 > cateScCtlerE.position.maxScrollExtent? cateScCtlerE.position.maxScrollExtent: 41 * 10);
               } else {
                 cateScCtlerE.jumpTo(0);
               }
@@ -432,13 +432,13 @@ class _ProductsBlocState extends State<ProductsBloc> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       print('widget.intValIni ' + widget.intValIni.toString());
       if(widget.intValIni == 1) {
-        cateScCtler.jumpTo(9.2 * 10);
+        cateScCtler.jumpTo(9.2 * 10 > cateScCtler.position.maxScrollExtent? cateScCtler.position.maxScrollExtent: 9.2 * 10);
       } else if(widget.intValIni == 2) {
-        cateScCtler.jumpTo(19.9 * 10);
+        cateScCtler.jumpTo(19.9 * 10 > cateScCtler.position.maxScrollExtent? cateScCtler.position.maxScrollExtent: 19.9 * 10);
       } else if(widget.intValIni == 3) {
-        cateScCtler.jumpTo(30.1 * 10);
+        cateScCtler.jumpTo(30.1 * 10 > cateScCtler.position.maxScrollExtent? cateScCtler.position.maxScrollExtent: 30.1 * 10);
       } else if(widget.intValIni == 4) {
-        cateScCtler.jumpTo(41 * 10);
+        cateScCtler.jumpTo(41 * 10 > cateScCtler.position.maxScrollExtent? cateScCtler.position.maxScrollExtent: 41 * 10);
       } else {
         cateScCtler.jumpTo(0);
       }

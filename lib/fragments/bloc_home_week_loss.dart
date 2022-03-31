@@ -133,7 +133,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String textSetTodaySoFar = 'TODAY SO FAR';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Buys';
+  String textSetBuys = 'Refunds';
   String textSetLoss = 'Loss';
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
@@ -415,12 +415,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                            color: percentBySale() == 1001? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
                                           // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text(' ' + percentBySale().toString() == '1000'? '\u221E% ': percentBySale().toString() + '% ',
+                                            child: Text(' ' + perTSalText(percentBySale()) + ' ',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -554,11 +554,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByCost().toString() == '1000' ? '\u221E%' : percentByCost().toString() + '%',
+                                                child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '\u221E%' : percentByCost().toString() + '%',
                                                   style: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w500,
-                                                      color:percentByCost() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                      // color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                      color: Colors.blue
                                                   ),
                                                 )
                                             ),
@@ -640,11 +641,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByUnpaid().toString() == '1000' ? '\u221E%' : percentByUnpaid().toString() + '%',
+                                                child: Text(percentByUnpaid().toString() == '1001' ? '-%' : percentByUnpaid().toString() == '1000' ? '\u221E%' : percentByUnpaid().toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByUnpaid() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: percentByUnpaid() == 1001? Colors.blue: percentByUnpaid() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
                                                   ),
                                                 )
                                             ),
@@ -2755,6 +2757,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       todayTotal += todayOrdersChart[i];
     }
 
+    if(yestOrdersChart == 0 || todayTotal == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2772,6 +2778,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = todayTotalCost;
 
+    if(yestOrdersChart == 0 || todayTotalCost == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2788,6 +2798,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     double growthRate = 0;
     double todayTotal = todayTotalCost;
+
+    if(yestOrdersChart == 0 || todayTotalCost == 0) {
+      return 1001;
+    }
 
     growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
     if(growthRate >= 999) {
@@ -2852,6 +2866,16 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       return 1000;
     }
     return growthRate.toInt();
+  }
+
+  String perTSalText(percentBySale) {
+    if(percentBySale == 1001) {
+      return '-%  ';
+    } else if(percentBySale == 1000) {
+      return '\u221E%  ';
+    } else {
+      return percentBySale.toString() + '% ';
+    }
   }
 
 }
