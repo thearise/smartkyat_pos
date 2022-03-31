@@ -19,6 +19,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  // FirebaseFirestore.instance.settings = Settings(
+  //     persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(MyApp());

@@ -2031,7 +2031,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         child: Padding(
                           padding:
                           EdgeInsets.only(left: 15.0,
-                              top: index == 0? 5: 15.0),
+                              top: 15.0),
                           child: Container(
                             width: MediaQuery
                                 .of(context)
@@ -3538,8 +3538,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   final _width = 10.0;
   int cateScIndex = 0;
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
+
   @override
   Widget build(BuildContext context) {
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -3557,212 +3564,215 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           color: Colors.white,
           child: SafeArea(
             top: true,
-            bottom: true,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                              color: AppTheme.skBorderColor2,
-                              width: 1.0),
-                        )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          FocusScope.of(context).requestFocus(nodeFirst);
-                          setState(() {
-                            loadingSearch = true;
-                          });
-                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: loadingSearch? Colors.blue: Colors.transparent,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
+            bottom: false,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: homeBotPadding),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                            bottom: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                                width: 1.0),
+                          )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                        child: GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(nodeFirst);
+                            setState(() {
+                              loadingSearch = true;
+                            });
+                            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: loadingSearch? Colors.blue: Colors.transparent,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                  color: AppTheme.secButtonColor,
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                color: AppTheme.secButtonColor,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              height: 50,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10.0, bottom: 11.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(width: 38),
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: !loadingSearch? 8.0: 4,
-                                              right: 8.0,
-                                              top: 0.2),
-                                          child: TextField(
-                                            textInputAction: TextInputAction.search,
-                                            focusNode: nodeFirst,
-                                            controller: _searchController,
-                                            onSubmitted: (value) async {
-                                            },
-                                            maxLines: 1,
-                                            textAlign: TextAlign.left,
-                                            // style: TextStyle(
-                                            //     fontSize: 18,
-                                            //     fontWeight: FontWeight.w500,
-                                            //     color: Colors.black
-                                            // ),
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black
-                                            ),
-                                            strutStyle: StrutStyle(
-                                                forceStrutHeight: true,
-                                                height: 1.3
-                                            ),
-
-                                            decoration: InputDecoration(
-                                              hintText:textSetSearch,
-                                              // hintText: 'Search',
-                                              isDense: true,
-                                              // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                              enabledBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.transparent, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                              focusedBorder: const OutlineInputBorder(
-                                                // width: 0.0 produces a thin "hairline" border
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.transparent, width: 2.0),
-                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                              contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                              floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                              //filled: true,
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              hintStyle: textSetSearch == 'Search' ?
-                                              TextStyle(
-                                                  color: Colors.black.withOpacity(0.55)
-                                              ):
-                                              TextStyle(
-                                                  color: Colors.black.withOpacity(0.55),
-                                                  height: 1.38
-                                              )
-                                              ,
-                                            ),
-                                            keyboardType: TextInputType.text,
-                                            onChanged: (value) {
-                                              // setState(() {
-                                              //   quantity = int.parse(value);
-                                              // });
-                                            },
-                                            // controller: myController,
-                                          )
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        widget._barcodeBtn();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 15.0,
-                                        ),
-                                        // child: Icon(
-                                        //   SmartKyat_POS.barcode,
-                                        //   color: Colors.black,
-                                        //   size: 25,
-                                        // ),
-                                        child: Container(
-                                            child: Image.asset('assets/system/barcode.png', height: 28,)
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // if(loadingSearch) {
-                                //   _searchController.clear();
-                                //   FocusScope.of(context).unfocus();
-                                //   setState(() {
-                                //     loadingSearch = false;
-                                //   });
-                                // } else {
-                                //   FocusScope.of(context).requestFocus(nodeFirst);
-                                //   setState(() {
-                                //     loadingSearch = true;
-                                //   });
-                                //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                // }
-                                if( (loadingSearch && _searchController.text == '' ) || !loadingSearch) {
-                                  widget._chgIndex(0);
-                                  FocusScope.of(context).unfocus();
-                                } else {
-                                  _searchController.clear();
-                                }
-                              },
-                              child: Container(
                                 height: 50,
-                                width: 38,
-                                color: Colors.transparent,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Container(
-                                    child: Stack(
-                                      alignment: AlignmentDirectional.centerStart,
-                                      children: [
-                                        !loadingSearch? Padding(
-                                          padding: const EdgeInsets.only(left: 5.0),
-                                          child: Icon(
-                                            SmartKyat_POS.search,
-                                            size: 17,
-                                          ),
-                                        ): loadingSearch && _searchController.text == '' ?
-                                        Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
-                                            child: Icon(
-                                              Icons.arrow_back_ios_rounded,
-                                              size: 21,
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, bottom: 11.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(width: 38),
+                                      Expanded(
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: !loadingSearch? 8.0: 4,
+                                                right: 8.0,
+                                                top: 0.2),
+                                            child: TextField(
+                                              textInputAction: TextInputAction.search,
+                                              focusNode: nodeFirst,
+                                              controller: _searchController,
+                                              onSubmitted: (value) async {
+                                              },
+                                              maxLines: 1,
+                                              textAlign: TextAlign.left,
+                                              // style: TextStyle(
+                                              //     fontSize: 18,
+                                              //     fontWeight: FontWeight.w500,
+                                              //     color: Colors.black
+                                              // ),
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.3
+                                              ),
+
+                                              decoration: InputDecoration(
+                                                hintText:textSetSearch,
+                                                // hintText: 'Search',
+                                                isDense: true,
+                                                // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                                enabledBorder: const OutlineInputBorder(
+                                                  // width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: Colors.transparent, width: 2.0),
+                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+                                                  // width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: Colors.transparent, width: 2.0),
+                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                                //filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                hintStyle: textSetSearch == 'Search' ?
+                                                TextStyle(
+                                                    color: Colors.black.withOpacity(0.55)
+                                                ):
+                                                TextStyle(
+                                                    color: Colors.black.withOpacity(0.55),
+                                                    height: 1.38
+                                                )
+                                                ,
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                              onChanged: (value) {
+                                                // setState(() {
+                                                //   quantity = int.parse(value);
+                                                // });
+                                              },
+                                              // controller: myController,
                                             )
-                                        ) : Padding(
-                                          padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                          child: Icon(
-                                            Icons.close_rounded,
-                                            size: 24,
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          widget._barcodeBtn();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 15.0,
                                           ),
-                                        )
-                                      ],
+                                          // child: Icon(
+                                          //   SmartKyat_POS.barcode,
+                                          //   color: Colors.black,
+                                          //   size: 25,
+                                          // ),
+                                          child: Container(
+                                              child: Image.asset('assets/system/barcode.png', height: 28,)
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // if(loadingSearch) {
+                                  //   _searchController.clear();
+                                  //   FocusScope.of(context).unfocus();
+                                  //   setState(() {
+                                  //     loadingSearch = false;
+                                  //   });
+                                  // } else {
+                                  //   FocusScope.of(context).requestFocus(nodeFirst);
+                                  //   setState(() {
+                                  //     loadingSearch = true;
+                                  //   });
+                                  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                  // }
+                                  if( (loadingSearch && _searchController.text == '' ) || !loadingSearch) {
+                                    widget._chgIndex(0);
+                                    FocusScope.of(context).unfocus();
+                                  } else {
+                                    _searchController.clear();
+                                  }
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 38,
+                                  color: Colors.transparent,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12.0),
+                                    child: Container(
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.centerStart,
+                                        children: [
+                                          !loadingSearch? Padding(
+                                            padding: const EdgeInsets.only(left: 5.0),
+                                            child: Icon(
+                                              SmartKyat_POS.search,
+                                              size: 17,
+                                            ),
+                                          ): loadingSearch && _searchController.text == '' ?
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
+                                              child: Icon(
+                                                Icons.arrow_back_ios_rounded,
+                                                size: 21,
+                                              )
+                                          ) : Padding(
+                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                            child: Icon(
+                                              Icons.close_rounded,
+                                              size: 24,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                overAllSearch(),
+                  overAllSearch(),
 
 
-              ],
+                ],
+              ),
             ),
           ),
         ),
