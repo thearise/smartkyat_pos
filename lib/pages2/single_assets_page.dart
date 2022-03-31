@@ -1571,8 +1571,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             }
                                             print('gg nothing' +
                                                 subUnitFieldValue.toString());
-
-
                                             String sub1_buy;
                                             String sub2_buy;
                                             String sub3_buy;
