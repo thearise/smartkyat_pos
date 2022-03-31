@@ -362,7 +362,7 @@ class HomePageState extends State<HomePage>
   String textSetQty = 'QUANTITY';
   String textSetCostPerUnit = 'COST PER UNIT';
   String textSetCustSale = 'Custom sale price';
-  String textSetUnitPrice = 'UNIT PRICING';
+  String textSetUnitPrice = 'PRODUCT INFORMATION';
   String textSetSalePrice = 'Sale price';
   String textSetInStock = 'In stock items';
   String textSetLoss = 'Loss items';
@@ -411,34 +411,34 @@ class HomePageState extends State<HomePage>
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
           VDiscount = 'လျှော့ငွေ';
-          textSetClear = 'Clear cart';
+          textSetClear = 'ပယ်ဖျက်ရန်';
           textSetTotalSale = 'စုစုပေါင်း';
           textSetCheckOut = 'ရောင်းမည်';
           textSetItemSet = 'item set';
           textSetItemSets = 'item sets';
-          textSetNoCust = 'No customer';
+          textSetNoCust = 'အမည်မသိ';
           textSetCashRec = 'လက်ခံရရှိငွေ‌';
           textSetCusPrice = 'စိတ်ကြိုက် ပမာဏ';
           textSetCashRef = 'ပြန်အမ်းငွေ';
           textSetDebtAmt = 'ကျန်ငွေ';
           textSetBack = 'နောက်သို့';
-          textSetDone = 'Done';
-          textSetInvoice = 'Invoice receipt';
-          textSetSaveImage = 'Save as image';
-          textSetReceipt = 'RECEIPT VOUCHER';
-          textSetNextSale = 'Next sale';
-          textSetPrinting = 'Printing service';
-          textSetScan = 'Scan';
-          textSetClose = 'Close';
-          textSetQty = 'QUANTITY';
-          textSetCostPerUnit = 'COST PER UNIT';
-          textSetCustSale = 'Custom sale price';
-          textSetUnitPrice = 'UNIT PRICING';
-          textSetSalePrice = 'Sale price';
-          textSetInStock = 'In stock items';
-          textSetLoss = 'Loss items';
-          textSetBarcode = 'Barcode';
-          textSetTotal = 'Total';
+          textSetDone = 'ဆက်ရန်';
+          textSetInvoice = 'ပြေစာ';
+          textSetSaveImage = 'ဓာတ်ပုံ အဖြစ် သိမ်းမည်';
+          textSetReceipt = 'ငွေလက်ခံပြေစာ';
+          textSetNextSale = 'ထပ်ရောင်းရန်';
+          textSetPrinting = 'ပရင့်ထုတ်ရန်';
+          textSetScan = 'ရှာရန်';
+          textSetClose = 'ပိတ်ရန်';
+          textSetQty = 'အရေအတွက်';
+          textSetCostPerUnit = 'တစ်ယူနစ်ရောင်းစျေး';
+          textSetCustSale = 'စိတ်ကြိုက်ရောင်းဈေး';
+          textSetUnitPrice = 'ပစ္စည်းအချက်အလက်';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetInStock = 'လက်ကျန်ပစ္စည်း';
+          textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
+          textSetBarcode = 'ဘားကုဒ်';
+          textSetTotal = 'စုစုပေါင်း';
         });
       }
       else if(value=='english') {
@@ -472,7 +472,7 @@ class HomePageState extends State<HomePage>
           textSetQty = 'QUANTITY';
           textSetCostPerUnit = 'COST PER UNIT';
           textSetCustSale = 'Custom sale price';
-          textSetUnitPrice = 'UNIT PRICING';
+          textSetUnitPrice = 'PRODUCT INFORMATION';
           textSetSalePrice = 'Sale price';
           textSetInStock = 'In stock items';
           textSetLoss = 'Loss items';
@@ -8615,7 +8615,7 @@ class HomePageState extends State<HomePage>
                                                               3),
                                                           child: Container(
                                                               child: Text(
-                                                                'Clear cart',
+                                                                textSetClear,
                                                                 textAlign:
                                                                 TextAlign
                                                                     .center,
@@ -9467,7 +9467,6 @@ class HomePageState extends State<HomePage>
                                                                   controller: _textFieldController,
                                                                 ),
                                                                 SizedBox(height: 15),
-
                                                                 ButtonTheme(
                                                                   minWidth: double.infinity,
                                                                   //minWidth: 50,
