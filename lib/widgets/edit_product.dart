@@ -445,9 +445,6 @@ class _EditProductState extends State<EditProduct> {
                               controller: barCodeCtrl,
                               keyboardType: TextInputType.text,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return ' This field is required ';
-                                }
                                 return null;
                               },
                               style: TextStyle(
