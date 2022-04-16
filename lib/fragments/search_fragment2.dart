@@ -150,9 +150,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     _searchController.addListener((){
       // setState(() {
       gloSearchText = _searchController.text;
-      searchValue = _searchController.text.toLowerCase();
+      setState(() {
+        searchValue = _searchController.text.toLowerCase();
+      });
       // });
-      searchKeyChanged();
+      // searchKeyChanged();
       print(searchValue);
     });
     subTabController = TabController(length: 3, vsync: this);
@@ -1223,6 +1225,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         width: 1.0),
                   )),
               child: ProductsBloc(
+                options: GetOptions(source: Source.cache),
                 key: ValueKey<String>(cateScIndex.toString() + searchValue.toLowerCase()),
                 selectedIntVal: selectedIntVal,
                 header: SliverAppBar(

@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/edit_product.dart';
 import '../app_theme.dart';
 import 'fill_product.dart';

@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/constants/picker_method.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/qr_edit.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';

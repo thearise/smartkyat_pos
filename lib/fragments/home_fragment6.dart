@@ -27,7 +27,7 @@ import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/pie_chart/simple.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
@@ -1787,262 +1787,263 @@ class HomeFragmentState extends State<HomeFragment>
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Container(
-          color: Colors.Colors.white,
-          child: SafeArea(
-            top: true,
-            bottom: true,
-            child: Container(
-              // width: MediaQuery.of(context).size.width > 900
-              //     ? MediaQuery.of(context).size.width * (2 / 3.5)
-              //     : MediaQuery.of(context).size.width,
-              child: Stack(
-                children: [
-                  if(!searchOpening)
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 81.0),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
-                              MediaQuery.of(context).padding.bottom -
-                              100,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 0.0, left: 0.0, right: 0.0),
-
-                            child: cateScIndex == 0 || cateScIndex == 1?
-                            BlocHomeWeek(
-                              dateTime: today,
-                              key: valueKeyTog(),
-                              shopId: widget.shopId,
-                              query: ordersQuery(),
-                              itemBuilder: (context1, documentSnapshots, index) {
-                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                                return Container(child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text('items ' + item.toString()),
-                                ));
-                              },
-                              resetState: resetState,
-                              selectedIntVal: selectedIntVal,
-                              intValIni : cateScIndex,
-                              itemBuilderType:
-                              PaginateBuilderType.listView,
-                              isLive: true,
-                            ):
-                            cateScIndex == 3?
-                            BlocHomeYearImp.BlocHomeYear(
-                              dateTime: today,
-                              key: valueKeyTog(),
-                              shopId: widget.shopId,
-                              query: ordersQueryYear(),
-                              itemBuilder: (context1, documentSnapshots, index) {
-                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                                return Container(child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text('items ' + item.toString()),
-                                ));
-                              },
-                              resetState: resetState,
-                              selectedIntVal: selectedIntVal,
-                              intValIni : cateScIndex,
-                              itemBuilderType:
-                              BlocHomeYearImp.PaginateBuilderType.listView,
-                              isLive: true,
-                            ):
-                            BlocHomeMonthImp.BlocHomeMonth(
-                              dateTime: today,
-                              key: valueKeyTog(),
-                              shopId: widget.shopId,
-                              query: ordersQueryMonth(),
-                              itemBuilder: (context1, documentSnapshots, index) {
-                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                                return Container(child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text('items ' + item.toString()),
-                                ));
-                              },
-                              resetState: resetState,
-                              selectedIntVal: selectedIntVal,
-                              intValIni : cateScIndex,
-                              itemBuilderType:
-                              BlocHomeMonthImp.PaginateBuilderType.listView,
-                              isLive: true,
-                            )
-                            ,
-                          ),
-                        ),
-                      ),
-                    ),
-                  if(searchOpeningR)
-                    Container(
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.Colors.white,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 15,)),
-                        ),
-                      ),
-                    ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.Colors.white,
-                          border: Border(
-                            bottom: BorderSide(
-                                color: AppTheme.skBorderColor2,
-                                width: 1.0),
-                          )
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            widget._searchBtn();
-                            // FocusScope.of(context).requestFocus(nodeFirst);
-                            // setState(() {
-                            //   loadingSearch = true;
-                            // });
-                            // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: AppTheme.secButtonColor,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            height: 50,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, bottom: 11.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-
-                                      // if(loadingSearch) {
-                                      //   _searchController.clear();
-                                      //   FocusScope.of(context).unfocus();
-                                      //   setState(() {
-                                      //     loadingSearch = false;
-                                      //   });
-                                      // } else {
-                                      //   FocusScope.of(context).requestFocus(nodeFirst);
-                                      //   setState(() {
-                                      //     loadingSearch = true;
-                                      //   });
-                                      //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                      // }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 12.0),
-                                      child: Container(
-                                        child: Stack(
-                                          children: [
-                                            !loadingSearch? Padding(
-                                              padding: const EdgeInsets.only(left: 5.0),
-                                              child: Icon(
-                                                SmartKyat_POS.search,
-                                                size: 17,
-                                              ),
-                                            ): Padding(
-                                              padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                              child: Icon(
-                                                Icons.close_rounded,
-                                                size: 24,
-                                              ),
-                                            )
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Expanded(
-                                  //   child: Padding(
-                                  //     padding: EdgeInsets.only(
-                                  //         left: !loadingSearch? 8.0: 4,
-                                  //         right: 8.0,
-                                  //         top: 0.5),
-                                  //     child: Text('Search'),
-                                  //   ),
-                                  // ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 13,
-                                            bottom: 1.5),
-                                        child: Text(
-                                          textSetSearch,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.Colors.black.withOpacity(0.55)
-                                          ),
-                                          strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: textSetSearch == 'Search'? 1.6: 1.3
-                                          ),
-                                        )
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      widget._barcodeBtn();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 15.0,
-                                      ),
-                                      // child: Icon(
-                                      //   SmartKyat_POS.barcode,
-                                      //   color: Colors.Colors.black,
-                                      //   size: 25,
-                                      // ),
-                                      child: Container(
-                                          child: Image.asset('assets/system/barcode.png', height: 28,)
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),                  // _isBannerAdReady? Align(
-                  //   alignment: Alignment.topCenter,
-                  //   child: Container(
-                  //     height: _bannerAd.size.height.toDouble(),
-                  //     width: _bannerAd.size.width.toDouble(),
-                  //     child: AdWidget(ad: _bannerAd),
-                  //   )
-                  // ): Container(),
-                ],
-              ),
-            ),
-          ),
-        ),
+        child: Container()
+        // child: Container(
+        //   color: Colors.Colors.white,
+        //   child: SafeArea(
+        //     top: true,
+        //     bottom: true,
+        //     child: Container(
+        //       // width: MediaQuery.of(context).size.width > 900
+        //       //     ? MediaQuery.of(context).size.width * (2 / 3.5)
+        //       //     : MediaQuery.of(context).size.width,
+        //       child: Stack(
+        //         children: [
+        //           if(!searchOpening)
+        //             Align(
+        //               alignment: Alignment.centerLeft,
+        //               child: Padding(
+        //                 padding: const EdgeInsets.only(top: 81.0),
+        //                 child: Container(
+        //                   height: MediaQuery.of(context).size.height -
+        //                       MediaQuery.of(context).padding.top -
+        //                       MediaQuery.of(context).padding.bottom -
+        //                       100,
+        //                   width: MediaQuery.of(context).size.width,
+        //                   color: Colors.Colors.white,
+        //                   child: Padding(
+        //                     padding: const EdgeInsets.only(
+        //                         top: 0.0, left: 0.0, right: 0.0),
+        //
+        //                     child: cateScIndex == 0 || cateScIndex == 1?
+        //                     BlocHomeWeek(
+        //                       dateTime: today,
+        //                       key: valueKeyTog(),
+        //                       shopId: widget.shopId,
+        //                       query: ordersQuery(),
+        //                       itemBuilder: (context1, documentSnapshots, index) {
+        //                         Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+        //
+        //                         String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+        //                         return Container(child: Padding(
+        //                           padding: const EdgeInsets.all(20.0),
+        //                           child: Text('items ' + item.toString()),
+        //                         ));
+        //                       },
+        //                       resetState: resetState,
+        //                       selectedIntVal: selectedIntVal,
+        //                       intValIni : cateScIndex,
+        //                       itemBuilderType:
+        //                       PaginateBuilderType.listView,
+        //                       isLive: true,
+        //                     ):
+        //                     cateScIndex == 3?
+        //                     BlocHomeYearImp.BlocHomeYear(
+        //                       dateTime: today,
+        //                       key: valueKeyTog(),
+        //                       shopId: widget.shopId,
+        //                       query: ordersQueryYear(),
+        //                       itemBuilder: (context1, documentSnapshots, index) {
+        //                         Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+        //
+        //                         String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+        //                         return Container(child: Padding(
+        //                           padding: const EdgeInsets.all(20.0),
+        //                           child: Text('items ' + item.toString()),
+        //                         ));
+        //                       },
+        //                       resetState: resetState,
+        //                       selectedIntVal: selectedIntVal,
+        //                       intValIni : cateScIndex,
+        //                       itemBuilderType:
+        //                       BlocHomeYearImp.PaginateBuilderType.listView,
+        //                       isLive: true,
+        //                     ):
+        //                     BlocHomeMonthImp.BlocHomeMonth(
+        //                       dateTime: today,
+        //                       key: valueKeyTog(),
+        //                       shopId: widget.shopId,
+        //                       query: ordersQueryMonth(),
+        //                       itemBuilder: (context1, documentSnapshots, index) {
+        //                         Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+        //
+        //                         String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+        //                         return Container(child: Padding(
+        //                           padding: const EdgeInsets.all(20.0),
+        //                           child: Text('items ' + item.toString()),
+        //                         ));
+        //                       },
+        //                       resetState: resetState,
+        //                       selectedIntVal: selectedIntVal,
+        //                       intValIni : cateScIndex,
+        //                       itemBuilderType:
+        //                       BlocHomeMonthImp.PaginateBuilderType.listView,
+        //                       isLive: true,
+        //                     )
+        //                     ,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           if(searchOpeningR)
+        //             Container(
+        //               height: MediaQuery.of(context).size.height,
+        //               color: Colors.Colors.white,
+        //               child: Center(
+        //                 child: Padding(
+        //                   padding: const EdgeInsets.only(top: 30.0),
+        //                   child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+        //                       child: CupertinoActivityIndicator(radius: 15,)),
+        //                 ),
+        //               ),
+        //             ),
+        //           Align(
+        //             alignment: Alignment.topCenter,
+        //             child: Container(
+        //               decoration: BoxDecoration(
+        //                   color: Colors.Colors.white,
+        //                   border: Border(
+        //                     bottom: BorderSide(
+        //                         color: AppTheme.skBorderColor2,
+        //                         width: 1.0),
+        //                   )
+        //               ),
+        //               child: Padding(
+        //                 padding: const EdgeInsets.only(
+        //                     top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+        //                 child: GestureDetector(
+        //                   onTap: () {
+        //                     widget._searchBtn();
+        //                     // FocusScope.of(context).requestFocus(nodeFirst);
+        //                     // setState(() {
+        //                     //   loadingSearch = true;
+        //                     // });
+        //                     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+        //                   },
+        //                   child: Container(
+        //                     decoration: BoxDecoration(
+        //                       border: Border.all(
+        //                         color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
+        //                         style: BorderStyle.solid,
+        //                         width: 1.0,
+        //                       ),
+        //                       color: AppTheme.secButtonColor,
+        //                       borderRadius: BorderRadius.circular(10.0),
+        //                     ),
+        //                     height: 50,
+        //                     child: Padding(
+        //                       padding: const EdgeInsets.only(
+        //                           top: 10.0, bottom: 11.0),
+        //                       child: Row(
+        //                         mainAxisAlignment: MainAxisAlignment.center,
+        //                         children: [
+        //                           GestureDetector(
+        //                             onTap: () {
+        //
+        //                               // if(loadingSearch) {
+        //                               //   _searchController.clear();
+        //                               //   FocusScope.of(context).unfocus();
+        //                               //   setState(() {
+        //                               //     loadingSearch = false;
+        //                               //   });
+        //                               // } else {
+        //                               //   FocusScope.of(context).requestFocus(nodeFirst);
+        //                               //   setState(() {
+        //                               //     loadingSearch = true;
+        //                               //   });
+        //                               //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+        //                               // }
+        //                             },
+        //                             child: Padding(
+        //                               padding: const EdgeInsets.only(left: 12.0),
+        //                               child: Container(
+        //                                 child: Stack(
+        //                                   children: [
+        //                                     !loadingSearch? Padding(
+        //                                       padding: const EdgeInsets.only(left: 5.0),
+        //                                       child: Icon(
+        //                                         SmartKyat_POS.search,
+        //                                         size: 17,
+        //                                       ),
+        //                                     ): Padding(
+        //                                       padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+        //                                       child: Icon(
+        //                                         Icons.close_rounded,
+        //                                         size: 24,
+        //                                       ),
+        //                                     )
+        //
+        //                                   ],
+        //                                 ),
+        //                               ),
+        //                             ),
+        //                           ),
+        //                           // Expanded(
+        //                           //   child: Padding(
+        //                           //     padding: EdgeInsets.only(
+        //                           //         left: !loadingSearch? 8.0: 4,
+        //                           //         right: 8.0,
+        //                           //         top: 0.5),
+        //                           //     child: Text('Search'),
+        //                           //   ),
+        //                           // ),
+        //                           Expanded(
+        //                             child: Padding(
+        //                                 padding: EdgeInsets.only(
+        //                                     left: 13,
+        //                                     bottom: 1.5),
+        //                                 child: Text(
+        //                                   textSetSearch,
+        //                                   style: TextStyle(
+        //                                       fontSize: 18,
+        //                                       fontWeight: FontWeight.w500,
+        //                                       color: Colors.Colors.black.withOpacity(0.55)
+        //                                   ),
+        //                                   strutStyle: StrutStyle(
+        //                                       forceStrutHeight: true,
+        //                                       height: textSetSearch == 'Search'? 1.6: 1.3
+        //                                   ),
+        //                                 )
+        //                             ),
+        //                           ),
+        //                           GestureDetector(
+        //                             onTap: () {
+        //                               widget._barcodeBtn();
+        //                             },
+        //                             child: Padding(
+        //                               padding: const EdgeInsets.only(
+        //                                 right: 15.0,
+        //                               ),
+        //                               // child: Icon(
+        //                               //   SmartKyat_POS.barcode,
+        //                               //   color: Colors.Colors.black,
+        //                               //   size: 25,
+        //                               // ),
+        //                               child: Container(
+        //                                   child: Image.asset('assets/system/barcode.png', height: 28,)
+        //                               ),
+        //                             ),
+        //                           )
+        //                         ],
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),                  // _isBannerAdReady? Align(
+        //           //   alignment: Alignment.topCenter,
+        //           //   child: Container(
+        //           //     height: _bannerAd.size.height.toDouble(),
+        //           //     width: _bannerAd.size.width.toDouble(),
+        //           //     child: AdWidget(ad: _bannerAd),
+        //           //   )
+        //           // ): Container(),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

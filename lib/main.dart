@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'fragments/welcome_fragment.dart';
 import 'src/app.dart';
@@ -23,6 +24,11 @@ Future<void> main() async {
   //     persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100 * 1000 * 1000);
+  final scoresRef = FirebaseDatabase.instance.ref("products");
+  scoresRef.keepSynced(true);
   runApp(MyApp());
 }
 

@@ -558,8 +558,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   style: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w500,
-                                                      // color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                      color: Colors.blue
+                                                      color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                                      // color: Colors.blue
                                                   ),
                                                 )
                                             ),
@@ -645,7 +645,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByUnpaid() == 1001? Colors.blue: percentByUnpaid() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: percentByUnpaid() == 1001? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,
                                                     // color: Colors.blue
                                                   ),
                                                 )
@@ -1495,6 +1495,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   percentByUnpaid() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayUnpaid(yestUnpaidChart, todayCostsTotal);
+    } else percent = growthRateWeekUnpaid(lastWeekUnpaid, weekCostsTotal);
+    return percent;
+  }
+
+  percentByRefunds() {
     var percent = 0;
     if(_sliding == 0) {
       percent = growthRateDayUnpaid(yestUnpaidChart, todayCostsTotal);
@@ -2382,6 +2390,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   List<double> thisYearOrdersChart =[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0];
 
   double todayCostsTotal = 0;
+  double todayRefundsTotal = 0;
   double weekCostsTotal = 0;
   double monthCostsTotal = 0;
   double yearCostsTotal = 0;
@@ -2422,6 +2431,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     monthCostsTotal = 0;
     yearCostsTotal = 0;
 
+    todayRefundsTotal = 0;
+
     todayCostsTotalR = 0;
     weekCostsTotalR = 0;
     monthCostsTotalR = 0;
@@ -2431,9 +2442,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     yestCostsTotalR = 0;
     yestUnpaidChart = 0;
-     lastWeekOrderChart = 0;
-     lastWeekCost = 0;
-     lastWeekUnpaid = 0;
+    lastWeekOrderChart = 0;
+    lastWeekCost = 0;
+    lastWeekUnpaid = 0;
 
 
 
@@ -2519,6 +2530,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                 zeroToTen(today.day.toString()) +
                 zeroToTen(i.toString()))
             {
+              print('string check ' + str);
               total += double.parse(str.split('^')[2]);
               todayCostsTotal += double.parse(str.split('^')[5]);
               // setState(() {

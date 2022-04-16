@@ -59,7 +59,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
-import '../fragments/search_fragment3.dart';
+import '../fragments/search_fragment2.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
@@ -369,6 +369,16 @@ class HomePageState extends State<HomePage>
   String textSetBarcode = 'Barcode';
   String textSetTotal = 'Total';
 
+  String textSetHome = 'Home';
+  String textSetProd = 'Products';
+  String textSetOrd = 'Orders';
+  String textSetSord = 'Sale orders';
+  String textSetBord = 'Buy orders';
+  String textSetCustomers = 'Customers';
+  String textSetMerchants = 'Merchants';
+  String textSetSett = 'Settings';
+  String textSetLogOut = 'Log out';
+
   bool isEnglish = true;
 
   getCurrency() async {
@@ -410,7 +420,7 @@ class HomePageState extends State<HomePage>
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'လျှော့ငွေ';
+          VDiscount = 'Discount';
           textSetClear = 'ပယ်ဖျက်ရန်';
           textSetTotalSale = 'စုစုပေါင်း';
           textSetCheckOut = 'ရောင်းမည်';
@@ -439,6 +449,15 @@ class HomePageState extends State<HomePage>
           textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
           textSetBarcode = 'ဘားကုဒ်';
           textSetTotal = 'စုစုပေါင်း';
+          textSetHome = 'ပင်မစာမျက်နှာ';
+          textSetProd = 'ကုန်ပစ္စည်းစာရင်း';
+          textSetOrd = 'စာရင်းများ';
+          textSetSord = 'အရောင်းစာရင်း';
+          textSetBord = 'အဝယ်စာရင်း';
+          textSetCustomers = 'ဖောက်သည်စာရင်း';
+          textSetMerchants = 'ကုန်သည်စာရင်း';
+          textSetSett = 'ဆက်တင်';
+          textSetLogOut = 'ထွက်ရန်';
         });
       }
       else if(value=='english') {
@@ -478,6 +497,15 @@ class HomePageState extends State<HomePage>
           textSetLoss = 'Loss items';
           textSetBarcode = 'Barcode';
           textSetTotal = 'Total';
+          textSetHome = 'Home';
+          textSetProd = 'Products';
+          textSetOrd = 'Orders';
+          textSetSord = 'Sale orders';
+          textSetBord = 'Buy orders';
+          textSetCustomers = 'Customers';
+          textSetMerchants = 'Merchants';
+          textSetSett = 'Settings';
+          textSetLogOut = 'Log out';
         });
       }
     });
@@ -707,7 +735,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: BuyListFragment2( selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+            page: BuyListFragment2(selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               key: bordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
@@ -717,8 +745,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(shopId: shopId.toString(), openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
-            // page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
+            page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
           ),
         ];
       });
@@ -856,99 +883,7 @@ class HomePageState extends State<HomePage>
     });
   }
 
-  var prodDocs = [];
-  var workCacheProds = [];
-  var workSerProds = [];
-
   openSearchFromFrag() async {
-
-    // CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-    //
-    // prodsFetchServer.where('id', isEqualTo: '01Q7yySVIYyl027SnwKz')
-    //     .where('update_time', isGreaterThan: doc['update_time'])
-    //     .limit(1)
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot)  async {
-    //   querySnapshot.docs.forEach((doc) {
-    //     print('update time check something' + doc.id + ' --> ' + doc['prod_name']);
-    //   });
-    //
-    // });
-
-
-    // //search initializing
-    // print('initial ' + 'QZEXoquzNqEIKV0uMMvr');
-    // FirebaseFirestore.instance.collection('shops').doc('QZEXoquzNqEIKV0uMMvr').collection('cacheArr').doc('prodsArr')
-    //     .get().then((value) async {
-    //   var array = value.data()!['array'];
-    //   List<String> needToFetchs = [];
-    //
-    //
-    //
-    //   FirebaseFirestore.instance.collection('shops').doc('QZEXoquzNqEIKV0uMMvr').collection('products')
-    //       .where('archive', isEqualTo: false)
-    //   // .limit(20)
-    //       .get(GetOptions(source: Source.cache))
-    //   // .get()
-    //       .then((QuerySnapshot querySnapshot)  async {
-    //     prodDocs = querySnapshot.docs;
-    //     workCacheProds = querySnapshot.docs;
-    //
-    //
-    //
-    //     querySnapshot.docs.forEach((doc) {
-    //       DocumentSnapshot doc2 = doc;
-    //       print('cache data s home ' + doc['prod_name']);
-    //
-    //       print('some ggmoda ' + 'QZEXoquzNqEIKV0uMMvr' + ' -- ' + doc.id + ' -- ' + doc['update_time'].toDate().toString());
-    //       // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
-    //       // // docSnap.
-    //       //
-    //       // // Stream<QuerySnapshot>? emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
-    //       // // emailSnapshot.sn;
-    //       //
-    //       // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
-    //       // docSnap.listen((querySnapshot) {
-    //       //   print('query snap changes ' + querySnapshot.toString());
-    //       //   // querySnapshot..forEach((change) {
-    //       //   //   // Do something with change
-    //       //   // });
-    //       // });
-    //
-    //       CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-    //
-    //
-    //
-    //       prodsFetchServer.where('id', isEqualTo: doc.id)
-    //           .where('update_time', isGreaterThan: doc['update_time'])
-    //           .limit(1)
-    //           .get()
-    //           .then((QuerySnapshot querySnapshot)  async {
-    //         querySnapshot.docs.forEach((doc) {
-    //           print('update time check something' + doc.id + ' --> ' + doc['prod_name']);
-    //         });
-    //
-    //       });
-    //
-    //       if(!array.contains(doc.id)) {
-    //         print('cache data s home not equaling something');
-    //         // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-    //         //     .doc(doc.id)
-    //         //     .get();
-    //         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-    //             .doc(doc.id)
-    //             .get()
-    //             .then((value) {
-    //           workSerProds.add(value);
-    //         });
-    //
-    //       }
-    //     });
-    //
-    //   });
-    //
-    // });
-
     ayinIndex = _selectIndex;
     _selectTab(8);
     tabs[8].key.currentState!.popUntil((route) => route.isFirst);
@@ -961,8 +896,6 @@ class HomePageState extends State<HomePage>
     custGlobalKey.currentState!.changeSearchOpening(true);
     mercGlobalKey.currentState!.changeSearchOpening(true);
     settGlobalKey.currentState!.changeSearchOpening(true);
-
-
   }
 
   closeNewProduct() {
@@ -1143,7 +1076,7 @@ class HomePageState extends State<HomePage>
                                                     SizedBox(height: 55),
                                                     Center(
                                                       child: Text(
-                                                          'You are on pro version', style: TextStyle(
+                                                        'You are on pro version', style: TextStyle(
                                                           fontWeight: FontWeight.w700,
                                                           fontSize: 26,
                                                           letterSpacing: -0.4
@@ -1420,10 +1353,10 @@ class HomePageState extends State<HomePage>
                                                       letterSpacing: -0.3
                                                   ),
                                                     strutStyle: StrutStyle(
-                                                    height: 1.5,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
-                                                  ),
+                                                      height: 1.5,
+                                                      // fontSize:,
+                                                      forceStrutHeight: true,
+                                                    ),
                                                   ),
                                                 ),
                                                 subtitle: Column(
@@ -1713,25 +1646,25 @@ class HomePageState extends State<HomePage>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text('Untitled',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                          ),
-                                          strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          )
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.2
+                                            )
                                         ),
                                         SizedBox(height: 2.5),
                                         Text('New customer creation',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 19
-                                          ),
-                                          strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.6
-                                          )
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 19
+                                            ),
+                                            strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.6
+                                            )
                                         ),
                                       ],
                                     ),
@@ -1836,25 +1769,25 @@ class HomePageState extends State<HomePage>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text('Untitled',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                          ),
-                                          strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          )
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.2
+                                            )
                                         ),
                                         SizedBox(height: 2.5),
                                         Text('New product creation',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 19
-                                          ),
-                                          strutStyle: StrutStyle(
-                                            forceStrutHeight: true,
-                                            height: 1.6
-                                          )
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 19
+                                            ),
+                                            strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.6
+                                            )
                                         ),
                                       ],
                                     ),
@@ -2323,7 +2256,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Home',
+                                                                          textSetHome,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2390,7 +2323,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Products',
+                                                                        textSetProd,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2426,7 +2359,7 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ),
                                                                     Text(
-                                                                      'Orders',
+                                                                      textSetOrd,
                                                                       style: TextStyle(
                                                                           fontSize: 17, fontWeight: FontWeight.w500),
                                                                       strutStyle: StrutStyle(
@@ -2475,7 +2408,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Sale orders',
+                                                                          textSetSord,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2527,7 +2460,7 @@ class HomePageState extends State<HomePage>
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(bottom: 1.0),
                                                                           child: Text(
-                                                                            'Buy orders',
+                                                                            textSetBord,
                                                                             style: TextStyle(
                                                                                 fontSize: 17, fontWeight: FontWeight.w500),
                                                                             strutStyle: StrutStyle(
@@ -2618,7 +2551,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Customers',
+                                                                        textSetCustomers,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2675,7 +2608,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Merchants',
+                                                                          textSetMerchants,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2731,7 +2664,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Settings',
+                                                                        textSetSett,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2838,8 +2771,8 @@ class HomePageState extends State<HomePage>
                                                                 title: 'Are you sure you want to log out?',
                                                                 actions: [
                                                                   SheetAction(
-                                                                    label: 'Logout',
-                                                                    key: 'logout',
+                                                                    label: textSetLogOut,
+                                                                    key: textSetLogOut,
                                                                     isDestructiveAction: true,
                                                                   ),
                                                                 ],
@@ -2849,14 +2782,14 @@ class HomePageState extends State<HomePage>
                                                                 title: 'Are you sure you want to log out?',
                                                                 actions: [
                                                                   SheetAction(
-                                                                    label: 'Logout',
-                                                                    key: 'logout',
+                                                                    label: textSetLogOut,
+                                                                    key: textSetLogOut,
                                                                     isDestructiveAction: true,
                                                                   ),
                                                                 ],
                                                               );
                                                               print('clicked log ' + result.toString());
-                                                              if(result.toString() == 'logout') {
+                                                              if(result.toString() == textSetLogOut) {
                                                                 _selectTab(0);
                                                                 await FirebaseAuth.instance.signOut();
                                                                 setStoreId('');
@@ -2867,7 +2800,7 @@ class HomePageState extends State<HomePage>
                                                             },
                                                             child: Container(
                                                               child: Text(
-                                                                'Logout',
+                                                                textSetLogOut,
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     fontSize: 13,
@@ -3475,26 +3408,26 @@ class HomePageState extends State<HomePage>
                                                                                                   bottom:
                                                                                                   3),
                                                                                               child: Container(
-                                                                                                  child: Text(
-                                                                                                    textSetClear,
-                                                                                                    textAlign:
-                                                                                                    TextAlign
-                                                                                                        .center,
-                                                                                                    style: TextStyle(
-                                                                                                        height: 1.3,
-                                                                                                        fontSize:
-                                                                                                        17,
-                                                                                                        fontWeight:
-                                                                                                        FontWeight
-                                                                                                            .w600,
-                                                                                                        color: Colors
-                                                                                                            .black),
-                                                                                                    strutStyle: StrutStyle(
-                                                                                                      height: isEnglish? 1.4: 1.6,
-                                                                                                      forceStrutHeight: true,
-                                                                                                    ),
+                                                                                                child: Text(
+                                                                                                  textSetClear,
+                                                                                                  textAlign:
+                                                                                                  TextAlign
+                                                                                                      .center,
+                                                                                                  style: TextStyle(
+                                                                                                      height: 1.3,
+                                                                                                      fontSize:
+                                                                                                      17,
+                                                                                                      fontWeight:
+                                                                                                      FontWeight
+                                                                                                          .w600,
+                                                                                                      color: Colors
+                                                                                                          .black),
+                                                                                                  strutStyle: StrutStyle(
+                                                                                                    height: isEnglish? 1.4: 1.6,
+                                                                                                    forceStrutHeight: true,
                                                                                                   ),
-                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -3814,22 +3747,22 @@ class HomePageState extends State<HomePage>
                                                                                           ),
                                                                                         ),
                                                                                         subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',
-                                                                                            style: TextStyle(
-                                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                            ),
+                                                                                          style: TextStyle(
+                                                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                          ),
                                                                                           strutStyle: StrutStyle(
                                                                                               forceStrutHeight: true,
                                                                                               height: 1
                                                                                           ),
-                                                                                          ) : Text(totalItems() + ' $textSetItemSets',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                            ),
+                                                                                        ) : Text(totalItems() + ' $textSetItemSets',
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                          ),
                                                                                           strutStyle: StrutStyle(
                                                                                               forceStrutHeight: true,
                                                                                               height: 1
                                                                                           ),
-                                                                                          ),
+                                                                                        ),
                                                                                         trailing: Text('$currencyUnit '+
                                                                                             TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                           style: TextStyle(
@@ -3878,7 +3811,7 @@ class HomePageState extends State<HomePage>
                                                                                                       padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
                                                                                                       child: Container(
                                                                                                           child: Text(
-                                                                                                           textSetCheckOut,
+                                                                                                            textSetCheckOut,
                                                                                                             textAlign: TextAlign.center,
                                                                                                             style: TextStyle(
                                                                                                                 height: 1.3,
@@ -3923,7 +3856,7 @@ class HomePageState extends State<HomePage>
                                                                                                       padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
                                                                                                       child: Container(
                                                                                                           child: Text(
-                                                                                                           textSetCheckOut,
+                                                                                                            textSetCheckOut,
                                                                                                             textAlign: TextAlign.center,
                                                                                                             style: TextStyle(
                                                                                                                 height: 1.3,
@@ -3995,12 +3928,12 @@ class HomePageState extends State<HomePage>
                                                                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                                                                         children: [
                                                                                                           Text('$textSetTotalSale - $currencyUnit',
-                                                                                                              textAlign: TextAlign.center,
-                                                                                                              style: TextStyle(
-                                                                                                                fontSize: 20,
-                                                                                                                fontWeight: FontWeight.w500,
-                                                                                                                color: Colors.grey,
-                                                                                                              ),
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(
+                                                                                                              fontSize: 20,
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                              color: Colors.grey,
+                                                                                                            ),
                                                                                                             strutStyle: StrutStyle(
                                                                                                               height: isEnglish? 1.4: 1.6,
                                                                                                               forceStrutHeight: true,
@@ -4222,8 +4155,8 @@ class HomePageState extends State<HomePage>
                                                                                       children: [
                                                                                         Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1],
                                                                                           style: TextStyle(
-                                                                                            fontSize: 13,
-                                                                                            fontWeight: FontWeight.w500,
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.w500,
                                                                                               overflow: TextOverflow.ellipsis
                                                                                             //color: Colors.grey,
                                                                                           ),
@@ -4234,15 +4167,15 @@ class HomePageState extends State<HomePage>
                                                                                           ),
                                                                                         ),
                                                                                         Text('Cash acceptance',
-                                                                                          style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 18,
-                                                                                            overflow: TextOverflow.ellipsis
-                                                                                          ),
-                                                                                          strutStyle: StrutStyle(
-                                                                                            height: 1.7,
-                                                                                            forceStrutHeight: true,
-                                                                                          )
+                                                                                            style: TextStyle(
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 18,
+                                                                                                overflow: TextOverflow.ellipsis
+                                                                                            ),
+                                                                                            strutStyle: StrutStyle(
+                                                                                              height: 1.7,
+                                                                                              forceStrutHeight: true,
+                                                                                            )
                                                                                         ),
                                                                                       ],
                                                                                     ),
@@ -4269,7 +4202,7 @@ class HomePageState extends State<HomePage>
                                                                                       children: [
                                                                                         debt!= 0 ? ListTile(
                                                                                           title: Text(
-                                                                                           textSetDebtAmt,
+                                                                                            textSetDebtAmt,
                                                                                             style: TextStyle(
                                                                                                 fontSize: 17,
                                                                                                 fontWeight:
@@ -4345,7 +4278,7 @@ class HomePageState extends State<HomePage>
                                                                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                               child: Container(
                                                                                                                   child: Text(
-                                                                                                                   textSetBack,
+                                                                                                                    textSetBack,
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
                                                                                                                         fontSize: 18,
@@ -4382,9 +4315,9 @@ class HomePageState extends State<HomePage>
                                                                                                       double debtAmounts = 0 ;
                                                                                                       print('order creating');
 
-                                                                                                      FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
                                                                                                           .get().then((value) async {
-                                                                                                        length = int.parse(value.data()!['orders_length'].toString());
+                                                                                                        length = int.parse(value.data()!['count'].toString());
                                                                                                         print('lengthsss' + length.toString());
 
                                                                                                         length = length + 1;
@@ -4578,7 +4511,6 @@ class HomePageState extends State<HomePage>
                                                                                                             });
                                                                                                           });
                                                                                                         });
-
 
                                                                                                         List<String> subNameList = [];
                                                                                                         int subNameListLength = 0;
@@ -4795,16 +4727,16 @@ class HomePageState extends State<HomePage>
                                                                                           ],
                                                                                         ),
                                                                                         Text(
-                                                                                          productName,
-                                                                                          style: TextStyle(
-                                                                                              fontWeight: FontWeight.w600,
-                                                                                              fontSize: 18,
-                                                                                              height: 1.3
-                                                                                          ),
-                                                                                          strutStyle: StrutStyle(
-                                                                                            height: 1.7,
-                                                                                            forceStrutHeight: true,
-                                                                                          )
+                                                                                            productName,
+                                                                                            style: TextStyle(
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 18,
+                                                                                                height: 1.3
+                                                                                            ),
+                                                                                            strutStyle: StrutStyle(
+                                                                                              height: 1.7,
+                                                                                              forceStrutHeight: true,
+                                                                                            )
                                                                                         ),
                                                                                       ],
                                                                                     ),
@@ -5315,7 +5247,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                                 child: Container(
                                                                                                                     child: Text(
-                                                                                                                     textSetBack,
+                                                                                                                      textSetBack,
                                                                                                                       textAlign: TextAlign.center,
                                                                                                                       style: TextStyle(
                                                                                                                           fontSize: 17.5,
@@ -5368,7 +5300,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                                 child: Container(
                                                                                                                     child: Text(
-                                                                                                                     textSetDone,
+                                                                                                                      textSetDone,
                                                                                                                       textAlign: TextAlign.center,
                                                                                                                       style: TextStyle(
                                                                                                                           fontSize: 17.5,
@@ -6105,7 +6037,7 @@ class HomePageState extends State<HomePage>
                                                                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                                               child: Container(
                                                                                                                   child: Text(
-                                                                                                                   textSetNextSale,
+                                                                                                                    textSetNextSale,
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
                                                                                                                         fontSize: 17.5,
@@ -6389,7 +6321,7 @@ class HomePageState extends State<HomePage>
                                                                           child: Container(
                                                                             child: Text(
                                                                               customerId == 'name^name' ? textSetGotoCart : customerId.split('^')[1].toString(),
-                                                                                                                                                                                 textAlign: TextAlign.center,
+                                                                              textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                   fontSize: 17.5,
                                                                                   fontWeight: FontWeight.w600,
@@ -6711,7 +6643,7 @@ class HomePageState extends State<HomePage>
           print('CHECK ' + doc['prod_name'].toString());
           scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
               + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
-              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']);
+              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']+ '^' + doc['img_1']);
 
           doc['sub1_name'] != ''  && doc['sub2_name'] == '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}]:
           doc['sub1_name'] != ''  && doc['sub2_name'] != '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}, {'no': 3, 'keyword': doc['sub2_name']}] :
@@ -7021,9 +6953,11 @@ class HomePageState extends State<HomePage>
   String barcode5 = '';
   String name5 = '';
   String data = '';
+  String pName = '';
+  String pImage = '';
   TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
-    var _selectedTest;
+    Object? _selectedTest;
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
@@ -7031,6 +6965,8 @@ class HomePageState extends State<HomePage>
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           barcode5 = result.split('^')[12];
+          pName = result.split('^')[1];
+          pImage = result.split('^')[13];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
               if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
@@ -7536,7 +7472,7 @@ class HomePageState extends State<HomePage>
                                                 children: [
                                                   ListTile(
                                                     title: Text(
-                                                     textSetTotal,
+                                                      textSetTotal,
                                                       style: TextStyle(
                                                           fontSize: 17,
                                                           fontWeight:
@@ -7561,7 +7497,7 @@ class HomePageState extends State<HomePage>
                                                       child: GestureDetector(
                                                         onTap: () async {
                                                           setState(() {
-                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
+                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data +  qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage  );
                                                           });
                                                           print('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
@@ -9234,7 +9170,7 @@ class HomePageState extends State<HomePage>
                                                   children: [
                                                     ListTile(
                                                       title: Text(
-                                                       textSetTotalSale,
+                                                        textSetTotalSale,
                                                         style: TextStyle(
                                                             fontSize: 17,
                                                             fontWeight:
@@ -9246,21 +9182,21 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                       ),
                                                       subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',
-                                                          style: TextStyle(
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                              forceStrutHeight: true,
-                                                              height: 1
-                                                          ),
+                                                        style: TextStyle(
+                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1
+                                                        ),
                                                       ) : Text(totalItems() + ' $textSetItemSets',
-                                                          style: TextStyle(
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                              forceStrutHeight: true,
-                                                              height: 1
-                                                          ),
+                                                        style: TextStyle(
+                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight: true,
+                                                            height: 1
+                                                        ),
                                                       ),
                                                       trailing: Text('$currencyUnit '+
                                                           TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -9304,7 +9240,7 @@ class HomePageState extends State<HomePage>
                                                                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
                                                                   child: Container(
                                                                       child: Text(
-                                                                       textSetCheckOut,
+                                                                        textSetCheckOut,
                                                                         textAlign: TextAlign.center,
                                                                         style: TextStyle(
                                                                             height: 1.3,
@@ -9348,7 +9284,7 @@ class HomePageState extends State<HomePage>
                                                                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.5),
                                                                   child: Container(
                                                                       child: Text(
-                                                                       textSetCheckOut,
+                                                                        textSetCheckOut,
                                                                         textAlign: TextAlign.center,
                                                                         style: TextStyle(
                                                                             height: 1.3,
@@ -9465,12 +9401,12 @@ class HomePageState extends State<HomePage>
                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: [
                                                                         Text('$textSetTotalSale - $currencyUnit',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                              fontSize: 20,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.grey,
-                                                                            ),
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                            fontSize: 20,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.grey,
+                                                                          ),
                                                                           strutStyle: StrutStyle(
                                                                             height: isEnglish? 1.4: 1.6,
                                                                             forceStrutHeight: true,
@@ -9726,7 +9662,7 @@ class HomePageState extends State<HomePage>
                                                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                             child: Container(
                                                                                 child: Text(
-                                                                                 textSetBack,
+                                                                                  textSetBack,
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(
                                                                                       fontSize: 18,
@@ -9775,9 +9711,9 @@ class HomePageState extends State<HomePage>
 
                                                                     print('order creating');
 
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
                                                                         .get().then((value) async {
-                                                                      length = int.parse(value.data()!['orders_length'].toString());
+                                                                      length = int.parse(value.data()!['count'].toString());
                                                                       print('lengthsss' + length.toString());
                                                                       length = length + 1;
 
@@ -9799,50 +9735,49 @@ class HomePageState extends State<HomePage>
                                                                         //
                                                                         // });
 
-                                                                        List<String> subLink = [];
-                                                                        List<String> subName = [];
-                                                                        List<double> subStock = [];
+                                                                        // List<String> subLink = [];
+                                                                        // List<String> subName = [];
+                                                                        // List<double> subStock = [];
 
-                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                            .get();
+                                                                        // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                        //     .get();
 
-                                                                        if (docSnapshot10.exists) {
-                                                                          Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                          for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                            subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                            subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                            print('inStock' + (i+1).toString());
-                                                                            print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                            subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                          }
 
-                                                                          print(subStock.toString());
+                                                                        // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                        //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                        //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                        //   print('inStock' + (i+1).toString());
+                                                                        //   print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                        //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                        // }
 
-                                                                          if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                            batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
-                                                                            //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                            //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                            // if ( k == prodList.length-1) {
-                                                                            //   batch.commit();
-                                                                            // }
-                                                                            //print('batch complete');
-                                                                            // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                          }
-                                                                          else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                            batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
-                                                                            // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                            //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                            //});
-                                                                          }
-                                                                          else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                            batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
-                                                                            // productsFire.doc(str.split('^')[0]).update({
-                                                                            //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                            // });
-                                                                          }
+                                                                        // print(subStock.toString());
+                                                                        print('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
+
+                                                                        if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                          batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
+                                                                          print('decStock ' + prodList[k].split('^')[0].toString());
+                                                                          //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                          //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                          // if ( k == prodList.length-1) {
+                                                                          //   batch.commit();
+                                                                          // }
+                                                                          //print('batch complete');
+                                                                          // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                         }
-
+                                                                        else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                          // batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                          // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                          //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                          //});
+                                                                        }
+                                                                        else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                          //  batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                          // productsFire.doc(str.split('^')[0]).update({
+                                                                          //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                          // });
+                                                                        }
                                                                       }
 
                                                                       if( debt.toString() != '0.0') {
@@ -10171,7 +10106,7 @@ class HomePageState extends State<HomePage>
                                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                               child: Container(
                                                                                   child: Text(
-                                                                                   textSetDone,
+                                                                                    textSetDone,
                                                                                     textAlign: TextAlign.center,
                                                                                     style: TextStyle(
                                                                                         fontSize: 17.5,
@@ -10732,7 +10667,7 @@ class HomePageState extends State<HomePage>
                                                         children: [
                                                           ListTile(
                                                             title: Text(
-                                                             textSetTotal,
+                                                              textSetTotal,
                                                               style: TextStyle(
                                                                   fontSize: 17,
                                                                   fontWeight:
@@ -10788,7 +10723,7 @@ class HomePageState extends State<HomePage>
                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                 child: Container(
                                                                                     child: Text(
-                                                                                     textSetBack,
+                                                                                      textSetBack,
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                           fontSize: 18,
@@ -11016,7 +10951,7 @@ class HomePageState extends State<HomePage>
                                                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                             child: Container(
                                                                                 child: Text(
-                                                                                 textSetSaveImage,
+                                                                                  textSetSaveImage,
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(
                                                                                       fontSize: 17.5,
@@ -11962,7 +11897,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 0.0),
                 child: Text(
-                  'Home' ,
+                  textSetHome,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -11990,7 +11925,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Product',
+                  textSetProd,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12015,7 +11950,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Sale orders',
+                  textSetSord,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12040,7 +11975,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Buy orders',
+                  textSetBord,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12099,7 +12034,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Customers',
+                  textSetCustomers,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12127,7 +12062,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Merchants',
+                  textSetMerchants,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12155,7 +12090,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Settings',
+                  textSetSett,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12228,8 +12163,8 @@ class HomePageState extends State<HomePage>
   }
 
   updateOrderLength(WriteBatch batch){
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId);
-    batch.update(documentReference, {'orders_length': FieldValue.increment(1)});
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt');
+    batch.update(documentReference, {'count': FieldValue.increment(1)});
     return batch;
   }
 
@@ -12270,10 +12205,16 @@ class HomePageState extends State<HomePage>
   }
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
-    print('Double Check Sub1');
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
+    print('Double Check Sub1' + '$id.im');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    // documentReference
+    //     .update({'0-1000.price': FieldValue.increment(1)})
+    //     .then((value) => print("User Updated"))
+    //     .catchError((error) => print("Failed to update user: $error"));
 
-    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
+    // batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
+
+    batch.update(documentReference, {'prods.$id.im': FieldValue.increment(0- (double.parse(num.toString()))),});
 
     return batch;
   }

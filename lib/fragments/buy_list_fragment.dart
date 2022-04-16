@@ -16,7 +16,7 @@ import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
@@ -3844,999 +3844,1000 @@ class BuyListFragmentState extends State<BuyListFragment>
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Container(
-          color: Colors.white,
-          child: SafeArea(
-            top: true,
-            bottom: true,
-            child: Stack(
-              children: [
-                if(!searchOpening)
-                  Align(
-                    alignment: Alignment.center,
-
-                    child: Padding(
-                      // padding: const EdgeInsets.only(top: 138.0),
-                      padding: const EdgeInsets.only(top: 81.0),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.white,
-                          child: StreamBuilder(
-                              stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders')
-                                  .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-                                  .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
-                                  .orderBy('date', descending: true).snapshots(),
-                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                if(snapshot.hasData) {
-                                  var sections = List<ExampleSection>.empty(growable: true);
-                                  int docInc = 0;
-                                  snapshot.data!.docs.map((document) async {
-                                    // List<String> dailyOrders = document['daily_order'].cast<String>();
-                                    List<String> dailyOrders = [];
-                                    for(String str in document['daily_order']) {
-                                      if(cateScIndex == 2) {
-                                        if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
-                                          dailyOrders.add(str);
-                                        }
-                                      } else if(cateScIndex == 1) {
-                                        if(str.split('^')[5] != '0.0') {
-                                          dailyOrders.add(str);
-                                        }
-                                      } else if(cateScIndex == 3) {
-                                        if(str.split('^')[5] == '0.0') {
-                                          dailyOrders.add(str);
-                                        }
-                                      } else if(cateScIndex == 0) {
-                                        dailyOrders.add(str);
-                                      }
-                                    }
-                                    if(docInc>0) {
-                                      Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
-                                      List<String> dataLowDailyOrder = [];
-                                      for(String str in dataLow['daily_order']) {
-                                        if(cateScIndex == 2) {
-                                          if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
-                                            dataLowDailyOrder.add(str);
-                                          }
-                                        } else if(cateScIndex == 1) {
-                                          if(str.split('^')[5] != '0.0') {
-                                            dataLowDailyOrder.add(str);
-                                          }
-                                        } else if(cateScIndex == 3) {
-                                          if(str.split('^')[5] == '0.0') {
-                                            dataLowDailyOrder.add(str);
-                                          }
-                                        } else if(cateScIndex == 0) {
-                                          dataLowDailyOrder.add(str);
-                                        }
-
-                                      }
-
-
-                                      print('DATA LOW ' + dataLow['date'].toDate().toString());
-                                      if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-                                          ==
-                                          dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
-                                      ) {
-                                        var section = ExampleSection()
-                                          ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                        // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                        //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                        //   ..items = document['daily_order'].cast<String>()
-
-
-                                        // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                          ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
-                                        // ..items = orderItems(document.id)
-                                          ..expanded = true;
-                                        // sections.add(section);
-                                        sections[sections.length-1] = section;
-                                      } else {
-                                        // print('herre ' + document.id);
-                                        var section = ExampleSection()
-                                          ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                        // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                        //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                        //   ..items = document['daily_order'].cast<String>()
-
-
-                                          ..items = sortList(changeDataNew(dailyOrders.cast<String>(),))
-                                        // ..items = orderItems(document.id)
-                                          ..expanded = true;
-                                        sections.add(section);
-                                      }
-                                    } else {
-                                      // print('herre ' + document.id);
-                                      var section = ExampleSection()
-                                        ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                      // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                      //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                      //   ..items = document['daily_order'].cast<String>()
-
-
-                                        ..items = sortList(changeDataNew(dailyOrders.cast<String>(),))
-                                      // ..items = orderItems(document.id)
-                                        ..expanded = true;
-                                      sections.add(section);
-                                    }
-
-
-
-                                    docInc++;
-                                  }).toList();
-                                  sectionList3 = sections;
-                                  return CustomScrollView(
-                                    slivers: <Widget>[
-                                      SliverAppBar(
-                                        elevation: 0,
-                                        backgroundColor: Colors.white,
-
-                                        // Provide a standard title.
-
-                                        // Allows the user to reveal the app bar if they begin scrolling
-                                        // back up the list of items.
-                                        floating: true,
-                                        bottom: PreferredSize(                       // Add this code
-                                          preferredSize: Size.fromHeight(-2.0),      // Add this code
-                                          child: Container(),                           // Add this code
-                                        ),
-                                        flexibleSpace: Padding(
-                                          padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
-                                          child: Container(
-                                            height: 32,
-                                            width: MediaQuery.of(context).size.width,
-                                            // color: Colors.yellow,
-                                            child: Row(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    FlatButton(
-                                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                                      color: AppTheme.secButtonColor,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(8.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        // widget._callback();
-                                                        _showDatePicker(OneContext().context);
-                                                      },
-                                                      child: Container(
-                                                        child: Row(
-                                                          // mainAxisAlignment: Main,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right: 3.0),
-                                                              child: Icon(
-                                                                Icons.calendar_view_day_rounded,
-                                                                size: 18,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              selectDaysCast() + ' (7D)',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 12),
-                                                    Container(
-                                                      color: Colors.grey.withOpacity(0.2),
-                                                      width: 1.5,
-                                                      height: 30,
-                                                    )
-                                                  ],
-                                                ),
-                                                Expanded(
-                                                  child: ListView(
-                                                    controller: cateScCtler,
-                                                    scrollDirection: Axis.horizontal,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(0);
-                                                            setState(() {
-                                                              cateScIndex = 0;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetAll,
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(5.4);
-                                                            setState(() {
-                                                              cateScIndex = 1;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetTUnpaid,
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(16.4);
-                                                            setState(() {
-                                                              cateScIndex = 2;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetTRefunds,
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(20);
-                                                            setState(() {
-                                                              cateScIndex = 3;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetTPaid,
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 11,
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        // Display a placeholder widget to visualize the shrinking size.
-                                        // Make the initial height of the SliverAppBar larger than normal.
-                                        expandedHeight: 20,
-                                      ),
-                                      SliverExpandableList(
-                                        builder: SliverExpandableChildDelegate(
-                                          sectionList: sectionList3,
-                                          headerBuilder: _buildHeader,
-                                          itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                            String item = sectionList3[sectionIndex].items[itemIndex];
-                                            int length = sectionList3[sectionIndex].items.length;
-
-
-                                            // CollectionReference daily_exps_inner = FirebaseFirestore.instance
-                                            //     .collection('users')
-                                            //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                                            //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
-
-
-                                            // StreamBuilder(
-                                            //   stream: daily_exps_inner.snapshots(),
-                                            //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                            //     if(snapshot3.hasData) {
-                                            //
-                                            //     } else {
-                                            //       return Container();
-                                            //     }
-                                            //   },
-                                            // )
-                                            if(itemIndex == length-1) {
-                                              return GestureDetector(
-                                                onTap: () async{
-                                                  closeDrawerFrom();
-                                                  // print(item.split('^')[1]);
-                                                  await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
-                                                          data: item,
-                                                          toggleCoinCallback:
-                                                              () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
-                                                  );
-                                                  openDrawerFrom();
-                                                },
-                                                child: Stack(
-                                                  alignment: Alignment.center,
-
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme.lightBgColor,
-                                                            border: Border(
-                                                              bottom: BorderSide(
-                                                                  color: AppTheme.skBorderColor2,
-                                                                  width: 1.0),
-                                                            )),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 1.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        Text('#' + item.split('^')[1],
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              fontWeight: FontWeight.w500
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(width: 8),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(bottom: 1.0),
-                                                                          child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                        ),
-                                                                        SizedBox(width: 4),
-                                                                        Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                                          style: TextStyle(
-                                                                            fontSize: 13,
-                                                                            fontWeight: FontWeight.w400,
-                                                                            color: Colors.grey,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    // Padding(
-                                                                    //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                    //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                                    // ),
-                                                                    SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(item.split('^')[3].split('&')[0],
-                                                                          style: TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1.3,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  if(item.split('^')[5] == '0.0')
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 0.0),
-                                                                      child: Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeBgSuccess,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Paid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                  if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 0.0),
-                                                                      child: Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeFgDangerLight,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Partially paid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: AppTheme.badgeFgDanger
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 0.0),
-                                                                      child: Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeFgDanger,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Unpaid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if(item.split('^')[4] == 'TRUE')
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 6.0),
-                                                                      child: Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeBgSecond,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Refunded',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                  if(item.split('^')[4] == 'PART')
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 6.0),
-                                                                      child: Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeBgSecondLight,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                                          child: Text('Partially refunded',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: AppTheme.badgeBgSecond
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                      child: Align(
-                                                        alignment: Alignment.centerRight,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight: FontWeight.w500,
-                                                            )),
-                                                            SizedBox(width: 10),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 2.0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors
-                                                                    .blueGrey
-                                                                    .withOpacity(
-                                                                    0.8),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            return GestureDetector(
-                                              onTap: () async {
-                                                closeDrawerFrom();
-                                                print('Items'+item);
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
-                                                        data: item,
-                                                        toggleCoinCallback:
-                                                            () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
-                                                );
-                                                openDrawerFrom();
-                                              },
-                                              child: Stack(
-                                                alignment: Alignment.center,
-
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: AppTheme.lightBgColor,
-                                                          border: Border(
-                                                            bottom: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                                width: 1.0),
-                                                          )),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 1.0),
-                                                              child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Text('#' + item.split('^')[1],
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            fontWeight: FontWeight.w500
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(width: 8),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(bottom: 1.0),
-                                                                        child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                      ),
-                                                                      SizedBox(width: 4),
-                                                                      Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                                        style: TextStyle(
-                                                                          fontSize: 14,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.grey,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 6,
-                                                                  ),
-                                                                  Row(
-                                                                    children: [
-                                                                      Text(item.split('^')[3].split('&')[0], style: TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),
-                                                                      strutStyle: StrutStyle(
-                                                                        height: 1.3,
-                                                                        // fontSize:,
-                                                                        forceStrutHeight: true,
-                                                                      ),
-                                                                      ),
-
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                if(item.split('^')[5] == '0.0')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSuccess,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDangerLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Partially paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeFgDanger
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDanger,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Unpaid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.split('^')[4] == 'TRUE')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.split('^')[4] == 'PART')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecondLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                                        child: Text('Partially refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeBgSecond
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                    child: Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w500,
-                                                          )),
-                                                          SizedBox(width: 10),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(bottom: 2.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_rounded,
-                                                              size: 16,
-                                                              color: Colors
-                                                                  .blueGrey
-                                                                  .withOpacity(
-                                                                  0.8),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                } else {
-                                  return Container();
-                                }
-
-                              }
-                          )
-                      ),
-                    ),
-                  ),
-                if(searchOpeningR)
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 15,)),
-                      ),
-                    ),
-                  ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                              color: AppTheme.skBorderColor2,
-                              width: 1.0),
-                        )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          widget._searchBtn();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: loadingSearch? Colors.blue: Colors.transparent,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: AppTheme.secButtonColor,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          height: 50,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0, bottom: 11.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if(loadingSearch) {
-                                      _searchController.clear();
-                                      FocusScope.of(context).unfocus();
-                                      setState(() {
-                                        loadingSearch = false;
-                                      });
-                                    } else {
-                                      FocusScope.of(context).requestFocus(nodeFirst);
-                                      setState(() {
-                                        loadingSearch = true;
-                                      });
-                                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 12.0),
-                                    child: Container(
-                                      child: Stack(
-                                        children: [
-                                          !loadingSearch? Padding(
-                                            padding: const EdgeInsets.only(left: 5.0),
-                                            child: Icon(
-                                              SmartKyat_POS.search,
-                                              size: 17,
-                                            ),
-                                          ): Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                            child: Icon(
-                                              Icons.close_rounded,
-                                              size: 24,
-                                            ),
-                                          )
-
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 13,
-                                          bottom: 1.5),
-                                      child: Text(
-                                        textSetSearch,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black.withOpacity(0.55)
-                                        ),
-                                        strutStyle: StrutStyle(
-                                            forceStrutHeight: true,
-                                            height: textSetSearch == 'Search'? 1.6: 1.3
-                                        ),
-                                      )
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    widget._barcodeBtn();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 15.0,
-                                    ),
-                                    // child: Icon(
-                                    //   SmartKyat_POS.barcode,
-                                    //   color: Colors.black,
-                                    //   size: 25,
-                                    // ),
-                                    child: Container(
-                                        child: Image.asset('assets/system/barcode.png', height: 28,)
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                //overAllSearch()
-              ],
-            ),
-          ),
-        ),
+        child: Container()
+        // child: Container(
+        //   color: Colors.white,
+        //   child: SafeArea(
+        //     top: true,
+        //     bottom: true,
+        //     child: Stack(
+        //       children: [
+        //         if(!searchOpening)
+        //           Align(
+        //             alignment: Alignment.center,
+        //
+        //             child: Padding(
+        //               // padding: const EdgeInsets.only(top: 138.0),
+        //               padding: const EdgeInsets.only(top: 81.0),
+        //               child: Container(
+        //                   height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+        //                   width: MediaQuery.of(context).size.width,
+        //                   color: Colors.white,
+        //                   child: StreamBuilder(
+        //                       stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders')
+        //                           .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+        //                           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+        //                           .orderBy('date', descending: true).snapshots(),
+        //                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        //                         if(snapshot.hasData) {
+        //                           var sections = List<ExampleSection>.empty(growable: true);
+        //                           int docInc = 0;
+        //                           snapshot.data!.docs.map((document) async {
+        //                             // List<String> dailyOrders = document['daily_order'].cast<String>();
+        //                             List<String> dailyOrders = [];
+        //                             for(String str in document['daily_order']) {
+        //                               if(cateScIndex == 2) {
+        //                                 if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
+        //                                   dailyOrders.add(str);
+        //                                 }
+        //                               } else if(cateScIndex == 1) {
+        //                                 if(str.split('^')[5] != '0.0') {
+        //                                   dailyOrders.add(str);
+        //                                 }
+        //                               } else if(cateScIndex == 3) {
+        //                                 if(str.split('^')[5] == '0.0') {
+        //                                   dailyOrders.add(str);
+        //                                 }
+        //                               } else if(cateScIndex == 0) {
+        //                                 dailyOrders.add(str);
+        //                               }
+        //                             }
+        //                             if(docInc>0) {
+        //                               Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
+        //                               List<String> dataLowDailyOrder = [];
+        //                               for(String str in dataLow['daily_order']) {
+        //                                 if(cateScIndex == 2) {
+        //                                   if(str.split('^')[4] == 'PART' || str.split('^')[4] == 'TRUE') {
+        //                                     dataLowDailyOrder.add(str);
+        //                                   }
+        //                                 } else if(cateScIndex == 1) {
+        //                                   if(str.split('^')[5] != '0.0') {
+        //                                     dataLowDailyOrder.add(str);
+        //                                   }
+        //                                 } else if(cateScIndex == 3) {
+        //                                   if(str.split('^')[5] == '0.0') {
+        //                                     dataLowDailyOrder.add(str);
+        //                                   }
+        //                                 } else if(cateScIndex == 0) {
+        //                                   dataLowDailyOrder.add(str);
+        //                                 }
+        //
+        //                               }
+        //
+        //
+        //                               print('DATA LOW ' + dataLow['date'].toDate().toString());
+        //                               if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+        //                                   ==
+        //                                   dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
+        //                               ) {
+        //                                 var section = ExampleSection()
+        //                                   ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+        //                                 // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+        //                                 //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+        //
+        //                                 //   ..items = document['daily_order'].cast<String>()
+        //
+        //
+        //                                 // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+        //                                   ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
+        //                                 // ..items = orderItems(document.id)
+        //                                   ..expanded = true;
+        //                                 // sections.add(section);
+        //                                 sections[sections.length-1] = section;
+        //                               } else {
+        //                                 // print('herre ' + document.id);
+        //                                 var section = ExampleSection()
+        //                                   ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+        //                                 // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+        //                                 //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+        //
+        //                                 //   ..items = document['daily_order'].cast<String>()
+        //
+        //
+        //                                   ..items = sortList(changeDataNew(dailyOrders.cast<String>(),))
+        //                                 // ..items = orderItems(document.id)
+        //                                   ..expanded = true;
+        //                                 sections.add(section);
+        //                               }
+        //                             } else {
+        //                               // print('herre ' + document.id);
+        //                               var section = ExampleSection()
+        //                                 ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+        //                               // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+        //                               //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+        //
+        //                               //   ..items = document['daily_order'].cast<String>()
+        //
+        //
+        //                                 ..items = sortList(changeDataNew(dailyOrders.cast<String>(),))
+        //                               // ..items = orderItems(document.id)
+        //                                 ..expanded = true;
+        //                               sections.add(section);
+        //                             }
+        //
+        //
+        //
+        //                             docInc++;
+        //                           }).toList();
+        //                           sectionList3 = sections;
+        //                           return CustomScrollView(
+        //                             slivers: <Widget>[
+        //                               SliverAppBar(
+        //                                 elevation: 0,
+        //                                 backgroundColor: Colors.white,
+        //
+        //                                 // Provide a standard title.
+        //
+        //                                 // Allows the user to reveal the app bar if they begin scrolling
+        //                                 // back up the list of items.
+        //                                 floating: true,
+        //                                 bottom: PreferredSize(                       // Add this code
+        //                                   preferredSize: Size.fromHeight(-2.0),      // Add this code
+        //                                   child: Container(),                           // Add this code
+        //                                 ),
+        //                                 flexibleSpace: Padding(
+        //                                   padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+        //                                   child: Container(
+        //                                     height: 32,
+        //                                     width: MediaQuery.of(context).size.width,
+        //                                     // color: Colors.yellow,
+        //                                     child: Row(
+        //                                       children: [
+        //                                         Row(
+        //                                           children: [
+        //                                             FlatButton(
+        //                                               padding: EdgeInsets.only(left: 10, right: 10),
+        //                                               color: AppTheme.secButtonColor,
+        //                                               shape: RoundedRectangleBorder(
+        //                                                 borderRadius: BorderRadius.circular(8.0),
+        //                                                 side: BorderSide(
+        //                                                   color: AppTheme.skBorderColor2,
+        //                                                 ),
+        //                                               ),
+        //                                               onPressed: () {
+        //                                                 // widget._callback();
+        //                                                 _showDatePicker(OneContext().context);
+        //                                               },
+        //                                               child: Container(
+        //                                                 child: Row(
+        //                                                   // mainAxisAlignment: Main,
+        //                                                   children: [
+        //                                                     Padding(
+        //                                                       padding: const EdgeInsets.only(right: 3.0),
+        //                                                       child: Icon(
+        //                                                         Icons.calendar_view_day_rounded,
+        //                                                         size: 18,
+        //                                                       ),
+        //                                                     ),
+        //                                                     Text(
+        //                                                       selectDaysCast() + ' (7D)',
+        //                                                       textAlign: TextAlign.center,
+        //                                                       style: TextStyle(
+        //                                                           fontSize: 14,
+        //                                                           fontWeight: FontWeight.w500,
+        //                                                           color: Colors.black),
+        //                                                     ),
+        //                                                   ],
+        //                                                 ),
+        //                                               ),
+        //                                             ),
+        //                                             SizedBox(width: 12),
+        //                                             Container(
+        //                                               color: Colors.grey.withOpacity(0.2),
+        //                                               width: 1.5,
+        //                                               height: 30,
+        //                                             )
+        //                                           ],
+        //                                         ),
+        //                                         Expanded(
+        //                                           child: ListView(
+        //                                             controller: cateScCtler,
+        //                                             scrollDirection: Axis.horizontal,
+        //                                             children: [
+        //                                               SizedBox(
+        //                                                 width: 4,
+        //                                               ),
+        //                                               Padding(
+        //                                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+        //                                                 child: FlatButton(
+        //                                                   minWidth: 0,
+        //                                                   padding: EdgeInsets.only(left: 12, right: 12),
+        //                                                   color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+        //                                                   shape: RoundedRectangleBorder(
+        //                                                     borderRadius: BorderRadius.circular(20.0),
+        //                                                     side: BorderSide(
+        //                                                       color: AppTheme.skBorderColor2,
+        //                                                     ),
+        //                                                   ),
+        //                                                   onPressed: () {
+        //                                                     _animateToIndex(0);
+        //                                                     setState(() {
+        //                                                       cateScIndex = 0;
+        //                                                     });
+        //                                                   },
+        //                                                   child: Container(
+        //                                                     child: Text(
+        //                                                       textSetAll,
+        //                                                       textAlign: TextAlign.center,
+        //                                                       style: TextStyle(
+        //                                                           fontSize: 14,
+        //                                                           fontWeight: FontWeight.w500,
+        //                                                           color: Colors.black),
+        //                                                     ),
+        //                                                   ),
+        //                                                 ),
+        //                                               ),
+        //                                               Padding(
+        //                                                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+        //                                                 child: FlatButton(
+        //                                                   minWidth: 0,
+        //                                                   padding: EdgeInsets.only(left: 12, right: 12),
+        //                                                   color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+        //                                                   shape: RoundedRectangleBorder(
+        //                                                     borderRadius: BorderRadius.circular(20.0),
+        //                                                     side: BorderSide(
+        //                                                       color: AppTheme.skBorderColor2,
+        //                                                     ),
+        //                                                   ),
+        //                                                   onPressed: () {
+        //                                                     _animateToIndex(5.4);
+        //                                                     setState(() {
+        //                                                       cateScIndex = 1;
+        //                                                     });
+        //                                                   },
+        //                                                   child: Container(
+        //                                                     child: Text(
+        //                                                       textSetTUnpaid,
+        //                                                       textAlign: TextAlign.center,
+        //                                                       style: TextStyle(
+        //                                                           fontSize: 14,
+        //                                                           fontWeight: FontWeight.w500,
+        //                                                           color: Colors.black),
+        //                                                     ),
+        //                                                   ),
+        //                                                 ),
+        //                                               ),
+        //                                               Padding(
+        //                                                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+        //                                                 child: FlatButton(
+        //                                                   minWidth: 0,
+        //                                                   padding: EdgeInsets.only(left: 12, right: 12),
+        //                                                   color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+        //                                                   shape: RoundedRectangleBorder(
+        //                                                     borderRadius: BorderRadius.circular(20.0),
+        //                                                     side: BorderSide(
+        //                                                       color: AppTheme.skBorderColor2,
+        //                                                     ),
+        //                                                   ),
+        //                                                   onPressed: () {
+        //                                                     _animateToIndex(16.4);
+        //                                                     setState(() {
+        //                                                       cateScIndex = 2;
+        //                                                     });
+        //                                                   },
+        //                                                   child: Container(
+        //                                                     child: Text(
+        //                                                       textSetTRefunds,
+        //                                                       textAlign: TextAlign.center,
+        //                                                       style: TextStyle(
+        //                                                           fontSize: 14,
+        //                                                           fontWeight: FontWeight.w500,
+        //                                                           color: Colors.black),
+        //                                                     ),
+        //                                                   ),
+        //                                                 ),
+        //                                               ),
+        //                                               Padding(
+        //                                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+        //                                                 child: FlatButton(
+        //                                                   minWidth: 0,
+        //                                                   padding: EdgeInsets.only(left: 12, right: 12),
+        //                                                   color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+        //                                                   shape: RoundedRectangleBorder(
+        //                                                     borderRadius: BorderRadius.circular(20.0),
+        //                                                     side: BorderSide(
+        //                                                       color: AppTheme.skBorderColor2,
+        //                                                     ),
+        //                                                   ),
+        //                                                   onPressed: () {
+        //                                                     _animateToIndex(20);
+        //                                                     setState(() {
+        //                                                       cateScIndex = 3;
+        //                                                     });
+        //                                                   },
+        //                                                   child: Container(
+        //                                                     child: Text(
+        //                                                       textSetTPaid,
+        //                                                       textAlign: TextAlign.center,
+        //                                                       style: TextStyle(
+        //                                                           fontSize: 14,
+        //                                                           fontWeight: FontWeight.w500,
+        //                                                           color: Colors.black),
+        //                                                     ),
+        //                                                   ),
+        //                                                 ),
+        //                                               ),
+        //                                               SizedBox(
+        //                                                 width: 11,
+        //                                               )
+        //                                             ],
+        //                                           ),
+        //                                         )
+        //                                       ],
+        //                                     ),
+        //                                   ),
+        //                                 ),
+        //                                 // Display a placeholder widget to visualize the shrinking size.
+        //                                 // Make the initial height of the SliverAppBar larger than normal.
+        //                                 expandedHeight: 20,
+        //                               ),
+        //                               SliverExpandableList(
+        //                                 builder: SliverExpandableChildDelegate(
+        //                                   sectionList: sectionList3,
+        //                                   headerBuilder: _buildHeader,
+        //                                   itemBuilder: (context, sectionIndex, itemIndex, index) {
+        //                                     String item = sectionList3[sectionIndex].items[itemIndex];
+        //                                     int length = sectionList3[sectionIndex].items.length;
+        //
+        //
+        //                                     // CollectionReference daily_exps_inner = FirebaseFirestore.instance
+        //                                     //     .collection('users')
+        //                                     //     .doc(FirebaseAuth.instance.currentUser!.uid)
+        //                                     //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+        //
+        //
+        //                                     // StreamBuilder(
+        //                                     //   stream: daily_exps_inner.snapshots(),
+        //                                     //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+        //                                     //     if(snapshot3.hasData) {
+        //                                     //
+        //                                     //     } else {
+        //                                     //       return Container();
+        //                                     //     }
+        //                                     //   },
+        //                                     // )
+        //                                     if(itemIndex == length-1) {
+        //                                       return GestureDetector(
+        //                                         onTap: () async{
+        //                                           closeDrawerFrom();
+        //                                           // print(item.split('^')[1]);
+        //                                           await Navigator.push(
+        //                                             context,
+        //                                             MaterialPageRoute(
+        //                                                 builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
+        //                                                   data: item,
+        //                                                   toggleCoinCallback:
+        //                                                       () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
+        //                                           );
+        //                                           openDrawerFrom();
+        //                                         },
+        //                                         child: Stack(
+        //                                           alignment: Alignment.center,
+        //
+        //                                           children: [
+        //                                             Padding(
+        //                                               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+        //                                               child: Container(
+        //                                                 decoration: BoxDecoration(
+        //                                                     color: AppTheme.lightBgColor,
+        //                                                     border: Border(
+        //                                                       bottom: BorderSide(
+        //                                                           color: AppTheme.skBorderColor2,
+        //                                                           width: 1.0),
+        //                                                     )),
+        //                                                 child: Padding(
+        //                                                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+        //                                                   child: Column(
+        //                                                     mainAxisAlignment: MainAxisAlignment.start,
+        //                                                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                                                     children: [
+        //                                                       Padding(
+        //                                                         padding: const EdgeInsets.only(left: 1.0),
+        //                                                         child: Column(
+        //                                                           mainAxisAlignment: MainAxisAlignment.start,
+        //                                                           crossAxisAlignment: CrossAxisAlignment.start,
+        //                                                           children: [
+        //                                                             Row(
+        //                                                               mainAxisAlignment: MainAxisAlignment.start,
+        //                                                               children: [
+        //                                                                 Text('#' + item.split('^')[1],
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 16,
+        //                                                                       fontWeight: FontWeight.w500
+        //                                                                   ),
+        //                                                                 ),
+        //                                                                 SizedBox(width: 8),
+        //                                                                 Padding(
+        //                                                                   padding: const EdgeInsets.only(bottom: 1.0),
+        //                                                                   child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+        //                                                                 ),
+        //                                                                 SizedBox(width: 4),
+        //                                                                 Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+        //                                                                   style: TextStyle(
+        //                                                                     fontSize: 13,
+        //                                                                     fontWeight: FontWeight.w400,
+        //                                                                     color: Colors.grey,
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ],
+        //                                                             ),
+        //                                                             // Padding(
+        //                                                             //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+        //                                                             //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+        //                                                             // ),
+        //                                                             SizedBox(
+        //                                                               height: 6,
+        //                                                             ),
+        //                                                             Row(
+        //                                                               children: [
+        //                                                                 Text(item.split('^')[3].split('&')[0],
+        //                                                                   style: TextStyle(
+        //                                                                     fontSize: 15,
+        //                                                                     fontWeight: FontWeight.w500,
+        //                                                                     color: Colors.grey,
+        //                                                                   ),
+        //                                                                   strutStyle: StrutStyle(
+        //                                                                     height: 1.3,
+        //                                                                     // fontSize:,
+        //                                                                     forceStrutHeight: true,
+        //                                                                   ),
+        //                                                                 ),
+        //
+        //                                                               ],
+        //                                                             ),
+        //                                                           ],
+        //                                                         ),
+        //                                                       ),
+        //                                                       SizedBox(
+        //                                                         height: 8,
+        //                                                       ),
+        //                                                       Row(
+        //                                                         children: [
+        //                                                           if(item.split('^')[5] == '0.0')
+        //                                                             Padding(
+        //                                                               padding: const EdgeInsets.only(left: 0.0),
+        //                                                               child: Container(
+        //                                                                 height: 21,
+        //                                                                 decoration: BoxDecoration(
+        //                                                                   borderRadius: BorderRadius.circular(20.0),
+        //                                                                   color: AppTheme.badgeBgSuccess,
+        //                                                                 ),
+        //                                                                 child: Padding(
+        //                                                                   padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                   child: Text('Paid',
+        //                                                                     style: TextStyle(
+        //                                                                         fontSize: 13,
+        //                                                                         fontWeight: FontWeight.w500,
+        //                                                                         color: Colors.white
+        //                                                                     ),
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //
+        //                                                           if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+        //                                                             Padding(
+        //                                                               padding: const EdgeInsets.only(left: 0.0),
+        //                                                               child: Container(
+        //                                                                 height: 21,
+        //                                                                 decoration: BoxDecoration(
+        //                                                                   borderRadius: BorderRadius.circular(20.0),
+        //                                                                   color: AppTheme.badgeFgDangerLight,
+        //                                                                 ),
+        //                                                                 child: Padding(
+        //                                                                   padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                   child: Text('Partially paid',
+        //                                                                     style: TextStyle(
+        //                                                                         fontSize: 13,
+        //                                                                         fontWeight: FontWeight.w500,
+        //                                                                         color: AppTheme.badgeFgDanger
+        //                                                                     ),
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+        //                                                             Padding(
+        //                                                               padding: const EdgeInsets.only(left: 0.0),
+        //                                                               child: Container(
+        //                                                                 height: 21,
+        //                                                                 decoration: BoxDecoration(
+        //                                                                   borderRadius: BorderRadius.circular(20.0),
+        //                                                                   color: AppTheme.badgeFgDanger,
+        //                                                                 ),
+        //                                                                 child: Padding(
+        //                                                                   padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                   child: Text('Unpaid',
+        //                                                                     style: TextStyle(
+        //                                                                         fontSize: 13,
+        //                                                                         fontWeight: FontWeight.w500,
+        //                                                                         color: Colors.white
+        //                                                                     ),
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           if(item.split('^')[4] == 'TRUE')
+        //                                                             Padding(
+        //                                                               padding: const EdgeInsets.only(left: 6.0),
+        //                                                               child: Container(
+        //                                                                 height: 21,
+        //                                                                 decoration: BoxDecoration(
+        //                                                                   borderRadius: BorderRadius.circular(20.0),
+        //                                                                   color: AppTheme.badgeBgSecond,
+        //                                                                 ),
+        //                                                                 child: Padding(
+        //                                                                   padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                   child: Text('Refunded',
+        //                                                                     style: TextStyle(
+        //                                                                         fontSize: 13,
+        //                                                                         fontWeight: FontWeight.w500,
+        //                                                                         color: Colors.white
+        //                                                                     ),
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //
+        //                                                           if(item.split('^')[4] == 'PART')
+        //                                                             Padding(
+        //                                                               padding: const EdgeInsets.only(left: 6.0),
+        //                                                               child: Container(
+        //                                                                 height: 21,
+        //                                                                 decoration: BoxDecoration(
+        //                                                                   borderRadius: BorderRadius.circular(20.0),
+        //                                                                   color: AppTheme.badgeBgSecondLight,
+        //                                                                 ),
+        //                                                                 child: Padding(
+        //                                                                   padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+        //                                                                   child: Text('Partially refunded',
+        //                                                                     style: TextStyle(
+        //                                                                         fontSize: 13,
+        //                                                                         fontWeight: FontWeight.w500,
+        //                                                                         color: AppTheme.badgeBgSecond
+        //                                                                     ),
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //
+        //                                                         ],
+        //                                                       )
+        //                                                     ],
+        //                                                   ),
+        //                                                 ),
+        //                                               ),
+        //                                             ),
+        //                                             Padding(
+        //                                               padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+        //                                               child: Align(
+        //                                                 alignment: Alignment.centerRight,
+        //                                                 child: Row(
+        //                                                   mainAxisAlignment: MainAxisAlignment.end,
+        //                                                   children: [
+        //                                                     Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+        //                                                       fontSize: 15,
+        //                                                       fontWeight: FontWeight.w500,
+        //                                                     )),
+        //                                                     SizedBox(width: 10),
+        //                                                     Padding(
+        //                                                       padding: const EdgeInsets.only(bottom: 2.0),
+        //                                                       child: Icon(
+        //                                                         Icons
+        //                                                             .arrow_forward_ios_rounded,
+        //                                                         size: 16,
+        //                                                         color: Colors
+        //                                                             .blueGrey
+        //                                                             .withOpacity(
+        //                                                             0.8),
+        //                                                       ),
+        //                                                     ),
+        //                                                   ],
+        //                                                 ),
+        //                                               ),
+        //                                             )
+        //                                           ],
+        //                                         ),
+        //                                       );
+        //                                     }
+        //                                     return GestureDetector(
+        //                                       onTap: () async {
+        //                                         closeDrawerFrom();
+        //                                         print('Items'+item);
+        //                                         await Navigator.push(
+        //                                           context,
+        //                                           MaterialPageRoute(
+        //                                               builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
+        //                                                 data: item,
+        //                                                 toggleCoinCallback:
+        //                                                     () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+        //                                         );
+        //                                         openDrawerFrom();
+        //                                       },
+        //                                       child: Stack(
+        //                                         alignment: Alignment.center,
+        //
+        //                                         children: [
+        //                                           Padding(
+        //                                             padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+        //                                             child: Container(
+        //                                               decoration: BoxDecoration(
+        //                                                   color: AppTheme.lightBgColor,
+        //                                                   border: Border(
+        //                                                     bottom: BorderSide(
+        //                                                         color: AppTheme.skBorderColor2,
+        //                                                         width: 1.0),
+        //                                                   )),
+        //                                               child: Padding(
+        //                                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+        //                                                 child: Column(
+        //                                                   mainAxisAlignment: MainAxisAlignment.start,
+        //                                                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                                                   children: [
+        //                                                     Padding(
+        //                                                       padding: const EdgeInsets.only(left: 1.0),
+        //                                                       child: Column(
+        //                                                         mainAxisAlignment: MainAxisAlignment.start,
+        //                                                         crossAxisAlignment: CrossAxisAlignment.start,
+        //                                                         children: [
+        //                                                           Row(
+        //                                                             mainAxisAlignment: MainAxisAlignment.start,
+        //                                                             children: [
+        //                                                               Text('#' + item.split('^')[1],
+        //                                                                 style: TextStyle(
+        //                                                                     fontSize: 16,
+        //                                                                     fontWeight: FontWeight.w500
+        //                                                                 ),
+        //                                                               ),
+        //                                                               SizedBox(width: 8),
+        //                                                               Padding(
+        //                                                                 padding: const EdgeInsets.only(bottom: 1.0),
+        //                                                                 child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+        //                                                               ),
+        //                                                               SizedBox(width: 4),
+        //                                                               Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+        //                                                                 style: TextStyle(
+        //                                                                   fontSize: 14,
+        //                                                                   fontWeight: FontWeight.w500,
+        //                                                                   color: Colors.grey,
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ],
+        //                                                           ),
+        //                                                           SizedBox(
+        //                                                             height: 6,
+        //                                                           ),
+        //                                                           Row(
+        //                                                             children: [
+        //                                                               Text(item.split('^')[3].split('&')[0], style: TextStyle(
+        //                                                                 fontSize: 15,
+        //                                                                 fontWeight: FontWeight.w500,
+        //                                                                 color: Colors.grey,
+        //                                                               ),
+        //                                                               strutStyle: StrutStyle(
+        //                                                                 height: 1.3,
+        //                                                                 // fontSize:,
+        //                                                                 forceStrutHeight: true,
+        //                                                               ),
+        //                                                               ),
+        //
+        //                                                             ],
+        //                                                           ),
+        //                                                         ],
+        //                                                       ),
+        //                                                     ),
+        //                                                     SizedBox(
+        //                                                       height: 8,
+        //                                                     ),
+        //                                                     Row(
+        //                                                       children: [
+        //                                                         if(item.split('^')[5] == '0.0')
+        //                                                           Padding(
+        //                                                             padding: const EdgeInsets.only(left: 0.0),
+        //                                                             child: Container(
+        //                                                               height: 21,
+        //                                                               decoration: BoxDecoration(
+        //                                                                 borderRadius: BorderRadius.circular(20.0),
+        //                                                                 color: AppTheme.badgeBgSuccess,
+        //                                                               ),
+        //                                                               child: Padding(
+        //                                                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                 child: Text('Paid',
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 13,
+        //                                                                       fontWeight: FontWeight.w500,
+        //                                                                       color: Colors.white
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           ),
+        //
+        //                                                         if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+        //                                                           Padding(
+        //                                                             padding: const EdgeInsets.only(left: 0.0),
+        //                                                             child: Container(
+        //                                                               height: 21,
+        //                                                               decoration: BoxDecoration(
+        //                                                                 borderRadius: BorderRadius.circular(20.0),
+        //                                                                 color: AppTheme.badgeFgDangerLight,
+        //                                                               ),
+        //                                                               child: Padding(
+        //                                                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                 child: Text('Partially paid',
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 13,
+        //                                                                       fontWeight: FontWeight.w500,
+        //                                                                       color: AppTheme.badgeFgDanger
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           ),
+        //                                                         if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+        //                                                           Padding(
+        //                                                             padding: const EdgeInsets.only(left: 0.0),
+        //                                                             child: Container(
+        //                                                               height: 21,
+        //                                                               decoration: BoxDecoration(
+        //                                                                 borderRadius: BorderRadius.circular(20.0),
+        //                                                                 color: AppTheme.badgeFgDanger,
+        //                                                               ),
+        //                                                               child: Padding(
+        //                                                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                 child: Text('Unpaid',
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 13,
+        //                                                                       fontWeight: FontWeight.w500,
+        //                                                                       color: Colors.white
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           ),
+        //                                                         if(item.split('^')[4] == 'TRUE')
+        //                                                           Padding(
+        //                                                             padding: const EdgeInsets.only(left: 6.0),
+        //                                                             child: Container(
+        //                                                               height: 21,
+        //                                                               decoration: BoxDecoration(
+        //                                                                 borderRadius: BorderRadius.circular(20.0),
+        //                                                                 color: AppTheme.badgeBgSecond,
+        //                                                               ),
+        //                                                               child: Padding(
+        //                                                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+        //                                                                 child: Text('Refunded',
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 13,
+        //                                                                       fontWeight: FontWeight.w500,
+        //                                                                       color: Colors.white
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           ),
+        //
+        //                                                         if(item.split('^')[4] == 'PART')
+        //                                                           Padding(
+        //                                                             padding: const EdgeInsets.only(left: 6.0),
+        //                                                             child: Container(
+        //                                                               height: 21,
+        //                                                               decoration: BoxDecoration(
+        //                                                                 borderRadius: BorderRadius.circular(20.0),
+        //                                                                 color: AppTheme.badgeBgSecondLight,
+        //                                                               ),
+        //                                                               child: Padding(
+        //                                                                 padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+        //                                                                 child: Text('Partially refunded',
+        //                                                                   style: TextStyle(
+        //                                                                       fontSize: 13,
+        //                                                                       fontWeight: FontWeight.w500,
+        //                                                                       color: AppTheme.badgeBgSecond
+        //                                                                   ),
+        //                                                                 ),
+        //                                                               ),
+        //                                                             ),
+        //                                                           ),
+        //
+        //                                                       ],
+        //                                                     )
+        //                                                   ],
+        //                                                 ),
+        //                                               ),
+        //                                             ),
+        //                                           ),
+        //                                           Padding(
+        //                                             padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+        //                                             child: Align(
+        //                                               alignment: Alignment.centerRight,
+        //                                               child: Row(
+        //                                                 mainAxisAlignment: MainAxisAlignment.end,
+        //                                                 children: [
+        //                                                   Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+        //                                                     fontSize: 15,
+        //                                                     fontWeight: FontWeight.w500,
+        //                                                   )),
+        //                                                   SizedBox(width: 10),
+        //                                                   Padding(
+        //                                                     padding: const EdgeInsets.only(bottom: 2.0),
+        //                                                     child: Icon(
+        //                                                       Icons
+        //                                                           .arrow_forward_ios_rounded,
+        //                                                       size: 16,
+        //                                                       color: Colors
+        //                                                           .blueGrey
+        //                                                           .withOpacity(
+        //                                                           0.8),
+        //                                                     ),
+        //                                                   ),
+        //                                                 ],
+        //                                               ),
+        //                                             ),
+        //                                           )
+        //                                         ],
+        //                                       ),
+        //                                     );
+        //                                   },
+        //                                 ),
+        //                               )
+        //                             ],
+        //                           );
+        //                         } else {
+        //                           return Container();
+        //                         }
+        //
+        //                       }
+        //                   )
+        //               ),
+        //             ),
+        //           ),
+        //         if(searchOpeningR)
+        //           Container(
+        //             height: MediaQuery.of(context).size.height,
+        //             color: Colors.white,
+        //             child: Center(
+        //               child: Padding(
+        //                 padding: const EdgeInsets.only(top: 30.0),
+        //                 child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+        //                     child: CupertinoActivityIndicator(radius: 15,)),
+        //               ),
+        //             ),
+        //           ),
+        //         Align(
+        //           alignment: Alignment.topCenter,
+        //           child: Container(
+        //             decoration: BoxDecoration(
+        //                 color: Colors.white,
+        //                 border: Border(
+        //                   bottom: BorderSide(
+        //                       color: AppTheme.skBorderColor2,
+        //                       width: 1.0),
+        //                 )
+        //             ),
+        //             child: Padding(
+        //               padding: const EdgeInsets.only(
+        //                   top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+        //               child: GestureDetector(
+        //                 onTap: () {
+        //                   widget._searchBtn();
+        //                 },
+        //                 child: Container(
+        //                   decoration: BoxDecoration(
+        //                     border: Border.all(
+        //                       color: loadingSearch? Colors.blue: Colors.transparent,
+        //                       style: BorderStyle.solid,
+        //                       width: 1.0,
+        //                     ),
+        //                     color: AppTheme.secButtonColor,
+        //                     borderRadius: BorderRadius.circular(10.0),
+        //                   ),
+        //                   height: 50,
+        //                   child: Padding(
+        //                     padding: const EdgeInsets.only(
+        //                         top: 10.0, bottom: 11.0),
+        //                     child: Row(
+        //                       mainAxisAlignment: MainAxisAlignment.center,
+        //                       children: [
+        //                         GestureDetector(
+        //                           onTap: () {
+        //                             if(loadingSearch) {
+        //                               _searchController.clear();
+        //                               FocusScope.of(context).unfocus();
+        //                               setState(() {
+        //                                 loadingSearch = false;
+        //                               });
+        //                             } else {
+        //                               FocusScope.of(context).requestFocus(nodeFirst);
+        //                               setState(() {
+        //                                 loadingSearch = true;
+        //                               });
+        //                               SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+        //                             }
+        //                           },
+        //                           child: Padding(
+        //                             padding: const EdgeInsets.only(left: 12.0),
+        //                             child: Container(
+        //                               child: Stack(
+        //                                 children: [
+        //                                   !loadingSearch? Padding(
+        //                                     padding: const EdgeInsets.only(left: 5.0),
+        //                                     child: Icon(
+        //                                       SmartKyat_POS.search,
+        //                                       size: 17,
+        //                                     ),
+        //                                   ): Padding(
+        //                                     padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+        //                                     child: Icon(
+        //                                       Icons.close_rounded,
+        //                                       size: 24,
+        //                                     ),
+        //                                   )
+        //
+        //                                 ],
+        //                               ),
+        //                             ),
+        //                           ),
+        //                         ),
+        //                         Expanded(
+        //                           child: Padding(
+        //                               padding: EdgeInsets.only(
+        //                                   left: 13,
+        //                                   bottom: 1.5),
+        //                               child: Text(
+        //                                 textSetSearch,
+        //                                 style: TextStyle(
+        //                                     fontSize: 18,
+        //                                     fontWeight: FontWeight.w500,
+        //                                     color: Colors.black.withOpacity(0.55)
+        //                                 ),
+        //                                 strutStyle: StrutStyle(
+        //                                     forceStrutHeight: true,
+        //                                     height: textSetSearch == 'Search'? 1.6: 1.3
+        //                                 ),
+        //                               )
+        //                           ),
+        //                         ),
+        //                         GestureDetector(
+        //                           onTap: () {
+        //                             widget._barcodeBtn();
+        //                           },
+        //                           child: Padding(
+        //                             padding: const EdgeInsets.only(
+        //                               right: 15.0,
+        //                             ),
+        //                             // child: Icon(
+        //                             //   SmartKyat_POS.barcode,
+        //                             //   color: Colors.black,
+        //                             //   size: 25,
+        //                             // ),
+        //                             child: Container(
+        //                                 child: Image.asset('assets/system/barcode.png', height: 28,)
+        //                             ),
+        //                           ),
+        //                         )
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //         //overAllSearch()
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

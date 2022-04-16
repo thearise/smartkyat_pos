@@ -11,7 +11,7 @@
 // import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 // import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 // import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
-// import 'package:smartkyat_pos/pages2/home_page4.dart';
+// import 'package:smartkyat_pos/pages2/home_page5.dart';
 // import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 // import 'package:smartkyat_pos/widgets/add_new_customer.dart';
 // import 'package:smartkyat_pos/fragments/orders_fragment.dart';

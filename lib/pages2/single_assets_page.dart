@@ -832,10 +832,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,color: Colors.grey,
                                       ),
-                                        strutStyle: StrutStyle(
-                                          height: isEnglish? 1.4: 1.6,
-                                          forceStrutHeight: true,
-                                        ),
+                                      strutStyle: StrutStyle(
+                                        height: isEnglish? 1.4: 1.6,
+                                        forceStrutHeight: true,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -1425,53 +1425,53 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                               children: [
                                 if(!unitLimit)
                                   ButtonTheme(
-                                  splashColor: Colors.transparent,
-                                  height: 50,
-                                  child: FlatButton(
-                                    color: AppTheme.buttonColor2,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10.0),
-                                    ),
-                                    onPressed: () async {
-                                      if(cards.length == 0) {
-                                        setState(() => cards.add(createCard('main')));
-                                      } else if(cards.length == 1) {
-                                        setState(() {
-                                          cards.add(createCard('sub1'));
-                                          unitLimit = true;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          unitLimit = true;
-                                        });
-                                      }
-                                    },
-                                    child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                        child: CupertinoActivityIndicator(radius: 10,)) :
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                          bottom: 3.0),
-                                      child: Container(
-                                        child: Text(
-                                         textSetMoreUnit,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing:-0.1
-                                          ),
+                                    splashColor: Colors.transparent,
+                                    height: 50,
+                                    child: FlatButton(
+                                      color: AppTheme.buttonColor2,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                      ),
+                                      onPressed: () async {
+                                        if(cards.length == 0) {
+                                          setState(() => cards.add(createCard('main')));
+                                        } else if(cards.length == 1) {
+                                          setState(() {
+                                            cards.add(createCard('sub1'));
+                                            unitLimit = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            unitLimit = true;
+                                          });
+                                        }
+                                      },
+                                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                          child: CupertinoActivityIndicator(radius: 10,)) :
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5.0,
+                                            right: 5.0,
+                                            bottom: 3.0),
+                                        child: Container(
+                                          child: Text(
+                                              textSetMoreUnit,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing:-0.1
+                                              ),
                                               strutStyle: StrutStyle(
-                                              height: isEnglish? 1.4: 1.6,
-                                              forceStrutHeight: true,
-                                            )
+                                                height: isEnglish? 1.4: 1.6,
+                                                forceStrutHeight: true,
+                                              )
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
                                 if(!unitLimit)
                                   SizedBox(
                                       width: 15.0
@@ -1491,7 +1491,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                       ),
                                       onPressed: () async {
                                         prodFieldsValue = [];
-
+                                        List <String> productExist = [];
                                         if (_formKey.currentState!.validate()) {
                                           DateTime now = DateTime.now();
                                           setState(() {
@@ -1510,10 +1510,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                           var prodExist = false;
 
-                                          CollectionReference productId = await FirebaseFirestore.instance
-                                              .collection('shops')
-                                              .doc(shopId)
-                                              .collection('products');
+                                          // CollectionReference productId = await FirebaseFirestore.instance
+                                          //     .collection('shops')
+                                          //     .doc(shopId)
+                                          //     .collection('products');
 
                                           // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
                                           //          querySnapshot) async {
@@ -1571,9 +1571,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             }
                                             print('gg nothing' +
                                                 subUnitFieldValue.toString());
-                                            String sub1_buy;
-                                            String sub2_buy;
-                                            String sub3_buy;
+                                            double sub1_buy;
+                                            double sub2_buy;
+                                            double sub3_buy;
                                             String subExist;
                                             double mainStock;
                                             double sub1Stock;
@@ -1581,25 +1581,37 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             double sub3Stock;
                                             String mTotal;
 
+
                                             if( subUnitFieldValue[0] != ''){
-                                              sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+                                              sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0]));
                                             } else
                                             {
-                                              sub1_buy = '0';
+                                              sub1_buy = 0;
                                             }
                                             if( subUnitFieldValue[4] != ''){
-                                              sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+                                              sub2_buy= (sub1_buy/double.parse(subUnitFieldValue[4]));
                                             } else
                                             {
-                                              sub2_buy = '0';
+                                              sub2_buy = 0;
                                             }
 
-                                            if( subUnitFieldValue[8] != ''){
-                                              sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+                                            double sub1Sell = 0;
+                                            double sub2Sell = 0;
+
+                                            if( subUnitFieldValue[0] != ''){
+                                              sub1Sell= double.parse(subUnitFieldValue[2].toString());
                                             } else
                                             {
-                                              sub3_buy = '0';
+                                              sub1Sell = 0;
                                             }
+                                            if( subUnitFieldValue[4] != ''){
+                                              sub2Sell = double.parse(subUnitFieldValue[6].toString());
+                                            } else
+                                            {
+                                              sub2Sell = 0;
+                                            }
+
+
 
                                             if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
                                               subExist = '1';
@@ -1640,18 +1652,24 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
 
-                                            productId
-                                                .where('prod_name',
-                                                isEqualTo:
-                                                prodFieldsValue[0])
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
                                                 .get()
-                                                .then((QuerySnapshot
-                                            querySnapshot) async {
-                                              querySnapshot.docs
-                                                  .forEach((doc) {
-                                                prodExist = true;
-                                              });
+                                                .then((DocumentSnapshot documentSnapshot) async {
+                                              if (documentSnapshot.exists) {
+                                                documentSnapshot['prods'].forEach((key, value) {
+                                                  productExist.add( value['na'].toString());
 
+                                                });
+                                                for(int i=0; i < productExist.length; i++) {
+                                                  if(productExist[i].toString() ==  prodFieldsValue[0].toString()) {
+                                                    prodExist = true;
+                                                  }
+                                                }
+
+
+                                              }
+                                              print('document print no image ' + productExist.toString());
+                                              print('document print no image ' + prodExist.toString());
                                               if (prodExist) {
                                                 print('product already');
                                                 var result =
@@ -1668,61 +1686,49 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 });
                                               }
                                               else {
-                                                CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
-                                                    shopId)
-                                                    .collection(
-                                                    'products');
-                                                shops.add({
-                                                  'prod_name':
-                                                  prodFieldsValue[0],
-                                                  'bar_code':
-                                                  prodFieldsValue[1],
-                                                  'unit_name':
-                                                  prodFieldsValue[3],
-                                                  'unit_sell':
-                                                  prodFieldsValue[5],
-                                                  'inStock1' : mainStock,
-                                                  'inStock2'  : sub1Stock,
-                                                  'inStock3' : sub2Stock,
-                                                  'inStock4' : sub3Stock,
-                                                  'buyPrice1' : prodFieldsValue[4],
-                                                  'buyPrice2' : sub1_buy,
-                                                  'buyPrice3' : sub2_buy,
-                                                  'buyPrice4' : sub3_buy,
-                                                  'sub1_link':
-                                                  subUnitFieldValue[0],
-                                                  'sub1_name':
-                                                  subUnitFieldValue[1],
-                                                  'sub1_sell':
-                                                  subUnitFieldValue[2],
-                                                  'sub2_link':
-                                                  subUnitFieldValue[4],
-                                                  'sub2_name':
-                                                  subUnitFieldValue[5],
-                                                  'sub2_sell':
-                                                  subUnitFieldValue[6],
-                                                  'sub3_link':
-                                                  subUnitFieldValue[8],
-                                                  'sub3_name':
-                                                  subUnitFieldValue[9],
-                                                  'sub3_sell':
-                                                  subUnitFieldValue[10],
-                                                  'sub_exist': subExist,
-                                                  'Loss1' : 0,
-                                                  'Loss2' : 0,
-                                                  'Loss3' : 0,
-                                                  'Loss4' : 0,
-                                                  'mTotal' : mTotal,
-                                                  'mainSellUnit' : 0,
-                                                  'sub1SellUnit' : 0,
-                                                  'sub2SellUnit' : 0,
-                                                  'img_1': '',
-                                                  'search_name': textSplitFunction(prodFieldsValue[0].toString()),
-                                                  'update_time' : DateTime.now(),
-                                                  'archive' : false
-                                                }).then((value) {
-                                                  print('product added');
+                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+
+                                                FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                    .get()
+                                                    .then((value) {
+                                                  int prodsCnt = value.data()!['count'];
+
+                                                  prodsArr.set({
+                                                    'prods': {
+                                                      '0-' + prodsCnt.toString(): {
+                                                        'na': prodFieldsValue[0],
+                                                        'lm': 0,
+                                                        'l1': 0,
+                                                        'l2': 0,
+                                                        'ar': false,
+                                                        'co': prodFieldsValue[1],
+                                                        'im': mainStock,
+                                                        'i1': sub1Stock,
+                                                        'i2': sub2Stock,
+                                                        'bm': double.parse(prodFieldsValue[4].toString()),
+                                                        'b1': sub1_buy,
+                                                        'b2': sub2_buy,
+                                                        'sm':  double.parse(prodFieldsValue[5].toString()),
+                                                        's1': sub1Sell,
+                                                        's2': sub2Sell,
+                                                        'c1': subUnitFieldValue[0],
+                                                        'c2': subUnitFieldValue[4],
+                                                        'nm': prodFieldsValue[3],
+                                                        'n1': subUnitFieldValue[1],
+                                                        'n2': subUnitFieldValue[5],
+                                                      }
+                                                    }
+                                                  },SetOptions(merge: true)).then((value) {
+                                                    print('arrays added ' + '0-' + prodsCnt.toString());
+                                                  }).catchError((error) => print("Failed to update user: $error"));
+
+
+                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                      .update(
+                                                      {'count': FieldValue.increment(1)}
+                                                  ).then((value) => print('updated product count'));
                                                 });
+
                                                 Future.delayed(const Duration(milliseconds: 3000), () {
                                                   setState(() {
                                                     prodAdding = false;
@@ -1731,6 +1737,72 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   });
                                                   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                 });
+
+
+
+                                                // CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+                                                //     shopId)
+                                                //     .collection(
+                                                //     'products');
+                                                // shops.add({
+                                                //   'prod_name':
+                                                //   prodFieldsValue[0],
+                                                //   'bar_code':
+                                                //   prodFieldsValue[1],
+                                                //   'unit_name':
+                                                //   prodFieldsValue[3],
+                                                //   'unit_sell':
+                                                //   prodFieldsValue[5],
+                                                //   'inStock1' : mainStock,
+                                                //   'inStock2'  : sub1Stock,
+                                                //   'inStock3' : sub2Stock,
+                                                //   'inStock4' : sub3Stock,
+                                                //   'buyPrice1' : prodFieldsValue[4],
+                                                //   'buyPrice2' : sub1_buy,
+                                                //   'buyPrice3' : sub2_buy,
+                                                //   'buyPrice4' : sub3_buy,
+                                                //   'sub1_link':
+                                                //   subUnitFieldValue[0],
+                                                //   'sub1_name':
+                                                //   subUnitFieldValue[1],
+                                                //   'sub1_sell':
+                                                //   subUnitFieldValue[2],
+                                                //   'sub2_link':
+                                                //   subUnitFieldValue[4],
+                                                //   'sub2_name':
+                                                //   subUnitFieldValue[5],
+                                                //   'sub2_sell':
+                                                //   subUnitFieldValue[6],
+                                                //   'sub3_link':
+                                                //   subUnitFieldValue[8],
+                                                //   'sub3_name':
+                                                //   subUnitFieldValue[9],
+                                                //   'sub3_sell':
+                                                //   subUnitFieldValue[10],
+                                                //   'sub_exist': subExist,
+                                                //   'Loss1' : 0,
+                                                //   'Loss2' : 0,
+                                                //   'Loss3' : 0,
+                                                //   'Loss4' : 0,
+                                                //   'mTotal' : mTotal,
+                                                //   'mainSellUnit' : 0,
+                                                //   'sub1SellUnit' : 0,
+                                                //   'sub2SellUnit' : 0,
+                                                //   'img_1': '',
+                                                //   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                                //   'update_time' : DateTime.now(),
+                                                //   'archive' : false
+                                                // }).then((value) {
+                                                //   print('product added');
+                                                // });
+                                                // Future.delayed(const Duration(milliseconds: 3000), () {
+                                                //   setState(() {
+                                                //     prodAdding = false;
+                                                //     widget.endProdLoadingState();
+                                                //     Navigator.pop(context);
+                                                //   });
+                                                //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
+                                                // });
                                               }
                                               // setState(() {
                                               //   widget.endProdLoadingState();
@@ -1773,9 +1845,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       subUnitFieldValue.toString());
 
 
-                                                  String sub1_buy;
-                                                  String sub2_buy;
-                                                  String sub3_buy;
+                                                  double sub1_buy;
+                                                  double sub2_buy;
                                                   String subExist;
                                                   double mainStock;
                                                   double sub1Stock;
@@ -1783,25 +1854,36 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   double sub3Stock;
                                                   String mTotal;
 
+
                                                   if( subUnitFieldValue[0] != ''){
-                                                    sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+                                                    sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0]));
                                                   } else
                                                   {
-                                                    sub1_buy = '0';
+                                                    sub1_buy = 0;
                                                   }
                                                   if( subUnitFieldValue[4] != ''){
-                                                    sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+                                                    sub2_buy= (sub1_buy/double.parse(subUnitFieldValue[4]));
                                                   } else
                                                   {
-                                                    sub2_buy = '0';
+                                                    sub2_buy = 0;
                                                   }
 
-                                                  if( subUnitFieldValue[8] != ''){
-                                                    sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+                                                  double sub1Sell = 0;
+                                                  double sub2Sell = 0;
+
+                                                  if( subUnitFieldValue[0] != ''){
+                                                    sub1Sell= double.parse(subUnitFieldValue[2].toString());
                                                   } else
                                                   {
-                                                    sub3_buy = '0';
+                                                    sub1Sell = 0;
                                                   }
+                                                  if( subUnitFieldValue[4] != ''){
+                                                    sub2Sell = double.parse(subUnitFieldValue[6].toString());
+                                                  } else
+                                                  {
+                                                    sub2Sell = 0;
+                                                  }
+
 
                                                   if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
                                                     subExist = '1';
@@ -1840,16 +1922,38 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     sub3Stock = 0;
                                                   }
 
-                                                  productId.where('prod_name',
-                                                      isEqualTo:
-                                                      prodFieldsValue[0])
+
+                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
                                                       .get()
-                                                      .then((QuerySnapshot
-                                                  querySnapshot) async {
-                                                    querySnapshot.docs
-                                                        .forEach((doc) {
-                                                      prodExist = true;
-                                                    });
+                                                      .then((DocumentSnapshot documentSnapshot) async {
+                                                    if (documentSnapshot.exists) {
+                                                      documentSnapshot['prods'].forEach((key, value) {
+                                                        productExist.add( value['na'].toString());
+
+                                                      });
+                                                      for(int i=0; i < productExist.length; i++) {
+                                                        if(productExist[i].toString() ==  prodFieldsValue[0].toString()) {
+                                                          prodExist = true;
+                                                        }
+                                                      }
+                                                      print('document print ' + productExist.toString());
+                                                      print('document print ' + prodExist.toString());
+                                                    }
+                                                    //
+                                                    // });
+                                                    //
+                                                    //
+                                                    //
+                                                    // productId.where('prod_name',
+                                                    //     isEqualTo:
+                                                    //     prodFieldsValue[0])
+                                                    //     .get()
+                                                    //     .then((QuerySnapshot
+                                                    // querySnapshot) async {
+                                                    //   querySnapshot.docs
+                                                    //       .forEach((doc) {
+                                                    //     prodExist = true;
+                                                    //   });
 
                                                     if (prodExist) {
                                                       print('product already');
@@ -1867,67 +1971,120 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       });
                                                     }
                                                     else {
-                                                      CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
-                                                          shopId)
-                                                          .collection(
-                                                          'products');
-                                                      shops.add({
-                                                        'prod_name':
-                                                        prodFieldsValue[0],
-                                                        'bar_code':
-                                                        prodFieldsValue[1],
-                                                        'unit_name':
-                                                        prodFieldsValue[3],
-                                                        'unit_sell':
-                                                        prodFieldsValue[5],
-                                                        'inStock1' : mainStock,
-                                                        'inStock2'  : sub1Stock,
-                                                        'inStock3' : sub2Stock,
-                                                        'inStock4' : sub3Stock,
-                                                        'buyPrice1' : prodFieldsValue[4],
-                                                        'buyPrice2' : sub1_buy,
-                                                        'buyPrice3' : sub2_buy,
-                                                        'buyPrice4' : sub3_buy,
-                                                        'sub1_link':
-                                                        subUnitFieldValue[0],
-                                                        'sub1_name':
-                                                        subUnitFieldValue[1],
-                                                        'sub1_sell':
-                                                        subUnitFieldValue[2],
-                                                        'sub2_link':
-                                                        subUnitFieldValue[4],
-                                                        'sub2_name':
-                                                        subUnitFieldValue[5],
-                                                        'sub2_sell':
-                                                        subUnitFieldValue[6],
-                                                        'sub3_link':
-                                                        subUnitFieldValue[8],
-                                                        'sub3_name':
-                                                        subUnitFieldValue[9],
-                                                        'sub3_sell':
-                                                        subUnitFieldValue[10],
-                                                        'sub_exist': subExist,
-                                                        'Loss1' : 0,
-                                                        'Loss2' : 0,
-                                                        'Loss3' : 0,
-                                                        'Loss4' : 0,
-                                                        'mTotal' : mTotal,
-                                                        'mainSellUnit' : 0,
-                                                        'sub1SellUnit' : 0,
-                                                        'sub2SellUnit' : 0,
-                                                        'search_name' :  FieldValue.arrayUnion([]),
-                                                        'img_1': photoArray[0],
-                                                        'update_time' : DateTime.now(),
-                                                        'search_name': textSplitFunction(prodFieldsValue[0].toString()),
-                                                      }).then((value) {
-                                                        print('product added');
+                                                      DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+
+                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                          .get()
+                                                          .then((value) {
+                                                        int prodsCnt = value.data()!['count'];
+
+                                                        prodsArr.set({
+                                                          'prods': {
+                                                            '0-' + prodsCnt.toString(): {
+                                                              'na': prodFieldsValue[0],
+                                                              'lm': 0,
+                                                              'l1': 0,
+                                                              'l2': 0,
+                                                              'ar': false,
+                                                              'co': prodFieldsValue[1],
+                                                              'im': mainStock,
+                                                              'i1': sub1Stock,
+                                                              'i2': sub2Stock,
+                                                              'bm': double.parse(prodFieldsValue[4].toString()),
+                                                              'b1': sub1_buy,
+                                                              'b2': sub2_buy,
+                                                              'sm': double.parse(prodFieldsValue[5].toString()),
+                                                              's1': sub1Sell,
+                                                              's2': sub2Sell,
+                                                              'c1': subUnitFieldValue[0],
+                                                              'c2': subUnitFieldValue[4],
+                                                              'nm': prodFieldsValue[3],
+                                                              'n1': subUnitFieldValue[1],
+                                                              'n2': subUnitFieldValue[5],
+                                                              // 'img_1': photoArray[0],
+                                                            }
+                                                          }
+                                                        },SetOptions(merge: true)).then((value) {
+                                                          print('arrays added ' + '0-' + prodsCnt.toString());
+                                                        }).catchError((error) => print("Failed to update user: $error"));
+
+
+                                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                            .update(
+                                                            {'count': FieldValue.increment(1)}
+                                                        ).then((value) => print('updated product count'));
+                                                      });
+
+                                                      Future.delayed(const Duration(milliseconds: 3000), () {
                                                         setState(() {
-                                                          widget.endProdLoadingState();
                                                           prodAdding = false;
+                                                          widget.endProdLoadingState();
+                                                          Navigator.pop(context);
                                                         });
-                                                        Navigator.pop(context);
                                                         smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                       });
+
+                                                      // CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+                                                      //     shopId)
+                                                      //     .collection(
+                                                      //     'products');
+                                                      // shops.add({
+                                                      //   'prod_name':
+                                                      //   prodFieldsValue[0],
+                                                      //   'bar_code':
+                                                      //   prodFieldsValue[1],
+                                                      //   'unit_name':
+                                                      //   prodFieldsValue[3],
+                                                      //   'unit_sell':
+                                                      //   prodFieldsValue[5],
+                                                      //   'inStock1' : mainStock,
+                                                      //   'inStock2'  : sub1Stock,
+                                                      //   'inStock3' : sub2Stock,
+                                                      //   'inStock4' : sub3Stock,
+                                                      //   'buyPrice1' : prodFieldsValue[4],
+                                                      //   'buyPrice2' : sub1_buy,
+                                                      //   'buyPrice3' : sub2_buy,
+                                                      //   'buyPrice4' : sub3_buy,
+                                                      //   'sub1_link':
+                                                      //   subUnitFieldValue[0],
+                                                      //   'sub1_name':
+                                                      //   subUnitFieldValue[1],
+                                                      //   'sub1_sell':
+                                                      //   subUnitFieldValue[2],
+                                                      //   'sub2_link':
+                                                      //   subUnitFieldValue[4],
+                                                      //   'sub2_name':
+                                                      //   subUnitFieldValue[5],
+                                                      //   'sub2_sell':
+                                                      //   subUnitFieldValue[6],
+                                                      //   'sub3_link':
+                                                      //   subUnitFieldValue[8],
+                                                      //   'sub3_name':
+                                                      //   subUnitFieldValue[9],
+                                                      //   'sub3_sell':
+                                                      //   subUnitFieldValue[10],
+                                                      //   'sub_exist': subExist,
+                                                      //   'Loss1' : 0,
+                                                      //   'Loss2' : 0,
+                                                      //   'Loss3' : 0,
+                                                      //   'Loss4' : 0,
+                                                      //   'mTotal' : mTotal,
+                                                      //   'mainSellUnit' : 0,
+                                                      //   'sub1SellUnit' : 0,
+                                                      //   'sub2SellUnit' : 0,
+                                                      //   'search_name' :  FieldValue.arrayUnion([]),
+                                                      //   'img_1': photoArray[0],
+                                                      //   'update_time' : DateTime.now(),
+                                                      //   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                                      // }).then((value) {
+                                                      //   print('product added');
+                                                      //   setState(() {
+                                                      //     widget.endProdLoadingState();
+                                                      //     prodAdding = false;
+                                                      //   });
+                                                      //   Navigator.pop(context);
+                                                      //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
+                                                      // });
                                                     }
                                                   });
                                                 });
@@ -1945,25 +2102,25 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             right: 5.0,
                                             bottom: 3.0),
                                         child: Container(
-                                          child: Text(
-                                            textSetSaveProd,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing:-0.1
-                                            ),
+                                            child: Text(
+                                                textSetSaveProd,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing:-0.1
+                                                ),
                                                 strutStyle: StrutStyle(
-                                                height: isEnglish? 1.4: 1.6,
-                                                forceStrutHeight: true,
-                                              )
+                                                  height: isEnglish? 1.4: 1.6,
+                                                  forceStrutHeight: true,
+                                                )
 
-                                              )
-                                          ),
+                                            )
                                         ),
                                       ),
                                     ),
                                   ),
+                                ),
                               ],
                             ),
                           ],
@@ -2430,7 +2587,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     });
                   },
                   child: Text(
-                   textSetRemove,
+                    textSetRemove,
                     style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
@@ -2595,13 +2752,13 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 new TextSpan(
                   text:
                   cards.length == 0 ?
-                      textSetWarning: textSetWarning2,
+                  textSetWarning: textSetWarning2,
                   style: new TextStyle(
-                    fontSize: 12.5,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    height: 1.2,
-                    overflow: TextOverflow.ellipsis
+                      fontSize: 12.5,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                      height: 1.2,
+                      overflow: TextOverflow.ellipsis
                   ),
                 ),
               ],
