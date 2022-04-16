@@ -267,203 +267,202 @@ class BuyListFragment2State extends State<BuyListFragment2>
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Container()
-        // child: Container(
-        //   color: Colors.white,
-        //   child: SafeArea(
-        //     top: true,
-        //     bottom: true,
-        //     child: Stack(
-        //       children: [
-        //         if(!searchOpening)
-        //           Align(
-        //             alignment: Alignment.center,
-        //             child: Padding(
-        //               // padding: const EdgeInsets.only(top: 138.0),
-        //               padding: const EdgeInsets.only(top: 81.0),
-        //               child: Container(
-        //                   height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
-        //                   width: MediaQuery.of(context).size.width,
-        //                   color: Colors.white,
-        //                   child: BlocBuyList(
-        //                     key: valueKeyTog(),
-        //                     footer: SliverToBoxAdapter(child: Padding(
-        //                       padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //                       child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
-        //                     )),
-        //                     bottomLoader: Container(
-        //                       child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-        //                     ),
-        //                     itemBuilder: (context1, documentSnapshots, index) {
-        //                       Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-        //
-        //                       String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-        //                       return Container(child: Padding(
-        //                         padding: const EdgeInsets.all(20.0),
-        //                         child: Text('items ' + item.toString()),
-        //                       ));
-        //                     },
-        //                     itemBuilderType:
-        //                     PaginateBuilderType2.listView,
-        //                     // cateScIndex
-        //                     // orderBy is compulsory to enable pagination
-        //                     // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').where('debt', isGreaterThan: 0),
-        //                     query: ordersQuery()
-        //                     // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-        //                     //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-        //                     // .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
-        //                     ,
-        //                     // to fetch real-time data
-        //                     isLive: true,
-        //                     shopId: widget.shopId,
-        //                     resetState: resetState,
-        //                     dateTime: today,
-        //                     openDrawerBtn: openDrawerFrom,
-        //                     openCartBtn: openCartFrom,
-        //                     closeCartBtn: closeCartFrom,
-        //                     printFromOrders: printFromOrdersFun,
-        //                     closeDrawerBtn: closeDrawerFrom,
-        //                   )
-        //               ),
-        //             ),
-        //           ),
-        //         if(searchOpeningR)
-        //           Container(
-        //             height: MediaQuery.of(context).size.height,
-        //             color: Colors.white,
-        //             child: Center(
-        //               child: Padding(
-        //                 padding: const EdgeInsets.only(top: 30.0),
-        //                 child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-        //                     child: CupertinoActivityIndicator(radius: 15,)),
-        //               ),
-        //             ),
-        //           ),
-        //         Align(
-        //           alignment: Alignment.topCenter,
-        //           child: Container(
-        //             decoration: BoxDecoration(
-        //                 color: Colors.white,
-        //                 border: Border(
-        //                   bottom: BorderSide(
-        //                       color: AppTheme.skBorderColor2,
-        //                       width: 1.0),
-        //                 )
-        //             ),
-        //             child: Padding(
-        //               padding: const EdgeInsets.only(
-        //                   top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-        //               child: GestureDetector(
-        //                 onTap: () {
-        //                   print('clicked saerch');
-        //                   widget._searchBtn();
-        //                 },
-        //                 child: Container(
-        //                   decoration: BoxDecoration(
-        //                     border: Border.all(
-        //                       color: loadingSearch? Colors.blue: Colors.transparent,
-        //                       style: BorderStyle.solid,
-        //                       width: 1.0,
-        //                     ),
-        //                     color: AppTheme.secButtonColor,
-        //                     borderRadius: BorderRadius.circular(10.0),
-        //                   ),
-        //                   height: 50,
-        //                   child: Padding(
-        //                     padding: const EdgeInsets.only(
-        //                         top: 10.0, bottom: 11.0),
-        //                     child: Row(
-        //                       mainAxisAlignment: MainAxisAlignment.center,
-        //                       children: [
-        //                         GestureDetector(
-        //                           onTap: () {
-        //                             if(loadingSearch) {
-        //                               _searchController.clear();
-        //                               FocusScope.of(context).unfocus();
-        //                               setState(() {
-        //                                 loadingSearch = false;
-        //                               });
-        //                             } else {
-        //                               FocusScope.of(context).requestFocus(nodeFirst);
-        //                               setState(() {
-        //                                 loadingSearch = true;
-        //                               });
-        //                               SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-        //                             }
-        //                           },
-        //                           child: Padding(
-        //                             padding: const EdgeInsets.only(left: 12.0),
-        //                             child: Container(
-        //                               child: Stack(
-        //                                 children: [
-        //                                   !loadingSearch? Padding(
-        //                                     padding: const EdgeInsets.only(left: 5.0),
-        //                                     child: Icon(
-        //                                       SmartKyat_POS.search,
-        //                                       size: 17,
-        //                                     ),
-        //                                   ): Padding(
-        //                                     padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-        //                                     child: Icon(
-        //                                       Icons.close_rounded,
-        //                                       size: 24,
-        //                                     ),
-        //                                   )
-        //
-        //                                 ],
-        //                               ),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                         Expanded(
-        //                           child: Padding(
-        //                               padding: EdgeInsets.only(
-        //                                   left: 13,
-        //                                   bottom: 1.5),
-        //                               child: Text(
-        //                                 textSetSearch,
-        //                                 style: TextStyle(
-        //                                     fontSize: 18,
-        //                                     fontWeight: FontWeight.w500,
-        //                                     color: Colors.black.withOpacity(0.55)
-        //                                 ),
-        //                                 strutStyle: StrutStyle(
-        //                                     forceStrutHeight: true,
-        //                                     height: textSetSearch == 'Search'? 1.6: 1.3
-        //                                 ),
-        //                               )
-        //                           ),
-        //                         ),
-        //                         GestureDetector(
-        //                           onTap: () {
-        //                             widget._barcodeBtn();
-        //                           },
-        //                           child: Padding(
-        //                             padding: const EdgeInsets.only(
-        //                               right: 15.0,
-        //                             ),
-        //                             // child: Icon(
-        //                             //   SmartKyat_POS.barcode,
-        //                             //   color: Colors.black,
-        //                             //   size: 25,
-        //                             // ),
-        //                             child: Container(
-        //                                 child: Image.asset('assets/system/barcode.png', height: 28,)
-        //                             ),
-        //                           ),
-        //                         )
-        //                       ],
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
+        child: Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: true,
+            bottom: true,
+            child: Stack(
+              children: [
+                if(!searchOpening)
+                  Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      // padding: const EdgeInsets.only(top: 138.0),
+                      padding: const EdgeInsets.only(top: 81.0),
+                      child: Container(
+                          height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          child: BlocBuyList(
+                            key: valueKeyTog(),
+                            footer: SliverToBoxAdapter(child: Padding(
+                              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                            )),
+                            bottomLoader: Container(
+                              child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                            ),
+                            itemBuilder: (context1, documentSnapshots, index) {
+                              Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                              String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                              return Container(child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text('items ' + item.toString()),
+                              ));
+                            },
+                            itemBuilderType:
+                            PaginateBuilderType2.listView,
+                            // cateScIndex
+                            // orderBy is compulsory to enable pagination
+                            // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').where('debt', isGreaterThan: 0),
+                            query: ordersQuery()
+                            // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+                            //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+                            // .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+                            ,
+                            // to fetch real-time data
+                            isLive: true,
+                            shopId: widget.shopId,
+                            resetState: resetState,
+                            dateTime: today,
+                            openDrawerBtn: openDrawerFrom,
+                            openCartBtn: openCartFrom,
+                            closeCartBtn: closeCartFrom,
+                            printFromOrders: printFromOrdersFun,
+                            closeDrawerBtn: closeDrawerFrom,
+                          )
+                      ),
+                    ),
+                  ),
+                if(searchOpeningR)
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 15,)),
+                      ),
+                    ),
+                  ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(
+                              color: AppTheme.skBorderColor2,
+                              width: 1.0),
+                        )
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                      child: GestureDetector(
+                        onTap: () {
+                          print('clicked saerch');
+                          widget._searchBtn();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: loadingSearch? Colors.blue: Colors.transparent,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: AppTheme.secButtonColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, bottom: 11.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if(loadingSearch) {
+                                      _searchController.clear();
+                                      FocusScope.of(context).unfocus();
+                                      setState(() {
+                                        loadingSearch = false;
+                                      });
+                                    } else {
+                                      FocusScope.of(context).requestFocus(nodeFirst);
+                                      setState(() {
+                                        loadingSearch = true;
+                                      });
+                                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12.0),
+                                    child: Container(
+                                      child: Stack(
+                                        children: [
+                                          !loadingSearch? Padding(
+                                            padding: const EdgeInsets.only(left: 5.0),
+                                            child: Icon(
+                                              SmartKyat_POS.search,
+                                              size: 17,
+                                            ),
+                                          ): Padding(
+                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                            child: Icon(
+                                              Icons.close_rounded,
+                                              size: 24,
+                                            ),
+                                          )
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 13,
+                                          bottom: 1.5),
+                                      child: Text(
+                                        textSetSearch,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black.withOpacity(0.55)
+                                        ),
+                                        strutStyle: StrutStyle(
+                                            forceStrutHeight: true,
+                                            height: textSetSearch == 'Search'? 1.6: 1.3
+                                        ),
+                                      )
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    widget._barcodeBtn();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 15.0,
+                                    ),
+                                    // child: Icon(
+                                    //   SmartKyat_POS.barcode,
+                                    //   color: Colors.black,
+                                    //   size: 25,
+                                    // ),
+                                    child: Container(
+                                        child: Image.asset('assets/system/barcode.png', height: 28,)
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
