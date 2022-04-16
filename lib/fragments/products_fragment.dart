@@ -589,74 +589,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                         padding: const EdgeInsets.only(top: 81.0),
                         // padding: const EdgeInsets.only(top: 137.0),
                         child: NotificationListener<ScrollNotification>(
-                          // onNotification: (scrollNotification) {
-                          //   if(ayinPixel >= scrollNotification.metrics.pixels) {
-                          //     print('kyii ' + scrollNotification.metrics.pixels.toString());
-                          //     if(ayinTitle != 'kyii') {
-                          //       memoPixel = sliverHeadPad;
-                          //       achainPixel = scrollNotification.metrics.pixels;
-                          //       print('new kyii ' + memoPixel.toString());
-                          //       // print('memo kyi ' + memoPixel.toString());
-                          //     }
-                          //     print('pixeling kyii ' + ((achainPixel-scrollNotification.metrics.pixels)).toString());
-                          //     if((12 + achainPixel-scrollNotification.metrics.pixels + memoPixel)>81) {
-                          //       setState(() {
-                          //         sliverHeadPad = 81;
-                          //       });
-                          //     } else {
-                          //       setState(() {
-                          //         sliverHeadPad = 12 + achainPixel-scrollNotification.metrics.pixels + memoPixel;
-                          //       });
-                          //     }
-                          //     ayinTitle = 'kyii';
-                          //   } else {
-                          //     print('ngal ' + scrollNotification.metrics.pixels.toString());
-                          //     if(ayinTitle != 'ngal') {
-                          //       memoPixel = sliverHeadPad;
-                          //       achainPixel = scrollNotification.metrics.pixels;
-                          //       print('new ngal ' + memoPixel.toString());
-                          //       // print('memo ngal ' + memoPixel.toString());
-                          //     }
-                          //     print('pixeling ngal ' + (achainPixel-scrollNotification.metrics.pixels).toString());
-                          //     if((81 + achainPixel-scrollNotification.metrics.pixels) <= 0) {
-                          //       setState(() {
-                          //         sliverHeadPad = 0;
-                          //       });
-                          //     } else {
-                          //       setState(() {
-                          //         sliverHeadPad = 81 + achainPixel-scrollNotification.metrics.pixels;
-                          //       });
-                          //     }
-                          //     ayinTitle = 'ngal';
-                          //   }
-                          //   // if(ayinPixel >= scrollNotification.metrics.pixels) {
-                          //   //   print('kyii');
-                          //   //   achainPixel = scrollNotification.metrics.pixels;
-                          //   //   setState(() {
-                          //   //     sliverHeadPad = ayinPixel - scrollNotification.metrics.pixels;
-                          //   //   });
-                          //   // } else {
-                          //   //   print('ngal');
-                          //   //   print('scrolling ' + scrollNotification.metrics.pixels.toString());
-                          //   //   // print('direction ' + scrollNotification.metrics);
-                          //   //   if((81 - scrollNotification.metrics.pixels) <= 81 && (81 - scrollNotification.metrics.pixels) >= 0) {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 81 - scrollNotification.metrics.pixels;
-                          //   //     });
-                          //   //   } else if((81 - scrollNotification.metrics.pixels) < 0) {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 0;
-                          //   //     });
-                          //   //   } else {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 81;
-                          //   //     });
-                          //   //   }
-                          //   // }
-                          //   //
-                          //   ayinPixel = scrollNotification.metrics.pixels;
-                          //   return true;
-                          // },
                           child: PaginateFirestore(
                             onEmpty: Align(
                               alignment: Alignment.topCenter,
@@ -829,7 +761,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               ),
                             ),
                             key: cateScIndex == 0? ValueKey<String>('1'): ValueKey<String>('2'),
-                            header:SliverAppBar(
+                            header: SliverAppBar(
                               elevation: 0,
                               backgroundColor: Colors.white,
                               // Provide a standard title.
