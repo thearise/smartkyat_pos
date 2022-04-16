@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -25,10 +25,10 @@ Future<void> main() async {
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
-  FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100 * 1000 * 1000);
-  final scoresRef = FirebaseDatabase.instance.ref("products");
-  scoresRef.keepSynced(true);
+  // FirebaseDatabase.instance.setPersistenceEnabled(true);
+  // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100 * 1000 * 1000);
+  // final scoresRef = FirebaseDatabase.instance.ref("products");
+  // scoresRef.keepSynced(true);
   runApp(MyApp());
 }
 
