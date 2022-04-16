@@ -21,7 +21,7 @@ import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import '../app_theme.dart';
@@ -196,6 +196,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         });
       }
     });
+
     super.initState();
     // WidgetsBinding.instance!
     //     .addPostFrameCallback((_) {
@@ -3684,20 +3685,28 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          widget._barcodeBtn();
+                                          if(!loadingSearch) {
+                                            widget._barcodeBtn();
+                                          } else {
+                                            _searchController.clear();
+                                          }
                                         },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 15.0,
-                                          ),
-                                          // child: Icon(
-                                          //   SmartKyat_POS.barcode,
-                                          //   color: Colors.black,
-                                          //   size: 25,
-                                          // ),
-                                          child: Container(
-                                              child: Image.asset('assets/system/barcode.png', height: 28,)
-                                          ),
+                                        child: Stack(
+                                          children: [
+                                            !loadingSearch ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 15.0,
+                                              ),
+                                              child: Container(
+                                                  child: Image.asset('assets/system/barcode.png', height: 28,)
+                                              ),
+                                            ) : Padding(
+                                              padding: const EdgeInsets.only( right: 15.0),
+                                              child: Icon(
+                                                Icons.close_rounded,
+                                                size: 24,
+                                              ),),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -3706,25 +3715,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // if(loadingSearch) {
-                                  //   _searchController.clear();
-                                  //   FocusScope.of(context).unfocus();
-                                  //   setState(() {
-                                  //     loadingSearch = false;
-                                  //   });
-                                  // } else {
-                                  //   FocusScope.of(context).requestFocus(nodeFirst);
-                                  //   setState(() {
-                                  //     loadingSearch = true;
-                                  //   });
-                                  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                  // }
-                                  if( (loadingSearch && _searchController.text == '' ) || !loadingSearch) {
-                                    widget._chgIndex(0);
-                                    FocusScope.of(context).unfocus();
-                                  } else {
-                                    _searchController.clear();
-                                  }
+                                  widget._chgIndex(0);
+                                  FocusScope.of(context).unfocus();
                                 },
                                 child: Container(
                                   height: 50,
@@ -3742,19 +3734,13 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               SmartKyat_POS.search,
                                               size: 17,
                                             ),
-                                          ): loadingSearch && _searchController.text == '' ?
+                                          ):
                                           Padding(
                                               padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
                                               child: Icon(
                                                 Icons.arrow_back_ios_rounded,
                                                 size: 21,
                                               )
-                                          ) : Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                            child: Icon(
-                                              Icons.close_rounded,
-                                              size: 24,
-                                            ),
                                           )
                                         ],
                                       ),
@@ -3762,6 +3748,51 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   ),
                                 ),
                               ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     if((loadingSearch && _searchController.text == '' ) || !loadingSearch) {
+                              //       widget._chgIndex(0);
+                              //       FocusScope.of(context).unfocus();
+                              //     } else {
+                              //       _searchController.clear();
+                              //     }
+                              //   },
+                              //   child: Container(
+                              //     height: 50,
+                              //     width: 38,
+                              //     color: Colors.transparent,
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 12.0),
+                              //       child: Container(
+                              //         child: Stack(
+                              //           alignment: AlignmentDirectional.centerStart,
+                              //           children: [
+                              //             !loadingSearch? Padding(
+                              //               padding: const EdgeInsets.only(left: 5.0),
+                              //               child: Icon(
+                              //                 SmartKyat_POS.search,
+                              //                 size: 17,
+                              //               ),
+                              //             ): loadingSearch && _searchController.text == '' ?
+                              //             Padding(
+                              //                 padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
+                              //                 child: Icon(
+                              //                   Icons.arrow_back_ios_rounded,
+                              //                   size: 21,
+                              //                 )
+                              //             ) : Padding(
+                              //               padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                              //               child: Icon(
+                              //                 Icons.close_rounded,
+                              //                 size: 24,
+                              //               ),
+                              //             )
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

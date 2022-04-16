@@ -70,7 +70,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
         setState(() {
           textSetDebt = 'ကျန်ငွေ';
           textSetCashRec = 'လက်ခံရရှိငွေ';
-          textSetCusPrice = 'စိတ်ကြိုက်ပမာ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
           textSetDone = 'ပြီးပြီ';
         });
       } else if(value=='english') {
@@ -578,6 +578,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     querySnapshot.docs.forEach((doc) {
                                       refundId = doc.id;
                                     });
+                                    print(refundId.toString());
                                     batch = await updateMonthlyData(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', paidMoney);
                                     // monthlyData.doc(refundId).update({
                                     //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),

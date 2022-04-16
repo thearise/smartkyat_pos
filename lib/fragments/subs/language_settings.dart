@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
@@ -32,9 +32,26 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
   var _shop ;
   bool firstTime = true;
 
+  String textSetDisplay = 'Display';
+  String textSetLanguage = 'Languages';
+  String textSetChgLang = 'CHANGE LANGUAGE';
+
   @override
   initState() {
     getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetDisplay = 'Display';
+          textSetLanguage = 'ဘာသာစကား';
+          textSetChgLang = 'ဘာသာစကား ပြောင်းလဲရန်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetDisplay = 'Display';
+          textSetLanguage = 'Languages';
+          textSetChgLang = 'CHANGE LANGUAGE';
+        });
+      }
       setState(() {
         _result = value.toString();
       });
@@ -164,7 +181,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              'Display',
+                              textSetDisplay,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -179,7 +196,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                               ),
                             ),
                             Text(
-                              'Languages',
+                              textSetLanguage,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -201,7 +218,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Text('CHANGE LANGUAGE', style: TextStyle(
+                child: Text(textSetChgLang, style: TextStyle(
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,color: Colors.grey,

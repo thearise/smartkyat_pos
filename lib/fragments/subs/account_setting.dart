@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../app_theme.dart';
 import 'change_password.dart';
 
@@ -28,10 +29,51 @@ class _AccountSettingState extends State<AccountSetting> {
 
   final _accountName = TextEditingController();
 
+  String textSetAccountSetting = 'Account setting';
+  String textSetAccountName = 'Account name';
+  String textSetInfo = 'Your account name will also be used for registering staff from other stores.';
+  String textSetSave = 'Save and exit';
+  String textSetEmailChange = 'You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.';
+  String textSetAuth = 'Authentication';
+  String textSetChangePw = 'Change password';
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
 
   @override
   void initState() {
     _accountName.text = widget.name;
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetAccountSetting = 'အကောင့်အပြင်အဆင်';
+          textSetAccountName = 'နာမည်';
+          textSetInfo = 'သင့်အကောင့်အမည်ကို အခြားစတိုးဆိုင်များမှ ဝန်ထမ်းများကို စာရင်းသွင်းရန်အတွက်လည်း အသုံးပြုမည်ဖြစ်သည်။';
+          textSetSave = 'သိမ်းမည်';
+          textSetEmailChange = 'သင့်ဘက်မှ အီးမေးလ်လိပ်စာကို ပြောင်း၍မရပါ။ ပြောင်းလဲလိုပါက ကျွန်ုပ်တို့ထံ ဆက်သွယ်ရန် လိုအပ်ပါသည်။';
+          textSetAuth = 'Authentication';
+          textSetChangePw = 'စကားဝှက်ပြောင်းရန်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetAccountSetting = 'Account setting';
+          textSetAccountName = 'Account name';
+          textSetInfo = 'Your account name will also be used for registering staff from other stores.';
+          textSetSave = 'Save and exit';
+          textSetEmailChange = 'You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.';
+          textSetAuth = 'Authentication';
+          textSetChangePw = 'Change password';
+        });
+      }
+    });
+
     super.initState();
   }
 
@@ -108,7 +150,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                     height: 1.5
                                     // color: Colors.grey,
                                   ),),
-                                Text('Account setting',
+                                Text(textSetAccountSetting,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -349,7 +391,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                             color: Colors.black,
                                           ),
 // errorText: 'Error message',
-                                          labelText: 'Account Name',
+                                          labelText: textSetAccountName,
                                           floatingLabelBehavior:
                                           FloatingLabelBehavior.auto,
 //filled: true,
@@ -372,7 +414,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                         text: new TextSpan(
                                           children: [
                                             new TextSpan(
-                                              text: 'Your account name will also be used for registering staff from other stores.',
+                                              text: textSetInfo,
                                               style: new TextStyle(
                                                 fontSize: 12.5,
                                                 color: Colors.grey,
@@ -497,7 +539,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                                 bottom: 2.0),
                                             child: Container(
                                               child: Text(
-                                                'Save and exit',
+                                              textSetSave,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     height: 1.3,
@@ -570,7 +612,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                         text: new TextSpan(
                                           children: [
                                             new TextSpan(
-                                              text: 'You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.',
+                                              text: textSetEmailChange,
                                               style: new TextStyle(
                                                 fontSize: 12.5,
                                                 color: Colors.grey,
@@ -615,7 +657,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                         }
 
                                       },
-                                      child: eachTile('Authentication', 'Change password'),
+                                      child: eachTile(textSetAuth, textSetChangePw ),
                                     ),
                                     SizedBox(height: 20,),
                                   ],

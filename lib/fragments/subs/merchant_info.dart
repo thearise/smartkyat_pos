@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/widgets/edit_merchant.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 
 import '../../app_theme.dart';
 import 'merchant_orders_info2.dart';
@@ -57,7 +57,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   String textSetSaleCart = 'Add to\nbuy cart';
   String textSetPurchasedOrders = 'Purchased\norders';
   String textSetEdit = 'Edit merchant';
-  String textSetSaleInfo = 'Sale info';
+  String textSetSaleInfo = 'Purchased info';
   String textSetContactInfo = 'Contact info';
   String textSetInfo = 'MERCHANT INFORMATION';
   String textSetName = 'Name';
@@ -68,7 +68,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   String textSetDebts = 'Total Unpaid Orders';
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
-  String textSetSaleTitle = 'SALE INFORMATION';
+  String textSetSaleTitle = 'PURCHASED INFORMATION';
   bool isEnglish = true;
 
   @override
@@ -80,18 +80,18 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
           textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
           textSetPurchasedOrders = 'ဝယ်ထားသော\norders များ';
           textSetEdit = 'Edit merchant';
-          textSetSaleInfo = 'Sale info';
-          textSetContactInfo = 'Contact info';
-          textSetInfo = 'MERCHANT INFORMATION';
-           textSetName = 'Name';
-           textSetPhone = 'Phone';
-           textSetAddress = 'Address';
-          textSetBarcode = 'Barcode';
-          textSetDebtAmount = 'Total Unpaid';
-          textSetDebts = 'Total Unpaid Orders';
-          textSetTtlOrders = 'Total Orders';
-          textSetRefunds = 'Total Refunded Orders';
-          textSetSaleTitle = 'SALE INFORMATION';
+          textSetSaleInfo = 'အဝယ်ဆိုင်ရာ';
+          textSetContactInfo = 'ဆက်သွယ်ရန်';
+          textSetInfo = 'ကုန်သည် အချက်အလက်';
+           textSetName = 'နာမည်';
+           textSetPhone = 'ဖုန်းနံပါတ်';
+           textSetAddress = 'လိပ်စာ';
+          textSetBarcode = 'ဘားကုဒ်';
+          textSetDebtAmount = 'ပေးရန် စုစုပေါင်း';
+          textSetDebts = 'ပေးရန် အော်ဒါ အရေအတွက်';
+          textSetTtlOrders = 'ဝယ်ယူထားသော အော်ဒါများ';
+          textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
+          textSetSaleTitle = 'အဝယ်ဆိုင်ရာ အချက်အလက်';
         });
       }
       else if(value=='english') {
@@ -100,7 +100,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
           textSetSaleCart = 'Add to\nbuy cart';
           textSetPurchasedOrders = 'Purchased\norders';
           textSetEdit = 'Edit merchant';
-          textSetSaleInfo = 'Sale info';
+          textSetSaleInfo = 'Purchased info';
           textSetContactInfo = 'Contact info';
           textSetInfo = 'MERCHANT INFORMATION';
            textSetName = 'Name';
@@ -111,7 +111,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
           textSetDebts = 'Total Unpaid Orders';
           textSetTtlOrders = 'Total Orders';
           textSetRefunds = 'Total Refunded Orders';
-          textSetSaleTitle = 'SALE INFORMATION';
+          textSetSaleTitle = 'PURCHASED INFORMATION';
         });
       }
     });

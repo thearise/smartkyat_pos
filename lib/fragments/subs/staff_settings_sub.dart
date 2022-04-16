@@ -14,7 +14,7 @@ import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/add_staff_sub.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
@@ -52,9 +52,37 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   var _shop ;
   bool firstTime = true;
   var ownerEmail = '';
+
+  String textSetInfo = 'information';
+  String textSetStaff = 'Staff setting';
+  String textSetList = 'Staff list';
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
 
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetInfo = 'information';
+          textSetStaff = 'ဝန်ထမ်းအပြင်အဆင်';
+          textSetList = 'ဝန်ထမ်းစာရင်း';
+        });
+      } else if(value=='english') {
+        setState(() {
+           textSetInfo = 'information';
+           textSetStaff = 'Staff setting';
+           textSetList = 'Staff list';
+        });
+      }
+    });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
@@ -219,7 +247,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Information',
+                                textSetInfo,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -233,7 +261,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 ),
                               ),
                               Text(
-                                'Staff settings',
+                               textSetStaff,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,

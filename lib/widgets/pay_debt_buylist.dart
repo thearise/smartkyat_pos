@@ -40,7 +40,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
   String currencyUnit = 'MMK';
   String textSetDebt = 'Debt Remaining';
-  String textSetCashRec = 'CASH RECEIVED';
+  String textSetCashRec = 'PAID AMOUNT';
   String textSetCusPrice = 'Custom price';
   String textSetDone = 'Done';
 
@@ -64,14 +64,14 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
       if(value=='burmese') {
         setState(() {
           textSetDebt = 'ကျန်ငွေ';
-          textSetCashRec = 'လက်ခံရရှိငွေ';
-          textSetCusPrice = 'စိတ်ကြိုက်ပမာ';
+          textSetCashRec = 'ပေးငွေ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
           textSetDone = 'ပြီးပြီ';
         });
       } else if(value=='english') {
         setState(() {
           textSetDebt = 'Debt Remaining';
-          textSetCashRec = 'CASH RECEIVED';
+          textSetCashRec = 'PAID AMOUNT';
           textSetCusPrice = 'Custom amount';
           textSetDone = 'Done';
         });
