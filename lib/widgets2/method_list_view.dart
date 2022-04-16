@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smartkyat_pos/fragments/products_fragment.dart';
+import 'package:smartkyat_pos/fragments/products_fragment2.dart';
 
 import '../app_theme.dart';
 import '../constants/picker_method.dart';

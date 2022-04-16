@@ -45,8 +45,33 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
 
+  String textSetDisplay = 'Display';
+  String textSetCurrency = 'Currency';
+  String textSetChgCurrency = 'CHANGE CURRENCY';
+  String textSetInfo = 'The currency will be applied to your all financial amount display.';
+
   @override
   initState() {
+
+    getLangId().then((value) {
+    if(value=='burmese') {
+    setState(() {
+      textSetDisplay = 'Display';
+      textSetCurrency = 'ငွေကြေးဆိုင်ရာ';
+      textSetChgCurrency = 'ငွေကြေးယူနစ်ပြောင်းလဲရန်';
+      textSetInfo = 'ဤငွေကြေးယူနစ်ကို သင်၏ဘဏ္ဍာရေးဆိုင်ရာ ပမာဏအားလုံးကို ဖော်ပြခြင်းတွင် အသုံးပြုပါမည်။';
+    });
+    } else if(value=='english') {
+    setState(() {
+      textSetDisplay = 'Display';
+      textSetCurrency = 'Currency';
+      textSetChgCurrency = 'CHANGE CURRENCY';
+      textSetInfo = 'This currency unit will be applied to your all financial amount display.';
+    });
+    }
+
+    });
+
     getCurrency().then((value) {
       setState(() {
         currencyType = value;
@@ -54,6 +79,14 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     });
     _dropdownTestItems = buildDropdownTestItems(_testList);
     super.initState();
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
   }
 
   Future<String> getStoreId() async {
@@ -231,7 +264,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              'Display',
+                              textSetDisplay,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -246,7 +279,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                               ),
                             ),
                             Text(
-                              'Currency',
+                              textSetCurrency,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -275,7 +308,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('CHANGE CURRENCY', style: TextStyle(
+                          child: Text(textSetChgCurrency, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -322,7 +355,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                             text: new TextSpan(
                               children: [
                                 new TextSpan(
-                                  text: 'This currency will be applied to your all financial amount display.',
+                                  text: textSetInfo,
                                   style: new TextStyle(
                                     fontSize: 12.5,
                                     color: Colors.grey,

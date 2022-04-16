@@ -64,7 +64,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   }
 
 
-  String textSetTtlRefund = 'Total refunds';
+  String textSetTtlRefund = 'Refunded items price';
   String textSetTtlRefundAmount = 'Total refund amount';
   String textSetRefundBtn = 'Refund';
 
@@ -73,15 +73,15 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetTtlRefund = 'ပြန်ပေးငွေ';
+          textSetTtlRefund = 'ပြန်ပေးပစ္စည်းများ ကျသင့်ငွေ';
           textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
-          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းများ';
+          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းထည့်မည်';
         });
       } else if(value=='english') {
         setState(() {
-          textSetTtlRefund = 'Current refund amount';
+          textSetTtlRefund = 'Refunded items price';
           textSetTtlRefundAmount = 'Total refund amount';
-          textSetRefundBtn = 'Refund items';
+          textSetRefundBtn = 'Refund';
         });
       }
     });
@@ -716,31 +716,31 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     .w500),
                                           ),
                                         ),
-                                        // ListTile(
-                                        //   title: Text(
-                                        //     textSetTtlRefundAmount,
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight:
-                                        //         FontWeight
-                                        //             .w500),
-                                        //   ),
-                                        //   subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )) : Text(totalItems().toString() + ' items',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )),
-                                        //   trailing: Text('$currencyUnit '+
-                                        //       totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight:
-                                        //         FontWeight
-                                        //             .w500),
-                                        //   ),
-                                        // ),
+                                        ListTile(
+                                          title: Text(
+                                            textSetTtlRefundAmount,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500),
+                                          ),
+                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )) : Text(totalItems().toString() + ' items',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )),
+                                          trailing: Text('$currencyUnit '+
+                                              totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500),
+                                          ),
+                                        ),
 
 
 

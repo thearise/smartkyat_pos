@@ -59,7 +59,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
-import '../fragments/search_fragment3.dart';
+import '../fragments/search_fragment2.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
@@ -369,6 +369,16 @@ class HomePageState extends State<HomePage>
   String textSetBarcode = 'Barcode';
   String textSetTotal = 'Total';
 
+  String textSetHome = 'Home';
+  String textSetProd = 'Products';
+  String textSetOrd = 'Orders';
+  String textSetSord = 'Sale orders';
+  String textSetBord = 'Buy orders';
+  String textSetCustomers = 'Customers';
+  String textSetMerchants = 'Merchants';
+  String textSetSett = 'Settings';
+  String textSetLogOut = 'Log out';
+
   bool isEnglish = true;
 
   getCurrency() async {
@@ -439,6 +449,15 @@ class HomePageState extends State<HomePage>
           textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
           textSetBarcode = 'ဘားကုဒ်';
           textSetTotal = 'စုစုပေါင်း';
+          textSetHome = 'ပင်မစာမျက်နှာ';
+          textSetProd = 'ကုန်ပစ္စည်းစာရင်း';
+          textSetOrd = 'စာရင်းများ';
+          textSetSord = 'အရောင်းစာရင်း';
+          textSetBord = 'အဝယ်စာရင်း';
+          textSetCustomers = 'ဖောက်သည်စာရင်း';
+          textSetMerchants = 'ကုန်သည်စာရင်း';
+          textSetSett = 'ဆက်တင်';
+          textSetLogOut = 'ထွက်ရန်';
         });
       }
       else if(value=='english') {
@@ -478,6 +497,15 @@ class HomePageState extends State<HomePage>
           textSetLoss = 'Loss items';
           textSetBarcode = 'Barcode';
           textSetTotal = 'Total';
+          textSetHome = 'Home';
+          textSetProd = 'Products';
+          textSetOrd = 'Orders';
+          textSetSord = 'Sale orders';
+          textSetBord = 'Buy orders';
+          textSetCustomers = 'Customers';
+          textSetMerchants = 'Merchants';
+          textSetSett = 'Settings';
+          textSetLogOut = 'Log out';
         });
       }
     });
@@ -707,7 +735,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: BuyListFragment2( selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+            page: BuyListFragment2(selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               key: bordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
@@ -717,8 +745,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(shopId: shopId.toString(), openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
-            // page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
+            page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
           ),
         ];
       });
@@ -856,99 +883,7 @@ class HomePageState extends State<HomePage>
     });
   }
 
-  var prodDocs = [];
-  var workCacheProds = [];
-  var workSerProds = [];
-
   openSearchFromFrag() async {
-
-    // CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-    //
-    // prodsFetchServer.where('id', isEqualTo: '01Q7yySVIYyl027SnwKz')
-    //     .where('update_time', isGreaterThan: doc['update_time'])
-    //     .limit(1)
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot)  async {
-    //   querySnapshot.docs.forEach((doc) {
-    //     print('update time check something' + doc.id + ' --> ' + doc['prod_name']);
-    //   });
-    //
-    // });
-
-
-    // //search initializing
-    // print('initial ' + 'QZEXoquzNqEIKV0uMMvr');
-    // FirebaseFirestore.instance.collection('shops').doc('QZEXoquzNqEIKV0uMMvr').collection('cacheArr').doc('prodsArr')
-    //     .get().then((value) async {
-    //   var array = value.data()!['array'];
-    //   List<String> needToFetchs = [];
-    //
-    //
-    //
-    //   FirebaseFirestore.instance.collection('shops').doc('QZEXoquzNqEIKV0uMMvr').collection('products')
-    //       .where('archive', isEqualTo: false)
-    //   // .limit(20)
-    //       .get(GetOptions(source: Source.cache))
-    //   // .get()
-    //       .then((QuerySnapshot querySnapshot)  async {
-    //     prodDocs = querySnapshot.docs;
-    //     workCacheProds = querySnapshot.docs;
-    //
-    //
-    //
-    //     querySnapshot.docs.forEach((doc) {
-    //       DocumentSnapshot doc2 = doc;
-    //       print('cache data s home ' + doc['prod_name']);
-    //
-    //       print('some ggmoda ' + 'QZEXoquzNqEIKV0uMMvr' + ' -- ' + doc.id + ' -- ' + doc['update_time'].toDate().toString());
-    //       // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
-    //       // // docSnap.
-    //       //
-    //       // // Stream<QuerySnapshot>? emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
-    //       // // emailSnapshot.sn;
-    //       //
-    //       // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
-    //       // docSnap.listen((querySnapshot) {
-    //       //   print('query snap changes ' + querySnapshot.toString());
-    //       //   // querySnapshot..forEach((change) {
-    //       //   //   // Do something with change
-    //       //   // });
-    //       // });
-    //
-    //       CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-    //
-    //
-    //
-    //       prodsFetchServer.where('id', isEqualTo: doc.id)
-    //           .where('update_time', isGreaterThan: doc['update_time'])
-    //           .limit(1)
-    //           .get()
-    //           .then((QuerySnapshot querySnapshot)  async {
-    //         querySnapshot.docs.forEach((doc) {
-    //           print('update time check something' + doc.id + ' --> ' + doc['prod_name']);
-    //         });
-    //
-    //       });
-    //
-    //       if(!array.contains(doc.id)) {
-    //         print('cache data s home not equaling something');
-    //         // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-    //         //     .doc(doc.id)
-    //         //     .get();
-    //         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-    //             .doc(doc.id)
-    //             .get()
-    //             .then((value) {
-    //           workSerProds.add(value);
-    //         });
-    //
-    //       }
-    //     });
-    //
-    //   });
-    //
-    // });
-
     ayinIndex = _selectIndex;
     _selectTab(8);
     tabs[8].key.currentState!.popUntil((route) => route.isFirst);
@@ -961,8 +896,6 @@ class HomePageState extends State<HomePage>
     custGlobalKey.currentState!.changeSearchOpening(true);
     mercGlobalKey.currentState!.changeSearchOpening(true);
     settGlobalKey.currentState!.changeSearchOpening(true);
-
-
   }
 
   closeNewProduct() {
@@ -2323,7 +2256,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Home',
+                                                                          textSetHome,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2390,7 +2323,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Products',
+                                                                       textSetProd,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2426,7 +2359,7 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ),
                                                                     Text(
-                                                                      'Orders',
+                                                                     textSetOrd,
                                                                       style: TextStyle(
                                                                           fontSize: 17, fontWeight: FontWeight.w500),
                                                                       strutStyle: StrutStyle(
@@ -2475,7 +2408,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Sale orders',
+                                                                          textSetSord,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2527,7 +2460,7 @@ class HomePageState extends State<HomePage>
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(bottom: 1.0),
                                                                           child: Text(
-                                                                            'Buy orders',
+                                                                            textSetBord,
                                                                             style: TextStyle(
                                                                                 fontSize: 17, fontWeight: FontWeight.w500),
                                                                             strutStyle: StrutStyle(
@@ -2618,7 +2551,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Customers',
+                                                                       textSetCustomers,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2675,7 +2608,7 @@ class HomePageState extends State<HomePage>
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(bottom: 1.0),
                                                                         child: Text(
-                                                                          'Merchants',
+                                                                          textSetMerchants,
                                                                           style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w500),
                                                                           strutStyle: StrutStyle(
@@ -2731,7 +2664,7 @@ class HomePageState extends State<HomePage>
                                                                     Padding(
                                                                       padding: const EdgeInsets.only(bottom: 1.0),
                                                                       child: Text(
-                                                                        'Settings',
+                                                                        textSetSett,
                                                                         style: TextStyle(
                                                                             fontSize: 17, fontWeight: FontWeight.w500),
                                                                         strutStyle: StrutStyle(
@@ -2838,8 +2771,8 @@ class HomePageState extends State<HomePage>
                                                                 title: 'Are you sure you want to log out?',
                                                                 actions: [
                                                                   SheetAction(
-                                                                    label: 'Logout',
-                                                                    key: 'logout',
+                                                                    label: textSetLogOut,
+                                                                    key: textSetLogOut,
                                                                     isDestructiveAction: true,
                                                                   ),
                                                                 ],
@@ -2849,14 +2782,14 @@ class HomePageState extends State<HomePage>
                                                                 title: 'Are you sure you want to log out?',
                                                                 actions: [
                                                                   SheetAction(
-                                                                    label: 'Logout',
-                                                                    key: 'logout',
+                                                                    label: textSetLogOut,
+                                                                    key: textSetLogOut,
                                                                     isDestructiveAction: true,
                                                                   ),
                                                                 ],
                                                               );
                                                               print('clicked log ' + result.toString());
-                                                              if(result.toString() == 'logout') {
+                                                              if(result.toString() == textSetLogOut) {
                                                                 _selectTab(0);
                                                                 await FirebaseAuth.instance.signOut();
                                                                 setStoreId('');
@@ -2867,7 +2800,7 @@ class HomePageState extends State<HomePage>
                                                             },
                                                             child: Container(
                                                               child: Text(
-                                                                'Logout',
+                                                                textSetLogOut,
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     fontSize: 13,
@@ -4578,7 +4511,6 @@ class HomePageState extends State<HomePage>
                                                                                                             });
                                                                                                           });
                                                                                                         });
-
 
                                                                                                         List<String> subNameList = [];
                                                                                                         int subNameListLength = 0;
@@ -6711,7 +6643,7 @@ class HomePageState extends State<HomePage>
           print('CHECK ' + doc['prod_name'].toString());
           scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
               + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
-              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']);
+              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']+ '^' + doc['img_1']);
 
           doc['sub1_name'] != ''  && doc['sub2_name'] == '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}]:
           doc['sub1_name'] != ''  && doc['sub2_name'] != '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}, {'no': 3, 'keyword': doc['sub2_name']}] :
@@ -7021,9 +6953,11 @@ class HomePageState extends State<HomePage>
   String barcode5 = '';
   String name5 = '';
   String data = '';
+  String pName = '';
+  String pImage = '';
   TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
-    var _selectedTest;
+    Object? _selectedTest;
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
@@ -7031,6 +6965,8 @@ class HomePageState extends State<HomePage>
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           barcode5 = result.split('^')[12];
+          pName = result.split('^')[1];
+          pImage = result.split('^')[13];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
               if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
@@ -7561,7 +7497,7 @@ class HomePageState extends State<HomePage>
                                                       child: GestureDetector(
                                                         onTap: () async {
                                                           setState(() {
-                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
+                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data +  qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage  );
                                                           });
                                                           print('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
@@ -11962,7 +11898,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 0.0),
                 child: Text(
-                  'Home' ,
+                  textSetHome,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -11990,7 +11926,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Product',
+                  textSetProd,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12015,7 +11951,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Sale orders',
+                 textSetSord,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12040,7 +11976,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Buy orders',
+                 textSetBord,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12099,7 +12035,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Customers',
+                 textSetCustomers,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12127,7 +12063,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Merchants',
+                  textSetMerchants,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -12155,7 +12091,7 @@ class HomePageState extends State<HomePage>
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
-                  'Settings',
+                  textSetSett,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,

@@ -13,7 +13,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:smartkyat_pos/fragments/main_fragment.dart';
 // import 'package:smartkyat_pos/fragments/orders_fragment.dart';
-// import 'package:smartkyat_pos/fragments/products_fragment.dart';
+// import 'package:smartkyat_pos/fragments/products_fragment2.dart';
 // import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 // import 'package:smartkyat_pos/fragments/staff_fragment.dart';
 // import 'package:smartkyat_pos/fragments/support_fragment.dart';

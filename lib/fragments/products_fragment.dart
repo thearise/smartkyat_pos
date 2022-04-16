@@ -19,7 +19,7 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -631,7 +631,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   //
                                                   //
                                                   // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('customers');
-                                                  // productId.doc(document.id).update({
+                                                  // productId.doc(document.i).update({
                                                   //   'search_name': textSplitFunction(document['customer_name']),
                                                   // }).then((value) {
                                                   // }).catchError((error) => print("Failed to update: $error"));
@@ -1137,150 +1137,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                         )
                     ),
                   ),
-                // if(!searchOpening)
-                //   Padding(
-                //     padding: EdgeInsets.only(top: sliverHeadPad),
-                //     // duration: Duration(milliseconds: 20),
-                //     child: Align(
-                //       alignment: Alignment.topCenter,
-                //       child: Container(
-                //         color: Colors.white,
-                //         child: Padding(
-                //           padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                //           child: Container(
-                //             height: 32,
-                //             width: MediaQuery.of(context).size.width,
-                //             // color: Colors.yellow,
-                //             child: Row(
-                //               children: [
-                //                 Row(
-                //                   children: [
-                //                     FlatButton(
-                //                       padding: EdgeInsets.only(left: 10, right: 10),
-                //                       color: AppTheme.secButtonColor,
-                //                       shape: RoundedRectangleBorder(
-                //                         borderRadius: BorderRadius.circular(8.0),
-                //                         side: BorderSide(
-                //                           color: AppTheme.skBorderColor2,
-                //                         ),
-                //                       ),
-                //                       onPressed: () {
-                //                         widget._callback();
-                //                       },
-                //                       child: Container(
-                //                         child: Row(
-                //                           // mainAxisAlignment: Main,
-                //                           children: [
-                //                             Padding(
-                //                               padding: const EdgeInsets.only(right: 6.0),
-                //                               child: Icon(
-                //                                 SmartKyat_POS.add_plus,
-                //                                 size: 17,
-                //                               ),
-                //                             ),
-                //                             Text(
-                //                               textSetNewItem,
-                //                               textAlign: TextAlign.center,
-                //                               style: TextStyle(
-                //                                   fontSize: 14,
-                //                                   fontWeight: FontWeight.w500,
-                //                                   color: Colors.black),
-                //                             ),
-                //                           ],
-                //                         ),
-                //                       ),
-                //                     ),
-                //                     SizedBox(width: 12),
-                //                     Container(
-                //                       color: Colors.grey.withOpacity(0.2),
-                //                       width: 1.5,
-                //                       height: 30,
-                //                     )
-                //                   ],
-                //                 ),
-                //                 Expanded(
-                //                   child: ListView(
-                //                     controller: cateScCtler,
-                //                     scrollDirection: Axis.horizontal,
-                //                     children: [
-                //                       SizedBox(
-                //                         width: 4,
-                //                       ),
-                //                       Padding(
-                //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
-                //                           minWidth: 0,
-                //                           padding: EdgeInsets.only(left: 12, right: 12),
-                //                           color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                //                           shape: RoundedRectangleBorder(
-                //                             borderRadius: BorderRadius.circular(20.0),
-                //                             side: BorderSide(
-                //                               color: AppTheme.skBorderColor2,
-                //                             ),
-                //                           ),
-                //                           onPressed: () {
-                //                             _animateToIndex(0);
-                //                             setState(() {
-                //                               cateScIndex = 0;
-                //                             });
-                //                           },
-                //                           child: Container(
-                //                             child: Text(
-                //                               textSetAll,
-                //                               textAlign: TextAlign.center,
-                //                               style: TextStyle(
-                //                                   fontSize: 14,
-                //                                   fontWeight: FontWeight.w500,
-                //                                   color: Colors.black),
-                //                             ),
-                //                           ),
-                //                         ),
-                //                       ),
-                //                       Padding(
-                //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
-                //                           minWidth: 0,
-                //                           padding: EdgeInsets.only(left: 12, right: 12),
-                //                           color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                //                           shape: RoundedRectangleBorder(
-                //                             borderRadius: BorderRadius.circular(20.0),
-                //                             side: BorderSide(
-                //                               color: AppTheme.skBorderColor2,
-                //                             ),
-                //                           ),
-                //                           onPressed: () {
-                //                             _animateToIndex(5.4);
-                //                             setState(() {
-                //                               cateScIndex = 1;
-                //                               filter = 1;
-                //                             });
-                //                           },
-                //                           child: Container(
-                //                             child: Text(
-                //                               textSetLowStocks,
-                //                               textAlign: TextAlign.center,
-                //                               style: TextStyle(
-                //                                   fontSize: 14,
-                //                                   fontWeight: FontWeight.w500,
-                //                                   color: Colors.black),
-                //                             ),
-                //                           ),
-                //                         ),
-                //                       ),
-                //                       SizedBox(
-                //                         width: 11,
-                //                       )
-                //                     ],
-                //                   ),
-                //                 )
-                //               ],
-                //             ),
-                //
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
                 if(searchOpeningR)
                   Container(
                     height: MediaQuery.of(context).size.height,

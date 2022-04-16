@@ -28,7 +28,7 @@ import 'package:flutter/src/material/colors.dart' as Colors;
 import 'package:smartkyat_pos/widgets/apply_discount_to_cart.dart';
 import 'package:smartkyat_pos/widgets/line_chart_sample2.dart';
 import 'package:smartkyat_pos/widgets/overall_search.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:vector_math/vector_math_64.dart';
 import '../app_theme.dart';

@@ -1332,12 +1332,12 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(mainLoss.round().toString() + ' ' + mainName, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
+                                                                             Text(mainLoss.round().toString() + ' ' + mainName, style:
+                                                                              TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),),
 
                                                                     ],
                                                                   ),
@@ -1609,11 +1609,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       ),),
                                                                       Spacer(),
                                                                       Text(sub1Loss.round().toString() + ' ' + sub1Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
+                                                                              TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -1881,11 +1881,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500,),),
                                                                       Spacer(),
                                                                       Text(sub2Loss.round().toString() + ' ' + sub2Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),)
+                                                                              TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),)
                                                                     ],
                                                                   ),
                                                                 ),

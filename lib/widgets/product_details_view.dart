@@ -317,6 +317,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
   @override
   initState() {
+
+
+
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {

@@ -1939,21 +1939,21 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       print('document print ' + productExist.toString());
                                                       print('document print ' + prodExist.toString());
                                                     }
-                                                    //
-                                                    // });
-                                                    //
-                                                    //
-                                                    //
-                                                    // productId.where('prod_name',
-                                                    //     isEqualTo:
-                                                    //     prodFieldsValue[0])
-                                                    //     .get()
-                                                    //     .then((QuerySnapshot
-                                                    // querySnapshot) async {
-                                                    //   querySnapshot.docs
-                                                    //       .forEach((doc) {
-                                                    //     prodExist = true;
-                                                    //   });
+                                                  //
+                                                  // });
+                                                  //
+                                                  //
+                                                  //
+                                                  // productId.where('prod_name',
+                                                  //     isEqualTo:
+                                                  //     prodFieldsValue[0])
+                                                  //     .get()
+                                                  //     .then((QuerySnapshot
+                                                  // querySnapshot) async {
+                                                  //   querySnapshot.docs
+                                                  //       .forEach((doc) {
+                                                  //     prodExist = true;
+                                                  //   });
 
                                                     if (prodExist) {
                                                       print('product already');
@@ -2001,7 +2001,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                               'nm': prodFieldsValue[3],
                                                               'n1': subUnitFieldValue[1],
                                                               'n2': subUnitFieldValue[5],
-                                                              // 'img_1': photoArray[0],
+                                                             // 'img_1': photoArray[0],
                                                             }
                                                           }
                                                         },SetOptions(merge: true)).then((value) {

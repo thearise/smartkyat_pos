@@ -56,7 +56,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   String textSetPhone = 'Phone';
   String textSetAddress = 'Address';
   String textSetBarcode = 'Barcode';
-  String textSetDebtAmount = 'Total Unpaid';
+  String textSetDebtAmount = 'Total Unpaid Amount';
   String textSetDebts = 'Total Unpaid Orders';
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
@@ -71,18 +71,18 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
           textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
           textSetPurchasedOrders = 'ရောင်းထားသော\norders များ';
           textSetEdit = 'Edit customer';
-          textSetSaleInfo = 'Sale info';
-          textSetContactInfo = 'Contact info';
-          textSetInfo = 'CUSTOMER INFORMATION';
-          textSetName = 'Name';
-          textSetPhone = 'Phone';
-          textSetAddress = 'Address';
-          textSetBarcode = 'Barcode';
-          textSetDebtAmount = 'Total Unpaid';
-          textSetDebts = 'Total Unpaid Orders';
-          textSetTtlOrders = 'Total Orders';
-          textSetRefunds = 'Total Refunded Orders';
-          textSetSaleTitle = 'SALE INFORMATION';
+          textSetSaleInfo = 'အရောင်းဆိုင်ရာ';
+          textSetContactInfo = 'ဆက်သွယ်ရန်';
+          textSetInfo = 'ဖောက်သည် အချက်အလက်';
+          textSetName = 'နာမည်';
+          textSetPhone = 'ဖုန်းနံပါတ်';
+          textSetAddress = 'လိပ်စာ';
+          textSetBarcode = 'ဘားကုဒ်';
+          textSetDebtAmount = 'ရရန် စုစုပေါင်း';
+          textSetDebts = 'ရရန် အော်ဒါ အရေအတွက်';
+          textSetTtlOrders = 'ရောင်းထားသော အော်ဒါများ';
+          textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
+          textSetSaleTitle = 'အရောင်းဆိုင်ရာ အချက်အလက်';
 
         });
       }
@@ -99,7 +99,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
           textSetPhone = 'Phone';
           textSetAddress = 'Address';
           textSetBarcode = 'Barcode';
-          textSetDebtAmount = 'Total Unpaid';
+          textSetDebtAmount = 'Total Unpaid Amount';
           textSetDebts = 'Total Unpaid Orders';
           textSetTtlOrders = 'Total Orders';
           textSetRefunds = 'Total Refunded Orders';

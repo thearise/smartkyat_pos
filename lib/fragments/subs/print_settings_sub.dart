@@ -47,6 +47,12 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
   bool blueConnect = true;
+
+  String textSetPrintSetting = 'Print setting';
+  String textSetPaperSize = 'PAPER SIZE';
+  String textSetInfo = 'Choose the paper size correctly to work well with your printer';
+  String textSetConnect = 'Connect always';
+
   @override
   initState() {
     getPaperId().then((value) {
@@ -72,7 +78,33 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       });
 
     });
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetPrintSetting = 'ပရင်တာ အပြင်အဆင်';
+          textSetPaperSize = 'စာရွက် အရွယ်အစား';
+          textSetInfo = 'သင်၏ပရင်တာနှင့် ကောင်းမွန်စွာအလုပ်လုပ်ရန် စာရွက်အရွယ်အစားကို မှန်ကန်စွာရွေးချယ်ပါ။';
+          textSetConnect = 'Always connect';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetPrintSetting = 'Print setting';
+          textSetPaperSize = 'PAPER SIZE';
+          textSetInfo = 'Choose the paper size correctly to work well with your printer';
+          textSetConnect = 'Always connect';
+        });
+      }
+
+    });
     super.initState();
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
   }
 
   Future<String> getStoreId() async {
@@ -264,7 +296,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                               ),
                             ),
                             Text(
-                              'Print settings',
+                              textSetPrintSetting,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -293,7 +325,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('PAPER SIZE', style: TextStyle(
+                          child: Text(textSetPaperSize, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -340,7 +372,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             text: new TextSpan(
                               children: [
                                 new TextSpan(
-                                  text: 'Choose the paper size correctly to work well with your printer.',
+                                  text: textSetInfo,
                                   style: new TextStyle(
                                     fontSize: 12.5,
                                     color: Colors.grey,
@@ -381,7 +413,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0),
                               child: ListTile(
-                                title: Text('Connect always',
+                                title: Text(textSetConnect,
                                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
                                   strutStyle: StrutStyle(
                                     height: 2,

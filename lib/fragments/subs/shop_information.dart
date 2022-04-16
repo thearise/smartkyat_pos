@@ -35,9 +35,49 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
   final _address = TextEditingController();
   final _phone = TextEditingController();
 
+  String textSetEdit = 'Edit shop';
+  String textSetShopInfo = 'Shop info';
+  String textSetInformation = 'SHOP INFORMATION';
+  String textSetName = 'Shop name';
+  String textSetAddress = 'Shop address';
+  String textSetPhone = 'Phone';
+  String textSetSave = 'Save and exit';
+
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
 
   @override
   initState() {
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetEdit = 'ဆိုင်အပြင်အဆင်';
+          textSetShopInfo = 'Shop info';
+          textSetInformation = 'SHOP INFORMATION';
+          textSetName = 'ဆိုင်အမည်';
+          textSetAddress = 'ဆိုင်လိပ်စာ';
+          textSetPhone = 'ဖုန်းနံပါတ်';
+          textSetSave = 'ပြငိဆင်မည်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetEdit = 'Edit shop';
+          textSetShopInfo = 'Shop info';
+          textSetInformation = 'SHOP INFORMATION';
+          textSetName = 'Shop name';
+          textSetAddress = 'Shop address';
+          textSetPhone = 'Phone';
+          textSetSave = 'Save and exit';
+        });
+      }
+    });
     _shopName.text = widget.name;
     _address.text = widget.address;
     _phone.text = widget.phone;
@@ -139,7 +179,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Text(
-                                          'Information',
+                                          textSetEdit,
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             fontSize: 13,
@@ -153,7 +193,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                           ),
                                         ),
                                         Text(
-                                          'Shop info',
+                                          textSetShopInfo,
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             fontSize: 18,
@@ -177,7 +217,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                         SizedBox(height: 15,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('SHOP INFORMATION', style: TextStyle(
+                          child: Text(textSetInformation, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -239,7 +279,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Shop name',
+                                      labelText: textSetName,
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -303,7 +343,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                     color: Colors.black,
                                   ),
 // errorText: 'Error message',
-                                  labelText: 'Shop address',
+                                  labelText: textSetAddress,
                                   floatingLabelBehavior:
                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -368,7 +408,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                               color: Colors.black,
                               ),
 // errorText: 'Error message',
-                              labelText: 'Phone',
+                              labelText: textSetPhone,
                               floatingLabelBehavior:
                               FloatingLabelBehavior.auto,
 //filled: true,
@@ -429,7 +469,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                           bottom: 2.0),
                                       child: Container(
                                         child: Text(
-                                          'Save and exit',
+                                          textSetSave,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               height: 1.3,

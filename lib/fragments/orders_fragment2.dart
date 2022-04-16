@@ -17,7 +17,7 @@ import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
 import '../app_theme.dart';
@@ -74,7 +74,10 @@ class OrdersFragment extends StatefulWidget {
   OrdersFragmentState createState() => OrdersFragmentState();
 }
 
-class OrdersFragmentState extends State<OrdersFragment> {
+class OrdersFragmentState extends State<OrdersFragment>
+    with
+        TickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<OrdersFragment> {
 
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -270,7 +273,6 @@ class OrdersFragmentState extends State<OrdersFragment> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        // child: Container()
         child: Container(
           color: Colors.white,
           child: SafeArea(

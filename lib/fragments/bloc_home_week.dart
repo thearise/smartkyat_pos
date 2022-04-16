@@ -230,9 +230,6 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
         }
       }
     }
-
-
-
     _cubit = PaginationCubit(
       widget.query,
       widget.itemsPerPage,
