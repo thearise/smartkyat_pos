@@ -111,6 +111,8 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   bool searchOpeningR = false;
 
+  var prodsSnap;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -167,6 +169,9 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+
+
     // if(!searchOpening) {
     //   Future.delayed(const Duration(milliseconds: 1500), () {
     //     setState(() {
@@ -558,6 +563,14 @@ class ProductsFragmentState extends State<ProductsFragment>
   String ayinTitle = 'ngal';
   double memoPixel = 0;
   double sliverHeadPadMemo = 0;
+
+  Map sortMapByNaS(Map map) {
+    final sortedKeys = map.keys.toList(growable: false)
+      ..sort((k1, k2) => ((map[k1]['na'].compareTo(map[k2]['na']))));
+
+    return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+  }
+
   @override
   Widget build(BuildContext context) {
     // List<Book> bookList = Provider.of<List<Book>>(context);
@@ -586,625 +599,512 @@ class ProductsFragmentState extends State<ProductsFragment>
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                        padding: const EdgeInsets.only(top: 81.0),
-                        // padding: const EdgeInsets.only(top: 137.0),
-                        child: NotificationListener<ScrollNotification>(
-                          // onNotification: (scrollNotification) {
-                          //   if(ayinPixel >= scrollNotification.metrics.pixels) {
-                          //     print('kyii ' + scrollNotification.metrics.pixels.toString());
-                          //     if(ayinTitle != 'kyii') {
-                          //       memoPixel = sliverHeadPad;
-                          //       achainPixel = scrollNotification.metrics.pixels;
-                          //       print('new kyii ' + memoPixel.toString());
-                          //       // print('memo kyi ' + memoPixel.toString());
-                          //     }
-                          //     print('pixeling kyii ' + ((achainPixel-scrollNotification.metrics.pixels)).toString());
-                          //     if((12 + achainPixel-scrollNotification.metrics.pixels + memoPixel)>81) {
-                          //       setState(() {
-                          //         sliverHeadPad = 81;
-                          //       });
-                          //     } else {
-                          //       setState(() {
-                          //         sliverHeadPad = 12 + achainPixel-scrollNotification.metrics.pixels + memoPixel;
-                          //       });
-                          //     }
-                          //     ayinTitle = 'kyii';
-                          //   } else {
-                          //     print('ngal ' + scrollNotification.metrics.pixels.toString());
-                          //     if(ayinTitle != 'ngal') {
-                          //       memoPixel = sliverHeadPad;
-                          //       achainPixel = scrollNotification.metrics.pixels;
-                          //       print('new ngal ' + memoPixel.toString());
-                          //       // print('memo ngal ' + memoPixel.toString());
-                          //     }
-                          //     print('pixeling ngal ' + (achainPixel-scrollNotification.metrics.pixels).toString());
-                          //     if((81 + achainPixel-scrollNotification.metrics.pixels) <= 0) {
-                          //       setState(() {
-                          //         sliverHeadPad = 0;
-                          //       });
-                          //     } else {
-                          //       setState(() {
-                          //         sliverHeadPad = 81 + achainPixel-scrollNotification.metrics.pixels;
-                          //       });
-                          //     }
-                          //     ayinTitle = 'ngal';
-                          //   }
-                          //   // if(ayinPixel >= scrollNotification.metrics.pixels) {
-                          //   //   print('kyii');
-                          //   //   achainPixel = scrollNotification.metrics.pixels;
-                          //   //   setState(() {
-                          //   //     sliverHeadPad = ayinPixel - scrollNotification.metrics.pixels;
-                          //   //   });
-                          //   // } else {
-                          //   //   print('ngal');
-                          //   //   print('scrolling ' + scrollNotification.metrics.pixels.toString());
-                          //   //   // print('direction ' + scrollNotification.metrics);
-                          //   //   if((81 - scrollNotification.metrics.pixels) <= 81 && (81 - scrollNotification.metrics.pixels) >= 0) {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 81 - scrollNotification.metrics.pixels;
-                          //   //     });
-                          //   //   } else if((81 - scrollNotification.metrics.pixels) < 0) {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 0;
-                          //   //     });
-                          //   //   } else {
-                          //   //     setState(() {
-                          //   //       sliverHeadPad = 81;
-                          //   //     });
-                          //   //   }
-                          //   // }
-                          //   //
-                          //   ayinPixel = scrollNotification.metrics.pixels;
-                          //   return true;
-                          // },
-                          child: PaginateFirestore(
-                            onEmpty: Align(
-                              alignment: Alignment.topCenter,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                    child: Container(
-                                      height: 32,
-                                      width: MediaQuery.of(context).size.width,
-                                      // color: Colors.yellow,
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              FlatButton(
-                                                padding: EdgeInsets.only(left: 10, right: 10),
-                                                color: AppTheme.secButtonColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(8.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  widget._callback();
-                                                  print('execution');
-                                                  // print('array -> ' + textSplitFunction('abcde').toString());
-                                                  // getStoreId().then((value) async {
-                                                  //   await FirebaseFirestore.instance.collection('shops').doc(
-                                                  //       value.toString()).collection('customers')
-                                                  //       .get(GetOptions(source: Source.server))
-                                                  //       .then((QuerySnapshot querySnapshotProdChange) {
-                                                  //     querySnapshotProdChange.docs.map((document) async {
-                                                  //       int length = 0;
-                                                  //       length = document['customer_name'].length;
-                                                  //       print('id    -> ' + length.toString());
-                                                  //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                                  //       print('array -> ' + textSplitFunction(document['customer_name']).length.toString());
-                                                  //
-                                                  //
-                                                  // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('customers');
-                                                  // productId.doc(document.i).update({
-                                                  //   'search_name': textSplitFunction(document['customer_name']),
-                                                  // }).then((value) {
-                                                  // }).catchError((error) => print("Failed to update: $error"));
-                                                  //     }).toList();
-                                                  //   });
-                                                  // });
-                                                },
-                                                child: Container(
-                                                  child: Row(
-                                                    // mainAxisAlignment: Main,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right: 6.0),
-                                                        child: Icon(
-                                                          SmartKyat_POS.add_plus,
-                                                          size: 17,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        textSetNewItem,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.black),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 12),
-                                              Container(
-                                                color: Colors.grey.withOpacity(0.2),
-                                                width: 1.5,
-                                                height: 30,
-                                              )
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: ListView(
-                                              controller: cateScCtler,
-                                              scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(top: 81.0),
+                      // padding: const EdgeInsets.only(top: 137.0),
+                      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                          stream: prodsSnap,
+                          builder: (BuildContext context, prodsSB) {
+                            var prods;
+
+                            if(prodsSB.hasData) {
+                              var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                              prods = prodsSnapOut?['prods'];
+
+                              prods.forEach((key, value) {
+                              });
+                              prods = sortMapByNaS(prods);
+
+                              return CustomScrollView(
+                                slivers: [
+                                  SliverAppBar(
+                                    elevation: 0,
+                                    backgroundColor: Colors.white,
+                                    // Provide a standard title.
+                                    // Allows the user to reveal the app bar if they begin scrolling
+                                    // back up the list of items.
+                                    floating: true,
+                                    flexibleSpace: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                      child: Container(
+                                        height: 32,
+                                        width: MediaQuery.of(context).size.width,
+                                        // color: Colors.yellow,
+                                        child: Row(
+                                          children: [
+                                            Row(
                                               children: [
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                  child: FlatButton(
-                                                    minWidth: 0,
-                                                    padding: EdgeInsets.only(left: 12, right: 12),
-                                                    color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.skBorderColor2,
-                                                      ),
+                                                FlatButton(
+                                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                                  color: AppTheme.secButtonColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
                                                     ),
-                                                    onPressed: () {
-                                                      _animateToIndex(0);
-                                                      setState(() {
-                                                        cateScIndex = 0;
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      child: Text(
-                                                        textSetAll,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.black),
-                                                      ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    widget._callback();
+                                                    // // print('execution3');
+                                                    // getStoreId().then((value) async {
+                                                    //   print('value' + value.toString());
+                                                    //   for(int i = 0; i<1000; i++)
+                                                    //      // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders');
+                                                    //   await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders').doc('20220413274').update({
+                                                    //
+                                                    //     'daily_order': FieldValue.arrayUnion(['202204132203' +'^7-293' + i.toString() +'^'+ i.toString() +'00.0^name<>name^F^0.0^0.0']),
+                                                    //
+                                                    //   }).then((value) {
+                                                    //       }).catchError((error) => print("Failed to update: $error"));
+                                                    //   //   }).toList();
+                                                    //   // });
+                                                    // });
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      // mainAxisAlignment: Main,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 6.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.add_plus,
+                                                            size: 17,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          textSetNewItem,
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                  child: FlatButton(
-                                                    minWidth: 0,
-                                                    padding: EdgeInsets.only(left: 12, right: 12),
-                                                    color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.skBorderColor2,
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      _animateToIndex(5.4);
-                                                      setState(() {
-                                                        cateScIndex = 1;
-                                                        filter = 1;
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      child: Text(
-                                                        textSetLowStocks,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.black),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 11,
+                                                SizedBox(width: 12),
+                                                Container(
+                                                  color: Colors.grey.withOpacity(0.2),
+                                                  width: 1.5,
+                                                  height: 30,
                                                 )
                                               ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      // color: AppTheme.lightBgColor,
-                                      color: Colors.white,
-                                      child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            key: cateScIndex == 0? ValueKey<String>('1'): ValueKey<String>('2'),
-                            header:SliverAppBar(
-                              elevation: 0,
-                              backgroundColor: Colors.white,
-                              // Provide a standard title.
-                              // Allows the user to reveal the app bar if they begin scrolling
-                              // back up the list of items.
-                              floating: true,
-                              flexibleSpace: Padding(
-                                padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                child: Container(
-                                  height: 32,
-                                  width: MediaQuery.of(context).size.width,
-                                  // color: Colors.yellow,
-                                  child: Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          FlatButton(
-                                            padding: EdgeInsets.only(left: 10, right: 10),
-                                            color: AppTheme.secButtonColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              side: BorderSide(
-                                                color: AppTheme.skBorderColor2,
-                                              ),
-                                            ),
-                                            onPressed: () async {
-                                              widget._callback();
-                                              //print('execution');
-                                              // print('array -> ' + textSplitFunction('abcde').toString());
-                                              // getStoreId().then((value) async {
-                                              //   await FirebaseFirestore.instance.collection('shops').doc(
-                                              //       value.toString()).collection('merchants')
-                                              //       .get(GetOptions(source: Source.server))
-                                              //       .then((QuerySnapshot querySnapshotProdChange) {
-                                              //     querySnapshotProdChange.docs.map((document) async {
-                                              //       int length = 0;
-                                              //       length = document['merchant_name'].length;
-                                              //       print('id    -> ' + length.toString());
-                                              //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                              //       print('array -> ' + textSplitFunction(document['merchant_name']).length.toString());
-                                              //
-                                              //
-                                              //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('merchants');
-                                              //       productId.doc(document.id).update({
-                                              //         'search_name': textSplitFunction(document['merchant_name']),
-                                              //       }).then((value) {
-                                              //       }).catchError((error) => print("Failed to update: $error"));
-                                              //     }).toList();
-                                              //   });
-                                              // });
-                                            },
-                                            child: Container(
-                                              child: Row(
-                                                // mainAxisAlignment: Main,
+                                            Expanded(
+                                              child: ListView(
+                                                controller: cateScCtler,
+                                                scrollDirection: Axis.horizontal,
                                                 children: [
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(right: 6.0),
-                                                    child: Icon(
-                                                      SmartKyat_POS.add_plus,
-                                                      size: 17,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    textSetNewItem,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(width: 12),
-                                          Container(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            width: 1.5,
-                                            height: 30,
-                                          )
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: ListView(
-                                          controller: cateScCtler,
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            SizedBox(
-                                              width: 4,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  _animateToIndex(0);
-                                                  setState(() {
-                                                    cateScIndex = 0;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    textSetAll,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  _animateToIndex(5.4);
-                                                  setState(() {
-                                                    cateScIndex = 1;
-                                                    filter = 1;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    textSetLowStocks,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 11,
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-
-                                ),
-                              ),),
-                            footer: SliverToBoxAdapter(child: Padding(
-                              padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
-                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
-                            )),
-                            initialLoader: Center(child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                child: CupertinoActivityIndicator(radius: 15,))),
-                            bottomLoader: Container(
-                              child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                            ),
-                            itemBuilderType:
-                            PaginateBuilderType.listView,
-                            itemBuilder: (context1, documentSnapshots, index) {
-                              final data =  documentSnapshots[index].data() as Map<String, dynamic>;
-                              var version = documentSnapshots[index].id;
-                              //String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
-                              return GestureDetector(
-                                onTap: () async {
-                                  closeDrawerFrom();
-                                  await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => ProductDetailsView2(idString: version, prodName: data['prod_name'], mainSell: data['unit_sell'], toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
-                                  openDrawerFrom();
-                                },
-                                child: Padding(
-                                  padding:
-                                  EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: index == documentSnapshots.length-1 ?
-                                            BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1.0) :
-
-                                            BorderSide(
-                                                color: AppTheme.skBorderColor2,
-                                                width: 0.5)
-                                        )),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 15.0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 8.0),
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            5.0),
-                                                        child: data['img_1'] != ""
-                                                            ? CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                              data['img_1'],
-                                                          width: 75,
-                                                          height: 75,
-                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
-                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )
-                                                            : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                width: 15,
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 0,
-                                                    ),
-                                                    Container(
-                                                      // color: Colors.yellow,
-                                                      child: Text(
-                                                        data['prod_name'],
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          overflow: TextOverflow.ellipsis
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
                                                         ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 2.2,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(0);
+                                                        setState(() {
+                                                          cateScIndex = 0;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          textSetAll,
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Flexible(
-                                                          child: Text(
-                                                            '$currencyUnit ' + data['unit_sell'],
-                                                            style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                              FontWeight.w500,
-                                                              overflow: TextOverflow.ellipsis
-                                                            ),
-                                                          ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
                                                         ),
-                                                        Text(
-                                                          // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                          data['sub1_name'] != '' && data['sub2_name'] == '' ? ' - ' + data['sub1_sell'] : data['sub1_name'] != '' && data['sub2_name'] != '' ? ' - ' + data['sub2_sell'] : '',
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(5.4);
+                                                        setState(() {
+                                                          cateScIndex = 1;
+                                                          filter = 1;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          textSetLowStocks,
+                                                          textAlign: TextAlign.center,
                                                           style: TextStyle(
-                                                            height: 1.3,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 11,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+
+                                      ),
+                                    ),),
+                                  SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                          (context, index) {
+                                        var prodMap = prods.entries.elementAt(index);
+                                        print('Prod map ' + prodMap.key.toString());
+                                        var prodVal = prodMap.value;
+                                        var prodKey = prodMap.key;
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            closeDrawerFrom();
+                                            await Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
+                                            openDrawerFrom();
+                                          },
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width,
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: index == prods.length-1 ?
+                                                      BorderSide(
+                                                          color: Colors.transparent,
+                                                          width: 1.0) :
+
+                                                      BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                          width: 0.5)
+                                                  )),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(right: 15.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 8.0),
+                                                              child: ClipRRect(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      5.0),
+                                                                  child: Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 0,
+                                                              ),
+                                                              Container(
+                                                                // color: Colors.yellow,
+                                                                child: Text(
+                                                                  prodVal['na'],
+                                                                  style: TextStyle(
+                                                                      fontSize: 18,
+                                                                      fontWeight:
+                                                                      FontWeight.w500,
+                                                                      overflow: TextOverflow.ellipsis
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 2.2,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Flexible(
+                                                                    child: Text(
+                                                                      '$currencyUnit ' + prodVal['sm'].toString(),
+                                                                      style: TextStyle(
+                                                                          height: 1.3,
+                                                                          fontSize: 15,
+                                                                          fontWeight:
+                                                                          FontWeight.w500,
+                                                                          overflow: TextOverflow.ellipsis
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
+                                                                    prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
+                                                                    style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize: 15,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Row(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top: 2.0),
+                                                                    child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                  ),
+                                                                  Flexible(
+                                                                    child: Text(
+                                                                        ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
+                                                                        textScaleFactor: 1.0,
+                                                                        style: TextStyle(
+                                                                            height: 1.3,
+                                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                            overflow: TextOverflow.ellipsis
+                                                                        )),
+                                                                  ),
+                                                                  prodVal['n1'] != '' && prodVal['n2'] == ''?
+                                                                  Text(
+                                                                      '(+1 Sub item)',
+                                                                      textScaleFactor: 1.0,
+                                                                      style: TextStyle(
+                                                                          height: 1.3,
+                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                          overflow: TextOverflow.ellipsis
+                                                                      )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
+                                                                  Text(
+                                                                      '(+2 Sub items)',
+                                                                      textScaleFactor: 1.0,
+                                                                      style: TextStyle(
+                                                                          height: 1.3,
+                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                          overflow: TextOverflow.ellipsis
+                                                                      )): Container(),
+                                                                ],
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 2,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
                                                         Padding(
-                                                          padding: const EdgeInsets.only(top: 2.0),
-                                                          child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                        ),
-                                                        Flexible(
-                                                          child: Text(
-                                                              ' ' + data['inStock1'].round().toString() + ' '  + data['unit_name'] + ' ',
-                                                              textScaleFactor: 1.0,
-                                                              style: TextStyle(
-                                                                height: 1.3,
-                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                overflow: TextOverflow.ellipsis
-                                                              )),
-                                                        ),
-                                                        data['sub1_name'] != '' && data['sub2_name'] == ''?
-                                                        Text(
-                                                            '(+1 Sub item)',
-                                                            textScaleFactor: 1.0,
-                                                            style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                overflow: TextOverflow.ellipsis
-                                                            )) : data['sub1_name'] != '' && data['sub2_name'] != '' ?
-                                                        Text(
-                                                            '(+2 Sub items)',
-                                                            textScaleFactor: 1.0,
-                                                            style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                              overflow: TextOverflow.ellipsis
-                                                            )): Container(),
+                                                          padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 6.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios_rounded,
+                                                            size: 16,
+                                                            color: Colors.blueGrey
+                                                                .withOpacity(0.8),
+                                                          ),),
                                                       ],
                                                     ),
+                                                    SizedBox(height: 15),
                                                   ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets.only(
-                                                    bottom: 6.0),
-                                                child: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  size: 16,
-                                                  color: Colors.blueGrey
-                                                      .withOpacity(0.8),
-                                                ),),
-                                            ],
+                                            ),
                                           ),
-                                          SizedBox(height: 15),
-                                        ],
-                                      ),
+                                        );
+                                      },
+                                      childCount: prods == null? 0: prods.length,
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               );
-                            },
-                            // orderBy is compulsory to enable pagination
-                            query: cateScIndex == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').where('archive' , isEqualTo: false).orderBy('update_time', descending: true) : FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').where('archive' , isEqualTo: false).orderBy('inStock1', descending: false),
-                            // to fetch real-time data
-                            isLive: true,
-                          ),
-                        )
+                            }
+
+                            return Container();
+
+
+
+
+
+                          }
+                      ),
                     ),
                   ),
+                // if(!searchOpening)
+                //   Padding(
+                //     padding: EdgeInsets.only(top: sliverHeadPad),
+                //     // duration: Duration(milliseconds: 20),
+                //     child: Align(
+                //       alignment: Alignment.topCenter,
+                //       child: Container(
+                //         color: Colors.white,
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                //           child: Container(
+                //             height: 32,
+                //             width: MediaQuery.of(context).size.width,
+                //             // color: Colors.yellow,
+                //             child: Row(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     FlatButton(
+                //                       padding: EdgeInsets.only(left: 10, right: 10),
+                //                       color: AppTheme.secButtonColor,
+                //                       shape: RoundedRectangleBorder(
+                //                         borderRadius: BorderRadius.circular(8.0),
+                //                         side: BorderSide(
+                //                           color: AppTheme.skBorderColor2,
+                //                         ),
+                //                       ),
+                //                       onPressed: () {
+                //                         widget._callback();
+                //                       },
+                //                       child: Container(
+                //                         child: Row(
+                //                           // mainAxisAlignment: Main,
+                //                           children: [
+                //                             Padding(
+                //                               padding: const EdgeInsets.only(right: 6.0),
+                //                               child: Icon(
+                //                                 SmartKyat_POS.add_plus,
+                //                                 size: 17,
+                //                               ),
+                //                             ),
+                //                             Text(
+                //                               textSetNewItem,
+                //                               textAlign: TextAlign.center,
+                //                               style: TextStyle(
+                //                                   fontSize: 14,
+                //                                   fontWeight: FontWeight.w500,
+                //                                   color: Colors.black),
+                //                             ),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //                     SizedBox(width: 12),
+                //                     Container(
+                //                       color: Colors.grey.withOpacity(0.2),
+                //                       width: 1.5,
+                //                       height: 30,
+                //                     )
+                //                   ],
+                //                 ),
+                //                 Expanded(
+                //                   child: ListView(
+                //                     controller: cateScCtler,
+                //                     scrollDirection: Axis.horizontal,
+                //                     children: [
+                //                       SizedBox(
+                //                         width: 4,
+                //                       ),
+                //                       Padding(
+                //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                //                         child: FlatButton(
+                //                           minWidth: 0,
+                //                           padding: EdgeInsets.only(left: 12, right: 12),
+                //                           color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                //                           shape: RoundedRectangleBorder(
+                //                             borderRadius: BorderRadius.circular(20.0),
+                //                             side: BorderSide(
+                //                               color: AppTheme.skBorderColor2,
+                //                             ),
+                //                           ),
+                //                           onPressed: () {
+                //                             _animateToIndex(0);
+                //                             setState(() {
+                //                               cateScIndex = 0;
+                //                             });
+                //                           },
+                //                           child: Container(
+                //                             child: Text(
+                //                               textSetAll,
+                //                               textAlign: TextAlign.center,
+                //                               style: TextStyle(
+                //                                   fontSize: 14,
+                //                                   fontWeight: FontWeight.w500,
+                //                                   color: Colors.black),
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       ),
+                //                       Padding(
+                //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                //                         child: FlatButton(
+                //                           minWidth: 0,
+                //                           padding: EdgeInsets.only(left: 12, right: 12),
+                //                           color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                //                           shape: RoundedRectangleBorder(
+                //                             borderRadius: BorderRadius.circular(20.0),
+                //                             side: BorderSide(
+                //                               color: AppTheme.skBorderColor2,
+                //                             ),
+                //                           ),
+                //                           onPressed: () {
+                //                             _animateToIndex(5.4);
+                //                             setState(() {
+                //                               cateScIndex = 1;
+                //                               filter = 1;
+                //                             });
+                //                           },
+                //                           child: Container(
+                //                             child: Text(
+                //                               textSetLowStocks,
+                //                               textAlign: TextAlign.center,
+                //                               style: TextStyle(
+                //                                   fontSize: 14,
+                //                                   fontWeight: FontWeight.w500,
+                //                                   color: Colors.black),
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       ),
+                //                       SizedBox(
+                //                         width: 11,
+                //                       )
+                //                     ],
+                //                   ),
+                //                 )
+                //               ],
+                //             ),
+                //
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
                 if(searchOpeningR)
                   Container(
                     height: MediaQuery.of(context).size.height,
@@ -1320,8 +1220,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             color: Colors.black.withOpacity(0.55)
                                         ),
                                         strutStyle: StrutStyle(
-                                          forceStrutHeight: true,
-                                          height: textSetSearch == 'Search'? 1.6: 1.3
+                                            forceStrutHeight: true,
+                                            height: textSetSearch == 'Search'? 1.6: 1.3
                                         ),
                                       )
                                   ),

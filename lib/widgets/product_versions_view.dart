@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:fraction/fraction.dart';
 

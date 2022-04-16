@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/shop_information.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
@@ -36,8 +36,40 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
   var ownerId;
   final auth = FirebaseAuth.instance;
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String textSetShopSetting = 'Shop setting';
+  String textSetSwitchShop = 'Switch shop';
+  String textSetStaffSetting = 'Staff setting';
+  String textSetShopInfo = 'Shop info';
+
+
+
   @override
-  initState() {
+  void initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
+          textSetSwitchShop = 'ဆိုင်ပြောင်းရန်';
+          textSetStaffSetting = 'ဝန်ထမ်းများ';
+          textSetShopInfo = 'ဆိုင်အချက်အလက်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetShopSetting = 'Shop setting';
+          textSetSwitchShop = 'Switch shop';
+          textSetStaffSetting = 'Staff setting';
+          textSetShopInfo = 'Shop info';
+        });
+      }
+    });
     getStoreId().then((value) {
       setState(() {
         shopId = value.toString();
@@ -212,7 +244,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 ),
                               ),
                               Text(
-                                'Shop settings',
+                                textSetShopSetting,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,
@@ -323,9 +355,9 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                       stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
                                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                         if(snapshot.hasData) {
-                                          return eachTile('Staff settings', 'total ' + snapshot.data!.docs.length.toString());
+                                          return eachTile(textSetStaffSetting, 'total ' + snapshot.data!.docs.length.toString());
                                         }
-                                        return eachTile('Staff settings', '...');
+                                        return eachTile(textSetStaffSetting, '...');
                                       }
                                   ),
                                 ),
@@ -354,9 +386,9 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                           addressShop = output?['shop_address'];
                                           phoneShop = output?['shop_phone'];
                                           ownerId = output?['owner_id'];
-                                          return eachTile('Shop info', output?['shop_name'] == null? '...': output?['shop_name']);
+                                          return eachTile(textSetShopInfo, output?['shop_name'] == null? '...': output?['shop_name']);
                                         }
-                                        return eachTile('Shop info', '...');
+                                        return eachTile(textSetShopInfo, '...');
                                       }
                                   ),
                                   // child: Container(

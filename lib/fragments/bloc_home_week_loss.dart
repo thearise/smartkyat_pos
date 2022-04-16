@@ -262,6 +262,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   Widget _buildListView(PaginationLoaded loadedState) {
+
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
       print('inside loss loss ' + data.toString());
@@ -278,13 +279,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       print('inside loss buy ' + data.toString());
     }
 
-    double totalLossPrice = 0;
-    for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-      Map<String, dynamic> dataL = loadedState.documentSnapshots[i].data()! as Map<String, dynamic>;
-      totalLossPrice += dataL['amount'] * dataL['buy_price'];
-    }
-
-    print('totalLossPrice  ' + totalLossPrice.toString());
+    fetchOrdersMY(loadedState.documentSnapshots);
 
     fetchOrders(widget.sale, widget.buy);
     var listView = CustomScrollView(
@@ -728,11 +723,13 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(percentByRefund().toString() == '1001' ? '-%' : percentByRefund().toString() == '1000' ? '\u221E%' : percentByRefund().toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.green),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: percentByRefund() == 1001? Colors.blue: percentByRefund() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -783,7 +780,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalLossPrice.toString(),
+                                                  child: Text(totalLossBySlide(),
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -808,29 +805,16 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
-                                            Container(
-                                              height: 100,
-                                              width: 100,
-                                              child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: loadedState.documentSnapshots.length,
-                                                  itemBuilder: (BuildContext context, int index) {
-                                                    // for(int loopP = 0; loopP < snapshotPd.data!.docs.length; loopP++) {
-                                                    //
-                                                    // }
-                                                    Map<String, dynamic> dataL = loadedState.documentSnapshots[index].data()! as Map<String, dynamic>;
-                                                    print('check product ' + dataL['buy_price'].toString());
-                                                    return Container();
-                                                  }),
-                                            ),
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text('+20%',
+                                                child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '\u221E%' : percentByLoss().toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.blue),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: percentByLoss() == 1001? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
+                                                  ),
                                                 )
                                             ),
                                             Positioned(
@@ -1414,38 +1398,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String titleTextBySlide() {
     if(_sliding == 0) {
       return textSetTodaySoFar;
-    } else if(_sliding == 1) {
-      return textSetLast7Days;
-    } else if(_sliding == 2) {
-      // return textSetLast28D;
-      if(today.month == 1) {
-        return 'JANUARY ' + today.year.toString();
-      } else if(today.month == 2) {
-        return 'FEBRUARY ' + today.year.toString();
-      } else if(today.month == 3) {
-        return 'MARCH ' + today.year.toString();
-      } else if(today.month == 4) {
-        return 'APRIL ' + today.year.toString();
-      } else if(today.month == 5) {
-        return 'MAY ' + today.year.toString();
-      } else if(today.month == 6) {
-        return 'JUNE ' + today.year.toString();
-      } else if(today.month == 7) {
-        return 'JULY ' + today.year.toString();
-      } else if(today.month == 8) {
-        return 'AUGUST ' + today.year.toString();
-      } else if(today.month == 9) {
-        return 'SEPTEMBER ' + today.year.toString();
-      } else if(today.month == 10) {
-        return 'OCTOBER ' + today.year.toString();
-      } else if(today.month == 11) {
-        return 'NOVEMBER ' + today.year.toString();
-      } else {
-        return 'DECEMBER ' + today.year.toString();
-      }
     } else {
-      // return textSetLast12M;
-      return 'YEAR ' + today.year.toString();
+      return textSetLast7Days;
     }
   }
 
@@ -1453,36 +1407,32 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     print('todaycoststotal' + todayCostsTotal.toString());
     if(_sliding == 0) {
       return todayCostsTotal.toString();
-    } else if(_sliding == 1) {
+    } else  {
       return weekCostsTotal.toString();
-    } else if(_sliding == 2) {
-      return monthUnpaidTotal.toString();
-    } else {
-      return yearUnpaidTotal.toString();
     }
   }
 
   String totalStockCostsRBySlide() {
     if(_sliding == 0) {
       return todayCostsTotalR.toString();
-    } else if(_sliding == 1) {
-      return weekCostsTotalR.toString();
-    } else if(_sliding == 2) {
-      return monthCostsTotal2.toString();
     } else {
-      return yearCostsTotal2.toString();
+      return weekCostsTotalR.toString();
     }
   }
 
   String totalRefundBySlide() {
     if(_sliding == 0) {
       return todayRefundTotal.toString();
-    } else if(_sliding == 1) {
-      return weekRefundTotal.toString();
-    } else if(_sliding == 2) {
-      return monthRefundTotal.toString();
     } else {
-      return yearRefundTotal.toString();
+      return weekRefundTotal.toString();
+    }
+  }
+
+  String totalLossBySlide() {
+    if(_sliding == 0) {
+      return todayLossTotal.toString();
+    } else  {
+      return weekLossTotal.toString();
     }
   }
 
@@ -1510,34 +1460,35 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     return percent;
   }
 
+  percentByRefund() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayRefund(ystRefundTotal, todayRefundTotal);
+    } else percent = growthRateWeekRefund(lastWeekRefund, weekRefundTotal);
+    return percent;
+  }
+
+  percentByLoss() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayLoss(ystLossTotal, todayLossTotal);
+    } else percent = growthRateWeekLoss(lastWeekLoss, weekLossTotal);
+    return percent;
+  }
+
   String totalBySlide() {
     double todayTotal=0.0;
     for (int i = 0; i < todayOrdersChart.length; i++){
       todayTotal += todayOrdersChart[i];
     }
-
-    double monthlyTotal=0.0;
-    for (int i = 0; i < thisMonthOrdersChart.length; i++){
-      monthlyTotal += thisMonthOrdersChart[i];
-    }
-
     double weeklyTotal=0.0;
     for (int i = 0; i < thisWeekOrdersChart.length; i++){
       weeklyTotal += thisWeekOrdersChart[i];
     }
-
-    double yearlyTotal=0.0;
-    for (int i = 0; i < thisYearOrdersChart.length; i++){
-      yearlyTotal += thisYearOrdersChart[i];
-    }
     if(_sliding == 0) {
       return todayTotal.toStringAsFixed(2);
-    } else if(_sliding == 1) {
-      return weeklyTotal.toStringAsFixed(2);
-    } else if(_sliding == 2) {
-      return '50';
     } else {
-      return yearlyTotal.toStringAsFixed(2);
+      return weeklyTotal.toStringAsFixed(2);
     }
   }
 
@@ -1546,13 +1497,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       return LineChart(todayData(DateTime.now()));
     } else if(_sliding==1) {
       return LineChart(weeklyData(DateTime.now()));
-    } else if(_sliding==2) {
-      return LineChart(monthlyData(DateTime.now()));
-    }else if(_sliding==3) {
-      return LineChart(yearlyData(DateTime.now()));
     }
-
-    //_sliding == 0 ? mainData(): weeklyData(DateTime.now()),
   }
 
   LineChartData todayData(DateTime today) {
@@ -1595,15 +1540,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
               case 0:
                 return _dateTime!.day.toString() + ' '+changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString());
               case 4:
-                return _dateTime!.subtract(Duration(hours: (int.parse(subHours)-4))).hour.toString() + ' hr';
+                return _dateTime!.subtract(Duration(hours: 20)).hour.toString() + ' hr';
               case 8:
-                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-8)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: 16)).hour.toString()+ ' hr';
               case 12:
-                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-12)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours:12)).hour.toString()+ ' hr';
               case 16:
-                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-16)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: 8)).hour.toString()+ ' hr';
               case 20:
-                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-20)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: 4)).hour.toString()+ ' hr';
               case 24:
                 return 'Next Day';
             }
@@ -1727,242 +1672,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
   int findMax(List<int> numbers) {
     return numbers.reduce(max);
-  }
-
-  LineChartData monthlyData(DateTime today) {
-    List<int> roundMonth = [];
-    for(double dbl in thisMonthOrdersChart) {
-      roundMonth.add(dbl.round());
-    }
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: const Color(0xFFd6d8db),
-            strokeWidth: 1,
-            // dashArray: [0]
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-              color: const Color(0xFFd6d8db),
-              strokeWidth: 1,
-              dashArray: [5]
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          interval: 1,
-          getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
-          getTitles: (value) {
-            // DateTime day = DateTime.now().add(Duration(days: 1));
-            // for(int i = 0; i<7; i++) {
-            //   today = today.subtract(Duration(days: 1));
-            //   return today.day.toString();
-            //
-            // }
-            // return '';
-            // DateTime today = DateTime.now();
-            // today.day.toString()
-
-
-
-            // switch (value.toInt()) {
-            //   case 0:
-            //     return _dateTime!.subtract(Duration(days: 30)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 29)).month.toString());
-            //   case 5:
-            //     return _dateTime!.subtract(Duration(days: 25)).day.toString();
-            //   case 10:
-            //     return _dateTime!.subtract(Duration(days: 20)).day.toString();
-            //   case 15:
-            //     return _dateTime!.subtract(Duration(days: 15)).day.toString();
-            //   case 20:
-            //     return _dateTime!.subtract(Duration(days: 10)).day.toString();
-            //   case 25:
-            //     return _dateTime!.subtract(Duration(days: 5)).day.toString();
-            //   case 30:
-            //     return _dateTime!.subtract(Duration(days: 0)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString());
-            // // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
-            // }
-            // return '';
-
-
-            if(value.toInt() == (DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1) - 1) {
-              return ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1) - 1).toString() + ', ' + changeMonth2String(_dateTime!.month.toString());
-            }
-            switch (value.toInt()) {
-              case 1:
-                return '1, ' + changeMonth2String(_dateTime!.month.toString());
-              case 5:
-                return '5';
-              case 10:
-                return '10';
-              case 15:
-                return '15';
-              case 20:
-                return '20';
-              case 25:
-                return '25';
-            // case 30:
-            //   return '30, ' + changeMonth2String(_dateTime!.month.toString());
-            // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
-            }
-            return '';
-          },
-          margin: 8,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-          ),
-          getTitles: (value) {
-            // switch (value.toInt()) {
-            //   case 1:
-            //     return '10k';
-            //   case 3:
-            //     return '30k';
-            //   case 5:
-            //     return (findMax(roundWeek)/1000000).round().toString() + 'M';
-            // }
-            // return '';
-
-            chgDeci3Place(findMax(roundMonth));
-            var unit;
-            var quantity;
-            if(chgDeci3Place(findMax(roundMonth))==100.0) {
-              unit = 'K';
-              quantity = chgDeci3Place(findMax(roundMonth))*10;
-            } else if(chgDeci3Place(findMax(roundMonth))==1000.0){
-              unit = 'K';
-              quantity = chgDeci3Place(findMax(roundMonth));
-            }else if(chgDeci3Place(findMax(roundMonth))==10000.0){
-              unit='K';
-              quantity = chgDeci3Place(findMax(roundMonth))/10;
-            }else if(chgDeci3Place(findMax(roundMonth))==100000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundMonth))*10;
-            }else if(chgDeci3Place(findMax(roundMonth))==1000000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundMonth));
-            }else if(chgDeci3Place(findMax(roundMonth))==10000000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundMonth))/10;
-            }else if(chgDeci3Place(findMax(roundMonth))==100000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundMonth))*10;
-            }else if(chgDeci3Place(findMax(roundMonth))== 1000000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundMonth));
-            }else if(chgDeci3Place(findMax(roundMonth))== 10000000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundMonth))/10;
-            }else {
-              unit='';
-              quantity = 1;
-            }
-
-            if(value.toInt() == 5) {
-              return (findMax(roundMonth)/quantity).toStringAsFixed(1) + ' $unit';
-            } else if(value.toInt() == 3) {
-              return ((findMax(roundMonth)/quantity)*(3/5)).toStringAsFixed(1) + ' $unit';
-            } else if(value.toInt() == 1) {
-              return ((findMax(roundMonth)/quantity)*(1/5)).toStringAsFixed(1) + ' $unit';
-            }
-
-
-
-            // print('value ' + findMax(roundMonth).toString());
-            return '';
-          },
-          reservedSize: 42,
-          margin: 6,
-        ),
-      ),
-      borderData:
-      FlBorderData(show: true, border: Border.symmetric(horizontal: BorderSide(color: const Color(0xFFd6d8db), width: 0))),
-      minX: 1,
-      // maxX: 30,
-      maxX: (DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toDouble() - 1,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: [
-            for(int i = 1; i < DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day + 1; i++)
-              FlSpot(i.toDouble(), (((thisMonthOrdersChart[i]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[i]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[i]).toString()  + '\n(' + i.toString() + ', ' + changeMonth2String(_dateTime!.month.toString()) + ')'),
-            // FlSpot(i.toDouble(), (((thisMonthOrdersChart[i]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[i]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[i]).toString()  + '\n(' + today.subtract(Duration(days: DateTime(today.year, today.month + 1, 0).day - i)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: DateTime(today.year, today.month + 1, 0).day - i)).month.toString()) + ')'),
-            // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
-
-            // FlSpot(1, (((thisMonthOrdersChart[1]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[1]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[1]).toString() + '\n(' + today.subtract(Duration(days: 29)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 29)).month.toString()) + ')'),
-            // FlSpot(2, (((thisMonthOrdersChart[2]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[2]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[2]).toString() + '\n(' + today.subtract(Duration(days: 28)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 28)).month.toString()) + ')'),
-            // FlSpot(3, (((thisMonthOrdersChart[3]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[3]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[3]).toString() + '\n(' + today.subtract(Duration(days: 27)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 27)).month.toString()) + ')'),
-            // // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
-            // // (thisWeekOrdersChart[4]/1000000) * 3.260
-            // FlSpot(4, (((thisMonthOrdersChart[4]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[4]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[4]).toString() + '\n(' + today.subtract(Duration(days: 26)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 26)).month.toString()) + ')'),
-            // FlSpot(5, (((thisMonthOrdersChart[5]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[5]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[5]).toString() + '\n(' + today.subtract(Duration(days: 25)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 25)).month.toString()) + ')'),
-            // FlSpot(6, (((thisMonthOrdersChart[6]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[6]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[6]).toString() + '\n(' + today.subtract(Duration(days: 24)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 24)).month.toString()) + ')'),
-            //
-            // FlSpot(7, (((thisMonthOrdersChart[7]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[7]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[7]).toString() + '\n(' + today.subtract(Duration(days: 23)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 23)).month.toString()) + ')'),
-            // FlSpot(8, (((thisMonthOrdersChart[8]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[8]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[8]).toString() + '\n(' + today.subtract(Duration(days: 22)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 22)).month.toString()) + ')'),
-            // FlSpot(9, (((thisMonthOrdersChart[9]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[9]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[9]).toString() + '\n(' + today.subtract(Duration(days: 21)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 21)).month.toString()) + ')'),
-            // FlSpot(10, (((thisMonthOrdersChart[10]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[10]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[10]).toString() + '\n(' + today.subtract(Duration(days: 20)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 20)).month.toString()) + ')'),
-            // // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
-            // // (thisWeekOrdersChart[4]/1000000) * 3.260
-            // FlSpot(11, (((thisMonthOrdersChart[11]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[11]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[11]).toString() + '\n(' + today.subtract(Duration(days: 19)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 19)).month.toString()) + ')'),
-            // FlSpot(12, (((thisMonthOrdersChart[12]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[12]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[12]).toString() + '\n(' + today.subtract(Duration(days: 18)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 18)).month.toString()) + ')'),
-            // FlSpot(13, (((thisMonthOrdersChart[13]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[13]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[13]).toString() + '\n(' + today.subtract(Duration(days: 17)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 17)).month.toString()) + ')'),
-            //
-            // FlSpot(14, (((thisMonthOrdersChart[14]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[14]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[14]).toString() + '\n(' + today.subtract(Duration(days: 16)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 16)).month.toString()) + ')'),
-            // FlSpot(15, (((thisMonthOrdersChart[15]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[15]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[15]).toString() + '\n(' + today.subtract(Duration(days: 15)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 15)).month.toString()) + ')'),
-            // FlSpot(16, (((thisMonthOrdersChart[16]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[16]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[16]).toString() + '\n(' + today.subtract(Duration(days: 14)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 14)).month.toString()) + ')'),
-            // FlSpot(17,(((thisMonthOrdersChart[17]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[17]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[17]).toString() + '\n(' + today.subtract(Duration(days: 13)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 13)).month.toString()) + ')'),
-            // // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
-            // // (thisWeekOrdersChart[4]/1000000) * 3.260
-            // FlSpot(18, (((thisMonthOrdersChart[18]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[18]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[18]).toString() + '\n(' + today.subtract(Duration(days: 12)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 12)).month.toString()) + ')'),
-            // FlSpot(19, (((thisMonthOrdersChart[19]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[19]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[19]).toString() + '\n(' + today.subtract(Duration(days: 11)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 11)).month.toString()) + ')'),
-            // FlSpot(20, (((thisMonthOrdersChart[20]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[20]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[20]).toString() + '\n(' + today.subtract(Duration(days: 10)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 10)).month.toString()) + ')'),
-            //
-            // FlSpot(21,(((thisMonthOrdersChart[21]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[21]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[21]).toString() + '\n(' + today.subtract(Duration(days: 9)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 9)).month.toString()) + ')'),
-            // FlSpot(22, (((thisMonthOrdersChart[22]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[22]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[22]).toString() + '\n(' + today.subtract(Duration(days: 8)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 8)).month.toString()) + ')'),
-            // FlSpot(23, (((thisMonthOrdersChart[23]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[23]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[23]).toString() + '\n(' + today.subtract(Duration(days: 7)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 7)).month.toString()) + ')'),
-            // FlSpot(24, (((thisMonthOrdersChart[24]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[24]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[24]).toString() + '\n(' + today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString()) + ')'),
-            // // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
-            // // (thisWeekOrdersChart[4]/1000000) * 3.260
-            // FlSpot(25, (((thisMonthOrdersChart[25]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[25]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[25]).toString() + '\n(' + today.subtract(Duration(days: 5)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 5)).month.toString()) + ')'),
-            // FlSpot(26, (((thisMonthOrdersChart[26]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[26]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[26]).toString() + '\n(' + today.subtract(Duration(days: 4)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 4)).month.toString()) + ')'),
-            // FlSpot(27, (((thisMonthOrdersChart[27]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[27]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[27]).toString() + '\n(' + today.subtract(Duration(days: 3)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 3)).month.toString()) + ')'),
-            //
-            // FlSpot(28, (((thisMonthOrdersChart[28]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[28]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[28]).toString() + '\n(' + today.subtract(Duration(days: 2)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 2)).month.toString()) + ')'),
-            // FlSpot(29, (((thisMonthOrdersChart[29]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[29]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[29]).toString() + '\n(' + today.subtract(Duration(days: 1)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 1)).month.toString()) + ')'),
-            // FlSpot(30, (((thisMonthOrdersChart[30]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth)))).toString() == "NaN" ? 0.0 : ((thisMonthOrdersChart[30]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[30]).toString() + '\n(' + today.day.toString() + ', ' + changeMonth2String(today.month.toString()) + ')'),
-          ],
-          isCurved: true,
-          colors: gradientColors,
-          barWidth: 3,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: false,
-            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-          ),
-        ),
-      ],
-    );
   }
 
   LineChartData weeklyData(DateTime today) {
@@ -2115,197 +1824,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         LineChartBarData(
           spots: [
             // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
-            FlSpot(0, (((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[1]).toString() + '\n(' + today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString()) + ')'),
-            FlSpot(1, (((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[2]).toString() + '\n(' + today.subtract(Duration(days: 5)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 5)).month.toString()) + ')'),
-            FlSpot(2, (((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[3]).toString() + '\n(' + today.subtract(Duration(days: 4)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 4)).month.toString()) + ')'),
-            FlSpot(3, (((thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[4]).toString() + '\n(' + today.subtract(Duration(days: 3)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 3)).month.toString()) + ')'),
+            FlSpot(0, (((thisWeekOrdersChart[0]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[0]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[0]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 6)).month.toString()) + ')'),
+            FlSpot(1, (((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[1]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 5)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 5)).month.toString()) + ')'),
+            FlSpot(2, (((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[2]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 4)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 4)).month.toString()) + ')'),
+            FlSpot(3, (((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[3]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 3)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 3)).month.toString()) + ')'),
             // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
             // (thisWeekOrdersChart[4]/1000000) * 3.260
-            FlSpot(4, (((thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[5]).toString() + '\n(' + today.subtract(Duration(days: 2)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 2)).month.toString()) + ')'),
-            FlSpot(5, (((thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[6]).toString() + '\n(' + today.subtract(Duration(days: 1)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 1)).month.toString()) + ')'),
-            FlSpot(6, (((thisWeekOrdersChart[7]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[7]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[7]).toString() + '\n(' + today.subtract(Duration(days: 0)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 0)).month.toString()) + ')'),
-          ],
-          isCurved: true,
-          colors: gradientColors,
-          barWidth: 3,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: false,
-            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  LineChartData yearlyData(DateTime today) {
-    List<int> roundYear = [];
-    String subMonths = today.month.toString();
-    for(double dbl in thisYearOrdersChart) {
-      roundYear.add(dbl.round());
-    }
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: const Color(0xFFd6d8db),
-            strokeWidth: 1,
-            // dashArray: [0]
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-              color: const Color(0xFFd6d8db),
-              strokeWidth: 1,
-              dashArray: [5]
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          interval: 1,
-          getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
-          getTitles: (value) {
-            switch (value.toInt()) {
-            // case 0:
-            //   return (int.parse(today.month.toString()) - int.parse(subMonths)).toString();
-              case 0:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+1).toString();
-                return 'Jan';
-              case 1:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+2).toString();
-                return '2';
-              case 2:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+3).toString();
-                return '3';
-              case 3:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+4).toString();
-                return '4';
-              case 4:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+5).toString();
-                return '5';
-              case 5:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+6).toString();
-                return '6';
-              case 6:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+7).toString();
-                return '7';
-              case 7:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+8).toString();
-                return '8';
-              case 8:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+9).toString();
-                return '9';
-              case 9:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+10).toString();
-                return '10';
-              case 10:
-              // return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+11).toString();
-                return '11';
-              case 11:
-              // return _dateTime!.year.toString();
-                return 'Dec';
-            }
-            return '';
-          },
-          margin: 8,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-          ),
-          getTitles: (value) {
-
-            chgDeci3Place(findMax(roundYear));
-
-            var unit;
-            var quantity;
-            if(chgDeci3Place(findMax(roundYear))==100.0) {
-              unit = 'K';
-              quantity = chgDeci3Place(findMax(roundYear))*10;
-            } else if(chgDeci3Place(findMax(roundYear))==1000.0){
-              unit = 'K';
-              quantity = chgDeci3Place(findMax(roundYear));
-            }else if(chgDeci3Place(findMax(roundYear))==10000.0){
-              unit='K';
-              quantity = chgDeci3Place(findMax(roundYear))/10;
-            }else if(chgDeci3Place(findMax(roundYear))==100000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundYear))*10;
-            }else if(chgDeci3Place(findMax(roundYear))==1000000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundYear));
-            }else if(chgDeci3Place(findMax(roundYear))==10000000.0){
-              unit='M';
-              quantity = chgDeci3Place(findMax(roundYear))/10;
-            }else if(chgDeci3Place(findMax(roundYear))==100000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundYear))*10;
-            }else if(chgDeci3Place(findMax(roundYear))== 1000000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundYear));
-            }else if(chgDeci3Place(findMax(roundYear))== 10000000000.0){
-              unit='B';
-              quantity = chgDeci3Place(findMax(roundYear))/10;
-            }else {
-              unit='';
-              quantity = 1;
-            }
-
-            if(value.toInt() == 5) {
-              return   (findMax(roundYear)/quantity).toStringAsFixed(1) + ' $unit';
-            }else if(value.toInt() == 3) {
-              return ((findMax(roundYear)/quantity)*(3/5)).toStringAsFixed(1) + ' $unit';
-            } else if(value.toInt() == 1) {
-              return ((findMax(roundYear)/quantity)*(1/5)).toStringAsFixed(1) + ' $unit';
-            }
-
-
-
-            // print('value ' + findMax(roundYear).toString());
-            return '';
-          },
-          reservedSize: 35,
-          margin: 8,
-        ),
-      ),
-      borderData:
-      FlBorderData(show: true, border: Border.all(color: const Color(0xFFd6d8db), width: 0)),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: [
-            FlSpot(0,(((thisYearOrdersChart[1]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[1]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[1]).toString() + '\n(January)'),
-            FlSpot(1,(((thisYearOrdersChart[2]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[2]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[2]).toString() + '\n(February)'),
-            FlSpot(2,(((thisYearOrdersChart[3]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[3]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[3]).toString() + '\n(March)'),
-            FlSpot(3,(((thisYearOrdersChart[4]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[4]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[4]).toString() + '\n(April)'),
-            FlSpot(4,(((thisYearOrdersChart[5]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[5]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[5]).toString() + '\n(May)'),
-            FlSpot(5,(((thisYearOrdersChart[6]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[6]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[6]).toString() + '\n(June)'),
-            FlSpot(6,(((thisYearOrdersChart[7]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[7]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[7]).toString() + '\n(July)'),
-            FlSpot(7,(((thisYearOrdersChart[8]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[8]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[8]).toString() + '\n(August)'),
-            FlSpot(8,(((thisYearOrdersChart[9]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[9]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[9]).toString() + '\n(September)'),
-            FlSpot(9,(((thisYearOrdersChart[10]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[10]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[10]).toString() + '\n(October)'),
-            FlSpot(10,(((thisYearOrdersChart[11]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[11]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[11]).toString() + '\n(November)'),
-            FlSpot(11,(((thisYearOrdersChart[12]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear)))).toString() == "NaN" ? 0.0 : ((thisYearOrdersChart[12]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[12]).toString() + '\n(December)'),
-            //FlSpot(12,((thisYearOrdersChart[12]/chgDeci3Place(findMax(roundYear))) * 5 )/ (findMax(roundYear)/chgDeci3Place(findMax(roundYear))), (thisYearOrdersChart[12]/chgDeci3Place(findMax(roundYear))).toString()),
+            FlSpot(4, (((thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[4]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 2)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 2)).month.toString()) + ')'),
+            FlSpot(5, (((thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[5]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 1)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 1)).month.toString()) + ')'),
+            FlSpot(6, (((thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[6]).toString() + '\n(' + _dateTime!.subtract(Duration(days: 0)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString()) + ')'),
           ],
           isCurved: true,
           colors: gradientColors,
@@ -2376,6 +1903,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     // print('length ' + ten.toString().toString());
   }
 
+  calMonth(month) {
+    var calMonth = 0;
+    if(month == 1) {
+      calMonth = 12;
+    }
+    else
+      calMonth = month - 1;
+
+    return calMonth;
+
+  }
+
+  calYear(month, year) {
+    var  calYear = 0;
+    if(month == 1) {
+      calYear = year -1;
+    }
+    else
+      calYear = year;
+
+    return calYear;
+  }
+
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   List<double> thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   List<double> todayOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2392,8 +1942,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double yearUnpaidTotal = 0;
   double monthRefundTotal = 0;
   double yearRefundTotal = 0;
-  double todayRefundTotal = 0;
-  double weekRefundTotal = 0;
+
 
   double todayCostsTotalR = 0;
   double weekCostsTotalR = 0;
@@ -2407,10 +1956,18 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double lastWeekCost = 0;
   double lastWeekUnpaid = 0;
 
+  double todayRefundTotal = 0;
+  double weekRefundTotal = 0;
+  double todayLossTotal= 0;
+  double weekLossTotal = 0;
+  double ystRefundTotal=0;
+  double lastWeekRefund = 0;
+  double ystLossTotal = 0;
+  double lastWeekLoss = 0;
+
   fetchOrders(snapshot0, snapshot1) async {
-    DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
-    DateTime monthAgo = today.subtract(const Duration(days: 31));
-    DateTime twoWeeksAgo = today.subtract(const Duration(days: 13));
+    DateTime sevenDaysAgo = today.subtract(const Duration(days: 7));
+    DateTime twoWeeksAgo = today.subtract(const Duration(days: 14));
 
     thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2426,8 +1983,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     weekCostsTotalR = 0;
     monthCostsTotalR = 0;
     yearCostsTotalR = 0;
-    todayRefundTotal = 0;
-    weekRefundTotal = 0;
+
 
     yestCostsTotalR = 0;
     yestUnpaidChart = 0;
@@ -2448,9 +2004,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       int week = 0;
       int month = 0;
       int year = 0;
-      sevenDaysAgo = today.subtract(const Duration(days: 8));
-      twoWeeksAgo = today.subtract(const Duration(days: 13));
-      monthAgo = today.subtract(const Duration(days: 31));
+      sevenDaysAgo = today.subtract(const Duration(days: 7));
+      twoWeeksAgo = today.subtract(const Duration(days: 14));
 
       while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
           sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
@@ -2468,8 +2023,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           week = week + 1;
       }
 
-      while(!(today.year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
+
+      while(!(today.subtract(const Duration(days: 7)).year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.subtract(const Duration(days: 7)).month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.subtract(const Duration(days: 7)).day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
         twoWeeksAgo = twoWeeksAgo.add(const Duration(days: 1));
+        print('youare ' + twoWeeksAgo.toString());
         if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
 
           for(String str in data['daily_order']) {
@@ -2479,35 +2036,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           }
         }
       }
+      print('thousand '+ lastWeekOrderChart.toString());
 
 
-      while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
-        monthAgo = monthAgo.add(const Duration(days: 1));
-
-        // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-        // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
 
-        // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-        if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-          double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            // print('testing ' + str.split('^')[2]);
-            total += double.parse(str.split('^')[2]);
-            monthCostsTotal += double.parse(str.split('^')[5]);
-          }
-          // print('tatoos ' + total.toString());
-          // setState(() {
-          thisMonthOrdersChart[month] = total;
-
-          // });
-
-        }
-        month = month + 1;
-      }
       if (dataDate.substring(0,8) == today.year.toString() +
           zeroToTen(today.month.toString()) +
           zeroToTen(today.day.toString())) {
@@ -2542,46 +2075,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         for (String str in data['daily_order']) {
           yestOrdersChart += double.parse(str.split('^')[2]);
           yestUnpaidChart += double.parse(str.split('^')[5]);
-          // for(int i=0; i<=24 ; i++ ){
-          //   if(str.split('^')[0].substring(0, 10) == today.subtract(Duration(days: 1)).year.toString() +
-          //       zeroToTen(today.subtract(Duration(days: 1)).month.toString()) +
-          //       zeroToTen(today.subtract(Duration(days: 1)).day.toString()) +
-          //       zeroToTen(i.toString()))
-          //   {
-          //     yestOrdersChart = double.parse(str.split('^')[2]);
-          //   }
-          //   // print('laos ' + total.toString());
-          //   // print('World ' +todayOrdersChart.toString());
-          // }
         }
       }
-
-
-
-
-      if (dataDate.substring(0,4) == today.year.toString()){
-        double total = 0;
-        for (String str in data['daily_order']) {
-          // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
-          for(int i=1; i<=12 ; i++ ){
-            // print('helloworld '+i.toString());
-
-            if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-            {
-              total += double.parse(str.split('^')[2]);
-              yearCostsTotal += double.parse(str.split('^')[5]);
-              // setState(() {
-              thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
-              // print('fortune ' +thisYearOrdersChart.toString());
-              // });
-            }
-            //print('laos ' + total.toString());
-
-          }
-        }
-      }
+      
     }
-
+print('yestorders ' + yestOrdersChart.toString());
     // print('each ');
     if(snapshot1 != null) {
       for(int loopOrd = 0; loopOrd < snapshot1.length; loopOrd++) {
@@ -2595,9 +2093,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         int week = 0;
         int month = 0;
         int year = 0;
-        sevenDaysAgo = today.subtract(const Duration(days: 8));
-        twoWeeksAgo = today.subtract(const Duration(days: 13));
-        monthAgo = today.subtract(const Duration(days: 31));
+        sevenDaysAgo = today.subtract(const Duration(days: 7));
+        twoWeeksAgo = today.subtract(const Duration(days: 14));
+
 
         while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
           sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
@@ -2615,7 +2113,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
         }
 
-        while(!(today.year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
+        while(!(today.subtract(const Duration(days: 7)).year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.subtract(const Duration(days: 7)).month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.subtract(const Duration(days: 7)).day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
           twoWeeksAgo = twoWeeksAgo.add(const Duration(days: 1));
 
           if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
@@ -2625,31 +2123,13 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           }
         }
         print('yest ton ka2 ' + lastWeekCost.toString() + ' ' + weekCostsTotalR.toString());
-        while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
-          monthAgo = monthAgo.add(const Duration(days: 1));
 
-          // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-          // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-
-          // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
-
-          if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in data['daily_order']) {
-              monthCostsTotalR += double.parse(str.split('^')[2]);
-            }
-
-          }
-          month = month + 1;
-        }
         if (dataDate.substring(0,8) == today.year.toString() +
             zeroToTen(today.month.toString()) +
             zeroToTen(today.day.toString())) {
           double total = 0;
           for (String str in data['daily_order']) {
-            for(int i=0; i<=24 ; i++ ){
+            for(int i=0; i<=24 ; i++ ) {
               if(str.split('^')[0].substring(0, 10) == today.year.toString() +
                   zeroToTen(today.month.toString()) +
                   zeroToTen(today.day.toString()) +
@@ -2659,8 +2139,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
               }
             }
           }
-
-
         }
 
         if (dataDate.substring(0,8) == today.subtract(Duration(days: 1)).year.toString() +
@@ -2668,87 +2146,85 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             zeroToTen(today.subtract(Duration(days: 1)).day.toString())) {
           for (String str in data['daily_order']) {
             yestCostsTotalR += double.parse(str.split('^')[2]);
-
           }
         }
-
-        if (dataDate.substring(0,4) == today.year.toString()){
-          double total = 0;
-          for (String str in data['daily_order']) {
-            // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
-            for(int i=1; i<=12 ; i++ ) {
-              // print('helloworld '+i.toString());
-
-              if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-              {
-                yearCostsTotalR += double.parse(str.split('^')[2]);
-                // print('fortune ' +thisYearOrdersChart.toString());
-                // });
-              }
-              //print('laos ' + total.toString());
-
-            }
-          }
-        }
-
-        print('yestcost ' + yestUnpaidChart.toString() + ' ' +yestCostsTotalR.toString());
-
-        // setState(() {
-        //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
-        // });
-
-        // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
-        //   yearAgo = yearAgo.add(const Duration(days: 1));
-        //
-        //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
-        //     double total = 0;
-        //     // print(doc['daily_order'].toString());
-        //     for(String str in doc['daily_order']) {
-        //       // print(double.parse(str));
-        //       total += double.parse(str.split('^')[2]);
-        //     }
-        //     print('total ' + total.toString());
-        //     setState(() {
-        //       thisYearOrdersChart[year] = total;
-        //     });
-        //
-        //   }
-        //   year = year + 1;
-        //
-        // }
-        // print('this year' + thisYearOrdersChart.toString());
-        // print('this week ' + thisWeekOrdersChart.toString());
-        // for(int j = 20210909; j <= 20210915; j++) {
-        //
-        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-        //   print('here shwe 2 ' + j.toString());
-        //   // if(doc['date'] == j.toString()) {
-        //   //   double total = 0;
-        //   //   // print(doc['daily_order'].toString());
-        //   //   for(String str in doc['daily_order']) {
-        //   //     // print(double.parse(str));
-        //   //     total += double.parse(str.split('^')[2]);
-        //   //   }
-        //   //   print('total ' + total.toString());
-        //   //   setState(() {
-        //   //     thisWeekOrdersChart[ij] = total;
-        //   //   });
-        //   //
-        //   // }
-        //   // ij = ij + 1;
-        //   // print(ij);
-        // }
-
-
-        // print('this week 2' + thisWeekOrdersChart.toString());
-
-        // print('each ' + doc.id.toString());
       }
     } else {
       print('null pix');
     }
-
   }
+
+
+
+  fetchOrdersMY(snapshot2) async {
+
+    DateTime sevenDayAgo = today.subtract(const Duration(days: 7));
+
+
+    todayRefundTotal = 0;
+    weekRefundTotal = 0;
+    todayLossTotal= 0;
+    weekLossTotal = 0;
+    ystRefundTotal=0;
+    lastWeekRefund = 0;
+    ystLossTotal = 0;
+    lastWeekLoss = 0;
+
+
+
+    for(int loopOrd = 0; loopOrd < snapshot2.length; loopOrd++) {
+
+      print('George sai 0 ' + snapshot2[loopOrd].id.toString());
+      Map<String, dynamic> data = snapshot2[loopOrd].data()! as Map<String, dynamic>;
+
+      sevenDayAgo = today.subtract(const Duration(days: 7));
+
+        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
+          todayRefundTotal += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
+        }
+
+      if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'refu_cust'] != null) {
+        ystRefundTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'refu_cust'];
+      }
+
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'] != null) {
+        todayLossTotal += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'];
+      }
+
+      if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'] != null) {
+        ystLossTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'];
+      }
+      for(int i = 0; i < 7; i++) {
+        if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'refu_cust'] != null) {
+          weekRefundTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'refu_cust'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
+        if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'] != null) {
+          lastWeekRefund +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'];
+       print('Europe ' +  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'].toString());
+           }
+        print('Asia ' + lastWeekRefund.toString());
+      }
+
+      for(int i = 0; i < 7; i++) {
+        if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'loss_cust'] != null) {
+          weekLossTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'loss_cust'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
+        if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'loss_cust'] != null) {
+          lastWeekLoss +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'loss_cust'];
+        }
+      }
+
+      print('testing for ' + weekRefundTotal.toString() + ', ' +  lastWeekRefund.toString()+ ', ' +  lastWeekRefund.toString());
+
+    }
+  }
+
 
   growthRateDaySale(double yestOrdersChart, List<double> todayOrdersChart) {
     double growthRate = 0;
@@ -2857,6 +2333,70 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double todayTotal = weekTotalCost;
 
     growthRate = (todayTotal - lastWeekCostTotal) / lastWeekCostTotal * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayRefund(double lastDayRefund, double totalRefund) {
+    double growthRate = 0;
+    double todayTotal = totalRefund;
+
+    growthRate = (todayTotal - lastDayRefund) / lastDayRefund * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayLoss(double lastDayLoss, double totalLoss) {
+    double growthRate = 0;
+    double todayTotal = totalLoss;
+
+    growthRate = (todayTotal - lastDayLoss) / lastDayLoss * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekRefund(double lastWeekRef, double weekTotalRef) {
+    double growthRate = 0;
+    double todayTotal = weekTotalRef;
+
+    growthRate = (todayTotal - lastWeekRef) / lastWeekRef * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekLoss(double lastWeekLoss, double weekTotalLoss) {
+    double growthRate = 0;
+    double todayTotal = weekTotalLoss;
+
+    growthRate = (todayTotal - lastWeekLoss) / lastWeekLoss * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {

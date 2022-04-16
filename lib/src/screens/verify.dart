@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../../app_theme.dart';
 // import 'package:smartkyat_pos/src/screens/home.dart';

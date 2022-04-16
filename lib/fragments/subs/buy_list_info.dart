@@ -141,17 +141,17 @@ class _BuyListInfoState extends State<BuyListInfo>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetPurchase = 'PURCHASED ITEMS';
-          textSetRefund = 'REFUNDED ITEMS';
-          textSetDebt = 'Debt Amount';
-          textSetDiscount = 'Discount';
+          textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
-          textSetRefBtn = 'Refund items';
-          textSetPayCashBtn = 'Pay cash remains';
-          textSetPrint = 'Print receipt';
+          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
-          textSetFullyRef = 'FULLY REFUNDED';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
           isEnglish = false;
         });
       } else if(value=='english') {
@@ -564,13 +564,19 @@ class _BuyListInfoState extends State<BuyListInfo>
 
 
                                                       print('shit shit here' + prodListView.toString());
+                                                      if( prodListView.length == prodListPrintMod.length) {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
+                                                        );
+                                                      } else {
+                                                        smartKyatFlash(
+                                                            'Try again in few seconds...', 'i');
+                                                      }
 
 
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
-                                                      );
+
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -759,11 +765,16 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
-                                                      );
+                                                      if( prodListView.length == prodListPrintMod.length) {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
+                                                        );
+                                                      } else {
+                                                        smartKyatFlash(
+                                                            'Try again in few seconds...', 'i');
+                                                      }
                                                     },
                                                     child: Container(
                                                       width: 100,

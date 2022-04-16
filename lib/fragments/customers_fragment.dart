@@ -23,7 +23,7 @@ import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import '../app_theme.dart';

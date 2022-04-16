@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../app_theme.dart';
 

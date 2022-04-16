@@ -122,7 +122,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     return prefs.getString('lang');
   }
 
-  String textSetPurchase = 'PURCHASED ITEMS';
+  String textSetPurchase = 'SALE ITEMS';
   String textSetRefund = 'REFUNDED ITEMS';
   String textSetDebt = 'Debt Amount';
   String textSetDiscount = 'Discount';
@@ -143,14 +143,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetPurchase = 'ဝယ်ယူပစ္စည်းများ';
+          textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
           textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
           textSetDebt = 'ကျန်ငွေ';
           textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
-          textSetRefBtn = 'ပြန်ပေးပစ္စည်း';
-          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
-          textSetPrint = 'ဖြတ်ပိုင်း';
+          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
           textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
@@ -328,6 +328,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             ttlR += double.parse(prodListView[i].split('-')[7]);
                             ttlQ += double.parse(prodListView[i].split('-')[3]);
                           }
+
+                         print('Expanded ' + prodListPrintMod.length.toString());
 
                           return Expanded(
                             // height: 580,
@@ -546,7 +548,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      result = widget.data
+                                                      // await Future.delayed(const Duration(milliseconds: 3000), () {
+                                                      //
+                                                      // });
+                                                       result = widget.data
                                                           .split('^')[0] +
                                                           '^' +
                                                           widget.data
@@ -562,18 +567,21 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
-
-
-
-                                                      print('shit shit here' + prodListView.toString());
-
-
+                                                       print('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
+                                                       if( prodListView.length > 2) {
+                                                       if( prodListView.length == prodListPrintMod.length) {
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,))
-                                                      );
-                                                    },
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                       } else {
+                                                         smartKyatFlash(
+                                                             'Try again in few seconds...', 'w');
+                                                       }} else  Navigator.push(
+                                                           context,
+                                                           MaterialPageRoute(
+                                                               builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                       },
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
@@ -615,7 +623,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ),
                                                     ),
                                                   ),
-                                                ),
+                                                ) ,
                                                 SizedBox(width: 15),
                                               ],
                                             ),
@@ -745,6 +753,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ),
                                                     ),
                                                     onPressed: () async {
+                                                      // await Future.delayed(const Duration(milliseconds: 3000), () {
+                                                      //
+                                                      // });
+
+
                                                       result = widget.data
                                                           .split('^')[0] +
                                                           '^' +
@@ -761,12 +774,23 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
+                                                      print('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
+                                                      if( prodListView.length > 2) {
+                                                      if(prodListView.length == prodListPrintMod.length) {
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                      ); } else {
+                                                        smartKyatFlash(
+                                                            'Try again in few seconds...',
+                                                            'w');
+                                                      } } else Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                       );
-                                                    },
+                                                      },
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
@@ -1172,6 +1196,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               retrieveForPrint();
                                             }
 
+
                                             return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
                                               children: [
                                                 Container(
@@ -1253,27 +1278,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                 ),
-                                                // Positioned(
-                                                //   top : 8,
-                                                //   left : 50,
-                                                //   child: Container(
-                                                //     height: 20,
-                                                //     width: 30,
-                                                //     alignment: Alignment.center,
-                                                //     decoration: BoxDecoration(
-                                                //         color: AppTheme.skBorderColor2,
-                                                //         borderRadius:
-                                                //         BorderRadius.circular(
-                                                //             10.0),
-                                                //         border: Border.all(
-                                                //           color: Colors.white,
-                                                //           width: 2,
-                                                //         )),
-                                                //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                //       fontSize: 11, fontWeight: FontWeight.w500,
-                                                //     )),
-                                                //   ),
-                                                // ),
                                               ],
                                             ): Container();
                                           }
@@ -1394,58 +1398,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               // ),
                                             ],
                                           ): Container();
+
                                         },
+
                                       ),
                                     Container(
                                       // color: Colors.blue,
                                       child: Column(
                                         children: [
-                                          // ListTile (
-                                          //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //   // subtitle: Text('Amount applied', style: TextStyle(
-                                          //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                          //   // )),
-                                          //   trailing: Text('MMK ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          // ),
-                                          // if ((widget.data.split('^')[6]) != '0.0') Container(
-                                          //   child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
-                                          //   ListTile(
-                                          //     title: Text('SubTotal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //
-                                          //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //
-                                          //   ) :  ListTile (
-                                          //     title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //
-                                          //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //   ),
-                                          // ) else ListTile (
-                                          //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          // ),
-
-
-                                          // (ttlQ - ttlR).round().toString() == '0' ?
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(left: 15.0),
-                                          //   child: Container(
-                                          //   ),
-                                          // ): (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'?
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(left: 15.0),
-                                          //   child: Container(
-                                          //   ),
-                                          // ):
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(left: 15.0),
-                                          //   child: Container(height: 1,
-                                          //     decoration: BoxDecoration(
-                                          //         border: Border(
-                                          //           top:
-                                          //           BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                          //         )),
-                                          //   ),
-                                          // ),
                                           if ((widget.data.split('^')[6]) != '0.0' && (ttlQ - ttlR).round().toString() != '0')
                                             Padding(
                                               padding: const EdgeInsets.only(left: 15.0),
@@ -2048,6 +2008,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             ),
                           ),
                         );
+
                       })
               ])),
     );
@@ -2402,27 +2363,24 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
             .get().then((value) async {
           if(value.exists) {
-            prodListPrintMod.add(
+             prodListPrintMod.add(
                 value.data()!['prod_name'] + '^' +
                     value.data()![prodListView[i].split('-')[5]] + '^' +
                     prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
             );
-          } else {
+          }
+          else {
             prodListPrintMod.add(
                 'Product' + '^' +
                     prodListView[i].split('-')[5] + '^' +
                     prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
             );
           }
-
           if(i == prodListView.length - 1) {
             print('GGG ' + prodListPrintMod.toString());
           }
-
         });
-
       }
-
     }
   }
 }
