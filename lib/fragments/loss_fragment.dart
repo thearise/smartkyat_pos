@@ -10,13 +10,11 @@ import '../app_theme.dart';
 
 class LossProduct extends StatefulWidget {
   const LossProduct(
-      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price1, required this.price2, required this.price3,});
+      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price,});
   final String idString;
   final String prodID;
   final String shopId;
-  final String price1;
-  final String price2;
-  final String price3;
+  final String price;
 
   @override
   _LossProductState createState() => _LossProductState();
@@ -106,7 +104,7 @@ class _LossProductState extends State<LossProduct> {
         });
       }
     });
-    priceAmount.text = priceUnit();
+    priceAmount.text = widget.price.toString();
     // TODO: implement initState
     getDeviceId().then((value) {
       deviceIdNum = value;
@@ -119,15 +117,6 @@ class _LossProductState extends State<LossProduct> {
     lossAmount.clear();
     priceAmount.clear();
     super.dispose();
-  }
-  priceUnit(){
-    String buyPrice = '';
-    if( widget.prodID.split('-')[3] == 'unit_name'){
-      buyPrice = widget.price1;
-    } else if(widget.prodID.split('-')[3] == 'sub1_name'){
-      buyPrice = widget.price2;
-    } else buyPrice = widget.price3;
-    return buyPrice;
   }
 
 
@@ -147,19 +136,7 @@ class _LossProductState extends State<LossProduct> {
         child: SafeArea(
           top: true,
           bottom: false,
-          child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('shops')
-                  .doc(widget.shopId)
-                  .collection('products')
-                  .doc(widget.idString)
-                  .snapshots(),
-              builder: (BuildContext context, snapshot2) {
-                if (snapshot2.hasData) {
-                  var output1 = snapshot2.data!.data();
-                  var prodName = output1?['prod_name'];
-                  var mainName = output1?[widget.prodID.split('-')[3]];
-                  return Column(
+          child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
@@ -204,7 +181,7 @@ class _LossProductState extends State<LossProduct> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        prodName,
+                                        widget.prodID.split('^')[1].toString(),
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 13,
@@ -267,7 +244,7 @@ class _LossProductState extends State<LossProduct> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 15.0, top: 14),
-                                        child: Icon(widget.prodID.split('-')[3] == 'unit_name'? SmartKyat_POS.prodm: widget.prodID.split('-')[3] == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
+                                        child: Icon(widget.prodID.split('^')[3] == 'unit_name'? SmartKyat_POS.prodm: widget.prodID.split('^')[3] == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
                                       ),
                                     ],
                                   ),
@@ -316,7 +293,7 @@ class _LossProductState extends State<LossProduct> {
                                                   right: 15.0,
                                                   top: 20.0,
                                                   bottom: 20.0),
-                                              suffixText: mainName,
+                                              suffixText: widget.prodID.split('^')[2].toString(),
                                               suffixStyle: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 12,
@@ -463,31 +440,12 @@ class _LossProductState extends State<LossProduct> {
 
                                       WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                      var dateExist = false;
                                       var monthId = '';
                                       bool monthExist = false;
                                       var yearId = '';
                                       bool yearExist = false;
 
-                                      List<String> subLink1 = [];
-                                      List<String> subName1 = [];
-                                      List<double> subStock1 = [];
-                                      var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).get();
-
-                                      if (docSnapshot10.exists) {
-                                        Map<String, dynamic>? data10 = docSnapshot10.data();
-                                        for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                          subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                          subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                          print('inStock' + (i+1).toString());
-                                          subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                        }
-
                                       DateTime now = DateTime.now();
-                                      String buyPriceUnit = '';
-                                      String buyPrice = '';
-                                      String unit = '';
-                                      CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss');
 
                                       showOkCancelAlertDialog(
                                         context: context,
@@ -496,9 +454,9 @@ class _LossProductState extends State<LossProduct> {
                                         defaultType: OkCancelAlertDefaultType.cancel,
                                       ).then((result) async {
                                         if(result == OkCancelResult.ok) {
-                                          if (widget.prodID.split('-')[3] == 'unit_name') {
-                                            batch  = await decStockFromInv(batch, widget.prodID.split('-')[0], 'main', lossAmount.text.toString());
-                                            batch  = await updateLoss(batch, widget.prodID.split('-')[0], 'Loss1', lossAmount.text.toString());
+                                          if (widget.prodID.split('^')[3] == 'unit_name') {
+                                            batch  = await decStockFromInv(batch, widget.prodID.split('^')[0], 'im', lossAmount.text.toString());
+                                            batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'lm', lossAmount.text.toString());
 
                                             // lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
                                             //   'date': now,
@@ -514,9 +472,9 @@ class _LossProductState extends State<LossProduct> {
                                             // unit = 'loss1';
                                             // buyPriceUnit = 'buyPrice1';
                                           }
-                                          else if (widget.prodID.split('-')[3] == 'sub1_name') {
-                                            batch = await sub1Execution(batch, subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString(), docSnapshot10);
-                                            batch  = await updateLoss(batch, widget.prodID.split('-')[0], 'Loss2', lossAmount.text.toString());
+                                          else if (widget.prodID.split('^')[3] == 'sub1_name') {
+                                            batch = await sub1Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
+                                            batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l1', lossAmount.text.toString());
                                             // unit = 'loss2';
                                             // buyPriceUnit = 'buyPrice2';
                                             // lossProduct.add({
@@ -532,9 +490,9 @@ class _LossProductState extends State<LossProduct> {
                                             //     print(
                                             //         "Failed to update datenotexist: $error"));
                                           }
-                                          else if (widget.prodID.split('-')[3] == 'sub2_name') {
-                                            batch = await sub2Execution(batch, subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString(), docSnapshot10);
-                                            batch  = await updateLoss(batch, widget.prodID.split('-')[0], 'Loss3', lossAmount.text.toString());
+                                          else if (widget.prodID.split('^')[3] == 'sub2_name') {
+                                            batch = await sub2Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
+                                            batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l2', lossAmount.text.toString());
                                             // lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
                                             //   'date': now,
                                             //   'prod_id' : widget.prodID.split('-')[0],
@@ -648,7 +606,7 @@ class _LossProductState extends State<LossProduct> {
                                           Navigator.pop(context);
                                         }
                                       });
-                                      }
+
                                     }
                                   },
                                   child: Padding(
@@ -683,21 +641,17 @@ class _LossProductState extends State<LossProduct> {
                         height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                       ),
                     ],
-                  );
-                }
-                return Container();
-              }
-          ),
+                  ),
         )
     );
   }
-  changeUnitName2Stock(String split) {
-    if(split == 'main') {
-      return 'inStock1';
-    } else {
-      return 'inStock' + (int.parse(split[3]) + 1).toString();
-    }
-  }
+  // changeUnitName2Stock(String split) {
+  //   if(split == 'main') {
+  //     return 'inStock1';
+  //   } else {
+  //     return 'inStock' + (int.parse(split[3]) + 1).toString();
+  //   }
+  // }
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
       return string;
@@ -731,58 +685,50 @@ class _LossProductState extends State<LossProduct> {
 
   updateLoss(WriteBatch batch, id, unit, num){
 
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id);
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-    batch.update(documentReference, {unit : FieldValue.increment((double.parse(num.toString()))),
-    });
+    batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
   }
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
-    print('Double Check Sub1');
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id);
+    print('Double Check Sub1' + '$id.im');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
+    batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
 
     return batch;
   }
 
   incStockFromInv(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id);
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment((double.parse(num.toString()))),});
+    batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
   }
 
-  sub1Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+  sub1Execution(WriteBatch batch, subStock, subLink, id, num,) {
     //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[1] = double.parse((data10 ? ['inStock2']).toString());
-      if(subStock[1] > double.parse(num)) {
-        batch = decStockFromInv(batch, id, 'sub1', num);
-      } else {
-        batch = decStockFromInv(batch, id, 'main', ((double.parse(num)  - subStock[1])/double.parse(subLink[0])).ceil());
-        batch = incStockFromInv(batch, id, 'sub1', ((double.parse(num)-subStock[1].round()) % double.parse(subLink[0])) == 0? 0: (double.parse(subLink[0]) - (double.parse(num)-subStock[1].round()) % double.parse(subLink[0])));
-        batch = decStockFromInv(batch, id, 'sub1', subStock[1]);
-      }
+    if(double.parse(subStock) > double.parse(num)) {
+      batch = decStockFromInv(batch, id, 'i1', num);
+    } else {
+      batch = decStockFromInv(batch, id, 'im', ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil());
+      batch = incStockFromInv(batch, id, 'i1', ((double.parse(num)- double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+      batch = decStockFromInv(batch, id, 'i1', subStock);
     }
     return batch;
   }
 
-  sub2Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+  sub2Execution(WriteBatch batch, subStock, subLink, id, num) {
     //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[2] = double.parse((data10 ? ['inStock3']).toString());
-      if(subStock[2] > double.parse(num)) {
-        batch = decStockFromInv(batch, id, 'sub2', num);
-      } else {
-        batch =  incStockFromInv(batch, id, 'sub2', ((double.parse(num)-subStock[2].round()) % double.parse(subLink[1])) == 0? 0: (double.parse(subLink[1]) - (double.parse(num)-subStock[2].round()) % double.parse(subLink[1])));
-        batch = decStockFromInv(batch, id, 'sub2', subStock[2]);
-        batch = sub1Execution(batch, subStock, subLink, id, ((double.parse(num)  - subStock[2])/double.parse(subLink[1])).ceil().toString(), docSnapshot10);
-      }
+    if(double.parse(subStock) > double.parse(num)) {
+      batch = decStockFromInv(batch, id, 'i2', num);
+    } else {
+      batch =  incStockFromInv(batch, id, 'i2', ((double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+      batch = decStockFromInv(batch, id, 'i2', subStock);
+      batch = sub1Execution(batch, subStock, subLink, id, ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil().toString(),);
     }
+
     return batch;
   }
 
