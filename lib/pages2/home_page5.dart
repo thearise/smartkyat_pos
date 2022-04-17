@@ -262,7 +262,7 @@ class HomePageState extends State<HomePage>
 
   Stream<QuerySnapshot>? orderSnapshot;
   Stream<QuerySnapshot>? productSnapshot;
-  Stream<QuerySnapshot>? productSnapshot2;
+  var productSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot;
   Stream<QuerySnapshot>? buyOrderSnapshot;
   //Stream<QuerySnapshot>? buyOrderSnapshot2;
