@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -605,14 +607,37 @@ class ProductsFragmentState extends State<ProductsFragment>
                           stream: prodsSnap,
                           builder: (BuildContext context, prodsSB) {
                             var prods;
+                            Map<dynamic, dynamic> resProds = {};
 
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
 
-                              prods.forEach((key, value) {
-                              });
-                              prods = sortMapByNaS(prods);
+                              for(int i = 0; i < prods.length; i++) {
+                                var eachMap = prods.entries.elementAt(i);
+                                if(eachMap.value['na'] == null) {
+                                  print('prods entri ' + eachMap.toString());
+                                  List<dynamic> deleteExpenseData = [];
+                                  deleteExpenseData.add(eachMap);
+                                  
+                                  FirebaseFirestore.instance
+                                      .collection('shops')
+                                      .doc(widget.shopId)
+                                      .collection('collArr')
+                                      .doc('prodsArr')
+                                      .update(
+                                    {
+                                      'prods.' + eachMap.key.toString(): FieldValue.delete()
+                                    },
+                                  );
+
+                                  print('prods entri');
+                                } else {
+                                  resProds[eachMap.key] = eachMap.value;
+                                }
+                              }
+
+                              resProds = sortMapByNaS(resProds);
 
                               return CustomScrollView(
                                 slivers: [
@@ -773,7 +798,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                   SliverList(
                                     delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-                                        var prodMap = prods.entries.elementAt(index);
+                                        var prodMap = resProds.entries.elementAt(index);
                                         print('Prod map ' + prodMap.key.toString());
                                         var prodVal = prodMap.value;
                                         var prodKey = prodMap.key;
@@ -792,7 +817,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               width: MediaQuery.of(context).size.width,
                                               decoration: BoxDecoration(
                                                   border: Border(
-                                                      bottom: index == prods.length-1 ?
+                                                      bottom: index == resProds.length-1 ?
                                                       BorderSide(
                                                           color: Colors.transparent,
                                                           width: 1.0) :
@@ -944,7 +969,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           ),
                                         );
                                       },
-                                      childCount: prods == null? 0: prods.length,
+                                      childCount: resProds == null? 0: resProds.length,
                                     ),
                                   )
                                 ],
