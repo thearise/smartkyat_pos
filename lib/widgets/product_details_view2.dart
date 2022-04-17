@@ -424,20 +424,19 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
                 var output = snapshot.data != null? snapshot.data!.data(): null;
+                if(output?['prods'][widget.idString] != null) {
+
                 var prodName =output?['prods'][widget.idString]['na'];
                 var mainName = output?['prods'][widget.idString]['nm'];
                 var sub1Name = output?['prods'][widget.idString]['n1'];
                 var sub2Name = output?['prods'][widget.idString]['n2'];
-                var sub3Name = output?['prods'][widget.idString]['n3'];
                 var barcode = output?['prods'][widget.idString]['co'];
                 var mainPrice =output?['prods'][widget.idString]['sm'];
                 var sub1Price = output?['prods'][widget.idString]['s1'];
                 var sub2Price = output?['prods'][widget.idString]['s2'];
-                var sub3Price = output?['prods'][widget.idString]['s3'];
                 var sub1Unit = output?['prods'][widget.idString]['c1'];
                 var sub2Unit = output?['prods'][widget.idString]['c2'];
-                var sub3Unit = output?['prods'][widget.idString]['c2'];
-                var subExist = '0';
+                var subExist =  output?['prods'][widget.idString]['se'];
                 var mainLoss = output?['prods'][widget.idString]['lm'];
                 var sub1Loss = output?['prods'][widget.idString]['l1'];
                 var sub2Loss = output?['prods'][widget.idString]['l2'];
@@ -445,20 +444,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 var sub1Qty = output?['prods'][widget.idString]['i1'];
                 var sub2Qty = output?['prods'][widget.idString]['i2'];
                 var image = output?['prods'][widget.idString]['na'];
-                // var totalSale = output?['mainSellUnit'];
-                // var totalSale2 = output?['mainSellUnit'];
-                // var totalSale3 = output?['mainSellUnit'];
                 var buyPrice1 =  output?['prods'][widget.idString]['bm'];
                 var buyPrice2 =  output?['prods'][widget.idString]['b1'];
                 var buyPrice3 = output?['prods'][widget.idString]['b2'];
 
-                List<String> subSell = [];
+                List<double> subSell = [];
                 List<String> subLink = [];
                 List<String> subName = [];
                 for(int i = 0; i < int.parse(subExist); i++) {
-                  subSell.add(output?['sub' + (i+1).toString() + '_sell']);
-                  subLink.add(output?['sub' + (i+1).toString() + '_link']);
-                  subName.add(output?['sub' + (i+1).toString() + '_name']);
+                  subSell.add(output?['prods'][widget.idString]['s' + (i+1).toString()]);
+                  subLink.add(output?['prods'][widget.idString]['c' + (i+1).toString()]);
+                  subName.add(output?['prods'][widget.idString]['n' + (i+1).toString()]);
                 }
                 print(subSell.toString() + subLink.toString() + subName.toString());
                 return StreamBuilder(
@@ -628,7 +624,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           onPressed: () async {
                                                             if (subExist == '0') {
                                                               widget._callback( widget.idString + '^' + '^' + mainPrice.toString() +
-                                                                  '^unit_name^1^' + prodName + '^' + mainName + '^' + image);
+                                                                  '^unit_name^1^' + prodName + '^' + mainName + '^' + image +  '^' + '^',);
                                                             } else {
                                                               final result =
                                                               await showModalActionSheet<String>(
@@ -637,27 +633,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 actions: [
                                                                   SheetAction(
                                                                     icon: SmartKyat_POS.prodm,
-                                                                    label: '1 ' + output?['unit_name'],
+                                                                    label: '1 ' + mainName,
                                                                     key: widget.idString +
                                                                         '^' +
                                                                         '^' +
-                                                                        output?['unit_sell'] +
-                                                                        '^unit_name^1^' + output?['prod_name'] + '^' + output?['unit_name'],
+                                                                        mainPrice.toString() +
+                                                                        '^unit_name^1^' + prodName + '^' +  mainName  + '^' + image +  '^' + '^',
                                                                   ),
                                                                   for(int i =0; i < subSell.length; i++)
-                                                                    if(subSell[i] != '')
+                                                                    if(subSell[i] != 0)
                                                                       SheetAction(
                                                                         icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
                                                                         label: '1 ' + subName[i],
                                                                         key: widget.idString +
                                                                             '^' + subLink[i] +
                                                                             '^' +
-                                                                            subSell[i] +
-                                                                            '^sub' + (i+1).toString() + '_name^1^' + output?['prod_name'] + '^' + output?['sub' + (i+1).toString() + '_name'],
+                                                                            subSell[i].toString() +
+                                                                            '^sub' + (i+1).toString() + '_name^1^' + prodName + '^' + output?['prods'][widget.idString]['n' + (i+1).toString()]  + '^' + image + '^' +  (output?['prods'][widget.idString]['i' + (i+1).toString()]).toString()  + '^' + output?['prods'][widget.idString]['c' + (i+1).toString()],
                                                                       ),
                                                                 ],
                                                               );
-                                                              widget._callback(result.toString() + '^' + output?['img_1']);
+                                                              widget._callback(result.toString());
                                                             }
                                                             //if(output?['inStock1'] - 1 <= 0) {smartKyatFlash('Out of Stock', 'w');}
                                                           },
@@ -720,7 +716,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   idString: widget.idString,
                                                                   toggleCoinCallback: addProduct2,
                                                                   toggleCoinCallback3: addProduct3,
-                                                                  unitname: 'unit_name', shopId: widget.shopId, price1: buyPrice1.toString(), price2: buyPrice2, price3: buyPrice3,
+                                                                  unitName: 'unit_name', shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
                                                                 )));
                                                         widget._openCartBtn();
                                                       } else {
@@ -733,25 +729,21 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 icon: SmartKyat_POS.prodm,
                                                                 label: '1 ' + mainName,
                                                                 key: 'unit_name'),
-                                                            if (sub1Price != '')
+                                                            if (sub1Price != 0)
                                                               SheetAction(
                                                                   icon: SmartKyat_POS.prods1,
                                                                   label: '1 ' + sub1Name,
                                                                   key: 'sub1_name'),
-                                                            if (sub2Price != '')
+                                                            if (sub2Price != 0)
                                                               SheetAction(
                                                                   icon: SmartKyat_POS.prods2,
                                                                   label: '1 ' + sub2Name,
                                                                   key: 'sub2_name'),
-                                                            if (sub3Price != '')
-                                                              SheetAction(
-                                                                  icon: Icons.info,
-                                                                  label: '1 ' + sub3Name,
-                                                                  key: 'sub3_name'),
                                                           ],
                                                         );
                                                         if (result != null) {
                                                           widget._closeCartBtn();
+                                                          if(result == 'sub1_name') {
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -759,10 +751,31 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
                                                                     toggleCoinCallback3: addProduct3,
-                                                                    unitname: result, shopId: widget.shopId,price1: buyPrice1.toString(), price2: buyPrice2, price3: buyPrice3,
+                                                                    unitName: result, shopId: widget.shopId, price: buyPrice2.toString(), prodName: prodName, image: image, unit: sub1Name, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
                                                                   )));
+                                                          } else if (result == 'sub2_name') {
+                                                            await Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => FillProduct(
+                                                                      idString: widget.idString,
+                                                                      toggleCoinCallback: addProduct2,
+                                                                      toggleCoinCallback3: addProduct3,
+                                                                      unitName: result, shopId: widget.shopId, price: buyPrice3.toString(), prodName: prodName, image: image, unit: sub2Name,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                    )));
+                                                          } else {
+                                                            await Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => FillProduct(
+                                                                      idString: widget.idString,
+                                                                      toggleCoinCallback: addProduct2,
+                                                                      toggleCoinCallback3: addProduct3,
+                                                                      unitName: result, shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                    )));
+                                                          }
                                                           widget._openCartBtn();
-                                                        }
+                                                       }
                                                       }
 
                                                     },
@@ -818,8 +831,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         if (subExist == '0') {
                                                           widget._closeCartBtn();
                                                           await Navigator.push(
-                                                              context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: widget.idString + '-' + '-' + output?['unit_sell'] +
-                                                              '-unit_name', shopId: widget.shopId, price1: buyPrice1.toString(), price2: buyPrice2.toString(), price3: buyPrice3.toString(),
+                                                              context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: widget.idString + '^' + prodName + '^' + mainName.toString() +
+                                                              '^unit_name' + '^' + mainQty.toString() + '^', shopId: widget.shopId, price: buyPrice1.toString(),
                                                           )
                                                           ));
                                                           widget._openCartBtn();
@@ -831,142 +844,47 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             actions: [
                                                               SheetAction(
                                                                 icon: SmartKyat_POS.prodm,
-                                                                label: '1 ' + output?['unit_name'],
-                                                                key: widget.idString +
-                                                                    '-' +
-                                                                    '-' +
-                                                                    output?['unit_sell'] +
-                                                                    '-unit_name',
+                                                                label: '1 ' + mainName,
+                                                                key:  widget.idString + '^' + prodName + '^' + mainName.toString() +
+                                                                  '^unit_name' + '^' + mainQty.toString() + '^',
                                                               ),
-                                                              for(int i =0; i < subSell.length; i++)
-                                                                if(subSell[i] != '')
+                                                              if (sub1Price != 0)
                                                                   SheetAction(
-                                                                    icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
-                                                                    label: '1 ' + subName[i],
-                                                                    key: widget.idString +
-                                                                        '-' + subLink[i] +
-                                                                        '-' +
-                                                                        subSell[i] +
-                                                                        '-sub' + (i+1).toString() + '_name',
+                                                                    icon: SmartKyat_POS.prods1,
+                                                                    label: '1 ' + sub1Name,
+                                                                    key:  widget.idString + '^' + prodName + '^' + sub1Name.toString() +
+                                                                      '^sub1_name' + '^' + sub1Qty.toString() + '^' + sub1Unit.toString(),
                                                                   ),
+                                                              if (sub2Price != 0)
+                                                                SheetAction(
+                                                                  icon: SmartKyat_POS.prods2,
+                                                                  label: '1 ' + sub2Name,
+                                                                  key:  widget.idString + '^' + prodName + '^' + sub2Name.toString() +
+                                                                      '^sub2_name' + '^' + sub2Qty.toString() + '^' + sub2Unit.toString(),
+                                                                ),
                                                             ],
                                                           );
                                                           if (result != null) {
                                                             widget._closeCartBtn();
+                                                            if(result.split('^')[3] == 'sub1_name') {
                                                             await Navigator.push(
-                                                                context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price1: buyPrice1.toString(), price2: buyPrice2.toString(), price3: buyPrice3.toString(),
+                                                                context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice2.toString(),
                                                             )
                                                             ));
+                                                           } else if(result.split('^')[3] == 'sub2_name') {
+                                                              await Navigator.push(
+                                                                  context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice3.toString(),
+                                                              )
+                                                              ));
+                                                            } else {
+                                                              await Navigator.push(
+                                                                  context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice1.toString(),
+                                                              )
+                                                              ));
+                                                            }
                                                             widget._openCartBtn();
                                                           }
-
-                                                        }
-                                                        // final amount = await showTextInputDialog(
-                                                        //   context: context,
-                                                        //   textFields: [
-                                                        //     DialogTextField(
-                                                        //       keyboardType: TextInputType.number,
-                                                        //       hintText: '0',
-                                                        //       suffixText: prodID.split('-')[3] == 'unit_name' ? mainName : prodID.split('-')[3] == 'sub1_name' ? sub1Name : sub2Name,
-                                                        //     ),
-                                                        //   ],
-                                                        //   title: 'Loss Unit',
-                                                        //   message: 'Type Loss Amount',
-                                                        // );
-                                                        //
-                                                        //
-                                                        // var dateExist = false;
-                                                        // codeDialog = int.parse(amount![0]);
-                                                        // List<String> subLink1 = [];
-                                                        // List<String> subName1 = [];
-                                                        // List<double> subStock1 = [];
-                                                        // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
-                                                        //     widget.shopId).collection('products').doc(
-                                                        //     prodID.split('-')[0])
-                                                        //     .get();
-                                                        //
-                                                        // if (docSnapshot10.exists) {
-                                                        //   Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                        //   for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                        //     subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                        //     subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                        //     print('inStock' + (i+1).toString());
-                                                        //     subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                        //   }
-                                                        // }
-                                                        // DateTime now = DateTime.now();
-                                                        // String buyPriceUnit = '';
-                                                        // String buyPrice = '';
-                                                        // String unit = '';
-                                                        //
-                                                        // if (prodID.split('-')[3] == 'unit_name') {
-                                                        //   decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
-                                                        //   unit = 'loss1';
-                                                        //   buyPriceUnit = 'buyPrice1';
-                                                        // }
-                                                        // else if (prodID.split('-')[3] == 'sub1_name') {
-                                                        //   sub1Execution(subStock1, subLink1, prodID.split('-')[0], amount[0].toString());
-                                                        //   // setState(() {
-                                                        //   unit = 'loss2';
-                                                        //   buyPriceUnit = 'buyPrice2';
-                                                        //   // });
-                                                        // }
-                                                        // else if (prodID.split('-')[3] == 'sub2_name') {
-                                                        //   sub2Execution(
-                                                        //       subStock1, subLink1,
-                                                        //       prodID.split('-')[0],
-                                                        //       amount[0].toString());
-                                                        //   unit = 'loss3';
-                                                        //   buyPriceUnit = 'buyPrice3';
-                                                        // }
-                                                        // var dateId = '';
-                                                        //
-                                                        // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
-                                                        //   buyPrice = value.data()![buyPriceUnit].toString();
-                                                        //
-                                                        //   print("SHOP ID " + widget.shopId + ' ' + prodID.split('-')[0]);
-                                                        //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit)
-                                                        //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                                        //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                        //       .get()
-                                                        //       .then((QuerySnapshot qsNew)  async {
-                                                        //
-                                                        //     print("LENGTH " + qsNew.docs.length.toString());
-                                                        //
-                                                        //     qsNew.docs.forEach((doc) {
-                                                        //       dateExist = true;
-                                                        //       dateId = doc.id;
-                                                        //       print('UNIT ' + doc.id.toString());
-                                                        //     });
-                                                        //
-                                                        //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
-                                                        //     print('dick exist - > ' + dateExist.toString());
-                                                        //     CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit);
-                                                        //     //
-                                                        //     if(dateExist){
-                                                        //       lossProduct.doc(dateId).update({
-                                                        //         'count': FieldValue.increment(double.parse(amount[0].toString())),
-                                                        //         'buy_price': buyPrice,
-                                                        //       }).then((value) => print("User Updated"))
-                                                        //           .catchError((error) => print("Failed to update dateexist: $error"));
-                                                        //     }
-                                                        //     else {
-                                                        //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
-                                                        //         'count': FieldValue
-                                                        //             .increment(
-                                                        //             double.parse(
-                                                        //                 amount[0]
-                                                        //                     .toString())),
-                                                        //         'buy_price': buyPrice,
-                                                        //         'date': now,
-                                                        //       }).then((value) =>
-                                                        //           print("User Updated"))
-                                                        //           .catchError((error) =>
-                                                        //           print(
-                                                        //               "Failed to update datenotexist: $error"));
-                                                        //     }
-                                                        //   });
-                                                        // });
+                                                      }
                                                       },
                                                       child: Container(
                                                         width: 100,
@@ -1259,7 +1177,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('$currencyUnit ' + buyPrice1.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + buyPrice1.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1535,7 +1453,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('$currencyUnit ' + buyPrice2.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + buyPrice2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1811,7 +1729,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('$currencyUnit ' + buyPrice3.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + buyPrice3.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -2110,7 +2028,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           borderRadius: BorderRadius.circular(10.0),
                                                         ),
                                                         onPressed: () async {
-                                                          CollectionReference product = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+                                                          DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+                                                          CollectionReference productCount = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('countColl');
                                                           showOkCancelAlertDialog(
                                                             context: context,
                                                             title: 'Are you sure you want to remove this product?',
@@ -2118,15 +2037,18 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             defaultType: OkCancelAlertDefaultType.cancel,
                                                           ).then((result) {
                                                             if(result == OkCancelResult.ok) {
-                                                              product.doc(
-                                                                  widget.idString)
-                                                                  .update({
-                                                                'archive': true
+                                                           product.update(
+                                                           {
+                                                             'prods.' + widget.idString: FieldValue.delete()
                                                               }).then((value) {
-                                                                Navigator.pop(context);
+                                                                productCount.doc('prodsCnt').update(
+                                                                  {
+                                                                   'count' : FieldValue.increment(-1)
+                                                                  }
+                                                                );
+                                                                Navigator.of(context).pop();
                                                                 smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
                                                               }).catchError((error) => print("Failed to update: $error"));
-
                                                             }
                                                           });
                                                         },
@@ -2157,6 +2079,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                       return loadingView();
                     }
                 );
+              }
+               return Container();
               }
               return loadingView();
             }),

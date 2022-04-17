@@ -59,7 +59,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
-import '../fragments/search_fragment2.dart';
+import '../fragments/search_fragment3.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
@@ -4366,13 +4366,13 @@ class HomePageState extends State<HomePage>
                                                                                                               // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                                                             }
                                                                                                             else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                                                              batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                             // batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
                                                                                                               // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                                                               //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                                                               //});
                                                                                                             }
                                                                                                             else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                                                              batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                                                              batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4]);
                                                                                                               // productsFire.doc(str.split('^')[0]).update({
                                                                                                               //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                                                               // });
@@ -6565,6 +6565,8 @@ class HomePageState extends State<HomePage>
     String prod_name = data.split('^')[5];
     String unit_name = data.split('^')[6];
     String prod_img = data.split('^')[7];
+    String sLink = data.split('^')[9];
+    String sStock = data.split('^')[8];
 
     for (var i = 0; i < prodList.length; i++) {
       if (prodList[i].split('^')[0] == data.split('^')[0] &&
@@ -6579,7 +6581,7 @@ class HomePageState extends State<HomePage>
             '^' +
             (double.parse(prodList[i].split('^')[4]) +  double.parse(data.split('^')[4])).toString();
         setState((){
-          prodList[i] = data + '^0^' + prod_name + '^' + unit_name + '^' + prod_img;
+          prodList[i] = data + '^0^' + prod_name + '^' + unit_name + '^' + prod_img +  '^' + sStock +  '^' + sLink;
         });
         print('prod list check 0 ' + prodList.toString());
         return;
@@ -6587,7 +6589,7 @@ class HomePageState extends State<HomePage>
     }
     if (data != 'null') {
       data = data.split('^')[0] + '^' + data.split('^')[1] + '^' + data.split('^')[2] + '^' + data.split('^')[3] + '^' +
-          data.split('^')[4] + '^' + '0' + '^' + data.split('^')[5] + '^' + data.split('^')[6] + '^' + data.split('^')[7];
+          data.split('^')[4] + '^' + '0' + '^' + data.split('^')[5] + '^' + data.split('^')[6] + '^' + data.split('^')[7]  +  '^' + data.split('^')[8] +  '^' + data.split('^')[9];
       setState((){prodList.add(data);});
     }
 
@@ -6599,7 +6601,7 @@ class HomePageState extends State<HomePage>
   addProduct3(data) {
     if (data != 'null') {
       data =  data.split('^')[0] + '^' + data.split('^')[1] + '^' + data.split('^')[2] + '^' + data.split('^')[3] + '^' +
-          data.split('^')[4] + '^' + data.split('^')[5] + '^' +  '0'+ '^'  + data.split('^')[6] + '^' + data.split('^')[7]+ '^' + data.split('^')[8];
+          data.split('^')[4] + '^' + data.split('^')[5] + '^' +  '0'+ '^'  + data.split('^')[6] + '^' + data.split('^')[7]+ '^' + data.split('^')[8] + '^' + data.split('^')[9] + '^' + data.split('^')[10] + '^' + data.split('^')[11];
       setState(() {
         prodList2.add(data);
       });
@@ -8019,7 +8021,7 @@ class HomePageState extends State<HomePage>
 
               prodInCart(String prodListInd, int index) {
                 prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
-                    prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5] + '^' + prodList[index].split('^')[6] + '^' + prodList[index].split('^')[7] + '^' + prodList[index].split('^')[8];
+                    prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5] + '^' + prodList[index].split('^')[6] + '^' + prodList[index].split('^')[7] + '^' + prodList[index].split('^')[8] +'^' + prodList[index].split('^')[9]+'^' + prodList[index].split('^')[10];
 
                 print('prodincart ' + prodList.toString());
                 String image = prodList[index].split('^')[8];
@@ -9756,7 +9758,7 @@ class HomePageState extends State<HomePage>
                                                                         print('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
 
                                                                         if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                          batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
+                                                                          batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
                                                                           print('decStock ' + prodList[k].split('^')[0].toString());
                                                                           //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                           //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
@@ -9767,13 +9769,14 @@ class HomePageState extends State<HomePage>
                                                                           // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                         }
                                                                         else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                          // batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                          print('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                           batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
                                                                           // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                           //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                           //});
                                                                         }
                                                                         else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                          //  batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
+                                                                            batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
                                                                           // productsFire.doc(str.split('^')[0]).update({
                                                                           //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                           // });
@@ -10202,10 +10205,14 @@ class HomePageState extends State<HomePage>
                                             eachProd.length !=0 ? Stack(
                                               children: [
                                                 StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                  stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(productId).snapshots(),
-                                                  builder: (BuildContext context, snapshot2) {
+                                                  stream: FirebaseFirestore.instance
+                                                      .collection('shops')
+                                                      .doc(shopId)
+                                                      .collection('collArr')
+                                                      .doc('prodsArr')
+                                                      .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
                                                     if (snapshot2.hasData) {
-                                                      var output2 = snapshot2.data!.data();
+                                                      var output2 = snapshot2.data != null? snapshot2.data!.data(): null;
                                                       return Padding(
                                                         padding: const EdgeInsets.only(
                                                             top: 67.0,
@@ -10505,18 +10512,18 @@ class HomePageState extends State<HomePage>
                                                                                     fontWeight: FontWeight.w500,
                                                                                   ),),
                                                                                   Spacer(),
-                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  output2?['unit_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['sm']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
                                                                                   ),) :
-                                                                                  eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  output2?['sub1_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                  eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' + (output2?['prods'][productId]['s1']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
-                                                                                  ),) :  Text('$currencyUnit ' +  output2?['sub2_sell'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                  ),) :  Text('$currencyUnit ' +  (output2?['prods'][productId]['s2']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
@@ -10541,17 +10548,17 @@ class HomePageState extends State<HomePage>
                                                                                     fontWeight: FontWeight.w500,
                                                                                   ),),
                                                                                   Spacer(),
-                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text(output2!['inStock1'].round().toString() + ' ' + productLink, style:
+                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['im']).round().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
-                                                                                  ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2!['inStock2'].round().toString() + ' ' + productLink, style:
+                                                                                  ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['i1']).round().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
-                                                                                  ),) : Text(output2!['inStock3'].round().toString().toString() + ' ' + productLink, style:
+                                                                                  ),) : Text((output2?['prods'][productId]['i2']).round().toString().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
@@ -10576,17 +10583,17 @@ class HomePageState extends State<HomePage>
                                                                                     fontWeight: FontWeight.w500,
                                                                                   ),),
                                                                                   Spacer(),
-                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text(output2['Loss1'].round().toString() + ' ' + productLink, style:
+                                                                                  eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['lm']).round().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
-                                                                                  ),) : eachProd.split('^')[3]== 'sub1_name'? Text(output2['Loss2'].round().toString() + ' ' + productLink, style:
+                                                                                  ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['l1']).round().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
                                                                                     color: Colors.grey,
-                                                                                  ),) : Text(output2['Loss3'].round().toString() + ' ' + productLink, style:
+                                                                                  ),) : Text((output2?['prods'][productId]['l2']).round().toString() + ' ' + productLink, style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
@@ -10605,7 +10612,7 @@ class HomePageState extends State<HomePage>
                                                                                     fontWeight: FontWeight.w500,
                                                                                   ),),
                                                                                   Spacer(),
-                                                                                  Text(output2['bar_code'], style:
+                                                                                  Text((output2?['prods'][productId]['co']).toString(), style:
                                                                                   TextStyle(
                                                                                     fontSize: 15,
                                                                                     fontWeight: FontWeight.w500,
@@ -12207,54 +12214,41 @@ class HomePageState extends State<HomePage>
   decStockFromInv(WriteBatch batch, id, unit, num) {
     print('Double Check Sub1' + '$id.im');
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
-    // documentReference
-    //     .update({'0-1000.price': FieldValue.increment(1)})
-    //     .then((value) => print("User Updated"))
-    //     .catchError((error) => print("Failed to update user: $error"));
 
-    // batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
-
-    batch.update(documentReference, {'prods.$id.im': FieldValue.increment(0- (double.parse(num.toString()))),});
+    batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
 
     return batch;
   }
 
   incStockFromInv(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
-    batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment((double.parse(num.toString()))),});
+    batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
   }
 
-  sub1Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+  sub1Execution(WriteBatch batch, subStock, subLink, id, num,) {
     //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[1] = double.parse((data10 ? ['inStock2']).toString());
-      if(subStock[1] > double.parse(num)) {
-        batch = decStockFromInv(batch, id, 'sub1', num);
+      if(double.parse(subStock) > double.parse(num)) {
+        batch = decStockFromInv(batch, id, 'i1', num);
       } else {
-        batch = decStockFromInv(batch, id, 'main', ((double.parse(num)  - subStock[1])/double.parse(subLink[0])).ceil());
-        batch = incStockFromInv(batch, id, 'sub1', ((double.parse(num)-subStock[1].round()) % double.parse(subLink[0])) == 0? 0: (double.parse(subLink[0]) - (double.parse(num)-subStock[1].round()) % double.parse(subLink[0])));
-        batch = decStockFromInv(batch, id, 'sub1', subStock[1]);
+        batch = decStockFromInv(batch, id, 'im', ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil());
+        batch = incStockFromInv(batch, id, 'i1', ((double.parse(num)- double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+        batch = decStockFromInv(batch, id, 'i1', subStock);
       }
-    }
     return batch;
   }
 
-  sub2Execution(WriteBatch batch, subStock, subLink, id, num, docSnapshot10) {
+  sub2Execution(WriteBatch batch, subStock, subLink, id, num) {
     //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[2] = double.parse((data10 ? ['inStock3']).toString());
-      if(subStock[2] > double.parse(num)) {
-        batch = decStockFromInv(batch, id, 'sub2', num);
+      if(double.parse(subStock) > double.parse(num)) {
+        batch = decStockFromInv(batch, id, 'i2', num);
       } else {
-        batch =  incStockFromInv(batch, id, 'sub2', ((double.parse(num)-subStock[2].round()) % double.parse(subLink[1])) == 0? 0: (double.parse(subLink[1]) - (double.parse(num)-subStock[2].round()) % double.parse(subLink[1])));
-        batch = decStockFromInv(batch, id, 'sub2', subStock[2]);
-        batch = sub1Execution(batch, subStock, subLink, id, ((double.parse(num)  - subStock[2])/double.parse(subLink[1])).ceil().toString(), docSnapshot10);
+        batch =  incStockFromInv(batch, id, 'i2', ((double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+        batch = decStockFromInv(batch, id, 'i2', subStock);
+        batch = sub1Execution(batch, subStock, subLink, id, ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil().toString(),);
       }
-    }
+
     return batch;
   }
 

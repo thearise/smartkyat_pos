@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
@@ -85,6 +86,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   bool unitLimit = false;
 
   bool isEnglish = true;
+
+  var deviceIdNum;
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -168,6 +171,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         });
       }
     });
+
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
+
     super.initState();
   }
 
@@ -1695,7 +1703,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                                   prodsArr.set({
                                                     'prods': {
-                                                      '0-' + prodsCnt.toString(): {
+                                                      '$deviceIdNum-' + prodsCnt.toString(): {
                                                         'na': prodFieldsValue[0],
                                                         'lm': 0,
                                                         'l1': 0,
@@ -1716,6 +1724,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         'nm': prodFieldsValue[3],
                                                         'n1': subUnitFieldValue[1],
                                                         'n2': subUnitFieldValue[5],
+                                                        'se': subExist.toString()
                                                       }
                                                     }
                                                   },SetOptions(merge: true)).then((value) {
@@ -1980,7 +1989,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                                         prodsArr.set({
                                                           'prods': {
-                                                            '0-' + prodsCnt.toString(): {
+                                                            '$deviceIdNum-' + prodsCnt.toString(): {
                                                               'na': prodFieldsValue[0],
                                                               'lm': 0,
                                                               'l1': 0,
@@ -2001,6 +2010,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                               'nm': prodFieldsValue[3],
                                                               'n1': subUnitFieldValue[1],
                                                               'n2': subUnitFieldValue[5],
+                                                              'se': subExist.toString()
                                                              // 'img_1': photoArray[0],
                                                             }
                                                           }

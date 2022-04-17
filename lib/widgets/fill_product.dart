@@ -16,17 +16,21 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-      required this.idString, required this.unitname, required this.shopId, required this.price1, required this.price2, required this.price3,
-      required void toggleCoinCallback(String str),
-      required void toggleCoinCallback3(String str),
+      required this.idString, required this.unitName, required this.shopId, required this.price,
+      required void toggleCoinCallback(String str), required this.unit,
+      required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
       }) : _callback = toggleCoinCallback,
            _callback3 = toggleCoinCallback3;
   final String idString;
-  final String unitname;
+  final String unitName;
   final String shopId;
-  final String price1;
-  final String price2;
-  final String price3;
+  final String price;
+  final String prodName;
+  final String image;
+  final String unit;
+  final String stock;
+  final String link;
+  final String subExist;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -78,7 +82,7 @@ class _FillProductState extends State<FillProduct> {
   initState() {
 
     munitCtrl.text = '1';
-    msaleCtrl.text = priceUnit();
+    msaleCtrl.text = widget.price;
 
     getLangId().then((value) {
       if(value=='burmese') {
@@ -127,16 +131,6 @@ class _FillProductState extends State<FillProduct> {
     super.dispose();
   }
 
-  priceUnit() {
-    String buyPrice = '';
-    if( widget.unitname == 'unit_name') {
-      buyPrice = widget.price1;
-    } else if(widget.unitname == 'sub1_name') {
-      buyPrice = widget.price2;
-    } else buyPrice = widget.price3;
-    return buyPrice;
-  }
-
 
   bool firstTime = true;
   double homeBotPadding = 0;
@@ -151,21 +145,7 @@ class _FillProductState extends State<FillProduct> {
         child: SafeArea(
       top: true,
       bottom: false,
-      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance
-          .collection('shops')
-          .doc(widget.shopId)
-          .collection('products')
-          .doc(widget.idString)
-          .snapshots(),
-            builder: (BuildContext context, snapshot2) {
-    if (snapshot2.hasData) {
-    var output1 = snapshot2.data!.data();
-    var prodName = output1?['prod_name'];
-    var mainName = output1?[widget.unitname];
-    var image = output1?['img_1'];
-    print('widget che ' + widget.unitname.toString());
-    return Column(
+      child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
@@ -210,7 +190,7 @@ class _FillProductState extends State<FillProduct> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              prodName,
+                              widget.prodName,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   fontSize: 13,
@@ -279,7 +259,7 @@ class _FillProductState extends State<FillProduct> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 15.0, top: 14),
-                                        child: Icon(widget.unitname == 'unit_name'? SmartKyat_POS.prodm: widget.unitname == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
+                                        child: Icon(widget.unitName == 'unit_name'? SmartKyat_POS.prodm: widget.unitName == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
                                       ),
                                     ],
                                   ),
@@ -329,7 +309,7 @@ class _FillProductState extends State<FillProduct> {
                                                   right: 15.0,
                                                   top: 20.0,
                                                   bottom: 20.0),
-                                              suffixText: mainName,
+                                              suffixText: widget.unit,
                                               suffixStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 12,
@@ -606,7 +586,7 @@ class _FillProductState extends State<FillProduct> {
                                   '^' +
                                   'Phyo' +
 
-                                  '^'+ widget.unitname + '^' + '1' + '^' + prodName + '^' + mainName + '^' + image);
+                                  '^'+ widget.unitName + '^' + '1' + '^' + widget.prodName + '^' + widget.unit + '^' + widget.image + '^'+ widget.stock + '^' + widget.link + '^' + widget.subExist);
                               print(widget.idString +
                                   '^' +
                                   msaleCtrl.text +
@@ -615,7 +595,7 @@ class _FillProductState extends State<FillProduct> {
                                   '^' +
                                   'Phyo' +
 
-                                  '^'+ widget.unitname + '^' + '1'.toString());
+                                  '^'+ widget.unitName + '^' + '1'.toString());
                               Navigator.pop(context);
                             } },
                           child: Padding(
@@ -650,10 +630,8 @@ class _FillProductState extends State<FillProduct> {
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
             ],
-          ); }
-             return Container();
-        }
-      ),
+          ),
+
     ));
   }
 
