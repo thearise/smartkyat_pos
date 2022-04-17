@@ -91,6 +91,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   int intGer = 0;
 
+  var productsSnapshot;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -147,6 +149,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   @override
   initState() {
+    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
 
 
 
@@ -932,7 +935,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 //   ],
                 // ),
                 child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    stream: widget.productsSnapshot,
+                    stream: productsSnapshot,
                     builder: (BuildContext context, prodsSB) {
                       var prods;
                       Map<dynamic, dynamic> searchProds = {};
@@ -949,8 +952,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         if(searchValue != '' && searchValue != ' ') {
                           for(int i = 0; i < prods.length; i++) {
                             var eachMap = prods.entries.elementAt(i);
-                            if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
-                              searchProds[eachMap.key] = eachMap.value;
+                            if(eachMap.value['na'] != null) {
+                              if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
+                                searchProds[eachMap.key] = eachMap.value;
+                              }
                             }
                           }
                           searchProds = sortMapByNaS(searchProds);
@@ -1238,7 +1243,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                             ),
                                                             Text(
                                                               // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                              prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'] : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
+                                                              prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
                                                               style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 15,
@@ -1744,26 +1749,34 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 //   quantity = int.parse(value);
                                                 // });
                                               },
-                                              // controller: myController,bb
+                                              // controller: myController,
                                             )
                                         ),
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          widget._barcodeBtn();
+                                          if(searchValue == '') {
+                                            widget._barcodeBtn();
+                                          } else {
+                                            _searchController.clear();
+                                          }
                                         },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 15.0,
-                                          ),
-                                          // child: Icon(
-                                          //   SmartKyat_POS.barcode,
-                                          //   color: Colors.black,
-                                          //   size: 25,
-                                          // ),
-                                          child: Container(
-                                              child: Image.asset('assets/system/barcode.png', height: 28,)
-                                          ),
+                                        child: Stack(
+                                          children: [
+                                            searchValue == '' ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 15.0,
+                                              ),
+                                              child: Container(
+                                                  child: Image.asset('assets/system/barcode.png', height: 28,)
+                                              ),
+                                            ) : Padding(
+                                              padding: const EdgeInsets.only( right: 15.0),
+                                              child: Icon(
+                                                Icons.close_rounded,
+                                                size: 24,
+                                              ),),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -1772,25 +1785,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // if(loadingSearch) {
-                                  //   _searchController.clear();
-                                  //   FocusScope.of(context).unfocus();
-                                  //   setState(() {
-                                  //     loadingSearch = false;
-                                  //   });
-                                  // } else {
-                                  //   FocusScope.of(context).requestFocus(nodeFirst);
-                                  //   setState(() {
-                                  //     loadingSearch = true;
-                                  //   });
-                                  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                  // }
-                                  if( (loadingSearch && _searchController.text == '' ) || !loadingSearch) {
-                                    widget._chgIndex(0);
-                                    FocusScope.of(context).unfocus();
-                                  } else {
-                                    _searchController.clear();
-                                  }
+                                  widget._chgIndex(0);
+                                  FocusScope.of(context).unfocus();
                                 },
                                 child: Container(
                                   height: 50,
@@ -1808,19 +1804,13 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               SmartKyat_POS.search,
                                               size: 17,
                                             ),
-                                          ): loadingSearch && _searchController.text == '' ?
+                                          ):
                                           Padding(
                                               padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
                                               child: Icon(
                                                 Icons.arrow_back_ios_rounded,
                                                 size: 21,
                                               )
-                                          ) : Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                            child: Icon(
-                                              Icons.close_rounded,
-                                              size: 24,
-                                            ),
                                           )
                                         ],
                                       ),
@@ -1828,6 +1818,51 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   ),
                                 ),
                               ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     if((loadingSearch && _searchController.text == '' ) || !loadingSearch) {
+                              //       widget._chgIndex(0);
+                              //       FocusScope.of(context).unfocus();
+                              //     } else {
+                              //       _searchController.clear();
+                              //     }
+                              //   },
+                              //   child: Container(
+                              //     height: 50,
+                              //     width: 38,
+                              //     color: Colors.transparent,
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 12.0),
+                              //       child: Container(
+                              //         child: Stack(
+                              //           alignment: AlignmentDirectional.centerStart,
+                              //           children: [
+                              //             !loadingSearch? Padding(
+                              //               padding: const EdgeInsets.only(left: 5.0),
+                              //               child: Icon(
+                              //                 SmartKyat_POS.search,
+                              //                 size: 17,
+                              //               ),
+                              //             ): loadingSearch && _searchController.text == '' ?
+                              //             Padding(
+                              //                 padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
+                              //                 child: Icon(
+                              //                   Icons.arrow_back_ios_rounded,
+                              //                   size: 21,
+                              //                 )
+                              //             ) : Padding(
+                              //               padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                              //               child: Icon(
+                              //                 Icons.close_rounded,
+                              //                 size: 24,
+                              //               ),
+                              //             )
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

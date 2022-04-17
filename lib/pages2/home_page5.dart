@@ -59,7 +59,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
-import '../fragments/search_fragment2.dart';
+import '../fragments/search_fragment3.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
@@ -262,7 +262,7 @@ class HomePageState extends State<HomePage>
 
   Stream<QuerySnapshot>? orderSnapshot;
   Stream<QuerySnapshot>? productSnapshot;
-  Stream<QuerySnapshot>? productSnapshot2;
+  var productSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot;
   Stream<QuerySnapshot>? buyOrderSnapshot;
   //Stream<QuerySnapshot>? buyOrderSnapshot2;
