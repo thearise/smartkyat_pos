@@ -58,7 +58,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
-import '../fragments/search_fragment.dart';
+import '../fragments/search_fragment3.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
