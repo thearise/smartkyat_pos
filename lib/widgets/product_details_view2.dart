@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -17,6 +18,7 @@ import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/edit_product.dart';
 import '../app_theme.dart';
 import 'fill_product.dart';
+import 'package:http/http.dart' as http;
 
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
@@ -29,6 +31,7 @@ class ProductDetailsView2 extends StatefulWidget {
         required this.idString,
         required this.prodName,
         required this.mainSell,
+        required this.imgUrl,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str),
         required void openCartBtn(),
@@ -43,6 +46,7 @@ class ProductDetailsView2 extends StatefulWidget {
   final String prodName;
   final String shopId;
   final String mainSell;
+  final String imgUrl;
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -443,7 +447,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                   var mainQty =output?['prods'][widget.idString]['im'];
                   var sub1Qty = output?['prods'][widget.idString]['i1'];
                   var sub2Qty = output?['prods'][widget.idString]['i2'];
-                  var image = output?['prods'][widget.idString]['na'];
+                  var image = widget.imgUrl;
                   var buyPrice1 =  output?['prods'][widget.idString]['bm'];
                   var buyPrice2 =  output?['prods'][widget.idString]['b1'];
                   var buyPrice3 = output?['prods'][widget.idString]['b2'];
@@ -978,14 +982,15 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             ),
                                                           ),
                                                           onPressed: () async {
-                                                            // widget._callback();
-                                                            widget._closeCartBtn();
-                                                            var result = await Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
-                                                            widget._openCartBtn();
-                                                            print('result check ' + result.toString());
+                                                            // widget._closeCartBtn();
+                                                            // var result = await Navigator.push(
+                                                            //     context,
+                                                            //     MaterialPageRoute(
+                                                            //         builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
+                                                            // widget._openCartBtn();
+                                                            // print('result check ' + result.toString());
+
+                                                            removeImgServer('shark2.jpg');
                                                           },
                                                           child: Padding(
                                                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -2029,7 +2034,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                           onPressed: () async {
                                                             DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
-                                                            CollectionReference productCount = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('countColl');
+                                                            DocumentReference productImg = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr');
+
                                                             showOkCancelAlertDialog(
                                                               context: context,
                                                               title: 'Are you sure you want to remove this product?',
@@ -2037,18 +2043,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               defaultType: OkCancelAlertDefaultType.cancel,
                                                             ).then((result) {
                                                               if(result == OkCancelResult.ok) {
-                                                                print('all set');
-                                                                smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
-                                                                Navigator.pop(contextOver);
+                                                                // print(widget.imgUrl);
+                                                                removeImgServer(widget.imgUrl).then((value) {
+                                                                  print('val lue' + value.toString());
+                                                                  if(value == 200) {
+                                                                    print('all set');
+                                                                    smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
+                                                                    Navigator.pop(contextOver);
 
-                                                                product.update({
-                                                                  'prods.' + widget.idString: FieldValue.delete()
-                                                                }).then((value) {
-                                                                  productCount.doc('prodsCnt').update({
-                                                                    'count' : FieldValue.increment(-1)
-                                                                  }).then((val) {
-                                                                  });
-                                                                }).catchError((error) => print("Failed to update: $error"));
+                                                                    product.update({
+                                                                      'prods.' + widget.idString: FieldValue.delete()
+                                                                    }).then((value) {
+                                                                      productImg.update({
+                                                                        'prods.' + widget.idString: FieldValue.delete()
+                                                                      }).then((value) {
+
+                                                                      }).catchError((error) => print("Failed to update: 1 $error"));
+                                                                    }).catchError((error) => print("Failed to update:  0 $error"));
+                                                                  }
+                                                                });
+
+
                                                               }
                                                             });
                                                           },
@@ -2086,6 +2101,28 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
             }),
       ),
     );
+  }
+
+  Future<int> removeImgServer(String image) async {
+    final response = await http.post(
+      Uri.parse('https://riftplus.me/smartkyat_pos/api/images_remove.php'),
+      // headers: <String, String>{
+      //   'Content-Type': 'application/json; charset=UTF-8',
+      // },
+      body: {
+        'rm_image': image,
+      },
+    );
+
+
+    // var uri = Uri.parse("https://riftplus.me/smartkyat_pos/api/images_remove.php");
+    // var request = new http.Request("POST", uri);
+    // request.bodyFields['rm_image'] = image;
+    //
+    // var response = await request.send();
+
+
+    return response.statusCode;
   }
 
   loadingView() {
