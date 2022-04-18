@@ -1156,7 +1156,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       closeDrawerFrom();
                                       await Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
+                                            builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: '')),);
                                       openDrawerFrom();
                                     },
                                     child: Padding(
