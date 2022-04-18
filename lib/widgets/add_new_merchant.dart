@@ -48,8 +48,15 @@ class _AddMerchantState extends State<AddMerchant> {
   String textSetAddress = 'Address';
   String textSetPhone = 'Phone number';
   String textSetAdd = 'Add Merchant';
+
+  var deviceIdNum;
+
   @override
   void initState() {
+
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -73,6 +80,12 @@ class _AddMerchantState extends State<AddMerchant> {
     getStoreId().then((value) => shopId = value);
     super.initState();
   }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
+  }
+
 
   bool firstTime = true;
   double homeBotPadding = 0;
@@ -376,139 +389,179 @@ class _AddMerchantState extends State<AddMerchant> {
                                       merchAdding = true;
                                     });
 
-                                    bool exist = false;
-                                    var merchants =  await FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(shopId)
-                                        .collection('merchants');
 
-                                    print(
-                                        'validate ' + merchFieldsValue.toString());
-                                    // var spaceDocId = '';
+                                    DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
 
-                                    // await FirebaseFirestore.instance
-                                    //     .collection('space')
-                                    //     .where('user_id',
-                                    //         isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-                                    //     .get()
-                                    //     .then((QuerySnapshot querySnapshot) {
-                                    //   querySnapshot.docs.forEach((doc) {
-                                    //     spaceDocId = doc.id;
-                                    //   });
-                                    //
-                                    //   print('space shi p thar');
-                                    //   getStoreId().then((String result2) async {
-                                    //     print('store id ' + result2.toString());
+                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt').get().then((value) {
+                                      int merCnt = value.data()!['count'];
 
-
-                                    merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
-                                      if (documentSnapshot.exists) {
-                                        exist = true;
-                                        print('Document exists on the database');
-                                      }
+                                      cusArr.set({
+                                        'mer': {
+                                          '$deviceIdNum-' + merCnt.toString(): {
+                                            'na': merchFieldsValue[0],
+                                            'ad': merchFieldsValue[1],
+                                            'ph': merchFieldsValue[2],
+                                            'or' : 0,
+                                            'de' : 0,
+                                            'da' : 0,
+                                            're' : 0,
+                                            'ar' : false,
+                                          }
+                                        }
+                                      },
+                                          SetOptions(merge: true)).then((value) {
+                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt')
+                                            .update(
+                                            {
+                                              'count': FieldValue.increment(1)
+                                            }
+                                        ).then((value) {
+                                          Future.delayed(const Duration(milliseconds: 1000), () {
+                                            setState(() {
+                                              merchAdding = false;
+                                              widget.endMerchLoadingState();
+                                              Navigator.pop(context);
+                                            });
+                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                          });
+                                        }).catchError((error) => print("Failed to update user: $error"));
+                                        print('arrays added ' + '0-' + merCnt.toString());
+                                      }).catchError((error) => print("Failed to update user: $error"));
                                     });
 
-                                    if(exist) {
-                                      merchants.add({
-                                        'merchant_name': merchFieldsValue[0],
-                                        'merchant_address': merchFieldsValue[1],
-                                        'merchant_phone': merchFieldsValue[2],
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                         'search_name': textSplitFunction(merchFieldsValue[0].toString()),
-                                        'archive' : false,
-                                      }).then((value) {
-                                        print('product added 2');
-
-
-
-                                        // showFlash(
-                                        //   context: context,
-                                        //   duration: const Duration(seconds: 2),
-                                        //   persistent: true,
-                                        //   builder: (_, controller) {
-                                        //     return Flash(
-                                        //       controller: controller,
-                                        //       backgroundColor: Colors.transparent,
-                                        //       brightness: Brightness.light,
-                                        //       // boxShadows: [BoxShadow(blurRadius: 4)],
-                                        //       // barrierBlur: 3.0,
-                                        //       // barrierColor: Colors.black38,
-                                        //       barrierDismissible: true,
-                                        //       behavior: FlashBehavior.floating,
-                                        //       position: FlashPosition.top,
-                                        //       child: Padding(
-                                        //         padding: const EdgeInsets.only(
-                                        //             top: 80.0),
-                                        //         child: Padding(
-                                        //           padding: const EdgeInsets.only(
-                                        //               left: 15.0, right: 15.0),
-                                        //           child: Container(
-                                        //             decoration: BoxDecoration(
-                                        //               borderRadius:
-                                        //               BorderRadius.circular(
-                                        //                   10.0),
-                                        //               color: Colors.green,
-                                        //             ),
-                                        //             child: FlashBar(
-                                        //               title: Text('Success'),
-                                        //               content:
-                                        //               Text('Merchant added successfully'),
-                                        //               // showProgressIndicator: true,
-                                        //               primaryAction: TextButton(
-                                        //                 onPressed: () =>
-                                        //                     controller.dismiss(),
-                                        //                 child: Text('DISMISS',
-                                        //                     style: TextStyle(
-                                        //                         color: Colors
-                                        //                             .amber)),
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        // );
-                                      });
-                                      Future.delayed(const Duration(milliseconds: 3000), () {
-                                        setState(() {
-                                          widget.endMerchLoadingState();
-                                          merchAdding = false;
-                                        });
-
-                                        Navigator.pop(context);
-
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-                                      });
-                                    } else
-                                    {
-                                      merchants.doc('name').set({
-                                        'merchant_name': 'No merchant',
-                                        'merchant_address' : 'unknown',
-                                        'merchant_phone' : '',
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                      }).then((value) {
-                                        print('name created');
-                                      });
-
-                                      merchants.add({
-                                        'merchant_name': merchFieldsValue[0],
-                                        'merchant_address': merchFieldsValue[1],
-                                        'merchant_phone': merchFieldsValue[2],
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                        'search_name': textSplitFunction(merchFieldsValue[0].toString()),
-                                        'archive' : false,
-                                      }).then((value) {
-                                        print('product added 2');
+                                    // bool exist = false;
+                                    // var merchants =  await FirebaseFirestore.instance
+                                    //     .collection('shops')
+                                    //     .doc(shopId)
+                                    //     .collection('merchants');
+                                    //
+                                    // print(
+                                    //     'validate ' + merchFieldsValue.toString());
+                                    // // var spaceDocId = '';
+                                    //
+                                    // // await FirebaseFirestore.instance
+                                    // //     .collection('space')
+                                    // //     .where('user_id',
+                                    // //         isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
+                                    // //     .get()
+                                    // //     .then((QuerySnapshot querySnapshot) {
+                                    // //   querySnapshot.docs.forEach((doc) {
+                                    // //     spaceDocId = doc.id;
+                                    // //   });
+                                    // //
+                                    // //   print('space shi p thar');
+                                    // //   getStoreId().then((String result2) async {
+                                    // //     print('store id ' + result2.toString());
+                                    //
+                                    //
+                                    // merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
+                                    //   if (documentSnapshot.exists) {
+                                    //     exist = true;
+                                    //     print('Document exists on the database');
+                                    //   }
+                                    // });
+                                    //
+                                    // if(exist) {
+                                    //   merchants.add({
+                                    //     'merchant_name': merchFieldsValue[0],
+                                    //     'merchant_address': merchFieldsValue[1],
+                                    //     'merchant_phone': merchFieldsValue[2],
+                                    //     'total_orders' : 0,
+                                    //     'debts' : 0,
+                                    //     'debtAmount' : 0,
+                                    //     'total_refunds' : 0,
+                                    //      'search_name': textSplitFunction(merchFieldsValue[0].toString()),
+                                    //     'archive' : false,
+                                    //   }).then((value) {
+                                    //     print('product added 2');
+                                    //
+                                    //
+                                    //
+                                    //     // showFlash(
+                                    //     //   context: context,
+                                    //     //   duration: const Duration(seconds: 2),
+                                    //     //   persistent: true,
+                                    //     //   builder: (_, controller) {
+                                    //     //     return Flash(
+                                    //     //       controller: controller,
+                                    //     //       backgroundColor: Colors.transparent,
+                                    //     //       brightness: Brightness.light,
+                                    //     //       // boxShadows: [BoxShadow(blurRadius: 4)],
+                                    //     //       // barrierBlur: 3.0,
+                                    //     //       // barrierColor: Colors.black38,
+                                    //     //       barrierDismissible: true,
+                                    //     //       behavior: FlashBehavior.floating,
+                                    //     //       position: FlashPosition.top,
+                                    //     //       child: Padding(
+                                    //     //         padding: const EdgeInsets.only(
+                                    //     //             top: 80.0),
+                                    //     //         child: Padding(
+                                    //     //           padding: const EdgeInsets.only(
+                                    //     //               left: 15.0, right: 15.0),
+                                    //     //           child: Container(
+                                    //     //             decoration: BoxDecoration(
+                                    //     //               borderRadius:
+                                    //     //               BorderRadius.circular(
+                                    //     //                   10.0),
+                                    //     //               color: Colors.green,
+                                    //     //             ),
+                                    //     //             child: FlashBar(
+                                    //     //               title: Text('Success'),
+                                    //     //               content:
+                                    //     //               Text('Merchant added successfully'),
+                                    //     //               // showProgressIndicator: true,
+                                    //     //               primaryAction: TextButton(
+                                    //     //                 onPressed: () =>
+                                    //     //                     controller.dismiss(),
+                                    //     //                 child: Text('DISMISS',
+                                    //     //                     style: TextStyle(
+                                    //     //                         color: Colors
+                                    //     //                             .amber)),
+                                    //     //               ),
+                                    //     //             ),
+                                    //     //           ),
+                                    //     //         ),
+                                    //     //       ),
+                                    //     //     );
+                                    //     //   },
+                                    //     // );
+                                    //   });
+                                    //   Future.delayed(const Duration(milliseconds: 3000), () {
+                                    //     setState(() {
+                                    //       widget.endMerchLoadingState();
+                                    //       merchAdding = false;
+                                    //     });
+                                    //
+                                    //     Navigator.pop(context);
+                                    //
+                                    //     smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                    //   });
+                                    // } else
+                                    // {
+                                    //   merchants.doc('name').set({
+                                    //     'merchant_name': 'No merchant',
+                                    //     'merchant_address' : 'unknown',
+                                    //     'merchant_phone' : '',
+                                    //     'total_orders' : 0,
+                                    //     'debts' : 0,
+                                    //     'debtAmount' : 0,
+                                    //     'total_refunds' : 0,
+                                    //   }).then((value) {
+                                    //     print('name created');
+                                    //   });
+                                    //
+                                    //   merchants.add({
+                                    //     'merchant_name': merchFieldsValue[0],
+                                    //     'merchant_address': merchFieldsValue[1],
+                                    //     'merchant_phone': merchFieldsValue[2],
+                                    //     'total_orders' : 0,
+                                    //     'debts' : 0,
+                                    //     'debtAmount' : 0,
+                                    //     'total_refunds' : 0,
+                                    //     'search_name': textSplitFunction(merchFieldsValue[0].toString()),
+                                    //     'archive' : false,
+                                    //   }).then((value) {
+                                    //     print('product added 2');
                                         // showFlash(
                                         //   context: context,
                                         //   duration: const Duration(seconds: 2),
@@ -557,7 +610,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                         //     );
                                         //   },
                                         // );
-                                      });
+                                    //  });
                                       Future.delayed(const Duration(milliseconds: 3000), () {
                                         setState(() {
                                           widget.endMerchLoadingState();
@@ -570,7 +623,7 @@ class _AddMerchantState extends State<AddMerchant> {
 
                                     // });
                                     // });
-                                  }
+                                  //}
                                 },
                                 child:  merchAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                     child: CupertinoActivityIndicator(radius: 10,))
