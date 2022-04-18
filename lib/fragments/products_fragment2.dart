@@ -114,6 +114,10 @@ class ProductsFragmentState extends State<ProductsFragment>
   bool searchOpeningR = false;
 
   var prodsSnap;
+  var prodsImgSnap;
+
+  bool i0Clicked = true;
+  bool i1Clicked = true;
 
   @override
   bool get wantKeepAlive => true;
@@ -172,6 +176,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   @override
   initState() {
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
 
     // if(!searchOpening) {
@@ -572,6 +577,25 @@ class ProductsFragmentState extends State<ProductsFragment>
 
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
+  Map sortMapByNaR(Map map) {
+    final sortedKeys = map.keys.toList(growable: false)
+      ..sort((k1, k2) => ((map[k2]['na'].compareTo(map[k1]['na']))));
+
+    return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+  }
+
+  Map sortMapByImS(Map map) {
+    final sortedKeys = map.keys.toList(growable: false)
+      ..sort((k1, k2) => ((map[k1]['im'].compareTo(map[k2]['im']))));
+
+    return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+  }
+  Map sortMapByImR(Map map) {
+    final sortedKeys = map.keys.toList(growable: false)
+      ..sort((k1, k2) => ((map[k2]['im'].compareTo(map[k1]['im']))));
+
+    return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -637,342 +661,411 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 }
                               }
 
-                              resProds = sortMapByNaS(resProds);
+                              if(cateScIndex == 0) {
+                                if(i0Clicked) {
+                                  resProds = sortMapByNaS(resProds);
+                                } else {
+                                  resProds = sortMapByNaR(resProds);
+                                }
+                              } else if(cateScIndex == 1) {
+                                if(i1Clicked) {
+                                  resProds = sortMapByImS(resProds);
+                                } else {
+                                  resProds = sortMapByImR(resProds);
+                                }
+                              }
 
-                              return CustomScrollView(
-                                slivers: [
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                      child: Container(
-                                        height: 32,
-                                        width: MediaQuery.of(context).size.width,
-                                        // color: Colors.yellow,
-                                        child: Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    widget._callback();
-                                                    // // print('execution3');
-                                                    // getStoreId().then((value) async {
-                                                    //   print('value' + value.toString());
-                                                    //   for(int i = 0; i<1000; i++)
-                                                    //      // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders');
-                                                    //   await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders').doc('20220413274').update({
-                                                    //
-                                                    //     'daily_order': FieldValue.arrayUnion(['202204132203' +'^7-293' + i.toString() +'^'+ i.toString() +'00.0^name<>name^F^0.0^0.0']),
-                                                    //
-                                                    //   }).then((value) {
-                                                    //       }).catchError((error) => print("Failed to update: $error"));
-                                                    //   //   }).toList();
-                                                    //   // });
-                                                    // });
-                                                  },
-                                                  child: Container(
-                                                    child: Row(
-                                                      // mainAxisAlignment: Main,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.add_plus,
-                                                            size: 17,
+                              return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                stream: prodsImgSnap,
+                                builder: (context, snapshot) {
+                                  if(snapshot.hasData) {
+                                    var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
+                                    var imgArr = imgSnap?['prods'];
+                                    return CustomScrollView(
+                                      slivers: [
+                                        SliverAppBar(
+                                          elevation: 0,
+                                          backgroundColor: Colors.white,
+                                          // Provide a standard title.
+                                          // Allows the user to reveal the app bar if they begin scrolling
+                                          // back up the list of items.
+                                          floating: true,
+                                          flexibleSpace: Padding(
+                                            padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                            child: Container(
+                                              height: 32,
+                                              width: MediaQuery.of(context).size.width,
+                                              // color: Colors.yellow,
+                                              child: Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      FlatButton(
+                                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                                        color: AppTheme.secButtonColor,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
                                                           ),
                                                         ),
-                                                        Text(
-                                                          textSetNewItem,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView(
-                                                controller: cateScCtler,
-                                                scrollDirection: Axis.horizontal,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(0);
-                                                        setState(() {
-                                                          cateScIndex = 0;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetAll,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(5.4);
-                                                        setState(() {
-                                                          cateScIndex = 1;
-                                                          filter = 1;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetLowStocks,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 11,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-
-                                      ),
-                                    ),),
-                                  SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                          (context, index) {
-                                        var prodMap = resProds.entries.elementAt(index);
-                                        print('Prod map ' + prodMap.key.toString());
-                                        var prodVal = prodMap.value;
-                                        var prodKey = prodMap.key;
-                                        return GestureDetector(
-                                          onTap: () async {
-                                            closeDrawerFrom();
-                                            await Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
-                                            openDrawerFrom();
-                                          },
-                                          child: Padding(
-                                            padding:
-                                            EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
-                                            child: Container(
-                                              width: MediaQuery.of(context).size.width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: index == resProds.length-1 ?
-                                                      BorderSide(
-                                                          color: Colors.transparent,
-                                                          width: 1.0) :
-
-                                                      BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                          width: 0.5)
-                                                  )),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(right: 15.0),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top: 8.0),
-                                                              child: ClipRRect(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      5.0),
-                                                                  child: Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: 15,
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                        onPressed: () async {
+                                                          widget._callback();
+                                                          // // print('execution3');
+                                                          // getStoreId().then((value) async {
+                                                          //   print('value' + value.toString());
+                                                          //   for(int i = 0; i<1000; i++)
+                                                          //      // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders');
+                                                          //   await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders').doc('20220413274').update({
+                                                          //
+                                                          //     'daily_order': FieldValue.arrayUnion(['202204132203' +'^7-293' + i.toString() +'^'+ i.toString() +'00.0^name<>name^F^0.0^0.0']),
+                                                          //
+                                                          //   }).then((value) {
+                                                          //       }).catchError((error) => print("Failed to update: $error"));
+                                                          //   //   }).toList();
+                                                          //   // });
+                                                          // });
+                                                        },
+                                                        child: Container(
+                                                          child: Row(
+                                                            // mainAxisAlignment: Main,
                                                             children: [
-                                                              SizedBox(
-                                                                height: 0,
-                                                              ),
-                                                              Container(
-                                                                // color: Colors.yellow,
-                                                                child: Text(
-                                                                  prodVal['na'],
-                                                                  style: TextStyle(
-                                                                      fontSize: 18,
-                                                                      fontWeight:
-                                                                      FontWeight.w500,
-                                                                      overflow: TextOverflow.ellipsis
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 2.2,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right: 6.0),
+                                                                child: Icon(
+                                                                  SmartKyat_POS.add_plus,
+                                                                  size: 17,
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Flexible(
-                                                                    child: Text(
-                                                                      '$currencyUnit ' + prodVal['sm'].toString(),
-                                                                      style: TextStyle(
-                                                                          height: 1.3,
-                                                                          fontSize: 15,
-                                                                          fontWeight:
-                                                                          FontWeight.w500,
-                                                                          overflow: TextOverflow.ellipsis
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                                    prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
-                                                                    style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 15,
-                                                                        fontWeight:
-                                                                        FontWeight.w500,
-                                                                        overflow: TextOverflow.ellipsis
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              SizedBox(
-                                                                height: 2,
-                                                              ),
-                                                              Row(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top: 2.0),
-                                                                    child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                  ),
-                                                                  Flexible(
-                                                                    child: Text(
-                                                                        ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
-                                                                        textScaleFactor: 1.0,
-                                                                        style: TextStyle(
-                                                                            height: 1.3,
-                                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                            overflow: TextOverflow.ellipsis
-                                                                        )),
-                                                                  ),
-                                                                  prodVal['n1'] != '' && prodVal['n2'] == ''?
-                                                                  Text(
-                                                                      '(+1 Sub item)',
-                                                                      textScaleFactor: 1.0,
-                                                                      style: TextStyle(
-                                                                          height: 1.3,
-                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                          overflow: TextOverflow.ellipsis
-                                                                      )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
-                                                                  Text(
-                                                                      '(+2 Sub items)',
-                                                                      textScaleFactor: 1.0,
-                                                                      style: TextStyle(
-                                                                          height: 1.3,
-                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                          overflow: TextOverflow.ellipsis
-                                                                      )): Container(),
-                                                                ],
+                                                              Text(
+                                                                textSetNewItem,
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.black),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
+                                                      ),
+                                                      SizedBox(width: 12),
+                                                      Container(
+                                                        color: Colors.grey.withOpacity(0.2),
+                                                        width: 1.5,
+                                                        height: 30,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: ListView(
+                                                      controller: cateScCtler,
+                                                      scrollDirection: Axis.horizontal,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 4,
+                                                        ),
                                                         Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 6.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors.blueGrey
-                                                                .withOpacity(0.8),
-                                                          ),),
+                                                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                          child: FlatButton(
+                                                            minWidth: 0,
+                                                            padding: EdgeInsets.only(left: 12, right: 12),
+                                                            color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20.0),
+                                                              side: BorderSide(
+                                                                color: AppTheme.skBorderColor2,
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              _animateToIndex(0);
+                                                              setState(() {
+                                                                if(cateScIndex != 0) {
+                                                                  i0Clicked = true;
+                                                                } else {
+                                                                  if(i0Clicked) {
+                                                                    i0Clicked = false;
+                                                                  } else {
+                                                                    i0Clicked = true;
+                                                                  }
+                                                                }
+
+                                                                cateScIndex = 0;
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              child: Text(
+                                                                textSetAll,
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                          child: FlatButton(
+                                                            minWidth: 0,
+                                                            padding: EdgeInsets.only(left: 12, right: 12),
+                                                            color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20.0),
+                                                              side: BorderSide(
+                                                                color: AppTheme.skBorderColor2,
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              _animateToIndex(5.4);
+                                                              setState(() {
+                                                                if(cateScIndex != 1) {
+                                                                  i1Clicked = true;
+                                                                } else {
+                                                                  if(i1Clicked) {
+                                                                    i1Clicked = false;
+                                                                  } else {
+                                                                    i1Clicked = true;
+                                                                  }
+                                                                }
+
+                                                                cateScIndex = 1;
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              child: Text(
+                                                                textSetLowStocks,
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 11,
+                                                        )
                                                       ],
                                                     ),
-                                                    SizedBox(height: 15),
-                                                  ],
-                                                ),
+                                                  )
+                                                ],
                                               ),
+
                                             ),
+                                          ),),
+                                        SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                                (context, index) {
+                                              var prodMap = resProds.entries.elementAt(index);
+                                              print('Prod map ' + prodMap.key.toString());
+                                              var prodVal = prodMap.value;
+                                              var prodKey = prodMap.key;
+                                              String imgUrl = '';
+                                              if(imgArr[prodKey] != null) {
+                                                imgUrl = imgArr[prodKey]['img'].toString();
+                                              }
+                                              print('Prod image ' + imgUrl.toString());
+                                              return GestureDetector(
+                                                onTap: () async {
+                                                  closeDrawerFrom();
+                                                  await Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
+                                                  openDrawerFrom();
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                  EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: index == resProds.length-1 ?
+                                                            BorderSide(
+                                                                color: Colors.transparent,
+                                                                width: 1.0) :
+
+                                                            BorderSide(
+                                                                color: AppTheme.skBorderColor2,
+                                                                width: 0.5)
+                                                        )),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(right: 15.0),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top: 8.0),
+                                                                    child: ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            5.0),
+                                                                        child: imgUrl != ""
+                                                                            ? CachedNetworkImage(
+                                                                          imageUrl:
+                                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                              imgUrl,
+                                                                          width: 75,
+                                                                          height: 75,
+                                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
+                                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
+                                                                          fadeInDuration:
+                                                                          Duration(
+                                                                              milliseconds:
+                                                                              100),
+                                                                          fadeOutDuration:
+                                                                          Duration(
+                                                                              milliseconds:
+                                                                              10),
+                                                                          fadeInCurve:
+                                                                          Curves
+                                                                              .bounceIn,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        )
+                                                                            : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                width: 15,
+                                                              ),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      height: 0,
+                                                                    ),
+                                                                    Container(
+                                                                      // color: Colors.yellow,
+                                                                      child: Text(
+                                                                        prodVal['na'],
+                                                                        style: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight:
+                                                                            FontWeight.w500,
+                                                                            overflow: TextOverflow.ellipsis
+                                                                        ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 2.2,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 8,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Flexible(
+                                                                          child: Text(
+                                                                            '$currencyUnit ' + prodVal['sm'].toString(),
+                                                                            style: TextStyle(
+                                                                                height: 1.3,
+                                                                                fontSize: 15,
+                                                                                fontWeight:
+                                                                                FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
+                                                                          prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
+                                                                          style: TextStyle(
+                                                                              height: 1.3,
+                                                                              fontSize: 15,
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              overflow: TextOverflow.ellipsis
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 2,
+                                                                    ),
+                                                                    Row(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(top: 2.0),
+                                                                          child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                        ),
+                                                                        Flexible(
+                                                                          child: Text(
+                                                                              ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
+                                                                              textScaleFactor: 1.0,
+                                                                              style: TextStyle(
+                                                                                  height: 1.3,
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  overflow: TextOverflow.ellipsis
+                                                                              )),
+                                                                        ),
+                                                                        prodVal['n1'] != '' && prodVal['n2'] == ''?
+                                                                        Text(
+                                                                            '(+1 Sub item)',
+                                                                            textScaleFactor: 1.0,
+                                                                            style: TextStyle(
+                                                                                height: 1.3,
+                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                overflow: TextOverflow.ellipsis
+                                                                            )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
+                                                                        Text(
+                                                                            '(+2 Sub items)',
+                                                                            textScaleFactor: 1.0,
+                                                                            style: TextStyle(
+                                                                                height: 1.3,
+                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                overflow: TextOverflow.ellipsis
+                                                                            )): Container(),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                const EdgeInsets.only(
+                                                                    bottom: 6.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors.blueGrey
+                                                                      .withOpacity(0.8),
+                                                                ),),
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 15),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            childCount: resProds == null? 0: resProds.length,
                                           ),
-                                        );
-                                      },
-                                      childCount: resProds == null? 0: resProds.length,
-                                    ),
-                                  )
-                                ],
+                                        )
+                                      ],
+                                    );
+                                  }
+                                  return Container();
+                                }
                               );
                             }
 

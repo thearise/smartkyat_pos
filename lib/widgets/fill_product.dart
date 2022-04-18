@@ -16,11 +16,11 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-      required this.idString, required this.unitName, required this.shopId, required this.price,
-      required void toggleCoinCallback(String str), required this.unit,
-      required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
+        required this.idString, required this.unitName, required this.shopId, required this.price,
+        required void toggleCoinCallback(String str), required this.unit,
+        required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
       }) : _callback = toggleCoinCallback,
-           _callback3 = toggleCoinCallback3;
+        _callback3 = toggleCoinCallback3;
   final String idString;
   final String unitName;
   final String shopId;
@@ -89,10 +89,10 @@ class _FillProductState extends State<FillProduct> {
         setState(() {
           isEnglish = false;
           textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်ရန်';
-           textSetMainQty = 'PRICING & INVENTORY';
-           textSetUnitQty = 'အရေအတွက်';
-           textSetBuyPrice = 'ဝယ်ဈေး';
-           textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
+          textSetMainQty = 'PRICING & INVENTORY';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
 
         });
       }
@@ -100,10 +100,10 @@ class _FillProductState extends State<FillProduct> {
         setState(() {
           isEnglish = true;
           textSetRefill = 'Refill to inventory';
-           textSetMainQty = 'PRICING & INVENTORY';
-           textSetUnitQty = 'Unit quantity';
-           textSetBuyPrice = 'Buy Price';
-           textSetAddBuy = 'Add to Buy Cart';
+          textSetMainQty = 'PRICING & INVENTORY';
+          textSetUnitQty = 'Unit quantity';
+          textSetBuyPrice = 'Buy Price';
+          textSetAddBuy = 'Add to Buy Cart';
 
         });
       }
@@ -141,11 +141,11 @@ class _FillProductState extends State<FillProduct> {
       firstTime = false;
     }
     return Container(
-      color: Colors.white,
+        color: Colors.white,
         child: SafeArea(
-      top: true,
-      bottom: false,
-      child: Column(
+          top: true,
+          bottom: false,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
@@ -157,7 +157,7 @@ class _FillProductState extends State<FillProduct> {
                             width: 1.0))),
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(left: 15.0, right: 15.0,),
+                  const EdgeInsets.only(left: 15.0, right: 15.0,),
                   child: Row(
                     children: [
                       Padding(
@@ -185,45 +185,45 @@ class _FillProductState extends State<FillProduct> {
                         ),
                       ),
                       Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              widget.prodName,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  overflow: TextOverflow.ellipsis
-                                // height: 1.5
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 1.4,
-                                // fontSize:,
-                                forceStrutHeight: true,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 0.0),
-                              child: Text(
-                              textSetRefill,
-                                maxLines: 1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                widget.prodName,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  overflow: TextOverflow.ellipsis,
-                                  // height: 1.3
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    overflow: TextOverflow.ellipsis
+                                  // height: 1.5
                                 ),
-                                  strutStyle: StrutStyle(
-                                    height: isEnglish? 1.4: 1.6,
-                                    forceStrutHeight: true,
-                                  )
+                                strutStyle: StrutStyle(
+                                  height: 1.4,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
+                                ),
                               ),
-                            ),
-                          ],
-                        )
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                                child: Text(
+                                    textSetRefill,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
+                                      // height: 1.3
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: isEnglish? 1.4: 1.6,
+                                      forceStrutHeight: true,
+                                    )
+                                ),
+                              ),
+                            ],
+                          )
                       )
                     ],
                   ),
@@ -235,109 +235,109 @@ class _FillProductState extends State<FillProduct> {
                     Form(
                       key: _formKey,
                       child:  Stack(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
-                                          child: Text(
-                                           textSetMainQty,
-                                            style: TextStyle(
-                                              letterSpacing: 1.5,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14, color: Colors.grey,
-                                              height: 0.9
-                                            ),
-                                              strutStyle: StrutStyle(
-                                                height: isEnglish? 1.4: 1.6,
-                                                forceStrutHeight: true,
-                                              )
-                                          ),
-                                        ),
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
+                                  child: Text(
+                                      textSetMainQty,
+                                      style: TextStyle(
+                                          letterSpacing: 1.5,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14, color: Colors.grey,
+                                          height: 0.9
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 15.0, top: 14),
-                                        child: Icon(widget.unitName == 'unit_name'? SmartKyat_POS.prodm: widget.unitName == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
-                                      ),
-                                    ],
+                                      strutStyle: StrutStyle(
+                                        height: isEnglish? 1.4: 1.6,
+                                        forceStrutHeight: true,
+                                      )
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0, top: 14),
+                                child: Icon(widget.unitName == 'unit_name'? SmartKyat_POS.prodm: widget.unitName == 'sub1_name'? SmartKyat_POS.prods1: SmartKyat_POS.prods2, size: 16, color: Colors.grey),
+                              ),
+                            ],
+                          ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 45),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) : MediaQuery.of(context).size.width - 30,
-                                          child: TextFormField(
-                                            controller: munitCtrl,
-                                            keyboardType: TextInputType.numberWithOptions(decimal: false),
-                                            inputFormatters: <TextInputFormatter>[
-                                              FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 45),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width:  MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) : MediaQuery.of(context).size.width - 30,
+                                  child: TextFormField(
+                                    controller: munitCtrl,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
 // The validator receives the text that the user has entered.
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'This field is required';
-                                              }
-                                              prodFieldsValue.add(value);
-                                              return null;
-                                            },
-                                            style: TextStyle(
-                                              height: 0.95,
-                                            ),
-                                            decoration: InputDecoration(
-                                              enabledBorder: const OutlineInputBorder(
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty) {
+                                        return 'This field is required';
+                                      }
+                                      prodFieldsValue.add(value);
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                      height: 0.95,
+                                    ),
+                                    decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                  borderSide: const BorderSide(
-                                                      color: AppTheme.skBorderColor,
-                                                      width: 2.0),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10.0))),
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.skBorderColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
 
-                                              focusedBorder: const OutlineInputBorder(
+                                      focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                  borderSide: const BorderSide(
-                                                      color: AppTheme.themeColor,
-                                                      width: 2.0),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10.0))),
-                                              contentPadding: const EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 15.0,
-                                                  top: 20.0,
-                                                  bottom: 20.0),
-                                              suffixText: widget.unit,
-                                              suffixStyle: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.8
-                                              ),
-                                              errorStyle: TextStyle(
-                                                  backgroundColor: Colors.white,
-                                                  fontSize: 12,
-                                                  fontFamily: 'capsulesans',
-                                                  height: 0.1
-                                              ),
-                                              labelStyle: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black,
-                                              ),
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.themeColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 20.0,
+                                          bottom: 20.0),
+                                      suffixText: widget.unit,
+                                      suffixStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.8
+                                      ),
+                                      errorStyle: TextStyle(
+                                          backgroundColor: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.1
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
 
 // errorText: 'Error message',
-                                              labelText: textSetUnitQty,
-                                              floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
+                                      labelText: textSetUnitQty,
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
 //filled: true
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        )
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                )
 //                                         Container(
 //                                           width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) * (2.41 / 4) : (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
 //                                           child: TextFormField(
@@ -420,136 +420,136 @@ class _FillProductState extends State<FillProduct> {
 //                                             ),
 //                                           ),
 //                                         ),
-                                      ],
-                                    ),
-                                  ),
+                              ],
+                            ),
+                          ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 118),
-                                    child: TextFormField(
-                                      controller: msaleCtrl,
-                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        prodFieldsValue.add(value);
-                                        return null;
-                                      },
-                                      style: TextStyle(
-                                        height: 0.95,
-                                      ),
-                                      decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.skBorderColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-
-                                        focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.themeColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 15.0,
-                                            right: 15.0,
-                                            top: 20.0,
-                                            bottom: 20.0),
-                                        suffixText: '$currencyUnit',
-                                        suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                        ),
-                                        errorStyle: TextStyle(
-                                            backgroundColor: Colors.white,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                            height: 0.1
-                                        ),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        labelText: textSetBuyPrice,
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-//filled: true
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 195),
-                                  //   child: ButtonTheme(
-                                  //     minWidth: MediaQuery.of(context).size.width,
-                                  //     splashColor: Colors.transparent,
-                                  //     height: 50,
-                                  //     child: FlatButton(
-                                  //       color: AppTheme.themeColor,
-                                  //       shape: RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(10.0),
-                                  //         side: BorderSide(
-                                  //           color: AppTheme.themeColor,
-                                  //         ),
-                                  //       ),
-                                  //       onPressed: () async {
-                                  //        if (_formKey.currentState!.validate()) {
-                                  //         widget._callback3(widget.idString +
-                                  //             '^' +
-                                  //             msaleCtrl.text +
-                                  //             '^' +
-                                  //             munitCtrl.text +
-                                  //             '^' +
-                                  //             'Phyo' +
-                                  //
-                                  //             '^'+ widget.unitname + '^' + '1'.toString());
-                                  //         print(widget.idString +
-                                  //             '^' +
-                                  //             msaleCtrl.text +
-                                  //             '^' +
-                                  //             munitCtrl.text +
-                                  //             '^' +
-                                  //             'Phyo' +
-                                  //
-                                  //             '^'+ widget.unitname + '^' + '1'.toString());
-                                  //         Navigator.pop(context);
-                                  //       } },
-                                  //       child: Padding(
-                                  //         padding: const EdgeInsets.only(
-                                  //             left: 5.0,
-                                  //             right: 5.0,
-                                  //             bottom: 2.0),
-                                  //         child: Container(
-                                  //           child: Text(
-                                  //             'Add to Buy Cart',
-                                  //             textAlign: TextAlign.center,
-                                  //             style: TextStyle(
-                                  //                 fontSize: 18,
-                                  //                 fontWeight: FontWeight.w600,
-                                  //                 letterSpacing:-0.1
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // )
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 118),
+                            child: TextFormField(
+                              controller: msaleCtrl,
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                prodFieldsValue.add(value);
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
                               ),
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: '$currencyUnit',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                                labelText: textSetBuyPrice,
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Padding(
+                          //   padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 195),
+                          //   child: ButtonTheme(
+                          //     minWidth: MediaQuery.of(context).size.width,
+                          //     splashColor: Colors.transparent,
+                          //     height: 50,
+                          //     child: FlatButton(
+                          //       color: AppTheme.themeColor,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius:
+                          //         BorderRadius.circular(10.0),
+                          //         side: BorderSide(
+                          //           color: AppTheme.themeColor,
+                          //         ),
+                          //       ),
+                          //       onPressed: () async {
+                          //        if (_formKey.currentState!.validate()) {
+                          //         widget._callback3(widget.idString +
+                          //             '^' +
+                          //             msaleCtrl.text +
+                          //             '^' +
+                          //             munitCtrl.text +
+                          //             '^' +
+                          //             'Phyo' +
+                          //
+                          //             '^'+ widget.unitname + '^' + '1'.toString());
+                          //         print(widget.idString +
+                          //             '^' +
+                          //             msaleCtrl.text +
+                          //             '^' +
+                          //             munitCtrl.text +
+                          //             '^' +
+                          //             'Phyo' +
+                          //
+                          //             '^'+ widget.unitname + '^' + '1'.toString());
+                          //         Navigator.pop(context);
+                          //       } },
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             left: 5.0,
+                          //             right: 5.0,
+                          //             bottom: 2.0),
+                          //         child: Container(
+                          //           child: Text(
+                          //             'Add to Buy Cart',
+                          //             textAlign: TextAlign.center,
+                          //             style: TextStyle(
+                          //                 fontSize: 18,
+                          //                 fontWeight: FontWeight.w600,
+                          //                 letterSpacing:-0.1
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // )
+                        ],
+                      ),
                     ),
 
                   ],
@@ -605,13 +605,13 @@ class _FillProductState extends State<FillProduct> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                               textSetAddBuy,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing:-0.1
-                                ),
+                                  textSetAddBuy,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing:-0.1
+                                  ),
                                   strutStyle: StrutStyle(
                                     height: isEnglish? 1.4: 1.6,
                                     forceStrutHeight: true,
@@ -632,7 +632,7 @@ class _FillProductState extends State<FillProduct> {
             ],
           ),
 
-    ));
+        ));
   }
 
   zeroToTen(String string) {
