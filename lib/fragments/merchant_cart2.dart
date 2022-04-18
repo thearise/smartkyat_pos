@@ -1898,7 +1898,7 @@ class MerchantCartState extends State<MerchantCart>
                                       if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[3]){
                                         setState((){
                                           mystate((){
-                                            eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+ 'Phyo'+ '^'+ eachProd.split('^')[3]+'^'+ '1' +'^'+ eachProd.split('^')[5] + '^' + widget.prodList2[j].split('^')[7] +'^'+ widget.prodList2[j].split('^')[8] +'^'+ widget.prodList2[j].split('^')[9];
+                                            eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+ 'Phyo'+ '^'+ eachProd.split('^')[3]+'^'+ '1' +'^'+ eachProd.split('^')[5] + '^' + widget.prodList2[j].split('^')[7] +'^'+ widget.prodList2[j].split('^')[8] +'^'+ widget.prodList2[j].split('^')[9] +'^'+ widget.prodList2[j].split('^')[10]+'^'+ widget.prodList2[j].split('^')[11]+'^'+ widget.prodList2[j].split('^')[12] ;
                                             widget.prodList2[j] = eachProd;
                                           });  });
                                       } else print('leelar');
