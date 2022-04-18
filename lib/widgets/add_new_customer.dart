@@ -46,8 +46,16 @@ class _AddCustomerState extends State<AddCustomer> {
   String textSetAddress = 'Address';
   String textSetPhone = 'Phone number';
   String textSetAdd = 'Add Customer';
+
+  var deviceIdNum;
+
   @override
   void initState() {
+
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
+
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -71,7 +79,13 @@ class _AddCustomerState extends State<AddCustomer> {
     getStoreId().then((value) => shopId = value);
     super.initState();
   }
-  
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
+  }
+
+
   bool cusCreating = false;
 
   bool firstTime = true;
@@ -381,83 +395,45 @@ class _AddCustomerState extends State<AddCustomer> {
                                           widget.cusLoadingState();
                                         });
 
-                                        bool exist = false;
-                                        CollectionReference merchants =  await FirebaseFirestore.instance
-                                            .collection('shops')
-                                            .doc(shopId)
-                                            .collection('customers');
+                                        DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
 
-                                        print(
-                                            'validate ' + merchFieldsValue.toString());
+                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt').get().then((value) {
+                                            int cusCnt = value.data()!['count'];
 
-                                        merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
-                                          if (documentSnapshot.exists) {
-                                            exist = true;
-                                            print('Document exists on the database');
-                                          }
-                                        });
-
-                                        if(exist) {
-                                          merchants.add({
-                                            'customer_name': merchFieldsValue[0],
-                                            'customer_address': merchFieldsValue[1],
-                                            'customer_phone': merchFieldsValue[2],
-                                            'total_orders' : 0,
-                                            'debts' : 0,
-                                            'debtAmount' : 0,
-                                            'total_refunds' : 0,
-                                            'search_name' : textSplitFunction(merchFieldsValue[0].toString()),
-                                            'archive' : false,
-                                          }).then((value) {
-                                            print('product added 2');
-                                          });
-                                          Future.delayed(const Duration(milliseconds: 3000), () {
-                                            setState(() {
-                                              cusCreating = false;
-                                              widget.endCusLoadingState();
-
-                                            });
-                                            Navigator.pop(context);
-                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-
-                                          });
-                                        } else
-                                        {
-                                          merchants.doc('name').set({
-                                            'customer_name': 'No customer',
-                                            'customer_address': 'unknown',
-                                            'customer_phone' : '',
-                                            'total_orders' : 0,
-                                            'debts' : 0,
-                                            'debtAmount' : 0,
-                                            'total_refunds' : 0,
-                                          }).then((value) {
-                                            print('name created');
-                                          });
-
-                                          merchants.add({
-                                            'customer_name': merchFieldsValue[0],
-                                            'customer_address': merchFieldsValue[1],
-                                            'customer_phone': merchFieldsValue[2],
-                                            'total_orders' : 0,
-                                            'debts' : 0,
-                                            'debtAmount' : 0,
-                                            'total_refunds' : 0,
-                                            'search_name' : textSplitFunction(merchFieldsValue[0].toString()),
-                                            'archive' : false,
-                                          }).then((value) {
-                                            print('product added 2');
-                                          });
-                                          Future.delayed(const Duration(milliseconds: 3000), () {
-                                            setState(() {
-                                              cusCreating = false;
-                                              widget.endCusLoadingState();
-                                              Navigator.pop(context);
-                                            });
-                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                            cusArr.set({
+                                              'cus': {
+                                                '$deviceIdNum-' + cusCnt.toString(): {
+                                                  'na': merchFieldsValue[0],
+                                                  'ad': merchFieldsValue[1],
+                                                  'ph': merchFieldsValue[2],
+                                                  'or' : 0,
+                                                  'de' : 0,
+                                                  'da' : 0,
+                                                  're' : 0,
+                                                  'ar' : false,
+                                                }
+                                              }
+                                            },
+                                                SetOptions(merge: true)).then((value) {
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
+                                                .update(
+                                                {
+                                                  'count': FieldValue.increment(1)
+                                                }
+                                            ).then((value) {
+                                              Future.delayed(const Duration(milliseconds: 1000), () {
+                                                setState(() {
+                                                  cusCreating = false;
+                                                  widget.endCusLoadingState();
+                                                  Navigator.pop(context);
+                                                });
+                                                smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                              });
+                                            }).catchError((error) => print("Failed to update user: $error"));
+                                            print('arrays added ' + '0-' + cusCnt.toString());
+                                            }).catchError((error) => print("Failed to update user: $error"));
                                           });
                                         }
-                                      }
                                     },
                                     child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                         child: CupertinoActivityIndicator(radius: 10,)) :Padding(
