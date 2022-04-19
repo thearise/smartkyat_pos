@@ -39,10 +39,10 @@ import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/buylist_fragment2.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
-import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 import 'package:smartkyat_pos/fragments/home_fragment6.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
-import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
+import 'package:smartkyat_pos/fragments/merchants_fragment2.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/products_fragment2.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
@@ -12164,7 +12164,7 @@ class HomePageState extends State<HomePage>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString(),
-      'search_name': textSplitFunction(length.toString()),
+      //'search_name': textSplitFunction(length.toString()),
     });
     return batch;
   }

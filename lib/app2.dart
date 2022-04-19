@@ -1,7 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flash/flash.dart';
 // import 'package:flutter/material.dart';
-// import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+// import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
 // import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 // import 'package:smartkyat_pos/fragments/products_fragment2.dart';

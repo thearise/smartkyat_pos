@@ -139,770 +139,878 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
         top: true,
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('shops')
-                .doc(widget.shopId)
-                .collection('merchants')
-                .doc(widget.id.toString())
-                .snapshots(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                var output = snapshot.data!.data();
-                var merchantName = output?['merchant_name'];
-                var address = output?['merchant_address'];
-                var phone = output?['merchant_phone'];
-                var debtAmount = output?['debtAmount'];
-                var debts = output?['debts'];
-                var totalOrders = output?['total_orders'];
-                var totalRefunds = output?['total_refunds'];
-                return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
-                    // mainAxisAlignment: MainAxisAlignment.end,
+        stream:  FirebaseFirestore.instance
+            .collection('shops')
+        .doc(widget.shopId)
+        .collection('collArr')
+        .doc('merArr')
+        .snapshots(),
+    builder: (BuildContext context, snapshot) {
+    if (snapshot.hasData) {
+      var output = snapshot.data != null ? snapshot.data!.data() : null;
+      if (output?['mer'][widget.id] != null) {
+        var merchantName = output?['mer'][widget.id]['na'];
+        var address = output?['mer'][widget.id]['ad'];
+        var phone = output?['mer'][widget.id]['ph'];
+        var debtAmount = output?['mer'][widget.id]['da'];
+        var debts = output?['mer'][widget.id]['de'];
+        var totalOrders = output?['mer'][widget.id]['or'];
+        var totalRefunds = output?['mer'][widget.id]['re'];
+        return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 81,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 14.0, right: 15.0),
+                  child: Row(
                     children: [
-                      Container(
-                        height: 81,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 14.0, right: 15.0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 0),
-                                child: Container(
-                                  width: 37,
-                                  height: 37,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(35.0),
-                                      ),
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_back_ios_rounded,
-                                          size: 17,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  ),
-                                ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(35.0),
                               ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    SizedBox(height: 15.5),
-                                    Text(
-                                      address,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.5,
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.4,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                    Text(
-                                      merchantName,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1.3
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.7,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                  ],
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 3.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 17,
+                                  color: Colors.black,
                                 ),
-                              )
-                            ],
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
                           ),
                         ),
                       ),
                       Expanded(
-                        child: CustomScrollView(
-                          slivers: <Widget>[
-                            SliverList(
-                              delegate: SliverChildListDelegate(
-                                [
-                                  SizedBox(height: 15,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: Container(
-                                      height: 100,
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          merchantName != 'No merchant' ? Padding(
-                                            padding: const EdgeInsets.only(right: 10.0),
-                                            child: ButtonTheme(
-                                              minWidth: 133,
-                                              //minWidth: 50,
-                                              splashColor: Colors.transparent,
-                                              height: 100,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.buttonColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  await widget._callback(widget.id.toString() + '^' + merchantName);
-                                                  smartKyatFlash(merchantName.toString() + ' has been successfully added to the buy cart.', 's');
-                                                  },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Stack(
-                                                    children: [
-                                                      Positioned(
-                                                        top: 16.5,
-                                                        left: 0.5,
-                                                        child: Icon(
-                                                          SmartKyat_POS.merchant,
-                                                          size: 19,
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        bottom: 15,
-                                                        left: 0,
-                                                        child: Text(
-                                                          textSetSaleCart,
-                                                          style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 16,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: isEnglish? 1.4: 1.6,
-                                                            forceStrutHeight: true,
-                                                          )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ) : Container(),
-                                          //SizedBox(width: 10),
-                                          ButtonTheme(
-                                            minWidth: 133,
-                                            //minWidth: 50,
-                                            splashColor: Colors.transparent,
-                                            height: 100,
-                                            child: FlatButton(
-                                              color: AppTheme.buttonColor2,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(7.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.buttonColor2,
-                                                ),
-                                              ),
-                                              onPressed: () async {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, merchName: merchantName, merchAddress: address,)),
-                                                );
-
-                                              },
-                                              child: Container(
-                                                width: 100,
-                                                height: 100,
-                                                child: Stack(
-                                                  children: [
-                                                    Positioned(
-                                                      top: 15,
-                                                      left: 0,
-                                                      child: Icon(
-                                                        SmartKyat_POS.order,
-                                                        size: 20,
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      bottom: 15,
-                                                      left: 0,
-                                                      child: Text(
-                                                        textSetPurchasedOrders,
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 16,
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                          height: isEnglish? 1.4: 1.6,
-                                                          forceStrutHeight: true,
-                                                        )
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5,),
-                                ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(height: 15.5),
+                            Text(
+                              address,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
                             ),
-                            SliverPersistentHeader(
-                              pinned: true,
-                              delegate: _SliverAppBarDelegate(
-                                  minHeight: 56.0,
-                                  maxHeight: 56.0,
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 15, right: 0.0, top: 12.0, bottom: 12.0),
-                                      child: Row(
-                                        children: [
-                                          merchantName != 'No merchant' ? Padding(
-                                            padding: const EdgeInsets.only(right: 10.0),
-                                            child: Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 0, right: 0),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    widget._closeCartBtn();
-                                                    await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, )),);
-                                                    widget._openCartBtn();
-
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            Icons.edit_rounded,
-                                                            size: 17,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          textSetEdit,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                          ) : Container(),
-                                          Expanded(
-                                            child: ListView(
-                                              scrollDirection: Axis.horizontal,
-                                              children: [
-                                                //SizedBox(width: 10),
-                                                FlatButton(
-                                                  minWidth: 0,
-                                                  padding: EdgeInsets.only(left: 8, right: 12),
-                                                  color: _sliding == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(50.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    _controller.animateTo(0);
-                                                  },
-                                                  child:Container(
-                                                    child: Text(
-                                                     textSetSaleInfo,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                merchantName != 'No merchant' ? FlatButton(
-                                                  minWidth: 0,
-                                                  padding: EdgeInsets.only(left: 8, right: 12),
-                                                  color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(20.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    _controller.animateTo(1);
-                                                  },
-                                                  child:Container(
-                                                    child: Text(
-                                                     textSetContactInfo,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ) : Container(),
-                                                SizedBox(width: 15),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                            Text(
+                              merchantName,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.3
                               ),
-                            ),
-                            SliverList(
-                              delegate: SliverChildListDelegate(
-                                [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5.0),
-                                    child: Container(
-                                      height: 253,
-                                      child: TabBarView(
-                                        controller: _controller,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  textSetSaleTitle,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
-                                                    letterSpacing: 2,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15,),
-                                                Container(
-                                                  height: 220,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(20.0),
-                                                    color: AppTheme.lightBgColor,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.2),
-                                                              width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetTtlOrders, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(totalOrders.round().toString(), style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetDebts, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(debts.round().toString(), style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetDebtAmount, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text( 'MMK '+ debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),),
-
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      // color: Colors.grey
-                                                                      //     .withOpacity(0.2),
-                                                                      color: Colors.transparent,
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetRefunds, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(totalRefunds.round().toString(), style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        // Container(
-                                                        //   height: 55,
-                                                        //   child: Row(
-                                                        //     children: [
-                                                        //       Text('Barcode', style:
-                                                        //       TextStyle(
-                                                        //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
-                                                        //       ),),
-                                                        //       Spacer(),
-                                                        //       Text('3kro46456218', style:
-                                                        //       TextStyle(
-                                                        //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
-                                                        //         color: Colors.grey,
-                                                        //       ),),
-                                                        //     ],
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  textSetInfo,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
-                                                    letterSpacing: 2,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15,),
-                                                Container(
-                                                  height: 165,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(20.0),
-                                                    color: AppTheme.lightBgColor,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.2),
-                                                              width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetName, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(merchantName, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetPhone, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(phone, style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetAddress, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(address, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),),
-
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        // Container(
-                                                        //   height: 55,
-                                                        //   child: Row(
-                                                        //     children: [
-                                                        //       Text('Barcode', style:
-                                                        //       TextStyle(
-                                                        //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
-                                                        //       ),),
-                                                        //       Spacer(),
-                                                        //       Text('3kro46456218', style:
-                                                        //       TextStyle(
-                                                        //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
-                                                        //         color: Colors.grey,
-                                                        //       ),),
-                                                        //     ],
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  merchantName != 'No merchant' ? Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                    width: 0.5)
-                                            )),
-                                        height: 1,
-                                      ),
-
-                                  SizedBox(height: 15,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: Text(
-                                      'ARCHIVE MERCHANT',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 13,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.0),
-                                        color: AppTheme.lightBgColor,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 15.0),
-                                        child: Container(
-                                          // color: Colors.yellow,
-                                          child: ListTile(
-                                            // leading: Padding(
-                                            //   padding: const EdgeInsets.only(top: 2.0),
-                                            //   child: Text('jsidfaj'),
-                                            // ),
-                                            minLeadingWidth: 15,
-                                            horizontalTitleGap: 10,
-                                            minVerticalPadding: 0,
-                                            title: Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(bottom: 8.0),
-                                                child: Text('Remove this merchant', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 1.2)),
-                                              ),
-                                            ),
-                                            subtitle: Padding(
-                                              padding: const EdgeInsets.only(bottom: 8.0),
-                                              child: Text('Once you remove it, there is no going back.', style: TextStyle(height: 1.2)),
-                                            ),
-                                            trailing: Container(
-                                              height: 33,
-                                              child: FlatButton(
-                                                padding: EdgeInsets.only(left: 0, right: 0),
-                                                color: AppTheme.badgeBgDanger2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                onPressed: () async {
-                                                  CollectionReference product = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
-                                                  showOkCancelAlertDialog(
-                                                    context: context,
-                                                    title: 'Are you sure you want to remove this merchant?',
-                                                    message: 'This action cannot go back later.',
-                                                    defaultType: OkCancelAlertDefaultType.cancel,
-                                                  ).then((result) {
-                                                    if(result == OkCancelResult.ok) {
-                                                      product.doc(
-                                                          widget.id)
-                                                          .update({
-                                                        'archive': true
-                                                      }).then((value) {
-                                                        Navigator.pop(context);
-                                                        smartKyatFlash(merchantName.toString() + ' is successfully removed.', 's');
-                                                      }).catchError((error) => print("Failed to update: $error"));
-
-                                                    }
-                                                  });
-                                                },
-                                                child: Text(
-                                                  'Remove',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: AppTheme.badgeFgDanger2),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 18,),
-                                    ],
-                                  ) : Container(),
-                                ],
+                              strutStyle: StrutStyle(
+                                height: 1.7,
+                                // fontSize:,
+                                forceStrutHeight: true,
                               ),
                             ),
                           ],
                         ),
                       )
-                    ]
-                );
-              }
-              return Container();
-            }),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          SizedBox(height: 15,),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15.0, right: 15.0),
+                            child: Container(
+                              height: 100,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                 Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: ButtonTheme(
+                                      minWidth: 133,
+                                      //minWidth: 50,
+                                      splashColor: Colors.transparent,
+                                      height: 100,
+                                      child: FlatButton(
+                                        color: AppTheme.buttonColor2,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              7.0),
+                                          side: BorderSide(
+                                            color: AppTheme.buttonColor2,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          await widget._callback(
+                                              widget.id.toString() + '^' +
+                                                  merchantName);
+                                          smartKyatFlash(merchantName.toString() +
+                                              ' has been successfully added to the buy cart.',
+                                              's');
+                                        },
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                top: 16.5,
+                                                left: 0.5,
+                                                child: Icon(
+                                                  SmartKyat_POS.merchant,
+                                                  size: 19,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                bottom: 15,
+                                                left: 0,
+                                                child: Text(
+                                                    textSetSaleCart,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 16,
+                                                    ),
+                                                    strutStyle: StrutStyle(
+                                                      height: isEnglish
+                                                          ? 1.4
+                                                          : 1.6,
+                                                      forceStrutHeight: true,
+                                                    )
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  //SizedBox(width: 10),
+                                  ButtonTheme(
+                                    minWidth: 133,
+                                    //minWidth: 50,
+                                    splashColor: Colors.transparent,
+                                    height: 100,
+                                    child: FlatButton(
+                                      color: AppTheme.buttonColor2,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7.0),
+                                        side: BorderSide(
+                                          color: AppTheme.buttonColor2,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MerchantOrdersInfoSubs(
+                                                    id: widget.id,
+                                                    shopId: widget.shopId
+                                                        .toString(),
+                                                    closeCartBtn: widget
+                                                        ._closeCartBtn,
+                                                    openCartBtn: widget
+                                                        ._openCartBtn,
+                                                    printFromOrders: printFromOrdersFun,
+                                                    selectedDev: widget
+                                                        .selectedDev,
+                                                    merchName: merchantName,
+                                                    merchAddress: address,)),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                              top: 15,
+                                              left: 0,
+                                              child: Icon(
+                                                SmartKyat_POS.order,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 15,
+                                              left: 0,
+                                              child: Text(
+                                                  textSetPurchasedOrders,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                  ),
+                                                  strutStyle: StrutStyle(
+                                                    height: isEnglish ? 1.4 : 1.6,
+                                                    forceStrutHeight: true,
+                                                  )
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                        ],
+                      ),
+                    ),
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverAppBarDelegate(
+                          minHeight: 56.0,
+                          maxHeight: 56.0,
+                          child: Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 0.0, top: 12.0, bottom: 12.0),
+                              child: Row(
+                                children: [
+                               Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Row(
+                                      children: [
+                                        FlatButton(
+                                          padding: EdgeInsets.only(
+                                              left: 0, right: 0),
+                                          color: AppTheme.secButtonColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                8.0),
+                                            side: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            widget._closeCartBtn();
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditMerchant(shopId: widget
+                                                          .shopId,
+                                                        merchId: widget.id,
+                                                        merchName: merchantName,
+                                                        merchAddress: address,
+                                                        merchPhone: phone,)),);
+                                            widget._openCartBtn();
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      right: 6.0),
+                                                  child: Icon(
+                                                    Icons.edit_rounded,
+                                                    size: 17,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  textSetEdit,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 12),
+                                        Container(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          width: 1.5,
+                                          height: 30,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: [
+                                        //SizedBox(width: 10),
+                                        FlatButton(
+                                          minWidth: 0,
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 12),
+                                          color: _sliding == 0 ? AppTheme
+                                              .secButtonColor : Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                50.0),
+                                            side: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            _controller.animateTo(0);
+                                          },
+                                          child: Container(
+                                            child: Text(
+                                              textSetSaleInfo,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10),
+                                         FlatButton(
+                                          minWidth: 0,
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 12),
+                                          color: _sliding == 1 ? AppTheme
+                                              .secButtonColor : Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0),
+                                            side: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            _controller.animateTo(1);
+                                          },
+                                          child: Container(
+                                            child: Text(
+                                              textSetContactInfo,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 15),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Container(
+                              height: 253,
+                              child: TabBarView(
+                                controller: _controller,
+                                physics: NeverScrollableScrollPhysics(),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          textSetSaleTitle,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            letterSpacing: 2,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 15,),
+                                        Container(
+                                          height: 220,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0),
+                                            color: AppTheme.lightBgColor,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        textSetTtlOrders, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(totalOrders.round()
+                                                          .toString(), style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                        color: Colors.grey,
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(textSetDebts, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(
+                                                        debts.round().toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w500,
+                                                          color: Colors.grey,
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        textSetDebtAmount, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w600,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text('MMK ' +
+                                                          debtAmount.toString()
+                                                              .replaceAllMapped(
+                                                              RegExp(
+                                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
+                                                              Match m) => '${m[1]},'),
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w600,
+                                                          color: Colors.grey,
+                                                        ),),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                            // color: Colors.grey
+                                                            //     .withOpacity(0.2),
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(textSetRefunds, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w600,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(totalRefunds.round()
+                                                          .toString(), style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w600,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                // Container(
+                                                //   height: 55,
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Text('Barcode', style:
+                                                //       TextStyle(
+                                                //         fontSize: 15,
+                                                //         fontWeight: FontWeight.w600,
+                                                //       ),),
+                                                //       Spacer(),
+                                                //       Text('3kro46456218', style:
+                                                //       TextStyle(
+                                                //         fontSize: 15,
+                                                //         fontWeight: FontWeight.w600,
+                                                //         color: Colors.grey,
+                                                //       ),),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          textSetInfo,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            letterSpacing: 2,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 15,),
+                                        Container(
+                                          height: 165,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0),
+                                            color: AppTheme.lightBgColor,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(textSetName, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(merchantName, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                        color: Colors.grey,
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(textSetPhone, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(
+                                                        phone, style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w500,
+                                                        color: Colors.grey,
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(textSetAddress, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w600,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text(address, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight
+                                                            .w600,
+                                                        color: Colors.grey,
+                                                      ),),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                                // Container(
+                                                //   height: 55,
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Text('Barcode', style:
+                                                //       TextStyle(
+                                                //         fontSize: 15,
+                                                //         fontWeight: FontWeight.w600,
+                                                //       ),),
+                                                //       Spacer(),
+                                                //       Text('3kro46456218', style:
+                                                //       TextStyle(
+                                                //         fontSize: 15,
+                                                //         fontWeight: FontWeight.w600,
+                                                //         color: Colors.grey,
+                                                //       ),),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 15,),
+                         Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                            width: 0.5)
+                                    )),
+                                height: 1,
+                              ),
+
+                              SizedBox(height: 15,),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0),
+                                child: Text(
+                                  'ARCHIVE MERCHANT',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    letterSpacing: 2,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 13,),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    color: AppTheme.lightBgColor,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0.0, vertical: 15.0),
+                                    child: Container(
+                                      // color: Colors.yellow,
+                                      child: ListTile(
+                                        // leading: Padding(
+                                        //   padding: const EdgeInsets.only(top: 2.0),
+                                        //   child: Text('jsidfaj'),
+                                        // ),
+                                        minLeadingWidth: 15,
+                                        horizontalTitleGap: 10,
+                                        minVerticalPadding: 0,
+                                        title: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: Text('Remove this merchant',
+                                                textScaleFactor: 1,
+                                                overflow: TextOverflow.visible,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    height: 1.2)),
+                                          ),
+                                        ),
+                                        subtitle: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 8.0),
+                                          child: Text(
+                                              'Once you remove it, there is no going back.',
+                                              style: TextStyle(height: 1.2)),
+                                        ),
+                                        trailing: Container(
+                                          height: 33,
+                                          child: FlatButton(
+                                            padding: EdgeInsets.only(
+                                                left: 0, right: 0),
+                                            color: AppTheme.badgeBgDanger2,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  10.0),
+                                            ),
+                                            onPressed: () async {
+                                              CollectionReference product = await FirebaseFirestore
+                                                  .instance.collection('shops')
+                                                  .doc(widget.shopId)
+                                                  .collection('merchants');
+                                              showOkCancelAlertDialog(
+                                                context: context,
+                                                title: 'Are you sure you want to remove this merchant?',
+                                                message: 'This action cannot go back later.',
+                                                defaultType: OkCancelAlertDefaultType
+                                                    .cancel,
+                                              ).then((result) {
+                                                if (result == OkCancelResult.ok) {
+                                                  product.doc(
+                                                      widget.id)
+                                                      .update({
+                                                    'archive': true
+                                                  }).then((value) {
+                                                    Navigator.pop(context);
+                                                    smartKyatFlash(
+                                                        merchantName.toString() +
+                                                            ' is successfully removed.',
+                                                        's');
+                                                  }).catchError((error) => print(
+                                                      "Failed to update: $error"));
+                                                }
+                                              });
+                                            },
+                                            child: Text(
+                                              'Remove',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppTheme.badgeFgDanger2),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 18,),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]
+        );
+      }
+      return Container();
+    }
+    return loadingView();
+    }),
       ),
     );
   }
