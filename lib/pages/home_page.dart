@@ -8,7 +8,7 @@
 // import 'package:flash/flash.dart';
 // import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+// import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
 // import 'package:flutter/material.dart';
 // import 'package:smartkyat_pos/fragments/main_fragment.dart';

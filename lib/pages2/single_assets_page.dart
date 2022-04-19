@@ -1719,12 +1719,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         'sm':  double.parse(prodFieldsValue[5].toString()),
                                                         's1': sub1Sell,
                                                         's2': sub2Sell,
-                                                        'c1': subUnitFieldValue[0],
-                                                        'c2': subUnitFieldValue[4],
+                                                        'c1': double.parse(subUnitFieldValue[0].toString()),
+                                                        'c2': double.parse(subUnitFieldValue[4].toString()),
                                                         'nm': prodFieldsValue[3],
                                                         'n1': subUnitFieldValue[1],
                                                         'n2': subUnitFieldValue[5],
-                                                        'se': subExist.toString()
+                                                        'se': double.parse(subExist.toString()),
                                                       }
                                                     }
                                                   },SetOptions(merge: true)).then((value) {
@@ -2009,12 +2009,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                   'sm': double.parse(prodFieldsValue[5].toString()),
                                                                   's1': sub1Sell,
                                                                   's2': sub2Sell,
-                                                                  'c1': subUnitFieldValue[0],
-                                                                  'c2': subUnitFieldValue[4],
+                                                                  'c1': double.parse(subUnitFieldValue[0].toString()),
+                                                                  'c2': double.parse(subUnitFieldValue[4].toString()),
                                                                   'nm': prodFieldsValue[3],
                                                                   'n1': subUnitFieldValue[1],
                                                                   'n2': subUnitFieldValue[5],
-                                                                  'se': subExist.toString()
+                                                                  'se': double.parse(subExist.toString()),
                                                                   // 'img_1': photoArray[0],
                                                                 }
                                                               }
@@ -2554,6 +2554,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   // }
 
   Future addProduct(File imageFile) async {
+
 // ignore: deprecated_member_use
     var stream =
     new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
@@ -2574,6 +2575,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
     var respond = await request.send();
     final respStr = await respond.stream.bytesToString();
+
     if (respond.statusCode == 200) {
       print("Image Uploaded");
     } else {

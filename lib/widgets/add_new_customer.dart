@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../app_theme.dart';
