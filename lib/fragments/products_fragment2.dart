@@ -681,6 +681,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                   if(snapshot.hasData) {
                                     var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
                                     var imgArr = imgSnap?['prods'];
+                                    if(imgArr == null) {
+                                      return Container();
+                                    }
                                     return CustomScrollView(
                                       slivers: [
                                         SliverAppBar(

@@ -1694,12 +1694,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 });
                                               }
                                               else {
+                                                print('adding nmow');
                                                 DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
                                                 FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                     .get()
                                                     .then((value) {
                                                   int prodsCnt = value.data()!['count'];
+
+                                                  print("adding nmow " + prodsCnt.toString());
 
                                                   prodsArr.set({
                                                     'prods': {
@@ -1719,8 +1722,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         'sm':  double.parse(prodFieldsValue[5].toString()),
                                                         's1': sub1Sell,
                                                         's2': sub2Sell,
-                                                        'c1': double.parse(subUnitFieldValue[0].toString()),
-                                                        'c2': double.parse(subUnitFieldValue[4].toString()),
+                                                        'c1': subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
+                                                        'c2': subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
                                                         'nm': prodFieldsValue[3],
                                                         'n1': subUnitFieldValue[1],
                                                         'n2': subUnitFieldValue[5],
@@ -1878,257 +1881,262 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   assets.elementAt(i);
                                                   asset.originFile.then((value) async {
                                                     addProduct(value!).then((value) {
-                                                      photoArray[i] = value.toString();
-                                                      var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
-                                                      int j = -1;
-                                                      for (int i = 0;
-                                                      i < cards.length;
-                                                      i++) {
-                                                        subUnitFieldValue[++j] =
-                                                            nameTECs[i].text;
-                                                        subUnitFieldValue[++j] =
-                                                            ageTECs[i].text;
-                                                        subUnitFieldValue[++j] =
-                                                            jobTECs[i].text;
-                                                        subUnitFieldValue[++j] =
-                                                            priceTECs[i].text;
+                                                      print('value check ' + value.toString());
+                                                      if(value == 200) {
+                                                        photoArray[i] = value.toString();
+                                                        var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
+                                                        int j = -1;
+                                                        for (int i = 0;
+                                                        i < cards.length;
+                                                        i++) {
+                                                          subUnitFieldValue[++j] =
+                                                              nameTECs[i].text;
+                                                          subUnitFieldValue[++j] =
+                                                              ageTECs[i].text;
+                                                          subUnitFieldValue[++j] =
+                                                              jobTECs[i].text;
+                                                          subUnitFieldValue[++j] =
+                                                              priceTECs[i].text;
 // var name = nameTECs[i].text;
 // var age = ageTECs[i].text;
 // var job = jobTECs[i].text;
 // entries.add(PersonEntry(name, age, job));
-                                                      }
-                                                      print('gg nothing' +
-                                                          subUnitFieldValue.toString());
+                                                        }
+                                                        print('gg nothing' +
+                                                            subUnitFieldValue.toString());
 
 
-                                                      double sub1_buy;
-                                                      double sub2_buy;
-                                                      String subExist;
-                                                      double mainStock;
-                                                      double sub1Stock;
-                                                      double sub2Stock;
-                                                      double sub3Stock;
-                                                      String mTotal;
+                                                        double sub1_buy;
+                                                        double sub2_buy;
+                                                        String subExist;
+                                                        double mainStock;
+                                                        double sub1Stock;
+                                                        double sub2Stock;
+                                                        double sub3Stock;
+                                                        String mTotal;
 
 
-                                                      if( subUnitFieldValue[0] != ''){
-                                                        sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0]));
-                                                      } else
-                                                      {
-                                                        sub1_buy = 0;
-                                                      }
-                                                      if( subUnitFieldValue[4] != ''){
-                                                        sub2_buy= (sub1_buy/double.parse(subUnitFieldValue[4]));
-                                                      } else
-                                                      {
-                                                        sub2_buy = 0;
-                                                      }
+                                                        if( subUnitFieldValue[0] != ''){
+                                                          sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0]));
+                                                        } else
+                                                        {
+                                                          sub1_buy = 0;
+                                                        }
+                                                        if( subUnitFieldValue[4] != ''){
+                                                          sub2_buy= (sub1_buy/double.parse(subUnitFieldValue[4]));
+                                                        } else
+                                                        {
+                                                          sub2_buy = 0;
+                                                        }
 
-                                                      double sub1Sell = 0;
-                                                      double sub2Sell = 0;
+                                                        double sub1Sell = 0;
+                                                        double sub2Sell = 0;
 
-                                                      if( subUnitFieldValue[0] != ''){
-                                                        sub1Sell= double.parse(subUnitFieldValue[2].toString());
-                                                      } else
-                                                      {
-                                                        sub1Sell = 0;
-                                                      }
-                                                      if( subUnitFieldValue[4] != ''){
-                                                        sub2Sell = double.parse(subUnitFieldValue[6].toString());
-                                                      } else
-                                                      {
-                                                        sub2Sell = 0;
-                                                      }
+                                                        if( subUnitFieldValue[0] != ''){
+                                                          sub1Sell= double.parse(subUnitFieldValue[2].toString());
+                                                        } else
+                                                        {
+                                                          sub1Sell = 0;
+                                                        }
+                                                        if( subUnitFieldValue[4] != ''){
+                                                          sub2Sell = double.parse(subUnitFieldValue[6].toString());
+                                                        } else
+                                                        {
+                                                          sub2Sell = 0;
+                                                        }
 
 
-                                                      if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
-                                                        subExist = '1';
-                                                      } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
-                                                        subExist = '2';
-                                                      } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
-                                                        subExist = '3';
-                                                      } else subExist ='0';
+                                                        if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
+                                                          subExist = '1';
+                                                        } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
+                                                          subExist = '2';
+                                                        } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
+                                                          subExist = '3';
+                                                        } else subExist ='0';
 
-                                                      if( prodFieldsValue[2] != '') {
-                                                        mainStock=  double.parse(prodFieldsValue[2]);
-                                                        mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
-                                                      } else { mainStock = 0;
-                                                      mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
+                                                        if( prodFieldsValue[2] != '') {
+                                                          mainStock=  double.parse(prodFieldsValue[2]);
+                                                          mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
+                                                        } else { mainStock = 0;
+                                                        mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
 
-                                                      if( subUnitFieldValue[3] != '') {
-                                                        sub1Stock=  double.parse(subUnitFieldValue[3]);
+                                                        if( subUnitFieldValue[3] != '') {
+                                                          sub1Stock=  double.parse(subUnitFieldValue[3]);
 //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                                      }
-                                                      else {sub1Stock = 0;
+                                                        }
+                                                        else {sub1Stock = 0;
 //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                                      }
+                                                        }
 
-                                                      if( subUnitFieldValue[7] != '') {
-                                                        sub2Stock=  double.parse(subUnitFieldValue[7]);
+                                                        if( subUnitFieldValue[7] != '') {
+                                                          sub2Stock=  double.parse(subUnitFieldValue[7]);
 //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                                      }
-                                                      else { sub2Stock = 0;
+                                                        }
+                                                        else { sub2Stock = 0;
 //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                                      }
+                                                        }
 
-                                                      if( subUnitFieldValue[11] != '') {
-                                                        sub3Stock =  double.parse(subUnitFieldValue[11]);
-                                                      }
-                                                      else {
-                                                        sub3Stock = 0;
-                                                      }
+                                                        if( subUnitFieldValue[11] != '') {
+                                                          sub3Stock =  double.parse(subUnitFieldValue[11]);
+                                                        }
+                                                        else {
+                                                          sub3Stock = 0;
+                                                        }
 
 
 
-                                                      DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+                                                        DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
-                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
-                                                          .get()
-                                                          .then((value) {
-                                                        int prodsCnt = value.data()!['count'];
+                                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                            .get()
+                                                            .then((value) {
+                                                          int prodsCnt = value.data()!['count'];
 
-                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                          WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                                        batch.set(
-                                                            prodsArr,
-                                                            {
-                                                              'prods': {
-                                                                '$deviceIdNum-' + prodsCnt.toString(): {
-                                                                  'na': prodFieldsValue[0],
-                                                                  'lm': 0,
-                                                                  'l1': 0,
-                                                                  'l2': 0,
-                                                                  'ar': false,
-                                                                  'co': prodFieldsValue[1],
-                                                                  'im': mainStock,
-                                                                  'i1': sub1Stock,
-                                                                  'i2': sub2Stock,
-                                                                  'bm': double.parse(prodFieldsValue[4].toString()),
-                                                                  'b1': sub1_buy,
-                                                                  'b2': sub2_buy,
-                                                                  'sm': double.parse(prodFieldsValue[5].toString()),
-                                                                  's1': sub1Sell,
-                                                                  's2': sub2Sell,
-                                                                  'c1': double.parse(subUnitFieldValue[0].toString()),
-                                                                  'c2': double.parse(subUnitFieldValue[4].toString()),
-                                                                  'nm': prodFieldsValue[3],
-                                                                  'n1': subUnitFieldValue[1],
-                                                                  'n2': subUnitFieldValue[5],
-                                                                  'se': double.parse(subExist.toString()),
-                                                                  // 'img_1': photoArray[0],
+                                                          batch.set(
+                                                              prodsArr,
+                                                              {
+                                                                'prods': {
+                                                                  '$deviceIdNum-' + prodsCnt.toString(): {
+                                                                    'na': prodFieldsValue[0],
+                                                                    'lm': 0,
+                                                                    'l1': 0,
+                                                                    'l2': 0,
+                                                                    'ar': false,
+                                                                    'co': prodFieldsValue[1],
+                                                                    'im': mainStock,
+                                                                    'i1': sub1Stock,
+                                                                    'i2': sub2Stock,
+                                                                    'bm': double.parse(prodFieldsValue[4].toString()),
+                                                                    'b1': sub1_buy,
+                                                                    'b2': sub2_buy,
+                                                                    'sm': double.parse(prodFieldsValue[5].toString()),
+                                                                    's1': sub1Sell,
+                                                                    's2': sub2Sell,
+                                                                    'c1': subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
+                                                                    'c2': subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
+                                                                    'nm': prodFieldsValue[3],
+                                                                    'n1': subUnitFieldValue[1],
+                                                                    'n2': subUnitFieldValue[5],
+                                                                    'se': double.parse(subExist.toString()),
+                                                                    // 'img_1': photoArray[0],
+                                                                  }
                                                                 }
-                                                              }
-                                                            },SetOptions(merge: true)
-                                                        );
+                                                              },SetOptions(merge: true)
+                                                          );
 
-                                                        batch.update(
-                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
-                                                            {'count': FieldValue.increment(1)}
-                                                        );
+                                                          batch.update(
+                                                              FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
+                                                              {'count': FieldValue.increment(1)}
+                                                          );
 
-                                                        batch.set(
-                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr'),
-                                                            {
-                                                              'prods': {
-                                                                '$deviceIdNum-' + prodsCnt.toString(): {
-                                                                  'img': photoArray[0],
+                                                          batch.set(
+                                                              FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr'),
+                                                              {
+                                                                'prods': {
+                                                                  '$deviceIdNum-' + prodsCnt.toString(): {
+                                                                    'img': photoArray[0],
+                                                                  }
                                                                 }
-                                                              }
-                                                            },SetOptions(merge: true)
-                                                        );
+                                                              },SetOptions(merge: true)
+                                                          );
 
-                                                        batch.commit().then((value) {
-                                                          Future.delayed(const Duration(milliseconds: 3000), () {
-                                                            setState(() {
-                                                              prodAdding = false;
-                                                              widget.endProdLoadingState();
-                                                              Navigator.pop(context);
+                                                          batch.commit().then((value) {
+                                                            Future.delayed(const Duration(milliseconds: 3000), () {
+                                                              setState(() {
+                                                                prodAdding = false;
+                                                                widget.endProdLoadingState();
+                                                                Navigator.pop(context);
+                                                              });
+                                                              smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                             });
-                                                            smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                           });
+
+
+                                                          // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
+                                                          //     .update(
+                                                          //     {'count': FieldValue.increment(1)}
+                                                          // ).then((value) => print('updated product count'));
+
+
+                                                          // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr').set({
+                                                          //   'prods': {
+                                                          //     '$deviceIdNum-' + prodsCnt.toString(): {
+                                                          //       'img': photoArray[0],
+                                                          //     }
+                                                          //   }
+                                                          // },SetOptions(merge: true)).then((value) {
+                                                          //   print('arrays added ' + '0-' + prodsCnt.toString());
+                                                          // }).catchError((error) => print("Failed to update user: $error"));
                                                         });
 
 
-                                                        // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
-                                                        //     .update(
-                                                        //     {'count': FieldValue.increment(1)}
-                                                        // ).then((value) => print('updated product count'));
 
-
-                                                        // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr').set({
-                                                        //   'prods': {
-                                                        //     '$deviceIdNum-' + prodsCnt.toString(): {
-                                                        //       'img': photoArray[0],
-                                                        //     }
-                                                        //   }
-                                                        // },SetOptions(merge: true)).then((value) {
-                                                        //   print('arrays added ' + '0-' + prodsCnt.toString());
-                                                        // }).catchError((error) => print("Failed to update user: $error"));
-                                                      });
-
-
-
-                                                      // CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
-                                                      //     shopId)
-                                                      //     .collection(
-                                                      //     'products');
-                                                      // shops.add({
-                                                      //   'prod_name':
-                                                      //   prodFieldsValue[0],
-                                                      //   'bar_code':
-                                                      //   prodFieldsValue[1],
-                                                      //   'unit_name':
-                                                      //   prodFieldsValue[3],
-                                                      //   'unit_sell':
-                                                      //   prodFieldsValue[5],
-                                                      //   'inStock1' : mainStock,
-                                                      //   'inStock2'  : sub1Stock,
-                                                      //   'inStock3' : sub2Stock,
-                                                      //   'inStock4' : sub3Stock,
-                                                      //   'buyPrice1' : prodFieldsValue[4],
-                                                      //   'buyPrice2' : sub1_buy,
-                                                      //   'buyPrice3' : sub2_buy,
-                                                      //   'buyPrice4' : sub3_buy,
-                                                      //   'sub1_link':
-                                                      //   subUnitFieldValue[0],
-                                                      //   'sub1_name':
-                                                      //   subUnitFieldValue[1],
-                                                      //   'sub1_sell':
-                                                      //   subUnitFieldValue[2],
-                                                      //   'sub2_link':
-                                                      //   subUnitFieldValue[4],
-                                                      //   'sub2_name':
-                                                      //   subUnitFieldValue[5],
-                                                      //   'sub2_sell':
-                                                      //   subUnitFieldValue[6],
-                                                      //   'sub3_link':
-                                                      //   subUnitFieldValue[8],
-                                                      //   'sub3_name':
-                                                      //   subUnitFieldValue[9],
-                                                      //   'sub3_sell':
-                                                      //   subUnitFieldValue[10],
-                                                      //   'sub_exist': subExist,
-                                                      //   'Loss1' : 0,
-                                                      //   'Loss2' : 0,
-                                                      //   'Loss3' : 0,
-                                                      //   'Loss4' : 0,
-                                                      //   'mTotal' : mTotal,
-                                                      //   'mainSellUnit' : 0,
-                                                      //   'sub1SellUnit' : 0,
-                                                      //   'sub2SellUnit' : 0,
-                                                      //   'search_name' :  FieldValue.arrayUnion([]),
-                                                      //   'img_1': photoArray[0],
-                                                      //   'update_time' : DateTime.now(),
-                                                      //   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
-                                                      // }).then((value) {
-                                                      //   print('product added');
-                                                      //   setState(() {
-                                                      //     widget.endProdLoadingState();
-                                                      //     prodAdding = false;
-                                                      //   });
-                                                      //   Navigator.pop(context);
-                                                      //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
-                                                      // });
+                                                        // CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+                                                        //     shopId)
+                                                        //     .collection(
+                                                        //     'products');
+                                                        // shops.add({
+                                                        //   'prod_name':
+                                                        //   prodFieldsValue[0],
+                                                        //   'bar_code':
+                                                        //   prodFieldsValue[1],
+                                                        //   'unit_name':
+                                                        //   prodFieldsValue[3],
+                                                        //   'unit_sell':
+                                                        //   prodFieldsValue[5],
+                                                        //   'inStock1' : mainStock,
+                                                        //   'inStock2'  : sub1Stock,
+                                                        //   'inStock3' : sub2Stock,
+                                                        //   'inStock4' : sub3Stock,
+                                                        //   'buyPrice1' : prodFieldsValue[4],
+                                                        //   'buyPrice2' : sub1_buy,
+                                                        //   'buyPrice3' : sub2_buy,
+                                                        //   'buyPrice4' : sub3_buy,
+                                                        //   'sub1_link':
+                                                        //   subUnitFieldValue[0],
+                                                        //   'sub1_name':
+                                                        //   subUnitFieldValue[1],
+                                                        //   'sub1_sell':
+                                                        //   subUnitFieldValue[2],
+                                                        //   'sub2_link':
+                                                        //   subUnitFieldValue[4],
+                                                        //   'sub2_name':
+                                                        //   subUnitFieldValue[5],
+                                                        //   'sub2_sell':
+                                                        //   subUnitFieldValue[6],
+                                                        //   'sub3_link':
+                                                        //   subUnitFieldValue[8],
+                                                        //   'sub3_name':
+                                                        //   subUnitFieldValue[9],
+                                                        //   'sub3_sell':
+                                                        //   subUnitFieldValue[10],
+                                                        //   'sub_exist': subExist,
+                                                        //   'Loss1' : 0,
+                                                        //   'Loss2' : 0,
+                                                        //   'Loss3' : 0,
+                                                        //   'Loss4' : 0,
+                                                        //   'mTotal' : mTotal,
+                                                        //   'mainSellUnit' : 0,
+                                                        //   'sub1SellUnit' : 0,
+                                                        //   'sub2SellUnit' : 0,
+                                                        //   'search_name' :  FieldValue.arrayUnion([]),
+                                                        //   'img_1': photoArray[0],
+                                                        //   'update_time' : DateTime.now(),
+                                                        //   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                                        // }).then((value) {
+                                                        //   print('product added');
+                                                        //   setState(() {
+                                                        //     widget.endProdLoadingState();
+                                                        //     prodAdding = false;
+                                                        //   });
+                                                        //   Navigator.pop(context);
+                                                        //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
+                                                        // });
+                                                      } else {
+                                                        smartKyatFlash('Something went wrong while uploading image of ' + prodFieldsValue[0].toString() + '.', 'e');
+                                                      }
 
                                                     });
                                                   });
@@ -2576,13 +2584,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     var respond = await request.send();
     final respStr = await respond.stream.bytesToString();
 
-    if (respond.statusCode == 200) {
-      print("Image Uploaded");
-    } else {
-      print("Upload Failed");
-    }
-    print('her ' + respStr.toString());
-    return respStr.toString();
+    return respond.statusCode;
   }
 
   Padding createCard(unit) {

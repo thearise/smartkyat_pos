@@ -439,7 +439,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                   var sub1Price = output?['prods'][widget.idString]['s1'];
                   var sub2Price = output?['prods'][widget.idString]['s2'];
                   var sub1Unit = output?['prods'][widget.idString]['c1'];
+                  if(sub1Unit == '') {
+                    sub1Unit = 0;
+                  }
                   var sub2Unit = output?['prods'][widget.idString]['c2'];
+                  if(sub2Unit == '') {
+                    sub2Unit = 0;
+                  }
                   var subExist =  output?['prods'][widget.idString]['se'];
                   var mainLoss = output?['prods'][widget.idString]['lm'];
                   var sub1Loss = output?['prods'][widget.idString]['l1'];
@@ -453,9 +459,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                   var buyPrice3 = output?['prods'][widget.idString]['b2'];
 
                   List<double> subSell = [];
-                  List<String> subLink = [];
+                  List<double> subLink = [];
                   List<String> subName = [];
-                  for(int i = 0; i < int.parse(subExist); i++) {
+                  for(int i = 0; i < subExist.round(); i++) {
                     subSell.add(output?['prods'][widget.idString]['s' + (i+1).toString()]);
                     subLink.add(output?['prods'][widget.idString]['c' + (i+1).toString()]);
                     subName.add(output?['prods'][widget.idString]['n' + (i+1).toString()]);
@@ -626,7 +632,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               ),
                                                             ),
                                                             onPressed: () async {
-                                                              if (subExist == '0') {
+                                                              if (subExist == 0) {
                                                                 widget._callback( widget.idString + '^' + '^' + mainPrice.toString() +
                                                                     '^unit_name^1^' + prodName + '^' + mainName + '^' + image +  '^' + '^',);
                                                               } else {
@@ -650,10 +656,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
                                                                           label: '1 ' + subName[i],
                                                                           key: widget.idString +
-                                                                              '^' + subLink[i] +
+                                                                              '^' + subLink[i].toString() +
                                                                               '^' +
                                                                               subSell[i].toString() +
-                                                                              '^sub' + (i+1).toString() + '_name^1^' + prodName + '^' + output?['prods'][widget.idString]['n' + (i+1).toString()]  + '^' + image + '^' +  (output?['prods'][widget.idString]['i' + (i+1).toString()]).toString()  + '^' + output?['prods'][widget.idString]['c' + (i+1).toString()],
+                                                                              '^sub' + (i+1).toString() + '_name^1^' + prodName + '^' + output?['prods'][widget.idString]['n' + (i+1).toString()]  + '^' + image + '^' +  (output?['prods'][widget.idString]['i' + (i+1).toString()]).toString()  + '^' + output!['prods'][widget.idString]['c' + (i+1).toString()].toString(),
                                                                         ),
                                                                   ],
                                                                 );
@@ -711,7 +717,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ),
                                                       ),
                                                       onPressed: () async {
-                                                        if (subExist == '0') {
+                                                        if (subExist == 0) {
                                                           widget._closeCartBtn();
                                                           await Navigator.push(
                                                               context,
@@ -720,7 +726,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
                                                                     toggleCoinCallback3: addProduct3,
-                                                                    unitName: 'unit_name', shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                    unitName: 'unit_name', shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
                                                                   )));
                                                           widget._openCartBtn();
                                                         } else {
@@ -755,7 +761,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice2.toString(), prodName: prodName, image: image, unit: sub1Name, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice2.toString(), prodName: prodName, image: image, unit: sub1Name, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
                                                                       )));
                                                             } else if (result == 'sub2_name') {
                                                               await Navigator.push(
@@ -765,7 +771,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice3.toString(), prodName: prodName, image: image, unit: sub2Name,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice3.toString(), prodName: prodName, image: image, unit: sub2Name,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
                                                                       )));
                                                             } else {
                                                               await Navigator.push(
@@ -775,7 +781,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist,
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
                                                                       )));
                                                             }
                                                             widget._openCartBtn();
@@ -832,7 +838,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                         ),
                                                         onPressed: () async {
-                                                          if (subExist == '0') {
+                                                          if (subExist == 0) {
                                                             widget._closeCartBtn();
                                                             await Navigator.push(
                                                                 context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: widget.idString + '^' + prodName + '^' + mainName.toString() +
@@ -982,15 +988,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             ),
                                                           ),
                                                           onPressed: () async {
-                                                            // widget._closeCartBtn();
-                                                            // var result = await Navigator.push(
-                                                            //     context,
-                                                            //     MaterialPageRoute(
-                                                            //         builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
-                                                            // widget._openCartBtn();
-                                                            // print('result check ' + result.toString());
-
-                                                            removeImgServer('shark2.jpg');
+                                                            widget._closeCartBtn();
+                                                            var result = await Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty, mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: sub1Qty, sub1Sell: sub1Price, sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: sub2Qty, sub2Sell: sub2Price, subExist : subExist.toString(),)));
+                                                            widget._openCartBtn();
+                                                            print('result check ' + result.toString());
                                                           },
                                                           child: Padding(
                                                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -2044,22 +2048,23 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             ).then((result) {
                                                               if(result == OkCancelResult.ok) {
                                                                 // print(widget.imgUrl);
-                                                                removeImgServer(widget.imgUrl).then((value) {
+                                                                removeImgServer(widget.imgUrl).then((value) async {
                                                                   print('val lue' + value.toString());
                                                                   if(value == 200) {
                                                                     print('all set');
                                                                     smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
-                                                                    Navigator.pop(contextOver);
 
-                                                                    product.update({
+                                                                    await product.update({
                                                                       'prods.' + widget.idString: FieldValue.delete()
-                                                                    }).then((value) {
-                                                                      productImg.update({
+                                                                    }).then((value) async {
+                                                                      await productImg.update({
                                                                         'prods.' + widget.idString: FieldValue.delete()
                                                                       }).then((value) {
 
                                                                       }).catchError((error) => print("Failed to update: 1 $error"));
                                                                     }).catchError((error) => print("Failed to update:  0 $error"));
+
+                                                                    Navigator.pop(contextOver);
                                                                   }
                                                                 });
 

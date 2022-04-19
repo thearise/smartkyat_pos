@@ -92,6 +92,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   int intGer = 0;
 
   var productsSnapshot;
+  var prodsImgSnap;
+
+  var customersSnapshot;
+  var merchantsSnapshot;
 
   @override
   bool get wantKeepAlive => true;
@@ -150,7 +154,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   @override
   initState() {
     productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
+    customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
+    merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
 
 
 
@@ -934,402 +941,186 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 //     )
                 //   ],
                 // ),
-                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    stream: productsSnapshot,
-                    builder: (BuildContext context, prodsSB) {
-                      var prods;
-                      Map<dynamic, dynamic> searchProds = {};
-
-                      if(prodsSB.hasData) {
-                        var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
-                        prods = prodsSnapOut?['prods'];
-
-                        // prods.forEach((key, value) {
-                        //   print(value['na']);
-                        // });
-
-
-                        if(searchValue != '' && searchValue != ' ') {
-                          for(int i = 0; i < prods.length; i++) {
-                            var eachMap = prods.entries.elementAt(i);
-                            if(eachMap.value['na'] != null) {
-                              if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
-                                searchProds[eachMap.key] = eachMap.value;
-                              }
-                            }
-                          }
-                          searchProds = sortMapByNaS(searchProds);
-                        }
-
-
-
-
-
-
-                        return CustomScrollView(
-                          slivers: [
-                            SliverAppBar(
-                              elevation: 0,
-                              backgroundColor: Colors.white,
-                              // Provide a standard title.
-                              // Allows the user to reveal the app bar if they begin scrolling
-                              // back up the list of items.
-                              floating: true,
-                              flexibleSpace: Padding(
-                                padding: const EdgeInsets.only(left: 0.0, top: 12.0, bottom: 12.0),
-                                child: Container(
-                                  height: 32,
-                                  width: MediaQuery.of(context).size.width,
-                                  // color: Colors.yellow,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: ListView(
-                                          controller: cateScCtler,
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            SizedBox(
-                                              width: 11,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // _animateToIndex(0);
-                                                  selectedIntVal(0);
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    'Products',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // _animateToIndex(20);
-                                                  selectedIntVal(1);
-
-
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    'Customers',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // _animateToIndex(2);
-                                                  selectedIntVal(2);
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    'Merchants',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // _animateToIndex(0);
-                                                  selectedIntVal(3);
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    'Sale orders',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                              child: FlatButton(
-                                                minWidth: 0,
-                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // _animateToIndex(0);
-                                                  selectedIntVal(4);
-                                                },
-                                                child: Container(
-                                                  child: Text(
-                                                    'Buy orders',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 11,
-                                            ),
-                                          ],
+                child: CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      elevation: 0,
+                      backgroundColor: Colors.white,
+                      // Provide a standard title.
+                      // Allows the user to reveal the app bar if they begin scrolling
+                      // back up the list of items.
+                      floating: true,
+                      flexibleSpace: Padding(
+                        padding: const EdgeInsets.only(left: 0.0, top: 12.0, bottom: 12.0),
+                        child: Container(
+                          height: 32,
+                          width: MediaQuery.of(context).size.width,
+                          // color: Colors.yellow,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ListView(
+                                  controller: cateScCtler,
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: 11,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                      child: FlatButton(
+                                        minWidth: 0,
+                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                        color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                          ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-
-                                ),
-                              ),),
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                    (context, index) {
-                                  var prodMap = searchProds.entries.elementAt(index);
-                                  print('Prod map ' + prodMap.key.toString());
-                                  var prodVal = prodMap.value;
-                                  var prodKey = prodMap.key;
-                                  return GestureDetector(
-                                    onTap: () async {
-                                      closeDrawerFrom();
-                                      await Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: '')),);
-                                      openDrawerFrom();
-                                    },
-                                    child: Padding(
-                                      padding:
-                                      EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
-                                      child: Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: index == searchProds.length-1 ?
-                                                BorderSide(
-                                                    color: Colors.transparent,
-                                                    width: 1.0) :
-
-                                                BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                    width: 0.5)
-                                            )),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(right: 15.0),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 8.0),
-                                                        child: ClipRRect(
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                5.0),
-                                                            child: Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 0,
-                                                        ),
-                                                        Container(
-                                                          // color: Colors.yellow,
-                                                          child: Text(
-                                                            prodVal['na'],
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                                overflow: TextOverflow.ellipsis
-                                                            ),
-                                                            strutStyle: StrutStyle(
-                                                              height: 2.2,
-                                                              // fontSize:,
-                                                              forceStrutHeight: true,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 8,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Flexible(
-                                                              child: Text(
-                                                                '$currencyUnit ' + prodVal['sm'].toString(),
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 15,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                              prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
-                                                              style: TextStyle(
-                                                                  height: 1.3,
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                  FontWeight.w500,
-                                                                  overflow: TextOverflow.ellipsis
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top: 2.0),
-                                                              child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                  ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
-                                                                  textScaleFactor: 1.0,
-                                                                  style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                      overflow: TextOverflow.ellipsis
-                                                                  )),
-                                                            ),
-                                                            prodVal['n1'] != '' && prodVal['n2'] == ''?
-                                                            Text(
-                                                                '(+1 Sub item)',
-                                                                textScaleFactor: 1.0,
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                    overflow: TextOverflow.ellipsis
-                                                                )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
-                                                            Text(
-                                                                '(+2 Sub items)',
-                                                                textScaleFactor: 1.0,
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                    overflow: TextOverflow.ellipsis
-                                                                )): Container(),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(
-                                                        bottom: 6.0),
-                                                    child: Icon(
-                                                      Icons
-                                                          .arrow_forward_ios_rounded,
-                                                      size: 16,
-                                                      color: Colors.blueGrey
-                                                          .withOpacity(0.8),
-                                                    ),),
-                                                ],
-                                              ),
-                                              SizedBox(height: 15),
-                                            ],
+                                        onPressed: () {
+                                          // _animateToIndex(0);
+                                          selectedIntVal(0);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            'Products',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                                childCount: searchProds == null? 0: searchProds.length,
-                                // childCount: 1,
-                              ),
-                            )
-                          ],
-                        );
-                      }
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                      child: FlatButton(
+                                        minWidth: 0,
+                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                        color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // _animateToIndex(20);
+                                          selectedIntVal(1);
 
-                      return Container();
 
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            'Customers',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                      child: FlatButton(
+                                        minWidth: 0,
+                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                        color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // _animateToIndex(2);
+                                          selectedIntVal(2);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            'Merchants',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                      child: FlatButton(
+                                        minWidth: 0,
+                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // _animateToIndex(0);
+                                          selectedIntVal(3);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            'Sale orders',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                      child: FlatButton(
+                                        minWidth: 0,
+                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                        color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skBorderColor2,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // _animateToIndex(0);
+                                          selectedIntVal(4);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            'Buy orders',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 11,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
 
-                    }
+                        ),
+                      ),),
+                    sliverBodyWidget(),
+                  ],
                 )
             ),
           ),
@@ -1936,6 +1727,1081 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
       i += 1;
     });
+  }
+
+  sliverBodyWidget() {
+    if(cateScIndex == 0) {
+      return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: productsSnapshot,
+          builder: (BuildContext context, prodsSB) {
+            var prods;
+            Map<dynamic, dynamic> searchProds = {};
+
+            if(prodsSB.hasData) {
+              var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+              prods = prodsSnapOut?['prods'];
+
+              // prods.forEach((key, value) {
+              //   print(value['na']);
+              // });
+              if(prods == null) {
+                return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+              }
+
+
+              if(searchValue != '' && searchValue != ' ') {
+                for(int i = 0; i < prods.length; i++) {
+                  var eachMap = prods.entries.elementAt(i);
+                  if(eachMap.value['na'] != null) {
+                    if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
+                      searchProds[eachMap.key] = eachMap.value;
+                    }
+                  }
+                }
+                searchProds = sortMapByNaS(searchProds);
+              }
+
+
+
+
+
+
+              return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: prodsImgSnap,
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
+                      var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
+                      var imgArr = imgSnap?['prods'];
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                            var prodMap = searchProds.entries.elementAt(index);
+                            print('Prod map ' + prodMap.key.toString());
+                            var prodVal = prodMap.value;
+                            var prodKey = prodMap.key;
+                            String imgUrl = '';
+                            if(imgArr[prodKey] != null) {
+                              imgUrl = imgArr[prodKey]['img'].toString();
+                            }
+                            print('Prod image ' + imgUrl.toString());
+                            return GestureDetector(
+                              onTap: () async {
+                                closeDrawerFrom();
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                                openDrawerFrom();
+                              },
+                              child: Padding(
+                                padding:
+                                EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: index == searchProds.length-1 ?
+                                          BorderSide(
+                                              color: Colors.transparent,
+                                              width: 0.5) :
+
+                                          BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                              width: 0.5)
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 15.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 8.0),
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          5.0),
+                                                      child: imgUrl != ""
+                                                          ? CachedNetworkImage(
+                                                        imageUrl:
+                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                            imgUrl,
+                                                        width: 75,
+                                                        height: 75,
+                                                        errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
+                                                        fadeInDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
+                                                        fadeOutDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            10),
+                                                        fadeInCurve:
+                                                        Curves
+                                                            .bounceIn,
+                                                        fit: BoxFit
+                                                            .cover,
+                                                      )
+                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 0,
+                                                  ),
+                                                  Container(
+                                                    // color: Colors.yellow,
+                                                    child: Text(
+                                                      prodVal['na'],
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 2.2,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          '$currencyUnit ' + prodVal['sm'].toString(),
+                                                          style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
+                                                        prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
+                                                        style: TextStyle(
+                                                            height: 1.3,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                            FontWeight.w500,
+                                                            overflow: TextOverflow.ellipsis
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top: 2.0),
+                                                        child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                            ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
+                                                            textScaleFactor: 1.0,
+                                                            style: TextStyle(
+                                                                height: 1.3,
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                overflow: TextOverflow.ellipsis
+                                                            )),
+                                                      ),
+                                                      prodVal['n1'] != '' && prodVal['n2'] == ''?
+                                                      Text(
+                                                          '(+1 Sub item)',
+                                                          textScaleFactor: 1.0,
+                                                          style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              overflow: TextOverflow.ellipsis
+                                                          )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
+                                                      Text(
+                                                          '(+2 Sub items)',
+                                                          textScaleFactor: 1.0,
+                                                          style: TextStyle(
+                                                              height: 1.3,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              overflow: TextOverflow.ellipsis
+                                                          )): Container(),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(
+                                                  bottom: 6.0),
+                                              child: Icon(
+                                                Icons
+                                                    .arrow_forward_ios_rounded,
+                                                size: 16,
+                                                color: Colors.blueGrey
+                                                    .withOpacity(0.8),
+                                              ),),
+                                          ],
+                                        ),
+                                        SizedBox(height: 15),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          childCount: searchProds == null? 0: searchProds.length,
+                          // childCount: 1,
+                        ),
+                      );
+                    }
+                    return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+                  }
+              );
+            }
+
+            return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+
+
+          }
+      );
+    } else if(cateScIndex == 1) {
+      return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: customersSnapshot,
+          builder: (BuildContext context, custsSB) {
+            var custs;
+            Map<dynamic, dynamic> searchProds = {};
+
+            if(custsSB.hasData) {
+              var custsSnapOut = custsSB.data != null? custsSB.data!.data(): null;
+              custs = custsSnapOut?['cus'];
+
+              // prods.forEach((key, value) {
+              //   print(value['na']);
+              // });
+              if(custs == null) {
+                return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+              }
+
+
+              if(searchValue != '' && searchValue != ' ') {
+                for(int i = 0; i < custs.length; i++) {
+                  var eachMap = custs.entries.elementAt(i);
+                  if(eachMap.value['na'] != null) {
+                    if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
+                      searchProds[eachMap.key] = eachMap.value;
+                    }
+                  }
+                }
+                searchProds = sortMapByNaS(searchProds);
+              }
+
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    var prodMap = searchProds.entries.elementAt(index);
+                    print('Prod map ' + prodMap.key.toString());
+                    var prodVal = prodMap.value;
+                    var prodKey = prodMap.key;
+                    return GestureDetector(
+                      onTap: () async {
+                        // closeDrawerFrom();
+                        // await Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (
+                        //           context) =>
+                        //           CustomerInfoSubs(
+                        //             id: version, custName: data['customer_name'], custAddress: data['customer_address'],
+                        //             toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        // );
+                        // openDrawerFrom();
+                      },
+                      child: Padding(
+                        padding:
+                        EdgeInsets.only(left: 15.0,
+                            top: 15.0),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: index == searchProds.length-1 ?
+                                  BorderSide(
+                                      color: Colors
+                                          .transparent,
+                                      width: 0.5)
+                                      :
+
+                                  BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                      width: 0.5)
+                              )),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets
+                                    .only(
+                                    bottom: 18.0),
+                                child: ListTile(
+                                  title: Text(
+                                    prodVal['na'].toString(),
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500,
+                                        height: 1.1,
+                                        overflow: TextOverflow.ellipsis
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets
+                                        .only(
+                                        top: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          prodVal['ad'],
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w500,
+                                              color: Colors
+                                                  .grey,
+                                              height: 1.1,
+                                              overflow: TextOverflow.ellipsis
+                                          ),
+                                          maxLines: 1,
+                                          strutStyle: StrutStyle(
+                                            height: 1.2,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,),
+                                        Text(
+                                          prodVal['ph'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w500,
+                                              color: Colors
+                                                  .grey,
+                                              height: 1.1,
+                                              overflow: TextOverflow.ellipsis
+                                          ),
+                                          maxLines: 1,
+                                          strutStyle: StrutStyle(
+                                            height: 1,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  trailing: Container(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        prodVal['de'] > 0? Container(
+                                          height: 21,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            color: AppTheme.badgeFgDanger,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                            child: Text(prodVal['de'].round().toString() + ' unpaid',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        ): Container(height: 21,),
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+
+                                        // Text(orderList.toString()),
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text('2 unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // )
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                            width: 12),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 2.0),
+                                          child: Icon(
+                                            Icons
+                                                .arrow_forward_ios_rounded,
+                                            size: 16,
+                                            color: Colors
+                                                .blueGrey
+                                                .withOpacity(
+                                                0.8),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets
+                                      .only(
+                                      left: 0.0, right: 15) ,
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: searchProds == null? 0: searchProds.length,
+                  // childCount: 1,
+                ),
+              );
+            }
+
+            return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+
+
+          }
+      );
+    } else if(cateScIndex == 2) {
+      return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: merchantsSnapshot,
+          builder: (BuildContext context, mercsSB) {
+            var mercs;
+            Map<dynamic, dynamic> searchProds = {};
+
+            if(mercsSB.hasData) {
+              var custsSnapOut = mercsSB.data != null? mercsSB.data!.data(): null;
+              mercs = custsSnapOut?['mer'];
+
+              // prods.forEach((key, value) {
+              //   print(value['na']);
+              // });
+              if(mercs == null) {
+                return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+              }
+
+
+              if(searchValue != '' && searchValue != ' ') {
+                for(int i = 0; i < mercs.length; i++) {
+                  var eachMap = mercs.entries.elementAt(i);
+                  if(eachMap.value['na'] != null) {
+                    if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
+                      searchProds[eachMap.key] = eachMap.value;
+                    }
+                  }
+                }
+                searchProds = sortMapByNaS(searchProds);
+              }
+
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    var prodMap = searchProds.entries.elementAt(index);
+                    print('Prod map ' + prodMap.key.toString());
+                    var prodVal = prodMap.value;
+                    var prodKey = prodMap.key;
+                    return GestureDetector(
+                      onTap: () async {
+                        // closeDrawerFrom();
+                        // await Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (
+                        //           context) =>
+                        //           CustomerInfoSubs(
+                        //             id: version, custName: data['customer_name'], custAddress: data['customer_address'],
+                        //             toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        // );
+                        // openDrawerFrom();
+                      },
+                      child: Padding(
+                        padding:
+                        EdgeInsets.only(left: 15.0,
+                            top: 15.0),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: index == searchProds.length-1 ?
+                                  BorderSide(
+                                      color: Colors
+                                          .transparent,
+                                      width: 0.5)
+                                      :
+
+                                  BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                      width: 0.5)
+                              )),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets
+                                    .only(
+                                    bottom: 18.0),
+                                child: ListTile(
+                                  title: Text(
+                                    prodVal['na'].toString(),
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500,
+                                        height: 1.1,
+                                        overflow: TextOverflow.ellipsis
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.3,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets
+                                        .only(
+                                        top: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          prodVal['ad'],
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w500,
+                                              color: Colors
+                                                  .grey,
+                                              height: 1.1,
+                                              overflow: TextOverflow.ellipsis
+                                          ),
+                                          maxLines: 1,
+                                          strutStyle: StrutStyle(
+                                            height: 1.2,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,),
+                                        Text(
+                                          prodVal['ph'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w500,
+                                              color: Colors
+                                                  .grey,
+                                              height: 1.1,
+                                              overflow: TextOverflow.ellipsis
+                                          ),
+                                          maxLines: 1,
+                                          strutStyle: StrutStyle(
+                                            height: 1,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  trailing: Container(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        prodVal['de'] > 0? Container(
+                                          height: 21,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            color: AppTheme.badgeFgDanger,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                            child: Text(prodVal['de'].round().toString() + ' unpaid',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        ): Container(height: 21,),
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+
+                                        // Text(orderList.toString()),
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text('2 unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // )
+
+                                        // Container(
+                                        //   height: 21,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(20.0),
+                                        //     color: AppTheme.badgeFgDanger,
+                                        //   ),
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                        //       style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Colors.white
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                            width: 12),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 2.0),
+                                          child: Icon(
+                                            Icons
+                                                .arrow_forward_ios_rounded,
+                                            size: 16,
+                                            color: Colors
+                                                .blueGrey
+                                                .withOpacity(
+                                                0.8),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets
+                                      .only(
+                                      left: 0.0, right: 15) ,
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: searchProds == null? 0: searchProds.length,
+                  // childCount: 1,
+                ),
+              );
+            }
+
+            return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+
+
+          }
+      );
+    } else if(cateScIndex == 3) {
+      return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('shops')
+              .doc(widget.shopId)
+              .collection('order')
+              .where('orderId', isEqualTo: searchValue)
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+            if(snapshot2.hasData) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    return GestureDetector(
+                          onTap: () async {
+                            // closeDrawerFrom();
+                            // await Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                            // );
+                            // openDrawerFrom();
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                color: AppTheme.lightBgColor,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 1.0),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    // '#' + item!='' ? item.split('^')[1]: ''
+                                                    Text(
+                                                      // '#',
+                                                      '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 1.0),
+                                                      child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                    ),
+                                                    SizedBox(width: 4),
+                                                    Text(
+                                                      // '',
+                                                      covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                    //   style: TextStyle(
+                                                    //     fontSize: 14,
+                                                    //     fontWeight: FontWeight.w500,
+                                                    //     color: Colors.grey,
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 6,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      // '',
+                                                      snapshot2.data!.docs[index]['customerId'],
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.3,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              if(snapshot2.data!.docs[index]['debt'] == 0)
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                  child: Container(
+                                                    height: 21,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: AppTheme.badgeBgSuccess,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                      child: Text('Paid',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.white
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              if(snapshot2.data!.docs[index]['debt'] != 0 && double.parse(snapshot2.data!.docs[index]['total']) > snapshot2.data!.docs[index]['debt'])
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                  child: Container(
+                                                    height: 21,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: AppTheme.badgeFgDangerLight,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                      child: Text('Partially paid',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: AppTheme.badgeFgDanger
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              if(snapshot2.data!.docs[index]['debt'] != 0  && double.parse(snapshot2.data!.docs[index]['total']) == snapshot2.data!.docs[index]['debt'])
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                  child: Container(
+                                                    height: 21,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: AppTheme.badgeFgDanger,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                      child: Text('Unpaid',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.white
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              if(snapshot2.data!.docs[index]['refund'] == 'F')
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                  child: Container(
+                                                    height: 21,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: AppTheme.badgeBgSecond,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                      child: Text('Refunded',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.white
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              if(snapshot2.data!.docs[index]['refund'] == 'P')
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                  child: Container(
+                                                    height: 21,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: AppTheme.badgeBgSecondLight,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                      child: Text('Partially refunded',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: AppTheme.badgeBgSecond
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: AppTheme.lightBgColor,
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: AppTheme.skBorderColor2,
+                                                  width: snapshot2.data!.docs.length-1 == index? 0.0: 1.0),
+                                            )),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        // 'MMK ',
+                                          'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                      SizedBox(width: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 2.0),
+                                        child: Icon(
+                                          Icons
+                                              .arrow_forward_ios_rounded,
+                                          size: 16,
+                                          color: Colors
+                                              .blueGrey
+                                              .withOpacity(
+                                              0.8),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                    );
+                  },
+                  childCount: snapshot2.data!.docs == null? 0: snapshot2.data!.docs.length,
+                  // childCount: 1,
+                ),
+              );
+            }
+            return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+          }
+      );
+    }
+
   }
 
 
