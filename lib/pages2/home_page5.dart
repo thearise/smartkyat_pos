@@ -8023,7 +8023,7 @@ class HomePageState extends State<HomePage>
                 prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
                     prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5] + '^' + prodList[index].split('^')[6] + '^' + prodList[index].split('^')[7] + '^' + prodList[index].split('^')[8] +'^' + prodList[index].split('^')[9]+'^' + prodList[index].split('^')[10];
 
-                print('prodincart ' + prodList.toString());
+                print('prodincart ' + customerId.split('^')[0].toString());
                 String image = prodList[index].split('^')[8];
                 prodListInd = prodListInd.split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
                     prodListInd.split('^')[2] + '^' + prodListInd.split('^')[3] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[5];
@@ -12177,11 +12177,19 @@ class HomePageState extends State<HomePage>
 
   updateCusOrder(WriteBatch batch, ttlOrders, debts , debtAmount){
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('^')[0]);
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
+    if(customerId.split('^')[0].toString() != 'name') {
+      batch.update(documentReference2, {
+        'cus.' + customerId.split('^')[0] +'.or':FieldValue.increment(double.parse(ttlOrders.toString())),
+        'cus.' + customerId.split('^')[0] +'.da':FieldValue.increment(double.parse(debtAmount.toString())),
+        'cus.' + customerId.split('^')[0] +'.de':FieldValue.increment(double.parse(debts.toString())),
+      });
+    } else {
     batch.update(documentReference, {
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
-    });
+    }); }
     return batch;
   }
 
