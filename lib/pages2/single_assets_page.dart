@@ -1882,7 +1882,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   asset.originFile.then((value) async {
                                                     addProduct(value!).then((value) {
                                                       print('value check ' + value.toString());
-                                                      if(value == 200) {
+                                                      if(value != 'error img upload') {
                                                         photoArray[i] = value.toString();
                                                         var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
                                                         int j = -1;
@@ -2584,7 +2584,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     var respond = await request.send();
     final respStr = await respond.stream.bytesToString();
 
-    return respond.statusCode;
+    if(respond.statusCode == 200) {
+      return respStr.toString();
+    } else {
+      return 'error img upload';
+    }
   }
 
   Padding createCard(unit) {
