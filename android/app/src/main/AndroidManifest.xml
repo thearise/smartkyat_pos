@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ethereals.smartkyat_pos">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
        android:usesCleartextTraffic="true"
         android:label="Smart Kyat"
         android:icon="@mipmap/ic_launcher">
