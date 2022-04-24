@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
-
+    HttpOverrides.global = MyHttpOverrides();
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
@@ -76,6 +76,14 @@ class MyApp extends StatelessWidget {
       // home: HomePage(),
       home: Welcome(),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
 
