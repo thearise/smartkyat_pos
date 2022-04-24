@@ -121,110 +121,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
     }
-    // bottomNavigationBar: Padding(
-    //   padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-    //   child: Container(
-    //     color: Colors.white,
-    //     child: Padding(
-    //       padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-    //       child: ButtonTheme(
-    //         minWidth: MediaQuery.of(context).size.width,
-    //         splashColor: Colors.transparent,
-    //         height: 50,
-    //         child: FlatButton(
-    //           color: AppTheme.themeColor,
-    //           shape: RoundedRectangleBorder(
-    //             borderRadius:
-    //             BorderRadius.circular(10.0),
-    //             side: BorderSide(
-    //               color: AppTheme.themeColor,
-    //             ),
-    //           ),
-    //           onPressed: () async {
-    //             if (_formKey.currentState!.validate()) {
-    //               String dataRm = widget.data.split('^')[0] +
-    //                   '^' +
-    //                   widget.data.split('^')[1] +
-    //                   '^' +
-    //                   widget.data.split('^')[2] +
-    //                   '^' +
-    //                   widget.data.split('^')[3].split('&')[1] +
-    //                   '^' +
-    //                   widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-    //               String data = widget.data.split('^')[0] +
-    //                   '^' +
-    //                   widget.data.split('^')[1] +
-    //                   '^' +
-    //                   widget.data.split('^')[2] +
-    //                   '^' +
-    //                   widget.data.split('^')[3].split('&')[1] +
-    //                   '^' +
-    //                   widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-    //
-    //               CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-    //               CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
-    //               CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
-    //
-    //               dailyOrders.doc(widget.documentId).update({
-    //                 'daily_order':
-    //                 FieldValue.arrayRemove([dataRm])
-    //               }).then((value) {print('array removed');})
-    //                   .catchError((error) => print("Failed to update user: $error"));
-    //
-    //               dailyOrders.doc(widget.documentId).update({
-    //                 'daily_order':
-    //                 FieldValue.arrayUnion([data])
-    //               }).then((value) { print('array updated');})
-    //                   .catchError((error) => print("Failed to update user: $error"));
-    //
-    //               order.doc(
-    //                   widget.docId)
-    //                   .update({
-    //                 'debt' : debtAmount
-    //               })
-    //                   .then((value) => print("User Updated"))
-    //                   .catchError((error) => print("Failed to update user: $error"));
-    //
-    //               double debts = 0;
-    //               if(debtAmount == 0.0) {
-    //                 debts = 1;
-    //               } else debts = 0;
-    //               if( widget.data.split('^')[3].split('&')[1] !='name') {
-    //                 customerDebt.doc(
-    //                     widget.data.split('^')[3].split('&')[1])
-    //                     .update({
-    //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-    //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
-    //                 })
-    //                     .then((value) => print("User Updated"))
-    //                     .catchError((error) => print("Failed to update user: $error"));}
-    //
-    //               _textFieldController.clear();
-    //               Navigator.of(context).popUntil((route) => route.isFirst);
-    //               smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
-    //             } },
-    //           child: Padding(
-    //             padding: const EdgeInsets.only(
-    //                 left: 5.0,
-    //                 right: 5.0,
-    //                 bottom: 2.0),
-    //             child: Container(
-    //               child: Text(
-    //                 'Done',
-    //                 textAlign: TextAlign.center,
-    //                 style: TextStyle(
-    //                     fontSize: 18,
-    //                     fontWeight: FontWeight.w600,
-    //                     letterSpacing:-0.1
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // ),
+
     return IgnorePointer(
       ignoring: disableTouch,
       child: Container(
@@ -499,10 +396,10 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   WriteBatch batch = FirebaseFirestore.instance.batch();
-                                  setState(() {
+
                                     loadingState = true;
                                     disableTouch = true;
-                                  });
+
                                   String noCustomer = '';
 
                                   if(widget.data.split('^')[3].split('&')[0] == 'No customer') {
@@ -557,8 +454,23 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   print('detAmount' + debtAmount.toString());
 
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
+                                  double paidCus = paidAmount;
+                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+                                      .get()
+                                      .then((DocumentSnapshot documentSnapshot) async {
+                                    if (documentSnapshot.exists) {
+                                      documentSnapshot['cus'].forEach((key, value) async {
+                                        if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
+                                          batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
+                                        }
+                                      });
+                                    }
+                                    if( widget.data.split('^')[3].split('&')[1] == 'name') {
+                                      batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
+                                    }
+                                  });
 
-                                  batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidAmount);
+
 
                                   // order.doc(
                                   //     widget.docId)
@@ -616,10 +528,8 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     batch.commit();
                                   });    });
                                   Future.delayed(const Duration(milliseconds: 2000), () {
-                                    setState(() {
                                       loadingState = false;
                                       disableTouch = false;
-                                    });
                                   });
                                   _textFieldController.clear();
                                   Navigator.of(context).popUntil((route) => route.isFirst);
@@ -653,110 +563,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                     color: Colors.white,
                     height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(bottom: homeBotPadding),
-                  //   child: Container(
-                  //     color: Colors.white,
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                  //       child: ButtonTheme(
-                  //         minWidth: MediaQuery.of(context).size.width,
-                  //         splashColor: Colors.transparent,
-                  //         height: 50,
-                  //         child: FlatButton(
-                  //           color: AppTheme.themeColor,
-                  //           shape: RoundedRectangleBorder(
-                  //             borderRadius:
-                  //             BorderRadius.circular(10.0),
-                  //             side: BorderSide(
-                  //               color: AppTheme.themeColor,
-                  //             ),
-                  //           ),
-                  //           onPressed: () async {
-                  //             if (_formKey.currentState!.validate()) {
-                  //               String dataRm = widget.data.split('^')[0] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[1] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[2] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[3].split('&')[1] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-                  //               String data = widget.data.split('^')[0] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[1] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[2] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[3].split('&')[1] +
-                  //                   '^' +
-                  //                   widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-                  //
-                  //               CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-                  //               CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
-                  //               CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
-                  //
-                  //               dailyOrders.doc(widget.documentId).update({
-                  //                 'daily_order':
-                  //                 FieldValue.arrayRemove([dataRm])
-                  //               }).then((value) {print('array removed');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
-                  //
-                  //               dailyOrders.doc(widget.documentId).update({
-                  //                 'daily_order':
-                  //                 FieldValue.arrayUnion([data])
-                  //               }).then((value) { print('array updated');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
-                  //
-                  //               order.doc(
-                  //                   widget.docId)
-                  //                   .update({
-                  //                 'debt' : debtAmount
-                  //               })
-                  //                   .then((value) => print("User Updated"))
-                  //                   .catchError((error) => print("Failed to update user: $error"));
-                  //
-                  //               double debts = 0;
-                  //               if(debtAmount == 0.0) {
-                  //                 debts = 1;
-                  //               } else debts = 0;
-                  //               if( widget.data.split('^')[3].split('&')[1] !='name') {
-                  //                 customerDebt.doc(
-                  //                     widget.data.split('^')[3].split('&')[1])
-                  //                     .update({
-                  //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-                  //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
-                  //                 })
-                  //                     .then((value) => print("User Updated"))
-                  //                     .catchError((error) => print("Failed to update user: $error"));}
-                  //
-                  //               _textFieldController.clear();
-                  //               Navigator.of(context).popUntil((route) => route.isFirst);
-                  //               smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
-                  //             } },
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.only(
-                  //                 left: 5.0,
-                  //                 right: 5.0,
-                  //                 bottom: 2.0),
-                  //             child: Container(
-                  //               child: Text(
-                  //                 'Done',
-                  //                 textAlign: TextAlign.center,
-                  //                 style: TextStyle(
-                  //                     fontSize: 18,
-                  //                     fontWeight: FontWeight.w600,
-                  //                     letterSpacing:-0.1
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
 
@@ -993,11 +799,18 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   updateRefund(WriteBatch batch, id, totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
-
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
+    if(id != 'name') {
+      batch.update(documentReference2, {
+        'cus.' + id +'.de': FieldValue.increment(0 - double.parse(totalDes.toString())),
+        'cus.' + id +'.da': FieldValue.increment(0 - double.parse(changeDes.toString())),
+      });
+    } else {
     batch.update(documentReference, {
       'debts' : FieldValue.increment(0 - double.parse(totalDes.toString())),
       'debtAmount' : FieldValue.increment(0 - double.parse(changeDes.toString())),
     });
+    }
     return batch;
   }
 }
