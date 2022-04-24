@@ -9730,7 +9730,7 @@ class HomePageState extends State<HomePage>
                                                                       for (int k=0; k< prodList.length;  k++) {
                                                                         //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                        subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
+                                                                        subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
 
                                                                         // productsFire.doc(prodList[k].split('^')[0])
                                                                         //     .get().then((val22) async {
