@@ -1565,11 +1565,43 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   }
 
+  calMonth(month) {
+    var calMonth = 0;
+    if(month == 1) {
+      calMonth = 12;
+    }
+    else
+      calMonth = month - 1;
+
+    return calMonth;
+
+  }
+
+  calYear(month, year) {
+    var  calYear = 0;
+    if(month == 1) {
+      calYear = year -1;
+    }
+    else
+      calYear = year;
+
+    return calYear;
+  }
+
   ordersQuery() {
     // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+
+
+    // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+    //     .orderBy('date', descending: true);
+
+    print('date checkkki ' + DateTime(today.year, today.month + 1, 0).toString());
+
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+        .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (DateTime(today.year, today.month + 1, 0).day).toString() + ' 23:59:59'))
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-00' + ' 23:59:59'))
         .orderBy('date', descending: true);
   }
 
