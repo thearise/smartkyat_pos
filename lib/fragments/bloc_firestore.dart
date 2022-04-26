@@ -1537,7 +1537,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   // DateTime today = DateTime.now();
   DateTime today = DateTime.now();
   DateTime? _dateTime;
-  String _format = 'yyyy-MMMM-dd';
+  String _format = 'yyyy-MMMM';
 
   void _showDatePicker(context) {
     DatePicker.showDatePicker(
@@ -1616,6 +1616,40 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
   }
 
+  String selectMonthCast() {
+    print("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return 'Sep, ' + today.year.toString();
+    } else if(today.month == 1) {
+      return 'Jan, ' + today.year.toString();
+    } else if(today.month == 2) {
+      return 'Feb, ' + today.year.toString();
+    } else if(today.month == 3) {
+      return 'Mar, ' + today.year.toString();
+    } else if(today.month == 4) {
+      return 'Apr, ' + today.year.toString();
+    } else if(today.month == 5) {
+      return 'May, ' + today.year.toString();
+    } else if(today.month == 6) {
+      return 'Jun, ' + today.year.toString();
+    } else if(today.month == 7) {
+      return 'Jul, ' + today.year.toString();
+    } else if(today.month == 8) {
+      return 'Aug, ' + today.year.toString();
+    } else if(today.month == 10) {
+      return 'Oct, ' + today.year.toString();
+    } else if(today.month == 11) {
+      return 'Nov, ' + today.year.toString();
+    } else if(today.month == 12) {
+      return 'Dec, ' + today.year.toString();
+    } else {
+      return '';
+    }
+
+  }
+
   _animateToIndex(i) {
     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
@@ -1662,7 +1696,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                           ),
                         ),
                         Text(
-                          selectDaysCast() + ' (7D)',
+                          selectMonthCast(),
                           // '(7D)',
                           textAlign: TextAlign.center,
                           style: TextStyle(
