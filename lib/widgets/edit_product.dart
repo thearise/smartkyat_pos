@@ -859,9 +859,11 @@ class _EditProductState extends State<EditProduct> {
                                             unitLimit = true;
                                             addSubUnit = 2;
                                           });
-                                        } else { setState(() {
+                                        } else {
+                                          setState(() {
                                           addSubUnit++;
-                                        }); }
+                                        });
+                                        }
 
                                         if(addSubUnit == 1 &&  subExist== '1' || addSubUnit == 2  &&  subExist== '0') {
                                           setState(() {

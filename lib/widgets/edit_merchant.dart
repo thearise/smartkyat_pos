@@ -448,19 +448,18 @@ class _EditMerchantState extends State<EditMerchant> {
                           ),
                           onPressed: () async {
 
-                            CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                            DocumentReference customerLocate = await FirebaseFirestore.instance.collection('shops')
                                 .doc(widget.shopId)
-                                .collection('merchants');
+                                .collection('collArr').doc('merArr');
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 merchLoading = true;
                                 disableTouch = true;
                               });
-                              customerLocate.doc(widget.merchId).update({
-                                'merchant_name': merchNameCtrl.text,
-                                'merchant_address': merchAddressCtrl.text,
-                                'merchant_phone' : merchPhoneCtrl.text,
-                                 'search_name': textSplitFunction(merchNameCtrl.text.toString()),
+                              customerLocate.update({
+                                'mer.'+ widget.merchId + '.na': merchNameCtrl.text,
+                                'mer.'+ widget.merchId + '.ad': merchAddressCtrl.text,
+                                'mer.'+ widget.merchId + '.ph': merchPhoneCtrl.text,
                               }).then((value) {
                                 Future.delayed(const Duration(milliseconds: 2000), () {
                                   setState(() {

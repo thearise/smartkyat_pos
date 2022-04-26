@@ -292,7 +292,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                           .doc('cusArr')
                                           .update(
                                         {
-                                          'prods.' + eachMap.key.toString(): FieldValue.delete()
+                                          'cus.' + eachMap.key.toString(): FieldValue.delete()
                                         },
                                       );
 
