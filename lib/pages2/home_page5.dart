@@ -398,6 +398,7 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
+    // FirebaseAuth.instance.signOut();
 
     // showOkCancelAlertDialog(
     //   context: context,
@@ -643,6 +644,13 @@ class HomePageState extends State<HomePage>
             FadeRoute(page: chooseStore(),)
         );
       }
+      FirebaseFirestore.instance.collection('shops').doc(value0).collection('users_ver').doc(auth.currentUser!.uid).get().then((snapVer) {
+        if(!snapVer.exists) {
+          Navigator.of(context).push(
+              FadeRoute(page: chooseStore(),)
+          );
+        }
+      });
       setState(() {
         shopId = value0;
       });

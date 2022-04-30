@@ -586,18 +586,23 @@ class _AddShopState extends State<AddShop> {
                                                 'buyOrders_length': 1000,
                                                 'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
                                               }
-                                          ).then((value) async {
-                                            shops.doc(value.id).collection('users').add({
+                                          ).then((shopVal) async {
+                                            shops.doc(shopVal.id).collection('users').doc(email).set({
                                               'email': email.toString(),
                                               'role' : 'owner',
                                               'device0': await _getId()
-                                            }).then((value) {
+                                            }).then((value) async {
+                                              shops.doc(shopVal.id).collection('users_ver').doc(uid).set({
+                                                'email': email.toString(),
+                                                'role' : 'owner',
+                                                'device0': await _getId()
+                                              }).then((value) {
 
-                                            })
-                                                .catchError((error) => print("Failed to update user: $error"));
-                                            setStoreId(value.id.toString());
+                                              }).catchError((error) => print("Failed to update user: $error"));
+                                            }).catchError((error) => print("Failed to update user: $error"));
+                                            setStoreId(shopVal.id.toString());
 
-                                            CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                            CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('customers');
                                             cusName.doc('name').set({
                                               'customer_name': 'No customer',
                                               'customer_address': 'unknown',
@@ -609,7 +614,7 @@ class _AddShopState extends State<AddShop> {
                                             }).then((value) {})
                                                 .catchError((error) => print("Failed to update user: $error"));
 
-                                            CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                            CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('merchants');
                                             merchName.doc('name').set({
                                               'merchant_name': 'No merchant',
                                               'merchant_address': 'unknown',

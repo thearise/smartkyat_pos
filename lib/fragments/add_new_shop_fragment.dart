@@ -504,7 +504,13 @@ class _AddNewShopState extends State<AddNewShop> {
 
                                           }
                                       ).then((value) async {
-                                        shops.doc(value.id).collection('users').add({
+                                        shops.doc(value.id).collection('users').doc(email).set({
+                                          'email': email.toString(),
+                                          'role' : 'owner',
+                                          'device0': await _getId()
+                                        }).catchError((error) => print("Failed to update user: $error"));
+
+                                        shops.doc(value.id).collection('users_ver').doc(uid).set({
                                           'email': email.toString(),
                                           'role' : 'owner',
                                           'device0': await _getId()
