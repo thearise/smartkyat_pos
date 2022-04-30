@@ -2695,7 +2695,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     }
 
                     if ((value.isNotEmpty || value != null) && double.parse(value.toString()) < 2) {
-                      return ' Hello Mother Fucker ';
+                      return ' Must be greater than 1 ';
                     }
 
                     // prodFieldsValue.add(value);
