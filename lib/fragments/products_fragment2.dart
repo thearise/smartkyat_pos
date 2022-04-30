@@ -637,28 +637,30 @@ class ProductsFragmentState extends State<ProductsFragment>
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
 
-                              for(int i = 0; i < prods.length; i++) {
-                                var eachMap = prods.entries.elementAt(i);
-                                if(eachMap.value['na'] == null) {
-                                  print('prods entri ' + eachMap.toString());
-                                  List<dynamic> deleteExpenseData = [];
-                                  deleteExpenseData.add(eachMap);
-                                  
-                                  FirebaseFirestore.instance
-                                      .collection('shops')
-                                      .doc(widget.shopId)
-                                      .collection('collArr')
-                                      .doc('prodsArr')
-                                      .update(
-                                    {
-                                      'prods.' + eachMap.key.toString(): FieldValue.delete()
-                                    },
-                                  );
+                              if(prods != null) {
+                                for(int i = 0; i < prods.length; i++) {
+                                  var eachMap = prods.entries.elementAt(i);
+                                  if(eachMap.value['na'] == null) {
+                                    print('prods entri ' + eachMap.toString());
+                                    List<dynamic> deleteExpenseData = [];
+                                    deleteExpenseData.add(eachMap);
 
-                                  print('prods entri');
-                                }
-                                else {
-                                  resProds[eachMap.key] = eachMap.value;
+                                    FirebaseFirestore.instance
+                                        .collection('shops')
+                                        .doc(widget.shopId)
+                                        .collection('collArr')
+                                        .doc('prodsArr')
+                                        .update(
+                                      {
+                                        'prods.' + eachMap.key.toString(): FieldValue.delete()
+                                      },
+                                    );
+
+                                    print('prods entri');
+                                  }
+                                  else {
+                                    resProds[eachMap.key] = eachMap.value;
+                                  }
                                 }
                               }
 
@@ -683,7 +685,177 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
                                     var imgArr = imgSnap?['prods'];
                                     if(imgArr == null) {
-                                      return Container();
+                                      return CustomScrollView(
+                                        slivers: [
+                                          SliverAppBar(
+                                            elevation: 0,
+                                            backgroundColor: Colors.white,
+                                            // Provide a standard title.
+                                            // Allows the user to reveal the app bar if they begin scrolling
+                                            // back up the list of items.
+                                            floating: true,
+                                            flexibleSpace: Padding(
+                                              padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                              child: Container(
+                                                height: 32,
+                                                width: MediaQuery.of(context).size.width,
+                                                // color: Colors.yellow,
+                                                child: Row(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        FlatButton(
+                                                          padding: EdgeInsets.only(left: 10, right: 10),
+                                                          color: AppTheme.secButtonColor,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(8.0),
+                                                            side: BorderSide(
+                                                              color: AppTheme.skBorderColor2,
+                                                            ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            widget._callback();
+                                                          },
+                                                          child: Container(
+                                                            child: Row(
+                                                              // mainAxisAlignment: Main,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(right: 6.0),
+                                                                  child: Icon(
+                                                                    SmartKyat_POS.add_plus,
+                                                                    size: 17,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  textSetNewItem,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 12),
+                                                        Container(
+                                                          color: Colors.grey.withOpacity(0.2),
+                                                          width: 1.5,
+                                                          height: 30,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView(
+                                                        controller: cateScCtler,
+                                                        scrollDirection: Axis.horizontal,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 4,
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                            child: FlatButton(
+                                                              minWidth: 0,
+                                                              padding: EdgeInsets.only(left: 12, right: 12),
+                                                              color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                _animateToIndex(0);
+                                                                setState(() {
+                                                                  if(cateScIndex != 0) {
+                                                                    i0Clicked = true;
+                                                                  } else {
+                                                                    if(i0Clicked) {
+                                                                      i0Clicked = false;
+                                                                    } else {
+                                                                      i0Clicked = true;
+                                                                    }
+                                                                  }
+
+                                                                  cateScIndex = 0;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetAll,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                            child: FlatButton(
+                                                              minWidth: 0,
+                                                              padding: EdgeInsets.only(left: 12, right: 12),
+                                                              color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                _animateToIndex(5.4);
+                                                                setState(() {
+                                                                  if(cateScIndex != 1) {
+                                                                    i1Clicked = true;
+                                                                  } else {
+                                                                    if(i1Clicked) {
+                                                                      i1Clicked = false;
+                                                                    } else {
+                                                                      i1Clicked = true;
+                                                                    }
+                                                                  }
+
+                                                                  cateScIndex = 1;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetLowStocks,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 11,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+
+                                              ),
+                                            ),),
+                                          SliverList(
+                                            delegate: SliverChildBuilderDelegate(
+                                                  (context, index) {
+                                                return Container();
+                                              },
+                                              childCount: 0,
+                                            ),
+                                          )
+                                        ],
+                                      );
                                     }
                                     return CustomScrollView(
                                       slivers: [
