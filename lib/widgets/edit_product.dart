@@ -1503,6 +1503,10 @@ class _EditProductState extends State<EditProduct> {
                     if (value == null || value.isEmpty) {
                       return ' This field is required ';
                     }
+
+                    if ((value.isNotEmpty || value != null) && double.parse(value.toString()) < 2) {
+                      return ' Must be greater than 1 ';
+                    }
                     // prodFieldsValue.add(value);
                     return null;
                   },
