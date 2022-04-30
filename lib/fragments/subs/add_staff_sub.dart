@@ -412,7 +412,18 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                   ).then((value) async {
                                     print('users added');
 
-                                    FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').add({
+                                    // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').add({
+                                    //   'email': _accountName.text,
+                                    //   'role': roleModify(),
+                                    //   'device0': ''
+                                    // }).then((value) async {
+                                    //   setState(() {
+                                    //     loadingState = false;
+                                    //   });
+                                    //   Navigator.pop(context);
+                                    // });
+
+                                    FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(_accountName.text).set({
                                       'email': _accountName.text,
                                       'role': roleModify(),
                                       'device0': ''
