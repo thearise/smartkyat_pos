@@ -420,158 +420,196 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                       // );
 
                                                       return StreamBuilder(
-                                                          stream: FirebaseFirestore.instance
-                                                              .collection('shops').doc(_result).collection('users')
-                                                              .where('email', isEqualTo: usersList[i].toString())
-                                                              .limit(1)
-                                                              .snapshots(),
-                                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                                            if(snapshot3.hasData) {
-                                                              Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
-                                                              String userDocId = snapshot3.data!.docs[0].id.toString();
-                                                              var role = dataUser['role'];
+                                                      stream: FirebaseFirestore.instance
+                                                          .collection('shops').doc(_result).collection('users_ver')
+                                                          .where('email', isEqualTo: usersList[i].toString())
+                                                          .limit(1)
+                                                          .snapshots(),
+                                                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> verSnap) {
+                                                          if(verSnap.hasData) {
+                                                            StreamBuilder(
+                                                                stream: FirebaseFirestore.instance
+                                                                    .collection('shops').doc(_result).collection('users')
+                                                                    .where('email', isEqualTo: usersList[i].toString())
+                                                                    .limit(1)
+                                                                    .snapshots(),
+                                                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                                  if(snapshot3.hasData) {
+                                                                    Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
+                                                                    String userDocId = snapshot3.data!.docs[0].id.toString();
+                                                                    var role = dataUser['role'];
 
-                                                              print('roooo 6' + role.toString());
-                                                              return Container(
-                                                                height: 65,
-                                                                child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    children: [
-                                                                      Container(
-                                                                        height: 60,
-                                                                        child: Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    print('roooo 6' + role.toString());
+                                                                    return Container(
+                                                                      height: 65,
+                                                                      child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
                                                                           children: [
-                                                                            SizedBox(
-                                                                              width: i == usersList.length-1? 15: 0,
-                                                                            ),
                                                                             Container(
-                                                                              // color: Colors.grey,
-                                                                              height: 45,
-                                                                              width: 30,
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 13.0),
-                                                                                child: IconButton(
-                                                                                    icon: Icon(
-                                                                                      Icons.remove_circle_rounded,
-                                                                                      size: 20,
-                                                                                      color: Colors.red,
-                                                                                    ),
-                                                                                    onPressed: () async {
-                                                                                      try {
-                                                                                        final result = await InternetAddress.lookup('google.com');
-                                                                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                          showOkCancelAlertDialog(
-                                                                                            context: context,
-                                                                                            title: 'Confirmation alert',
-                                                                                            message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
-                                                                                            defaultType: OkCancelAlertDefaultType.cancel,
-                                                                                          ).then((result) async {
-                                                                                            if(result == OkCancelResult.ok) {
-                                                                                              CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                                                              CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                                              shops.doc(_result).update(
-                                                                                                  {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                              ).then((value) async {
-                                                                                                users.doc(userDocId)
-                                                                                                    .delete()
-                                                                                                    .then((value) {
-                                                                                                  print('users removed');
-                                                                                                })
-                                                                                                    .catchError((error) {
-                                                                                                });
-                                                                                              });
-                                                                                            }
-                                                                                          });
-                                                                                        }
-                                                                                      } on SocketException catch (_) {
-                                                                                        smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                                                      }
-                                                                                    }
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10,
-                                                                            ),
-                                                                            Expanded(
-                                                                              child: Column(
+                                                                              height: 60,
+                                                                              child: Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
-                                                                                  SizedBox(height: 11,),
-                                                                                  Text(
-                                                                                    'Unknown',
-                                                                                    style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
-                                                                                    strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
+                                                                                  SizedBox(
+                                                                                    width: i == usersList.length-1? 15: 0,
                                                                                   ),
-                                                                                  Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                                                  SizedBox(height: 10,),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 5,
-                                                                            ),
-                                                                            Center(
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5),
-                                                                                child: Container(
-                                                                                  height: 25,
-                                                                                  width: 75,
-                                                                                  child: ButtonTheme(
-                                                                                    // minWidth: 30,
-                                                                                    splashColor: Colors.transparent,
-                                                                                    // height: 35,
-                                                                                    child: FlatButton(
-                                                                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                                      color: AppTheme.buttonColor2,
-                                                                                      shape: RoundedRectangleBorder(
-                                                                                        borderRadius:
-                                                                                        BorderRadius.circular(8.0),
-                                                                                        side: BorderSide(
-                                                                                          color: AppTheme.buttonColor2,
-                                                                                        ),
-                                                                                      ),
-                                                                                      onPressed: () async {
-                                                                                        try {
-                                                                                          final result = await InternetAddress.lookup('google.com');
-                                                                                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                            _openSimpleItemPicker(context, permissionList, userDocId, role, 'Unknown');
+                                                                                  Container(
+                                                                                    // color: Colors.grey,
+                                                                                    height: 45,
+                                                                                    width: 30,
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.only(top: 13.0),
+                                                                                      child: IconButton(
+                                                                                          icon: Icon(
+                                                                                            Icons.remove_circle_rounded,
+                                                                                            size: 20,
+                                                                                            color: Colors.red,
+                                                                                          ),
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              final result = await InternetAddress.lookup('google.com');
+                                                                                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                                showOkCancelAlertDialog(
+                                                                                                  context: context,
+                                                                                                  title: 'Confirmation alert',
+                                                                                                  message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                                                                  defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                                ).then((result) async {
+                                                                                                  if(result == OkCancelResult.ok) {
+                                                                                                    CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                                    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                                    CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
+
+
+
+                                                                                                    users_ver
+                                                                                                        .where('email', isEqualTo: auth.currentUser!.email)
+                                                                                                        .limit(1)
+                                                                                                        .get()
+                                                                                                        .then((QuerySnapshot userVerSnap) {
+
+                                                                                                      WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                                                      batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
+                                                                                                      batch.delete(users.doc(userDocId));
+                                                                                                      batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+
+                                                                                                      batch.commit().then((value) {
+                                                                                                        smartKyatFlash('Selected user is removed successfully.', 's');
+                                                                                                      });
+
+                                                                                                      // shops.doc(_result).update(
+                                                                                                      //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                                      // ).then((value) async {
+                                                                                                      //   users.doc(userDocId)
+                                                                                                      //       .delete()
+                                                                                                      //       .then((value) {
+                                                                                                      //     print('users removed');
+                                                                                                      //   }).catchError((error) {
+                                                                                                      //     users_ver.doc(userVerSnap.docs[0].id)
+                                                                                                      //         .delete()
+                                                                                                      //         .then((value) {
+                                                                                                      //       print('users ver removed');
+                                                                                                      //     }).catchError((error) {
+                                                                                                      //     });
+                                                                                                      //   });
+                                                                                                      // });
+                                                                                                    });
+
+                                                                                                  }
+                                                                                                });
+                                                                                              }
+                                                                                            } on SocketException catch (_) {
+                                                                                              smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                                            }
                                                                                           }
-                                                                                        } on SocketException catch (_) {
-                                                                                          smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                                                        }
-                                                                                      },
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 10,
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        SizedBox(height: 11,),
+                                                                                        Text(
+                                                                                          'Unknown',
+                                                                                          style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
+                                                                                          strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
+                                                                                        ),
+                                                                                        Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                                        SizedBox(height: 10,),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 5,
+                                                                                  ),
+                                                                                  Center(
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.only(top: 2.5),
                                                                                       child: Container(
-                                                                                        child: Text(
-                                                                                          role == 'admin'? 'Admin': 'Cashier',
-                                                                                          textAlign: TextAlign.center,
-                                                                                          style: TextStyle(
-                                                                                            fontSize: 13,
-                                                                                            fontWeight: FontWeight.w500,
+                                                                                        height: 25,
+                                                                                        width: 75,
+                                                                                        child: ButtonTheme(
+                                                                                          // minWidth: 30,
+                                                                                          splashColor: Colors.transparent,
+                                                                                          // height: 35,
+                                                                                          child: FlatButton(
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                                            color: AppTheme.buttonColor2,
+                                                                                            shape: RoundedRectangleBorder(
+                                                                                              borderRadius:
+                                                                                              BorderRadius.circular(8.0),
+                                                                                              side: BorderSide(
+                                                                                                color: AppTheme.buttonColor2,
+                                                                                              ),
+                                                                                            ),
+                                                                                            onPressed: () async {
+                                                                                              try {
+                                                                                                final result = await InternetAddress.lookup('google.com');
+                                                                                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                                  _openSimpleItemPicker(context, permissionList, userDocId, usersList[i].toString(), role, 'Unknown');
+                                                                                                }
+                                                                                              } on SocketException catch (_) {
+                                                                                                smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                                              }
+                                                                                            },
+                                                                                            child: Container(
+                                                                                              child: Text(
+                                                                                                role == 'admin'? 'Admin': 'Cashier',
+                                                                                                textAlign: TextAlign.center,
+                                                                                                style: TextStyle(
+                                                                                                  fontSize: 13,
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
                                                                                           ),
                                                                                         ),
                                                                                       ),
                                                                                     ),
                                                                                   ),
-                                                                                ),
+                                                                                  SizedBox(
+                                                                                    width: 15,
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 15,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      )
-                                                                    ]
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container();
+                                                                            )
+                                                                          ]
+                                                                      ),
+                                                                    );
+                                                                  }
+                                                                  return Container();
+                                                                }
+                                                            );
                                                           }
+                                                          return Container();
+                                                        }
                                                       );
                                                     }
                                                     return StreamBuilder(
@@ -636,17 +674,43 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                           if(result == OkCancelResult.ok) {
                                                                                             CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
                                                                                             CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                                            shops.doc(_result).update(
-                                                                                                {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                            ).then((value) async {
-                                                                                              users.doc(userDocId)
-                                                                                                  .delete()
-                                                                                                  .then((value) {
-                                                                                                print('users removed');
-                                                                                              })
-                                                                                                  .catchError((error) {
+                                                                                            CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
+
+
+                                                                                            print('emailling check ' + usersList[i].toString());
+                                                                                            users_ver
+                                                                                                .where('email', isEqualTo: usersList[i].toString())
+                                                                                                .limit(1)
+                                                                                                .get()
+                                                                                                .then((QuerySnapshot userVerSnap) {
+
+                                                                                              WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                                              batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
+                                                                                              batch.delete(users.doc(userDocId));
+                                                                                              batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+
+                                                                                              batch.commit().then((value) {
+                                                                                                smartKyatFlash('Selected user is removed successfully.', 's');
                                                                                               });
+
+                                                                                              // shops.doc(_result).update(
+                                                                                              //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                              // ).then((value) async {
+                                                                                              //   users.doc(userDocId)
+                                                                                              //       .delete()
+                                                                                              //       .then((value) {
+                                                                                              //     print('users removed');
+                                                                                              //   }).catchError((error) {
+                                                                                              //     users_ver.doc(userVerSnap.docs[0].id)
+                                                                                              //         .delete()
+                                                                                              //         .then((value) {
+                                                                                              //       print('users ver removed');
+                                                                                              //     }).catchError((error) {
+                                                                                              //     });
+                                                                                              //   });
+                                                                                              // });
                                                                                             });
+
                                                                                           }
                                                                                         }
                                                                                         );
@@ -705,13 +769,13 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                       try {
                                                                                         final result = await InternetAddress.lookup('google.com');
                                                                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                          if (role == 'admin' && auth.currentUser!.email.toString() == ownerEmail) {
-                                                                                            await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, role, data['name']);
-                                                                                          } else if(role == 'cashier') {
-                                                                                            await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, role, data['name']);
-                                                                                          } else {
-                                                                                            smartKyatFlash('You don\'t have permission to change this staff\'s permission.', 'w');
-                                                                                          }
+                                                                                          // if (role == 'admin' && auth.currentUser!.email.toString() == ownerEmail) {
+                                                                                          // if (role == 'admin') {
+                                                                                          //   await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
+                                                                                          // } else {
+                                                                                          //   smartKyatFlash('You don\'t have permission to change this staff\'s permission.', 'w');
+                                                                                          // }
+                                                                                          _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
                                                                                         }
                                                                                       } on SocketException catch (_) {
                                                                                         smartKyatFlash('Internet connection is required to take this action.', 'w');
@@ -994,7 +1058,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
     return items;
   }
 
-  _openSimpleItemPicker(context, List<Text> items, String userDocId, String role, String name) {
+  _openSimpleItemPicker(context, List<Text> items, String userDocId, String email, String role, String name) {
     int selectedIndex = 0;
     if(role == 'admin') {
       selectedIndex = 1;
@@ -1015,13 +1079,37 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       onSubmit: (index) {
         print(userDocId + ' id -> ' + index.toString());
-        FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(
-            userDocId)
-            .update({
-          'role': index == 0? 'cashier' : 'admin'
-        })
-            .then((value) => print("User Updated"))
-            .catchError((error) => print("Failed to update user: $error"));
+
+        FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver')
+            .where('email', isEqualTo: userDocId)
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          print('what?');
+          querySnapshot.docs.forEach((doc) {
+            print('win lar   lar?');
+            if(doc.exists) {
+              WriteBatch batch  = FirebaseFirestore.instance.batch();
+
+              batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(userDocId), {
+                'role': index == 0? 'cashier' : 'admin'
+              });
+              batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(doc.id), {
+                'role': index == 0? 'cashier' : 'admin'
+              });
+
+              batch.commit();
+
+              // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(userDocId)
+              //     .update({
+              //   'role': index == 0? 'cashier' : 'admin'
+              // })
+              //     .then((value) => print("User Updated"))
+              //     .catchError((error) => print("Failed to update user: $error"));
+            }
+          });
+        });
+
+
       },
     ).show(context);
   }
