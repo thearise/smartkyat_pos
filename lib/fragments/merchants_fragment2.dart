@@ -278,12 +278,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                       .doc('merArr')
                                       .update(
                                     {
-                                      'prods.' + eachMap.key.toString(): FieldValue.delete()
+                                      'mer.' + eachMap.key.toString(): FieldValue.delete()
                                     },
                                   );
 
                                   print('prods entri');
-                                } else {
+                                }
+                                else {
                                   resProds[eachMap.key] = eachMap.value;
                                 }
                               }

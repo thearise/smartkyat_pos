@@ -992,7 +992,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             var result = await Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty, mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: sub1Qty, sub1Sell: sub1Price, sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: sub2Qty, sub2Sell: sub2Price, subExist : subExist.toString(),)));
+                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty, mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: sub1Qty, sub1Sell: sub1Price, sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: sub2Qty, sub2Sell: sub2Price, subExist : subExist)));
                                                             widget._openCartBtn();
                                                             print('result check ' + result.toString());
                                                           },

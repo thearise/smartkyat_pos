@@ -1664,20 +1664,19 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 .get()
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
-                                                documentSnapshot['prods'].forEach((key, value) {
-                                                  productExist.add( value['na'].toString());
+                                                documentSnapshot['prods'].forEach((key, value) async {
+                                                  if(value['na'] ==  prodFieldsValue[0].toString()) {
+                                                    setState(() {
+                                                      prodExist = true;
+                                                    });
 
-                                                });
-                                                for(int i=0; i < productExist.length; i++) {
-                                                  if(productExist[i].toString() ==  prodFieldsValue[0].toString()) {
-                                                    prodExist = true;
-                                                  }
-                                                }
-
-
-                                              }
                                               print('document print no image ' + productExist.toString());
                                               print('document print no image ' + prodExist.toString());
+                                                  }
+
+                                                });
+
+                                              }
                                               if (prodExist) {
                                                 print('product already');
                                                 var result =
@@ -1815,7 +1814,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 //   });
                                                 //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                 // });
-                                              }
+                                              } });
                                               // setState(() {
                                               //   widget.endProdLoadingState();
                                               //   prodAdding = false;
@@ -1823,7 +1822,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               // });
                                               //
                                               // smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
-                                            });
+
                                           }
                                           else {
                                             FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
@@ -1831,17 +1830,17 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
                                                 documentSnapshot['prods'].forEach((key, value) {
-                                                  productExist.add( value['na'].toString());
+                                                  if(value['na'] ==  prodFieldsValue[0].toString()) {
+                                                    setState(() {
+                                                      prodExist = true;
+                                                    });
 
-                                                });
-                                                for(int i=0; i < productExist.length; i++) {
-                                                  if(productExist[i].toString() ==  prodFieldsValue[0].toString()) {
-                                                    prodExist = true;
-                                                  }
                                                 }
+
                                                 print('document print ' + productExist.toString());
                                                 print('document print ' + prodExist.toString());
-                                              }
+                                              });     }
+
                                               //
                                               // });
                                               //
@@ -2145,8 +2144,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
                                               }
-                                            });
 
+                                            });
 
                                           }
 
@@ -2694,6 +2693,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     if (value == null || value.isEmpty) {
                       return ' This field is required ';
                     }
+
+                    if ((value.isNotEmpty || value != null) && double.parse(value.toString()) < 2) {
+                      return ' Hello Mother Fucker ';
+                    }
+
                     // prodFieldsValue.add(value);
                     return null;
                   },

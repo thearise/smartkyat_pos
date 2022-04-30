@@ -656,7 +656,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                   );
 
                                   print('prods entri');
-                                } else {
+                                }
+                                else {
                                   resProds[eachMap.key] = eachMap.value;
                                 }
                               }
@@ -714,20 +715,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         ),
                                                         onPressed: () async {
                                                           widget._callback();
-                                                          // // print('execution3');
-                                                          // getStoreId().then((value) async {
-                                                          //   print('value' + value.toString());
-                                                          //   for(int i = 0; i<1000; i++)
-                                                          //      // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders');
-                                                          //   await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders').doc('20220413274').update({
-                                                          //
-                                                          //     'daily_order': FieldValue.arrayUnion(['202204132203' +'^7-293' + i.toString() +'^'+ i.toString() +'00.0^name<>name^F^0.0^0.0']),
-                                                          //
-                                                          //   }).then((value) {
-                                                          //       }).catchError((error) => print("Failed to update: $error"));
-                                                          //   //   }).toList();
-                                                          //   // });
-                                                          // });
                                                         },
                                                         child: Container(
                                                           child: Row(

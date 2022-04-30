@@ -45,7 +45,7 @@ class EditProduct extends StatefulWidget {
   final String sub2UnitName;
   final double sub2Qty;
   final double sub2Sell;
-  final String subExist;
+  final double subExist;
   final String image;
 
   @override
@@ -70,7 +70,7 @@ class _EditProductState extends State<EditProduct> {
   final sub2UnitNameCtrl = TextEditingController();
   final sub2QtyCtrl = TextEditingController();
   final sub2SellCtrl = TextEditingController();
-  String subExist= '';
+  double subExist = 0;
   var photoArray = '';
   bool prodAdding = false;
   bool disableTouch = false;
@@ -151,7 +151,7 @@ class _EditProductState extends State<EditProduct> {
     subExist = widget.subExist;
     photoArray = widget.image;
 
-    print('photo check ' + photoArray.toString());
+   // print('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
 
     getLangId().then((value) {
       if(value=='burmese') {
@@ -806,17 +806,17 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                           ),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == '1' ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == '2' ? Column(
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == 2 ? Column(
                             children: [
                               createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
                               createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
                             ],
                           ) : Container(),
 
-                          addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
-                          addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2) : Container(),
-                          addSubUnit == 2 && subExist == '0' ?
+                          addSubUnit == 1 && subExist == 0? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          addSubUnit == 1 && subExist == 1 ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2) : Container(),
+                          addSubUnit == 2 && subExist == 0 ?
                           Column(
                             children: [
                               createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
@@ -842,7 +842,7 @@ class _EditProductState extends State<EditProduct> {
                         children: [
                           Row(
                             children: [
-                              if(subExist != '2')
+                              if(subExist != 2)
                                 if(!unitLimit)
                                   ButtonTheme(
                                     splashColor: Colors.transparent,
@@ -854,16 +854,18 @@ class _EditProductState extends State<EditProduct> {
                                         BorderRadius.circular(10.0),
                                       ),
                                       onPressed: () async {
-                                        if(addSubUnit == 2 || subExist== '2') {
+                                        if(addSubUnit == 2 || subExist == 2) {
                                           setState(() {
                                             unitLimit = true;
                                             addSubUnit = 2;
                                           });
-                                        } else { setState(() {
+                                        } else {
+                                          setState(() {
                                           addSubUnit++;
-                                        }); }
+                                        });
+                                        }
 
-                                        if(addSubUnit == 1 &&  subExist== '1' || addSubUnit == 2  &&  subExist== '0') {
+                                        if(addSubUnit == 1 &&  subExist== 1 || addSubUnit == 2  &&  subExist== 0) {
                                           setState(() {
                                             unitLimit = true;
                                           });
@@ -894,7 +896,7 @@ class _EditProductState extends State<EditProduct> {
                                       ),
                                     ),
                                   ),
-                              if(subExist != '2')
+                              if(subExist != 2)
                                 if(!unitLimit)
                                   SizedBox(
                                       width: 15.0
@@ -1004,7 +1006,7 @@ class _EditProductState extends State<EditProduct> {
                                                     'nm': mainUnitNameCtrl.text,
                                                     'n1': sub1UnitNameCtrl.text,
                                                     'n2': sub2UnitNameCtrl.text,
-                                                    'se': double.parse(subExist.toString()),
+                                                    'se': subExist,
                                                   }
                                                 }
 
@@ -1053,7 +1055,7 @@ class _EditProductState extends State<EditProduct> {
                                                                 'nm': mainUnitNameCtrl.text,
                                                                 'n1': sub1UnitNameCtrl.text,
                                                                 'n2': sub2UnitNameCtrl.text,
-                                                                'se': double.parse(subExist.toString()),
+                                                                'se': subExist,
                                                               }
                                                             }
 
@@ -1096,7 +1098,7 @@ class _EditProductState extends State<EditProduct> {
                                                                 'nm': mainUnitNameCtrl.text,
                                                                 'n1': sub1UnitNameCtrl.text,
                                                                 'n2': sub2UnitNameCtrl.text,
-                                                                'se': double.parse(subExist.toString()),
+                                                                'se': subExist,
                                                               }
                                                             }
 
@@ -1416,50 +1418,50 @@ class _EditProductState extends State<EditProduct> {
                         sub2QtyCtrl.text = '0';
                         sub2SellCtrl.clear();
                         sub2UnitNameCtrl.clear();
-                        subExist = '0';
+                        subExist = 0;
                         addSubUnit = 1;
                       });
                     } else if(addSubUnit == 0) {
-                      if(subExist == '2') {
+                      if(subExist == 2) {
                         setState(() {
                           unitLimit = false;
                           sub2perUnitCtrl.clear();
                           sub2QtyCtrl.text = '0';
                           sub2SellCtrl.clear();
                           sub2UnitNameCtrl.clear();
-                          subExist = '1';
+                          subExist = 1;
                           addSubUnit = 0;
                         });} else
-                      if(subExist == '1') {
+                      if(subExist == 1) {
                         setState(() {
                           unitLimit = false;
                           sub1perUnitCtrl.clear();
                           sub1QtyCtrl.text = '0';
                           sub1SellCtrl.clear();
                           sub1UnitNameCtrl.clear();
-                          subExist = '0';
+                          subExist = 0;
                           addSubUnit = 0;
                         });}
                     } else if(addSubUnit == 1){
-                      if(subExist == '1') {
+                      if(subExist == 1) {
                         setState(() {
                           unitLimit = false;
                           sub2perUnitCtrl.clear();
                           sub2QtyCtrl.text = '0';
                           sub2SellCtrl.clear();
                           sub2UnitNameCtrl.clear();
-                          subExist = '1';
+                          subExist = 1;
                           addSubUnit = 0;
                         });
                       }
-                      if(subExist == '0') {
+                      if(subExist == 0) {
                         setState(() {
                           unitLimit = false;
                           sub1perUnitCtrl.clear();
                           sub1QtyCtrl.text = '0';
                           sub1SellCtrl.clear();
                           sub1UnitNameCtrl.clear();
-                          subExist = '0';
+                          subExist = 0;
                           addSubUnit = 0;
                         });
                       }}

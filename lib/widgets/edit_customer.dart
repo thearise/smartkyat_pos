@@ -448,21 +448,19 @@ class _EditCustomerState extends State<EditCustomer> {
                             ),
                           ),
                           onPressed: () async {
-                            CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                            DocumentReference customerLocate = await FirebaseFirestore.instance.collection('shops')
                                 .doc(widget.shopId)
-                                .collection('customers');
+                                .collection('collArr').doc('cusArr');
                             if (_formKey.currentState!.validate()) {
-
                               setState(() {
                                 cusLoading = true;
                                 disableTouch = true;
                               });
 
-                              customerLocate.doc(widget.cusId).update({
-                                'customer_name': cusNameCtrl.text,
-                                'customer_address': cusAddressCtrl.text,
-                                'customer_phone' : cusPhoneCtrl.text,
-                                'search_name' : textSplitFunction(cusNameCtrl.text.toString()),
+                              customerLocate.update({
+                                'cus.'+ widget.cusId + '.na': cusNameCtrl.text,
+                                'cus.'+ widget.cusId + '.ad': cusAddressCtrl.text,
+                                'cus.'+ widget.cusId + '.ph': cusPhoneCtrl.text,
                               }).then((value) {
                                 Future.delayed(const Duration(milliseconds: 2000), () {
                                   setState(() {

@@ -6632,318 +6632,33 @@ class HomePageState extends State<HomePage>
 
 
     if(result != null && result != '') {
-      await FirebaseFirestore.instance
-          .collection('shops')
-          .doc(shopId)
-          .collection('products')
-          .where('bar_code', isEqualTo: result)
-          .limit(1)
+      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
           .get()
-          .then((QuerySnapshot querySnapshot) {
-        // print()
-        querySnapshot.docs.forEach((doc) {
-          print('CHECK ' + doc['prod_name'].toString());
-          scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
-              + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
-              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']+ '^' + doc['img_1']);
+          .then((DocumentSnapshot documentSnapshot) async {
+        if (documentSnapshot.exists) {
+          documentSnapshot['prods'].forEach((key, value) {
+            if(value['co'].toString() == result.toString()) {
+              print('result barcode' + value['na'].toString());
 
-          doc['sub1_name'] != ''  && doc['sub2_name'] == '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}]:
-          doc['sub1_name'] != ''  && doc['sub2_name'] != '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}, {'no': 3, 'keyword': doc['sub2_name']}] :
-          _testList = [{'no': 1, 'keyword': doc['unit_name']}];
+         //print('CHECK ' + doc['prod_name'].toString());
+          scannedResult(key.toString() + '^' + value['na'] + '^' + value['sm'].toString() + '^' + value['s1'].toString()
+              + '^' + value['s2'].toString() + '^' + value['im'].toString() + '^' + value['i1'].toString() + '^' + value['i2'].toString() + '^' +value['se'].toString() + '^' +
+              value['nm'] + '^' + value['n1'] + '^' + value['n2'] + '^' + value['co'] + '^' + '' + '^' + value['c1'].toString() + '^' + value['c2'].toString());
+
+              value['n1'] != ''  && value['n2'] == '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}]:
+              value['n1'].toString() != ''  && value['n2'] != '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}, {'no': 3, 'keyword': value['n2']}] :
+          _testList = [{'no': 1, 'keyword': value['nm']}];
           qty = 1;
           price4 = 0;
           buyPriceController.text = price4.toString();
           barcodeCtrl.text = qty.round().toString();
           _dropdownTestItems = buildDropdownTestItems(_testList);
-        });
+            }
+          });
+            }
       });
     }
   }
-
-  // addString2Sub(data){
-  //
-  //   DateTime now =
-  //   DateTime.now();
-  //   CollectionReference
-  //   daily_order =
-  //   FirebaseFirestore
-  //       .instance
-  //       .collection(
-  //       'space')
-  //       .doc(
-  //       '0NHIS0Jbn26wsgCzVBKT')
-  //       .collection(
-  //       'shops')
-  //       .doc(
-  //       shopId)
-  //       .collection(
-  //       'buyOrders');
-  //   var length = 0;
-  //   setState(() {
-  //     orderLoading = true;
-  //   });
-  //
-  //   print('order creating');
-  //
-  //   FirebaseFirestore
-  //       .instance
-  //       .collection('space')
-  //       .doc(
-  //       '0NHIS0Jbn26wsgCzVBKT')
-  //       .collection('shops')
-  //       .doc(
-  //       shopId)
-  //       .collection(
-  //       'buyOrders')
-  //   // FirebaseFirestore.instance.collection('space')
-  //       .get()
-  //       .then((QuerySnapshot
-  //   querySnapshot) async {
-  //     querySnapshot.docs
-  //         .forEach((doc) {
-  //       length += double.parse(
-  //           doc['daily_order']
-  //               .length
-  //               .toString());
-  //     });
-  //     length =
-  //         1000 + length + 1;
-  //
-  //     //Check new date or not
-  //     var dateExist = false;
-  //     var dateId = '';
-  //
-  //     FirebaseFirestore
-  //         .instance
-  //         .collection(
-  //         'space')
-  //         .doc(
-  //         '0NHIS0Jbn26wsgCzVBKT')
-  //         .collection(
-  //         'shops')
-  //         .doc(
-  //         shopId)
-  //         .collection(
-  //         'buyOrders')
-  //     // FirebaseFirestore.instance.collection('space')
-  //         .where('date',
-  //         isEqualTo: now
-  //             .year
-  //             .toString() +
-  //             zeroToTen(now
-  //                 .month
-  //                 .toString()) +
-  //             zeroToTen(now
-  //                 .day
-  //                 .toString()))
-  //         .get()
-  //         .then((QuerySnapshot
-  //     querySnapshot) {
-  //       querySnapshot.docs
-  //           .forEach((doc) {
-  //         dateExist = true;
-  //         dateId = doc.id;
-  //       });
-  //
-  //       if (dateExist) {
-  //         daily_order
-  //             .doc(dateId)
-  //             .update({
-  //           'daily_order':
-  //           FieldValue
-  //               .arrayUnion([
-  //             now.year.toString() +
-  //                 zeroToTen(now
-  //                     .month
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .day
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .hour
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .minute
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .second
-  //                     .toString()) +
-  //                 deviceIdNum
-  //                     .toString() +
-  //                 length
-  //                     .toString() +
-  //                 '^' +
-  //                 deviceIdNum
-  //                     .toString() +
-  //                 '^' +
-  //                 length
-  //                     .toString() +
-  //                 '^' +
-  //                 TtlProdListPrice2() +
-  //                 '^' +
-  //                 merchantId
-  //                     .split(
-  //                     '^')[0] +
-  //                 '^pf'
-  //           ])
-  //         }).then((value) {
-  //           print(
-  //               'User updated');
-  //           setState(() {
-  //             orderLoading =
-  //             false;
-  //           });
-  //
-  //           FirebaseFirestore
-  //               .instance
-  //               .collection(
-  //               'space')
-  //               .doc(
-  //               '0NHIS0Jbn26wsgCzVBKT')
-  //               .collection(
-  //               'shops')
-  //               .doc(
-  //               shopId)
-  //               .collection(
-  //               'buyOrders')
-  //               .doc(dateId)
-  //               .collection(
-  //               'expansion')
-  //               .doc(now
-  //               .year
-  //               .toString() +
-  //               zeroToTen(now
-  //                   .month
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .day
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .hour
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .minute
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .second
-  //                   .toString()) +
-  //               deviceIdNum
-  //                   .toString() +
-  //               length
-  //                   .toString())
-  //               .set({
-  //             'main':
-  //             'total',
-  //             'subs':
-  //             data,
-  //           }).then((value) {
-  //             print(
-  //                 'order added');
-  //           });
-  //         });
-  //       } else {
-  //         daily_order.add({
-  //           'daily_order': [
-  //             now.year.toString() +
-  //                 zeroToTen(now
-  //                     .month
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .day
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .hour
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .minute
-  //                     .toString()) +
-  //                 zeroToTen(now
-  //                     .second
-  //                     .toString()) +
-  //                 deviceIdNum
-  //                     .toString() +
-  //                 length
-  //                     .toString() +
-  //                 '^' +
-  //                 deviceIdNum
-  //                     .toString() +
-  //                 '^' +
-  //                 length
-  //                     .toString() +
-  //                 '^' +
-  //                 TtlProdListPrice2() +
-  //                 '^' +
-  //                 merchantId
-  //                     .split(
-  //                     '^')[0] +
-  //                 '^pf'
-  //           ],
-  //           'date': now.year
-  //               .toString() +
-  //               zeroToTen(now
-  //                   .month
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .day
-  //                   .toString())
-  //         }).then((value) {
-  //           print(
-  //               'order added');
-  //
-  //           FirebaseFirestore
-  //               .instance
-  //               .collection(
-  //               'space')
-  //               .doc(
-  //               '0NHIS0Jbn26wsgCzVBKT')
-  //               .collection(
-  //               'shops')
-  //               .doc(
-  //               shopId)
-  //               .collection(
-  //               'buyOrders')
-  //               .doc(value
-  //               .id)
-  //               .collection(
-  //               'expansion')
-  //               .doc(now
-  //               .year
-  //               .toString() +
-  //               zeroToTen(now
-  //                   .month
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .day
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .hour
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .minute
-  //                   .toString()) +
-  //               zeroToTen(now
-  //                   .second
-  //                   .toString()) +
-  //               deviceIdNum
-  //                   .toString() +
-  //               length
-  //                   .toString())
-  //               .set({
-  //             'main':
-  //             'total',
-  //             'subs':
-  //             data,
-  //           }).then((value) {
-  //             print(
-  //                 'order added');
-  //           });
-  //         });
-  //       }
-  //     });
-  //
-  //   });
-  //
-  // }
   TextEditingController buyPriceController = TextEditingController();
   double qty = 0;
   double totalFixAmount2 = 0;
@@ -6957,6 +6672,7 @@ class HomePageState extends State<HomePage>
   String data = '';
   String pName = '';
   String pImage = '';
+  String pLink = '';
   TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
     Object? _selectedTest;
@@ -6968,7 +6684,6 @@ class HomePageState extends State<HomePage>
         builder: (BuildContext context) {
           barcode5 = result.split('^')[12];
           pName = result.split('^')[1];
-          pImage = result.split('^')[13];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
               if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
@@ -6977,6 +6692,7 @@ class HomePageState extends State<HomePage>
                   instock = result.split('^')[5];
                   name5 = result.split('^')[9];
                   data ='^unit_name^';
+                  pLink = '';
                 });
                 print('selected test is true');
               } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
@@ -6985,6 +6701,7 @@ class HomePageState extends State<HomePage>
                   instock = result.split('^')[6];
                   name5 = result.split('^')[10];
                   data ='^sub1_name^';
+                  pLink = result.split('^')[14];
                 });
 
                 print('selected test is false');
@@ -6994,6 +6711,7 @@ class HomePageState extends State<HomePage>
                   instock = result.split('^')[7];
                   name5 = result.split('^')[11];
                   data ='^sub2_name^';
+                  pLink = result.split('^')[15];
                 });
                 print('selected test is tf');}
 
@@ -7011,6 +6729,19 @@ class HomePageState extends State<HomePage>
                 }
 
               });
+
+              FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr').get()
+                  .then((DocumentSnapshot documentSnapshot) async {
+                if (documentSnapshot.exists) {
+                  documentSnapshot['prods'].forEach((key, value) {
+                    if(key.toString() == result.split('^')[0].toString()) {
+                      setState(() {
+                     pImage = value['img'].toString(); });
+                    }
+                  });
+                }
+              });
+              print('image test ' + pImage.toString());
 
 
               return Scaffold(
@@ -7499,7 +7230,7 @@ class HomePageState extends State<HomePage>
                                                       child: GestureDetector(
                                                         onTap: () async {
                                                           setState(() {
-                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data +  qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage  );
+                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage + '^' + instock + '^' + pLink  );
                                                           });
                                                           print('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
@@ -9913,7 +9644,7 @@ class HomePageState extends State<HomePage>
                                                                             });
 
                                                                             if (dateExist) {
-                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
                                                                               batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
 
                                                                               //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
@@ -9922,7 +9653,7 @@ class HomePageState extends State<HomePage>
                                                                             }
                                                                             else {
                                                                               batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
-                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
                                                                               //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist not');
                                                                             }
@@ -12276,7 +12007,7 @@ class HomePageState extends State<HomePage>
 
   updateDateExist(WriteBatch batch, id1, dOrder , length) {
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1);
-    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder.toString()]),});
+    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
     return batch;
   }
 
@@ -12286,7 +12017,7 @@ class HomePageState extends State<HomePage>
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
 
     daily.doc(customId).set({
-      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
       'date' : date
     }).then((value) {
       print('date Exist added');
