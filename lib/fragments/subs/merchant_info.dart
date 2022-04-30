@@ -1123,66 +1123,66 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                         child: ListView(
                                           scrollDirection: Axis.horizontal,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 10.0),
-                                              child: ButtonTheme(
-                                                minWidth: 133,
-                                                //minWidth: 50,
-                                                splashColor: Colors.transparent,
-                                                height: 100,
-                                                child: FlatButton(
-                                                  color: AppTheme.buttonColor2,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        7.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.buttonColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    await widget._callback(
-                                                        widget.id.toString() + '^' +
-                                                            merchantName);
-                                                    smartKyatFlash(merchantName.toString() +
-                                                        ' has been successfully added to the buy cart.',
-                                                        's');
-                                                  },
-                                                  child: Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    child: Stack(
-                                                      children: [
-                                                        Positioned(
-                                                          top: 16.5,
-                                                          left: 0.5,
-                                                          child: Icon(
-                                                            SmartKyat_POS.merchant,
-                                                            size: 19,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          bottom: 15,
-                                                          left: 0,
-                                                          child: Text(
-                                                              textSetSaleCart,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.w600,
-                                                                fontSize: 16,
-                                                              ),
-                                                              strutStyle: StrutStyle(
-                                                                height: isEnglish
-                                                                    ? 1.4
-                                                                    : 1.6,
-                                                                forceStrutHeight: true,
-                                                              )
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(right: 10.0),
+                                            //   child: ButtonTheme(
+                                            //     minWidth: 133,
+                                            //     //minWidth: 50,
+                                            //     splashColor: Colors.transparent,
+                                            //     height: 100,
+                                            //     child: FlatButton(
+                                            //       color: AppTheme.buttonColor2,
+                                            //       shape: RoundedRectangleBorder(
+                                            //         borderRadius: BorderRadius.circular(
+                                            //             7.0),
+                                            //         side: BorderSide(
+                                            //           color: AppTheme.buttonColor2,
+                                            //         ),
+                                            //       ),
+                                            //       onPressed: () async {
+                                            //         await widget._callback(
+                                            //             widget.id.toString() + '^' +
+                                            //                 merchantName);
+                                            //         smartKyatFlash(merchantName.toString() +
+                                            //             ' has been successfully added to the buy cart.',
+                                            //             's');
+                                            //       },
+                                            //       child: Container(
+                                            //         width: 100,
+                                            //         height: 100,
+                                            //         child: Stack(
+                                            //           children: [
+                                            //             Positioned(
+                                            //               top: 16.5,
+                                            //               left: 0.5,
+                                            //               child: Icon(
+                                            //                 SmartKyat_POS.merchant,
+                                            //                 size: 19,
+                                            //               ),
+                                            //             ),
+                                            //             Positioned(
+                                            //               bottom: 15,
+                                            //               left: 0,
+                                            //               child: Text(
+                                            //                   textSetSaleCart,
+                                            //                   style: TextStyle(
+                                            //                     fontWeight: FontWeight.w600,
+                                            //                     fontSize: 16,
+                                            //                   ),
+                                            //                   strutStyle: StrutStyle(
+                                            //                     height: isEnglish
+                                            //                         ? 1.4
+                                            //                         : 1.6,
+                                            //                     forceStrutHeight: true,
+                                            //                   )
+                                            //               ),
+                                            //             ),
+                                            //           ],
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             //SizedBox(width: 10),
                                             ButtonTheme(
                                               minWidth: 133,
@@ -1270,69 +1270,69 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                             left: 15, right: 0.0, top: 12.0, bottom: 12.0),
                                         child: Row(
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  FlatButton(
-                                                    padding: EdgeInsets.only(
-                                                        left: 0, right: 0),
-                                                    color: AppTheme.secButtonColor,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(
-                                                          8.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.skBorderColor2,
-                                                      ),
-                                                    ),
-                                                    onPressed: () async {
-                                                      widget._closeCartBtn();
-                                                      await Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                EditMerchant(shopId: widget
-                                                                    .shopId,
-                                                                  merchId: widget.id,
-                                                                  merchName: merchantName,
-                                                                  merchAddress: address,
-                                                                  merchPhone: phone,)),);
-                                                      widget._openCartBtn();
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.symmetric(
-                                                          horizontal: 8.0),
-                                                      child: Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(
-                                                                right: 6.0),
-                                                            child: Icon(
-                                                              Icons.edit_rounded,
-                                                              size: 17,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            textSetEdit,
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 12),
-                                                  Container(
-                                                    color: Colors.grey.withOpacity(0.2),
-                                                    width: 1.5,
-                                                    height: 30,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(right: 10.0),
+                                            //   child: Row(
+                                            //     children: [
+                                            //       FlatButton(
+                                            //         padding: EdgeInsets.only(
+                                            //             left: 0, right: 0),
+                                            //         color: AppTheme.secButtonColor,
+                                            //         shape: RoundedRectangleBorder(
+                                            //           borderRadius: BorderRadius.circular(
+                                            //               8.0),
+                                            //           side: BorderSide(
+                                            //             color: AppTheme.skBorderColor2,
+                                            //           ),
+                                            //         ),
+                                            //         onPressed: () async {
+                                            //           widget._closeCartBtn();
+                                            //           await Navigator.push(
+                                            //             context,
+                                            //             MaterialPageRoute(
+                                            //                 builder: (context) =>
+                                            //                     EditMerchant(shopId: widget
+                                            //                         .shopId,
+                                            //                       merchId: widget.id,
+                                            //                       merchName: merchantName,
+                                            //                       merchAddress: address,
+                                            //                       merchPhone: phone,)),);
+                                            //           widget._openCartBtn();
+                                            //         },
+                                            //         child: Padding(
+                                            //           padding: const EdgeInsets.symmetric(
+                                            //               horizontal: 8.0),
+                                            //           child: Row(
+                                            //             children: [
+                                            //               Padding(
+                                            //                 padding: const EdgeInsets.only(
+                                            //                     right: 6.0),
+                                            //                 child: Icon(
+                                            //                   Icons.edit_rounded,
+                                            //                   size: 17,
+                                            //                 ),
+                                            //               ),
+                                            //               Text(
+                                            //                 textSetEdit,
+                                            //                 textAlign: TextAlign.center,
+                                            //                 style: TextStyle(
+                                            //                     fontSize: 14,
+                                            //                     fontWeight: FontWeight.w500,
+                                            //                     color: Colors.black),
+                                            //               ),
+                                            //             ],
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //       SizedBox(width: 12),
+                                            //       Container(
+                                            //         color: Colors.grey.withOpacity(0.2),
+                                            //         width: 1.5,
+                                            //         height: 30,
+                                            //       )
+                                            //     ],
+                                            //   ),
+                                            // ),
                                             Expanded(
                                               child: ListView(
                                                 scrollDirection: Axis.horizontal,

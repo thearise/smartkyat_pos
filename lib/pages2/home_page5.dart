@@ -9644,7 +9644,7 @@ class HomePageState extends State<HomePage>
                                                                             });
 
                                                                             if (dateExist) {
-                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                              batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
                                                                               batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
 
                                                                               //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
@@ -9653,7 +9653,7 @@ class HomePageState extends State<HomePage>
                                                                             }
                                                                             else {
                                                                               batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
-                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                              DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
                                                                               //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist not');
                                                                             }
@@ -12007,7 +12007,7 @@ class HomePageState extends State<HomePage>
 
   updateDateExist(WriteBatch batch, id1, dOrder , length) {
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1);
-    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder.toString()]),});
+    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
     return batch;
   }
 
@@ -12017,7 +12017,7 @@ class HomePageState extends State<HomePage>
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
 
     daily.doc(customId).set({
-      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
       'date' : date
     }).then((value) {
       print('date Exist added');

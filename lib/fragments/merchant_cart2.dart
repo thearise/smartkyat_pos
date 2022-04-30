@@ -2542,13 +2542,13 @@ class MerchantCartState extends State<MerchantCart>
 
                                       for (String str in widget.prodList2) {
                                         subList2.add(
-                                            str.split('^')[0] + '-' + 'veriD' +
-                                                '-' + 'buy0' + '-' +
-                                                str.split('^')[2] + '-' +
-                                                str.split('^')[1] + '-' +
-                                                str.split('^')[4] + '-' +
-                                                str.split('^')[2] + '-0-' +
-                                                'date');
+                                            str.split('^')[0] + '^' +  str.split('^')[7] +
+                                                '^' +  str.split('^')[8] + '^' +
+                                                str.split('^')[2] + '^' +
+                                                str.split('^')[1] + '^' +
+                                                str.split('^')[4] + '^' +
+                                                str.split('^')[2] + '^0^' +
+                                                str.split('^')[9]);
                                         print('subList2 init ' + subList2.toString());
 
                                         String sub1Buy = '0';
@@ -2847,13 +2847,20 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   updateMerchOrder(WriteBatch batch, id, totalOrds, debt, debtAmt) async {
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(id);
-    batch.update(documentReference, {
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(id);
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
+    if(id.toString() != 'name') {
+      batch.update(documentReference2, {
+        'mer.' + id +'.or': FieldValue.increment(double.parse(totalOrds.toString())),
+        'mer.' + id +'.da': FieldValue.increment(double.parse(debtAmt.toString())),
+        'mer.' + id +'.de': FieldValue.increment(double.parse(debt.toString())),
+      });
+    } else {    batch.update(documentReference, {
 
       'total_orders' : FieldValue.increment(double.parse(totalOrds.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmt.toString())),
       'debts' : FieldValue.increment(double.parse(debt.toString())),
-    });
+    }); }
     return batch;
   }
 
@@ -2899,7 +2906,6 @@ class MerchantCartState extends State<MerchantCart>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString(),
-      'search_name' : textSplitFunction(length.toString()),
     });
     return batch;
   }
