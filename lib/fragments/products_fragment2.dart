@@ -637,28 +637,30 @@ class ProductsFragmentState extends State<ProductsFragment>
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
 
-                              for(int i = 0; i < prods.length; i++) {
-                                var eachMap = prods.entries.elementAt(i);
-                                if(eachMap.value['na'] == null) {
-                                  print('prods entri ' + eachMap.toString());
-                                  List<dynamic> deleteExpenseData = [];
-                                  deleteExpenseData.add(eachMap);
-                                  
-                                  FirebaseFirestore.instance
-                                      .collection('shops')
-                                      .doc(widget.shopId)
-                                      .collection('collArr')
-                                      .doc('prodsArr')
-                                      .update(
-                                    {
-                                      'prods.' + eachMap.key.toString(): FieldValue.delete()
-                                    },
-                                  );
+                              if(prods != null) {
+                                for(int i = 0; i < prods.length; i++) {
+                                  var eachMap = prods.entries.elementAt(i);
+                                  if(eachMap.value['na'] == null) {
+                                    print('prods entri ' + eachMap.toString());
+                                    List<dynamic> deleteExpenseData = [];
+                                    deleteExpenseData.add(eachMap);
 
-                                  print('prods entri');
-                                }
-                                else {
-                                  resProds[eachMap.key] = eachMap.value;
+                                    FirebaseFirestore.instance
+                                        .collection('shops')
+                                        .doc(widget.shopId)
+                                        .collection('collArr')
+                                        .doc('prodsArr')
+                                        .update(
+                                      {
+                                        'prods.' + eachMap.key.toString(): FieldValue.delete()
+                                      },
+                                    );
+
+                                    print('prods entri');
+                                  }
+                                  else {
+                                    resProds[eachMap.key] = eachMap.value;
+                                  }
                                 }
                               }
 
