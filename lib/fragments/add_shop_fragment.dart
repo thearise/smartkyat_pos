@@ -530,15 +530,8 @@ class _AddShopState extends State<AddShop> {
                                   final uid = user!.uid;
                                   final email = user.email;
 
-                                  // String shopId = await getStoreId();
-
-
-
-
-
-
-
                                   if (_formKey.currentState!.validate()) {
+                                    WriteBatch batch = FirebaseFirestore.instance.batch();
                                     setState(() {
                                       loadingState = true;
                                     });
@@ -602,29 +595,104 @@ class _AddShopState extends State<AddShop> {
                                             }).catchError((error) => print("Failed to update user: $error"));
                                             setStoreId(shopVal.id.toString());
 
-                                            CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('customers');
-                                            cusName.doc('name').set({
-                                              'customer_name': 'No customer',
-                                              'customer_address': 'unknown',
-                                              'customer_phone': '',
-                                              'total_orders' : 0,
-                                              'debts' : 0,
-                                              'debtAmount' : 0,
-                                              'total_refunds' : 0,
-                                            }).then((value) {})
-                                                .catchError((error) => print("Failed to update user: $error"));
+                                            //CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('imgArr');
 
-                                            CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('merchants');
-                                            merchName.doc('name').set({
-                                              'merchant_name': 'No merchant',
-                                              'merchant_address': 'unknown',
-                                              'merchant_phone': '',
-                                              'total_orders' : 0,
-                                              'debts' : 0,
-                                              'debtAmount' : 0,
-                                              'total_refunds' : 0,
-                                            }).then((value) {})
-                                                .catchError((error) => print("Failed to update user: $error"));
+                                            addMapData(batch, shopVal.id, 'imgArr', 'prodsArr', 'prods');
+
+                                            addMapData(batch, shopVal.id, 'collArr', 'prodsArr', 'prods');
+
+                                            addMapData(batch, shopVal.id, 'collArr', 'cusArr', 'cus');
+
+                                            addMapData(batch, shopVal.id, 'collArr', 'merArr', 'mer');
+
+                                            addCountData(batch, shopVal.id, 'prodsCnt', 0);
+
+                                            addCountData(batch, shopVal.id, 'cusCnt', 0);
+
+                                            addCountData(batch, shopVal.id, 'merCnt', 0);
+
+                                            addCountData(batch, shopVal.id, 'ordsCnt', 1000);
+
+                                            addCountData(batch, shopVal.id, 'buyOrdsCnt', 1000);
+
+                                            addNoCus(batch, shopVal.id);
+
+                                            addNoMer(batch, shopVal.id);
+
+                                            batch.commit();
+
+                                            // imageArr.doc('prodsArr').set({
+                                            //   'prods' : {}
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('collArr');
+                                            // collectionArr.doc('cusArr').set({
+                                            //   'cus' : {}
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // collectionArr.doc('merArr').set({
+                                            //   'mer' : {}
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // collectionArr.doc('prodsArr').set({
+                                            //   'prods' : {}
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+
+
+
+                                            // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('countColl');
+                                            // countColl.doc('prodsCnt').set({
+                                            //   'count' : 0
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // countColl.doc('cusCnt').set({
+                                            //   'count' : 0
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // countColl.doc('merCnt').set({
+                                            //   'count' : 0
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // countColl.doc('ordsCnt').set({
+                                            //   'count' : 1000
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // countColl.doc('buyOrdsCnt').set({
+                                            //   'count' : 1000
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+
+                                            // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('customers');
+                                            // cusName.doc('name').set({
+                                            //   'customer_name': 'No customer',
+                                            //   'customer_address': 'unknown',
+                                            //   'customer_phone': '',
+                                            //   'total_orders' : 0,
+                                            //   'debts' : 0,
+                                            //   'debtAmount' : 0,
+                                            //   'total_refunds' : 0,
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                            //
+                                            // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('merchants');
+                                            // merchName.doc('name').set({
+                                            //   'merchant_name': 'No merchant',
+                                            //   'merchant_address': 'unknown',
+                                            //   'merchant_phone': '',
+                                            //   'total_orders' : 0,
+                                            //   'debts' : 0,
+                                            //   'debtAmount' : 0,
+                                            //   'total_refunds' : 0,
+                                            // }).then((value) {})
+                                            //     .catchError((error) => print("Failed to update user: $error"));
 
                                             var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
 
@@ -712,6 +780,48 @@ class _AddShopState extends State<AddShop> {
         ),
       ),
     );
+  }
+
+  addMapData(WriteBatch batch, newShopId ,collName, docId, mapName) {
+    DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection(collName).doc(docId);
+    batch.set(arStream, { mapName.toString() : {}
+    });
+    return batch;
+}
+
+  addCountData(WriteBatch batch, newShopId , docId, val) {
+    DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('countColl').doc(docId);
+    batch.set(arStream, { 'count' : val
+    });
+    return batch;
+  }
+
+  addNoCus(WriteBatch batch, newShopId) {
+    DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('customers').doc('name');
+    batch.set(arStream, {
+      'customer_name': 'No customer',
+      'customer_address': 'unknown',
+      'customer_phone': '',
+      'total_orders' : 0,
+      'debts' : 0,
+      'debtAmount' : 0,
+      'total_refunds' : 0,
+    });
+    return batch;
+  }
+
+  addNoMer(WriteBatch batch, newShopId) {
+    DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('merchants').doc('name');
+    batch.set(arStream, {
+      'merchant_name': 'No merchant',
+      'merchant_address': 'unknown',
+      'merchant_phone': '',
+      'total_orders' : 0,
+      'debts' : 0,
+      'debtAmount' : 0,
+      'total_refunds' : 0,
+    });
+    return batch;
   }
 
   setStoreId(String id) async {

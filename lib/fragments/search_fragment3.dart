@@ -162,61 +162,61 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
 
-    print('initializing ');
-    FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('cacheArr').doc('prodsArr')
-        .get().then((value) async {
-      var array = value.data()!['array'];
-      List<String> needToFetchs = [];
-
-      // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
-      //     .where('archive', isEqualTo: false)
-      // // .limit(20)
-      //     .get(GetOptions(source: Source.cache))
-      // // .get()
-      //     .then((QuerySnapshot querySnapshot)  async {
-      //   prodDocs = querySnapshot.docs;
-      //   workCacheProds = querySnapshot.docs;
-      //
-      //
-      //
-      //   querySnapshot.docs.forEach((doc) {
-      //     DocumentSnapshot doc2 = doc;
-      //     print('cache data s ' + doc['prod_name']);
-      //
-      //     // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
-      //     // // docSnap.
-      //     //
-      //     // // Stream<QuerySnapshot>? emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
-      //     // // emailSnapshot.sn;
-      //     //
-      //     // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
-      //     // docSnap.listen((querySnapshot) {
-      //     //   print('query snap changes ' + querySnapshot.toString());
-      //     //   // querySnapshot..forEach((change) {
-      //     //   //   // Do something with change
-      //     //   // });
-      //     // });
-      //
-      //     CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
-      //
-      //     if(!array.contains(doc.id)) {
-      //       print('cache data s not equaling');
-      //       // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-      //       //     .doc(doc.id)
-      //       //     .get();
-      //       FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
-      //           .doc(doc.id)
-      //           .get()
-      //           .then((value) {
-      //         workSerProds.add(value);
-      //       });
-      //
-      //     }
-      //   });
-      //
-      // });
-
-    });
+    // print('initializing ');
+    // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('cacheArr').doc('prodsArr')
+    //     .get().then((value) async {
+    //   var array = value.data()!['array'];
+    //   List<String> needToFetchs = [];
+    //
+    //   // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
+    //   //     .where('archive', isEqualTo: false)
+    //   // // .limit(20)
+    //   //     .get(GetOptions(source: Source.cache))
+    //   // // .get()
+    //   //     .then((QuerySnapshot querySnapshot)  async {
+    //   //   prodDocs = querySnapshot.docs;
+    //   //   workCacheProds = querySnapshot.docs;
+    //   //
+    //   //
+    //   //
+    //   //   querySnapshot.docs.forEach((doc) {
+    //   //     DocumentSnapshot doc2 = doc;
+    //   //     print('cache data s ' + doc['prod_name']);
+    //   //
+    //   //     // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
+    //   //     // // docSnap.
+    //   //     //
+    //   //     // // Stream<QuerySnapshot>? emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
+    //   //     // // emailSnapshot.sn;
+    //   //     //
+    //   //     // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
+    //   //     // docSnap.listen((querySnapshot) {
+    //   //     //   print('query snap changes ' + querySnapshot.toString());
+    //   //     //   // querySnapshot..forEach((change) {
+    //   //     //   //   // Do something with change
+    //   //     //   // });
+    //   //     // });
+    //   //
+    //   //     CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
+    //   //
+    //   //     if(!array.contains(doc.id)) {
+    //   //       print('cache data s not equaling');
+    //   //       // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
+    //   //       //     .doc(doc.id)
+    //   //       //     .get();
+    //   //       FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
+    //   //           .doc(doc.id)
+    //   //           .get()
+    //   //           .then((value) {
+    //   //         workSerProds.add(value);
+    //   //       });
+    //   //
+    //   //     }
+    //   //   });
+    //   //
+    //   // });
+    //
+    // });
 
     // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
     //     .orderBy('update_time')
