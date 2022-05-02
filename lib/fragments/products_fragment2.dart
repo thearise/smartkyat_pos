@@ -636,6 +636,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
+                              print('prods length' + prods.length.toString());
 
                               if(prods != null) {
                                 for(int i = 0; i < prods.length; i++) {
