@@ -942,32 +942,55 @@ class _EditProductState extends State<EditProduct> {
                                           sub1Buy = '0';
                                           sub2Buy = '0';
                                         }
+                                        print('whatting 0 ?');
 
 
                                         FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                             .get()
                                             .then((DocumentSnapshot documentSnapshot) async {
+                                          print('whatting? 2');
                                           if (documentSnapshot.exists) {
+                                            print('whatting? 3');
                                             // documentSnapshot['prods'].forEach((key, value) {
                                             //
                                             //   productExist.add( value['na'].toString());
                                             //
                                             // });
-                                            for(int i = 0; i < documentSnapshot['prods'].length; i++) {
-                                              var eachMap = documentSnapshot['prods'].entries.elementAt(i);
-                                              if(eachMap.key == widget.prodId) {
-                                                continue;
-                                              } else {
-                                                productExist.add(eachMap.value['na']);
-                                              }
-                                            }
 
-                                            for(int i=0; i < productExist.length; i++) {
-                                              if(productExist[i].toString() ==  prodNameCtrl.text) {
+                                            documentSnapshot['prods'].forEach((key, value) async {
+                                              if(value['na'] ==  prodNameCtrl.text && key.toString() != widget.prodId) {
+                                                // setState(() {
                                                 prodExist = true;
+                                                // });
+
+                                                print('document print no image ' + productExist.toString());
+                                                print('document print no image ' + prodExist.toString());
                                               }
-                                            }
-                                            print('document print ' + productExist.toString());
+                                              print('val ' + value['na'].toString());
+
+                                            });
+
+                                            // for(int i = 0; i < documentSnapshot['prods'].length; i++) {
+                                            //   // print('whatting 5?');
+                                            //   var eachMap = documentSnapshot['prods'].entries.elementAt(i);
+                                            //   if(eachMap.value['na'] == prodNameCtrl.text) {
+                                            //     prodExist = true;
+                                            //     break;
+                                            //   }
+                                            //   // if(eachMap.key == widget.prodId) {
+                                            //   //   continue;
+                                            //   // } else {
+                                            //   //   productExist.add(eachMap.value['na']);
+                                            //   // }
+                                            // }
+
+                                            // for(int i=0; i < productExist.length; i++) {
+                                            //   if(productExist[i].toString() ==  prodNameCtrl.text) {
+                                            //     prodExist = true;
+                                            //   }
+                                            // }
+
+                                            // print('document print ' + productExist.toString());
                                             print('document print ' + prodExist.toString());
                                           }
 

@@ -691,6 +691,7 @@ class _WelcomeState extends State<Welcome>
                                                                                     setState(() {
                                                                                       loadingState = false;
                                                                                     });
+                                                                                    print('shop shi lar ' + shopExists.toString());
 
                                                                                     if(shopExists) {
                                                                                       Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
