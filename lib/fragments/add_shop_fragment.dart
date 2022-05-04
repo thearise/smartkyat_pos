@@ -569,137 +569,65 @@ class _AddShopState extends State<AddShop> {
                                             setState(() {
                                               loadingState = false;
                                             });
-                                          } else {
-                                            DocumentReference shopAutoId = shops.doc();
-                                            batch.set(shopAutoId, {
-                                              'owner_id' : uid.toString(),
-                                              'shop_name': shopFieldsValue[0],
-                                              'shop_address' : shopFieldsValue[1],
-                                              'plan_type' : 'basic',
-                                              'shop_phone': shopFieldsValue[2],
-                                              'users': FieldValue.arrayUnion([email.toString()]),
-                                              'orders_length': 1000,
-                                              'buyOrders_length': 1000,
-                                              'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                            });
+                                          }
+                                          else {
+                                            shops.add(
+                                                {
+                                                  'owner_id' : uid.toString(),
+                                                  'shop_name': shopFieldsValue[0],
+                                                  'shop_address' : shopFieldsValue[1],
+                                                  'plan_type' : 'basic',
+                                                  'shop_phone': shopFieldsValue[2],
+                                                  'users': FieldValue.arrayUnion([email.toString()]),
+                                                  'orders_length': 1000,
+                                                  'buyOrders_length': 1000,
+                                                  'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                                  'devices': [await _getId()],
+                                                }
+                                            ).then((value) async {
+                                              shops.doc(value.id).collection('users').doc(email).set({
+                                                'email': email.toString(),
+                                                'role' : 'owner',
+                                                'device0': await _getId()
+                                              }).then((value) {
 
-                                            batch.set(shopAutoId.collection('users').doc(email), {
-                                              'email': email.toString(),
-                                              'role' : 'owner',
-                                              'device0': await _getId()
-                                            });
+                                              })
+                                                  .catchError((error) => print("Failed to update user: $error"));
 
-                                            batch.set(shopAutoId.collection('users_ver').doc(auth.currentUser!.uid), {
-                                              'email': email.toString(),
-                                              'role' : 'owner',
-                                              'device0': await _getId()
-                                            });
-
-                                            setStoreId(shopAutoId.id.toString());
-
-                                            //CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('imgArr');
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'imgArr', 'prodsArr', 'prods', shopAutoId.collection('imgArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'prodsArr', 'prods', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'cusArr', 'cus', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'merArr', 'mer', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'prodsCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'cusCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'merCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'ordsCnt', 1000, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'buyOrdsCnt', 1000, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addNoCus(batch, shopAutoId.id.toString(), shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addNoMer(batch, shopAutoId.id.toString(), shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            // imageArr.doc('prodsArr').set({
-                                            //   'prods' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('collArr');
-                                            // collectionArr.doc('cusArr').set({
-                                            //   'cus' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // collectionArr.doc('merArr').set({
-                                            //   'mer' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // collectionArr.doc('prodsArr').set({
-                                            //   'prods' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                              shops.doc(value.id).collection('users_ver').doc(uid).set({
+                                                'email': email.toString(),
+                                                'role' : 'owner',
+                                                'device0': await _getId()
+                                              }).then((value) {})
+                                                  .catchError((error) => print("Failed to update user: $error"));
 
 
+                                              addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
-                                            // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('countColl');
-                                            // countColl.doc('prodsCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('cusCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('merCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('ordsCnt').set({
-                                            //   'count' : 1000
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('buyOrdsCnt').set({
-                                            //   'count' : 1000
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                              addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
 
-                                            // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('customers');
-                                            // cusName.doc('name').set({
-                                            //   'customer_name': 'No customer',
-                                            //   'customer_address': 'unknown',
-                                            //   'customer_phone': '',
-                                            //   'total_orders' : 0,
-                                            //   'debts' : 0,
-                                            //   'debtAmount' : 0,
-                                            //   'total_refunds' : 0,
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('merchants');
-                                            // merchName.doc('name').set({
-                                            //   'merchant_name': 'No merchant',
-                                            //   'merchant_address': 'unknown',
-                                            //   'merchant_phone': '',
-                                            //   'total_orders' : 0,
-                                            //   'debts' : 0,
-                                            //   'debtAmount' : 0,
-                                            //   'total_refunds' : 0,
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
+                                              addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
+
+                                              addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
+
+                                              addCountData(batch, value.id, 'prodsCnt', 0);
+
+                                              addCountData(batch, value.id, 'cusCnt', 0);
+
+                                              addCountData(batch, value.id, 'merCnt', 0);
+
+                                              addCountData(batch, value.id, 'ordsCnt', 1000);
+
+                                              addCountData(batch, value.id, 'buyOrdsCnt', 1000);
+
+                                              addNoCus(batch, value.id);
+
+                                              addNoMer(batch, value.id);
 
 
                                             try {
                                               await batch.commit();
-                                              print('success? ');
-                                              print('success? 1 ' + shopAutoId.toString());
-                                              print('success? 2 ' + shopAutoId.id.toString());
+                                              setStoreId(value.id.toString());
                                               var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
 
                                               //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
@@ -710,45 +638,9 @@ class _AddShopState extends State<AddShop> {
                                                 loadingState = false;
                                               });
                                             }
-
-
-
-
-
-
-
-                                            // shops.add(
-                                            //     {
-                                            //       'owner_id' : uid.toString(),
-                                            //       'shop_name': shopFieldsValue[0],
-                                            //       'shop_address' : shopFieldsValue[1],
-                                            //       'plan_type' : 'basic',
-                                            //       'shop_phone': shopFieldsValue[2],
-                                            //       'users': FieldValue.arrayUnion([email.toString()]),
-                                            //       'orders_length': 1000,
-                                            //       'buyOrders_length': 1000,
-                                            //       'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                            //     }
-                                            // ).then((shopVal) async {
-                                            //   shops.doc(shopVal.id).collection('users').doc(email).set({
-                                            //     'email': email.toString(),
-                                            //     'role' : 'owner',
-                                            //     'device0': await _getId()
-                                            //   }).then((value) async {
-                                            //     shops.doc(shopVal.id).collection('users_ver').doc(uid).set({
-                                            //       'email': email.toString(),
-                                            //       'role' : 'owner',
-                                            //       'device0': await _getId()
-                                            //     }).then((value) {
-                                            //
-                                            //     }).catchError((error) => print("Failed to update user: $error"));
-                                            //   }).catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            //
-                                            //
-                                            // });
+                                          });
                                           }
-                                        });
+                                      });
                                       });
 
 
@@ -830,21 +722,21 @@ class _AddShopState extends State<AddShop> {
     );
   }
 
-  addMapData(WriteBatch batch, newShopId ,collName, docId, mapName, shopAuto) {
+  addMapData(WriteBatch batch, newShopId ,collName, docId, mapName, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection(collName).doc(docId);
     batch.set(arStream, { mapName.toString() : {}
     });
     return batch;
 }
 
-  addCountData(WriteBatch batch, newShopId , docId, val, shopAuto) {
+  addCountData(WriteBatch batch, newShopId , docId, val, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('countColl').doc(docId);
     batch.set(arStream, { 'count' : val
     });
     return batch;
   }
 
-  addNoCus(WriteBatch batch, newShopId, shopAuto) {
+  addNoCus(WriteBatch batch, newShopId, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('customers').doc('name');
     batch.set(arStream, {
       'customer_name': 'No customer',
@@ -858,7 +750,7 @@ class _AddShopState extends State<AddShop> {
     return batch;
   }
 
-  addNoMer(WriteBatch batch, newShopId, shopAuto) {
+  addNoMer(WriteBatch batch, newShopId, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('merchants').doc('name');
     batch.set(arStream, {
       'merchant_name': 'No merchant',

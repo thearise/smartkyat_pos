@@ -502,6 +502,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                             'orders_length': 1000,
                                             'buyOrders_length': 1000,
                                             'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                            'devices': [await _getId()],
 
                                           }
                                       ).then((value) async {
@@ -516,7 +517,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                           'role' : 'owner',
                                           'device0': await _getId()
                                         }).catchError((error) => print("Failed to update user: $error"));
-                                        setStoreId(value.id.toString());
+                                       // setStoreId(value.id.toString());
 
                                         addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
@@ -540,7 +541,19 @@ class _AddNewShopState extends State<AddNewShop> {
 
                                         addNoMer(batch, value.id);
 
-                                        batch.commit();
+                                        try {
+                                          await batch.commit();
+                                          setStoreId(value.id.toString());
+                                          var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+
+                                          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                          print('shop added');
+                                        } catch (error) {
+                                          print('shop adding error');
+                                          setState(() {
+                                            loadingState = false;
+                                          });
+                                        }
 
                                         // CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('imgArr');
                                         // imageArr.doc('prodsArr').set({
@@ -614,10 +627,9 @@ class _AddNewShopState extends State<AddNewShop> {
                                         // }).then((value) {})
                                         //     .catchError((error) => print("Failed to update user: $error"));
 
-                                        var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
 
                                         //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                        print('shop added');
+                                       // print('shop added');
                                       });
                                     }
                                   }
