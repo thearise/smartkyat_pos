@@ -1666,9 +1666,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               if (documentSnapshot.exists) {
                                                 documentSnapshot['prods'].forEach((key, value) async {
                                                   if(value['na'] ==  prodFieldsValue[0].toString()) {
-                                                    setState(() {
-                                                      prodExist = true;
-                                                    });
+                                                    // setState(() {
+                                                    prodExist = true;
+                                                    // });
 
                                               print('document print no image ' + productExist.toString());
                                               print('document print no image ' + prodExist.toString());

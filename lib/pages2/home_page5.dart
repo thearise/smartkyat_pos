@@ -639,6 +639,7 @@ class HomePageState extends State<HomePage>
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
     getStoreId().then((value0) {
+      print('value check ' + value0.toString());
       if(value0 == '' || value0 == null) {
         Navigator.of(context).push(
             FadeRoute(page: chooseStore(),)
