@@ -2029,17 +2029,17 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     var prodKey = prodMap.key;
                     return GestureDetector(
                       onTap: () async {
-                        // closeDrawerFrom();
-                        // await Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (
-                        //           context) =>
-                        //           CustomerInfoSubs(
-                        //             id: version, custName: data['customer_name'], custAddress: data['customer_address'],
-                        //             toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
-                        // );
-                        // openDrawerFrom();
+                        closeDrawerFrom();
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (
+                                  context) =>
+                                  CustomerInfoSubs(
+                                    id: prodKey.toString(), custName: prodVal['na'], custAddress: prodVal['ad'],
+                                    toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        );
+                        openDrawerFrom();
                       },
                       child: Padding(
                         padding:
@@ -2255,7 +2255,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           }
       );
-    } else if(cateScIndex == 2) {
+    }
+    else if(cateScIndex == 2) {
       return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: merchantsSnapshot,
           builder: (BuildContext context, mercsSB) {
@@ -2295,17 +2296,17 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     var prodKey = prodMap.key;
                     return GestureDetector(
                       onTap: () async {
-                        // closeDrawerFrom();
-                        // await Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (
-                        //           context) =>
-                        //           CustomerInfoSubs(
-                        //             id: version, custName: data['customer_name'], custAddress: data['customer_address'],
-                        //             toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
-                        // );
-                        // openDrawerFrom();
+                        closeDrawerFrom();
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (
+                                  context) =>
+                                  MerchantInfoSubs(
+                                    id: prodKey.toString(), mercName: prodVal['na'], mercAddress: prodVal['ad'],
+                                    toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        );
+                        openDrawerFrom();
                       },
                       child: Padding(
                         padding:
@@ -2521,7 +2522,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           }
       );
-    } else if(cateScIndex == 3) {
+    }
+    else if(cateScIndex == 3) {
       return StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('shops')
@@ -2536,13 +2538,13 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                       (context, index) {
                     return GestureDetector(
                           onTap: () async {
-                            // closeDrawerFrom();
-                            // await Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
-                            // );
-                            // openDrawerFrom();
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderInfoSub(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['customerId'] + '&' +snapshot2.data!.docs[index]['customerId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                            );
+                            openDrawerFrom();
                           },
                           child: Stack(
                             alignment: Alignment.center,
@@ -2799,9 +2801,290 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             }
             return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
           }
-      );
+      )
+      ;
     }
+    else if(cateScIndex == 4) {
+      return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('shops')
+              .doc(widget.shopId)
+              .collection('buyOrder')
+              .where('orderId', isEqualTo: searchValue)
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+            if(snapshot2.hasData) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        closeDrawerFrom();
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BuyListInfo(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merchantId'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        );
+                        openDrawerFrom();
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            color: AppTheme.lightBgColor,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 1.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                // '#' + item!='' ? item.split('^')[1]: ''
+                                                Text(
+                                                  // '#',
+                                                  '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                                  child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  // '',
+                                                  covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                //   style: TextStyle(
+                                                //     fontSize: 14,
+                                                //     fontWeight: FontWeight.w500,
+                                                //     color: Colors.grey,
+                                                //   ),
+                                                // ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  // '',
+                                                  snapshot2.data!.docs[index]['merchantId'],
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
 
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          if(snapshot2.data!.docs[index]['debt'] == 0)
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSuccess,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Paid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                          if(snapshot2.data!.docs[index]['debt'] != 0 && double.parse(snapshot2.data!.docs[index]['total']) > snapshot2.data!.docs[index]['debt'])
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeFgDangerLight,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Partially paid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: AppTheme.badgeFgDanger
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          if(snapshot2.data!.docs[index]['debt'] != 0  && double.parse(snapshot2.data!.docs[index]['total']) == snapshot2.data!.docs[index]['debt'])
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeFgDanger,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Unpaid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          if(snapshot2.data!.docs[index]['refund'] == 'F')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 6.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSecond,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Refunded',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                          if(snapshot2.data!.docs[index]['refund'] == 'P')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 6.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSecondLight,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                  child: Text('Partially refunded',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: AppTheme.badgeBgSecond
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.lightBgColor,
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                              width: snapshot2.data!.docs.length-1 == index? 0.0: 1.0),
+                                        )),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    // 'MMK ',
+                                      'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                  SizedBox(width: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                    child: Icon(
+                                      Icons
+                                          .arrow_forward_ios_rounded,
+                                      size: 16,
+                                      color: Colors
+                                          .blueGrey
+                                          .withOpacity(
+                                          0.8),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  childCount: snapshot2.data!.docs == null? 0: snapshot2.data!.docs.length,
+                  // childCount: 1,
+                ),
+              );
+            }
+            return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+          }
+      )
+      ;
+    }
   }
 
 
