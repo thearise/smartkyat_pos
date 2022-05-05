@@ -2542,7 +2542,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OrderInfoSub(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['customerId'] + '&' +snapshot2.data!.docs[index]['customerId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                  builder: (context) => OrderInfoSub(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['cusName'] + '&' + snapshot2.data!.docs[index]['customerId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                             );
                             openDrawerFrom();
                           },
@@ -2608,7 +2608,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   children: [
                                                     Text(
                                                       // '',
-                                                      snapshot2.data!.docs[index]['customerId'],
+                                                      snapshot2.data!.docs[index]['cusName'],
                                                       style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -2695,7 +2695,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     ),
                                                   ),
                                                 ),
-                                              if(snapshot2.data!.docs[index]['refund'] == 'F')
+                                              if(snapshot2.data!.docs[index]['refund'] == 'T')
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 6.0),
                                                   child: Container(
@@ -2823,7 +2823,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BuyListInfo(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merchantId'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                              builder: (context) => BuyListInfo(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                         );
                         openDrawerFrom();
                       },
@@ -2889,7 +2889,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               children: [
                                                 Text(
                                                   // '',
-                                                  snapshot2.data!.docs[index]['merchantId'],
+                                                  snapshot2.data!.docs[index]['merName'],
                                                   style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
@@ -2976,7 +2976,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 ),
                                               ),
                                             ),
-                                          if(snapshot2.data!.docs[index]['refund'] == 'F')
+                                          if(snapshot2.data!.docs[index]['refund'] == 'T')
                                             Padding(
                                               padding: const EdgeInsets.only(left: 6.0),
                                               child: Container(

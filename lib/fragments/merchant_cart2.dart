@@ -2892,6 +2892,12 @@ class MerchantCartState extends State<MerchantCart>
 
   updateDetail(WriteBatch batch, date, length, subs, docId, reF, deF, dateTime) {
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder').doc(deviceIdNum.toString() + length.toString());
+
+    String merchantName = '';
+    if( widget.merchantId.split('^')[1] == 'name') {
+      merchantName = 'No merchant';
+    } else merchantName = widget.merchantId.split('^')[1];
+
     batch.set(documentReference, {
       'date': date,
       'total': TtlProdListPrice2(),
@@ -2906,6 +2912,7 @@ class MerchantCartState extends State<MerchantCart>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString(),
+      'merName' : merchantName,
     });
     return batch;
   }
