@@ -560,8 +560,9 @@ class HomePageState extends State<HomePage>
     // ));
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
-      setState(() {
-        totalAmount = double.parse(TtlProdListPrice());
+      setState(() async {
+        String ttlProdListPriceFut = await TtlProdListPriceFut();
+        totalAmount = double.parse(ttlProdListPriceFut);
         _textFieldControllerTablet.text != '' ? paidAmount = double.parse(_textFieldControllerTablet.text) : paidAmount = 0.0;
         if((totalAmount - paidAmount).isNegative){
           debt = 0;
@@ -3785,9 +3786,10 @@ class HomePageState extends State<HomePage>
                                                                                         child: Padding(
                                                                                           padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                                                           child: GestureDetector(
-                                                                                            onTap: () {
+                                                                                            onTap: () async {
+                                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                               setState(() {
-                                                                                                totalAmount = double.parse(TtlProdListPrice());
+                                                                                                totalAmount = double.parse(ttlProdListPriceFut);
                                                                                               });
 
                                                                                               int i = 0;
@@ -3799,7 +3801,7 @@ class HomePageState extends State<HomePage>
                                                                                               print('totalAmount '+ totalAmount.toString());
                                                                                               _controllerTablet.animateTo(1);
                                                                                               if(_textFieldControllerTablet.text == '') {
-                                                                                                debt = double.parse(TtlProdListPrice().toString());
+                                                                                                debt = double.parse(ttlProdListPriceFut);
                                                                                               }
                                                                                               // sellDone = false;
                                                                                             },
@@ -4029,8 +4031,9 @@ class HomePageState extends State<HomePage>
                                                                                                       //   } else { refund = (paidAmount - totalAmount);
                                                                                                       //   }
                                                                                                       // });
-                                                                                                      setState(() {
-                                                                                                        totalAmount = double.parse(TtlProdListPrice());
+                                                                                                      setState(() async {
+                                                                                                        String ttlProdListPriceFut = await TtlProdListPrice();
+                                                                                                        totalAmount = double.parse(ttlProdListPriceFut);
                                                                                                         value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                                                         if((totalAmount - paidAmount).isNegative){
                                                                                                           debt = 0;
@@ -4057,7 +4060,7 @@ class HomePageState extends State<HomePage>
                                                                                                         borderRadius: BorderRadius.circular(7.0),
                                                                                                       ),
                                                                                                       onPressed: () async {
-                                                                                                        setState(() {
+                                                                                                        setState(() async {
                                                                                                           // mystate(() {
                                                                                                           //   totalAmount =
                                                                                                           //       double
@@ -4089,11 +4092,12 @@ class HomePageState extends State<HomePage>
                                                                                                           //         totalAmount);
                                                                                                           //   }
                                                                                                           // });
+                                                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                           setState(() {
                                                                                                             totalAmount =
                                                                                                                 double
                                                                                                                     .parse(
-                                                                                                                    TtlProdListPrice());
+                                                                                                                    ttlProdListPriceFut);
                                                                                                             _textFieldControllerTablet
                                                                                                                 .text =
                                                                                                                 totalAmount
@@ -4258,7 +4262,8 @@ class HomePageState extends State<HomePage>
                                                                                             child: Row(
                                                                                                 children: [
                                                                                                   GestureDetector(
-                                                                                                    onTap: () {
+                                                                                                    onTap: () async {
+                                                                                                      String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                       setState((){
                                                                                                         // mystate(() {
                                                                                                         _controllerTablet.animateTo(0);
@@ -4266,7 +4271,7 @@ class HomePageState extends State<HomePage>
                                                                                                         paidAmount = 0;
                                                                                                         debt = 0;
                                                                                                         refund = 0;
-                                                                                                        totalAmount = double.parse(TtlProdListPrice());
+                                                                                                        totalAmount = double.parse(ttlProdListPriceFut);
                                                                                                         // });
                                                                                                       });
                                                                                                     },
@@ -4406,13 +4411,13 @@ class HomePageState extends State<HomePage>
                                                                                                         batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                                                         print('why total1 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-                                                                                                        String whyTotal = TtlProdListPrice().toString();
+                                                                                                        String whyTotal = await TtlProdListPriceFut();
                                                                                                         double whyDiscount = discountAmount;
                                                                                                         String whyDisText = disText.toString();
                                                                                                         double whyDebt = debt;
                                                                                                         String whyCustomer = customerId.split('^')[0]+ '<>' + customerId.split('^')[1];
                                                                                                         String detailCus = customerId.split('^')[0];
-                                                                                                        finalTotal = TtlProdListPrice().toString();
+                                                                                                        finalTotal = await TtlProdListPriceFut();
 
                                                                                                         CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
@@ -4511,116 +4516,109 @@ class HomePageState extends State<HomePage>
                                                                                                               }
                                                                                                               else {
                                                                                                                 batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
+                                                                                                                String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
 
                                                                                                               }
 
 
-                                                                                                              batch.commit();
+                                                                                                              await batch.commit();
+                                                                                                              List<String> subNameList = [];
+                                                                                                              int subNameListLength = 0;
+                                                                                                              for (String str in prodList) {
+                                                                                                                subNameListLength = subNameListLength + 1;
+                                                                                                                //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                                                                print('DATA CHECK PROD ' + str.toString());
+                                                                                                                subNameList.add(str.split('^')[7]);
+                                                                                                                if(prodList.length == subNameListLength) {
+                                                                                                                  print('fianlize : ' + subNameList.toString());
+                                                                                                                  final date = now;
+                                                                                                                  final dueDate = date.add(Duration(days: 7));
+                                                                                                                  print('CUZMER CHECK ' + customerId.toString());
+                                                                                                                  final invoice = Invoice(
+                                                                                                                    supplier: Supplier(
+                                                                                                                      name: shopGloName,
+                                                                                                                      address: shopGloAddress,
+                                                                                                                      phone: shopGloPhone,
+                                                                                                                      paymentInfo: '',
+                                                                                                                    ),
+                                                                                                                    customer: Customer(
+                                                                                                                      name: customerId.split('^')[1],
+                                                                                                                      address: '',
+                                                                                                                    ),
+                                                                                                                    info: InvoiceInfo(
+                                                                                                                        date: date,
+                                                                                                                        dueDate: dueDate,
+                                                                                                                        description: 'My description...',
+                                                                                                                        // number: '${DateTime.now().year}-9999',
+                                                                                                                        number: deviceIdNum.toString() + '^' + length.toString()
+                                                                                                                    ),
+                                                                                                                    items: [
+                                                                                                                      for(int i=0; i<prodList.length; i++)
+                                                                                                                        InvoiceItem(
+                                                                                                                          description: prodList[i].split('^')[6],
+                                                                                                                          // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                                                          date: subNameList[i].toString(),
+                                                                                                                          quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                                                          vat: discountAmount,
+                                                                                                                          type: disText,
+                                                                                                                          debt: debt,
+                                                                                                                          unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                                                          currencyUnit: currencyUnit,
+                                                                                                                          totalPriceText: totalVPrice,
+                                                                                                                          paidText: VPaid,
+                                                                                                                          totalDebtText: VDebt,
+                                                                                                                          subTotalText: subVTotal,
+                                                                                                                          discountText: VDiscount,
+                                                                                                                        )
+
+                                                                                                                    ],
+                                                                                                                  );
+
+
+                                                                                                                  getPaperId().then((value) async {
+                                                                                                                    print('VVAALLUUEE ' + value.toString());
+                                                                                                                    pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                                                    Uint8List bytes = pdfFile!.readAsBytesSync();
+
+                                                                                                                    // mystate(() {
+                                                                                                                    //   // setState(() {
+                                                                                                                    //   pdfText = pdfFile!.path.toString();
+                                                                                                                    //   // });
+                                                                                                                    // });
+                                                                                                                    setState(() {
+                                                                                                                      pdfText = pdfFile!.path.toString();
+
+                                                                                                                      prodList = [];
+                                                                                                                      discount = 0.0;
+                                                                                                                      discountAmount =0.0;
+                                                                                                                      debt =0;
+                                                                                                                      refund =0;
+                                                                                                                      custPrintTitle = customerId.split('^')[1];
+                                                                                                                      customerId = 'name^name';
+                                                                                                                      disText = '';
+                                                                                                                      isDiscount = '';
+                                                                                                                    });
+
+
+                                                                                                                    // mystate(()  {
+                                                                                                                    //   prodList = [];
+                                                                                                                    //   discount = 0.0;
+                                                                                                                    //   debt =0;
+                                                                                                                    //   refund =0;
+                                                                                                                    //   //customerId = 'name^name';
+                                                                                                                    // });
+
+
+                                                                                                                    _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                                                  });
+
+                                                                                                                }
+                                                                                                              }
                                                                                                             });
                                                                                                           });
                                                                                                         });
-
-                                                                                                        List<String> subNameList = [];
-                                                                                                        int subNameListLength = 0;
-                                                                                                        for (String str in prodList) {
-                                                                                                          subNameListLength = subNameListLength + 1;
-                                                                                                          //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-                                                                                                          print('DATA CHECK PROD ' + str.toString());
-                                                                                                          subNameList.add(str.split('^')[7]);
-                                                                                                          if(prodList.length == subNameListLength) {
-                                                                                                            print('fianlize : ' + subNameList.toString());
-                                                                                                            final date = now;
-                                                                                                            final dueDate = date.add(Duration(days: 7));
-                                                                                                            print('CUZMER CHECK ' + customerId.toString());
-                                                                                                            final invoice = Invoice(
-                                                                                                              supplier: Supplier(
-                                                                                                                name: shopGloName,
-                                                                                                                address: shopGloAddress,
-                                                                                                                phone: shopGloPhone,
-                                                                                                                paymentInfo: '',
-                                                                                                              ),
-                                                                                                              customer: Customer(
-                                                                                                                name: customerId.split('^')[1],
-                                                                                                                address: '',
-                                                                                                              ),
-                                                                                                              info: InvoiceInfo(
-                                                                                                                  date: date,
-                                                                                                                  dueDate: dueDate,
-                                                                                                                  description: 'My description...',
-                                                                                                                  // number: '${DateTime.now().year}-9999',
-                                                                                                                  number: deviceIdNum.toString() + '^' + length.toString()
-                                                                                                              ),
-                                                                                                              items: [
-                                                                                                                for(int i=0; i<prodList.length; i++)
-                                                                                                                  InvoiceItem(
-                                                                                                                    description: prodList[i].split('^')[6],
-                                                                                                                    // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                                                    date: subNameList[i].toString(),
-                                                                                                                    quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                                                    vat: discountAmount,
-                                                                                                                    type: disText,
-                                                                                                                    debt: debt,
-                                                                                                                    unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                                                    currencyUnit: currencyUnit,
-                                                                                                                    totalPriceText: totalVPrice,
-                                                                                                                    paidText: VPaid,
-                                                                                                                    totalDebtText: VDebt,
-                                                                                                                    subTotalText: subVTotal,
-                                                                                                                    discountText: VDiscount,
-                                                                                                                  )
-
-                                                                                                              ],
-                                                                                                            );
-
-
-                                                                                                            getPaperId().then((value) async {
-                                                                                                              print('VVAALLUUEE ' + value.toString());
-                                                                                                              pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                                              Uint8List bytes = pdfFile!.readAsBytesSync();
-
-                                                                                                              // mystate(() {
-                                                                                                              //   // setState(() {
-                                                                                                              //   pdfText = pdfFile!.path.toString();
-                                                                                                              //   // });
-                                                                                                              // });
-                                                                                                              setState(() {
-                                                                                                                pdfText = pdfFile!.path.toString();
-
-                                                                                                                prodList = [];
-                                                                                                                discount = 0.0;
-                                                                                                                discountAmount =0.0;
-                                                                                                                debt =0;
-                                                                                                                refund =0;
-                                                                                                                custPrintTitle = customerId.split('^')[1];
-                                                                                                                customerId = 'name^name';
-                                                                                                                disText = '';
-                                                                                                                isDiscount = '';
-                                                                                                              });
-
-
-                                                                                                              // mystate(()  {
-                                                                                                              //   prodList = [];
-                                                                                                              //   discount = 0.0;
-                                                                                                              //   debt =0;
-                                                                                                              //   refund =0;
-                                                                                                              //   //customerId = 'name^name';
-                                                                                                              // });
-
-
-                                                                                                              _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                                            });
-
-                                                                                                          }
-
-
-                                                                                                        }
-
-
-
-
-
                                                                                                       });
 
                                                                                                     },
@@ -5227,14 +5225,15 @@ class HomePageState extends State<HomePage>
                                                                                                   children: [
                                                                                                     GestureDetector(
                                                                                                       onTap: () {
-                                                                                                        setState((){
+                                                                                                        setState(() async {
+                                                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                           // mystate(() {
                                                                                                           _controllerTablet.animateTo(0);
                                                                                                           _textFieldControllerTablet.clear();
                                                                                                           paidAmount = 0;
                                                                                                           debt = 0;
                                                                                                           refund = 0;
-                                                                                                          totalAmount = double.parse(TtlProdListPrice());
+                                                                                                          totalAmount = double.parse(ttlProdListPriceFut);
                                                                                                           // });
                                                                                                         });
 
@@ -7718,7 +7717,7 @@ class HomePageState extends State<HomePage>
     );
   }
 
-  saleCart(priContext) {
+  saleCart(priContext) async {
     int orderLength = 0;
     mainLoss = 0;
     sub1Loss=0;
@@ -7739,7 +7738,8 @@ class HomePageState extends State<HomePage>
     sell2 = '';
     sell3 = '';
 
-    totalAmount = double.parse(TtlProdListPrice());
+    String ttlProdListPriceFut = await TtlProdListPriceFut();
+    totalAmount = double.parse(ttlProdListPriceFut);
     disText = '';
 
     _controller.animateTo(
@@ -7953,8 +7953,9 @@ class HomePageState extends State<HomePage>
 
               _textFieldController.addListener((){
                 print("value: ${_textFieldController.text}");
-                setState(() {
-                  totalAmount = double.parse(TtlProdListPrice());
+                setState(() async {
+                  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                  totalAmount = double.parse(ttlProdListPriceFut);
                   _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
                   if((totalAmount - paidAmount).isNegative){
                     debt = 0;
@@ -8952,18 +8953,19 @@ class HomePageState extends State<HomePage>
                                                     prodList.length != 0 ? Padding(
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                       child: GestureDetector(
-                                                        onTap: () {
+                                                        onTap: () async {
+                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                           print('productList' + prodList.toString());
                                                           setState(() {
                                                             mystate(() {
-                                                              totalAmount = double.parse(TtlProdListPrice());
+                                                              totalAmount = double.parse(ttlProdListPriceFut);
 
                                                             });
                                                           });
                                                           print('totalAmount '+ totalAmount.toString());
                                                           _controller.animateTo(1);
                                                           if(_textFieldController.text == '') {
-                                                            debt = double.parse(TtlProdListPrice());}
+                                                            debt = double.parse(ttlProdListPriceFut);}
                                                         },
                                                         child: Container(
                                                           width: MediaQuery.of(context).size.width - 30,
@@ -9224,8 +9226,9 @@ class HomePageState extends State<HomePage>
                                                                   inputFormatters: <TextInputFormatter>[
                                                                     FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                   onChanged: (value) {
-                                                                    mystate(() {
-                                                                      totalAmount = double.parse(TtlProdListPrice());
+                                                                    mystate(() async {
+                                                                      String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                      totalAmount = double.parse(ttlProdListPriceFut);
                                                                       value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                       if((totalAmount - paidAmount).isNegative){
                                                                         debt = 0;
@@ -9252,11 +9255,12 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                     onPressed: () async {
                                                                       setState(() {
-                                                                        mystate(() {
+                                                                        mystate(() async {
+                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                           totalAmount =
                                                                               double
                                                                                   .parse(
-                                                                                  TtlProdListPrice());
+                                                                                  ttlProdListPriceFut);
                                                                           _textFieldController
                                                                               .text =
                                                                               totalAmount
@@ -9377,13 +9381,14 @@ class HomePageState extends State<HomePage>
                                                                 GestureDetector(
                                                                   onTap: () {
                                                                     setState((){
-                                                                      mystate(() {
+                                                                      mystate(() async {
+                                                                        String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                         _controller.animateTo(0);
                                                                         _textFieldController.clear();
                                                                         paidAmount = 0;
                                                                         debt = 0;
                                                                         refund = 0;
-                                                                        totalAmount = double.parse(TtlProdListPrice());
+                                                                        totalAmount = double.parse(ttlProdListPriceFut);
                                                                       });
                                                                     });
                                                                   },
@@ -9554,7 +9559,8 @@ class HomePageState extends State<HomePage>
                                                                         });
                                                                         print('month ' + monthExist.toString());
                                                                         if (monthExist) {
-                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
+                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', ttlProdListPriceFut, debtAmounts);
 
                                                                           // monthlyData.doc(monthId).update({
                                                                           //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9585,8 +9591,8 @@ class HomePageState extends State<HomePage>
 
                                                                           }).then((value) async {
                                                                             print('valueid' + value.id.toString());
-
-                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
+                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', ttlProdListPriceFut, debtAmounts);
 
                                                                             // monthlyData.doc(value.id).update({
                                                                             //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9608,7 +9614,8 @@ class HomePageState extends State<HomePage>
                                                                           });
                                                                           print('year ' + yearExist.toString());
                                                                           if (yearExist) {
-                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
+                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', ttlProdListPriceFut, debtAmounts);
                                                                           }
                                                                           else {
                                                                             yearlyData.add({
@@ -9631,7 +9638,8 @@ class HomePageState extends State<HomePage>
 
                                                                             }).then((value5) async {
                                                                               print('valueid' + value.id.toString());
-                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
+                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', ttlProdListPriceFut, debtAmounts);
 
                                                                               // yearlyData.doc(value.id).update({
                                                                               //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9653,182 +9661,156 @@ class HomePageState extends State<HomePage>
                                                                             });
 
                                                                             if (dateExist) {
+                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                               batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
-                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
+                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlProdListPriceFut, customerId.split('^')[0].toString());
 
                                                                               //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
                                                                               //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist added');
                                                                             }
                                                                             else {
-                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice(), customerId.split('^')[0].toString());
+                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlProdListPriceFut, customerId.split('^')[0].toString());
                                                                               DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
                                                                               //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist not');
                                                                             }
                                                                             print('prodList--' + prodList.toString());
-                                                                            batch.commit();
-                                                                          });      });
+                                                                            await batch.commit();
+                                                                            List<String> subNameList = [];
+                                                                            int subNameListLength = 0;
+                                                                            for (String str in prodList) {
+                                                                              subNameListLength = subNameListLength + 1;
+                                                                              subNameList.add(str.split('^')[7]);
+                                                                              if(prodList.length == subNameListLength) {
+                                                                                print('fianlize : ' + subNameList.toString());
+                                                                                // final date = DateTime.now();
+                                                                                final date = now;
+                                                                                final dueDate = date.add(Duration(days: 7));
+                                                                                print('CUZMER CHECK ' + customerId.toString());
+                                                                                for(int i=0; i<prodList.length; i++) {
+                                                                                  productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                }
+                                                                                saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                final invoice = Invoice(
+                                                                                  supplier: Supplier(
+                                                                                    name: shopGloName,
+                                                                                    address: shopGloAddress,
+                                                                                    phone: shopGloPhone,
+                                                                                    paymentInfo: '',
+                                                                                  ),
+                                                                                  customer: Customer(
+                                                                                    name: customerId.split('^')[1],
+                                                                                    address: '',
+                                                                                  ),
+                                                                                  info: InvoiceInfo(
+                                                                                      date: date,
+                                                                                      dueDate: dueDate,
+                                                                                      description: 'My description...',
+                                                                                      // number: '${DateTime.now().year}-9999',
+                                                                                      number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                  ),
+                                                                                  items: [
+
+                                                                                    for(int i=0; i<prodList.length; i++)
+                                                                                      InvoiceItem(
+                                                                                        description: prodList[i].split('^')[6],
+                                                                                        // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                        date: subNameList[i].toString(),
+                                                                                        quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                        vat: discountAmount,
+                                                                                        debt: debt,
+                                                                                        type: disText,
+                                                                                        unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                        currencyUnit: currencyUnit,
+                                                                                        totalPriceText: totalVPrice,
+                                                                                        paidText: VPaid,
+                                                                                        totalDebtText: VDebt,
+                                                                                        subTotalText: subVTotal,
+                                                                                        discountText: VDiscount,
+                                                                                      )
+
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Water',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 8,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 0.99,
+                                                                                    // ),
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Orange',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 3,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 2.99,
+                                                                                    // ),
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Apple',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 8,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 3.99,
+                                                                                    // ),
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Mango',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 1,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 1.59,
+                                                                                    // ),
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Blue Berries',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 5,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 0.99,
+                                                                                    // ),
+                                                                                    // InvoiceItem(
+                                                                                    //   description: 'Black',
+                                                                                    //   date: DateTime.now(),
+                                                                                    //   quantity: 4,
+                                                                                    //   vat: 0.19,
+                                                                                    //   unitPrice: 1.29,
+                                                                                    // ),
+                                                                                  ],
+                                                                                );
+                                                                                sellDone = true;
+                                                                                _controllerTablet.animateTo(0);
+
+                                                                                getPaperId().then((value) async {
+                                                                                  print('VVAALLUUEE ' + value.toString());
+                                                                                  pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                  Uint8List bytes = pdfFile!.readAsBytesSync();
+
+
+                                                                                  Future.delayed(const Duration(milliseconds: 3000), () {
+                                                                                    setState(() {
+                                                                                      mystate(() {
+                                                                                        // setState(() {
+                                                                                        pdfText = pdfFile!.path.toString();
+                                                                                        // });
+
+                                                                                        orderCreating = false;
+                                                                                        disableTouch = false;
+                                                                                        // saleCartDrag = false;
+                                                                                      });
+                                                                                    });
+                                                                                    // print('saleCartDrag ' + saleCartDrag.toString());
+                                                                                    tranGlobalKey.currentState!.disLoading();
+                                                                                    _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                  });
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        });
                                                                       });
 
 
 
-                                                                      List<String> subNameList = [];
-                                                                      int subNameListLength = 0;
-                                                                      for (String str in prodList) {
-                                                                        subNameListLength = subNameListLength + 1;
 
-                                                                        subNameList.add(str.split('^')[7]);
-                                                                        if(prodList.length == subNameListLength) {
-                                                                          print('fianlize : ' + subNameList.toString());
-                                                                          // final date = DateTime.now();
-                                                                          final date = now;
-                                                                          final dueDate = date.add(Duration(days: 7));
-                                                                          print('CUZMER CHECK ' + customerId.toString());
-                                                                          for(int i=0; i<prodList.length; i++) {
-                                                                            productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
-                                                                          }
-                                                                          saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
-                                                                          final invoice = Invoice(
-                                                                            supplier: Supplier(
-                                                                              name: shopGloName,
-                                                                              address: shopGloAddress,
-                                                                              phone: shopGloPhone,
-                                                                              paymentInfo: '',
-                                                                            ),
-                                                                            customer: Customer(
-                                                                              name: customerId.split('^')[1],
-                                                                              address: '',
-                                                                            ),
-                                                                            info: InvoiceInfo(
-                                                                                date: date,
-                                                                                dueDate: dueDate,
-                                                                                description: 'My description...',
-                                                                                // number: '${DateTime.now().year}-9999',
-                                                                                number: deviceIdNum.toString() + '-' + length.toString()
-                                                                            ),
-                                                                            items: [
-
-                                                                              for(int i=0; i<prodList.length; i++)
-                                                                                InvoiceItem(
-                                                                                  description: prodList[i].split('^')[6],
-                                                                                  // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                  date: subNameList[i].toString(),
-                                                                                  quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                  vat: discountAmount,
-                                                                                  debt: debt,
-                                                                                  type: disText,
-                                                                                  unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                  currencyUnit: currencyUnit,
-                                                                                  totalPriceText: totalVPrice,
-                                                                                  paidText: VPaid,
-                                                                                  totalDebtText: VDebt,
-                                                                                  subTotalText: subVTotal,
-                                                                                  discountText: VDiscount,
-                                                                                )
-
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Water',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 8,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 0.99,
-                                                                              // ),
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Orange',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 3,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 2.99,
-                                                                              // ),
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Apple',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 8,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 3.99,
-                                                                              // ),
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Mango',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 1,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 1.59,
-                                                                              // ),
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Blue Berries',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 5,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 0.99,
-                                                                              // ),
-                                                                              // InvoiceItem(
-                                                                              //   description: 'Black',
-                                                                              //   date: DateTime.now(),
-                                                                              //   quantity: 4,
-                                                                              //   vat: 0.19,
-                                                                              //   unitPrice: 1.29,
-                                                                              // ),
-                                                                            ],
-                                                                          );
-
-                                                                          // mystate(()  {
-                                                                          //   prodList = [];
-                                                                          //   discount = 0.0;
-                                                                          //   debt =0;
-                                                                          //   refund =0;
-                                                                          // });
-                                                                          // // _controller.animateTo(0);
-                                                                          // // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                          //
-                                                                          // _textFieldController.clear();
-                                                                          // Navigator.pop(context);
-                                                                          sellDone = true;
-                                                                          _controllerTablet.animateTo(0);
-                                                                          // //discountAmount =0.0;
-                                                                          // pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
-                                                                          // mystate(() {
-                                                                          //   // setState(() {
-                                                                          //   pdfText = pdfFile!.path.toString();
-                                                                          //   // });
-                                                                          // });
-
-
-                                                                          // mystate(()  {
-                                                                          //   prodList = [];
-                                                                          //   discount = 0.0;
-                                                                          //   debt =0;
-                                                                          //   refund =0;
-                                                                          //   //customerId = 'name^name';
-                                                                          // });
-
-                                                                          getPaperId().then((value) async {
-                                                                            print('VVAALLUUEE ' + value.toString());
-                                                                            pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                            Uint8List bytes = pdfFile!.readAsBytesSync();
-
-
-                                                                            Future.delayed(const Duration(milliseconds: 3000), () {
-                                                                              setState(() {
-                                                                                mystate(() {
-                                                                                  // setState(() {
-                                                                                  pdfText = pdfFile!.path.toString();
-                                                                                  // });
-
-                                                                                  orderCreating = false;
-                                                                                  disableTouch = false;
-                                                                                  // saleCartDrag = false;
-                                                                                });
-                                                                              });
-                                                                              // print('saleCartDrag ' + saleCartDrag.toString());
-                                                                              tranGlobalKey.currentState!.disLoading();
-                                                                              _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                            });
-                                                                          });
-                                                                        }
-
-                                                                      }
                                                                     });
                                                                   },
                                                                   child: Container(
@@ -10442,13 +10424,14 @@ class HomePageState extends State<HomePage>
                                                                     GestureDetector(
                                                                       onTap: () {
                                                                         setState((){
-                                                                          mystate(() {
+                                                                          mystate(() async {
+                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                             _controller.animateTo(0);
                                                                             _textFieldController.clear();
                                                                             paidAmount = 0;
                                                                             debt = 0;
                                                                             refund = 0;
-                                                                            totalAmount = double.parse(TtlProdListPrice());
+                                                                            totalAmount = double.parse(ttlProdListPriceFut);
                                                                           });
                                                                         });
 
@@ -11550,27 +11533,33 @@ class HomePageState extends State<HomePage>
     // });
   }
 
-  TtlProdListPriceInit()  {
+  TtlProdListPriceInit()  async {
     double total = 0;
     print(prodList.toString());
-    for (String str in prodList) {
+    // for (String str in prodList) {
+    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    // }
+    await Future.forEach(prodList, (String str) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    }
+    });
     return total.toString();
   }
 
-  TtlProdListPriceInit2()  {
+  TtlProdListPriceInit2() async {
     double total = 0;
     print(prodList2.toString());
-    for (String str in prodList2) {
+    // for (String str in prodList2) {
+    //   total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
+    // }
+    await Future.forEach(prodList2, (String str) {
       total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
-    }
+    });
     return total.toString();
   }
 
-  TtlProdListPrice()  {
+  TtlProdListPrice() {
     double total = 0;
-    print(prodList.toString());
+    print('prrodd ' + prodList.toString());
     for (String str in prodList) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
       disPercent = (double.parse(total.toString()) *
@@ -11595,12 +11584,47 @@ class HomePageState extends State<HomePage>
     return total.toString();
   }
 
-  TtlProdListPriceReal()  {
+  Future<String> TtlProdListPriceFut()  async {
+    double total = 0;
+    print('prrodd ' + prodList.toString());
+    await Future.forEach(prodList, (String str) async {
+      total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+      disPercent = (double.parse(total.toString()) *
+          (discountAmount / 100)).round();
+    });
+    // for (String str in prodList) {
+    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    //   disPercent = (double.parse(total.toString()) *
+    //       (discountAmount / 100)).round();
+    // }
+    if(isDiscount == 'percent'){
+      discountAmount = discount;
+      print(discountAmount.toString());
+      disText = '-p';
+      total = (double.parse(total.toString()) -
+          (double.parse(total.toString()) *
+              (discountAmount / 100)));
+    } else if(isDiscount == 'amount'){
+      discountAmount = discount;
+      disText ='-d';
+      total = (double.parse(total.toString()) - discountAmount);
+    } else {
+      disText = '';
+      discountAmount = 0.0;
+      total = double.parse(total.toString());
+    }
+    return total.toString();
+  }
+
+  TtlProdListPriceReal()  async {
     double total = 0;
     print(prodList.toString());
-    for (String str in prodList) {
+    // for (String str in prodList) {
+    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    // }
+    await Future.forEach(prodList, (String str) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    }
+    });
     return total.toString();
   }
 
@@ -12014,9 +12038,10 @@ class HomePageState extends State<HomePage>
     return prefs.getString('paper');
   }
 
-  updateDateExist(WriteBatch batch, id1, dOrder , length) {
+  updateDateExist(WriteBatch batch, id1, dOrder , length) async {
+    String ttlProdListPriceFut = await TtlProdListPriceFut();
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1);
-    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
+    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
     return batch;
   }
 
@@ -12024,9 +12049,9 @@ class HomePageState extends State<HomePage>
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
-
+    String ttlProdListPriceFut = await TtlProdListPriceFut();
     daily.doc(customId).set({
-      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
       'date' : date
     }).then((value) {
       print('date Exist added');
