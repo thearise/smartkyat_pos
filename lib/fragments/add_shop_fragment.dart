@@ -263,9 +263,9 @@ class _AddShopState extends State<AddShop> {
                                       'Information',
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.5
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.5
                                       ),
                                       strutStyle: StrutStyle(
                                         height: 1.4,
@@ -277,9 +277,9 @@ class _AddShopState extends State<AddShop> {
                                       'Add new shop',
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1.3
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.3
                                       ),
                                       strutStyle: StrutStyle(
                                         height: 1.7,
@@ -304,205 +304,205 @@ class _AddShopState extends State<AddShop> {
                         fontSize: 14,color: Colors.grey,
                       ),),
                     ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Stack(
-                    children: [
-                      //SizedBox(height: 18,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 18.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.name,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Stack(
+                        children: [
+                          //SizedBox(height: 18,),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.name,
 //The validator receives the text that the user has entered.
-                          controller: _shopName,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            shopFieldsValue.add(value);
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
+                              controller: _shopName,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                shopFieldsValue.add(value);
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.skBorderColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
 
-                            focusedBorder: const OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.themeColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
-                            contentPadding: const EdgeInsets.only(
-                                left: 15.0,
-                                right: 15.0,
-                                top: 20.0,
-                                bottom: 20.0),
-                            // suffixText: 'Required',
-                            suffixStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontFamily: 'capsulesans',
-                            ),
-                            //errorText: wrongPassword,
-                            errorStyle: TextStyle(
-                                backgroundColor: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                                height: 0.1
-                            ),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                // suffixText: 'Required',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                //errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
 // errorText: 'Error message',
-                            labelText: 'Shop name',
-                            floatingLabelBehavior:
-                            FloatingLabelBehavior.auto,
+                                labelText: 'Shop name',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
 //filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      //SizedBox(height: 15,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 89.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.text,
+                          //SizedBox(height: 15,),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 89.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
-                          controller: _address,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            shopFieldsValue.add(value);
-                            //prodFieldsValue.add(value);
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
+                              controller: _address,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                shopFieldsValue.add(value);
+                                //prodFieldsValue.add(value);
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.skBorderColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
 
-                            focusedBorder: const OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.themeColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
-                            contentPadding: const EdgeInsets.only(
-                                left: 15.0,
-                                right: 15.0,
-                                top: 20.0,
-                                bottom: 20.0),
-                            // suffixText: 'Required',
-                            suffixStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontFamily: 'capsulesans',
-                            ),
-                            //errorText: wrongPassword,
-                            errorStyle: TextStyle(
-                                backgroundColor: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                                height: 0.1
-                            ),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                // suffixText: 'Required',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                //errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
 // errorText: 'Error message',
-                            labelText: 'Shop address',
-                            floatingLabelBehavior:
-                            FloatingLabelBehavior.auto,
+                                labelText: 'Shop address',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
 //filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      //SizedBox(height: 15,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 160.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
+                          //SizedBox(height: 15,),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 160.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
 //The validator receives the text that the user has entered.
-                          controller: _phone,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            shopFieldsValue.add(value);
-                            //prodFieldsValue.add(value);
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
+                              controller: _phone,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                shopFieldsValue.add(value);
+                                //prodFieldsValue.add(value);
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.skBorderColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
 
-                            focusedBorder: const OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                borderSide: const BorderSide(
-                                    color: AppTheme.themeColor,
-                                    width: 2.0),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0))),
-                            contentPadding: const EdgeInsets.only(
-                                left: 15.0,
-                                right: 15.0,
-                                top: 20.0,
-                                bottom: 20.0),
-                            // suffixText: 'Required',
-                            suffixStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontFamily: 'capsulesans',
-                            ),
-                            //errorText: wrongPassword,
-                            errorStyle: TextStyle(
-                                backgroundColor: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                                height: 0.1
-                            ),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                // suffixText: 'Required',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                //errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
 // errorText: 'Error message',
-                            labelText: 'Phone number',
-                            floatingLabelBehavior:
-                            FloatingLabelBehavior.auto,
+                                labelText: 'Phone number',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
 //filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          // SizedBox(height: 30,),
+                        ],
                       ),
-                     // SizedBox(height: 30,),
-                    ],
-                  ),
-                ),
+                    ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
@@ -569,184 +569,80 @@ class _AddShopState extends State<AddShop> {
                                             setState(() {
                                               loadingState = false;
                                             });
-                                          } else {
-                                            DocumentReference shopAutoId = shops.doc();
-                                            batch.set(shopAutoId, {
-                                              'owner_id' : uid.toString(),
-                                              'shop_name': shopFieldsValue[0],
-                                              'shop_address' : shopFieldsValue[1],
-                                              'plan_type' : 'basic',
-                                              'shop_phone': shopFieldsValue[2],
-                                              'users': FieldValue.arrayUnion([email.toString()]),
-                                              'orders_length': 1000,
-                                              'buyOrders_length': 1000,
-                                              'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                          }
+                                          else {
+                                            shops.add(
+                                                {
+                                                  'owner_id' : uid.toString(),
+                                                  'shop_name': shopFieldsValue[0],
+                                                  'shop_address' : shopFieldsValue[1],
+                                                  'plan_type' : 'basic',
+                                                  'shop_phone': shopFieldsValue[2],
+                                                  'users': FieldValue.arrayUnion([email.toString()]),
+                                                  'orders_length': 1000,
+                                                  'buyOrders_length': 1000,
+                                                  'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                                  'devices': [await _getId()],
+                                                }
+                                            ).then((value) async {
+                                              shops.doc(value.id).collection('users').doc(email).set({
+                                                'email': email.toString(),
+                                                'role' : 'owner',
+                                                'device0': await _getId()
+                                              }).then((value) {
+
+                                              })
+                                                  .catchError((error) => print("Failed to update user: $error"));
+
+                                              shops.doc(value.id).collection('users_ver').doc(uid).set({
+                                                'email': email.toString(),
+                                                'role' : 'owner',
+                                                'device0': await _getId()
+                                              }).then((value) {})
+                                                  .catchError((error) => print("Failed to update user: $error"));
+
+
+                                              addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
+
+                                              addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
+
+                                              addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
+
+                                              addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
+
+                                              addCountData(batch, value.id, 'prodsCnt', 0);
+
+                                              addCountData(batch, value.id, 'cusCnt', 0);
+
+                                              addCountData(batch, value.id, 'merCnt', 0);
+
+                                              addCountData(batch, value.id, 'ordsCnt', 1000);
+
+                                              addCountData(batch, value.id, 'buyOrdsCnt', 1000);
+
+                                              addNoCus(batch, value.id);
+
+                                              addNoMer(batch, value.id);
+
+
+                                              try {
+                                                await batch.commit();
+                                                await setDeviceId('0');
+                                                setStoreId(value.id.toString());
+                                                print('shop added');
+                                                var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+
+                                                //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+
+                                              } catch (error) {
+                                                print('shop adding error');
+                                                await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
+                                                smartKyatFlash('Something went wrong while creating the shop', 'e');
+                                                setState(() {
+                                                  loadingState = false;
+                                                });
+                                              }
                                             });
-
-                                            batch.set(shopAutoId.collection('users').doc(email), {
-                                              'email': email.toString(),
-                                              'role' : 'owner',
-                                              'device0': await _getId()
-                                            });
-
-                                            batch.set(shopAutoId.collection('users_ver').doc(auth.currentUser!.uid), {
-                                              'email': email.toString(),
-                                              'role' : 'owner',
-                                              'device0': await _getId()
-                                            });
-
-                                            setStoreId(shopAutoId.id.toString());
-
-                                            //CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('imgArr');
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'imgArr', 'prodsArr', 'prods', shopAutoId.collection('imgArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'prodsArr', 'prods', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'cusArr', 'cus', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addMapData(batch, shopAutoId.id.toString(), 'collArr', 'merArr', 'mer', shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'prodsCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'cusCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'merCnt', 0, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'ordsCnt', 1000, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addCountData(batch, shopAutoId.id.toString(), 'buyOrdsCnt', 1000, shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addNoCus(batch, shopAutoId.id.toString(), shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            addNoMer(batch, shopAutoId.id.toString(), shopAutoId.collection('collArr').doc('prodsArr'));
-
-                                            // imageArr.doc('prodsArr').set({
-                                            //   'prods' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('collArr');
-                                            // collectionArr.doc('cusArr').set({
-                                            //   'cus' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // collectionArr.doc('merArr').set({
-                                            //   'mer' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // collectionArr.doc('prodsArr').set({
-                                            //   'prods' : {}
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-
-
-
-                                            // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('countColl');
-                                            // countColl.doc('prodsCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('cusCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('merCnt').set({
-                                            //   'count' : 0
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('ordsCnt').set({
-                                            //   'count' : 1000
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // countColl.doc('buyOrdsCnt').set({
-                                            //   'count' : 1000
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-
-                                            // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('customers');
-                                            // cusName.doc('name').set({
-                                            //   'customer_name': 'No customer',
-                                            //   'customer_address': 'unknown',
-                                            //   'customer_phone': '',
-                                            //   'total_orders' : 0,
-                                            //   'debts' : 0,
-                                            //   'debtAmount' : 0,
-                                            //   'total_refunds' : 0,
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(shopVal.id).collection('merchants');
-                                            // merchName.doc('name').set({
-                                            //   'merchant_name': 'No merchant',
-                                            //   'merchant_address': 'unknown',
-                                            //   'merchant_phone': '',
-                                            //   'total_orders' : 0,
-                                            //   'debts' : 0,
-                                            //   'debtAmount' : 0,
-                                            //   'total_refunds' : 0,
-                                            // }).then((value) {})
-                                            //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                            try {
-                                              await batch.commit();
-                                              print('success? ');
-                                              print('success? 1 ' + shopAutoId.toString());
-                                              print('success? 2 ' + shopAutoId.id.toString());
-                                              var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
-
-                                              //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                              print('shop added');
-                                            } catch (error) {
-                                              print('shop adding error');
-                                              setState(() {
-                                                loadingState = false;
-                                              });
-                                            }
-
-
-
-
-
-
-
-                                            // shops.add(
-                                            //     {
-                                            //       'owner_id' : uid.toString(),
-                                            //       'shop_name': shopFieldsValue[0],
-                                            //       'shop_address' : shopFieldsValue[1],
-                                            //       'plan_type' : 'basic',
-                                            //       'shop_phone': shopFieldsValue[2],
-                                            //       'users': FieldValue.arrayUnion([email.toString()]),
-                                            //       'orders_length': 1000,
-                                            //       'buyOrders_length': 1000,
-                                            //       'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                            //     }
-                                            // ).then((shopVal) async {
-                                            //   shops.doc(shopVal.id).collection('users').doc(email).set({
-                                            //     'email': email.toString(),
-                                            //     'role' : 'owner',
-                                            //     'device0': await _getId()
-                                            //   }).then((value) async {
-                                            //     shops.doc(shopVal.id).collection('users_ver').doc(uid).set({
-                                            //       'email': email.toString(),
-                                            //       'role' : 'owner',
-                                            //       'device0': await _getId()
-                                            //     }).then((value) {
-                                            //
-                                            //     }).catchError((error) => print("Failed to update user: $error"));
-                                            //   }).catchError((error) => print("Failed to update user: $error"));
-                                            //
-                                            //
-                                            //
-                                            // });
                                           }
                                         });
                                       });
@@ -830,21 +726,27 @@ class _AddShopState extends State<AddShop> {
     );
   }
 
-  addMapData(WriteBatch batch, newShopId ,collName, docId, mapName, shopAuto) {
+  setDeviceId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('device', id);
+  }
+
+  addMapData(WriteBatch batch, newShopId ,collName, docId, mapName, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection(collName).doc(docId);
     batch.set(arStream, { mapName.toString() : {}
     });
     return batch;
-}
+  }
 
-  addCountData(WriteBatch batch, newShopId , docId, val, shopAuto) {
+  addCountData(WriteBatch batch, newShopId , docId, val, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('countColl').doc(docId);
     batch.set(arStream, { 'count' : val
     });
     return batch;
   }
 
-  addNoCus(WriteBatch batch, newShopId, shopAuto) {
+  addNoCus(WriteBatch batch, newShopId, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('customers').doc('name');
     batch.set(arStream, {
       'customer_name': 'No customer',
@@ -858,7 +760,7 @@ class _AddShopState extends State<AddShop> {
     return batch;
   }
 
-  addNoMer(WriteBatch batch, newShopId, shopAuto) {
+  addNoMer(WriteBatch batch, newShopId, ) {
     DocumentReference arStream =  FirebaseFirestore.instance.collection('shops').doc(newShopId).collection('merchants').doc('name');
     batch.set(arStream, {
       'merchant_name': 'No merchant',
