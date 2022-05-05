@@ -640,6 +640,7 @@ class chooseStoreState extends State<chooseStore> {
                                                             String shopName = value2.data()!['shop_name'];
                                                             Timestamp isProStart = isPro['start'];
                                                             Timestamp isProEnd = isPro['end'];
+                                                            String ownerId = value2.data()!['owner_id'];
 
                                                             DateTime startDate = isProStart.toDate();
                                                             DateTime endDate = isProEnd.toDate();
@@ -655,103 +656,213 @@ class chooseStoreState extends State<chooseStore> {
                                                               });
                                                             } else {
                                                               print('working here ');
+                                                              if(ownerId == auth.currentUser!.uid) {
+                                                                await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email).set({
+                                                                  'email': auth.currentUser!.email,
+                                                                  'role': 'owner'
+                                                                }).then((value4) async {
+                                                                  FirebaseFirestore.instance
+                                                                      .collection('shops')
+                                                                      .doc(_result)
+                                                                      .collection('users')
+                                                                      .doc(auth.currentUser!.email).get().then((userEmailSnap) async {
+                                                                    if(userEmailSnap.exists) {
+                                                                      if(userEmailSnap.exists) {
+                                                                        print('working here 1');
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
+                                                                          'email': auth.currentUser!.email,
+                                                                          'role': userEmailSnap.data()!['role']
+                                                                        }).then((value4) async {
+                                                                          print('working here 2');
+                                                                          _getId().then((value1) async {
+                                                                            print('IDD ' + value1.toString());
+                                                                            WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                                              FirebaseFirestore.instance
-                                                                  .collection('shops')
-                                                                  .doc(_result)
-                                                                  .collection('users')
-                                                                  .doc(auth.currentUser!.email).get().then((userEmailSnap) async {
-                                                                if(userEmailSnap.exists) {
-                                                                  if(userEmailSnap.exists) {
-                                                                    print('working here 1');
-                                                                    await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
-                                                                      'email': auth.currentUser!.email,
-                                                                      'role': userEmailSnap.data()!['role']
-                                                                    }).then((value4) async {
-                                                                      print('working here 2');
-                                                                      _getId().then((value1) async {
-                                                                        print('IDD ' + value1.toString());
-                                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                                                                        batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
-                                                                          'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                                        });
-
-                                                                        batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email), {
-                                                                          'device0': await _getId(),
-                                                                        });
-
-                                                                        batch.commit().then((value) {
-                                                                          print('whating? what ');
-
-
-                                                                          setStoreId(_result);
-                                                                          List devicesList = value2.data()!['devices'];
-                                                                          int? deviceIdNum;
-                                                                          for(int i = 0; i < devicesList.length; i++) {
-                                                                            if(devicesList[i] == value1.toString()) {
-                                                                              print('DV LIST ' + devicesList[i].toString());
-                                                                              setState(() {
-                                                                                deviceIdNum = i;
-                                                                                print('DV LIST 2 ' + deviceIdNum.toString());
-                                                                              });
-                                                                            }
-                                                                          }
-                                                                          setDeviceId(deviceIdNum.toString()).then((value) {
-                                                                            // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                                            _getId().then((val) {
-                                                                              String deviceId = val!;
-                                                                              Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                            batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
+                                                                              'devices': FieldValue.arrayUnion([value1.toString()]),
                                                                             });
+
+                                                                            batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email), {
+                                                                              'device0': await _getId(),
+                                                                            });
+
+                                                                            batch.commit().then((value) {
+                                                                              print('whating? what ');
+
+
+                                                                              setStoreId(_result);
+                                                                              List devicesList = value2.data()!['devices'];
+                                                                              int? deviceIdNum;
+                                                                              for(int i = 0; i < devicesList.length; i++) {
+                                                                                if(devicesList[i] == value1.toString()) {
+                                                                                  print('DV LIST ' + devicesList[i].toString());
+                                                                                  setState(() {
+                                                                                    deviceIdNum = i;
+                                                                                    print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                                  });
+                                                                                }
+                                                                              }
+                                                                              setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                                // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                                _getId().then((val) {
+                                                                                  String deviceId = val!;
+                                                                                  Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                                });
+                                                                              });
+                                                                            });
+
+                                                                            // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                                            //   'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                                            // }).then((value3) async {
+                                                                            //   print('got it 1');
+                                                                            //
+                                                                            //   print('got it 3');
+                                                                            //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                            //       .where('email', isEqualTo: auth.currentUser!.email)
+                                                                            //       .get()
+                                                                            //       .then((QuerySnapshot querySnapshot) async {
+                                                                            //     print('got it 4');
+                                                                            //     print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                            //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                                            //       // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                                            //       'device0': await _getId(),
+                                                                            //     }).then((value3) async {
+                                                                            //       print('whating? what ');
+                                                                            //
+                                                                            //
+                                                                            //       setStoreId(_result);
+                                                                            //       List devicesList = value2.data()!['devices'];
+                                                                            //       int? deviceIdNum;
+                                                                            //       for(int i = 0; i < devicesList.length; i++) {
+                                                                            //         if(devicesList[i] == value1.toString()) {
+                                                                            //           print('DV LIST ' + devicesList[i].toString());
+                                                                            //           setState(() {
+                                                                            //             deviceIdNum = i;
+                                                                            //             print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                            //           });
+                                                                            //         }
+                                                                            //       }
+                                                                            //       setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                            //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                            //         _getId().then((val) {
+                                                                            //           String deviceId = val!;
+                                                                            //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                            //         });
+                                                                            //       });
+                                                                            //     });
+                                                                            //   });
+                                                                            // });
                                                                           });
                                                                         });
+                                                                      }
+                                                                    }
+                                                                  });
+                                                                });
+                                                              } else {
+                                                                FirebaseFirestore.instance
+                                                                    .collection('shops')
+                                                                    .doc(_result)
+                                                                    .collection('users')
+                                                                    .doc(auth.currentUser!.email).get().then((userEmailSnap) async {
+                                                                  if(userEmailSnap.exists) {
+                                                                    if(userEmailSnap.exists) {
+                                                                      print('working here 1');
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
+                                                                        'email': auth.currentUser!.email,
+                                                                        'role': userEmailSnap.data()!['role']
+                                                                      }).then((value4) async {
+                                                                        print('working here 2');
+                                                                        _getId().then((value1) async {
+                                                                          print('IDD ' + value1.toString());
+                                                                          WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                                                        // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                                                                        //   'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                                        // }).then((value3) async {
-                                                                        //   print('got it 1');
-                                                                        //
-                                                                        //   print('got it 3');
-                                                                        //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                                        //       .where('email', isEqualTo: auth.currentUser!.email)
-                                                                        //       .get()
-                                                                        //       .then((QuerySnapshot querySnapshot) async {
-                                                                        //     print('got it 4');
-                                                                        //     print('shit ' + querySnapshot.docs[0].id.toString());
-                                                                        //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
-                                                                        //       // 'device0': FieldValue.arrayUnion([await _getId()]),
-                                                                        //       'device0': await _getId(),
-                                                                        //     }).then((value3) async {
-                                                                        //       print('whating? what ');
-                                                                        //
-                                                                        //
-                                                                        //       setStoreId(_result);
-                                                                        //       List devicesList = value2.data()!['devices'];
-                                                                        //       int? deviceIdNum;
-                                                                        //       for(int i = 0; i < devicesList.length; i++) {
-                                                                        //         if(devicesList[i] == value1.toString()) {
-                                                                        //           print('DV LIST ' + devicesList[i].toString());
-                                                                        //           setState(() {
-                                                                        //             deviceIdNum = i;
-                                                                        //             print('DV LIST 2 ' + deviceIdNum.toString());
-                                                                        //           });
-                                                                        //         }
-                                                                        //       }
-                                                                        //       setDeviceId(deviceIdNum.toString()).then((value) {
-                                                                        //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                                        //         _getId().then((val) {
-                                                                        //           String deviceId = val!;
-                                                                        //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                                                                        //         });
-                                                                        //       });
-                                                                        //     });
-                                                                        //   });
-                                                                        // });
+                                                                          batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
+                                                                            'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                                          });
+
+                                                                          batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email), {
+                                                                            'device0': await _getId(),
+                                                                          });
+
+                                                                          batch.commit().then((value) {
+                                                                            print('whating? what ');
+
+
+                                                                            setStoreId(_result);
+                                                                            List devicesList = value2.data()!['devices'];
+                                                                            int? deviceIdNum;
+                                                                            for(int i = 0; i < devicesList.length; i++) {
+                                                                              if(devicesList[i] == value1.toString()) {
+                                                                                print('DV LIST ' + devicesList[i].toString());
+                                                                                setState(() {
+                                                                                  deviceIdNum = i;
+                                                                                  print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                            setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                              // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                              _getId().then((val) {
+                                                                                String deviceId = val!;
+                                                                                Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                              });
+                                                                            });
+                                                                          });
+
+                                                                          // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                                          //   'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                                          // }).then((value3) async {
+                                                                          //   print('got it 1');
+                                                                          //
+                                                                          //   print('got it 3');
+                                                                          //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                          //       .where('email', isEqualTo: auth.currentUser!.email)
+                                                                          //       .get()
+                                                                          //       .then((QuerySnapshot querySnapshot) async {
+                                                                          //     print('got it 4');
+                                                                          //     print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                          //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                                          //       // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                                          //       'device0': await _getId(),
+                                                                          //     }).then((value3) async {
+                                                                          //       print('whating? what ');
+                                                                          //
+                                                                          //
+                                                                          //       setStoreId(_result);
+                                                                          //       List devicesList = value2.data()!['devices'];
+                                                                          //       int? deviceIdNum;
+                                                                          //       for(int i = 0; i < devicesList.length; i++) {
+                                                                          //         if(devicesList[i] == value1.toString()) {
+                                                                          //           print('DV LIST ' + devicesList[i].toString());
+                                                                          //           setState(() {
+                                                                          //             deviceIdNum = i;
+                                                                          //             print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                          //           });
+                                                                          //         }
+                                                                          //       }
+                                                                          //       setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                          //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                          //         _getId().then((val) {
+                                                                          //           String deviceId = val!;
+                                                                          //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                          //         });
+                                                                          //       });
+                                                                          //     });
+                                                                          //   });
+                                                                          // });
+                                                                        });
                                                                       });
-                                                                    });
+                                                                    }
                                                                   }
-                                                                }
-                                                              });
+                                                                });
+                                                              }
+
+
+
+
+
+
+
 
                                                               // FirebaseFirestore.instance.runTransaction((transaction) async {
                                                               //   DocumentSnapshot userEmailSnap = await transaction.get(userDocEmail);
