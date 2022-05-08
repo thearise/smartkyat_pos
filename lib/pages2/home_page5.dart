@@ -106,7 +106,7 @@ class HomePageState extends State<HomePage>
 
   bool homePageLoading = false;
 
-  String finalTotal = '';
+  //String finalTotal = '';
 
   homePageLoadingOn() {
     setState(() {
@@ -560,9 +560,9 @@ class HomePageState extends State<HomePage>
     // ));
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
-      setState(() async {
-        String ttlProdListPriceFut = await TtlProdListPriceFut();
-        totalAmount = double.parse(ttlProdListPriceFut);
+      setState(()  {
+       // String ttlProdListPriceFut = await TtlProdListPriceFut();
+        totalAmount = double.parse(TtlProdListPrice().toString());
         _textFieldControllerTablet.text != '' ? paidAmount = double.parse(_textFieldControllerTablet.text) : paidAmount = 0.0;
         if((totalAmount - paidAmount).isNegative){
           debt = 0;
@@ -3787,9 +3787,9 @@ class HomePageState extends State<HomePage>
                                                                                           padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                                                           child: GestureDetector(
                                                                                             onTap: () async {
-                                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                              //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                               setState(() {
-                                                                                                totalAmount = double.parse(ttlProdListPriceFut);
+                                                                                                totalAmount = double.parse(TtlProdListPrice().toString());
                                                                                               });
 
                                                                                               int i = 0;
@@ -3801,7 +3801,7 @@ class HomePageState extends State<HomePage>
                                                                                               print('totalAmount '+ totalAmount.toString());
                                                                                               _controllerTablet.animateTo(1);
                                                                                               if(_textFieldControllerTablet.text == '') {
-                                                                                                debt = double.parse(ttlProdListPriceFut);
+                                                                                                debt = double.parse(TtlProdListPrice().toString());
                                                                                               }
                                                                                               // sellDone = false;
                                                                                             },
@@ -4092,12 +4092,12 @@ class HomePageState extends State<HomePage>
                                                                                                           //         totalAmount);
                                                                                                           //   }
                                                                                                           // });
-                                                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                         // String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                           setState(() {
                                                                                                             totalAmount =
                                                                                                                 double
                                                                                                                     .parse(
-                                                                                                                    ttlProdListPriceFut);
+                                                                                                                    TtlProdListPrice().toString());
                                                                                                             _textFieldControllerTablet
                                                                                                                 .text =
                                                                                                                 totalAmount
@@ -4263,7 +4263,7 @@ class HomePageState extends State<HomePage>
                                                                                                 children: [
                                                                                                   GestureDetector(
                                                                                                     onTap: () async {
-                                                                                                      String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                       setState((){
                                                                                                         // mystate(() {
                                                                                                         _controllerTablet.animateTo(0);
@@ -4271,7 +4271,7 @@ class HomePageState extends State<HomePage>
                                                                                                         paidAmount = 0;
                                                                                                         debt = 0;
                                                                                                         refund = 0;
-                                                                                                        totalAmount = double.parse(ttlProdListPriceFut);
+                                                                                                        totalAmount = double.parse(TtlProdListPrice().toString());
                                                                                                         // });
                                                                                                       });
                                                                                                     },
@@ -4411,13 +4411,13 @@ class HomePageState extends State<HomePage>
                                                                                                         batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                                                         print('why total1 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-                                                                                                        String whyTotal = await TtlProdListPriceFut();
+                                                                                                        String whyTotal = TtlProdListPrice().toString();
                                                                                                         double whyDiscount = discountAmount;
                                                                                                         String whyDisText = disText.toString();
                                                                                                         double whyDebt = debt;
                                                                                                         String whyCustomer = customerId.split('^')[0]+ '<>' + customerId.split('^')[1];
                                                                                                         String detailCus = customerId.split('^')[0];
-                                                                                                        finalTotal = await TtlProdListPriceFut();
+                                                                                                       // finalTotal = await TtlProdListPriceFut();
 
                                                                                                         CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 
@@ -4516,8 +4516,8 @@ class HomePageState extends State<HomePage>
                                                                                                               }
                                                                                                               else {
                                                                                                                 batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-                                                                                                                String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
+                                                                                                               // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
 
                                                                                                               }
 
@@ -5226,14 +5226,14 @@ class HomePageState extends State<HomePage>
                                                                                                     GestureDetector(
                                                                                                       onTap: () {
                                                                                                         setState(() async {
-                                                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                          //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                                           // mystate(() {
                                                                                                           _controllerTablet.animateTo(0);
                                                                                                           _textFieldControllerTablet.clear();
                                                                                                           paidAmount = 0;
                                                                                                           debt = 0;
                                                                                                           refund = 0;
-                                                                                                          totalAmount = double.parse(ttlProdListPriceFut);
+                                                                                                          totalAmount = double.parse(TtlProdListPrice().toString());
                                                                                                           // });
                                                                                                         });
 
@@ -5652,7 +5652,7 @@ class HomePageState extends State<HomePage>
                                                                                             ),
                                                                                           ),
                                                                                           trailing: Text('$currencyUnit '+
-                                                                                              finalTotal.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                              TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                             style: TextStyle(
                                                                                                 fontSize: 17,
                                                                                                 fontWeight:
@@ -7738,8 +7738,8 @@ class HomePageState extends State<HomePage>
     sell2 = '';
     sell3 = '';
 
-    String ttlProdListPriceFut = await TtlProdListPriceFut();
-    totalAmount = double.parse(ttlProdListPriceFut);
+    //String ttlProdListPriceFut = await TtlProdListPriceFut();
+    totalAmount = double.parse(TtlProdListPrice().toString());
     disText = '';
 
     _controller.animateTo(
@@ -7953,9 +7953,9 @@ class HomePageState extends State<HomePage>
 
               _textFieldController.addListener((){
                 print("value: ${_textFieldController.text}");
-                setState(() async {
-                  String ttlProdListPriceFut = await TtlProdListPriceFut();
-                  totalAmount = double.parse(ttlProdListPriceFut);
+                setState(()  {
+                  //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                  totalAmount = double.parse(TtlProdListPrice().toString());
                   _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
                   if((totalAmount - paidAmount).isNegative){
                     debt = 0;
@@ -8954,18 +8954,18 @@ class HomePageState extends State<HomePage>
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                       child: GestureDetector(
                                                         onTap: () async {
-                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                          //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                           print('productList' + prodList.toString());
                                                           setState(() {
                                                             mystate(() {
-                                                              totalAmount = double.parse(ttlProdListPriceFut);
+                                                              totalAmount = double.parse(TtlProdListPrice().toString());
 
                                                             });
                                                           });
                                                           print('totalAmount '+ totalAmount.toString());
                                                           _controller.animateTo(1);
                                                           if(_textFieldController.text == '') {
-                                                            debt = double.parse(ttlProdListPriceFut);}
+                                                            debt = double.parse(TtlProdListPrice().toString());}
                                                         },
                                                         child: Container(
                                                           width: MediaQuery.of(context).size.width - 30,
@@ -9227,8 +9227,8 @@ class HomePageState extends State<HomePage>
                                                                     FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                   onChanged: (value) {
                                                                     mystate(() async {
-                                                                      String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                      totalAmount = double.parse(ttlProdListPriceFut);
+                                                                    //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                      totalAmount = double.parse(TtlProdListPrice().toString());
                                                                       value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                       if((totalAmount - paidAmount).isNegative){
                                                                         debt = 0;
@@ -9256,11 +9256,11 @@ class HomePageState extends State<HomePage>
                                                                     onPressed: () async {
                                                                       setState(() {
                                                                         mystate(() async {
-                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                           totalAmount =
                                                                               double
                                                                                   .parse(
-                                                                                  ttlProdListPriceFut);
+                                                                                  TtlProdListPrice().toString());
                                                                           _textFieldController
                                                                               .text =
                                                                               totalAmount
@@ -9381,14 +9381,14 @@ class HomePageState extends State<HomePage>
                                                                 GestureDetector(
                                                                   onTap: () {
                                                                     setState((){
-                                                                      mystate(() async {
-                                                                        String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                      mystate(()  {
+                                                                        //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                         _controller.animateTo(0);
                                                                         _textFieldController.clear();
                                                                         paidAmount = 0;
                                                                         debt = 0;
                                                                         refund = 0;
-                                                                        totalAmount = double.parse(ttlProdListPriceFut);
+                                                                        totalAmount = double.parse(TtlProdListPrice().toString());
                                                                       });
                                                                     });
                                                                   },
@@ -9559,8 +9559,8 @@ class HomePageState extends State<HomePage>
                                                                         });
                                                                         print('month ' + monthExist.toString());
                                                                         if (monthExist) {
-                                                                          String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', ttlProdListPriceFut, debtAmounts);
+                                                                         // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts);
 
                                                                           // monthlyData.doc(monthId).update({
                                                                           //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9591,8 +9591,8 @@ class HomePageState extends State<HomePage>
 
                                                                           }).then((value) async {
                                                                             print('valueid' + value.id.toString());
-                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', ttlProdListPriceFut, debtAmounts);
+                                                                            //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts);
 
                                                                             // monthlyData.doc(value.id).update({
                                                                             //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9614,8 +9614,8 @@ class HomePageState extends State<HomePage>
                                                                           });
                                                                           print('year ' + yearExist.toString());
                                                                           if (yearExist) {
-                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', ttlProdListPriceFut, debtAmounts);
+                                                                           // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts);
                                                                           }
                                                                           else {
                                                                             yearlyData.add({
@@ -9638,8 +9638,8 @@ class HomePageState extends State<HomePage>
 
                                                                             }).then((value5) async {
                                                                               print('valueid' + value.id.toString());
-                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', ttlProdListPriceFut, debtAmounts);
+                                                                            //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts);
 
                                                                               // yearlyData.doc(value.id).update({
                                                                               //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
@@ -9661,17 +9661,17 @@ class HomePageState extends State<HomePage>
                                                                             });
 
                                                                             if (dateExist) {
-                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                           //   String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                               batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
-                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlProdListPriceFut, customerId.split('^')[0].toString());
+                                                                              batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
 
                                                                               //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
                                                                               //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist added');
                                                                             }
                                                                             else {
-                                                                              String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlProdListPriceFut, customerId.split('^')[0].toString());
+                                                                             // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
                                                                               DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
                                                                               //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                                                               print('adddateexist not');
@@ -10425,13 +10425,13 @@ class HomePageState extends State<HomePage>
                                                                       onTap: () {
                                                                         setState((){
                                                                           mystate(() async {
-                                                                            String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          //  String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                             _controller.animateTo(0);
                                                                             _textFieldController.clear();
                                                                             paidAmount = 0;
                                                                             debt = 0;
                                                                             refund = 0;
-                                                                            totalAmount = double.parse(ttlProdListPriceFut);
+                                                                            totalAmount = double.parse(TtlProdListPrice().toString());
                                                                           });
                                                                         });
 
@@ -11533,27 +11533,27 @@ class HomePageState extends State<HomePage>
     // });
   }
 
-  TtlProdListPriceInit()  async {
+  TtlProdListPriceInit()  {
     double total = 0;
     print(prodList.toString());
-    // for (String str in prodList) {
-    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    // }
-    await Future.forEach(prodList, (String str) {
+    for (String str in prodList) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    });
+    }
+    // await Future.forEach(prodList, (String str) {
+    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    // });
     return total.toString();
   }
 
-  TtlProdListPriceInit2() async {
+  TtlProdListPriceInit2() {
     double total = 0;
     print(prodList2.toString());
-    // for (String str in prodList2) {
-    //   total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
-    // }
-    await Future.forEach(prodList2, (String str) {
+    for (String str in prodList2) {
       total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
-    });
+    }
+    // await Future.forEach(prodList2, (String str) {
+    //   total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
+    // });
     return total.toString();
   }
 
@@ -11581,50 +11581,54 @@ class HomePageState extends State<HomePage>
       discountAmount = 0.0;
       total = double.parse(total.toString());
     }
-    return total.toString();
-  }
 
-  Future<String> TtlProdListPriceFut()  async {
-    double total = 0;
-    print('prrodd ' + prodList.toString());
-    await Future.forEach(prodList, (String str) async {
-      total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-      disPercent = (double.parse(total.toString()) *
-          (discountAmount / 100)).round();
-    });
-    // for (String str in prodList) {
-    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    //   disPercent = (double.parse(total.toString()) *
-    //       (discountAmount / 100)).round();
-    // }
-    if(isDiscount == 'percent'){
-      discountAmount = discount;
-      print(discountAmount.toString());
-      disText = '-p';
-      total = (double.parse(total.toString()) -
-          (double.parse(total.toString()) *
-              (discountAmount / 100)));
-    } else if(isDiscount == 'amount'){
-      discountAmount = discount;
-      disText ='-d';
-      total = (double.parse(total.toString()) - discountAmount);
-    } else {
+    if(discountAmount == 0.0) {
       disText = '';
-      discountAmount = 0.0;
-      total = double.parse(total.toString());
     }
     return total.toString();
   }
 
-  TtlProdListPriceReal()  async {
+  // Future<String> TtlProdListPriceFut()  async {
+  //   double total = 0;
+  //   print('prrodd ' + prodList.toString());
+  //   await Future.forEach(prodList, (String str) async {
+  //     total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+  //     disPercent = (double.parse(total.toString()) *
+  //         (discountAmount / 100)).round();
+  //   });
+  //   // for (String str in prodList) {
+  //   //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+  //   //   disPercent = (double.parse(total.toString()) *
+  //   //       (discountAmount / 100)).round();
+  //   // }
+  //   if(isDiscount == 'percent'){
+  //     discountAmount = discount;
+  //     print(discountAmount.toString());
+  //     disText = '-p';
+  //     total = (double.parse(total.toString()) -
+  //         (double.parse(total.toString()) *
+  //             (discountAmount / 100)));
+  //   } else if(isDiscount == 'amount'){
+  //     discountAmount = discount;
+  //     disText ='-d';
+  //     total = (double.parse(total.toString()) - discountAmount);
+  //   } else {
+  //     disText = '';
+  //     discountAmount = 0.0;
+  //     total = double.parse(total.toString());
+  //   }
+  //   return total.toString();
+  // }
+
+  TtlProdListPriceReal() {
     double total = 0;
     print(prodList.toString());
-    // for (String str in prodList) {
-    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    // }
-    await Future.forEach(prodList, (String str) {
+    for (String str in prodList) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
-    });
+    }
+    // await Future.forEach(prodList, (String str) {
+    //   total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
+    // });
     return total.toString();
   }
 
@@ -11913,6 +11917,11 @@ class HomePageState extends State<HomePage>
   }
 
   updateDetail(WriteBatch batch, date, length, subs, docId, reF, deF, dateTime, whyDiscount, whyDebt, whyTotal, detailCus) {
+    String customerName = '';
+    if(customerId.split('^')[1] == 'name') {
+      customerName = 'No customer';
+    } else customerName = customerId.split('^')[1];
+
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order').doc(deviceIdNum.toString() + length.toString());
     batch.set(documentReference, {
       'date': date,
@@ -11928,6 +11937,7 @@ class HomePageState extends State<HomePage>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString(),
+      'cusName' : customerName
       //'search_name': textSplitFunction(length.toString()),
     });
     return batch;
@@ -12039,9 +12049,9 @@ class HomePageState extends State<HomePage>
   }
 
   updateDateExist(WriteBatch batch, id1, dOrder , length) async {
-    String ttlProdListPriceFut = await TtlProdListPriceFut();
+    //String ttlProdListPriceFut = await TtlProdListPriceFut();
     DocumentReference documentReference =  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1);
-    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
+    batch.update(documentReference, {'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),});
     return batch;
   }
 
@@ -12049,9 +12059,9 @@ class HomePageState extends State<HomePage>
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
-    String ttlProdListPriceFut = await TtlProdListPriceFut();
+   // String ttlProdListPriceFut = await TtlProdListPriceFut();
     daily.doc(customId).set({
-      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlProdListPriceFut + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
       'date' : date
     }).then((value) {
       print('date Exist added');
