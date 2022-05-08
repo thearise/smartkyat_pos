@@ -275,7 +275,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
 
     for(int i = 0; i < widget.buy.length; i++) {
-      Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
+      Map<String, dynamic> data = widget.buy[i].data() as Map<String, dynamic>;
       print('inside loss buy ' + data.toString());
     }
 
