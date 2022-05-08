@@ -263,7 +263,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['mer'];
-
+                              print('mer length' + prods.length.toString());
                               for(int i = 0; i < prods.length; i++) {
                                 var eachMap = prods.entries.elementAt(i);
                                 if(eachMap.value['na'] == null) {
