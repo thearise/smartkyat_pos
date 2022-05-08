@@ -58,6 +58,7 @@ class _WelcomeState extends State<Welcome>
   String? emailExist;
 
   bool isLoading = true;
+  bool overLoading = false;
   bool loadingState = false;
 
   String lang = 'english';
@@ -140,24 +141,28 @@ class _WelcomeState extends State<Welcome>
         });
       } else {
         getStoreId().then((value) {
-          print('ID -> ' + value.toString());
-          Future.delayed(const Duration(milliseconds: 1000), () async {
-            if(value.toString() != '' && value.toString() != 'idk') {
-              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+          if(!auth.currentUser!.emailVerified) {
+            Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
+          } else {
+            print('ID -> ' + value.toString());
+            Future.delayed(const Duration(milliseconds: 1000), () async {
+              if(value.toString() != '' && value.toString() != 'idk') {
+                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
 
-              _getId().then((val) {
-                String deviceId = val!;
-                Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-              });
-            } else {
-              Future.delayed(const Duration(milliseconds: 1000), () {
-                setState(() {
-                  isLoading = false;
+                _getId().then((val) {
+                  String deviceId = val!;
+                  Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
                 });
-              });
-              Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-            }
-          });
+              } else {
+                Future.delayed(const Duration(milliseconds: 1000), () {
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+                Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+              }
+            });
+          }
         });
 
 
@@ -221,650 +226,659 @@ class _WelcomeState extends State<Welcome>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SafeArea(
-        bottom: true,
-        top: true,
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
-          child: Stack(
-            children: [
-              Column(
+      body: Stack(
+        children: [
+          SafeArea(
+            bottom: true,
+            top: true,
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
-                          child: Container(
-                              child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
-                          ),
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Container(
-                            height: MediaQuery.of(context).size.width > 900? 305 + 40 + (((MediaQuery.of(context).size.width/2) - 30) * (752/1496)) : 305 + 40 + ((MediaQuery.of(context).size.width - 30) * (752/1496)) ,
-                            child: TabBarView(
-                              physics: NeverScrollableScrollPhysics(),
-                              controller: _signupController,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0, left: 0, right: 0),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                        child: Container(
-                                            child: Image.asset('assets/system/retialshop.png',)
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 305,
-                                        child: TabBarView(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          controller: _loginTabController,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 45.0, left: 15.0, right: 15.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('All-in-one ',
-                                                      style: TextStyle(
-                                                          fontSize: 22,
-                                                          fontWeight: FontWeight.w700,
-                                                          letterSpacing: 0.02
-                                                      ),),
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Text('POS system mobile ',
-                                                    style: TextStyle(
-                                                        fontSize: 22,
-                                                        fontWeight: FontWeight.w700,
-                                                        letterSpacing: 0.02
-                                                    ),),
-                                                  SizedBox(height: 8),
-                                                  Text('in your hands',
-                                                    style: TextStyle(
-                                                        fontSize: 22,
-                                                        fontWeight: FontWeight.w700,
-                                                        letterSpacing: 0.02
-                                                    ),),
-                                                  SizedBox(height: 50,),
-                                                  ButtonTheme(
-                                                    minWidth: MediaQuery.of(context).size.width,
-                                                    splashColor: Colors.transparent,
-                                                    height: 50,
-                                                    child: FlatButton(
-                                                      color: AppTheme.themeColor,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius.circular(10.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.themeColor,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        pressedCreate = true;
-                                                        _signupController.animateTo(1);
-                                                      },
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            left: 5.0,
-                                                            right: 5.0,
-                                                            bottom: 3.0),
-                                                        child: Container(
-                                                          child: Text(
-                                                            isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                height: 1.3,
-                                                                fontSize: 17.5,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.black
-                                                            ),
-                                                            strutStyle: StrutStyle(
-                                                              height: 1.3,
-                                                              // fontSize:,
-                                                              forceStrutHeight: true,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 22,),
-                                                  RichText(
-                                                    strutStyle: StrutStyle(
-                                                      height: 1,
-                                                      // fontSize:,
-                                                      forceStrutHeight: true,
-                                                    ),
-                                                    text: new TextSpan(
-                                                      children: [
-                                                        new TextSpan(
-                                                          text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                        ),
-                                                        new TextSpan(
-                                                          text: 'Terms',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                          recognizer: new TapGestureRecognizer()
-                                                            ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                            },
-                                                        ),
-                                                        new TextSpan(
-                                                          text: ', ',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                        ),
-                                                        new TextSpan(
-                                                          text: 'Privacy Policy',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                          recognizer: new TapGestureRecognizer()
-                                                            ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                            },
-                                                        ),
-                                                        new TextSpan(
-                                                          text: isEnglish? ', and ': ', နှင့် ',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                        ),
-                                                        new TextSpan(
-                                                          text: isEnglish? 'Cookie Use.': 'Cookie Use ',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.blue,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
-                                                          ),
-                                                          recognizer: new TapGestureRecognizer()
-                                                            ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                            },
-                                                        ),
-                                                        if(!isEnglish)
-                                                          new TextSpan(
-                                                            text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
-                                                            style: new TextStyle(
-                                                              fontSize: 12.5,
-                                                              color: Colors.grey,
-                                                              fontWeight: FontWeight.w500,
-                                                              height: 1.2,
-                                                            ),
-                                                          ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                  Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
+                              child: Container(
+                                  child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
+                              ),
+                            ),
+                            Form(
+                              key: _formKey,
+                              child: Container(
+                                height: MediaQuery.of(context).size.width > 900? 305 + 40 + (((MediaQuery.of(context).size.width/2) - 30) * (752/1496)) : 305 + 40 + ((MediaQuery.of(context).size.width - 30) * (752/1496)) ,
+                                child: TabBarView(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  controller: _signupController,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 40.0, left: 0, right: 0),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                            child: Container(
+                                                child: Image.asset('assets/system/retialshop.png',)
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 29.0, left: 15.0, right: 15.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Stack(
+                                          ),
+                                          Container(
+                                            height: 305,
+                                            child: TabBarView(
+                                              physics: NeverScrollableScrollPhysics(),
+                                              controller: _loginTabController,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 45.0, left: 15.0, right: 15.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 4.0, bottom: 15.0),
-                                                        child: Container(
-                                                          child: TextFormField(
-//The validator receives the text that the user has entered.
-                                                            keyboardType: TextInputType.emailAddress,
-                                                            controller: _email,
-                                                            validator: (value) {
-                                                              if (value == null || value.isEmpty) {
-                                                                // return '';
-                                                                return ' This field is required ';
-                                                              }
-                                                              if (wrongEmail != '') {
-                                                                return wrongEmail;
-                                                              }
-
-                                                              return null;
-                                                            },
-                                                            style: TextStyle(
-                                                                height: 0.95
-                                                            ),
-                                                            // strutStyle: StrutStyle(
-                                                            //   height: 1,
-                                                            //   // fontSize:,
-                                                            //   forceStrutHeight: true,
-                                                            // ),
-                                                            maxLines: 1,
-                                                            decoration: InputDecoration(
-                                                              enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                  borderSide: const BorderSide(
-                                                                      color: AppTheme.skBorderColor,
-                                                                      width: 2.0),
-                                                                  borderRadius: BorderRadius.all(
-                                                                      Radius.circular(10.0))),
-
-                                                              focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                  borderSide: const BorderSide(
-                                                                      color: AppTheme.themeColor,
-                                                                      width: 2.0),
-                                                                  borderRadius: BorderRadius.all(
-                                                                      Radius.circular(10.0))),
-                                                              // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                                                              // isDense: true,
-                                                              contentPadding: const EdgeInsets.only(
-                                                                  left: 15.0,
-                                                                  right: 15.0,
-                                                                  top: 20,
-                                                                  bottom: 20.0),
-                                                              //suffixText: 'Required',
-                                                              suffixStyle: TextStyle(
-                                                                color: Colors.grey,
-                                                                fontSize: 12,
-                                                                fontFamily: 'capsulesans',
-                                                              ),
-                                                              errorText: wrongEmail,
-                                                              errorStyle: TextStyle(
-                                                                  backgroundColor: Colors.white,
-                                                                  fontSize: 12,
-                                                                  fontFamily: 'capsulesans',
-                                                                  height: 0.1
-                                                              ),
-                                                              labelStyle: TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black,
-                                                                  height: 1
-                                                              ),
-// errorText: 'Error message',
-                                                              labelText: isEnglish? 'Email address': 'အီးမေးလ်',
-                                                              // labelStrutStyle: StrutStyle(
-                                                              //   height: 1,
-                                                              //   // fontSize:,
-                                                              //   forceStrutHeight: true,
-                                                              // ),
-                                                              floatingLabelBehavior:
-                                                              FloatingLabelBehavior.auto,
-//filled: true,
-                                                              border: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(10),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 75.0),
-                                                        child: TextFormField(
-                                                          obscureText: _obscureText,
-                                                          controller: _password,
-                                                          keyboardType: TextInputType.text,
-                                                          validator: (value) {
-                                                            if (value == null || value.isEmpty) {
-                                                              return ' This field is required ';
-                                                            }
-                                                            if (wrongPassword != '') {
-                                                              return wrongPassword;
-                                                            }
-                                                            return null;
-                                                          },
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text('All-in-one ',
                                                           style: TextStyle(
-                                                            height: 0.95,
+                                                              fontSize: 22,
+                                                              fontWeight: FontWeight.w700,
+                                                              letterSpacing: 0.02
+                                                          ),),
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      Text('POS system mobile ',
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight: FontWeight.w700,
+                                                            letterSpacing: 0.02
+                                                        ),),
+                                                      SizedBox(height: 8),
+                                                      Text('in your hands',
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight: FontWeight.w700,
+                                                            letterSpacing: 0.02
+                                                        ),),
+                                                      SizedBox(height: 50,),
+                                                      ButtonTheme(
+                                                        minWidth: MediaQuery.of(context).size.width,
+                                                        splashColor: Colors.transparent,
+                                                        height: 50,
+                                                        child: FlatButton(
+                                                          color: AppTheme.themeColor,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(10.0),
+                                                            side: BorderSide(
+                                                              color: AppTheme.themeColor,
+                                                            ),
                                                           ),
-                                                          decoration: InputDecoration(
-                                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                borderSide: const BorderSide(
-                                                                    color: AppTheme.skBorderColor,
-                                                                    width: 2.0),
-                                                                borderRadius: BorderRadius.all(
-                                                                    Radius.circular(10.0))),
-
-                                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                borderSide: const BorderSide(
-                                                                    color: AppTheme.themeColor,
-                                                                    width: 2.0),
-                                                                borderRadius: BorderRadius.all(
-                                                                    Radius.circular(10.0))),
-                                                            contentPadding: const EdgeInsets.only(
-                                                                left: 15.0,
-                                                                right: 15.0,
-                                                                top: 20.0,
-                                                                bottom: 20.0),
-                                                            suffixIcon: Padding(
-                                                              padding: const EdgeInsets.only(bottom: 3.0),
-                                                              child: IconButton(
-                                                                icon: _obscureText? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                                                //tooltip: 'Increase volume by 10',
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    _toggle();
-                                                                  });
-                                                                },
+                                                          onPressed: () {
+                                                            pressedCreate = true;
+                                                            _signupController.animateTo(1);
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(
+                                                                left: 5.0,
+                                                                right: 5.0,
+                                                                bottom: 3.0),
+                                                            child: Container(
+                                                              child: Text(
+                                                                isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    height: 1.3,
+                                                                    fontSize: 17.5,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    color: Colors.black
+                                                                ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.3,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            // suffixStyle: TextStyle(
-                                                            //   color: Colors.grey,
-                                                            //   fontSize: 12,
-                                                            //   fontFamily: 'capsulesans',
-                                                            // ),
-                                                            errorText: wrongPassword,
-                                                            errorStyle: TextStyle(
-                                                                backgroundColor: Colors.white,
-                                                                fontSize: 12,
-                                                                fontFamily: 'capsulesans',
-                                                                height: 0.1
-                                                            ),
-                                                            labelStyle: TextStyle(
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black,
-                                                            ),
-// errorText: 'Error message',
-                                                            labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
-                                                            floatingLabelBehavior:
-                                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(10),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 160.0),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                      SizedBox(height: 22,),
+                                                      RichText(
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                        text: new TextSpan(
                                                           children: [
-                                                            Row(
-                                                              children: [
-                                                                ButtonTheme(
-                                                                  // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
-                                                                  splashColor: Colors.transparent,
-                                                                  height: 50,
-                                                                  child: FlatButton(
-                                                                    color: AppTheme.buttonColor2,
-                                                                    shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(10.0),
-                                                                      side: BorderSide(
-                                                                        color: AppTheme.buttonColor2,
-                                                                      ),
-                                                                    ),
-                                                                    onPressed: ()  {
-                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
-                                                                    },
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(
-                                                                          left: 5.0,
-                                                                          right: 5.0,
-                                                                          bottom: 2.0),
-                                                                      child: Container(
-                                                                        child: Text(
-                                                                          isEnglish? 'Forgot?': 'မေ့နေလား?',
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              height: 1.3,
-                                                                              fontSize: 17.5,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1.3,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 15),
-                                                                Expanded(
-                                                                  child: ButtonTheme(
-                                                                    // minWidth: double.infinity,
-                                                                    // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
-                                                                    splashColor: Colors.transparent,
-                                                                    height: 50,
-                                                                    child: FlatButton(
-                                                                      color: AppTheme.themeColor,
-                                                                      shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(10.0),
-                                                                        side: BorderSide(
-                                                                          color: AppTheme.themeColor,
-                                                                        ),
-                                                                      ),
-                                                                      onPressed: () async {
-                                                                        setState(() {
-                                                                          wrongEmail = null;
-                                                                          wrongPassword = null;
-                                                                          loadingState = true;
-                                                                        });
-                                                                        try {
-                                                                          final result = await InternetAddress.lookup('google.com');
-                                                                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                            if (_formKey.currentState!.validate()) {
-                                                                              // setState(() {
-                                                                              //   loadingState = true;
-                                                                              // });
-                                                                              try {
-                                                                                await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                                                                  email: _email.text,
-                                                                                  password: _password.text,
-                                                                                ).then((_) async {
-
-                                                                                  bool shopExists = false;
-                                                                                  await FirebaseFirestore.instance
-                                                                                      .collection('shops')
-                                                                                      .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                                      .get()
-                                                                                      .then((QuerySnapshot querySnapshot) {
-                                                                                    querySnapshot.docs.forEach((doc) {
-                                                                                      shopExists = true;
-                                                                                    });
-
-                                                                                    setState(() {
-                                                                                      loadingState = false;
-                                                                                    });
-                                                                                    print('shop shi lar ' + shopExists.toString());
-
-                                                                                    if(shopExists) {
-                                                                                      Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                                    } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-                                                                                  });  });
-                                                                              } on FirebaseAuthException catch (e) {
-                                                                                print(e.code.toString());
-
-                                                                                if (e.code == 'user-not-found') {
-                                                                                  setState(() {
-                                                                                    wrongEmail = ' may be incorrect ';
-                                                                                    wrongPassword = ' may be incorrect ';
-                                                                                    loadingState = false;
-                                                                                  });
-                                                                                  print('No user found for that email.');
-                                                                                } else if (e.code == 'wrong-password') {
-                                                                                  setState(() {
-                                                                                    wrongEmail = ' may be incorrect ';
-                                                                                    wrongPassword = ' may be incorrect ';
-                                                                                    loadingState = false;
-                                                                                  });
-                                                                                  print('Wrong password provided for that user.');
-                                                                                } else if (e.code == 'invalid-email') {
-                                                                                  setState(() {
-                                                                                    wrongEmail = ' is invalid email ';
-                                                                                    loadingState = false;
-                                                                                    // wrongPassword = ' may be incorrect ';
-                                                                                  });
-                                                                                  print('Invalid email.');
-                                                                                }
-                                                                              }
-
-                                                                            } else {
-                                                                              setState(() {
-                                                                                loadingState = false;
-                                                                              });
-                                                                            }
-                                                                          }
-                                                                        } on SocketException catch (_) {
-                                                                          setState(() {
-                                                                            smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                                          });
-                                                                        }
-                                                                      },
-                                                                      child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                          child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left: 5.0,
-                                                                            right: 5.0,
-                                                                            bottom: 2.0),
-                                                                        child: Container(
-                                                                          child: Text(
-                                                                            isEnglish? 'Login': 'လော့ဂ်အင်',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                                height: 1.3,
-                                                                                fontSize: 17.5,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                color: Colors.black
-                                                                            ),
-                                                                            strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              // fontSize:,
-                                                                              forceStrutHeight: true,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                            new TextSpan(
+                                                              text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.grey,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
+                                                              ),
                                                             ),
-                                                            SizedBox(height: 22,),
-                                                            RichText(
-                                                              strutStyle: StrutStyle(
-                                                                height: 1,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
+                                                            new TextSpan(
+                                                              text: 'Terms',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.blue,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
                                                               ),
-                                                              text: new TextSpan(
-                                                                children: [
-                                                                  new TextSpan(
-                                                                    text: isEnglish? 'By signing in, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.grey,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: 'Terms',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.blue,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                    recognizer: new TapGestureRecognizer()
-                                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                      },
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: ', ',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.grey,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: 'Privacy Policy',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.blue,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                    recognizer: new TapGestureRecognizer()
-                                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                      },
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: isEnglish? ', and ': ', နှင့် ',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.grey,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                  ),
-                                                                  new TextSpan(
-                                                                    text: isEnglish? 'Cookie Use.': 'Cookie Use ',
-                                                                    style: new TextStyle(
-                                                                      fontSize: 12.5,
-                                                                      color: Colors.blue,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      height: 1.2,
-                                                                    ),
-                                                                    recognizer: new TapGestureRecognizer()
-                                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                      },
-                                                                  ),
-                                                                  if(!isEnglish)
-                                                                    new TextSpan(
-                                                                      text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
-                                                                      style: new TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        color: Colors.grey,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        height: 1.2,
-                                                                      ),
-                                                                    ),
-                                                                ],
+                                                              recognizer: new TapGestureRecognizer()
+                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                },
+                                                            ),
+                                                            new TextSpan(
+                                                              text: ', ',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.grey,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
                                                               ),
-                                                            )
+                                                            ),
+                                                            new TextSpan(
+                                                              text: 'Privacy Policy',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.blue,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
+                                                              ),
+                                                              recognizer: new TapGestureRecognizer()
+                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                },
+                                                            ),
+                                                            new TextSpan(
+                                                              text: isEnglish? ', and ': ', နှင့် ',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.grey,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
+                                                              ),
+                                                            ),
+                                                            new TextSpan(
+                                                              text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.blue,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
+                                                              ),
+                                                              recognizer: new TapGestureRecognizer()
+                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                },
+                                                            ),
+                                                            if(!isEnglish)
+                                                              new TextSpan(
+                                                                text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                                style: new TextStyle(
+                                                                  fontSize: 12.5,
+                                                                  color: Colors.grey,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  height: 1.2,
+                                                                ),
+                                                              ),
                                                           ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 29.0, left: 15.0, right: 15.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Stack(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 4.0, bottom: 15.0),
+                                                            child: Container(
+                                                              child: TextFormField(
+//The validator receives the text that the user has entered.
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                controller: _email,
+                                                                validator: (value) {
+                                                                  if (value == null || value.isEmpty) {
+                                                                    // return '';
+                                                                    return ' This field is required ';
+                                                                  }
+                                                                  if (wrongEmail != '') {
+                                                                    return wrongEmail;
+                                                                  }
 
-                                                ],
-                                              ),
+                                                                  return null;
+                                                                },
+                                                                style: TextStyle(
+                                                                    height: 0.95
+                                                                ),
+                                                                // strutStyle: StrutStyle(
+                                                                //   height: 1,
+                                                                //   // fontSize:,
+                                                                //   forceStrutHeight: true,
+                                                                // ),
+                                                                maxLines: 1,
+                                                                decoration: InputDecoration(
+                                                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                      borderSide: const BorderSide(
+                                                                          color: AppTheme.skBorderColor,
+                                                                          width: 2.0),
+                                                                      borderRadius: BorderRadius.all(
+                                                                          Radius.circular(10.0))),
+
+                                                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                      borderSide: const BorderSide(
+                                                                          color: AppTheme.themeColor,
+                                                                          width: 2.0),
+                                                                      borderRadius: BorderRadius.all(
+                                                                          Radius.circular(10.0))),
+                                                                  // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                                                  // isDense: true,
+                                                                  contentPadding: const EdgeInsets.only(
+                                                                      left: 15.0,
+                                                                      right: 15.0,
+                                                                      top: 20,
+                                                                      bottom: 20.0),
+                                                                  //suffixText: 'Required',
+                                                                  suffixStyle: TextStyle(
+                                                                    color: Colors.grey,
+                                                                    fontSize: 12,
+                                                                    fontFamily: 'capsulesans',
+                                                                  ),
+                                                                  errorText: wrongEmail,
+                                                                  errorStyle: TextStyle(
+                                                                      backgroundColor: Colors.white,
+                                                                      fontSize: 12,
+                                                                      fontFamily: 'capsulesans',
+                                                                      height: 0.1
+                                                                  ),
+                                                                  labelStyle: TextStyle(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black,
+                                                                      height: 1
+                                                                  ),
+// errorText: 'Error message',
+                                                                  labelText: isEnglish? 'Email address': 'အီးမေးလ်',
+                                                                  // labelStrutStyle: StrutStyle(
+                                                                  //   height: 1,
+                                                                  //   // fontSize:,
+                                                                  //   forceStrutHeight: true,
+                                                                  // ),
+                                                                  floatingLabelBehavior:
+                                                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                                                  border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 75.0),
+                                                            child: TextFormField(
+                                                              obscureText: _obscureText,
+                                                              controller: _password,
+                                                              keyboardType: TextInputType.text,
+                                                              validator: (value) {
+                                                                if (value == null || value.isEmpty) {
+                                                                  return ' This field is required ';
+                                                                }
+                                                                if (wrongPassword != '') {
+                                                                  return wrongPassword;
+                                                                }
+                                                                return null;
+                                                              },
+                                                              style: TextStyle(
+                                                                height: 0.95,
+                                                              ),
+                                                              decoration: InputDecoration(
+                                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                    borderSide: const BorderSide(
+                                                                        color: AppTheme.skBorderColor,
+                                                                        width: 2.0),
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(10.0))),
+
+                                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                    borderSide: const BorderSide(
+                                                                        color: AppTheme.themeColor,
+                                                                        width: 2.0),
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(10.0))),
+                                                                contentPadding: const EdgeInsets.only(
+                                                                    left: 15.0,
+                                                                    right: 15.0,
+                                                                    top: 20.0,
+                                                                    bottom: 20.0),
+                                                                suffixIcon: Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 3.0),
+                                                                  child: IconButton(
+                                                                    icon: _obscureText? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                                    //tooltip: 'Increase volume by 10',
+                                                                    onPressed: () {
+                                                                      setState(() {
+                                                                        _toggle();
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                // suffixStyle: TextStyle(
+                                                                //   color: Colors.grey,
+                                                                //   fontSize: 12,
+                                                                //   fontFamily: 'capsulesans',
+                                                                // ),
+                                                                errorText: wrongPassword,
+                                                                errorStyle: TextStyle(
+                                                                    backgroundColor: Colors.white,
+                                                                    fontSize: 12,
+                                                                    fontFamily: 'capsulesans',
+                                                                    height: 0.1
+                                                                ),
+                                                                labelStyle: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.black,
+                                                                ),
+// errorText: 'Error message',
+                                                                labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
+                                                                floatingLabelBehavior:
+                                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 160.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    ButtonTheme(
+                                                                      // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                                                      splashColor: Colors.transparent,
+                                                                      height: 50,
+                                                                      child: FlatButton(
+                                                                        color: AppTheme.buttonColor2,
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(10.0),
+                                                                          side: BorderSide(
+                                                                            color: AppTheme.buttonColor2,
+                                                                          ),
+                                                                        ),
+                                                                        onPressed: ()  {
+                                                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                        },
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 5.0,
+                                                                              right: 5.0,
+                                                                              bottom: 2.0),
+                                                                          child: Container(
+                                                                            child: Text(
+                                                                              isEnglish? 'Forgot?': 'မေ့နေလား?',
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(
+                                                                                  height: 1.3,
+                                                                                  fontSize: 17.5,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1.3,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(width: 15),
+                                                                    Expanded(
+                                                                      child: ButtonTheme(
+                                                                        // minWidth: double.infinity,
+                                                                        // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
+                                                                        splashColor: Colors.transparent,
+                                                                        height: 50,
+                                                                        child: FlatButton(
+                                                                          color: AppTheme.themeColor,
+                                                                          shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                            side: BorderSide(
+                                                                              color: AppTheme.themeColor,
+                                                                            ),
+                                                                          ),
+                                                                          onPressed: () async {
+                                                                            setState(() {
+                                                                              wrongEmail = null;
+                                                                              wrongPassword = null;
+                                                                              loadingState = true;
+                                                                              overLoading = true;
+                                                                            });
+                                                                            try {
+                                                                              final result = await InternetAddress.lookup('google.com');
+                                                                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                if (_formKey.currentState!.validate()) {
+                                                                                  // setState(() {
+                                                                                  //   loadingState = true;
+                                                                                  // });
+                                                                                  try {
+                                                                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                                      email: _email.text,
+                                                                                      password: _password.text,
+                                                                                    ).then((_) async {
+
+                                                                                      bool shopExists = false;
+                                                                                      await FirebaseFirestore.instance
+                                                                                          .collection('shops')
+                                                                                          .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                                          .get()
+                                                                                          .then((QuerySnapshot querySnapshot) {
+                                                                                        querySnapshot.docs.forEach((doc) {
+                                                                                          shopExists = true;
+                                                                                        });
+
+                                                                                        setState(() {
+                                                                                          loadingState = false;
+                                                                                        });
+                                                                                        print('shop shi lar ' + shopExists.toString());
+
+                                                                                        if(shopExists) {
+                                                                                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                                      });  });
+                                                                                  } on FirebaseAuthException catch (e) {
+                                                                                    print(e.code.toString());
+
+                                                                                    if (e.code == 'user-not-found') {
+                                                                                      setState(() {
+                                                                                        wrongEmail = ' may be incorrect ';
+                                                                                        wrongPassword = ' may be incorrect ';
+                                                                                        loadingState = false;
+                                                                                        overLoading = false;
+                                                                                      });
+                                                                                      print('No user found for that email.');
+                                                                                    } else if (e.code == 'wrong-password') {
+                                                                                      setState(() {
+                                                                                        wrongEmail = ' may be incorrect ';
+                                                                                        wrongPassword = ' may be incorrect ';
+                                                                                        loadingState = false;
+                                                                                        overLoading = false;
+                                                                                      });
+                                                                                      print('Wrong password provided for that user.');
+                                                                                    } else if (e.code == 'invalid-email') {
+                                                                                      setState(() {
+                                                                                        wrongEmail = ' is invalid email ';
+                                                                                        loadingState = false;
+                                                                                        overLoading = false;
+                                                                                        // wrongPassword = ' may be incorrect ';
+                                                                                      });
+                                                                                      print('Invalid email.');
+                                                                                    }
+                                                                                  }
+
+                                                                                } else {
+                                                                                  setState(() {
+                                                                                    loadingState = false;
+                                                                                    overLoading = false;
+                                                                                  });
+                                                                                }
+                                                                              }
+                                                                            } on SocketException catch (_) {
+                                                                              setState(() {
+                                                                                smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                                loadingState = false;
+                                                                                overLoading = false;
+                                                                              });
+                                                                            }
+                                                                          },
+                                                                          child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                              child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 5.0,
+                                                                                right: 5.0,
+                                                                                bottom: 2.0),
+                                                                            child: Container(
+                                                                              child: Text(
+                                                                                isEnglish? 'Login': 'လော့ဂ်အင်',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    height: 1.3,
+                                                                                    fontSize: 17.5,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  // fontSize:,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(height: 22,),
+                                                                RichText(
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                  text: new TextSpan(
+                                                                    children: [
+                                                                      new TextSpan(
+                                                                        text: isEnglish? 'By signing in, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.grey,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                      ),
+                                                                      new TextSpan(
+                                                                        text: 'Terms',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.blue,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                        recognizer: new TapGestureRecognizer()
+                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          },
+                                                                      ),
+                                                                      new TextSpan(
+                                                                        text: ', ',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.grey,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                      ),
+                                                                      new TextSpan(
+                                                                        text: 'Privacy Policy',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.blue,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                        recognizer: new TapGestureRecognizer()
+                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          },
+                                                                      ),
+                                                                      new TextSpan(
+                                                                        text: isEnglish? ', and ': ', နှင့် ',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.grey,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                      ),
+                                                                      new TextSpan(
+                                                                        text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                                        style: new TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.blue,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                        ),
+                                                                        recognizer: new TapGestureRecognizer()
+                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          },
+                                                                      ),
+                                                                      if(!isEnglish)
+                                                                        new TextSpan(
+                                                                          text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                                          style: new TextStyle(
+                                                                            fontSize: 12.5,
+                                                                            color: Colors.grey,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            height: 1.2,
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
 //                           Padding(
 //                             padding: const EdgeInsets.only(top: 17),
 //                             child: Column(
@@ -1349,809 +1363,835 @@ class _WelcomeState extends State<Welcome>
 //                               ],
 //                             ),
 //                           ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 27.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                        child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-                                          color: Colors.grey,),),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Stack(
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 27.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 4.0, bottom: 15.0, left: 15.0, right: 15.0),
-                                            child: Container(
-                                              child: TextFormField(
-                                                keyboardType: TextInputType.name,
-                                                //obscureText: _obscureText,
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                              color: Colors.grey,),),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Stack(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 4.0, bottom: 15.0, left: 15.0, right: 15.0),
+                                                child: Container(
+                                                  child: TextFormField(
+                                                    keyboardType: TextInputType.name,
+                                                    //obscureText: _obscureText,
 //The validator receives the text that the user has entered.
-                                                controller: _name,
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return ' This field is required ';
-                                                  }
-                                                  return null;
-                                                },
-                                                style: TextStyle(
-                                                    height: 0.95
-                                                ),
-                                                decoration: InputDecoration(
-                                                  enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.skBorderColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-
-                                                  focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.themeColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-                                                  contentPadding: const EdgeInsets.only(
-                                                      left: 15.0,
-                                                      right: 15.0,
-                                                      top: 20.0,
-                                                      bottom: 20.0),
-                                                  // suffixText: 'Required',
-                                                  suffixStyle: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 12,
-                                                    fontFamily: 'capsulesans',
-                                                  ),
-                                                  //errorText: wrongPassword,
-                                                  errorStyle: TextStyle(
-                                                      backgroundColor: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: 'capsulesans',
-                                                      height: 0.1
-                                                  ),
-                                                  labelStyle: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                  ),
-// errorText: 'Error message',
-                                                  labelText: isEnglish? 'Name': 'အမည်',
-                                                  floatingLabelBehavior:
-                                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                                  border: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 75.0, left: 15.0, right: 15.0),
-                                            child: TextFormField(
-                                              //obscureText: _obscureText,
-//The validator receives the text that the user has entered.
-                                              keyboardType: TextInputType.emailAddress,
-                                              controller: _emails,
-                                              validator: (value) {
-                                                if (value == null || value.isEmpty) {
-                                                  return ' This field is required ';
-                                                }
-                                                if (emailExist != '') {
-                                                  return emailExist;
-                                                }
-                                                return null;
-                                              },
-                                              style: TextStyle(
-                                                  height: 0.95
-                                              ),
-                                              decoration: InputDecoration(
-                                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: AppTheme.skBorderColor,
-                                                        width: 2.0),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(10.0))),
-
-                                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: AppTheme.themeColor,
-                                                        width: 2.0),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(10.0))),
-                                                contentPadding: const EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 20.0,
-                                                    bottom: 20.0),
-                                                //suffixText: 'Required' ,
-                                                //tooltip: 'Increase volume by 10',
-                                                suffixStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontFamily: 'capsulesans',
-                                                ),
-                                                errorText: emailExist,
-                                                errorStyle: TextStyle(
-                                                    backgroundColor: Colors.white,
-                                                    fontSize: 12,
-                                                    fontFamily: 'capsulesans',
-                                                    height: 0.1
-                                                ),
-                                                labelStyle: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                ),
-// errorText: 'Error message',
-                                                labelText: isEnglish? 'Email address': 'အီးမေးလ်',
-                                                floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-//filled: true,
-                                                border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 150.0,),
-                                            child: Container(
-                                              height: 2,
-                                              width: MediaQuery.of(context).size.width,
-                                              color: AppTheme.skBorderColor,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 165.0, left: 15.0, right: 15.0),
-                                            child: Text('AUTHENTICATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-                                              color: Colors.grey,)),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 195.0, left: 15.0, right: 15.0),
-                                            child: Container(
-                                              child: TextFormField(
-                                                obscureText: _obscureText1,
-//The validator receives the text that the user has entered.
-                                                keyboardType: TextInputType.text,
-                                                controller: _passwords,
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return ' This field is required ';
-                                                  }
-                                                  if (weakPassword != '') {
-                                                    return weakPassword;
-                                                  }
-                                                  return null;
-                                                },
-                                                style: TextStyle(
-                                                    height: 0.95
-                                                ),
-                                                decoration: InputDecoration(
-                                                  enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.skBorderColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-
-                                                  focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.themeColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-                                                  contentPadding: const EdgeInsets.only(
-                                                      left: 15.0,
-                                                      right: 15.0,
-                                                      top: 20.0,
-                                                      bottom: 20.0),
-                                                  suffixIcon: Padding(
-                                                    padding: const EdgeInsets.only(bottom: 3.0),
-                                                    child: IconButton(
-                                                      icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                                      //tooltip: 'Increase volume by 10',
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          _toggle1();
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  // suffixStyle: TextStyle(
-                                                  //   color: Colors.grey,
-                                                  //   fontSize: 12,
-                                                  //   fontFamily: 'capsulesans',
-                                                  // ),
-                                                  errorText: weakPassword,
-                                                  errorStyle: TextStyle(
-                                                      backgroundColor: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: 'capsulesans',
-                                                      height: 0.1
-                                                  ),
-                                                  labelStyle: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                  ),
-// errorText: 'Error message',
-                                                  labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
-                                                  floatingLabelBehavior:
-                                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                                  border: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 266.0, left: 15.0, right: 15.0),
-                                            child: TextFormField(
-                                              obscureText: _obscureText1,
-                                              keyboardType: TextInputType.text,
-//The validator receives the text that the user has entered.
-                                              controller: _confirm,
-                                              validator: (value) {
-                                                if (value == null || value.isEmpty) {
-                                                  return ' This field is required ';
-                                                }
-                                                if (_passwords.text != _confirm.text) {
-                                                  return ' Passwords are not match ';
-                                                }
-                                                return null;
-                                              },
-                                              style: TextStyle(
-                                                  height: 0.95
-                                              ),
-                                              decoration: InputDecoration(
-                                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: AppTheme.skBorderColor,
-                                                        width: 2.0),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(10.0))),
-
-                                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: AppTheme.themeColor,
-                                                        width: 2.0),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(10.0))),
-                                                contentPadding: const EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 20.0,
-                                                    bottom: 20.0),
-                                                suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(bottom: 3.0),
-                                                  child: IconButton(
-                                                    icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                                    //tooltip: 'Increase volume by 10',
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        _toggle1();
-                                                      });
+                                                    controller: _name,
+                                                    validator: (value) {
+                                                      if (value == null || value.isEmpty) {
+                                                        return ' This field is required ';
+                                                      }
+                                                      return null;
                                                     },
-                                                  ),
-                                                ),
-                                                // suffixStyle: TextStyle(
-                                                //   color: Colors.grey,
-                                                //   fontSize: 12,
-                                                //   fontFamily: 'capsulesans',
-                                                // ),
-                                                //errorText: weakPassword,
-                                                errorStyle: TextStyle(
-                                                    backgroundColor: Colors.white,
-                                                    fontSize: 12,
-                                                    fontFamily: 'capsulesans',
-                                                    height: 0.1
-                                                ),
-                                                labelStyle: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                ),
+                                                    style: TextStyle(
+                                                        height: 0.95
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.skBorderColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+
+                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.themeColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+                                                      contentPadding: const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 20.0,
+                                                          bottom: 20.0),
+                                                      // suffixText: 'Required',
+                                                      suffixStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                        fontFamily: 'capsulesans',
+                                                      ),
+                                                      //errorText: wrongPassword,
+                                                      errorStyle: TextStyle(
+                                                          backgroundColor: Colors.white,
+                                                          fontSize: 12,
+                                                          fontFamily: 'capsulesans',
+                                                          height: 0.1
+                                                      ),
+                                                      labelStyle: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                      ),
 // errorText: 'Error message',
-                                                labelText: isEnglish? 'Confirm password': 'လျှိုဝှက်စာလုံး ပြန်ရိုက်ပါ',
-                                                floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
+                                                      labelText: isEnglish? 'Name': 'အမည်',
+                                                      floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
 //filled: true,
-                                                border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                ButtonTheme(
-                                                  minWidth: MediaQuery.of(context).size.width,
-                                                  splashColor: Colors.transparent,
-                                                  height: 50,
-                                                  child: FlatButton(
-                                                    color: AppTheme.themeColor,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(10.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.themeColor,
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
                                                       ),
                                                     ),
-                                                    onPressed: () async {
-                                                      setState(() {
-                                                        emailExist = null;
-                                                        weakPassword = null;
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 75.0, left: 15.0, right: 15.0),
+                                                child: TextFormField(
+                                                  //obscureText: _obscureText,
+//The validator receives the text that the user has entered.
+                                                  keyboardType: TextInputType.emailAddress,
+                                                  controller: _emails,
+                                                  validator: (value) {
+                                                    if (value == null || value.isEmpty) {
+                                                      return ' This field is required ';
+                                                    }
+                                                    if (emailExist != '') {
+                                                      return emailExist;
+                                                    }
+                                                    return null;
+                                                  },
+                                                  style: TextStyle(
+                                                      height: 0.95
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                        borderSide: const BorderSide(
+                                                            color: AppTheme.skBorderColor,
+                                                            width: 2.0),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10.0))),
 
-                                                      });
-                                                      try {
-                                                        final result = await InternetAddress.lookup('google.com');
-                                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                          if (_formKey.currentState!.validate()) {
+                                                    focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                        borderSide: const BorderSide(
+                                                            color: AppTheme.themeColor,
+                                                            width: 2.0),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10.0))),
+                                                    contentPadding: const EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 20.0,
+                                                        bottom: 20.0),
+                                                    //suffixText: 'Required' ,
+                                                    //tooltip: 'Increase volume by 10',
+                                                    suffixStyle: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontFamily: 'capsulesans',
+                                                    ),
+                                                    errorText: emailExist,
+                                                    errorStyle: TextStyle(
+                                                        backgroundColor: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily: 'capsulesans',
+                                                        height: 0.1
+                                                    ),
+                                                    labelStyle: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                    ),
+// errorText: 'Error message',
+                                                    labelText: isEnglish? 'Email address': 'အီးမေးလ်',
+                                                    floatingLabelBehavior:
+                                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 150.0,),
+                                                child: Container(
+                                                  height: 2,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  color: AppTheme.skBorderColor,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 165.0, left: 15.0, right: 15.0),
+                                                child: Text('AUTHENTICATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                                  color: Colors.grey,)),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 195.0, left: 15.0, right: 15.0),
+                                                child: Container(
+                                                  child: TextFormField(
+                                                    obscureText: _obscureText1,
+//The validator receives the text that the user has entered.
+                                                    keyboardType: TextInputType.text,
+                                                    controller: _passwords,
+                                                    validator: (value) {
+                                                      if (value == null || value.isEmpty) {
+                                                        return ' This field is required ';
+                                                      }
+                                                      if (weakPassword != '') {
+                                                        return weakPassword;
+                                                      }
+                                                      return null;
+                                                    },
+                                                    style: TextStyle(
+                                                        height: 0.95
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.skBorderColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+
+                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.themeColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+                                                      contentPadding: const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 20.0,
+                                                          bottom: 20.0),
+                                                      suffixIcon: Padding(
+                                                        padding: const EdgeInsets.only(bottom: 3.0),
+                                                        child: IconButton(
+                                                          icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                          //tooltip: 'Increase volume by 10',
+                                                          onPressed: () {
                                                             setState(() {
-                                                              loadingState = true;
+                                                              _toggle1();
                                                             });
+                                                          },
+                                                        ),
+                                                      ),
+                                                      // suffixStyle: TextStyle(
+                                                      //   color: Colors.grey,
+                                                      //   fontSize: 12,
+                                                      //   fontFamily: 'capsulesans',
+                                                      // ),
+                                                      errorText: weakPassword,
+                                                      errorStyle: TextStyle(
+                                                          backgroundColor: Colors.white,
+                                                          fontSize: 12,
+                                                          fontFamily: 'capsulesans',
+                                                          height: 0.1
+                                                      ),
+                                                      labelStyle: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                      ),
+// errorText: 'Error message',
+                                                      labelText: isEnglish? 'Password': 'လျှို့ဝှက်စာလုံး',
+                                                      floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 266.0, left: 15.0, right: 15.0),
+                                                child: TextFormField(
+                                                  obscureText: _obscureText1,
+                                                  keyboardType: TextInputType.text,
+//The validator receives the text that the user has entered.
+                                                  controller: _confirm,
+                                                  validator: (value) {
+                                                    if (value == null || value.isEmpty) {
+                                                      return ' This field is required ';
+                                                    }
+                                                    if (_passwords.text != _confirm.text) {
+                                                      return ' Passwords are not match ';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  style: TextStyle(
+                                                      height: 0.95
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                        borderSide: const BorderSide(
+                                                            color: AppTheme.skBorderColor,
+                                                            width: 2.0),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10.0))),
 
-                                                            try {
-                                                              await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                                                  email: _emails.text,
-                                                                  password: _passwords.text).then((_) async {
+                                                    focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                        borderSide: const BorderSide(
+                                                            color: AppTheme.themeColor,
+                                                            width: 2.0),
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(10.0))),
+                                                    contentPadding: const EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 20.0,
+                                                        bottom: 20.0),
+                                                    suffixIcon: Padding(
+                                                      padding: const EdgeInsets.only(bottom: 3.0),
+                                                      child: IconButton(
+                                                        icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                        //tooltip: 'Increase volume by 10',
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _toggle1();
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                    // suffixStyle: TextStyle(
+                                                    //   color: Colors.grey,
+                                                    //   fontSize: 12,
+                                                    //   fontFamily: 'capsulesans',
+                                                    // ),
+                                                    //errorText: weakPassword,
+                                                    errorStyle: TextStyle(
+                                                        backgroundColor: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily: 'capsulesans',
+                                                        height: 0.1
+                                                    ),
+                                                    labelStyle: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                    ),
+// errorText: 'Error message',
+                                                    labelText: isEnglish? 'Confirm password': 'လျှိုဝှက်စာလုံး ပြန်ရိုက်ပါ',
+                                                    floatingLabelBehavior:
+                                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    ButtonTheme(
+                                                      minWidth: MediaQuery.of(context).size.width,
+                                                      splashColor: Colors.transparent,
+                                                      height: 50,
+                                                      child: FlatButton(
+                                                        color: AppTheme.themeColor,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius.circular(10.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.themeColor,
+                                                          ),
+                                                        ),
+                                                        onPressed: () async {
+                                                          setState(() {
+                                                            emailExist = null;
+                                                            weakPassword = null;
+                                                            overLoading = true;
+                                                          });
+                                                          try {
+                                                            final result = await InternetAddress.lookup('google.com');
+                                                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                              if (_formKey.currentState!.validate()) {
+                                                                setState(() {
+                                                                  loadingState = true;
+                                                                });
 
-                                                                final User? user = auth.currentUser;
-                                                                final uid = user!.uid;
-                                                                final mail = user.email;
-                                                                await FirebaseFirestore.instance.collection('users').add(
-                                                                    {
-                                                                      'user_id' : uid.toString(),
-                                                                      'name': _name.text.toString(),
-                                                                      'email': mail.toString(),
-                                                                      'plan_type' : 'basic',
-                                                                    }
-                                                                );
-                                                                print('uid +' + mail.toString());
-                                                                bool shopExists = false;
-                                                                await FirebaseFirestore.instance
-                                                                    .collection('shops')
-                                                                    .where('users', arrayContains: mail.toString())
-                                                                    .get()
-                                                                    .then((QuerySnapshot querySnapshot) {
-                                                                  querySnapshot.docs.forEach((doc) {
-                                                                    shopExists = true;
-                                                                  });
+                                                                try {
+                                                                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                                                      email: _emails.text,
+                                                                      password: _passwords.text).then((_) async {
+
+                                                                    final User? user = auth.currentUser;
+                                                                    final uid = user!.uid;
+                                                                    final mail = user.email;
+                                                                    await FirebaseFirestore.instance.collection('users').add(
+                                                                        {
+                                                                          'user_id' : uid.toString(),
+                                                                          'name': _name.text.toString(),
+                                                                          'email': mail.toString(),
+                                                                          'plan_type' : 'basic',
+                                                                        }
+                                                                    );
+                                                                    print('uid +' + mail.toString());
+                                                                    bool shopExists = false;
+                                                                    await FirebaseFirestore.instance
+                                                                        .collection('shops')
+                                                                        .where('users', arrayContains: mail.toString())
+                                                                        .get()
+                                                                        .then((QuerySnapshot querySnapshot) {
+                                                                      querySnapshot.docs.forEach((doc) {
+                                                                        shopExists = true;
+                                                                      });
 
 
+                                                                      setState(() {
+                                                                        loadingState = false;
+                                                                      });
+
+                                                                      if(shopExists) {
+                                                                        Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                      } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+
+                                                                      print('username' + mail.toString() + uid.toString());
+                                                                    }); });
+                                                                } on FirebaseAuthException catch (e) {
                                                                   setState(() {
                                                                     loadingState = false;
                                                                   });
-
-                                                                  if(shopExists) {
-                                                                    Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                  } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-
-                                                                  print('username' + mail.toString() + uid.toString());
-                                                                }); });
-                                                            } on FirebaseAuthException catch (e) {
-                                                              setState(() {
-                                                                loadingState = false;
-                                                              });
-                                                              if (e.code == 'weak-password') {
-                                                                setState(() {
-                                                                  weakPassword = ' must be 6 characters long ';
-                                                                });
-                                                                print('The password provided is too weak.');
-                                                              } else if (e.code == 'email-already-in-use') {
-                                                                setState(() {
-                                                                  emailExist = ' Account already exists ';
-                                                                });
-                                                                print('The account already exists for that email.');
-                                                              } else if (e.code == 'invalid-email') {
-                                                                setState(() {
-                                                                  emailExist = ' is invalid email ';
-                                                                  // wrongPassword = ' may be incorrect ';
-                                                                });
-                                                                print('Invalid email.');
+                                                                  if (e.code == 'weak-password') {
+                                                                    setState(() {
+                                                                      weakPassword = ' must be 6 characters long ';
+                                                                      overLoading = false;
+                                                                    });
+                                                                    print('The password provided is too weak.');
+                                                                  } else if (e.code == 'email-already-in-use') {
+                                                                    setState(() {
+                                                                      emailExist = ' Account already exists ';
+                                                                      overLoading = false;
+                                                                    });
+                                                                    print('The account already exists for that email.');
+                                                                  } else if (e.code == 'invalid-email') {
+                                                                    setState(() {
+                                                                      emailExist = ' is invalid email ';
+                                                                      overLoading = false;
+                                                                      // wrongPassword = ' may be incorrect ';
+                                                                    });
+                                                                    print('Invalid email.');
+                                                                  }
+                                                                } catch (e) {
+                                                                  print(e);
+                                                                }
                                                               }
-                                                            } catch (e) {
-                                                              print(e);
                                                             }
+                                                          } on SocketException catch (_) {
+                                                            setState(() {
+                                                              smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                              loadingState = false;
+                                                              overLoading = false;
+                                                            });
                                                           }
-                                                        }
-                                                      } on SocketException catch (_) {
-                                                        setState(() {
-                                                          smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                        });
-                                                      }
 
-                                                    },
-                                                    child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                        child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          left: 5.0,
-                                                          right: 5.0,
-                                                          bottom: 2.0),
-                                                      child: Container(
-                                                        child: Text(
-                                                          isEnglish? 'Sign up': 'ဆိုင်းအပ်',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 17.5,
-                                                              fontWeight: FontWeight.w600,
-                                                              color: Colors.black
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.3,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                        },
+                                                        child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                          padding: const EdgeInsets.only(
+                                                              left: 5.0,
+                                                              right: 5.0,
+                                                              bottom: 2.0),
+                                                          child: Container(
+                                                            child: Text(
+                                                              isEnglish? 'Sign up': 'ဆိုင်းအပ်',
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                  height: 1.3,
+                                                                  fontSize: 17.5,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1.3,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 22,),
-                                                RichText(
-                                                  strutStyle: StrutStyle(
-                                                    height: 1,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
-                                                  ),
-                                                  text: new TextSpan(
-                                                    children: [
-                                                      new TextSpan(
-                                                        text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.grey,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
+                                                    SizedBox(height: 22,),
+                                                    RichText(
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
                                                       ),
-                                                      new TextSpan(
-                                                        text: 'Terms',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.blue,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
-                                                        recognizer: new TapGestureRecognizer()
-                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                          },
-                                                      ),
-                                                      new TextSpan(
-                                                        text: ', ',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.grey,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
-                                                      ),
-                                                      new TextSpan(
-                                                        text: 'Privacy Policy',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.blue,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
-                                                        recognizer: new TapGestureRecognizer()
-                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                          },
-                                                      ),
-                                                      new TextSpan(
-                                                        text: isEnglish? ', and ': ', နှင့် ',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.grey,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
-                                                      ),
-                                                      new TextSpan(
-                                                        text: isEnglish? 'Cookie Use.': 'Cookie Use ',
-                                                        style: new TextStyle(
-                                                          fontSize: 12.5,
-                                                          color: Colors.blue,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 1.2,
-                                                        ),
-                                                        recognizer: new TapGestureRecognizer()
-                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                          },
-                                                      ),
-                                                      if(!isEnglish)
-                                                        new TextSpan(
-                                                          text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
-                                                          style: new TextStyle(
-                                                            fontSize: 12.5,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.w500,
-                                                            height: 1.2,
+                                                      text: new TextSpan(
+                                                        children: [
+                                                          new TextSpan(
+                                                            text: isEnglish? 'By signing up, you agree to our ': 'အကောင့်ဖန််တီးပြီးသည်နှင့် ကျွန်ုပ်တို့၏ ',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.grey,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
                                                           ),
-                                                        ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                                          new TextSpan(
+                                                            text: 'Terms',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.blue,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
+                                                            recognizer: new TapGestureRecognizer()
+                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              },
+                                                          ),
+                                                          new TextSpan(
+                                                            text: ', ',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.grey,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
+                                                          ),
+                                                          new TextSpan(
+                                                            text: 'Privacy Policy',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.blue,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
+                                                            recognizer: new TapGestureRecognizer()
+                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              },
+                                                          ),
+                                                          new TextSpan(
+                                                            text: isEnglish? ', and ': ', နှင့် ',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.grey,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
+                                                          ),
+                                                          new TextSpan(
+                                                            text: isEnglish? 'Cookie Use.': 'Cookie Use ',
+                                                            style: new TextStyle(
+                                                              fontSize: 12.5,
+                                                              color: Colors.blue,
+                                                              fontWeight: FontWeight.w500,
+                                                              height: 1.2,
+                                                            ),
+                                                            recognizer: new TapGestureRecognizer()
+                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              },
+                                                          ),
+                                                          if(!isEnglish)
+                                                            new TextSpan(
+                                                              text: 'တို့ကို လက်ခံပြီးဖြစ််သည််။',
+                                                              style: new TextStyle(
+                                                                fontSize: 12.5,
+                                                                color: Colors.grey,
+                                                                fontWeight: FontWeight.w500,
+                                                                height: 1.2,
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
                                         ],
                                       ),
+                                    ),
 
-                                    ],
-                                  ),
+                                  ],
                                 ),
-
-                              ],
+                              ),
                             ),
+                            Container(
+                                height: MediaQuery.of(context).viewInsets.bottom
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0, top: 10.0, bottom: 10.0),
+                        child: Container(
+                          height: 40,
+                          child: TabBarView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: _bottomTabBarCtl,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.02
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.3,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 15,),
+                                    ButtonTheme(
+                                      minWidth: 35,
+                                      splashColor: Colors.transparent,
+                                      height: 30,
+                                      child: FlatButton(
+                                        color: AppTheme.themeColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(50.0),
+                                          side: BorderSide(
+                                            color: AppTheme.themeColor,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          _signupController.animateTo(1);
+                                          _bottomTabBarCtl.animateTo(3);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            isEnglish? 'Sign up': 'ဆိုင်းအပ်',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.2,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )],
+                                ),
+                              ),
+
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.02
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.3,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 15,),
+                                    ButtonTheme(
+                                      minWidth: 35,
+                                      splashColor: Colors.transparent,
+                                      height: 30,
+                                      child: FlatButton(
+                                        color: AppTheme.themeColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(50.0),
+                                          side: BorderSide(
+                                            color: AppTheme.themeColor,
+                                          ),
+                                        ),
+                                        onPressed: ()  {
+                                          // _signupController.animateTo(1);
+
+                                          if(pressedCreate) {
+                                            _loginTabController.animateTo(1);
+                                            _bottomTabBarCtl.animateTo(0);
+                                            _signupController.animateTo(0);
+                                          } else {
+                                            _bottomTabBarCtl.animateTo(2);
+                                            _loginTabController.animateTo(1);
+                                          }
+
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            isEnglish? 'Login': 'လော့ဂ်အင်',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.2,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )],
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.02
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.3,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 15,),
+                                    ButtonTheme(
+                                      minWidth: 35,
+                                      splashColor: Colors.transparent,
+                                      height: 30,
+                                      child: FlatButton(
+                                        color: AppTheme.themeColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(50.0),
+                                          side: BorderSide(
+                                            color: AppTheme.themeColor,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          _signupController.animateTo(1);
+                                          _bottomTabBarCtl.animateTo(3);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            isEnglish? 'Sign up': 'ဆိုင်းအပ်',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.2,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )],
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.02
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.3,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 15,),
+                                    ButtonTheme(
+                                      minWidth: 35,
+                                      splashColor: Colors.transparent,
+                                      height: 30,
+                                      child: FlatButton(
+                                        color: AppTheme.themeColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(50.0),
+                                          side: BorderSide(
+                                            color: AppTheme.themeColor,
+                                          ),
+                                        ),
+                                        onPressed: ()  {
+                                          _signupController.animateTo(0);
+                                          _bottomTabBarCtl.animateTo(2);
+                                          _loginTabController.animateTo(1);
+                                        },
+                                        child: Container(
+                                          child: Text(
+                                            isEnglish? 'Login': 'လော့ဂ်အင်',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.2,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
-                            height: MediaQuery.of(context).viewInsets.bottom
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 10.0, bottom: 10.0),
+                  Visibility(
+                    visible: isLoading,
                     child: Container(
-                      height: 40,
-                      child: TabBarView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: _bottomTabBarCtl,
+                      color: Colors.white,
+                      child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.02
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.3,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 15,),
-                                ButtonTheme(
-                                  minWidth: 35,
-                                  splashColor: Colors.transparent,
-                                  height: 30,
-                                  child: FlatButton(
-                                    color: AppTheme.themeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(50.0),
-                                      side: BorderSide(
-                                        color: AppTheme.themeColor,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      _signupController.animateTo(1);
-                                      _bottomTabBarCtl.animateTo(3);
-                                    },
-                                    child: Container(
-                                      child: Text(
-                                        isEnglish? 'Sign up': 'ဆိုင်းအပ်',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        strutStyle: StrutStyle(
-                                          height: 1.2,
-                                          // fontSize:,
-                                          forceStrutHeight: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )],
-                            ),
-                          ),
-
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.02
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.3,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 15,),
-                                ButtonTheme(
-                                  minWidth: 35,
-                                  splashColor: Colors.transparent,
-                                  height: 30,
-                                  child: FlatButton(
-                                    color: AppTheme.themeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(50.0),
-                                      side: BorderSide(
-                                        color: AppTheme.themeColor,
-                                      ),
-                                    ),
-                                    onPressed: ()  {
-                                      // _signupController.animateTo(1);
-
-                                      if(pressedCreate) {
-                                        _loginTabController.animateTo(1);
-                                        _bottomTabBarCtl.animateTo(0);
-                                        _signupController.animateTo(0);
-                                      } else {
-                                        _bottomTabBarCtl.animateTo(2);
-                                        _loginTabController.animateTo(1);
-                                      }
-
-                                    },
-                                    child: Container(
-                                      child: Text(
-                                        isEnglish? 'Login': 'လော့ဂ်အင်',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        strutStyle: StrutStyle(
-                                          height: 1.2,
-                                          // fontSize:,
-                                          forceStrutHeight: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )],
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.02
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.3,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 15,),
-                                ButtonTheme(
-                                  minWidth: 35,
-                                  splashColor: Colors.transparent,
-                                  height: 30,
-                                  child: FlatButton(
-                                    color: AppTheme.themeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(50.0),
-                                      side: BorderSide(
-                                        color: AppTheme.themeColor,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      _signupController.animateTo(1);
-                                      _bottomTabBarCtl.animateTo(3);
-                                    },
-                                    child: Container(
-                                      child: Text(
-                                        isEnglish? 'Sign up': 'ဆိုင်းအပ်',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        strutStyle: StrutStyle(
-                                          height: 1.2,
-                                          // fontSize:,
-                                          forceStrutHeight: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )],
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.02
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.3,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 15,),
-                                ButtonTheme(
-                                  minWidth: 35,
-                                  splashColor: Colors.transparent,
-                                  height: 30,
-                                  child: FlatButton(
-                                    color: AppTheme.themeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(50.0),
-                                      side: BorderSide(
-                                        color: AppTheme.themeColor,
-                                      ),
-                                    ),
-                                    onPressed: ()  {
-                                      _signupController.animateTo(0);
-                                      _bottomTabBarCtl.animateTo(2);
-                                      _loginTabController.animateTo(1);
-                                    },
-                                    child: Container(
-                                      child: Text(
-                                        isEnglish? 'Login': 'လော့ဂ်အင်',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        strutStyle: StrutStyle(
-                                          height: 1.2,
-                                          // fontSize:,
-                                          forceStrutHeight: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )],
+                          Expanded(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 15,)),
+                              ),
                             ),
                           ),
                         ],
@@ -2160,28 +2200,22 @@ class _WelcomeState extends State<Welcome>
                   ),
                 ],
               ),
-              Visibility(
-                visible: isLoading,
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                child: CupertinoActivityIndicator(radius: 15,)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Visibility(
+            visible: overLoading,
+            child: Container(
+              color: Colors.grey.withOpacity(0.3),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -620,9 +620,9 @@ class HomePageState extends State<HomePage>
     // }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-    getDeviceId().then((value) {
-      deviceIdNum = value;
-    });
+    // getDeviceId().then((value) {
+    //   deviceIdNum = value;
+    // });
 
 
     _controller = new TabController(length: 5, vsync: this);
@@ -2019,6 +2019,20 @@ class HomePageState extends State<HomePage>
                               var isPro = output?['is_pro'];
                               Timestamp isProStart = isPro['start'];
                               Timestamp isProEnd = isPro['end'];
+                              var devicesList = output?['devices'];
+                              print('dv list str ' + devicesList.toString() + ' ' + devicesList.length.toString());
+
+                              for(int i = 0; i < devicesList.length; i++) {
+                                if(devicesList[i] == widget.deviceId) {
+                                  print('DV LIST ' + devicesList[i].toString());
+                                  deviceIdNum = i;
+                                  print('DV LIST 2 ' + deviceIdNum.toString());
+                                }
+                              }
+                              setDeviceId(deviceIdNum.toString());
+                              print('fuck off ');
+
+
                               print('isPro? ' + isProStart.toDate().toString());
                               DateTime startDate = isProStart.toDate();
                               DateTime endDate = isProEnd.toDate();
@@ -6118,7 +6132,7 @@ class HomePageState extends State<HomePage>
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => MerchantCart(deviceId: deviceIdNum, shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
+                                                      builder: (context) => MerchantCart(deviceId: deviceIdNum.toString(), shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
                                               },
                                               child: Stack(
                                                 children: [
@@ -13311,6 +13325,12 @@ class HomePageState extends State<HomePage>
         }
       });
     });
+  }
+
+  setDeviceId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('device', id);
   }
 }
 
