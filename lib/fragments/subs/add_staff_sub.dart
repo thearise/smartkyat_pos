@@ -203,68 +203,74 @@ class _AddStaffSubState extends State<AddStaffSub> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _accountName,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return ' This field is required ';
-                          }
-                          return null;
-                        },
-                        style: TextStyle(
-                          height: 0.95,
-                        ),
-                        decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                              borderSide: const BorderSide(
-                                  color: AppTheme.skBorderColor,
-                                  width: 2.0),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0))),
-
-                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                              borderSide: const BorderSide(
-                                  color: AppTheme.themeColor,
-                                  width: 2.0),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0))),
-                          contentPadding: const EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 20.0,
-                              bottom: 20.0),
-                          //suffixText: 'Required',
-                          suffixStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
+                      child: Container(
+                        height: 65,
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _accountName,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ' This field is required ';
+                            }
+                            if (value == auth.currentUser!.email) {
+                              return ' Your own email cannot be used ';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(
+                            height: 0.95,
                           ),
-                          // errorText: wrongPassword,
-                          errorStyle: TextStyle(
-                              backgroundColor: Colors.white,
+                          decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                borderSide: const BorderSide(
+                                    color: AppTheme.skBorderColor,
+                                    width: 2.0),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0))),
+
+                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                borderSide: const BorderSide(
+                                    color: AppTheme.themeColor,
+                                    width: 2.0),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0))),
+                            contentPadding: const EdgeInsets.only(
+                                left: 15.0,
+                                right: 15.0,
+                                top: 20.0,
+                                bottom: 20.0),
+                            //suffixText: 'Required',
+                            suffixStyle: TextStyle(
+                              color: Colors.grey,
                               fontSize: 12,
                               fontFamily: 'capsulesans',
-                              height: 0.1
-                          ),
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
+                            ),
+                            // errorText: wrongPassword,
+                            errorStyle: TextStyle(
+                                backgroundColor: Colors.white,
+                                fontSize: 12,
+                                fontFamily: 'capsulesans',
+                                height: 0.1
+                            ),
+                            labelStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
 // errorText: 'Error message',
-                          labelText: 'Email address',
-                          floatingLabelBehavior:
-                          FloatingLabelBehavior.auto,
+                            labelText: 'Email address',
+                            floatingLabelBehavior:
+                            FloatingLabelBehavior.auto,
 //filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(height: 5,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: DropdownBelow(

@@ -1073,7 +1073,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
             .get()
             .then((QuerySnapshot querySnapshot) {
           print('what?');
-          querySnapshot.docs.forEach((doc) {
+          querySnapshot.docs.forEach((doc) async {
             print('win lar   lar?');
             if(doc.exists) {
               WriteBatch batch  = FirebaseFirestore.instance.batch();
@@ -1085,7 +1085,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                 'role': index == 0? 'cashier' : 'admin'
               });
 
-              batch.commit();
+              await batch.commit();
 
               // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(userDocId)
               //     .update({
@@ -1095,6 +1095,11 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
               //     .catchError((error) => print("Failed to update user: $error"));
             }
           });
+          if(querySnapshot.docs.length==0) {
+            FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(userDocId).update({
+              'role': index == 0? 'cashier' : 'admin'
+            });
+          }
         });
 
 
