@@ -531,11 +531,13 @@ class _AddShopState extends State<AddShop> {
                                   final email = user.email;
 
                                   FocusScope.of(context).unfocus();
-                                  setState(() {
-                                    loadingState = true;
-                                  });
-                                  Future.delayed(const Duration(milliseconds: 1000), () async {
-                                    if (_formKey.currentState!.validate()) {
+
+                                  if (_formKey.currentState!.validate()) {
+
+                                      setState(() {
+                                        loadingState = true;
+                                      });
+
                                       WriteBatch batch = FirebaseFirestore.instance.batch();
 
                                       await FirebaseFirestore.instance.collection('users')
@@ -654,7 +656,7 @@ class _AddShopState extends State<AddShop> {
 
 
                                     }
-                                  });
+
 
                                 }
                               } on SocketException catch (_) {

@@ -532,12 +532,6 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
 
                                   // String shopId = await getStoreId();
 
-
-
-
-
-
-
                                   if (_formKey.currentState!.validate()) {
                                     WriteBatch batch = FirebaseFirestore.instance.batch();
                                     setState(() {
