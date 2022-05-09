@@ -279,10 +279,10 @@ class _BuyListInfoState extends State<BuyListInfo>
                           }
 
                           if(widget.data.split('^')[6] != '0.0') {
-                            if(widget.data.split('^')[6].split('^')[1] == 'p') {
-                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('^')[0]) / 100));
+                            if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
                             } else {
-                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('^')[0])/totalRealPrice));
+                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice));
                             }
                           }
 
@@ -1150,15 +1150,15 @@ class _BuyListInfoState extends State<BuyListInfo>
                                             ),
                                           if ((widget.data.split('^')[6]) != '0.0')
                                             Container(
-                                              child: (widget.data.split('^')[6]).split('^')[1] == 'p' ?
+                                              child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 1.0),
                                                 child: ListTile(
                                                   title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                  subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('^')[0] + '%)', style: TextStyle(
+                                                  subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
                                                     fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                   )),
-                                                  trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('^')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                   // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('^')[4]) * (int.parse(prodListView[i].split('^')[3]) - int.parse(prodListView[i].split('^')[7]))).toString()),
                                                   //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                 ),
@@ -1169,7 +1169,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   subtitle: Text(textSetAmount, style: TextStyle(
                                                     fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                   )),
-                                                  trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('^')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                 ),
                                               ),
                                             ) else Container(),
@@ -1985,13 +1985,13 @@ class _BuyListInfoState extends State<BuyListInfo>
 
   discTra(String str, String prodList) {
     if(str != '0.0') {
-      return widget.data.split('^')[6].split('^')[1] == 'p' ?
-      Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('^')[0]) / 100))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+      return widget.data.split('^')[6].split('-')[1] == 'p' ?
+      Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),) :
-      Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('^')[0])/totalRealPrice))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+      Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
