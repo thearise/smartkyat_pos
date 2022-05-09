@@ -642,13 +642,13 @@ class HomePageState extends State<HomePage>
     getStoreId().then((value0) {
       print('value check ' + value0.toString());
       if(value0 == '' || value0 == null) {
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
             FadeRoute(page: chooseStore(),)
         );
       }
       FirebaseFirestore.instance.collection('shops').doc(value0).collection('users_ver').doc(auth.currentUser!.uid).get().then((snapVer) {
         if(!snapVer.exists) {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
               FadeRoute(page: chooseStore(),)
           );
         }
@@ -1960,6 +1960,9 @@ class HomePageState extends State<HomePage>
                   stream: emailSnapshot,
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
                     if(snapshotUser.hasData) {
+                      if(snapshotUser.data!.docs.length == 0) {
+                        setStoreId('');
+                      }
                       Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
                       print('waiting? ' + dataUser['device0']);
                       // _getId().then((value) async {
@@ -1992,10 +1995,18 @@ class HomePageState extends State<HomePage>
                       }
                       // });
 
+                      // write his role in users_ver as described in users (email id)
+
                       // print('deviceidnum ' + await );
                       // if(dataUser['device0'] != )
                       var role = dataUser['role'];
                       if(ayinHar != role) {
+                        if(shopId != '') {
+                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users_ver').doc(auth.currentUser!.uid).set({
+                            'email': auth.currentUser!.email,
+                            'role': role
+                          });
+                        }
                         if(role=='cashier') {
                           currentTab = 3;
                           _selectIndex = 1;
@@ -3055,18 +3066,15 @@ class HomePageState extends State<HomePage>
                                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                       if(snapshot.hasData) {
                                         List<bool> shopFound = [];
-                                        getStoreId().then((value) async {
-                                          if(snapshot.data!.docs.length == 0) {
-                                            await FirebaseAuth.instance.signOut();
-                                            setStoreId('');
-                                            // Navigator.pop(context);
-                                            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                                            // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                                            Navigator.of(context).pushReplacement(
-                                              FadeRoute(page: Welcome()),
-                                            );
-                                          }
-                                        });
+                                        if(snapshot.data!.docs.length == 0) {
+                                          setStoreId('');
+                                          // Navigator.pop(context);
+                                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                                          // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                                          Navigator.of(context).pushReplacement(
+                                              FadeRoute(page: chooseStore(),)
+                                          );
+                                        }
 
                                         for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
                                           Map<String, dynamic> data = snapshot.data!.docs[loop]
@@ -3084,14 +3092,18 @@ class HomePageState extends State<HomePage>
                                                   break;
                                                 } else {
                                                   if(i == shopFound.length-1) {
-                                                    await FirebaseAuth.instance.signOut();
                                                     setStoreId('');
-                                                    // Navigator.pop(context);
-                                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                                                    // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
                                                     Navigator.of(context).pushReplacement(
-                                                      FadeRoute(page: Welcome()),
+                                                        FadeRoute(page: chooseStore(),)
                                                     );
+                                                    // await FirebaseAuth.instance.signOut();
+                                                    // setStoreId('');
+                                                    // // Navigator.pop(context);
+                                                    // // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                                                    // // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                                                    // Navigator.of(context).pushReplacement(
+                                                    //   FadeRoute(page: Welcome()),
+                                                    // );
                                                   }
                                                 }
                                               }
@@ -6555,6 +6567,105 @@ class HomePageState extends State<HomePage>
                             }
                             return Container();
                           }
+                      );
+                    }
+                    print('snap cond ' + snapshotUser.toString());
+                    if(!snapshotUser.hasData && snapshotUser.connectionState != ConnectionState.waiting) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15, right: 15, top: 40.0, bottom: 15.0),
+                                child: Text(
+                                  'Something went wrong',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0, bottom: 40.0),
+                                child: Text(
+                                  'This action occours when your permission to the current shop has been terminated or some information is missing in your cache.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  setStoreId('');
+                                  await FirebaseAuth.instance.signOut();
+                                  Navigator.of(context).pushReplacement(FadeRoute(page: Welcome()),);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
+                                  child: Text(
+                                    'Exit & sign out',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              ButtonTheme(
+                                minWidth: MediaQuery.of(context).size.width,
+                                splashColor: Colors.transparent,
+                                height: 50,
+                                child: FlatButton(
+                                  color: AppTheme.buttonColor2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
+                                    side: BorderSide(
+                                      color: AppTheme.buttonColor2,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setStoreId('');
+                                    Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()),);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 5.0,
+                                        right: 5.0,
+                                        bottom: 3.0),
+                                    child: Container(
+                                      child: Text(
+                                        'Choose store',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing:-0.1
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     }
                     return Container();
