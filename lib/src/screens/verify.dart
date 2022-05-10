@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/add_new_shop_fragment.dart';
+import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 
@@ -166,9 +169,20 @@ class _VerifyScreenState extends State<VerifyScreen> {
       timer.cancel();
       // Navigator.of(context).pushReplacement(
       //     MaterialPageRoute(builder: (context) => HomePage()));
-      _getId().then((val) {
-        String deviceId = val!;
-        Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+      bool shopExists = false;
+      await FirebaseFirestore.instance
+          .collection('shops')
+          .where('users', arrayContains: auth.currentUser!.email.toString())
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          shopExists = true;
+        });
+
+        if(shopExists) {
+          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+
       });
     }
   }
