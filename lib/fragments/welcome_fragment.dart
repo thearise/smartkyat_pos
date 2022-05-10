@@ -154,12 +154,13 @@ class _WelcomeState extends State<Welcome>
                   Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
                 });
               } else {
-                Future.delayed(const Duration(milliseconds: 1000), () {
-                  setState(() {
-                    isLoading = false;
-                  });
-                });
+                // Future.delayed(const Duration(milliseconds: 1000), () {
+                //   setState(() {
+                //     isLoading = false;
+                //   });
+                // });
                 Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+
               }
             });
           }
@@ -681,23 +682,19 @@ class _WelcomeState extends State<Welcome>
                                                                                   //   loadingState = true;
                                                                                   // });
                                                                                   try {
-                                                                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                                    FirebaseAuth.instance.signInWithEmailAndPassword(
                                                                                       email: _email.text,
                                                                                       password: _password.text,
                                                                                     ).then((_) async {
 
                                                                                       bool shopExists = false;
-                                                                                      await FirebaseFirestore.instance
+                                                                                      FirebaseFirestore.instance
                                                                                           .collection('shops')
                                                                                           .where('users', arrayContains: auth.currentUser!.email.toString())
                                                                                           .get()
                                                                                           .then((QuerySnapshot querySnapshot) {
                                                                                         querySnapshot.docs.forEach((doc) {
                                                                                           shopExists = true;
-                                                                                        });
-
-                                                                                        setState(() {
-                                                                                          loadingState = false;
                                                                                         });
                                                                                         print('shop shi lar ' + shopExists.toString());
 
@@ -1726,36 +1723,37 @@ class _WelcomeState extends State<Welcome>
                                                                     final User? user = auth.currentUser;
                                                                     final uid = user!.uid;
                                                                     final mail = user.email;
-                                                                    await FirebaseFirestore.instance.collection('users').add(
-                                                                        {
-                                                                          'user_id' : uid.toString(),
-                                                                          'name': _name.text.toString(),
-                                                                          'email': mail.toString(),
-                                                                          'plan_type' : 'basic',
-                                                                        }
-                                                                    );
-                                                                    print('uid +' + mail.toString());
-                                                                    bool shopExists = false;
-                                                                    await FirebaseFirestore.instance
-                                                                        .collection('shops')
-                                                                        .where('users', arrayContains: mail.toString())
-                                                                        .get()
-                                                                        .then((QuerySnapshot querySnapshot) {
-                                                                      querySnapshot.docs.forEach((doc) {
-                                                                        shopExists = true;
+                                                                    FirebaseFirestore.instance.collection('users').add({
+                                                                      'user_id' : uid.toString(),
+                                                                      'name': _name.text.toString(),
+                                                                      'email': mail.toString(),
+                                                                      'plan_type' : 'basic',
+                                                                    }).then((val) {
+                                                                      print('uid +' + mail.toString());
+                                                                      bool shopExists = false;
+                                                                      FirebaseFirestore.instance
+                                                                          .collection('shops')
+                                                                          .where('users', arrayContains: mail.toString())
+                                                                          .get()
+                                                                          .then((QuerySnapshot querySnapshot) {
+                                                                        querySnapshot.docs.forEach((doc) {
+                                                                          shopExists = true;
+                                                                        });
+
+
+                                                                        // setState(() {
+                                                                        //   loadingState = false;
+                                                                        // });
+
+                                                                        if(shopExists) {
+                                                                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+
+                                                                        print('username' + mail.toString() + uid.toString());
                                                                       });
+                                                                    });
 
-
-                                                                      setState(() {
-                                                                        loadingState = false;
-                                                                      });
-
-                                                                      if(shopExists) {
-                                                                        Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                      } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-
-                                                                      print('username' + mail.toString() + uid.toString());
-                                                                    }); });
+                                                                  });
                                                                 } on FirebaseAuthException catch (e) {
                                                                   setState(() {
                                                                     loadingState = false;
