@@ -612,7 +612,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          print('cateScIndex2' + cateScIndex.toString());
+        //  print('cateScIndex2' + cateScIndex.toString());
         },
         child: Container(
           color: Colors.white,
@@ -636,13 +636,13 @@ class ProductsFragmentState extends State<ProductsFragment>
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
-                              print('prods length' + prods.length.toString());
+                            //  print('prods length' + prods.length.toString());
 
                               if(prods != null) {
                                 for(int i = 0; i < prods.length; i++) {
                                   var eachMap = prods.entries.elementAt(i);
                                   if(eachMap.value['na'] == null) {
-                                    print('prods entri ' + eachMap.toString());
+                                //    print('prods entri ' + eachMap.toString());
                                     List<dynamic> deleteExpenseData = [];
                                     deleteExpenseData.add(eachMap);
 
@@ -657,7 +657,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       },
                                     );
 
-                                    print('prods entri');
+                                 //   print('prods entri');
                                   }
                                   else {
                                     resProds[eachMap.key] = eachMap.value;
@@ -853,20 +853,39 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           delegate: SliverChildBuilderDelegate(
                                                 (context, index) {
                                               var prodMap = resProds.entries.elementAt(index);
-                                              print('Prod map ' + prodMap.key.toString());
+                                             // print('Prod map ' + prodMap.key.toString());
                                               var prodVal = prodMap.value;
                                               var prodKey = prodMap.key;
                                               String imgUrl = '';
                                               if(imgArr[prodKey] != null) {
                                                 imgUrl = imgArr[prodKey]['img'].toString();
                                               }
-                                              print('Prod image ' + imgUrl.toString());
+
+                                              String buyPrice1 = '';
+                                              if(prodVal['b1'].toString() == '') {
+                                                buyPrice1 = '0';
+                                              } else buyPrice1 = prodVal['b1'].toString();
+
+                                              String buyPrice2 = '';
+                                              if(prodVal['b2'].toString() == '') {
+                                                buyPrice2 = '0';
+                                              } else buyPrice2 = prodVal['b2'].toString();
+                                          //    print('Prod image ' + imgUrl.toString());
                                               return GestureDetector(
                                                 onTap: () async {
                                                   closeDrawerFrom();
                                                   await Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                        builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                                                        builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                                                            mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
+                                                            sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                                                            sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
+                                                            sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
+                                                            subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
+                                                            mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
+                                                            sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
+                                                            buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
+                                                            toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
                                                   openDrawerFrom();
                                                 },
                                                 child: Padding(
