@@ -4045,21 +4045,9 @@ class HomePageState extends State<HomePage>
                                                                                                     inputFormatters: <TextInputFormatter>[
                                                                                                       FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                     onChanged: (value) {
-                                                                                                      // mystate(() {
-                                                                                                      //   totalAmount = double.parse(TtlProdListPrice());
-                                                                                                      //   value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                                                      //   if((totalAmount - paidAmount).isNegative){
-                                                                                                      //     debt = 0;
-                                                                                                      //   } else { debt = (totalAmount - paidAmount);
-                                                                                                      //   }
-                                                                                                      //   if((paidAmount - totalAmount).isNegative){
-                                                                                                      //     refund = 0;
-                                                                                                      //   } else { refund = (paidAmount - totalAmount);
-                                                                                                      //   }
-                                                                                                      // });
                                                                                                       setState(() async {
-                                                                                                        String ttlProdListPriceFut = await TtlProdListPrice();
-                                                                                                        totalAmount = double.parse(ttlProdListPriceFut);
+                                                                                                       // String ttlProdListPriceFut = await TtlProdListPrice();
+                                                                                                        totalAmount = double.parse( TtlProdListPrice());
                                                                                                         value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                                                         if((totalAmount - paidAmount).isNegative){
                                                                                                           debt = 0;
@@ -4344,12 +4332,6 @@ class HomePageState extends State<HomePage>
                                                                                                       int length = 0;
                                                                                                       int totalOrders = 0;
                                                                                                       int debts = 0;
-                                                                                                      var dateExist = false;
-                                                                                                      var dateId = '';
-                                                                                                      var monthId = '';
-                                                                                                      bool monthExist = false;
-                                                                                                      var yearId = '';
-                                                                                                      bool yearExist = false;
                                                                                                       bool reFilter = false;
                                                                                                       bool deFilter = false;
                                                                                                       double debtAmounts = 0 ;
@@ -4359,8 +4341,10 @@ class HomePageState extends State<HomePage>
                                                                                                           .get().then((value) async {
                                                                                                         length = int.parse(value.data()!['count'].toString());
                                                                                                         print('lengthsss' + length.toString());
-
                                                                                                         length = length + 1;
+
+                                                                                                        print('CHECK POINT 0' + deviceIdNum.toString());
+                                                                                                        print('CHECK POINT 1');
 
                                                                                                         batch = await updateOrderLength(batch);
 
@@ -4368,58 +4352,59 @@ class HomePageState extends State<HomePage>
                                                                                                         for (int k=0; k< prodList.length;  k++) {
                                                                                                           //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                                          subList.add(prodList[k].split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + prodList[k].split('^')[4] +'-' + prodList[k].split('^')[2] + '-' + prodList[k].split('^')[3] +'-' + prodList[k].split('^')[4] + '-0-' + 'date');
+                                                                                                          subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
 
                                                                                                           // productsFire.doc(prodList[k].split('^')[0])
                                                                                                           //     .get().then((val22) async {
                                                                                                           //
                                                                                                           // });
 
-                                                                                                          List<String> subLink = [];
-                                                                                                          List<String> subName = [];
-                                                                                                          List<double> subStock = [];
+                                                                                                          // List<String> subLink = [];
+                                                                                                          // List<String> subName = [];
+                                                                                                          // List<double> subStock = [];
 
-                                                                                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                                                              .get();
+                                                                                                          // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                                                          //     .get();
 
-                                                                                                          if (docSnapshot10.exists) {
-                                                                                                            Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                                                            for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                                                              subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                                                              subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                                                              print('inStock' + (i+1).toString());
-                                                                                                              print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                                                              subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                                                            }
 
-                                                                                                            print(subStock.toString());
+                                                                                                          // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                                                          //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                                                          //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                                                          //   print('inStock' + (i+1).toString());
+                                                                                                          //   print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                                                          //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                                                          // }
 
-                                                                                                            if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                                                              batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
-                                                                                                              //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                                              //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                                                              // if ( k == prodList.length-1) {
-                                                                                                              //   batch.commit();
-                                                                                                              // }
-                                                                                                              //print('batch complete');
-                                                                                                              // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                                                            }
-                                                                                                            else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                                                              // batch = await sub1Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4], docSnapshot10);
-                                                                                                              // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                                                              //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                              //});
-                                                                                                            }
-                                                                                                            else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                                                              batch = await sub2Execution(batch, subStock, subLink, prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                                                              // productsFire.doc(str.split('^')[0]).update({
-                                                                                                              //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                              // });
-                                                                                                            }
+                                                                                                          // print(subStock.toString());
+                                                                                                          print('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
+
+                                                                                                          if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                                            batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+                                                                                                            print('decStock ' + prodList[k].split('^')[0].toString());
+                                                                                                            //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                                            //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                                            // if ( k == prodList.length-1) {
+                                                                                                            //   batch.commit();
+                                                                                                            // }
+                                                                                                            //print('batch complete');
+                                                                                                            // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                                                           }
-
+                                                                                                          else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                                            print('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                                                            batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                            // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                                            //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                            //});
+                                                                                                          }
+                                                                                                          else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                                            batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                            // productsFire.doc(str.split('^')[0]).update({
+                                                                                                            //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                                            // });
+                                                                                                          }
                                                                                                         }
+
                                                                                                         if( debt.toString() != '0.0') {
                                                                                                           debts = 1;
                                                                                                           debtAmounts = debt;
@@ -4433,218 +4418,107 @@ class HomePageState extends State<HomePage>
                                                                                                         print('subList ' + subList.toString());
 
                                                                                                         totalOrders = totalOrders + 1;
+                                                                                                        //CusOrder(totalOrders, debts, debtAmounts);
 
                                                                                                         batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
-                                                                                                        print('why total1 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-                                                                                                        String whyTotal = TtlProdListPrice().toString();
-                                                                                                        double whyDiscount = discountAmount;
-                                                                                                        String whyDisText = disText.toString();
-                                                                                                        double whyDebt = debt;
-                                                                                                        String whyCustomer = customerId.split('^')[0]+ '<>' + customerId.split('^')[1];
-                                                                                                        String detailCus = customerId.split('^')[0];
-                                                                                                        // finalTotal = await TtlProdListPriceFut();
-
-                                                                                                        CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
-
-                                                                                                        monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                                                                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
-                                                                                                            .get()
-                                                                                                            .then((QuerySnapshot querySnapshot)  async {
-                                                                                                          querySnapshot.docs.forEach((doc) {
-                                                                                                            monthExist = true;
-                                                                                                            monthId = doc.id;
-                                                                                                          });
-                                                                                                          print('month ' + monthExist.toString());
-                                                                                                          // if (monthExist) {
-                                                                                                          //   batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                          // }
-                                                                                                          // else {
-                                                                                                          //   monthlyData.add({
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                                                          //     for(int j = 1; j<= 31; j++)
-                                                                                                          //       now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                                                                                          //
-                                                                                                          //     'date': now,
-                                                                                                          //
-                                                                                                          //   }).then((value) async {
-                                                                                                          //     batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                          //
-                                                                                                          //   }).catchError((error) => print("Failed to update user: $error"));
-                                                                                                          // }
-
-                                                                                                          CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
-
-                                                                                                          yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                                                                                              .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                                                                                              .get()
-                                                                                                              .then((QuerySnapshot querySnapshot)  async {
-                                                                                                            querySnapshot.docs.forEach((doc) {
-                                                                                                              yearExist = true;
-                                                                                                              yearId = doc.id;
-                                                                                                            });
-                                                                                                            print('year ' + yearExist.toString());
-                                                                                                            // if (yearExist) {
-                                                                                                            //   batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                            //
-                                                                                                            // }
-                                                                                                            // else {
-                                                                                                            //   yearlyData.add({
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                                                                                            //     for(int j = 1; j<= 12; j++)
-                                                                                                            //       now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                                                                                            //
-                                                                                                            //     'date': now,
-                                                                                                            //
-                                                                                                            //   }).then((value5) async {
-                                                                                                            //     batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', whyTotal, debtAmounts);
-                                                                                                            //   }).catchError((error) => print("Failed to update user: $error"));
-                                                                                                            // }
-
-                                                                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                                                                .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                                                                                                .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                                                                .get()
-                                                                                                                .then((QuerySnapshot querySnapshot)  async {
-                                                                                                              querySnapshot.docs.forEach((doc) {
-                                                                                                                dateExist = true;
-                                                                                                                dateId = doc.id;
-                                                                                                              });
-
-                                                                                                              if (dateExist) {
-                                                                                                                print('why total12 ' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1]);
-
-                                                                                                                batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + whyTotal + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), length.toString());
-                                                                                                                batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-
-                                                                                                              }
-                                                                                                              else {
-                                                                                                                batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), whyDiscount.toString() + whyDisText.toString(), whyDebt, whyTotal, detailCus);
-                                                                                                                // String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + whyCustomer + '^F' + '^' + whyDebt.toString() + '^' + whyDiscount.toString() + whyDisText.toString(), now, length.toString());
-
-                                                                                                              }
+                                                                                                        DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                                                        batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
+                                                                                                        batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
 
 
-                                                                                                              await batch.commit();
-                                                                                                              List<String> subNameList = [];
-                                                                                                              int subNameListLength = 0;
-                                                                                                              for (String str in prodList) {
-                                                                                                                subNameListLength = subNameListLength + 1;
-                                                                                                                //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-                                                                                                                print('DATA CHECK PROD ' + str.toString());
-                                                                                                                subNameList.add(str.split('^')[7]);
-                                                                                                                if(prodList.length == subNameListLength) {
-                                                                                                                  print('fianlize : ' + subNameList.toString());
-                                                                                                                  final date = now;
-                                                                                                                  final dueDate = date.add(Duration(days: 7));
-                                                                                                                  print('CUZMER CHECK ' + customerId.toString());
-                                                                                                                  final invoice = Invoice(
-                                                                                                                    supplier: Supplier(
-                                                                                                                      name: shopGloName,
-                                                                                                                      address: shopGloAddress,
-                                                                                                                      phone: shopGloPhone,
-                                                                                                                      paymentInfo: '',
-                                                                                                                    ),
-                                                                                                                    customer: Customer(
-                                                                                                                      name: customerId.split('^')[1],
-                                                                                                                      address: '',
-                                                                                                                    ),
-                                                                                                                    info: InvoiceInfo(
-                                                                                                                        date: date,
-                                                                                                                        dueDate: dueDate,
-                                                                                                                        description: 'My description...',
-                                                                                                                        // number: '${DateTime.now().year}-9999',
-                                                                                                                        number: deviceIdNum.toString() + '^' + length.toString()
-                                                                                                                    ),
-                                                                                                                    items: [
-                                                                                                                      for(int i=0; i<prodList.length; i++)
-                                                                                                                        InvoiceItem(
-                                                                                                                          description: prodList[i].split('^')[6],
-                                                                                                                          // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                                                          date: subNameList[i].toString(),
-                                                                                                                          quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                                                          vat: discountAmount,
-                                                                                                                          type: disText,
-                                                                                                                          debt: debt,
-                                                                                                                          unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                                                          currencyUnit: currencyUnit,
-                                                                                                                          totalPriceText: totalVPrice,
-                                                                                                                          paidText: VPaid,
-                                                                                                                          totalDebtText: VDebt,
-                                                                                                                          subTotalText: subVTotal,
-                                                                                                                          discountText: VDiscount,
-                                                                                                                        )
+                                                                                                        batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
 
-                                                                                                                    ],
-                                                                                                                  );
+                                                                                                        print('prodList--' + prodList.toString());
+                                                                                                        try {
+                                                                                                          batch.commit();
+                                                                                                          Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                                            List<String> subNameList = [];
+                                                                                                            int subNameListLength = 0;
+                                                                                                            for (String str in prodList) {
+                                                                                                              subNameListLength = subNameListLength + 1;
+                                                                                                              subNameList.add(str.split('^')[7]);
+                                                                                                              if(prodList.length == subNameListLength) {
+                                                                                                                print('fianlize : ' + subNameList.toString());
+                                                                                                                // final date = DateTime.now();
+                                                                                                                final date = now;
+                                                                                                                final dueDate = date.add(Duration(days: 7));
+                                                                                                                print('CUZMER CHECK ' + customerId.toString());
+                                                                                                                for(int i=0; i<prodList.length; i++) {
+                                                                                                                  productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                                                }
+                                                                                                                saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                                                final invoice = Invoice(
+                                                                                                                  supplier: Supplier(
+                                                                                                                    name: shopGloName,
+                                                                                                                    address: shopGloAddress,
+                                                                                                                    phone: shopGloPhone,
+                                                                                                                    paymentInfo: '',
+                                                                                                                  ),
+                                                                                                                  customer: Customer(
+                                                                                                                    name: customerId.split('^')[1],
+                                                                                                                    address: '',
+                                                                                                                  ),
+                                                                                                                  info: InvoiceInfo(
+                                                                                                                      date: date,
+                                                                                                                      dueDate: dueDate,
+                                                                                                                      description: 'My description...',
+                                                                                                                      // number: '${DateTime.now().year}-9999',
+                                                                                                                      number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                                                  ),
+                                                                                                                  items: [
+
+                                                                                                                    for(int i=0; i<prodList.length; i++)
+                                                                                                                      InvoiceItem(
+                                                                                                                        description: prodList[i].split('^')[6],
+                                                                                                                        // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                                                        date: subNameList[i].toString(),
+                                                                                                                        quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                                                        vat: discountAmount,
+                                                                                                                        debt: debt,
+                                                                                                                        type: disText,
+                                                                                                                        unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                                                        currencyUnit: currencyUnit,
+                                                                                                                        totalPriceText: totalVPrice,
+                                                                                                                        paidText: VPaid,
+                                                                                                                        totalDebtText: VDebt,
+                                                                                                                        subTotalText: subVTotal,
+                                                                                                                        discountText: VDiscount,
+                                                                                                                      )
+
+                                                                                                                  ],
+                                                                                                                );
+                                                                                                                //_controllerTablet.animateTo(0);
+
+                                                                                                                getPaperId().then((value) async {
+                                                                                                                  print('VVAALLUUEE ' + value.toString());
+                                                                                                                  pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                                                  Uint8List bytes = pdfFile!.readAsBytesSync();
 
 
-                                                                                                                  getPaperId().then((value) async {
-                                                                                                                    print('VVAALLUUEE ' + value.toString());
-                                                                                                                    pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                                                    Uint8List bytes = pdfFile!.readAsBytesSync();
-
-                                                                                                                    // mystate(() {
-                                                                                                                    //   // setState(() {
-                                                                                                                    //   pdfText = pdfFile!.path.toString();
-                                                                                                                    //   // });
-                                                                                                                    // });
+                                                                                                                  Future.delayed(const Duration(milliseconds: 1000), () {
                                                                                                                     setState(() {
-                                                                                                                      pdfText = pdfFile!.path.toString();
-
-                                                                                                                      prodList = [];
-                                                                                                                      discount = 0.0;
-                                                                                                                      discountAmount =0.0;
-                                                                                                                      debt =0;
-                                                                                                                      refund =0;
-                                                                                                                      custPrintTitle = customerId.split('^')[1];
-                                                                                                                      customerId = 'name^name';
-                                                                                                                      disText = '';
-                                                                                                                      isDiscount = '';
+                                                                                                                        pdfText = pdfFile!.path.toString();
                                                                                                                     });
-
-
-                                                                                                                    // mystate(()  {
-                                                                                                                    //   prodList = [];
-                                                                                                                    //   discount = 0.0;
-                                                                                                                    //   debt =0;
-                                                                                                                    //   refund =0;
-                                                                                                                    //   //customerId = 'name^name';
-                                                                                                                    // });
-
-
+                                                                                                                    // print('saleCartDrag ' + saleCartDrag.toString());
                                                                                                                     _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                                                                   });
-
-                                                                                                                }
+                                                                                                                });
                                                                                                               }
-                                                                                                            });
+                                                                                                            }
                                                                                                           });
-                                                                                                        });
+                                                                                                        } catch(error) {
+                                                                                                          print('error while creating orders');
+                                                                                                          smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                                                                        }
+
+
+
+
+
+
                                                                                                       });
 
                                                                                                     },
@@ -6140,7 +6014,7 @@ class HomePageState extends State<HomePage>
                                             bottom: homeBotPadding + 157,
                                             right: 15,
                                             child: GestureDetector(
-                                              onTap: (){
+                                              onTap: () {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -9380,7 +9254,7 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                     onPressed: () async {
                                                                       setState(() {
-                                                                        mystate(() async {
+                                                                        mystate(() {
                                                                           //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                           totalAmount =
                                                                               double

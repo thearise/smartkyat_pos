@@ -929,11 +929,11 @@ class _EditProductState extends State<EditProduct> {
 
                                         CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
-                                        if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
+                                        if (double.parse(sub1perUnitCtrl.text) != 0 && double.parse(sub2perUnitCtrl.text) == 0.0) {
                                           subExistChange = '1';
                                           sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
                                           sub2Buy = '0';
-                                        } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
+                                        } else  if (double.parse(sub1perUnitCtrl.text) != 0 && double.parse(sub2perUnitCtrl.text) != 0) {
                                           subExistChange = '2';
                                           sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
                                           sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
@@ -942,7 +942,7 @@ class _EditProductState extends State<EditProduct> {
                                           sub1Buy = '0';
                                           sub2Buy = '0';
                                         }
-                                        print('whatting 0 ?');
+                                        print('whatting 0 ?' + subExistChange + ' ' + sub2perUnitCtrl.text);
 
 
                                         FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
@@ -971,7 +971,7 @@ class _EditProductState extends State<EditProduct> {
                                             });
 
                                             // for(int i = 0; i < documentSnapshot['prods'].length; i++) {
-                                            //   // print('whatting 5?');
+                                            //   // print('whatting 5?');*-**
                                             //   var eachMap = documentSnapshot['prods'].entries.elementAt(i);
                                             //   if(eachMap.value['na'] == prodNameCtrl.text) {
                                             //     prodExist = true;
@@ -1021,6 +1021,8 @@ class _EditProductState extends State<EditProduct> {
                                                     'i1': double.parse(sub1QtyCtrl.text.toString()),
                                                     'i2': double.parse(sub2QtyCtrl.text.toString()),
                                                     'bm': double.parse(mainBuyCtrl.text),
+                                                    'b1': sub1Buy,
+                                                    'b2': sub2Buy,
                                                     'sm': double.parse(mainSellCtrl.text),
                                                     's1': double.parse(sub1SellCtrl.text),
                                                     's2': double.parse(sub2SellCtrl.text),
@@ -1029,13 +1031,13 @@ class _EditProductState extends State<EditProduct> {
                                                     'nm': mainUnitNameCtrl.text,
                                                     'n1': sub1UnitNameCtrl.text,
                                                     'n2': sub2UnitNameCtrl.text,
-                                                    'se': subExist,
+                                                    'se': double.parse(subExistChange),
                                                   }
                                                 }
 
                                               },SetOptions(merge: true)).then((value) {
                                                 print('arrays added ' + '0-'.toString());
-                                                Navigator.pop(context);
+                                                Navigator.of(context).popUntil((route) => route.isFirst);
                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                               }).catchError((error) => print("Failed to update user: $error"));
                                               // data edit end
@@ -1070,6 +1072,8 @@ class _EditProductState extends State<EditProduct> {
                                                                 'i1': double.parse(sub1QtyCtrl.text.toString()),
                                                                 'i2': double.parse(sub2QtyCtrl.text.toString()),
                                                                 'bm': double.parse(mainBuyCtrl.text),
+                                                                'b1': sub1Buy,
+                                                                'b2': sub2Buy,
                                                                 'sm': double.parse(mainSellCtrl.text),
                                                                 's1': double.parse(sub1SellCtrl.text),
                                                                 's2': double.parse(sub2SellCtrl.text),
@@ -1078,13 +1082,13 @@ class _EditProductState extends State<EditProduct> {
                                                                 'nm': mainUnitNameCtrl.text,
                                                                 'n1': sub1UnitNameCtrl.text,
                                                                 'n2': sub2UnitNameCtrl.text,
-                                                                'se': subExist,
+                                                                'se': double.parse(subExistChange),
                                                               }
                                                             }
 
                                                           },SetOptions(merge: true)).then((value) {
                                                             print('arrays added ' + '0-'.toString());
-                                                            Navigator.pop(context);
+                                                            Navigator.of(context).popUntil((route) => route.isFirst);
                                                             smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                                           }).catchError((error) => print("Failed to update user: $error"));
 
@@ -1113,6 +1117,8 @@ class _EditProductState extends State<EditProduct> {
                                                                 'i1': double.parse(sub1QtyCtrl.text.toString()),
                                                                 'i2': double.parse(sub2QtyCtrl.text.toString()),
                                                                 'bm': double.parse(mainBuyCtrl.text),
+                                                                'b1': sub1Buy,
+                                                                'b2': sub2Buy,
                                                                 'sm': double.parse(mainSellCtrl.text),
                                                                 's1': double.parse(sub1SellCtrl.text),
                                                                 's2': double.parse(sub2SellCtrl.text),
@@ -1121,13 +1127,13 @@ class _EditProductState extends State<EditProduct> {
                                                                 'nm': mainUnitNameCtrl.text,
                                                                 'n1': sub1UnitNameCtrl.text,
                                                                 'n2': sub2UnitNameCtrl.text,
-                                                                'se': subExist,
+                                                                'se': double.parse(subExistChange),
                                                               }
                                                             }
 
                                                           },SetOptions(merge: true)).then((value) {
                                                             print('arrays added ' + '0-'.toString());
-                                                            Navigator.pop(context);
+                                                            Navigator.of(context).popUntil((route) => route.isFirst);
                                                             smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                                           }).catchError((error) => print("Failed to update user: $error"));
 
@@ -1437,9 +1443,9 @@ class _EditProductState extends State<EditProduct> {
                     if(addSubUnit == 2) {
                       setState(() {
                         unitLimit = false;
-                        sub2perUnitCtrl.clear();
+                        sub2perUnitCtrl.text = '0';
                         sub2QtyCtrl.text = '0';
-                        sub2SellCtrl.clear();
+                        sub2SellCtrl.text = '0';
                         sub2UnitNameCtrl.clear();
                         subExist = 0;
                         addSubUnit = 1;
@@ -1448,9 +1454,9 @@ class _EditProductState extends State<EditProduct> {
                       if(subExist == 2) {
                         setState(() {
                           unitLimit = false;
-                          sub2perUnitCtrl.clear();
+                          sub2perUnitCtrl.text = '0';
                           sub2QtyCtrl.text = '0';
-                          sub2SellCtrl.clear();
+                          sub2SellCtrl.text = '0';
                           sub2UnitNameCtrl.clear();
                           subExist = 1;
                           addSubUnit = 0;
@@ -1458,9 +1464,9 @@ class _EditProductState extends State<EditProduct> {
                       if(subExist == 1) {
                         setState(() {
                           unitLimit = false;
-                          sub1perUnitCtrl.clear();
+                          sub1perUnitCtrl.text = '0';
                           sub1QtyCtrl.text = '0';
-                          sub1SellCtrl.clear();
+                          sub1SellCtrl.text = '0';
                           sub1UnitNameCtrl.clear();
                           subExist = 0;
                           addSubUnit = 0;
@@ -1469,9 +1475,9 @@ class _EditProductState extends State<EditProduct> {
                       if(subExist == 1) {
                         setState(() {
                           unitLimit = false;
-                          sub2perUnitCtrl.clear();
+                          sub2perUnitCtrl.text = '0';
                           sub2QtyCtrl.text = '0';
-                          sub2SellCtrl.clear();
+                          sub2SellCtrl.text = '0';
                           sub2UnitNameCtrl.clear();
                           subExist = 1;
                           addSubUnit = 0;
@@ -1480,9 +1486,9 @@ class _EditProductState extends State<EditProduct> {
                       if(subExist == 0) {
                         setState(() {
                           unitLimit = false;
-                          sub1perUnitCtrl.clear();
+                          sub1perUnitCtrl.text = '0';
                           sub1QtyCtrl.text = '0';
-                          sub1SellCtrl.clear();
+                          sub1SellCtrl.text = '0';
                           sub1UnitNameCtrl.clear();
                           subExist = 0;
                           addSubUnit = 0;
