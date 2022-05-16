@@ -105,9 +105,11 @@ class _WelcomeState extends State<Welcome>
       if (user == null) {
         print('User is currently signed out!');
         Future.delayed(const Duration(milliseconds: 1000), () {
-          setState(() {
-            isLoading = false;
-          });
+          if(this.mounted) {
+            setState(() {
+              isLoading = false;
+            });
+          }
         });
 
         getStoreId().then((value) {
@@ -124,14 +126,12 @@ class _WelcomeState extends State<Welcome>
 
           getLangId().then((val) {
             print('ffirs ' + val.toString());
-            setState(() {
-              lang = val;
-              if(lang == 'english') {
-                isEnglish = true;
-              } else {
-                isEnglish = false;
-              }
-            });
+            lang = val;
+            if(lang == 'english') {
+              isEnglish = true;
+            } else {
+              isEnglish = false;
+            }
           });
 
           // setState(() {
@@ -151,7 +151,9 @@ class _WelcomeState extends State<Welcome>
 
                 _getId().then((val) {
                   String deviceId = val!;
-                  Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                  if(this.mounted) {
+                    Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                  }
                 });
               } else {
                 // Future.delayed(const Duration(milliseconds: 1000), () {
@@ -159,7 +161,11 @@ class _WelcomeState extends State<Welcome>
                 //     isLoading = false;
                 //   });
                 // });
-                Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                if(this.mounted) {
+                  Navigator.of(context).popUntil((_) => true);
+                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                }
+
 
               }
             });
@@ -699,6 +705,7 @@ class _WelcomeState extends State<Welcome>
                                                                                         print('shop shi lar ' + shopExists.toString());
 
                                                                                         if(shopExists) {
+                                                                                          Navigator.of(context).popUntil((_) => true);
                                                                                           Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
                                                                                         } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
                                                                                       });  });
