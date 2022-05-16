@@ -119,6 +119,8 @@ class ProductsFragmentState extends State<ProductsFragment>
   bool i0Clicked = true;
   bool i1Clicked = true;
 
+  bool endOfResult = false;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -175,6 +177,17 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels && !endOfResult) {
+        print('maxxed ');
+        itemPerPage = itemPerPage + 10;
+        setState(() {
+
+        });
+      }
+    });
+
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
@@ -597,6 +610,9 @@ class ProductsFragmentState extends State<ProductsFragment>
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
 
+  ScrollController _scrollController = ScrollController();
+  int itemPerPage = 10;
+
   @override
   Widget build(BuildContext context) {
     // List<Book> bookList = Provider.of<List<Book>>(context);
@@ -612,7 +628,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          print('cateScIndex2' + cateScIndex.toString());
+          //  print('cateScIndex2' + cateScIndex.toString());
         },
         child: Container(
           color: Colors.white,
@@ -636,13 +652,33 @@ class ProductsFragmentState extends State<ProductsFragment>
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
-                              print('prods length' + prods.length.toString());
+                              //  print('prods length' + prods.length.toString());
+                              if(itemPerPage >= prods.length) {
+                                endOfResult = true;
+                              }
+                              if(cateScIndex == 0) {
+                                if(i0Clicked) {
+                                  prods = sortMapByNaS(prods);
+                                } else {
+                                  prods = sortMapByNaR(prods);
+                                }
+                              } else if(cateScIndex == 1) {
+                                if(i1Clicked) {
+                                  prods = sortMapByImS(prods);
+                                } else {
+                                  prods = sortMapByImR(prods);
+                                }
+                              }
 
-                              if(prods != null) {
-                                for(int i = 0; i < prods.length; i++) {
+                              if(prods != null && prods.length > 0) {
+                                print('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
+                                for(int i = 0; i < itemPerPage; i++) {
+                                  if (i >= prods.length) {
+                                    break;
+                                  }
                                   var eachMap = prods.entries.elementAt(i);
                                   if(eachMap.value['na'] == null) {
-                                    print('prods entri ' + eachMap.toString());
+                                    //    print('prods entri ' + eachMap.toString());
                                     List<dynamic> deleteExpenseData = [];
                                     deleteExpenseData.add(eachMap);
 
@@ -657,7 +693,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       },
                                     );
 
-                                    print('prods entri');
+                                    //   print('prods entri');
                                   }
                                   else {
                                     resProds[eachMap.key] = eachMap.value;
@@ -665,306 +701,348 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 }
                               }
 
-                              if(cateScIndex == 0) {
-                                if(i0Clicked) {
-                                  resProds = sortMapByNaS(resProds);
-                                } else {
-                                  resProds = sortMapByNaR(resProds);
-                                }
-                              } else if(cateScIndex == 1) {
-                                if(i1Clicked) {
-                                  resProds = sortMapByImS(resProds);
-                                } else {
-                                  resProds = sortMapByImR(resProds);
-                                }
-                              }
+
 
                               return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                stream: prodsImgSnap,
-                                builder: (context, snapshot) {
-                                  if(snapshot.hasData) {
-                                    var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
-                                    var imgArr = imgSnap?['prods'];
-                                    if(imgArr == null) {
-                                      return Container();
-                                    }
-                                    return CustomScrollView(
-                                      slivers: [
-                                        SliverAppBar(
-                                          elevation: 0,
-                                          backgroundColor: Colors.white,
-                                          // Provide a standard title.
-                                          // Allows the user to reveal the app bar if they begin scrolling
-                                          // back up the list of items.
-                                          floating: true,
-                                          flexibleSpace: Padding(
-                                            padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                            child: Container(
-                                              height: 32,
-                                              width: MediaQuery.of(context).size.width,
-                                              // color: Colors.yellow,
-                                              child: Row(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      FlatButton(
-                                                        padding: EdgeInsets.only(left: 10, right: 10),
-                                                        color: AppTheme.secButtonColor,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(8.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () async {
-                                                          widget._callback();
-                                                        },
-                                                        child: Container(
-                                                          child: Row(
-                                                            // mainAxisAlignment: Main,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(right: 6.0),
-                                                                child: Icon(
-                                                                  SmartKyat_POS.add_plus,
-                                                                  size: 17,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                textSetNewItem,
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 12),
-                                                      Container(
-                                                        color: Colors.grey.withOpacity(0.2),
-                                                        width: 1.5,
-                                                        height: 30,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Expanded(
-                                                    child: ListView(
-                                                      controller: cateScCtler,
-                                                      scrollDirection: Axis.horizontal,
+                                  stream: prodsImgSnap,
+                                  builder: (context, snapshot) {
+                                    if(snapshot.hasData) {
+                                      var imgSnap = snapshot.data != null? snapshot.data!.data(): null;
+                                      var imgArr = imgSnap?['prods'];
+                                      if(imgArr == null) {
+                                        return Container();
+                                      }
+                                      return CustomScrollView(
+                                        controller: _scrollController,
+                                        slivers: [
+                                          SliverAppBar(
+                                            elevation: 0,
+                                            backgroundColor: Colors.white,
+                                            // Provide a standard title.
+                                            // Allows the user to reveal the app bar if they begin scrolling
+                                            // back up the list of items.
+                                            floating: true,
+                                            flexibleSpace: Padding(
+                                              padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                              child: Container(
+                                                height: 32,
+                                                width: MediaQuery.of(context).size.width,
+                                                // color: Colors.yellow,
+                                                child: Row(
+                                                  children: [
+                                                    Row(
                                                       children: [
-                                                        SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                          child: FlatButton(
-                                                            minWidth: 0,
-                                                            padding: EdgeInsets.only(left: 12, right: 12),
-                                                            color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(20.0),
-                                                              side: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                              ),
+                                                        FlatButton(
+                                                          padding: EdgeInsets.only(left: 10, right: 10),
+                                                          color: AppTheme.secButtonColor,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(8.0),
+                                                            side: BorderSide(
+                                                              color: AppTheme.skBorderColor2,
                                                             ),
-                                                            onPressed: () {
-                                                              _animateToIndex(0);
-                                                              setState(() {
-                                                                if(cateScIndex != 0) {
-                                                                  i0Clicked = true;
-                                                                } else {
-                                                                  if(i0Clicked) {
-                                                                    i0Clicked = false;
-                                                                  } else {
-                                                                    i0Clicked = true;
-                                                                  }
-                                                                }
-
-                                                                cateScIndex = 0;
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Text(
-                                                                textSetAll,
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.black),
-                                                              ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            widget._callback();
+                                                          },
+                                                          child: Container(
+                                                            child: Row(
+                                                              // mainAxisAlignment: Main,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(right: 6.0),
+                                                                  child: Icon(
+                                                                    SmartKyat_POS.add_plus,
+                                                                    size: 17,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  textSetNewItem,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                          child: FlatButton(
-                                                            minWidth: 0,
-                                                            padding: EdgeInsets.only(left: 12, right: 12),
-                                                            color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(20.0),
-                                                              side: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                              ),
-                                                            ),
-                                                            onPressed: () {
-                                                              _animateToIndex(5.4);
-                                                              setState(() {
-                                                                if(cateScIndex != 1) {
-                                                                  i1Clicked = true;
-                                                                } else {
-                                                                  if(i1Clicked) {
-                                                                    i1Clicked = false;
-                                                                  } else {
-                                                                    i1Clicked = true;
-                                                                  }
-                                                                }
-
-                                                                cateScIndex = 1;
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Text(
-                                                                textSetLowStocks,
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.black),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 11,
+                                                        SizedBox(width: 12),
+                                                        Container(
+                                                          color: Colors.grey.withOpacity(0.2),
+                                                          width: 1.5,
+                                                          height: 30,
                                                         )
                                                       ],
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-
-                                            ),
-                                          ),),
-                                        SliverList(
-                                          delegate: SliverChildBuilderDelegate(
-                                                (context, index) {
-                                              var prodMap = resProds.entries.elementAt(index);
-                                              print('Prod map ' + prodMap.key.toString());
-                                              var prodVal = prodMap.value;
-                                              var prodKey = prodMap.key;
-                                              String imgUrl = '';
-                                              if(imgArr[prodKey] != null) {
-                                                imgUrl = imgArr[prodKey]['img'].toString();
-                                              }
-                                              print('Prod image ' + imgUrl.toString());
-                                              return GestureDetector(
-                                                onTap: () async {
-                                                  closeDrawerFrom();
-                                                  await Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
-                                                  openDrawerFrom();
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                  EdgeInsets.only(top: index == 0? 0.0: 6.0, left: 15),
-                                                  child: Container(
-                                                    width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(
-                                                        border: Border(
-                                                            bottom: index == resProds.length-1 ?
-                                                            BorderSide(
-                                                                color: Colors.transparent,
-                                                                width: 1.0) :
-
-                                                            BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                                width: 0.5)
-                                                        )),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(right: 15.0),
-                                                      child: Column(
+                                                    Expanded(
+                                                      child: ListView(
+                                                        controller: cateScCtler,
+                                                        scrollDirection: Axis.horizontal,
                                                         children: [
-                                                          Row(
-                                                            children: [
-                                                              Column(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top: 8.0),
-                                                                    child: ClipRRect(
-                                                                        borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                            5.0),
-                                                                        child: imgUrl != ""
-                                                                            ? CachedNetworkImage(
-                                                                          imageUrl:
-                                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                              imgUrl,
-                                                                          width: 75,
-                                                                          height: 75,
-                                                                          errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
-                                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
-                                                                          fadeInDuration:
-                                                                          Duration(
-                                                                              milliseconds:
-                                                                              100),
-                                                                          fadeOutDuration:
-                                                                          Duration(
-                                                                              milliseconds:
-                                                                              10),
-                                                                          fadeInCurve:
-                                                                          Curves
-                                                                              .bounceIn,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        )
-                                                                            : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
-                                                                  ),
-                                                                ],
+                                                          SizedBox(
+                                                            width: 4,
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                            child: FlatButton(
+                                                              minWidth: 0,
+                                                              padding: EdgeInsets.only(left: 12, right: 12),
+                                                              color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                ),
                                                               ),
-                                                              SizedBox(
-                                                                width: 15,
+                                                              onPressed: () {
+                                                                _animateToIndex(0);
+                                                                setState(() {
+                                                                  if(cateScIndex != 0) {
+                                                                    i0Clicked = true;
+                                                                  } else {
+                                                                    if(i0Clicked) {
+                                                                      i0Clicked = false;
+                                                                    } else {
+                                                                      i0Clicked = true;
+                                                                    }
+                                                                  }
+
+                                                                  cateScIndex = 0;
+                                                                  itemPerPage = 10;
+                                                                  endOfResult = false;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetAll,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
                                                               ),
-                                                              Expanded(
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                            child: FlatButton(
+                                                              minWidth: 0,
+                                                              padding: EdgeInsets.only(left: 12, right: 12),
+                                                              color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                _animateToIndex(5.4);
+                                                                setState(() {
+                                                                  if(cateScIndex != 1) {
+                                                                    i1Clicked = true;
+                                                                  } else {
+                                                                    if(i1Clicked) {
+                                                                      i1Clicked = false;
+                                                                    } else {
+                                                                      i1Clicked = true;
+                                                                    }
+                                                                  }
+
+                                                                  cateScIndex = 1;
+                                                                  itemPerPage = 10;
+                                                                  endOfResult = false;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetLowStocks,
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 11,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+
+                                              ),
+                                            ),),
+                                          SliverList(
+                                            // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            //   childAspectRatio: 3.588,
+                                            //   crossAxisCount: 1,
+                                            // ),
+                                            delegate: SliverChildBuilderDelegate(
+                                                  (context, index) {
+                                                // if(index == resProds.length + 1) {
+                                                //   return Container(
+                                                //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                                //   );
+                                                // }
+                                                var prodMap = resProds.entries.elementAt(index);
+                                                // print('Prod map ' + prodMap.key.toString());
+                                                var prodVal = prodMap.value;
+                                                var prodKey = prodMap.key;
+                                                String imgUrl = '';
+                                                if(imgArr[prodKey] != null) {
+                                                  imgUrl = imgArr[prodKey]['img'].toString();
+                                                }
+
+                                                String buyPrice1 = '';
+                                                if(prodVal['b1'].toString() == '') {
+                                                  buyPrice1 = '0';
+                                                } else buyPrice1 = prodVal['b1'].toString();
+
+                                                String buyPrice2 = '';
+                                                if(prodVal['b2'].toString() == '') {
+                                                  buyPrice2 = '0';
+                                                } else buyPrice2 = prodVal['b2'].toString();
+                                                //    print('Prod image ' + imgUrl.toString());
+                                                return GestureDetector(
+                                                  onTap: () async {
+                                                    closeDrawerFrom();
+                                                    await Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                                                              mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
+                                                              sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                                                              sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
+                                                              sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
+                                                              subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
+                                                              mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
+                                                              sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
+                                                              buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
+                                                              toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                                                    openDrawerFrom();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                                    child: Container(
+                                                      width: MediaQuery.of(context).size.width,
+                                                      decoration: BoxDecoration(
+                                                          // color: Colors.red,
+                                                          border: Border(
+                                                              bottom: index == resProds.length-1 ?
+                                                              BorderSide(
+                                                                  color: Colors.transparent,
+                                                                  width: 0.5) :
+
+                                                              BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                  width: 0.5)
+                                                          )),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(
+                                                          top: index == 0 ? 0: 6,
+                                                          left: 15.0, right: 15.0, bottom: 2
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: [
-                                                                    SizedBox(
-                                                                      height: 0,
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                                      child: ClipRRect(
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              5.0),
+                                                                          child: imgUrl != ""
+                                                                              ? CachedNetworkImage(
+                                                                            imageUrl:
+                                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                                imgUrl,
+                                                                            width: 75,
+                                                                            height: 75,
+                                                                            errorWidget: (context, url, error) => Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,),
+                                                                            placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75, fit: BoxFit.cover,),
+                                                                            fadeInDuration:
+                                                                            Duration(
+                                                                                milliseconds:
+                                                                                100),
+                                                                            fadeOutDuration:
+                                                                            Duration(
+                                                                                milliseconds:
+                                                                                10),
+                                                                            fadeInCurve:
+                                                                            Curves
+                                                                                .bounceIn,
+                                                                            fit: BoxFit
+                                                                                .cover,
+                                                                          )
+                                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75, fit: BoxFit.cover,)),
                                                                     ),
-                                                                    Container(
-                                                                      // color: Colors.yellow,
-                                                                      child: Text(
-                                                                        prodVal['na'],
-                                                                        style: TextStyle(
-                                                                            fontSize: 18,
-                                                                            fontWeight:
-                                                                            FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis
-                                                                        ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: 2.2,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        height: 0,
+                                                                      ),
+                                                                      Container(
+                                                                        // color: Colors.yellow,
+                                                                        child: Text(
+                                                                          prodVal['na'],
+                                                                          style: TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              overflow: TextOverflow.ellipsis
+                                                                          ),
+                                                                          strutStyle: StrutStyle(
+                                                                            height: 2.2,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 8,
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        Flexible(
-                                                                          child: Text(
-                                                                            '$currencyUnit ' + prodVal['sm'].toString(),
+                                                                      SizedBox(
+                                                                        height: 8,
+                                                                      ),
+                                                                      Row(
+                                                                        children: [
+                                                                          Flexible(
+                                                                            child: Text(
+                                                                              '$currencyUnit ' + prodVal['sm'].toString(),
+                                                                              style: TextStyle(
+                                                                                  height: 1.3,
+                                                                                  fontSize: 15,
+                                                                                  fontWeight:
+                                                                                  FontWeight.w500,
+                                                                                  overflow: TextOverflow.ellipsis
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
+                                                                            prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
                                                                             style: TextStyle(
                                                                                 height: 1.3,
                                                                                 fontSize: 15,
@@ -973,92 +1051,103 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                                 overflow: TextOverflow.ellipsis
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        Text(
-                                                                          // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                                          prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
-                                                                          style: TextStyle(
-                                                                              height: 1.3,
-                                                                              fontSize: 15,
-                                                                              fontWeight:
-                                                                              FontWeight.w500,
-                                                                              overflow: TextOverflow.ellipsis
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: 2,
+                                                                      ),
+                                                                      Row(
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(top: 2.0),
+                                                                            child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
                                                                           ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 2,
-                                                                    ),
-                                                                    Row(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.0),
-                                                                          child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                        ),
-                                                                        Flexible(
-                                                                          child: Text(
-                                                                              ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
+                                                                          Flexible(
+                                                                            child: Text(
+                                                                                ' ' + prodVal['im'].round().toString() + ' '  + prodVal['nm'] + ' ',
+                                                                                textScaleFactor: 1.0,
+                                                                                style: TextStyle(
+                                                                                    height: 1.3,
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                    overflow: TextOverflow.ellipsis
+                                                                                )),
+                                                                          ),
+                                                                          prodVal['n1'] != '' && prodVal['n2'] == ''?
+                                                                          Text(
+                                                                              '(+1 Sub item)',
                                                                               textScaleFactor: 1.0,
                                                                               style: TextStyle(
                                                                                   height: 1.3,
                                                                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                                   overflow: TextOverflow.ellipsis
-                                                                              )),
-                                                                        ),
-                                                                        prodVal['n1'] != '' && prodVal['n2'] == ''?
-                                                                        Text(
-                                                                            '(+1 Sub item)',
-                                                                            textScaleFactor: 1.0,
-                                                                            style: TextStyle(
-                                                                                height: 1.3,
-                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                overflow: TextOverflow.ellipsis
-                                                                            )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
-                                                                        Text(
-                                                                            '(+2 Sub items)',
-                                                                            textScaleFactor: 1.0,
-                                                                            style: TextStyle(
-                                                                                height: 1.3,
-                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                overflow: TextOverflow.ellipsis
-                                                                            )): Container(),
-                                                                      ],
-                                                                    ),
-                                                                  ],
+                                                                              )) : prodVal['n1'] != '' && prodVal['n2'] != '' ?
+                                                                          Text(
+                                                                              '(+2 Sub items)',
+                                                                              textScaleFactor: 1.0,
+                                                                              style: TextStyle(
+                                                                                  height: 1.3,
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  overflow: TextOverflow.ellipsis
+                                                                              )): Container(),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                const EdgeInsets.only(
-                                                                    bottom: 6.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .arrow_forward_ios_rounded,
-                                                                  size: 16,
-                                                                  color: Colors.blueGrey
-                                                                      .withOpacity(0.8),
-                                                                ),),
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 15),
-                                                        ],
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets.only(
+                                                                      bottom: 6.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios_rounded,
+                                                                    size: 16,
+                                                                    color: Colors.blueGrey
+                                                                        .withOpacity(0.8),
+                                                                  ),),
+                                                              ],
+                                                            ),
+                                                            SizedBox(height: 15),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                            childCount: resProds == null? 0: resProds.length,
+                                                );
+
+                                              },
+                                              childCount: resProds == null? 0: resProds.length,
+                                            ),
+                                            // itemExtent: 114.5,
                                           ),
-                                        )
-                                      ],
-                                    );
+                                          SliverAppBar(
+                                            toolbarHeight: 30,
+                                            elevation: 0,
+                                            backgroundColor: Colors.white,
+                                            // Provide a standard title.
+                                            // Allows the user to reveal the app bar if they begin scrolling
+                                            // back up the list of items.
+                                            floating: true,
+                                            flexibleSpace: !endOfResult?
+                                            Container(
+                                              child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                            ):
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Container();
                                   }
-                                  return Container();
-                                }
                               );
                             }
 

@@ -1783,13 +1783,31 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             if(imgArr[prodKey] != null) {
                               imgUrl = imgArr[prodKey]['img'].toString();
                             }
+                            String buyPrice1 = '';
+                            if(prodVal['b1'].toString() == '') {
+                              buyPrice1 = '0';
+                            } else buyPrice1 = prodVal['b1'].toString();
+
+                            String buyPrice2 = '';
+                            if(prodVal['b2'].toString() == '') {
+                              buyPrice2 = '0';
+                            } else buyPrice2 = prodVal['b2'].toString();
                             print('Prod image ' + imgUrl.toString());
                             return GestureDetector(
                               onTap: () async {
                                 closeDrawerFrom();
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'].toString(), toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                                      builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                                          mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
+                                          sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                                          sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
+                                          sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
+                                          subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
+                                          mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
+                                          sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
+                                          buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
+                                          toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
                                 openDrawerFrom();
                               },
                               child: Padding(
@@ -2537,261 +2555,261 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 delegate: SliverChildBuilderDelegate(
                       (context, index) {
                     return GestureDetector(
-                          onTap: () async {
-                            closeDrawerFrom();
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderInfoSub(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['cusName'] + '&' + snapshot2.data!.docs[index]['customerId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
-                            );
-                            openDrawerFrom();
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                color: AppTheme.lightBgColor,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 1.0),
-                                            child: Column(
+                      onTap: () async {
+                        closeDrawerFrom();
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OrderInfoSub(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['cusName'] + '&' + snapshot2.data!.docs[index]['customerId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                        );
+                        openDrawerFrom();
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            color: AppTheme.lightBgColor,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 1.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    // '#' + item!='' ? item.split('^')[1]: ''
-                                                    Text(
-                                                      // '#',
-                                                      '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w500
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 8),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 1.0),
-                                                      child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                    ),
-                                                    SizedBox(width: 4),
-                                                    Text(
-                                                      // '',
-                                                      covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                    // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
-                                                    //   style: TextStyle(
-                                                    //     fontSize: 14,
-                                                    //     fontWeight: FontWeight.w500,
-                                                    //     color: Colors.grey,
-                                                    //   ),
-                                                    // ),
-                                                  ],
+                                                // '#' + item!='' ? item.split('^')[1]: ''
+                                                Text(
+                                                  // '#',
+                                                  '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500
+                                                  ),
                                                 ),
-                                                SizedBox(
-                                                  height: 6,
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                                  child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      // '',
-                                                      snapshot2.data!.docs[index]['cusName'],
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      strutStyle: StrutStyle(
-                                                        height: 1.3,
-                                                        // fontSize:,
-                                                        forceStrutHeight: true,
-                                                      ),
-                                                    ),
-
-                                                  ],
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  // '',
+                                                  covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
+                                                // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                //   style: TextStyle(
+                                                //     fontSize: 14,
+                                                //     fontWeight: FontWeight.w500,
+                                                //     color: Colors.grey,
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              if(snapshot2.data!.docs[index]['debt'] == 0)
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                  child: Container(
-                                                    height: 21,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      color: AppTheme.badgeBgSuccess,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                      child: Text('Paid',
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.white
-                                                        ),
-                                                      ),
-                                                    ),
+                                            SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  // '',
+                                                  snapshot2.data!.docs[index]['cusName'],
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
                                                   ),
                                                 ),
 
-                                              if(snapshot2.data!.docs[index]['debt'] != 0 && double.parse(snapshot2.data!.docs[index]['total']) > snapshot2.data!.docs[index]['debt'])
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                  child: Container(
-                                                    height: 21,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      color: AppTheme.badgeFgDangerLight,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                      child: Text('Partially paid',
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: AppTheme.badgeFgDanger
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              if(snapshot2.data!.docs[index]['debt'] != 0  && double.parse(snapshot2.data!.docs[index]['total']) == snapshot2.data!.docs[index]['debt'])
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                  child: Container(
-                                                    height: 21,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      color: AppTheme.badgeFgDanger,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                      child: Text('Unpaid',
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.white
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              if(snapshot2.data!.docs[index]['refund'] == 'T')
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 6.0),
-                                                  child: Container(
-                                                    height: 21,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      color: AppTheme.badgeBgSecond,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                      child: Text('Refunded',
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.white
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              if(snapshot2.data!.docs[index]['refund'] == 'P')
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 6.0),
-                                                  child: Container(
-                                                    height: 21,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      color: AppTheme.badgeBgSecondLight,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                      child: Text('Partially refunded',
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: AppTheme.badgeBgSecond
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: AppTheme.lightBgColor,
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                  color: AppTheme.skBorderColor2,
-                                                  width: snapshot2.data!.docs.length-1 == index? 0.0: 1.0),
-                                            )),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        // 'MMK ',
-                                          'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                          )),
-                                      SizedBox(width: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 2.0),
-                                        child: Icon(
-                                          Icons
-                                              .arrow_forward_ios_rounded,
-                                          size: 16,
-                                          color: Colors
-                                              .blueGrey
-                                              .withOpacity(
-                                              0.8),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          if(snapshot2.data!.docs[index]['debt'] == 0)
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSuccess,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Paid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                          if(snapshot2.data!.docs[index]['debt'] != 0 && double.parse(snapshot2.data!.docs[index]['total']) > snapshot2.data!.docs[index]['debt'])
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeFgDangerLight,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Partially paid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: AppTheme.badgeFgDanger
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          if(snapshot2.data!.docs[index]['debt'] != 0  && double.parse(snapshot2.data!.docs[index]['total']) == snapshot2.data!.docs[index]['debt'])
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeFgDanger,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Unpaid',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          if(snapshot2.data!.docs[index]['refund'] == 'T')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 6.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSecond,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                  child: Text('Refunded',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                          if(snapshot2.data!.docs[index]['refund'] == 'P')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 6.0),
+                                              child: Container(
+                                                height: 21,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20.0),
+                                                  color: AppTheme.badgeBgSecondLight,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                  child: Text('Partially refunded',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: AppTheme.badgeBgSecond
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.lightBgColor,
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                              width: snapshot2.data!.docs.length-1 == index? 0.0: 1.0),
+                                        )),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    // 'MMK ',
+                                      'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                  SizedBox(width: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                    child: Icon(
+                                      Icons
+                                          .arrow_forward_ios_rounded,
+                                      size: 16,
+                                      color: Colors
+                                          .blueGrey
+                                          .withOpacity(
+                                          0.8),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   },
                   childCount: snapshot2.data!.docs == null? 0: snapshot2.data!.docs.length,

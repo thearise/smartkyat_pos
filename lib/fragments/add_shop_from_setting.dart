@@ -642,6 +642,8 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                               print('shop added');
                                             } catch (error) {
                                               print('shop adding error');
+                                              await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
+                                              smartKyatFlash('Something went wrong while creating the shop', 'e');
                                               setState(() {
                                                 loadingState = false;
                                               });
