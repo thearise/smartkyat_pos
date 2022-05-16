@@ -931,7 +931,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     child: Container(
                                                       width: MediaQuery.of(context).size.width,
                                                       decoration: BoxDecoration(
-                                                        // color: Colors.red,
+                                                          // color: Colors.red,
                                                           border: Border(
                                                               bottom: index == resProds.length-1 ?
                                                               BorderSide(
@@ -944,8 +944,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                           )),
                                                       child: Padding(
                                                         padding: EdgeInsets.only(
-                                                            top: index == 0 ? 0: 6,
-                                                            left: 15.0, right: 15.0, bottom: 2
+                                                          top: index == 0 ? 0: 6,
+                                                          left: 15.0, right: 15.0, bottom: 2
                                                         ),
                                                         child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -1138,7 +1138,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                    child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                  child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
                                                 ),
                                               ],
                                             ),
