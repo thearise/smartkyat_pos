@@ -440,17 +440,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                   batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
 
-                                  // dailyOrders.doc(widget.documentId).update({
-                                  //   'daily_order':
-                                  //   FieldValue.arrayRemove([dataRm])
-                                  // }).then((value) {print('array removed');})
-                                  //     .catchError((error) => print("Failed to update user: $error"));
-                                  //
-                                  // dailyOrders.doc(widget.documentId).update({
-                                  //   'daily_order':
-                                  //   FieldValue.arrayUnion([data])
-                                  // }).then((value) { print('array updated');})
-                                  //     .catchError((error) => print("Failed to update user: $error"));
                                   print('detAmount' + debtAmount.toString());
 
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
@@ -468,72 +457,30 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     if( widget.data.split('^')[3].split('&')[1] == 'name') {
                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
                                     }
+
+                                    batch = await updateMonthlyData(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', paidCus);
+                                    batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', paidCus);
+
+                                    try {
+                                      batch.commit();
+                                      Future.delayed(const Duration(milliseconds: 2000), () {
+                                        loadingState = false;
+                                        disableTouch = false;
+
+                                        _textFieldController.clear();
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
+                                        smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+                                      });
+                                    } catch(error) {
+                                      smartKyatFlash('An error occurred while payment process. Please try again later.', 'e');
+                                      setState(() {
+                                        loadingState = false;
+                                        disableTouch = false;
+                                      });
+                                    }
+
                                   });
 
-
-
-                                  // order.doc(
-                                  //     widget.docId)
-                                  //     .update({
-                                  //   'debt' : debtAmount,
-                                  //   'debt_filter': deFilter
-                                  // })
-                                  //     .then((value) => print("User Updated"))
-                                  //     .catchError((error) => print("Failed to update user: $error"));
-
-                                  CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
-                                  double paidMoney = paidAmount;
-                                  monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
-                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '31' + ' 23:59:59'))
-                                      .get()
-                                      .then((QuerySnapshot querySnapshot)  async {
-                                    querySnapshot.docs.forEach((doc) {
-                                      refundId = doc.id;
-                                    });
-                                    print(refundId.toString());
-                                    batch = await updateMonthlyData(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', paidMoney);
-                                    // monthlyData.doc(refundId).update({
-                                    //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
-                                    // }).then((value) => print("data Updated"))
-                                    //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                  CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
-                                  var refundYearId = '';
-
-                                  yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                      .get()
-                                      .then((QuerySnapshot querySnapshot)  async {
-                                    querySnapshot.docs.forEach((doc) {
-                                      refundYearId = doc.id;
-                                    });
-                                    batch = await updateYearlyData(batch, refundYearId,  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', paidMoney);
-                                    // yearlyData.doc(refundYearId).update({
-                                    //   widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust' :  FieldValue.increment( 0 - double.parse(paidMoney.toString())),
-                                    //
-                                    // }).then((value) => print("data Updated"))
-                                    //     .catchError((error) => print("Failed to update user: $error"));
-
-
-
-                                    // customerDebt.doc(
-                                    //     widget.data.split('^')[3].split('&')[1])
-                                    //     .update({
-                                    //   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-                                    //   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
-                                    // })
-                                    //     .then((value) => print("User Updated"))
-                                    //     .catchError((error) => print("Failed to update user: $error"));
-                                    batch.commit();
-                                  });    });
-                                  Future.delayed(const Duration(milliseconds: 2000), () {
-                                      loadingState = false;
-                                      disableTouch = false;
-                                  });
-                                  _textFieldController.clear();
-                                  Navigator.of(context).popUntil((route) => route.isFirst);
-                                  smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
                                 } },
                               child: loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                   child: CupertinoActivityIndicator(radius: 10,)) : Padding(
@@ -760,18 +707,18 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   updateMonthlyData(WriteBatch batch, id, field1, double price1) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
-    batch.update(documentReference, {
-      field1 : FieldValue.increment(0 - double.parse(price1.toString())),
+    batch.set(documentReference, {
+      field1.toString() : FieldValue.increment(0 - double.parse(price1.toString())),
 
-    });
+    }, SetOptions(merge: true));
     return batch;
   }
 
   updateYearlyData(WriteBatch batch, id, field1, double price1) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
-    batch.update(documentReference, {
-      field1 : FieldValue.increment(0 - double.parse(price1.toString())),
-    });
+    batch.set(documentReference, {
+      field1.toString() : FieldValue.increment(0 - double.parse(price1.toString())),
+    }, SetOptions(merge: true));
     return batch;
   }
 

@@ -9254,7 +9254,7 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                     onPressed: () async {
                                                                       setState(() {
-                                                                        mystate(() async {
+                                                                        mystate(() {
                                                                           //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                           totalAmount =
                                                                               double
