@@ -32,6 +32,24 @@ class ProductDetailsView2 extends StatefulWidget {
         required this.prodName,
         required this.mainSell,
         required this.imgUrl,
+  required this.mainName,
+  required this.sub1Name,
+  required this.sub2Name,
+  required this.barcode,
+  required this.sub1Price,
+  required this.sub2Price,
+  required this.sub1Unit,
+  required this.sub2Unit,
+  required this.subExist,
+  required this.mainLoss,
+  required this.sub1Loss,
+  required this.sub2Loss,
+  required this.mainQty,
+  required this.sub1Qty,
+  required this.sub2Qty,
+  required this.buyPrice1,
+  required this.buyPrice2,
+  required this.buyPrice3,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str),
         required void openCartBtn(),
@@ -45,8 +63,27 @@ class ProductDetailsView2 extends StatefulWidget {
   final String idString;
   final String prodName;
   final String shopId;
-  final String mainSell;
+  final double mainSell;
   final String imgUrl;
+  final String mainName;
+  final String sub1Name;
+  final String sub2Name;
+  final String barcode;
+  final double sub1Price;
+  final double sub2Price;
+  final double sub1Unit;
+  final double sub2Unit;
+  final double subExist;
+  final double mainLoss;
+  final double sub1Loss;
+  final double sub2Loss;
+  final double mainQty;
+  final double sub1Qty;
+  final double sub2Qty;
+  final double buyPrice1;
+  final double buyPrice2;
+  final double buyPrice3;
+
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -319,10 +356,55 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
+
   }
+
+  String prodName =  '';
+  String mainName = '';
+  String sub1Name = '';
+  String sub2Name = '';
+  String barcode = '';
+  double mainPrice =  0;
+  double sub1Price =  0;
+  double sub2Price =  0;
+  double sub1Unit =  0;
+  double sub2Unit =  0;
+  double subExist =  0;
+  double mainLoss =  0;
+  double sub1Loss =  0;
+  double sub2Loss =  0;
+  double mainQty =  0;
+  double sub1Qty =  0;
+  double sub2Qty =  0;
+  double buyPrice1 =  0;
+  double buyPrice2 =  0;
+  double buyPrice3 =  0;
+  String image = '';
 
   @override
   initState() {
+    prodName = widget.prodName;
+    mainName = widget.mainName;
+    sub1Name = widget.sub1Name;
+    sub2Name = widget.sub2Name;
+    barcode = widget.barcode;
+    mainPrice = widget.mainSell;
+    sub1Price = widget.sub1Price;
+    sub2Price = widget.sub2Price;
+    sub1Unit = widget.sub1Unit;
+    sub2Unit = widget.sub2Unit;
+    subExist = widget.subExist;
+    mainLoss = widget.mainLoss;
+    sub1Loss = widget.sub1Loss;
+    sub2Loss = widget.sub2Loss;
+    mainQty = widget.mainQty;
+    sub1Qty = widget.sub1Qty;
+    sub2Qty = widget.sub2Qty;
+    buyPrice1 = widget.buyPrice1;
+    buyPrice2 = widget.buyPrice2;
+    buyPrice3 = widget.buyPrice3;
+    image = widget.imgUrl;
+
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -408,6 +490,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       }
     });
 
+
+
     super.initState();
   }
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
@@ -418,56 +502,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       body: SafeArea(
         top: true,
         bottom: true,
-        child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('shops')
-                .doc(widget.shopId)
-                .collection('collArr')
-                .doc('prodsArr')
-                .snapshots(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                var output = snapshot.data != null? snapshot.data!.data(): null;
-                if(output?['prods'][widget.idString] != null) {
-
-                  var prodName =output?['prods'][widget.idString]['na'];
-                  var mainName = output?['prods'][widget.idString]['nm'];
-                  var sub1Name = output?['prods'][widget.idString]['n1'];
-                  var sub2Name = output?['prods'][widget.idString]['n2'];
-                  var barcode = output?['prods'][widget.idString]['co'];
-                  var mainPrice =output?['prods'][widget.idString]['sm'];
-                  var sub1Price = output?['prods'][widget.idString]['s1'];
-                  var sub2Price = output?['prods'][widget.idString]['s2'];
-                  var sub1Unit = output?['prods'][widget.idString]['c1'];
-                  if(sub1Unit == '') {
-                    sub1Unit = 0;
-                  }
-                  var sub2Unit = output?['prods'][widget.idString]['c2'];
-                  if(sub2Unit == '') {
-                    sub2Unit = 0;
-                  }
-                  var subExist =  output?['prods'][widget.idString]['se'];
-                  var mainLoss = output?['prods'][widget.idString]['lm'];
-                  var sub1Loss = output?['prods'][widget.idString]['l1'];
-                  var sub2Loss = output?['prods'][widget.idString]['l2'];
-                  var mainQty =output?['prods'][widget.idString]['im'];
-                  var sub1Qty = output?['prods'][widget.idString]['i1'];
-                  var sub2Qty = output?['prods'][widget.idString]['i2'];
-                  var image = widget.imgUrl;
-                  var buyPrice1 =  output?['prods'][widget.idString]['bm'];
-                  var buyPrice2 =  output?['prods'][widget.idString]['b1'];
-                  var buyPrice3 = output?['prods'][widget.idString]['b2'];
-
-                  List<double> subSell = [];
-                  List<double> subLink = [];
-                  List<String> subName = [];
-                  for(int i = 0; i < subExist.round(); i++) {
-                    subSell.add(output?['prods'][widget.idString]['s' + (i+1).toString()]);
-                    subLink.add(output?['prods'][widget.idString]['c' + (i+1).toString()]);
-                    subName.add(output?['prods'][widget.idString]['n' + (i+1).toString()]);
-                  }
-                  print(subSell.toString() + subLink.toString() + subName.toString());
-                  return StreamBuilder(
+        child: StreamBuilder(
                       stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('users')
                           .where('email', isEqualTo: auth.currentUser!.email.toString())
                           .limit(1)
@@ -650,22 +685,31 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           mainPrice.toString() +
                                                                           '^unit_name^1^' + prodName + '^' +  mainName  + '^' + image +  '^' + '^',
                                                                     ),
-                                                                    for(int i =0; i < subSell.length; i++)
-                                                                      if(subSell[i] != 0)
-                                                                        SheetAction(
-                                                                          icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
-                                                                          label: '1 ' + subName[i],
-                                                                          key: widget.idString +
-                                                                              '^' + subLink[i].toString() +
-                                                                              '^' +
-                                                                              subSell[i].toString() +
-                                                                              '^sub' + (i+1).toString() + '_name^1^' + prodName + '^' + output?['prods'][widget.idString]['n' + (i+1).toString()]  + '^' + image + '^' +  (output?['prods'][widget.idString]['i' + (i+1).toString()]).toString()  + '^' + output!['prods'][widget.idString]['c' + (i+1).toString()].toString(),
-                                                                        ),
+                                                                    if (sub1Price != 0)
+                                                                      SheetAction(
+                                                                        icon: SmartKyat_POS.prods1,
+                                                                        label: '1 ' + sub1Name,
+                                                                        key: widget.idString +
+                                                                            '^' + sub1Unit.toString() +
+                                                                            '^' +
+                                                                            sub1Price.toString() +
+                                                                            '^sub1_name^1^' + prodName + '^' + sub1Name.toString()  + '^' + image + '^' +  sub1Qty.toString()  + '^' + sub1Unit.toString(),
+                                                                      ),
+                                                                    if (sub2Price != 0)
+                                                                      SheetAction(
+                                                                        icon: SmartKyat_POS.prods2,
+                                                                        label: '1 ' + sub2Name,
+                                                                        key: widget.idString +
+                                                                            '^' + sub2Unit.toString() +
+                                                                            '^' +
+                                                                            sub2Price.toString() +
+                                                                            '^sub2_name^1^' + prodName + '^' + sub2Name.toString()  + '^' + image + '^' +  sub2Qty.toString()  + '^' + sub2Unit.toString(),
+                                                                      ),
                                                                   ],
                                                                 );
                                                                 widget._callback(result.toString());
                                                               }
-                                                              //if(output?['inStock1'] - 1 <= 0) {smartKyatFlash('Out of Stock', 'w');}
+                                                              if(mainQty - 1 <= 0) {smartKyatFlash('Out of Stock', 'w');}
                                                             },
                                                             child: Container(
                                                               width: 100,
@@ -2098,12 +2142,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                         }
                         return loadingView();
                       }
-                  );
-                }
-                return Container();
-              }
-              return loadingView();
-            }),
+                  )
+
       ),
     );
   }
