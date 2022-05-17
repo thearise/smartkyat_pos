@@ -91,7 +91,7 @@ dependencies:
   metooltip: ^0.0.7
   flutter_bloc:
   jiffy: ^5.0.0
-  loader_overlay: ^2.0.6
+#  loader_overlay: ^2.0.6
 
 #  esc_pos_bluetooth:
 #  flutter_bluetooth_basic:
