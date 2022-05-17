@@ -31,7 +31,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_core:
-  firebase_auth:
+  firebase_auth: ^3.3.8
   cloud_firestore:
   pinput:
   qr_code_scanner: ^0.5.2
@@ -91,6 +91,7 @@ dependencies:
   metooltip: ^0.0.7
   flutter_bloc:
   jiffy: ^5.0.0
+  loader_overlay: ^2.0.6
 
 #  esc_pos_bluetooth:
 #  flutter_bluetooth_basic:

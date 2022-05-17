@@ -376,7 +376,7 @@ class _EditProductState extends State<EditProduct> {
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: TextFormField(
                               controller: prodNameCtrl,
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.text,
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(30),
                               ],

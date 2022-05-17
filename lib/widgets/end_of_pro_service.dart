@@ -23,7 +23,12 @@ import '../app_theme.dart';
 import '../fragments/welcome_fragment.dart';
 
 class EndOfProService extends StatefulWidget {
-  const EndOfProService({Key? key,}) : super(key: key);
+  const EndOfProService({
+    Key? key,
+    required this.shopId,
+  }) : super(key: key);
+
+  final String shopId;
 
   @override
   _EndOfProServiceState createState() => _EndOfProServiceState();
@@ -56,6 +61,8 @@ class _EndOfProServiceState extends State<EndOfProService>
   bool isLoading = true;
   bool loadingState = false;
 
+  var shopSnapshot;
+
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
@@ -73,6 +80,7 @@ class _EndOfProServiceState extends State<EndOfProService>
   @override
   initState() {
     setStoreId('');
+    shopSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).snapshots();
     if(Platform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white, // navigation bar color
@@ -87,6 +95,55 @@ class _EndOfProServiceState extends State<EndOfProService>
   @override
   void dispose() {
     super.dispose();
+  }
+
+  zeroToTen(String string) {
+    if (double.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
+  convertToDate(String input) {
+    switch (input) {
+      case '01':
+        return 'January';
+        break;
+      case '02':
+        return 'February';
+        break;
+      case '03':
+        return 'March';
+        break;
+      case '04':
+        return 'April';
+        break;
+      case '05':
+        return 'May';
+        break;
+      case '06':
+        return 'June';
+        break;
+      case '07':
+        return 'July';
+        break;
+      case '08':
+        return 'August';
+        break;
+      case '09':
+        return 'September';
+        break;
+      case '10':
+        return 'October';
+        break;
+      case '11':
+        return 'November';
+        break;
+      case '12':
+        return 'December';
+        break;
+    }
   }
 
   @override
@@ -145,190 +202,205 @@ class _EndOfProServiceState extends State<EndOfProService>
                                 ),
                                 color: Colors.white,
                               ),
-                              child: Column(
-                                  children: [
-                                    SizedBox(height: 15),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 40),
-                                            Center(
-                                              child: Text(
-                                                  'Your pro version has ended', style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 26,
-                                                  letterSpacing: -0.4
-                                              ),
-                                                strutStyle: StrutStyle(
-                                                  height: 2.2,
-                                                  // fontSize:,
-                                                  forceStrutHeight: true,
-                                                ),
+                              child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                stream:  shopSnapshot,
+                                builder: (context, snapshot) {
+                                  if(snapshot.hasData) {
+                                    var output = snapshot.data != null? snapshot.data!.data(): null;
+                                    var isPro = output?['is_pro'];
+                                    Timestamp isProStart = isPro['start'];
+                                    Timestamp isProEnd = isPro['end'];
+
+                                    DateTime start = isProStart.toDate();
+                                    DateTime end = isProEnd.toDate();
+                                    return Column(
+                                        children: [
+                                          SizedBox(height: 15),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Container(
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: 40),
+                                                  Center(
+                                                    child: Text(
+                                                      'Your pro version has ended', style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 26,
+                                                        letterSpacing: -0.4
+                                                    ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 2.2,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 20.0),
+                                                    child: Text('Your last updated (at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') plan ended at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.',
+                                                      style: TextStyle( fontSize: 14),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1.2,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 20.0),
-                                              child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.',
-                                                style: TextStyle( fontSize: 14),
-                                                strutStyle: StrutStyle(
-                                                  height: 1.2,
-                                                  // fontSize:,
-                                                  forceStrutHeight: true,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0),
-                                            ),
-                                            color: Color(0xFFF5F5F5),
-                                            border: Border.all(
-                                                color: Colors.grey.withOpacity(0.2),
-                                                width: 1.0),
                                           ),
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 20.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(height: 18),
-                                                Text('1 month pro version', style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.5,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(15.0),
                                                   ),
+                                                  color: Color(0xFFF5F5F5),
+                                                  border: Border.all(
+                                                      color: Colors.grey.withOpacity(0.2),
+                                                      width: 1.0),
                                                 ),
-                                                SizedBox(height: 5),
-                                                Text('10,000 Kyats /month', style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.2,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('1 month pro version', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.5,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text('10,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.2,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 22),
+                                                    ],
                                                   ),
-                                                ),
-                                                SizedBox(height: 22),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(15.0),
-                                              ),
-                                              gradient: LinearGradient(
-                                                  colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                  begin: Alignment(-1.0, -2.0),
-                                                  end: Alignment(1.0, 2.0),
-                                                  tileMode: TileMode.clamp)),
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 20.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(height: 18),
-                                                Text('3 month pro version (save 20%)', style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.5,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
+                                                )),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(15.0),
+                                                    ),
+                                                    gradient: LinearGradient(
+                                                        colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                        begin: Alignment(-1.0, -2.0),
+                                                        end: Alignment(1.0, 2.0),
+                                                        tileMode: TileMode.clamp)),
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('3 month pro version (save 20%)', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.5,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text('8,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.2,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 22),
+                                                    ],
                                                   ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text('8,000 Kyats /month', style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.2,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
+                                                )),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(15.0),
+                                                    ),
+                                                    gradient: LinearGradient(
+                                                        colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                        begin: Alignment(-1.0, -2.0),
+                                                        end: Alignment(1.0, 2.0),
+                                                        tileMode: TileMode.clamp)),
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('5 month pro version (save 30%)', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.5,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text('7,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.2,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 22),
+                                                    ],
                                                   ),
-                                                ),
-                                                SizedBox(height: 22),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(15.0),
-                                              ),
-                                              gradient: LinearGradient(
-                                                  colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                  begin: Alignment(-1.0, -2.0),
-                                                  end: Alignment(1.0, 2.0),
-                                                  tileMode: TileMode.clamp)),
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 20.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(height: 18),
-                                                Text('5 month pro version (save 30%)', style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.5,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text('7,000 Kyats /month', style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    letterSpacing: -0.3
-                                                ),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.2,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 22),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    SizedBox(height: 20),
-                                  ]
+                                                )),
+                                          ),
+                                          SizedBox(height: 20),
+                                        ]
+                                    );
+                                  }
+                                  return Container();
+                                }
                               ),
                             ),
                             Container(
