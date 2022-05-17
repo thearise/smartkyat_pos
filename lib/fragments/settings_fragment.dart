@@ -416,7 +416,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             openDrawerFrom();
                           },
                           child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                              stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                              stream: FirebaseFirestore.instance.collection('shops').doc(shopId == ''? '007': shopId).snapshots(),
                               builder: (BuildContext context, snapshot) {
                                 if(snapshot.hasData) {
                                   var output = snapshot.data!.data();

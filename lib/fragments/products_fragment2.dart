@@ -181,10 +181,11 @@ class ProductsFragmentState extends State<ProductsFragment>
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels && !endOfResult) {
         print('maxxed ');
-        itemPerPage = itemPerPage + 10;
-        setState(() {
-
+        Future.delayed(const Duration(milliseconds: 500), () {
+          itemPerPage = itemPerPage + 10;
+          setState(() {});
         });
+
       }
     });
 
@@ -612,6 +613,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   ScrollController _scrollController = ScrollController();
   int itemPerPage = 10;
+  Map<dynamic, dynamic> resProds = {};
 
   @override
   Widget build(BuildContext context) {
@@ -647,7 +649,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                           stream: prodsSnap,
                           builder: (BuildContext context, prodsSB) {
                             var prods;
-                            Map<dynamic, dynamic> resProds = {};
+                            resProds = {};
 
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
@@ -1138,7 +1140,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                  child: Text(
+                                                    resProds.length == 0? '': 'End of results',
+                                                    strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
                                                 ),
                                               ],
                                             ),
