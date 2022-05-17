@@ -13,9 +13,11 @@ import 'fragments/welcome_fragment.dart';
 import 'src/app.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 final themeMode = ValueNotifier(2);
 
 PackageInfo? packageInfo;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
@@ -74,7 +76,8 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
       // home: HomePage(),
-      home: Welcome(),
+      home: LoaderOverlay(child: Welcome()),
+      // home: Welcome(),
     );
   }
 }

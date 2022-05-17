@@ -24,6 +24,7 @@ import '../app_theme.dart';
 import 'add_new_shop_fragment.dart';
 import 'add_shop_fragment.dart';
 import 'choose_store_fragment.dart';
+// import 'package:loader_overlay/loader_overlay.dart';
 
 class Welcome extends StatefulWidget {
   final double? gloBotPadd;
@@ -688,29 +689,30 @@ class _WelcomeState extends State<Welcome>
                                                                                   //   loadingState = true;
                                                                                   // });
                                                                                   try {
-                                                                                    FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                                    print('mmsp 0');
+                                                                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
                                                                                       email: _email.text,
                                                                                       password: _password.text,
-                                                                                    ).then((_) async {
+                                                                                    );
+                                                                                    print('mmsp 0.1');
+                                                                                    bool shopExists = false;
+                                                                                    FirebaseFirestore.instance
+                                                                                        .collection('shops')
+                                                                                        .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                                        .get()
+                                                                                        .then((QuerySnapshot querySnapshot) {
+                                                                                      querySnapshot.docs.forEach((doc) {
+                                                                                        shopExists = true;
+                                                                                      });
+                                                                                      print('shop shi lar ' + shopExists.toString());
 
-                                                                                      bool shopExists = false;
-                                                                                      FirebaseFirestore.instance
-                                                                                          .collection('shops')
-                                                                                          .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                                          .get()
-                                                                                          .then((QuerySnapshot querySnapshot) {
-                                                                                        querySnapshot.docs.forEach((doc) {
-                                                                                          shopExists = true;
-                                                                                        });
-                                                                                        print('shop shi lar ' + shopExists.toString());
-
-                                                                                        if(shopExists) {
-                                                                                          Navigator.of(context).popUntil((_) => true);
-                                                                                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-                                                                                      });  });
+                                                                                      if(shopExists) {
+                                                                                        Navigator.of(context).popUntil((_) => true);
+                                                                                        Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                                      } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                                    });
                                                                                   } on FirebaseAuthException catch (e) {
-                                                                                    print(e.code.toString());
+                                                                                    print('mmsp 1' + e.code.toString());
 
                                                                                     if (e.code == 'user-not-found') {
                                                                                       setState(() {
@@ -737,7 +739,10 @@ class _WelcomeState extends State<Welcome>
                                                                                       });
                                                                                       print('Invalid email.');
                                                                                     }
+                                                                                  } on PlatformException catch(e) {
+                                                                                    print('mmsp ee ' + e.toString());
                                                                                   }
+                                                                                  print('mmsp 34 ');
 
                                                                                 } else {
                                                                                   setState(() {
@@ -2210,7 +2215,7 @@ class _WelcomeState extends State<Welcome>
           Visibility(
             visible: overLoading,
             child: Container(
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withOpacity(0.2),
               child: Column(
                 children: [
                   Expanded(

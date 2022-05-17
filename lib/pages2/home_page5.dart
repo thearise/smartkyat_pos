@@ -1076,189 +1076,204 @@ class HomePageState extends State<HomePage>
                                         ),
                                         color: Colors.white,
                                       ),
-                                      child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 55),
-                                                    Center(
-                                                      child: Text(
-                                                        'You are on pro version', style: TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 26,
-                                                          letterSpacing: -0.4
-                                                      ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 2.2,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
+                                      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                        builder: (context, snapshot) {
+                                          if(snapshot.hasData) {
+                                            var output = snapshot.data != null? snapshot.data!.data(): null;
+                                            var isPro = output?['is_pro'];
+                                            Timestamp isProStart = isPro['start'];
+                                            Timestamp isProEnd = isPro['end'];
+
+                                            DateTime start = isProStart.toDate();
+                                            DateTime end = isProEnd.toDate();
+                                            return Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(height: 55),
+                                                          Center(
+                                                            child: Text(
+                                                              'You are on pro version', style: TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 26,
+                                                                letterSpacing: -0.4
+                                                            ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 2.2,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 20.0),
+                                                            child: Text('Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.',
+                                                              style: TextStyle( fontSize: 14),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1.2,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top: 20.0),
-                                                      child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.',
-                                                        style: TextStyle( fontSize: 14),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1.2,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(15.0),
-                                                    ),
-                                                    color: Color(0xFFF5F5F5),
-                                                    border: Border.all(
-                                                        color: Colors.grey.withOpacity(0.2),
-                                                        width: 1.0),
                                                   ),
-                                                  width: MediaQuery.of(context).size.width,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        SizedBox(height: 18),
-                                                        Text('1 month pro version', style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 18,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.5,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                                    child: Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(15.0),
                                                           ),
+                                                          color: Color(0xFFF5F5F5),
+                                                          border: Border.all(
+                                                              color: Colors.grey.withOpacity(0.2),
+                                                              width: 1.0),
                                                         ),
-                                                        SizedBox(height: 5),
-                                                        Text('10,000 Kyats /month', style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 14,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.2,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                        width: MediaQuery.of(context).size.width,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 20.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              SizedBox(height: 18),
+                                                              Text('1 month pro version', style: TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 18,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.5,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Text('10,000 Kyats /month', style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 22),
+                                                            ],
                                                           ),
-                                                        ),
-                                                        SizedBox(height: 22),
-                                                      ],
-                                                    ),
-                                                  )),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(15.0),
-                                                      ),
-                                                      gradient: LinearGradient(
-                                                          colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                          begin: Alignment(-1.0, -2.0),
-                                                          end: Alignment(1.0, 2.0),
-                                                          tileMode: TileMode.clamp)),
-                                                  width: MediaQuery.of(context).size.width,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        SizedBox(height: 18),
-                                                        Text('3 month pro version (save 20%)', style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 18,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.5,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                        )),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                    child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(15.0),
+                                                            ),
+                                                            gradient: LinearGradient(
+                                                                colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                                begin: Alignment(-1.0, -2.0),
+                                                                end: Alignment(1.0, 2.0),
+                                                                tileMode: TileMode.clamp)),
+                                                        width: MediaQuery.of(context).size.width,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 20.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              SizedBox(height: 18),
+                                                              Text('3 month pro version (save 20%)', style: TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 18,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.5,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Text('8,000 Kyats /month', style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 22),
+                                                            ],
                                                           ),
-                                                        ),
-                                                        SizedBox(height: 5),
-                                                        Text('8,000 Kyats /month', style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 14,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.2,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                        )),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                    child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(15.0),
+                                                            ),
+                                                            gradient: LinearGradient(
+                                                                colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                                begin: Alignment(-1.0, -2.0),
+                                                                end: Alignment(1.0, 2.0),
+                                                                tileMode: TileMode.clamp)),
+                                                        width: MediaQuery.of(context).size.width,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 20.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              SizedBox(height: 18),
+                                                              Text('5 month pro version (save 30%)', style: TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 18,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.5,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Text('7,000 Kyats /month', style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  letterSpacing: -0.3
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 22),
+                                                            ],
                                                           ),
-                                                        ),
-                                                        SizedBox(height: 22),
-                                                      ],
-                                                    ),
-                                                  )),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(15.0),
-                                                      ),
-                                                      gradient: LinearGradient(
-                                                          colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                          begin: Alignment(-1.0, -2.0),
-                                                          end: Alignment(1.0, 2.0),
-                                                          tileMode: TileMode.clamp)),
-                                                  width: MediaQuery.of(context).size.width,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 20.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        SizedBox(height: 18),
-                                                        Text('5 month pro version (save 30%)', style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 18,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.5,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 5),
-                                                        Text('7,000 Kyats /month', style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 14,
-                                                            letterSpacing: -0.3
-                                                        ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.2,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 22),
-                                                      ],
-                                                    ),
-                                                  )),
-                                            ),
-                                            SizedBox(height: 20),
-                                          ]
+                                                        )),
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                ]
+                                            );
+                                          }
+                                          return Container();
+                                        }
                                       ),
                                     ),
                                     Container(
@@ -1936,7 +1951,9 @@ class HomePageState extends State<HomePage>
     });
   }
   void isProFreePage() {
-    Navigator.of(context).pushReplacement(FadeRoute(page: EndOfProService()),);
+    getStoreId().then((val) {
+      Navigator.of(context).pushReplacement(FadeRoute(page: EndOfProService(shopId: val.toString(),)),);
+    });
   }
 
   @override
@@ -1964,20 +1981,20 @@ class HomePageState extends State<HomePage>
                         setStoreId('');
                       }
                       Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
-                      print('waiting? ' + dataUser['device0']);
+                      // print('waiting? ' + dataUser['device0'].toString());
                       // _getId().then((value) async {
                       if(dataUser['device0'] != widget.deviceId) {
                         print('matuu');
-                        FirebaseAuth.instance.signOut();
+                        // FirebaseAuth.instance.signOut();
                         setStoreId('').then((_) {
                           showOkAlertDialog(
                               context: OneContext().context!,
                               title: 'Restricted activity',
                               message: 'Your account was signed in to this same shop from another device.'
                           ).then((result) async {
-                            // Navigator.of(context).pushReplacement(
-                            //   FadeRoute(page: Welcome()),
-                            // );
+                            Navigator.of(context).pushReplacement(
+                              FadeRoute(page: Welcome()),
+                            );
                           });
                         });
 
@@ -2065,12 +2082,13 @@ class HomePageState extends State<HomePage>
                                 firstTime = false;
                               } else if(!firstTime) {
                                 print('not first');
-                                if(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)) {
-                                  settGlobalKey.currentState!.isProSet('pro');
-                                } else {
-                                  settGlobalKey.currentState!.isProSet('free');
+                                if(settGlobalKey.currentState != null)  {
+                                  if(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)) {
+                                    settGlobalKey.currentState!.isProSet('pro');
+                                  } else {
+                                    settGlobalKey.currentState!.isProSet('free');
+                                  }
                                 }
-
                               }
                               if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
                                 Future.delayed(const Duration(milliseconds: 500), () {
@@ -6321,8 +6339,11 @@ class HomePageState extends State<HomePage>
                                                                   onTap: () {
                                                                     _scaffoldKey.currentState!.openDrawer();
                                                                   },
-                                                                  child: selectedTab(
-
+                                                                  child: Container(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                                                      child: selectedTab()
+                                                                    )
                                                                   ),
                                                                 ),
                                                               ),
@@ -8298,437 +8319,500 @@ class HomePageState extends State<HomePage>
               }
               return Scaffold(
                 resizeToAvoidBottomInset: false,
-                body: IgnorePointer(
-                  ignoring: disableTouch,
-                  child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: Form(
-                      key: _formKey,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 60.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(18.0),
-                                  topRight: Radius.circular(18.0),
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: TabBarView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  controller: _controller,
-                                  children: [
-                                    Container(
-                                      color: Colors.white,
-                                      height:
-                                      MediaQuery.of(context).size.height -
-                                          45,
-                                      width: double.infinity,
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            height: 67,
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.3),
-                                                        width: 1.0))),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 15.0,
-                                                  top: 0.0,
-                                                  bottom: 15.0
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setState((){
-                                                        mystate(() {
-                                                          prodList = [];
-                                                          discount = 0.0;
-                                                          discountAmount = 0.0;
-                                                          debt =0;
-                                                          refund =0;
-                                                          customerId = 'name^name';
-                                                        });
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      width:
-                                                      (MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                          2) -
-                                                          22.5,
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(10.0),
-                                                          color: AppTheme.clearColor),
-                                                      child: Center(
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              left:
-                                                              8.0,
-                                                              right:
-                                                              8.0,
-                                                              bottom:
-                                                              3),
-                                                          child: Container(
-                                                              child: Text(
-                                                                textSetClear,
-                                                                textAlign:
-                                                                TextAlign
-                                                                    .center,
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize:
-                                                                    17,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                    color: Colors
-                                                                        .black),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                    ),
+                body: Stack(
+                  children: [
+                    IgnorePointer(
+                      ignoring: disableTouch,
+                      child: GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                        },
+                        child: Form(
+                          key: _formKey,
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 60.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(18.0),
+                                      topRight: Radius.circular(18.0),
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: TabBarView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      controller: _controller,
+                                      children: [
+                                        Container(
+                                          color: Colors.white,
+                                          height:
+                                          MediaQuery.of(context).size.height -
+                                              45,
+                                          width: double.infinity,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: 67,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.3),
+                                                            width: 1.0))),
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 15.0,
+                                                      right: 15.0,
+                                                      top: 0.0,
+                                                      bottom: 15.0
                                                   ),
-                                                  SizedBox(
-                                                    width: 15.0,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      if(discount > 0) {
-                                                        final resultNew =
-                                                        Platform.isIOS ?
-                                                        await showModalActionSheet<String>(
-                                                          context: context,
-                                                          //title: 'Confirmation alert',
-                                                          title: 'Are you sure you want to change discount?',
-                                                          actions: [
-                                                            SheetAction(
-                                                              label: 'New discount',
-                                                              key: 'newdis',
-                                                              isDestructiveAction: true,
-                                                            ),
-                                                          ],
-                                                        ) : await showModalActionSheet<String>(
-                                                          context: context,
-                                                          // title: 'Confirmation alert',
-                                                          title: 'Are you sure you want to change discount?',
-                                                          actions: [
-                                                            SheetAction(
-                                                              label: 'New discount',
-                                                              key: 'newdis',
-                                                              isDestructiveAction: true,
-                                                            ),
-                                                          ],
-                                                        );
-                                                        if(resultNew.toString() == 'newdis') {
-                                                          setState(() {
+                                                  child: Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          setState((){
                                                             mystate(() {
-                                                              discountAmount = 0.0;
+                                                              prodList = [];
                                                               discount = 0.0;
+                                                              discountAmount = 0.0;
+                                                              debt =0;
+                                                              refund =0;
+                                                              customerId = 'name^name';
                                                             });
                                                           });
-
-                                                          final result = await showModalActionSheet<String>(
-                                                            context: context,
-                                                            title: 'Choose discount type',
-                                                            actions: [
-                                                              SheetAction(
-                                                                icon: Icons.error,
-                                                                label: 'Amount',
-                                                                key: 'amount',
-                                                              ),
-                                                              SheetAction(
-                                                                icon: Icons.warning,
-                                                                label: 'Percent',
-                                                                key: 'percent',
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                          if(result != null) {
-                                                            mystate(() {
-                                                              isDiscount = result.toString();
-                                                            });
-
-                                                            if (result == 'amount') {
-                                                              final amount = await showTextInputDialog(
-                                                                context: context,
-                                                                textFields: [
-                                                                  DialogTextField(
-                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                    // inputFormatters: <TextInputFormatter>[
-                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                    hintText: '0',
-                                                                    suffixText: '$currencyUnit  ',
-                                                                    validator: (value) {
-                                                                      if (value == null || value.isEmpty) {
-                                                                        // return '';
-                                                                        return 'this field is required ';
-                                                                      } else {
-                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                          return 'no item in cart';
-                                                                        } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                          return 'much less than total sale';
-                                                                        } else if(double.parse(value) < 0) {
-                                                                          return 'invalid amount';
-                                                                        }
-                                                                      }
-                                                                      return null;
-                                                                    },
-                                                                    // initialText: 'mono0926@gmail.com',
-                                                                  ),
-                                                                ],
-                                                                title: VDiscount,
-                                                                message: 'Add Discount Amount to Cart',
-                                                              );
-                                                              mystate(() {
-                                                                discount =double.parse(amount![0].toString());
-                                                                print('disss ' + discount.toString());
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                          (MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                              2) -
+                                                              22.5,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10.0),
+                                                              color: AppTheme.clearColor),
+                                                          child: Center(
+                                                            child: Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left:
+                                                                  8.0,
+                                                                  right:
+                                                                  8.0,
+                                                                  bottom:
+                                                                  3),
+                                                              child: Container(
+                                                                  child: Text(
+                                                                    textSetClear,
+                                                                    textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                    style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize:
+                                                                        17,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                        color: Colors
+                                                                            .black),
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 15.0,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          if(discount > 0) {
+                                                            final resultNew =
+                                                            Platform.isIOS ?
+                                                            await showModalActionSheet<String>(
+                                                              context: context,
+                                                              //title: 'Confirmation alert',
+                                                              title: 'Are you sure you want to change discount?',
+                                                              actions: [
+                                                                SheetAction(
+                                                                  label: 'New discount',
+                                                                  key: 'newdis',
+                                                                  isDestructiveAction: true,
+                                                                ),
+                                                              ],
+                                                            ) : await showModalActionSheet<String>(
+                                                              context: context,
+                                                              // title: 'Confirmation alert',
+                                                              title: 'Are you sure you want to change discount?',
+                                                              actions: [
+                                                                SheetAction(
+                                                                  label: 'New discount',
+                                                                  key: 'newdis',
+                                                                  isDestructiveAction: true,
+                                                                ),
+                                                              ],
+                                                            );
+                                                            if(resultNew.toString() == 'newdis') {
+                                                              setState(() {
+                                                                mystate(() {
+                                                                  discountAmount = 0.0;
+                                                                  discount = 0.0;
+                                                                });
                                                               });
 
-                                                            } else if(result == 'percent') {
-                                                              final percentage = await showTextInputDialog(
+                                                              final result = await showModalActionSheet<String>(
                                                                 context: context,
-                                                                textFields: [
-                                                                  DialogTextField(
-                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                    // inputFormatters: <TextInputFormatter>[
-                                                                    //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                    hintText: '0',
-                                                                    suffixText: '%  ',
-                                                                    validator: (value) {
-                                                                      if (value == null || value.isEmpty) {
-                                                                        // return '';
-                                                                        return 'this field is required ';
-                                                                      } else {
-                                                                        if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                          return 'no item in cart';
-                                                                        }
-                                                                        if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                          return 'invalid amount';
-                                                                        }
-                                                                      }
-                                                                      return null;
-                                                                    },
-                                                                    // initialText: 'mono0926@gmail.com',
+                                                                title: 'Choose discount type',
+                                                                actions: [
+                                                                  SheetAction(
+                                                                    icon: Icons.error,
+                                                                    label: 'Amount',
+                                                                    key: 'amount',
+                                                                  ),
+                                                                  SheetAction(
+                                                                    icon: Icons.warning,
+                                                                    label: 'Percent',
+                                                                    key: 'percent',
                                                                   ),
                                                                 ],
-                                                                title: VDiscount,
-                                                                message: 'Add Discount Percent to Cart',
                                                               );
+
+                                                              if(result != null) {
+                                                                mystate(() {
+                                                                  isDiscount = result.toString();
+                                                                });
+
+                                                                if (result == 'amount') {
+                                                                  final amount = await showTextInputDialog(
+                                                                    context: context,
+                                                                    textFields: [
+                                                                      DialogTextField(
+                                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                        // inputFormatters: <TextInputFormatter>[
+                                                                        //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                        hintText: '0',
+                                                                        suffixText: '$currencyUnit  ',
+                                                                        validator: (value) {
+                                                                          if (value == null || value.isEmpty) {
+                                                                            // return '';
+                                                                            return 'this field is required ';
+                                                                          } else {
+                                                                            if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                              return 'no item in cart';
+                                                                            } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                              return 'much less than total sale';
+                                                                            } else if(double.parse(value) < 0) {
+                                                                              return 'invalid amount';
+                                                                            }
+                                                                          }
+                                                                          return null;
+                                                                        },
+                                                                        // initialText: 'mono0926@gmail.com',
+                                                                      ),
+                                                                    ],
+                                                                    title: VDiscount,
+                                                                    message: 'Add Discount Amount to Cart',
+                                                                  );
+                                                                  mystate(() {
+                                                                    discount =double.parse(amount![0].toString());
+                                                                    print('disss ' + discount.toString());
+                                                                  });
+
+                                                                } else if(result == 'percent') {
+                                                                  final percentage = await showTextInputDialog(
+                                                                    context: context,
+                                                                    textFields: [
+                                                                      DialogTextField(
+                                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                        // inputFormatters: <TextInputFormatter>[
+                                                                        //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                        hintText: '0',
+                                                                        suffixText: '%  ',
+                                                                        validator: (value) {
+                                                                          if (value == null || value.isEmpty) {
+                                                                            // return '';
+                                                                            return 'this field is required ';
+                                                                          } else {
+                                                                            if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                              return 'no item in cart';
+                                                                            }
+                                                                            if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                              return 'invalid amount';
+                                                                            }
+                                                                          }
+                                                                          return null;
+                                                                        },
+                                                                        // initialText: 'mono0926@gmail.com',
+                                                                      ),
+                                                                    ],
+                                                                    title: VDiscount,
+                                                                    message: 'Add Discount Percent to Cart',
+                                                                  );
+                                                                  mystate(() {
+                                                                    discount =double.parse(percentage![0].toString());
+                                                                    print('disss ' + discount.toString());
+                                                                  });
+                                                                }
+                                                                print('dis' + result.toString());
+                                                                setState(() {
+                                                                  print('do something');
+                                                                });
+                                                              }
+                                                            }
+
+
+                                                          } else {
+                                                            final result = await showModalActionSheet<String>(
+                                                              context: context,
+                                                              title: 'Choose discount type',
+                                                              actions: [
+                                                                SheetAction(
+                                                                  icon: Icons.error,
+                                                                  label: 'Amount',
+                                                                  key: 'amount',
+                                                                ),
+                                                                SheetAction(
+                                                                  icon: Icons.warning,
+                                                                  label: 'Percent',
+                                                                  key: 'percent',
+                                                                ),
+                                                              ],
+                                                            );
+
+                                                            if(result != null) {
                                                               mystate(() {
-                                                                discount =double.parse(percentage![0].toString());
-                                                                print('disss ' + discount.toString());
+                                                                isDiscount = result.toString();
+                                                              });
+
+                                                              if (result == 'amount') {
+                                                                final amount = await showTextInputDialog(
+                                                                  context: context,
+                                                                  textFields: [
+                                                                    DialogTextField(
+                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                      // inputFormatters: <TextInputFormatter>[
+                                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                      hintText: '0',
+                                                                      suffixText: '$currencyUnit  ',
+                                                                      validator: (value) {
+                                                                        if (value == null || value.isEmpty) {
+                                                                          // return '';
+                                                                          return 'this field is required ';
+                                                                        } else {
+                                                                          if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                            return 'no item in cart';
+                                                                          } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
+                                                                            return 'much less than total sale';
+                                                                          } else if(double.parse(value) < 0) {
+                                                                            return 'invalid amount';
+                                                                          }
+                                                                        }
+                                                                        return null;
+                                                                      },
+                                                                      // initialText: 'mono0926@gmail.com',
+                                                                    ),
+                                                                  ],
+                                                                  title: VDiscount,
+                                                                  message: 'Add Discount Amount to Cart',
+                                                                );
+                                                                mystate(() {
+                                                                  discount =double.parse(amount![0].toString());
+                                                                  print('disss ' + discount.toString());
+                                                                });
+
+                                                              } else if(result == 'percent') {
+                                                                final percentage = await showTextInputDialog(
+                                                                  context: context,
+                                                                  textFields: [
+                                                                    DialogTextField(
+                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                      // inputFormatters: <TextInputFormatter>[
+                                                                      //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                      hintText: '0',
+                                                                      suffixText: '%  ',
+                                                                      validator: (value) {
+                                                                        if (value == null || value.isEmpty) {
+                                                                          // return '';
+                                                                          return 'this field is required ';
+                                                                        } else {
+                                                                          if(double.parse(TtlProdListPriceReal()) <= 0) {
+                                                                            return 'no item in cart';
+                                                                          }
+                                                                          if(double.parse(value) > 100 || double.parse(value) < 0) {
+                                                                            return 'invalid amount';
+                                                                          }
+                                                                        }
+                                                                        return null;
+                                                                      },
+                                                                      // initialText: 'mono0926@gmail.com',
+                                                                    ),
+                                                                  ],
+                                                                  title: VDiscount,
+                                                                  message: 'Add Discount Percent to Cart',
+                                                                );
+                                                                mystate(() {
+                                                                  discount =double.parse(percentage![0].toString());
+                                                                  print('disss ' + discount.toString());
+                                                                });
+                                                              }
+                                                              print('dis' + result.toString());
+                                                              setState(() {
+                                                                print('do something');
                                                               });
                                                             }
-                                                            print('dis' + result.toString());
-                                                            setState(() {
-                                                              print('do something');
-                                                            });
                                                           }
-                                                        }
-
-
-                                                      } else {
-                                                        final result = await showModalActionSheet<String>(
-                                                          context: context,
-                                                          title: 'Choose discount type',
-                                                          actions: [
-                                                            SheetAction(
-                                                              icon: Icons.error,
-                                                              label: 'Amount',
-                                                              key: 'amount',
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                          (MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                              2) -
+                                                              22.5,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10.0),
+                                                              color: AppTheme.buttonColor2),
+                                                          child: Center(
+                                                            child: Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left:
+                                                                  8.0,
+                                                                  right:
+                                                                  8.0,
+                                                                  bottom:
+                                                                  3),
+                                                              child: Container(
+                                                                  child: Text(
+                                                                    VDiscount,
+                                                                    textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                    style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize:
+                                                                        17,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                        color: Colors
+                                                                            .black),
+                                                                    strutStyle: StrutStyle(
+                                                                      height: 1.3,
+                                                                      // fontSize:,
+                                                                      forceStrutHeight: true,
+                                                                    ),
+                                                                  )),
                                                             ),
-                                                            SheetAction(
-                                                              icon: Icons.warning,
-                                                              label: 'Percent',
-                                                              key: 'percent',
-                                                            ),
-                                                          ],
-                                                        );
-
-                                                        if(result != null) {
-                                                          mystate(() {
-                                                            isDiscount = result.toString();
-                                                          });
-
-                                                          if (result == 'amount') {
-                                                            final amount = await showTextInputDialog(
-                                                              context: context,
-                                                              textFields: [
-                                                                DialogTextField(
-                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                  // inputFormatters: <TextInputFormatter>[
-                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                  hintText: '0',
-                                                                  suffixText: '$currencyUnit  ',
-                                                                  validator: (value) {
-                                                                    if (value == null || value.isEmpty) {
-                                                                      // return '';
-                                                                      return 'this field is required ';
-                                                                    } else {
-                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                        return 'no item in cart';
-                                                                      } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                        return 'much less than total sale';
-                                                                      } else if(double.parse(value) < 0) {
-                                                                        return 'invalid amount';
-                                                                      }
-                                                                    }
-                                                                    return null;
-                                                                  },
-                                                                  // initialText: 'mono0926@gmail.com',
-                                                                ),
-                                                              ],
-                                                              title: VDiscount,
-                                                              message: 'Add Discount Amount to Cart',
-                                                            );
-                                                            mystate(() {
-                                                              discount =double.parse(amount![0].toString());
-                                                              print('disss ' + discount.toString());
-                                                            });
-
-                                                          } else if(result == 'percent') {
-                                                            final percentage = await showTextInputDialog(
-                                                              context: context,
-                                                              textFields: [
-                                                                DialogTextField(
-                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                  // inputFormatters: <TextInputFormatter>[
-                                                                  //   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                  hintText: '0',
-                                                                  suffixText: '%  ',
-                                                                  validator: (value) {
-                                                                    if (value == null || value.isEmpty) {
-                                                                      // return '';
-                                                                      return 'this field is required ';
-                                                                    } else {
-                                                                      if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                        return 'no item in cart';
-                                                                      }
-                                                                      if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                        return 'invalid amount';
-                                                                      }
-                                                                    }
-                                                                    return null;
-                                                                  },
-                                                                  // initialText: 'mono0926@gmail.com',
-                                                                ),
-                                                              ],
-                                                              title: VDiscount,
-                                                              message: 'Add Discount Percent to Cart',
-                                                            );
-                                                            mystate(() {
-                                                              discount =double.parse(percentage![0].toString());
-                                                              print('disss ' + discount.toString());
-                                                            });
-                                                          }
-                                                          print('dis' + result.toString());
-                                                          setState(() {
-                                                            print('do something');
-                                                          });
-                                                        }
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      width:
-                                                      (MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                          2) -
-                                                          22.5,
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(10.0),
-                                                          color: AppTheme.buttonColor2),
-                                                      child: Center(
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              left:
-                                                              8.0,
-                                                              right:
-                                                              8.0,
-                                                              bottom:
-                                                              3),
-                                                          child: Container(
-                                                              child: Text(
-                                                                VDiscount,
-                                                                textAlign:
-                                                                TextAlign
-                                                                    .center,
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize:
-                                                                    17,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                    color: Colors
-                                                                        .black),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.3,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
-                                                                ),
-                                                              )),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                              stream: FirebaseFirestore.instance
-                                                  .collection('shops')
-                                                  .doc(shopId)
-                                                  .collection('customers')
-                                                  .doc(customerId.split('^')[0].toString())
-                                                  .snapshots(),
-                                              builder: (BuildContext context, snapshot5) {
-                                                if(snapshot5.hasData){
-                                                  var output3 = snapshot5.data!.data();
-                                                  var address = output3?['customer_address'];
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 67.0,
-                                                        left: 0.0,
-                                                        right: 0.0,
-                                                        bottom: 138
-                                                    ),
-                                                    child: Container(
-                                                        child: ListView(
-                                                          children: [
-                                                            Stack(
+                                              StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                                                  stream: FirebaseFirestore.instance
+                                                      .collection('shops')
+                                                      .doc(shopId)
+                                                      .collection('customers')
+                                                      .doc(customerId.split('^')[0].toString())
+                                                      .snapshots(),
+                                                  builder: (BuildContext context, snapshot5) {
+                                                    if(snapshot5.hasData){
+                                                      var output3 = snapshot5.data!.data();
+                                                      var address = output3?['customer_address'];
+                                                      return Padding(
+                                                        padding: EdgeInsets.only(
+                                                            top: 67.0,
+                                                            left: 0.0,
+                                                            right: 0.0,
+                                                            bottom: 138
+                                                        ),
+                                                        child: Container(
+                                                            child: ListView(
                                                               children: [
+                                                                Stack(
+                                                                  children: [
 
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top: 19.0),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      GestureDetector(
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 19.0),
+                                                                      child: Column(
+                                                                        children: [
+                                                                          GestureDetector(
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                mystate(() {
+                                                                                  customerId = 'name^name';
+                                                                                });
+                                                                              });
+                                                                            },
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  SizedBox(width: 1),
+                                                                                  Container(
+                                                                                    height: 58,
+                                                                                    width: 58,
+                                                                                    decoration: BoxDecoration(
+                                                                                        borderRadius:
+                                                                                        BorderRadius.circular(
+                                                                                            5.0),
+                                                                                        color: AppTheme.buttonColor2
+                                                                                    ),
+                                                                                    child: Icon(
+                                                                                      SmartKyat_POS.order,
+                                                                                      size: 25,
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(width: 15),
+                                                                                  Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: [
+                                                                                      Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                      // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                      //     style: TextStyle(
+                                                                                      //       fontSize: 14,
+                                                                                      //       color: Colors.grey
+                                                                                      //     )),
+                                                                                    ],
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(height: 8,),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                                            child: Container(height: 12,
+                                                                              decoration: BoxDecoration(
+                                                                                  border: Border(
+                                                                                    bottom:
+                                                                                    BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                                  )),),
+                                                                          ),
+
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    customerId != 'name^name' ? Positioned(
+                                                                      top : 11,
+                                                                      right: MediaQuery.of(context).size.width - 80,
+                                                                      child: GestureDetector(
                                                                         onTap: () {
                                                                           setState(() {
                                                                             mystate(() {
@@ -8736,1548 +8820,517 @@ class HomePageState extends State<HomePage>
                                                                             });
                                                                           });
                                                                         },
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                          child: Row(
-                                                                            children: [
-                                                                              SizedBox(width: 1),
-                                                                              Container(
-                                                                                height: 58,
-                                                                                width: 58,
-                                                                                decoration: BoxDecoration(
-                                                                                    borderRadius:
-                                                                                    BorderRadius.circular(
-                                                                                        5.0),
-                                                                                    color: AppTheme.buttonColor2
-                                                                                ),
-                                                                                child: Icon(
-                                                                                  SmartKyat_POS.order,
-                                                                                  size: 25,
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(width: 15),
-                                                                              Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                children: [
-                                                                                  Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                  // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                  //     style: TextStyle(
-                                                                                  //       fontSize: 14,
-                                                                                  //       color: Colors.grey
-                                                                                  //     )),
-                                                                                ],
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(height: 8,),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 15.0),
-                                                                        child: Container(height: 12,
+                                                                        child: Container(
+                                                                          // height: 20,
+                                                                          // width: 30,
+                                                                          alignment: Alignment.center,
                                                                           decoration: BoxDecoration(
-                                                                              border: Border(
-                                                                                bottom:
-                                                                                BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                                                              )),),
-                                                                      ),
-
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                customerId != 'name^name' ? Positioned(
-                                                                  top : 11,
-                                                                  right: MediaQuery.of(context).size.width - 80,
-                                                                  child: GestureDetector(
-                                                                    onTap: () {
-                                                                      setState(() {
-                                                                        mystate(() {
-                                                                          customerId = 'name^name';
-                                                                        });
-                                                                      });
-                                                                    },
-                                                                    child: Container(
-                                                                      // height: 20,
-                                                                      // width: 30,
-                                                                      alignment: Alignment.center,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Color(0xffE9625E),
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0),
-                                                                          border: Border.all(
-                                                                            color: Colors.white,
-                                                                            width: 2,
-                                                                          )),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                        child: Icon(
-                                                                          Icons.close_rounded,
-                                                                          size: 13,
-                                                                          color: Colors.white,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ): Container(),
-                                                              ],
-                                                            ),
-                                                            for (int i = 0; i < prodList.length; i++)
-                                                              prodInCart(prodList[i], i),
-                                                            Slidable(
-                                                              key: UniqueKey(),
-                                                              actionPane:
-                                                              SlidableDrawerActionPane(),
-                                                              actionExtentRatio:
-                                                              0.25,
-                                                              child: Container(
-                                                                color: Colors.white,
-                                                                child: Column(
-                                                                  children: [
-                                                                    discount != 0.0 ? Container(
-                                                                      child: isDiscount == 'percent' ?
-                                                                      ListTile(
-                                                                        title: Text(VDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                        subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
-                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                        )),
-                                                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                      ) :  ListTile (
-                                                                        title: Text(VDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                        subtitle: Text('Amount applied', style: TextStyle(
-                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                        )),
-                                                                        trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                      ),
-                                                                    ) : Container(),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              dismissal:
-                                                              SlidableDismissal(
-                                                                child: SlidableDrawerDismissal(),
-                                                                onDismissed:
-                                                                    (actionType) {
-                                                                  mystate(() {
-                                                                    discountAmount = 0.0;
-                                                                    discount = 0.0;
-                                                                  });
-                                                                },
-                                                              ),
-                                                              secondaryActions: <
-                                                                  Widget>[
-                                                                IconSlideAction(
-                                                                  caption: 'Delete',
-                                                                  color: Colors.red,
-                                                                  icon:
-                                                                  Icons.delete,
-                                                                  onTap: () =>
-                                                                      mystate(() {
-                                                                        discountAmount = 0.0;
-                                                                        discount =0.0;
-                                                                      }),
-                                                                ),
-                                                              ],
-                                                            ),
-
-
-                                                            // orderLoading?Text('Loading'):Text('')
-                                                          ],
-                                                        )),
-                                                  );
-                                                }
-                                                return Container();
-                                              }),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border(
-                                                      top: BorderSide(
-                                                          color:
-                                                          AppTheme.skBorderColor2,
-                                                          width: 1.0),
-                                                    )),
-                                                width: double.infinity,
-                                                height: 138,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                                  children: [
-                                                    ListTile(
-                                                      title: Text(
-                                                        textSetTotalSale,
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500),
-                                                        strutStyle: StrutStyle(
-                                                          height: isEnglish? 1.4: 1.6,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                      subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',
-                                                        style: TextStyle(
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1
-                                                        ),
-                                                      ) : Text(totalItems() + ' $textSetItemSets',
-                                                        style: TextStyle(
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1
-                                                        ),
-                                                      ),
-                                                      trailing: Text('$currencyUnit '+
-                                                          TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                        style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500),
-                                                      ),
-                                                    ),
-                                                    prodList.length != 0 ? Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                      child: GestureDetector(
-                                                        onTap: () async {
-                                                          //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                          print('productList' + prodList.toString());
-                                                          setState(() {
-                                                            mystate(() {
-                                                              totalAmount = double.parse(TtlProdListPrice().toString());
-
-                                                            });
-                                                          });
-                                                          print('totalAmount '+ totalAmount.toString());
-                                                          _controller.animateTo(1);
-                                                          if(_textFieldController.text == '') {
-                                                            debt = double.parse(TtlProdListPrice().toString());}
-                                                        },
-                                                        child: Container(
-                                                          width: MediaQuery.of(context).size.width - 30,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.circular(10.0),
-                                                              color: AppTheme.themeColor),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
-                                                                  child: Container(
-                                                                      child: Text(
-                                                                        textSetCheckOut,
-                                                                        textAlign: TextAlign.center,
-                                                                        style: TextStyle(
-                                                                            height: 1.3,
-                                                                            fontSize: 17.5,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: isEnglish? 1.4: 1.6,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                      )
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ) :
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          print('productList' + prodList.toString());
-                                                        },
-                                                        child: Container(
-                                                          width: MediaQuery.of(context).size.width - 30,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.circular(10.0),
-                                                              color: AppTheme.themeColor),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.5),
-                                                                  child: Container(
-                                                                      child: Text(
-                                                                        textSetCheckOut,
-                                                                        textAlign: TextAlign.center,
-                                                                        style: TextStyle(
-                                                                            height: 1.3,
-                                                                            fontSize: 17.5,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: isEnglish? 1.4: 1.6,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                      )
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0),
-                                        ),
-                                        color: Colors.white,
-                                      ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 67,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0))),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 5.0,
-                                                    bottom: 0.0
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], style: TextStyle(
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey
-                                                    ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1.2
-                                                        )),
-                                                    SizedBox(height: 2.5),
-                                                    Text('Cash acceptance', style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 19
-                                                    ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1.6
-                                                        )
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 67.0,
-                                                  left: 0.0,
-                                                  right: 0.0,
-                                                  bottom: homeBotPadding + 129
-                                              ),
-                                              child: Container(
-                                                  child: ListView(
-                                                    children: [
-                                                      Container(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                          child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                SizedBox(height: 15),
-                                                                Container(
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.all(
-                                                                          Radius.circular(10.0),
-                                                                        ),
-                                                                        border: Border.all(
-                                                                            color: Colors.grey.withOpacity(0.2),
-                                                                            width: 1.0),
-                                                                        color: AppTheme.lightBgColor),
-                                                                    height:  133,
-                                                                    width: MediaQuery.of(context).size.width,
-                                                                    child: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                                      children: [
-                                                                        Text('$textSetTotalSale - $currencyUnit',
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                            fontSize: 20,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: isEnglish? 1.4: 1.6,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 8),
-                                                                        Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                              fontSize: 23, fontWeight: FontWeight.w500,
-                                                                            )),
-                                                                      ],
-                                                                    )),
-                                                                SizedBox(height: 15),
-                                                                Text(textSetCashRec, style: TextStyle(
-                                                                  letterSpacing: 2,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 14,color: Colors.grey,
-                                                                ),),
-                                                                SizedBox(height: 15),
-                                                                TextField(
-                                                                  style: TextStyle(
-                                                                      height: 0.95
-                                                                  ),
-                                                                  decoration: InputDecoration(
-                                                                    enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                        borderSide: const BorderSide(
-                                                                            color: AppTheme.skBorderColor,
-                                                                            width: 2.0),
-                                                                        borderRadius: BorderRadius.all(
-                                                                            Radius.circular(10.0))),
-
-                                                                    focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                        borderSide: const BorderSide(
-                                                                            color: AppTheme.themeColor,
-                                                                            width: 2.0),
-                                                                        borderRadius: BorderRadius.all(
-                                                                            Radius.circular(10.0))),
-                                                                    contentPadding: const EdgeInsets.only(
-                                                                        left: 15.0,
-                                                                        right: 15.0,
-                                                                        top: 20.0,
-                                                                        bottom: 20.0),
-                                                                    suffixText: '$currencyUnit' ,
-                                                                    // tooltip: 'Increase volume by 10',
-                                                                    suffixStyle: TextStyle(
-                                                                      color: Colors.grey,
-                                                                      fontSize: 15,
-                                                                      fontFamily: 'capsulesans',
-                                                                    ),
-                                                                    errorStyle: TextStyle(
-                                                                        backgroundColor: Colors.white,
-                                                                        fontSize: 12,
-                                                                        fontFamily: 'capsulesans',
-                                                                        height: 0.1
-                                                                    ),
-                                                                    labelStyle: TextStyle(
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Colors.black,
-                                                                    ),
-// errorText: 'Error message',
-                                                                    labelText: textSetCusPrice,
-                                                                    floatingLabelBehavior:
-                                                                    FloatingLabelBehavior.auto,
-//filled: true,
-                                                                    border: OutlineInputBorder(
-                                                                      borderRadius: BorderRadius.circular(10),
-                                                                    ),
-                                                                  ),
-                                                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                  inputFormatters: <TextInputFormatter>[
-                                                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                  onChanged: (value) {
-                                                                    mystate(() async {
-                                                                      //  String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                      totalAmount = double.parse(TtlProdListPrice().toString());
-                                                                      value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                      if((totalAmount - paidAmount).isNegative){
-                                                                        debt = 0;
-                                                                      } else { debt = (totalAmount - paidAmount);
-                                                                      }
-                                                                      if((paidAmount - totalAmount).isNegative){
-                                                                        refund = 0;
-                                                                      } else { refund = (paidAmount - totalAmount);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  controller: _textFieldController,
-                                                                ),
-                                                                SizedBox(height: 15),
-                                                                ButtonTheme(
-                                                                  minWidth: double.infinity,
-                                                                  //minWidth: 50,
-                                                                  splashColor: AppTheme.buttonColor2,
-                                                                  height: 50,
-                                                                  child: FlatButton(
-                                                                    color: AppTheme.buttonColor2,
-                                                                    shape: RoundedRectangleBorder(
-                                                                      borderRadius: BorderRadius.circular(7.0),
-                                                                    ),
-                                                                    onPressed: () async {
-                                                                      setState(() {
-                                                                        mystate(() {
-                                                                          //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                          totalAmount =
-                                                                              double
-                                                                                  .parse(
-                                                                                  TtlProdListPrice().toString());
-                                                                          _textFieldController
-                                                                              .text =
-                                                                              totalAmount
-                                                                                  .toString();
-                                                                          paidAmount =
-                                                                              totalAmount;
-                                                                          if ((totalAmount -
-                                                                              paidAmount)
-                                                                              .isNegative) {
-                                                                            debt = 0;
-                                                                          } else {
-                                                                            debt =
-                                                                            (totalAmount -
-                                                                                paidAmount);
-                                                                          }
-                                                                          if ((paidAmount -
-                                                                              totalAmount)
-                                                                              .isNegative) {
-                                                                            refund =
-                                                                            0;
-                                                                          } else {
-                                                                            refund =
-                                                                            (paidAmount -
-                                                                                totalAmount);
-                                                                          }
-                                                                        });
-                                                                      });
-                                                                    },
-                                                                    child: Container(
-                                                                      child: Text( '$currencyUnit ' +
-                                                                          TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                        style: TextStyle(
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontSize: 17
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(height: 20),
-                                                              ]
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // orderLoading?Text('Loading'):Text('')
-                                                    ],
-                                                  )),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                            color:
-                                                            AppTheme.skBorderColor2,
-                                                            width: 1.0),
-                                                      )),
-                                                  width: double.infinity,
-                                                  height: 138,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                    children: [
-                                                      debt!= 0 ? ListTile(
-                                                        title: Text(
-                                                          textSetDebtAmt,
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          strutStyle: StrutStyle(
-                                                              forceStrutHeight: true,
-                                                              height: 1.3
-                                                          ),
-                                                        ),
-                                                        trailing: Text('- $currencyUnit '+
-                                                            debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                        ),
-                                                      ) : ListTile(
-                                                        title: Text(
-                                                          textSetCashRef,
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          strutStyle: StrutStyle(
-                                                              forceStrutHeight: true,
-                                                              height: 1.3
-                                                          ),
-                                                        ),
-                                                        trailing: Text('$currencyUnit '+
-                                                            refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                          child: Row(
-                                                              children: [
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    setState((){
-                                                                      mystate(()  {
-                                                                        //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                        _controller.animateTo(0);
-                                                                        _textFieldController.clear();
-                                                                        paidAmount = 0;
-                                                                        debt = 0;
-                                                                        refund = 0;
-                                                                        totalAmount = double.parse(TtlProdListPrice().toString());
-                                                                      });
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                    height: 50,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(10.0),
-                                                                        color: AppTheme.secButtonColor),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
+                                                                              color: Color(0xffE9625E),
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  10.0),
+                                                                              border: Border.all(
+                                                                                color: Colors.white,
+                                                                                width: 2,
+                                                                              )),
                                                                           child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  textSetBack,
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                )
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                            child: Icon(
+                                                                              Icons.close_rounded,
+                                                                              size: 13,
+                                                                              color: Colors.white,
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
+                                                                      ),
+                                                                    ): Container(),
+                                                                  ],
                                                                 ),
-                                                                Spacer(),
-                                                                GestureDetector(
-                                                                  onTap: () async {
-
-                                                                    WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                                                                    discountAmount = discount;
-                                                                    subList = [];
-                                                                    DateTime now = DateTime.now();
-                                                                    int length = 0;
-                                                                    int totalOrders = 0;
-                                                                    int debts = 0;
-                                                                    var dateExist = false;
-                                                                    var dateId = '';
-                                                                    var monthId = '';
-                                                                    bool monthExist = false;
-                                                                    var yearId = '';
-                                                                    bool yearExist = false;
-                                                                    bool reFilter = false;
-                                                                    bool deFilter = false;
-                                                                    double debtAmounts = 0 ;
-                                                                    mystate(() {
-                                                                      setState(() {
-                                                                        orderCreating = true;
-                                                                        disableTouch = true;
-                                                                        //    saleCartDrag = false;
-                                                                      });
-                                                                    });
-                                                                    Navigator.of(context).push(
-                                                                        FadeRoute(page: Transparent(key: tranGlobalKey),)
-                                                                    );
-
-                                                                    print('order creating');
-
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
-                                                                        .get().then((value) async {
-                                                                      length = int.parse(value.data()!['count'].toString());
-                                                                      print('lengthsss' + length.toString());
-                                                                      length = length + 1;
-
-                                                                      orderLength = length;
-
-                                                                      print('CHECK POINT 0' + deviceIdNum.toString());
-                                                                      print('CHECK POINT 1');
-
-                                                                      batch = await updateOrderLength(batch);
-
-                                                                      print('datacheck' + prodList.toString());
-                                                                      for (int k=0; k< prodList.length;  k++) {
-                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-
-                                                                        subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
-
-                                                                        // productsFire.doc(prodList[k].split('^')[0])
-                                                                        //     .get().then((val22) async {
-                                                                        //
-                                                                        // });
-
-                                                                        // List<String> subLink = [];
-                                                                        // List<String> subName = [];
-                                                                        // List<double> subStock = [];
-
-                                                                        // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                        //     .get();
-
-
-
-                                                                        // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                        //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                        //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                        //   print('inStock' + (i+1).toString());
-                                                                        //   print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                        //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                        // }
-
-                                                                        // print(subStock.toString());
-                                                                        print('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
-
-                                                                        if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                          batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
-                                                                          print('decStock ' + prodList[k].split('^')[0].toString());
-                                                                          //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                          //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                          // if ( k == prodList.length-1) {
-                                                                          //   batch.commit();
-                                                                          // }
-                                                                          //print('batch complete');
-                                                                          // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                        }
-                                                                        else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                          print('decStock1 ' + prodList[k].split('^')[9].toString());
-                                                                          batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                          // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                          //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                          //});
-                                                                        }
-                                                                        else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                          batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                          // productsFire.doc(str.split('^')[0]).update({
-                                                                          //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                          // });
-                                                                        }
-                                                                      }
-
-                                                                      if( debt.toString() != '0.0') {
-                                                                        debts = 1;
-                                                                        debtAmounts = debt;
-                                                                        deFilter = true;
-                                                                      } else {
-                                                                        debts = 0;
-                                                                        debtAmounts = 0;
-                                                                        deFilter = false;
-                                                                      }
-
-                                                                      print('subList ' + subList.toString());
-
-                                                                      totalOrders = totalOrders + 1;
-                                                                      //CusOrder(totalOrders, debts, debtAmounts);
-
-                                                                      batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
-
-                                                                      DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                      batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
-                                                                      batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
-
-
-                                                                      batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                      DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
-
-                                                                      // if (dateExist) {
-                                                                      //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                      //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
-                                                                      //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                      //
-                                                                      //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                      //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                      //   print('adddateexist added');
-                                                                      // }
-                                                                      // else {
-                                                                      //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                      //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                      //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
-                                                                      //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                      //   print('adddateexist not');
-                                                                      // }
-                                                                      print('prodList--' + prodList.toString());
-                                                                      try {
-                                                                        batch.commit();
-                                                                        Future.delayed(const Duration(milliseconds: 2000), () {
-                                                                          List<String> subNameList = [];
-                                                                          int subNameListLength = 0;
-                                                                          for (String str in prodList) {
-                                                                            subNameListLength = subNameListLength + 1;
-                                                                            subNameList.add(str.split('^')[7]);
-                                                                            if(prodList.length == subNameListLength) {
-                                                                              print('fianlize : ' + subNameList.toString());
-                                                                              // final date = DateTime.now();
-                                                                              final date = now;
-                                                                              final dueDate = date.add(Duration(days: 7));
-                                                                              print('CUZMER CHECK ' + customerId.toString());
-                                                                              for(int i=0; i<prodList.length; i++) {
-                                                                                productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
-                                                                              }
-                                                                              saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
-                                                                              final invoice = Invoice(
-                                                                                supplier: Supplier(
-                                                                                  name: shopGloName,
-                                                                                  address: shopGloAddress,
-                                                                                  phone: shopGloPhone,
-                                                                                  paymentInfo: '',
-                                                                                ),
-                                                                                customer: Customer(
-                                                                                  name: customerId.split('^')[1],
-                                                                                  address: '',
-                                                                                ),
-                                                                                info: InvoiceInfo(
-                                                                                    date: date,
-                                                                                    dueDate: dueDate,
-                                                                                    description: 'My description...',
-                                                                                    // number: '${DateTime.now().year}-9999',
-                                                                                    number: deviceIdNum.toString() + '-' + length.toString()
-                                                                                ),
-                                                                                items: [
-
-                                                                                  for(int i=0; i<prodList.length; i++)
-                                                                                    InvoiceItem(
-                                                                                      description: prodList[i].split('^')[6],
-                                                                                      // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                      date: subNameList[i].toString(),
-                                                                                      quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                      vat: discountAmount,
-                                                                                      debt: debt,
-                                                                                      type: disText,
-                                                                                      unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                      currencyUnit: currencyUnit,
-                                                                                      totalPriceText: totalVPrice,
-                                                                                      paidText: VPaid,
-                                                                                      totalDebtText: VDebt,
-                                                                                      subTotalText: subVTotal,
-                                                                                      discountText: VDiscount,
-                                                                                    )
-
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Water',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 8,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 0.99,
-                                                                                  // ),
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Orange',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 3,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 2.99,
-                                                                                  // ),
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Apple',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 8,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 3.99,
-                                                                                  // ),
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Mango',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 1,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 1.59,
-                                                                                  // ),
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Blue Berries',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 5,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 0.99,
-                                                                                  // ),
-                                                                                  // InvoiceItem(
-                                                                                  //   description: 'Black',
-                                                                                  //   date: DateTime.now(),
-                                                                                  //   quantity: 4,
-                                                                                  //   vat: 0.19,
-                                                                                  //   unitPrice: 1.29,
-                                                                                  // ),
-                                                                                ],
-                                                                              );
-                                                                              sellDone = true;
-                                                                              _controllerTablet.animateTo(0);
-
-                                                                              getPaperId().then((value) async {
-                                                                                print('VVAALLUUEE ' + value.toString());
-                                                                                pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                Uint8List bytes = pdfFile!.readAsBytesSync();
-
-
-                                                                                Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                  setState(() {
-                                                                                    mystate(() {
-                                                                                      // setState(() {
-                                                                                      pdfText = pdfFile!.path.toString();
-                                                                                      // });
-
-                                                                                      orderCreating = false;
-                                                                                      disableTouch = false;
-                                                                                      // saleCartDrag = false;
-                                                                                    });
-                                                                                  });
-                                                                                  // print('saleCartDrag ' + saleCartDrag.toString());
-                                                                                  tranGlobalKey.currentState!.disLoading();
-                                                                                  _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                });
-                                                                              });
-                                                                            }
-                                                                          }
-                                                                        });
-                                                                      } catch(error) {
-                                                                        print('error while creating orders');
-                                                                        smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
-                                                                        setState(() {
-                                                                          mystate(() {
-                                                                            orderCreating = false;
-                                                                            disableTouch = false;
-                                                                            // saleCartDrag = false;
-                                                                          });
-                                                                        });
-                                                                      }
-
-
-
-
-
-
-                                                                    });
-                                                                  },
+                                                                for (int i = 0; i < prodList.length; i++)
+                                                                  prodInCart(prodList[i], i),
+                                                                Slidable(
+                                                                  key: UniqueKey(),
+                                                                  actionPane:
+                                                                  SlidableDrawerActionPane(),
+                                                                  actionExtentRatio:
+                                                                  0.25,
                                                                   child: Container(
-                                                                    width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                    height: 50,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(10.0),
-                                                                        color: AppTheme.themeColor),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
+                                                                    color: Colors.white,
+                                                                    child: Column(
                                                                       children: [
-                                                                        Expanded(
-                                                                            child: orderCreating? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                child: CupertinoActivityIndicator(radius: 10,)): Padding(
-                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                              child: Container(
-                                                                                  child: Text(
-                                                                                    textSetDone,
-                                                                                    textAlign: TextAlign.center,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 17.5,
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        color: Colors.black
-                                                                                    ),
-                                                                                    strutStyle: StrutStyle(
-                                                                                      height: 1.3,
-                                                                                      // fontSize:,
-                                                                                      forceStrutHeight: true,
-                                                                                    ),
-                                                                                  )
-                                                                              ),
-                                                                            )
-                                                                        ),
+                                                                        discount != 0.0 ? Container(
+                                                                          child: isDiscount == 'percent' ?
+                                                                          ListTile(
+                                                                            title: Text(VDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                            subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
+                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                            )),
+                                                                            trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                          ) :  ListTile (
+                                                                            title: Text(VDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                            subtitle: Text('Amount applied', style: TextStyle(
+                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                            )),
+                                                                            trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                          ),
+                                                                        ) : Container(),
                                                                       ],
                                                                     ),
                                                                   ),
+                                                                  dismissal:
+                                                                  SlidableDismissal(
+                                                                    child: SlidableDrawerDismissal(),
+                                                                    onDismissed:
+                                                                        (actionType) {
+                                                                      mystate(() {
+                                                                        discountAmount = 0.0;
+                                                                        discount = 0.0;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                  secondaryActions: <
+                                                                      Widget>[
+                                                                    IconSlideAction(
+                                                                      caption: 'Delete',
+                                                                      color: Colors.red,
+                                                                      icon:
+                                                                      Icons.delete,
+                                                                      onTap: () =>
+                                                                          mystate(() {
+                                                                            discountAmount = 0.0;
+                                                                            discount =0.0;
+                                                                          }),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ]
-                                                          )
-                                                      )
-                                                    ],
+
+
+                                                                // orderLoading?Text('Loading'):Text('')
+                                                              ],
+                                                            )),
+                                                      );
+                                                    }
+                                                    return Container();
+                                                  }),
+                                              Align(
+                                                alignment: Alignment.bottomCenter,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border(
+                                                          top: BorderSide(
+                                                              color:
+                                                              AppTheme.skBorderColor2,
+                                                              width: 1.0),
+                                                        )),
+                                                    width: double.infinity,
+                                                    height: 138,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                      children: [
+                                                        ListTile(
+                                                          title: Text(
+                                                            textSetTotalSale,
+                                                            style: TextStyle(
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                            strutStyle: StrutStyle(
+                                                              height: isEnglish? 1.4: 1.6,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                          ),
+                                                          subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',
+                                                            style: TextStyle(
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1
+                                                            ),
+                                                          ) : Text(totalItems() + ' $textSetItemSets',
+                                                            style: TextStyle(
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1
+                                                            ),
+                                                          ),
+                                                          trailing: Text('$currencyUnit '+
+                                                              TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                            style: TextStyle(
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                          ),
+                                                        ),
+                                                        prodList.length != 0 ? Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                          child: GestureDetector(
+                                                            onTap: () async {
+                                                              //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                              print('productList' + prodList.toString());
+                                                              setState(() {
+                                                                mystate(() {
+                                                                  totalAmount = double.parse(TtlProdListPrice().toString());
+
+                                                                });
+                                                              });
+                                                              print('totalAmount '+ totalAmount.toString());
+                                                              _controller.animateTo(1);
+                                                              if(_textFieldController.text == '') {
+                                                                debt = double.parse(TtlProdListPrice().toString());}
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery.of(context).size.width - 30,
+                                                              height: 50,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(10.0),
+                                                                  color: AppTheme.themeColor),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3),
+                                                                      child: Container(
+                                                                          child: Text(
+                                                                            textSetCheckOut,
+                                                                            textAlign: TextAlign.center,
+                                                                            style: TextStyle(
+                                                                                height: 1.3,
+                                                                                fontSize: 17.5,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                            strutStyle: StrutStyle(
+                                                                              height: isEnglish? 1.4: 1.6,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+                                                                          )
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ) :
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              print('productList' + prodList.toString());
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery.of(context).size.width - 30,
+                                                              height: 50,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(10.0),
+                                                                  color: AppTheme.themeColor),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.5),
+                                                                      child: Container(
+                                                                          child: Text(
+                                                                            textSetCheckOut,
+                                                                            textAlign: TextAlign.center,
+                                                                            style: TextStyle(
+                                                                                height: 1.3,
+                                                                                fontSize: 17.5,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                            strutStyle: StrutStyle(
+                                                                              height: isEnglish? 1.4: 1.6,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+                                                                          )
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0),
-                                        ),
-                                        color: Colors.white,
-                                      ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        child:
-                                        Stack(
-                                          children: [
-                                            Container(
-                                              width: double.infinity,
-                                              height: 67,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0))),
-                                              child:
-
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 6),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
+                                            color: Colors.white,
+                                          ),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 67,
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.3),
+                                                              width: 1.0))),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 5.0,
+                                                        bottom: 0.0
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
+                                                        Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             color: Colors.grey
-                                                        )),
-                                                        SizedBox(width: 5),
-                                                        if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                        else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                        else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
-                                                          else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                        ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1.2
+                                                            )),
+                                                        SizedBox(height: 2.5),
+                                                        Text('Cash acceptance', style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 19
+                                                        ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1.6
+                                                            )
+                                                        ),
                                                       ],
                                                     ),
-                                                    SizedBox(height: 2.5),
-                                                    Text(productName, style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 19
-                                                    ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1.6,
-                                                          forceStrutHeight: true,
-                                                        )
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            eachProd.length !=0 ? Stack(
-                                              children: [
-                                                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                  stream: FirebaseFirestore.instance
-                                                      .collection('shops')
-                                                      .doc(shopId)
-                                                      .collection('collArr')
-                                                      .doc('prodsArr')
-                                                      .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
-                                                  if (snapshot2.hasData) {
-                                                    var output2 = snapshot2.data != null? snapshot2.data!.data(): null;
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          top: 67.0,
-                                                          left: 15.0,
-                                                          right: 15.0),
-                                                      child: Container(
-                                                          child: ListView(
-                                                            children: [
-                                                              Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  SizedBox(height: 15),
-                                                                  Text(textSetQty, style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontSize: 14,
-                                                                    letterSpacing: 2,
-                                                                    color: Colors.grey,
-                                                                  ),),
-                                                                  SizedBox(height: 15),
-                                                                  Row(
-                                                                    children: [
-                                                                      GestureDetector(
-                                                                        onTap: () {
-                                                                          mystate(() {
-                                                                            quantity = double.parse(myController.text) -1;
-                                                                            myController.text = quantity.round().toString();
-                                                                            print('qqq' + quantity.toString());
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 60)/3,
-                                                                          height: 50,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.themeColor),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                top: 15.0,
-                                                                                bottom: 15.0),
-                                                                            child: Row(
-                                                                              mainAxisAlignment:
-                                                                              MainAxisAlignment
-                                                                                  .center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                    child: Container(
-                                                                                        child: Icon(
-                                                                                          Icons.remove, size: 20,
-                                                                                        )
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 67.0,
+                                                      left: 0.0,
+                                                      right: 0.0,
+                                                      bottom: homeBotPadding + 129
+                                                  ),
+                                                  child: Container(
+                                                      child: ListView(
+                                                        children: [
+                                                          Container(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                              child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(height: 15),
+                                                                    Container(
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.all(
+                                                                              Radius.circular(10.0),
                                                                             ),
-                                                                          ),
-                                                                        ),
+                                                                            border: Border.all(
+                                                                                color: Colors.grey.withOpacity(0.2),
+                                                                                width: 1.0),
+                                                                            color: AppTheme.lightBgColor),
+                                                                        height:  133,
+                                                                        width: MediaQuery.of(context).size.width,
+                                                                        child: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Text('$textSetTotalSale - $currencyUnit',
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(
+                                                                                fontSize: 20,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: isEnglish? 1.4: 1.6,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 8),
+                                                                            Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                  fontSize: 23, fontWeight: FontWeight.w500,
+                                                                                )),
+                                                                          ],
+                                                                        )),
+                                                                    SizedBox(height: 15),
+                                                                    Text(textSetCashRec, style: TextStyle(
+                                                                      letterSpacing: 2,
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 14,color: Colors.grey,
+                                                                    ),),
+                                                                    SizedBox(height: 15),
+                                                                    TextField(
+                                                                      style: TextStyle(
+                                                                          height: 0.95
                                                                       ),
-                                                                      SizedBox(width: 15),
-                                                                      Container(
-                                                                        width: (MediaQuery.of(context).size.width - 60)/3,
-                                                                        height: 50,
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                          inputFormatters: <TextInputFormatter>[
-                                                                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                          textAlign: TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              height: 0.95
-                                                                          ),
-                                                                          decoration: InputDecoration(
-                                                                            enabledBorder: const OutlineInputBorder(
+                                                                      decoration: InputDecoration(
+                                                                        enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                                                borderSide: const BorderSide(
-                                                                                    color: AppTheme.skBorderColor,
-                                                                                    width: 2.0),
-                                                                                borderRadius: BorderRadius.all(
-                                                                                    Radius.circular(10.0))),
+                                                                            borderSide: const BorderSide(
+                                                                                color: AppTheme.skBorderColor,
+                                                                                width: 2.0),
+                                                                            borderRadius: BorderRadius.all(
+                                                                                Radius.circular(10.0))),
 
-                                                                            focusedBorder: const OutlineInputBorder(
+                                                                        focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                                                borderSide: const BorderSide(
-                                                                                    color: AppTheme.themeColor,
-                                                                                    width: 2.0),
-                                                                                borderRadius: BorderRadius.all(
-                                                                                    Radius.circular(10.0))),
-                                                                            contentPadding: const EdgeInsets.only(
-                                                                                left: 15.0,
-                                                                                right: 15.0,
-                                                                                top: 20,
-                                                                                bottom: 20.0),
-                                                                            floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                                                            //filled: true,
-                                                                            border: OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                            ),
-                                                                          ),
-                                                                          //keyboardType: TextInputType.number,
-                                                                          onChanged: (value) {
-                                                                            setState(() {
-                                                                              quantity = double.parse(value);
-                                                                            });
-                                                                          },
-                                                                          controller: myController,
+                                                                            borderSide: const BorderSide(
+                                                                                color: AppTheme.themeColor,
+                                                                                width: 2.0),
+                                                                            borderRadius: BorderRadius.all(
+                                                                                Radius.circular(10.0))),
+                                                                        contentPadding: const EdgeInsets.only(
+                                                                            left: 15.0,
+                                                                            right: 15.0,
+                                                                            top: 20.0,
+                                                                            bottom: 20.0),
+                                                                        suffixText: '$currencyUnit' ,
+                                                                        // tooltip: 'Increase volume by 10',
+                                                                        suffixStyle: TextStyle(
+                                                                          color: Colors.grey,
+                                                                          fontSize: 15,
+                                                                          fontFamily: 'capsulesans',
+                                                                        ),
+                                                                        errorStyle: TextStyle(
+                                                                            backgroundColor: Colors.white,
+                                                                            fontSize: 12,
+                                                                            fontFamily: 'capsulesans',
+                                                                            height: 0.1
+                                                                        ),
+                                                                        labelStyle: TextStyle(
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black,
+                                                                        ),
+// errorText: 'Error message',
+                                                                        labelText: textSetCusPrice,
+                                                                        floatingLabelBehavior:
+                                                                        FloatingLabelBehavior.auto,
+//filled: true,
+                                                                        border: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(10),
                                                                         ),
                                                                       ),
-                                                                      SizedBox(width: 15),
-                                                                      GestureDetector(
-                                                                        onTap: () {
+                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                      inputFormatters: <TextInputFormatter>[
+                                                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                      onChanged: (value) {
+                                                                        mystate(() async {
+                                                                          //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          totalAmount = double.parse(TtlProdListPrice().toString());
+                                                                          value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                          if((totalAmount - paidAmount).isNegative){
+                                                                            debt = 0;
+                                                                          } else { debt = (totalAmount - paidAmount);
+                                                                          }
+                                                                          if((paidAmount - totalAmount).isNegative){
+                                                                            refund = 0;
+                                                                          } else { refund = (paidAmount - totalAmount);
+                                                                          }
+                                                                        });
+                                                                      },
+                                                                      controller: _textFieldController,
+                                                                    ),
+                                                                    SizedBox(height: 15),
+                                                                    ButtonTheme(
+                                                                      minWidth: double.infinity,
+                                                                      //minWidth: 50,
+                                                                      splashColor: AppTheme.buttonColor2,
+                                                                      height: 50,
+                                                                      child: FlatButton(
+                                                                        color: AppTheme.buttonColor2,
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(7.0),
+                                                                        ),
+                                                                        onPressed: () async {
                                                                           setState(() {
                                                                             mystate(() {
-                                                                              quantity = double.parse(myController.text) +1;
-                                                                              myController.text = quantity.round().toString();
-                                                                              print('qqq' + quantity.toString());
+                                                                              //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              totalAmount =
+                                                                                  double
+                                                                                      .parse(
+                                                                                      TtlProdListPrice().toString());
+                                                                              _textFieldController
+                                                                                  .text =
+                                                                                  totalAmount
+                                                                                      .toString();
+                                                                              paidAmount =
+                                                                                  totalAmount;
+                                                                              if ((totalAmount -
+                                                                                  paidAmount)
+                                                                                  .isNegative) {
+                                                                                debt = 0;
+                                                                              } else {
+                                                                                debt =
+                                                                                (totalAmount -
+                                                                                    paidAmount);
+                                                                              }
+                                                                              if ((paidAmount -
+                                                                                  totalAmount)
+                                                                                  .isNegative) {
+                                                                                refund =
+                                                                                0;
+                                                                              } else {
+                                                                                refund =
+                                                                                (paidAmount -
+                                                                                    totalAmount);
+                                                                              }
                                                                             });
                                                                           });
                                                                         },
                                                                         child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 60)/3,
-                                                                          height: 55,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.themeColor),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                top: 15.0,
-                                                                                bottom: 15.0),
-                                                                            child: Row(
-                                                                              mainAxisAlignment:
-                                                                              MainAxisAlignment
-                                                                                  .center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                    child: Container(
-                                                                                        child: Icon(
-                                                                                          Icons.add, size: 20,
-                                                                                        )
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
+                                                                          child: Text( '$currencyUnit ' +
+                                                                              TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 17
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(height: 15,),
-                                                                  Text(textSetCostPerUnit, style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontSize: 14,
-                                                                    letterSpacing: 2,
-                                                                    color: Colors.grey,
-                                                                  ),),
-                                                                  SizedBox(height: 15,),
-                                                                  TextFormField(
-                                                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                    inputFormatters: <TextInputFormatter>[
-                                                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                    controller: sellPriceController,
-                                                                    validator: (value) {
-                                                                      if (value == null || value.isEmpty) {
-                                                                        setState(() {
-                                                                          price2 = 0;
-                                                                        });
-                                                                        // return '';
-                                                                        return ' This field is required ';
-                                                                      }
-                                                                      return null;
-                                                                    },
-                                                                    style: TextStyle(
-                                                                        height: 0.95
                                                                     ),
-                                                                    maxLines: 1,
-                                                                    decoration: InputDecoration(
-                                                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                          borderSide: const BorderSide(
-                                                                              color: AppTheme.skBorderColor,
-                                                                              width: 2.0),
-                                                                          borderRadius: BorderRadius.all(
-                                                                              Radius.circular(10.0))),
-
-                                                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                          borderSide: const BorderSide(
-                                                                              color: AppTheme.themeColor,
-                                                                              width: 2.0),
-                                                                          borderRadius: BorderRadius.all(
-                                                                              Radius.circular(10.0))),
-                                                                      // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                                                                      // isDense: true,
-                                                                      contentPadding: const EdgeInsets.only(
-                                                                          left: 15.0,
-                                                                          right: 15.0,
-                                                                          top: 20,
-                                                                          bottom: 20.0),
-                                                                      suffixText: '$currencyUnit',
-                                                                      suffixStyle: TextStyle(
-                                                                        color: Colors.grey,
-                                                                        fontSize: 12,
-                                                                        fontFamily: 'capsulesans',
-                                                                      ),
-                                                                      //errorText: wrongEmail,
-                                                                      errorStyle: TextStyle(
-                                                                          backgroundColor: Colors.white,
-                                                                          fontSize: 12,
-                                                                          fontFamily: 'capsulesans',
-                                                                          height: 0.1
-                                                                      ),
-                                                                      labelStyle: TextStyle(
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.black,
-                                                                      ),
-// errorText: 'Error message',
-                                                                      labelText: textSetCustSale,
-                                                                      floatingLabelBehavior:
-                                                                      FloatingLabelBehavior.auto,
-//filled: true,
-                                                                      border: OutlineInputBorder(
-                                                                        borderRadius: BorderRadius.circular(10),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(height: 15,),
-                                                                  Text(textSetUnitPrice, style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontSize: 14,
-                                                                    letterSpacing: 2,
-                                                                    color: Colors.grey,
-                                                                  ),),
-                                                                  SizedBox(height: 15,),
-                                                                  // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                                  //   stream: FirebaseFirestore
-                                                                  //       .instance
-                                                                  //       .collection('space')
-                                                                  //       .doc(
-                                                                  //       '0NHIS0Jbn26wsgCzVBKT')
-                                                                  //       .collection('shops')
-                                                                  //       .doc(
-                                                                  //       shopId)
-                                                                  //       .collection('products')
-                                                                  //       .doc(eachProd.split('^')[0])
-                                                                  //       .snapshots(),
-                                                                  //   builder: (BuildContext context, snapshot2) {
-                                                                  //     if (snapshot2.hasData) {
-                                                                  // var output = snapshot2.data!.data();
-                                                                  // // var prodName = output?['prod_name'];
-                                                                  // var mainName = output?['unit_name'];
-                                                                  // var sub1Name = output?['sub1_name'];
-                                                                  // var sub2Name = output?['sub2_name'];
-                                                                  // // var sub3Name = output?['sub3_name'];
-                                                                  // var barcode = output?['bar_code'];
-                                                                  // // var mainPrice = output?['unit_sell'];
-                                                                  // // var sub1Price = output?['sub1_sell'];
-                                                                  // // var sub2Price = output?['sub2_sell'];
-                                                                  // // var sub3Price = output?['sub3_sell'];
-                                                                  // // var sub1Unit = output?['sub1_link'];
-                                                                  // // var sub2Unit = output?['sub2_link'];
-                                                                  // // var sub3Unit = output?['sub3_link'];
-                                                                  // // var subExist = output?['sub_exist'];
-                                                                  // var mainLoss = output?['Loss1'].round();
-                                                                  // var sub1Loss = output?['Loss2'].round();
-                                                                  // var sub2Loss = output?['Loss3'].round();
-                                                                  // var mainQty = output?['inStock1'].round();
-                                                                  // var sub1Qty = output?['inStock2'].round();
-                                                                  // var sub2Qty = output?['inStock3'].round();
-                                                                  // var image = output?['img_1'];
-                                                                  //return
-                                                                  Container(
-                                                                    height: 220,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.lightBgColor,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Container(
-                                                                            height: 55,
-                                                                            decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                                                color: Colors.grey
-                                                                                    .withOpacity(0.2),
-                                                                                width: 1.0))),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text(textSetSalePrice, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                ),),
-                                                                                Spacer(),
-                                                                                eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['sm']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) :
-                                                                                eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' + (output2?['prods'][productId]['s1']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) :  Text('$currencyUnit ' +  (output2?['prods'][productId]['s2']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          Container(
-                                                                            height: 55,
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border(
-                                                                                    bottom: BorderSide(
-                                                                                        color: Colors.grey
-                                                                                            .withOpacity(0.2),
-                                                                                        width: 1.0))),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text(textSetInStock, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                ),),
-                                                                                Spacer(),
-                                                                                eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['im']).round().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['i1']).round().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) : Text((output2?['prods'][productId]['i2']).round().toString().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          Container(
-                                                                            height: 55,
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border(
-                                                                                    bottom: BorderSide(
-                                                                                        color: Colors.grey
-                                                                                            .withOpacity(0.2),
-                                                                                        width: 1.0))),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text(textSetLoss, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                ),),
-                                                                                Spacer(),
-                                                                                eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['lm']).round().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['l1']).round().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),) : Text((output2?['prods'][productId]['l2']).round().toString() + ' ' + productLink, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          Container(
-                                                                            height: 55,
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text(textSetBarcode, style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                ),),
-                                                                                Spacer(),
-                                                                                Text((output2?['prods'][productId]['co']).toString(), style:
-                                                                                TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  //     }
-                                                                  //     return Container();
-                                                                  //   },
-                                                                  // ),
-                                                                ],
+                                                                    SizedBox(height: 20),
+                                                                  ]
                                                               ),
-                                                            ],
-                                                          )),
-
-                                                    );
-                                                  }
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(bottom: homeBotPadding),
-                                                    child: Container(
-                                                      child: Center(
-                                                        child: Padding(
-                                                          padding: EdgeInsets.only(bottom: 15.0),
-                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                              child: CupertinoActivityIndicator(radius: 15,)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
+                                                            ),
+                                                          ),
+                                                          // orderLoading?Text('Loading'):Text('')
+                                                        ],
+                                                      )),
                                                 ),
-
                                                 Align(
                                                   alignment: Alignment.bottomCenter,
                                                   child: Padding(
@@ -10299,9 +9352,30 @@ class HomePageState extends State<HomePage>
                                                         crossAxisAlignment:
                                                         CrossAxisAlignment.end,
                                                         children: [
-                                                          ListTile(
+                                                          debt!= 0 ? ListTile(
                                                             title: Text(
-                                                              textSetTotal,
+                                                              textSetDebtAmt,
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.3
+                                                              ),
+                                                            ),
+                                                            trailing: Text('- $currencyUnit '+
+                                                                debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                          ) : ListTile(
+                                                            title: Text(
+                                                              textSetCashRef,
                                                               style: TextStyle(
                                                                   fontSize: 17,
                                                                   fontWeight:
@@ -10313,7 +9387,7 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                             trailing: Text('$currencyUnit '+
-                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                               style: TextStyle(
                                                                   fontSize: 17,
                                                                   fontWeight:
@@ -10329,8 +9403,8 @@ class HomePageState extends State<HomePage>
                                                                     GestureDetector(
                                                                       onTap: () {
                                                                         setState((){
-                                                                          mystate(() async {
-                                                                            //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          mystate(()  {
+                                                                            //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                             _controller.animateTo(0);
                                                                             _textFieldController.clear();
                                                                             paidAmount = 0;
@@ -10339,7 +9413,6 @@ class HomePageState extends State<HomePage>
                                                                             totalAmount = double.parse(TtlProdListPrice().toString());
                                                                           });
                                                                         });
-
                                                                       },
                                                                       child: Container(
                                                                         width: (MediaQuery.of(context).size.width - 45)/2,
@@ -10375,25 +9448,1364 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                     Spacer(),
                                                                     GestureDetector(
-                                                                      onTap: () {
-                                                                        if (_formKey.currentState!.validate()) {
-                                                                          print('eachProduct' + eachProd);
-                                                                          for (int j = 0; j < prodList.length; j++)
-                                                                            if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
-                                                                              setState((){
-                                                                                mystate((){
-                                                                                  eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8]+ '^' + prodList[j].split('^')[9]+ '^' + prodList[j].split('^')[10];
-                                                                                  prodList[j] = eachProd;
-                                                                                }); });
-                                                                              print('leepae' + prodList[j]);
-                                                                            } else print('leelar');
-                                                                          _controller.animateTo(0);
-                                                                          // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+                                                                      onTap: () async {
 
-                                                                        }
+                                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
+
+                                                                        discountAmount = discount;
+                                                                        subList = [];
+                                                                        DateTime now = DateTime.now();
+                                                                        int length = 0;
+                                                                        int totalOrders = 0;
+                                                                        int debts = 0;
+                                                                        var dateExist = false;
+                                                                        var dateId = '';
+                                                                        var monthId = '';
+                                                                        bool monthExist = false;
+                                                                        var yearId = '';
+                                                                        bool yearExist = false;
+                                                                        bool reFilter = false;
+                                                                        bool deFilter = false;
+                                                                        double debtAmounts = 0 ;
+                                                                        mystate(() {
+                                                                          setState(() {
+                                                                            orderCreating = true;
+                                                                            disableTouch = true;
+                                                                            //    saleCartDrag = false;
+                                                                          });
+                                                                        });
+                                                                        Navigator.of(context).push(
+                                                                            FadeRoute(page: Transparent(key: tranGlobalKey),)
+                                                                        );
+
+                                                                        print('order creating');
+
+                                                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
+                                                                            .get().then((value) async {
+                                                                          length = int.parse(value.data()!['count'].toString());
+                                                                          print('lengthsss' + length.toString());
+                                                                          length = length + 1;
+
+                                                                          orderLength = length;
+
+                                                                          print('CHECK POINT 0' + deviceIdNum.toString());
+                                                                          print('CHECK POINT 1');
+
+                                                                          batch = await updateOrderLength(batch);
+
+                                                                          print('datacheck' + prodList.toString());
+                                                                          for (int k=0; k< prodList.length;  k++) {
+                                                                            //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+
+                                                                            subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
+
+                                                                            // productsFire.doc(prodList[k].split('^')[0])
+                                                                            //     .get().then((val22) async {
+                                                                            //
+                                                                            // });
+
+                                                                            // List<String> subLink = [];
+                                                                            // List<String> subName = [];
+                                                                            // List<double> subStock = [];
+
+                                                                            // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                            //     .get();
+
+
+
+                                                                            // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                            //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                            //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                            //   print('inStock' + (i+1).toString());
+                                                                            //   print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                            //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                            // }
+
+                                                                            // print(subStock.toString());
+                                                                            print('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
+
+                                                                            if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                              batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+                                                                              print('decStock ' + prodList[k].split('^')[0].toString());
+                                                                              //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                              //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                              // if ( k == prodList.length-1) {
+                                                                              //   batch.commit();
+                                                                              // }
+                                                                              //print('batch complete');
+                                                                              // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
+                                                                            }
+                                                                            else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                              print('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                              batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                              // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                              //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                              //});
+                                                                            }
+                                                                            else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                              batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                              // productsFire.doc(str.split('^')[0]).update({
+                                                                              //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                              // });
+                                                                            }
+                                                                          }
+
+                                                                          if( debt.toString() != '0.0') {
+                                                                            debts = 1;
+                                                                            debtAmounts = debt;
+                                                                            deFilter = true;
+                                                                          } else {
+                                                                            debts = 0;
+                                                                            debtAmounts = 0;
+                                                                            deFilter = false;
+                                                                          }
+
+                                                                          print('subList ' + subList.toString());
+
+                                                                          totalOrders = totalOrders + 1;
+                                                                          //CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                          batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+
+                                                                          DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
+                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
+
+
+                                                                          batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+
+                                                                          // if (dateExist) {
+                                                                          //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
+                                                                          //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                          //
+                                                                          //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                          //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                          //   print('adddateexist added');
+                                                                          // }
+                                                                          // else {
+                                                                          //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                          //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                          //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                          //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                          //   print('adddateexist not');
+                                                                          // }
+                                                                          print('prodList--' + prodList.toString());
+                                                                          try {
+                                                                            batch.commit();
+                                                                            Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                              List<String> subNameList = [];
+                                                                              int subNameListLength = 0;
+                                                                              for (String str in prodList) {
+                                                                                subNameListLength = subNameListLength + 1;
+                                                                                subNameList.add(str.split('^')[7]);
+                                                                                if(prodList.length == subNameListLength) {
+                                                                                  print('fianlize : ' + subNameList.toString());
+                                                                                  // final date = DateTime.now();
+                                                                                  final date = now;
+                                                                                  final dueDate = date.add(Duration(days: 7));
+                                                                                  print('CUZMER CHECK ' + customerId.toString());
+                                                                                  for(int i=0; i<prodList.length; i++) {
+                                                                                    productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                  }
+                                                                                  saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                  final invoice = Invoice(
+                                                                                    supplier: Supplier(
+                                                                                      name: shopGloName,
+                                                                                      address: shopGloAddress,
+                                                                                      phone: shopGloPhone,
+                                                                                      paymentInfo: '',
+                                                                                    ),
+                                                                                    customer: Customer(
+                                                                                      name: customerId.split('^')[1],
+                                                                                      address: '',
+                                                                                    ),
+                                                                                    info: InvoiceInfo(
+                                                                                        date: date,
+                                                                                        dueDate: dueDate,
+                                                                                        description: 'My description...',
+                                                                                        // number: '${DateTime.now().year}-9999',
+                                                                                        number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                    ),
+                                                                                    items: [
+
+                                                                                      for(int i=0; i<prodList.length; i++)
+                                                                                        InvoiceItem(
+                                                                                          description: prodList[i].split('^')[6],
+                                                                                          // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                          date: subNameList[i].toString(),
+                                                                                          quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                          vat: discountAmount,
+                                                                                          debt: debt,
+                                                                                          type: disText,
+                                                                                          unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                          currencyUnit: currencyUnit,
+                                                                                          totalPriceText: totalVPrice,
+                                                                                          paidText: VPaid,
+                                                                                          totalDebtText: VDebt,
+                                                                                          subTotalText: subVTotal,
+                                                                                          discountText: VDiscount,
+                                                                                        )
+
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Water',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 8,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 0.99,
+                                                                                      // ),
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Orange',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 3,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 2.99,
+                                                                                      // ),
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Apple',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 8,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 3.99,
+                                                                                      // ),
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Mango',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 1,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 1.59,
+                                                                                      // ),
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Blue Berries',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 5,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 0.99,
+                                                                                      // ),
+                                                                                      // InvoiceItem(
+                                                                                      //   description: 'Black',
+                                                                                      //   date: DateTime.now(),
+                                                                                      //   quantity: 4,
+                                                                                      //   vat: 0.19,
+                                                                                      //   unitPrice: 1.29,
+                                                                                      // ),
+                                                                                    ],
+                                                                                  );
+                                                                                  sellDone = true;
+                                                                                  _controllerTablet.animateTo(0);
+
+                                                                                  getPaperId().then((value) async {
+                                                                                    print('VVAALLUUEE ' + value.toString());
+                                                                                    pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                    Uint8List bytes = pdfFile!.readAsBytesSync();
+
+
+                                                                                    Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                      setState(() {
+                                                                                        mystate(() {
+                                                                                          // setState(() {
+                                                                                          pdfText = pdfFile!.path.toString();
+                                                                                          // });
+
+                                                                                          orderCreating = false;
+                                                                                          disableTouch = false;
+                                                                                          // saleCartDrag = false;
+                                                                                        });
+                                                                                      });
+                                                                                      // print('saleCartDrag ' + saleCartDrag.toString());
+                                                                                      tranGlobalKey.currentState!.disLoading();
+                                                                                      _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                    });
+                                                                                  });
+                                                                                }
+                                                                              }
+                                                                            });
+                                                                          } catch(error) {
+                                                                            print('error while creating orders');
+                                                                            smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                                            setState(() {
+                                                                              mystate(() {
+                                                                                orderCreating = false;
+                                                                                disableTouch = false;
+                                                                                // saleCartDrag = false;
+                                                                              });
+                                                                            });
+                                                                          }
+
+
+
+
+
+
+                                                                        });
                                                                       },
                                                                       child: Container(
                                                                         width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                        height: 50,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                            color: AppTheme.themeColor),
+                                                                        child: Row(
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                          children: [
+                                                                            Expanded(
+                                                                                child: orderCreating? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                    child: CupertinoActivityIndicator(radius: 10,)): Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                  child: Container(
+                                                                                      child: Text(
+                                                                                        textSetDone,
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 17.5,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                        strutStyle: StrutStyle(
+                                                                                          height: 1.3,
+                                                                                          // fontSize:,
+                                                                                          forceStrutHeight: true,
+                                                                                        ),
+                                                                                      )
+                                                                                  ),
+                                                                                )
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ]
+                                                              )
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0),
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child:
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  width: double.infinity,
+                                                  height: 67,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.3),
+                                                              width: 1.0))),
+                                                  child:
+
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 6),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey
+                                                            )),
+                                                            SizedBox(width: 5),
+                                                            if (unit == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                            else if(unit == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                            else if(unit == 'sub2_name') Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,)
+                                                              else Icon( Icons.check, size: 17, color: Colors.grey,),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 2.5),
+                                                        Text(productName, style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 19
+                                                        ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1.6,
+                                                              forceStrutHeight: true,
+                                                            )
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                eachProd.length !=0 ? Stack(
+                                                  children: [
+                                                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                      stream: FirebaseFirestore.instance
+                                                          .collection('shops')
+                                                          .doc(shopId)
+                                                          .collection('collArr')
+                                                          .doc('prodsArr')
+                                                          .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
+                                                      if (snapshot2.hasData) {
+                                                        var output2 = snapshot2.data != null? snapshot2.data!.data(): null;
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(
+                                                              top: 67.0,
+                                                              left: 15.0,
+                                                              right: 15.0),
+                                                          child: Container(
+                                                              child: ListView(
+                                                                children: [
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      SizedBox(height: 15),
+                                                                      Text(textSetQty, style: TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,
+                                                                        letterSpacing: 2,
+                                                                        color: Colors.grey,
+                                                                      ),),
+                                                                      SizedBox(height: 15),
+                                                                      Row(
+                                                                        children: [
+                                                                          GestureDetector(
+                                                                            onTap: () {
+                                                                              mystate(() {
+                                                                                quantity = double.parse(myController.text) -1;
+                                                                                myController.text = quantity.round().toString();
+                                                                                print('qqq' + quantity.toString());
+                                                                              });
+                                                                            },
+                                                                            child: Container(
+                                                                              width: (MediaQuery.of(context).size.width - 60)/3,
+                                                                              height: 50,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(10.0),
+                                                                                  color: AppTheme.themeColor),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(
+                                                                                    top: 15.0,
+                                                                                    bottom: 15.0),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment
+                                                                                      .center,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                        child: Container(
+                                                                                            child: Icon(
+                                                                                              Icons.remove, size: 20,
+                                                                                            )
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 15),
+                                                                          Container(
+                                                                            width: (MediaQuery.of(context).size.width - 60)/3,
+                                                                            height: 50,
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                              inputFormatters: <TextInputFormatter>[
+                                                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(
+                                                                                  height: 0.95
+                                                                              ),
+                                                                              decoration: InputDecoration(
+                                                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                    borderSide: const BorderSide(
+                                                                                        color: AppTheme.skBorderColor,
+                                                                                        width: 2.0),
+                                                                                    borderRadius: BorderRadius.all(
+                                                                                        Radius.circular(10.0))),
+
+                                                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                                    borderSide: const BorderSide(
+                                                                                        color: AppTheme.themeColor,
+                                                                                        width: 2.0),
+                                                                                    borderRadius: BorderRadius.all(
+                                                                                        Radius.circular(10.0))),
+                                                                                contentPadding: const EdgeInsets.only(
+                                                                                    left: 15.0,
+                                                                                    right: 15.0,
+                                                                                    top: 20,
+                                                                                    bottom: 20.0),
+                                                                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                                                                //filled: true,
+                                                                                border: OutlineInputBorder(
+                                                                                  borderRadius: BorderRadius.circular(10),
+                                                                                ),
+                                                                              ),
+                                                                              //keyboardType: TextInputType.number,
+                                                                              onChanged: (value) {
+                                                                                setState(() {
+                                                                                  quantity = double.parse(value);
+                                                                                });
+                                                                              },
+                                                                              controller: myController,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 15),
+                                                                          GestureDetector(
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                mystate(() {
+                                                                                  quantity = double.parse(myController.text) +1;
+                                                                                  myController.text = quantity.round().toString();
+                                                                                  print('qqq' + quantity.toString());
+                                                                                });
+                                                                              });
+                                                                            },
+                                                                            child: Container(
+                                                                              width: (MediaQuery.of(context).size.width - 60)/3,
+                                                                              height: 55,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(10.0),
+                                                                                  color: AppTheme.themeColor),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(
+                                                                                    top: 15.0,
+                                                                                    bottom: 15.0),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment
+                                                                                      .center,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                        child: Container(
+                                                                                            child: Icon(
+                                                                                              Icons.add, size: 20,
+                                                                                            )
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(height: 15,),
+                                                                      Text(textSetCostPerUnit, style: TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,
+                                                                        letterSpacing: 2,
+                                                                        color: Colors.grey,
+                                                                      ),),
+                                                                      SizedBox(height: 15,),
+                                                                      TextFormField(
+                                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                        inputFormatters: <TextInputFormatter>[
+                                                                          FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                        controller: sellPriceController,
+                                                                        validator: (value) {
+                                                                          if (value == null || value.isEmpty) {
+                                                                            setState(() {
+                                                                              price2 = 0;
+                                                                            });
+                                                                            // return '';
+                                                                            return ' This field is required ';
+                                                                          }
+                                                                          return null;
+                                                                        },
+                                                                        style: TextStyle(
+                                                                            height: 0.95
+                                                                        ),
+                                                                        maxLines: 1,
+                                                                        decoration: InputDecoration(
+                                                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                              borderSide: const BorderSide(
+                                                                                  color: AppTheme.skBorderColor,
+                                                                                  width: 2.0),
+                                                                              borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(10.0))),
+
+                                                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                              borderSide: const BorderSide(
+                                                                                  color: AppTheme.themeColor,
+                                                                                  width: 2.0),
+                                                                              borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(10.0))),
+                                                                          // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                                                          // isDense: true,
+                                                                          contentPadding: const EdgeInsets.only(
+                                                                              left: 15.0,
+                                                                              right: 15.0,
+                                                                              top: 20,
+                                                                              bottom: 20.0),
+                                                                          suffixText: '$currencyUnit',
+                                                                          suffixStyle: TextStyle(
+                                                                            color: Colors.grey,
+                                                                            fontSize: 12,
+                                                                            fontFamily: 'capsulesans',
+                                                                          ),
+                                                                          //errorText: wrongEmail,
+                                                                          errorStyle: TextStyle(
+                                                                              backgroundColor: Colors.white,
+                                                                              fontSize: 12,
+                                                                              fontFamily: 'capsulesans',
+                                                                              height: 0.1
+                                                                          ),
+                                                                          labelStyle: TextStyle(
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.black,
+                                                                          ),
+// errorText: 'Error message',
+                                                                          labelText: textSetCustSale,
+                                                                          floatingLabelBehavior:
+                                                                          FloatingLabelBehavior.auto,
+//filled: true,
+                                                                          border: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 15,),
+                                                                      Text(textSetUnitPrice, style: TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,
+                                                                        letterSpacing: 2,
+                                                                        color: Colors.grey,
+                                                                      ),),
+                                                                      SizedBox(height: 15,),
+                                                                      // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                                      //   stream: FirebaseFirestore
+                                                                      //       .instance
+                                                                      //       .collection('space')
+                                                                      //       .doc(
+                                                                      //       '0NHIS0Jbn26wsgCzVBKT')
+                                                                      //       .collection('shops')
+                                                                      //       .doc(
+                                                                      //       shopId)
+                                                                      //       .collection('products')
+                                                                      //       .doc(eachProd.split('^')[0])
+                                                                      //       .snapshots(),
+                                                                      //   builder: (BuildContext context, snapshot2) {
+                                                                      //     if (snapshot2.hasData) {
+                                                                      // var output = snapshot2.data!.data();
+                                                                      // // var prodName = output?['prod_name'];
+                                                                      // var mainName = output?['unit_name'];
+                                                                      // var sub1Name = output?['sub1_name'];
+                                                                      // var sub2Name = output?['sub2_name'];
+                                                                      // // var sub3Name = output?['sub3_name'];
+                                                                      // var barcode = output?['bar_code'];
+                                                                      // // var mainPrice = output?['unit_sell'];
+                                                                      // // var sub1Price = output?['sub1_sell'];
+                                                                      // // var sub2Price = output?['sub2_sell'];
+                                                                      // // var sub3Price = output?['sub3_sell'];
+                                                                      // // var sub1Unit = output?['sub1_link'];
+                                                                      // // var sub2Unit = output?['sub2_link'];
+                                                                      // // var sub3Unit = output?['sub3_link'];
+                                                                      // // var subExist = output?['sub_exist'];
+                                                                      // var mainLoss = output?['Loss1'].round();
+                                                                      // var sub1Loss = output?['Loss2'].round();
+                                                                      // var sub2Loss = output?['Loss3'].round();
+                                                                      // var mainQty = output?['inStock1'].round();
+                                                                      // var sub1Qty = output?['inStock2'].round();
+                                                                      // var sub2Qty = output?['inStock3'].round();
+                                                                      // var image = output?['img_1'];
+                                                                      //return
+                                                                      Container(
+                                                                        height: 220,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(20.0),
+                                                                          color: AppTheme.lightBgColor,
+                                                                        ),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                          child: Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Container(
+                                                                                height: 55,
+                                                                                decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                                                    color: Colors.grey
+                                                                                        .withOpacity(0.2),
+                                                                                    width: 1.0))),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text(textSetSalePrice, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),),
+                                                                                    Spacer(),
+                                                                                    eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['sm']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) :
+                                                                                    eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' + (output2?['prods'][productId]['s1']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) :  Text('$currencyUnit ' +  (output2?['prods'][productId]['s2']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                height: 55,
+                                                                                decoration: BoxDecoration(
+                                                                                    border: Border(
+                                                                                        bottom: BorderSide(
+                                                                                            color: Colors.grey
+                                                                                                .withOpacity(0.2),
+                                                                                            width: 1.0))),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text(textSetInStock, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),),
+                                                                                    Spacer(),
+                                                                                    eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['im']).round().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['i1']).round().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) : Text((output2?['prods'][productId]['i2']).round().toString().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                height: 55,
+                                                                                decoration: BoxDecoration(
+                                                                                    border: Border(
+                                                                                        bottom: BorderSide(
+                                                                                            color: Colors.grey
+                                                                                                .withOpacity(0.2),
+                                                                                            width: 1.0))),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text(textSetLoss, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),),
+                                                                                    Spacer(),
+                                                                                    eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['lm']).round().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['l1']).round().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),) : Text((output2?['prods'][productId]['l2']).round().toString() + ' ' + productLink, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                height: 55,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text(textSetBarcode, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),),
+                                                                                    Spacer(),
+                                                                                    Text((output2?['prods'][productId]['co']).toString(), style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 15,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.grey,
+                                                                                    ),),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      //     }
+                                                                      //     return Container();
+                                                                      //   },
+                                                                      // ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              )),
+
+                                                        );
+                                                      }
+                                                      return Padding(
+                                                        padding: EdgeInsets.only(bottom: homeBotPadding),
+                                                        child: Container(
+                                                          child: Center(
+                                                            child: Padding(
+                                                              padding: EdgeInsets.only(bottom: 15.0),
+                                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                  child: CupertinoActivityIndicator(radius: 15,)),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    ),
+
+                                                    Align(
+                                                      alignment: Alignment.bottomCenter,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              border: Border(
+                                                                top: BorderSide(
+                                                                    color:
+                                                                    AppTheme.skBorderColor2,
+                                                                    width: 1.0),
+                                                              )),
+                                                          width: double.infinity,
+                                                          height: 138,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.end,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.end,
+                                                            children: [
+                                                              ListTile(
+                                                                title: Text(
+                                                                  textSetTotal,
+                                                                  style: TextStyle(
+                                                                      fontSize: 17,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                                  strutStyle: StrutStyle(
+                                                                      forceStrutHeight: true,
+                                                                      height: 1.3
+                                                                  ),
+                                                                ),
+                                                                trailing: Text('$currencyUnit '+
+                                                                    (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                  style: TextStyle(
+                                                                      fontSize: 17,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Padding(
+                                                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                  child: Row(
+                                                                      children: [
+                                                                        GestureDetector(
+                                                                          onTap: () {
+                                                                            setState((){
+                                                                              mystate(() async {
+                                                                                //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                _controller.animateTo(0);
+                                                                                _textFieldController.clear();
+                                                                                paidAmount = 0;
+                                                                                debt = 0;
+                                                                                refund = 0;
+                                                                                totalAmount = double.parse(TtlProdListPrice().toString());
+                                                                              });
+                                                                            });
+
+                                                                          },
+                                                                          child: Container(
+                                                                            width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                            height: 50,
+                                                                            decoration: BoxDecoration(
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(10.0),
+                                                                                color: AppTheme.secButtonColor),
+                                                                            child: Row(
+                                                                              mainAxisAlignment:
+                                                                              MainAxisAlignment
+                                                                                  .center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                    child: Container(
+                                                                                        child: Text(
+                                                                                          textSetBack,
+                                                                                          textAlign: TextAlign.center,
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 18,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        )
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Spacer(),
+                                                                        GestureDetector(
+                                                                          onTap: () {
+                                                                            if (_formKey.currentState!.validate()) {
+                                                                              print('eachProduct' + eachProd);
+                                                                              for (int j = 0; j < prodList.length; j++)
+                                                                                if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
+                                                                                  setState((){
+                                                                                    mystate((){
+                                                                                      eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8]+ '^' + prodList[j].split('^')[9]+ '^' + prodList[j].split('^')[10];
+                                                                                      prodList[j] = eachProd;
+                                                                                    }); });
+                                                                                  print('leepae' + prodList[j]);
+                                                                                } else print('leelar');
+                                                                              _controller.animateTo(0);
+                                                                              // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+
+                                                                            }
+                                                                          },
+                                                                          child: Container(
+                                                                            width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                            height: 50,
+                                                                            decoration: BoxDecoration(
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(10.0),
+                                                                                color: AppTheme.themeColor),
+                                                                            child: Row(
+                                                                              mainAxisAlignment:
+                                                                              MainAxisAlignment
+                                                                                  .center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                    child: Container(
+                                                                                        child: Text(
+                                                                                          textSetDone,
+                                                                                          textAlign: TextAlign.center,
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 17.5,
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.3,
+                                                                                            // fontSize:,
+                                                                                            forceStrutHeight: true,
+                                                                                          ),
+                                                                                        )
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ]
+                                                                  )
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                ) :
+                                                Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(bottom: 15.0),
+                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                        child: CupertinoActivityIndicator(radius: 15,)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ) ,
+                                          ),
+                                        ),
+                                        Container(
+                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0),
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 67,
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.3),
+                                                              width: 1.0))),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 5.0,
+                                                        bottom: 0.0
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.grey,
+                                                        ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1.2
+                                                            )
+                                                        ),
+                                                        SizedBox(height: 2.5),
+                                                        Text(textSetInvoice, style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 19
+                                                        ),
+                                                            strutStyle: StrutStyle(
+                                                                forceStrutHeight: true,
+                                                                height: 1.6
+                                                            )
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 71.0,
+                                                      left: 0.0,
+                                                      right: 0.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        child: Padding(
+                                                            padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
+                                                            child: Row(
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      final doc = await PdfDocument.openFile(pdfFile!.path);
+                                                                      final pages = doc.pageCount;
+                                                                      List<imglib.Image> images = [];
+
+// get images from all the pages
+                                                                      for (int i = 1; i <= pages; i++) {
+                                                                        var page = await doc.getPage(i);
+                                                                        var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+                                                                        var img = await imgPDF.createImageDetached();
+                                                                        var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+                                                                        var libImage = imglib.decodeImage(imgBytes!.buffer
+                                                                            .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+                                                                        images.add(libImage!);
+                                                                      }
+
+// stitch images
+                                                                      int totalHeight = 0;
+                                                                      images.forEach((e) {
+                                                                        totalHeight += e.height;
+                                                                      });
+                                                                      int totalWidth = 0;
+                                                                      images.forEach((element) {
+                                                                        totalWidth = totalWidth < element.width ? element.width : totalWidth;
+                                                                      });
+                                                                      mergedImage = imglib.Image(totalWidth, totalHeight);
+                                                                      int mergedHeight = 0;
+                                                                      images.forEach((element) {
+                                                                        imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+                                                                        mergedHeight += element.height;
+                                                                      });
+
+                                                                      // Save image as a file
+                                                                      // final documentDirectory = await getExternalStorageDirectory();
+                                                                      // Directory appDocDirectory = await getApplicationDocumentsDirectory();
+                                                                      // File imgFile = new File(appDocDirectory.path + 'test.jpg');
+                                                                      // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
+
+                                                                      // Save to album.
+                                                                      // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
+                                                                      _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                                    },
+                                                                    child: Container(
+                                                                      width: (MediaQuery.of(context).size.width - 45)* (3/4),
+                                                                      height: 50,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(10.0),
+                                                                        color: AppTheme.secButtonColor,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            top: 0.0,
+                                                                            bottom: 0.0),
+                                                                        child: Row(
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                child: Container(
+                                                                                    child: Text(
+                                                                                      textSetSaveImage,
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 17.5,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                      strutStyle: StrutStyle(
+                                                                                        height: 1.3,
+                                                                                        // fontSize:,
+                                                                                        forceStrutHeight: true,
+                                                                                      ),
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Spacer(),
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      _onScanPressedHome();
+                                                                      Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                        _controller.animateTo(4);
+
+                                                                      });
+                                                                    },
+                                                                    child: Container(
+                                                                      width: (MediaQuery.of(context).size.width - 45)* (1/4),
+                                                                      height: 50,
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(10.0),
+                                                                          color: AppTheme.themeColor),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            top: 0.0,
+                                                                            bottom: 0.0),
+                                                                        child: Row(
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                                                child: Container(
+                                                                                    child: Icon(
+                                                                                      Icons.print_rounded,
+                                                                                      size: 25,
+                                                                                      color: Colors.black,
+                                                                                    )
+                                                                                  // child: Text(
+                                                                                  //   '',
+                                                                                  //   textAlign: TextAlign.center,
+                                                                                  //   style: TextStyle(
+                                                                                  //       fontSize: 18,
+                                                                                  //       fontWeight: FontWeight.w600,
+                                                                                  //       color: Colors.black
+                                                                                  //   ),
+                                                                                  // )
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ]
+                                                            )
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      // Container(
+                                                      //   height: 500,
+                                                      //   width: 200,
+                                                      //   child: GestureDetector(
+                                                      //       onTap: () {
+                                                      //         print('clicked');
+                                                      //         PdfApi.openFile(pdfFile);
+                                                      //       },
+                                                      //       child: PdfViewer.openFile(pdfText)
+                                                      //   ),
+                                                      // )
+                                                      // SizedBox(
+                                                      //   height: 10,
+                                                      // ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                        child: Text(textSetReceipt,
+                                                          textAlign: TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 14,
+                                                            letterSpacing: 2,
+                                                            color: Colors.grey,
+                                                          ),),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      pdfText == '' ? Container() :
+                                                      Expanded(
+                                                          child: GestureDetector(
+                                                              onTap: () {
+                                                                print('clicked');
+                                                                PdfApi.openFile(pdfFile!);
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                child: PdfViewer.openFile(pdfText),
+                                                              )
+                                                          )
+                                                      ),
+                                                      SizedBox(
+                                                        height: 150,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.bottomCenter,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border(
+                                                            top: BorderSide(
+                                                                color:
+                                                                AppTheme.skBorderColor2,
+                                                                width: 1.0),
+                                                          )),
+                                                      width: double.infinity,
+                                                      height: 138,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                        children: [
+                                                          ListTile(
+                                                            title: Text(
+                                                              'Total price',
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.3
+                                                              ),
+                                                            ),
+                                                            trailing: Text('$currencyUnit '+
+                                                                TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                              child: Row(
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: () async {
+                                                                        setState(() {
+                                                                          mystate(()  {
+                                                                            prodList = [];
+                                                                            discount = 0.0;
+                                                                            discountAmount =0.0;
+                                                                            debt =0;
+                                                                            refund =0;
+                                                                            customerId = 'name^name';
+                                                                            disText = '';
+                                                                            isDiscount = '';
+                                                                          });
+                                                                        });
+                                                                        // _controller.animateTo(0);
+                                                                        // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                        // saleCartDrag = true;
+                                                                        _textFieldController.clear();
+                                                                        Navigator.pop(context);
+                                                                        // sellDone = true;
+
+
+                                                                      },
+                                                                      child: Container(
+                                                                        width: (MediaQuery.of(context).size.width - 30),
                                                                         height: 50,
                                                                         decoration: BoxDecoration(
                                                                             borderRadius:
@@ -10409,7 +10821,7 @@ class HomePageState extends State<HomePage>
                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                                 child: Container(
                                                                                     child: Text(
-                                                                                      textSetDone,
+                                                                                      textSetNextSale,
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                           fontSize: 17.5,
@@ -10439,896 +10851,522 @@ class HomePageState extends State<HomePage>
                                                 ),
 
                                               ],
-                                            ) :
-                                            Center(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(bottom: 15.0),
-                                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                    child: CupertinoActivityIndicator(radius: 15,)),
-                                              ),
                                             ),
-                                          ],
-                                        ) ,
-                                      ),
-                                    ),
-                                    Container(
-                                      // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0),
+                                          ),
                                         ),
-                                        color: Colors.white,
-                                      ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 67,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0))),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 5.0,
-                                                    bottom: 0.0
+                                        Container(
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(18.0),
+                                                    topRight: Radius.circular(18.0),
+                                                  ),
+                                                  color: Colors.white,
                                                 ),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
-                                                    ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1.2
-                                                        )
-                                                    ),
-                                                    SizedBox(height: 2.5),
-                                                    Text(textSetInvoice, style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 19
-                                                    ),
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight: true,
-                                                            height: 1.6
-                                                        )
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 71.0,
-                                                  left: 0.0,
-                                                  right: 0.0),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    child: Padding(
-                                                        padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
-                                                        child: Row(
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  final doc = await PdfDocument.openFile(pdfFile!.path);
-                                                                  final pages = doc.pageCount;
-                                                                  List<imglib.Image> images = [];
-
-// get images from all the pages
-                                                                  for (int i = 1; i <= pages; i++) {
-                                                                    var page = await doc.getPage(i);
-                                                                    var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-                                                                    var img = await imgPDF.createImageDetached();
-                                                                    var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-                                                                    var libImage = imglib.decodeImage(imgBytes!.buffer
-                                                                        .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-                                                                    images.add(libImage!);
-                                                                  }
-
-// stitch images
-                                                                  int totalHeight = 0;
-                                                                  images.forEach((e) {
-                                                                    totalHeight += e.height;
-                                                                  });
-                                                                  int totalWidth = 0;
-                                                                  images.forEach((element) {
-                                                                    totalWidth = totalWidth < element.width ? element.width : totalWidth;
-                                                                  });
-                                                                  mergedImage = imglib.Image(totalWidth, totalHeight);
-                                                                  int mergedHeight = 0;
-                                                                  images.forEach((element) {
-                                                                    imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-                                                                    mergedHeight += element.height;
-                                                                  });
-
-                                                                  // Save image as a file
-                                                                  // final documentDirectory = await getExternalStorageDirectory();
-                                                                  // Directory appDocDirectory = await getApplicationDocumentsDirectory();
-                                                                  // File imgFile = new File(appDocDirectory.path + 'test.jpg');
-                                                                  // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
-
-                                                                  // Save to album.
-                                                                  // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
-                                                                  _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
-                                                                },
-                                                                child: Container(
-                                                                  width: (MediaQuery.of(context).size.width - 45)* (3/4),
-                                                                  height: 50,
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(10.0),
-                                                                    color: AppTheme.secButtonColor,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 0.0,
-                                                                        bottom: 0.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  textSetSaveImage,
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 17.5,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                  strutStyle: StrutStyle(
-                                                                                    height: 1.3,
-                                                                                    // fontSize:,
-                                                                                    forceStrutHeight: true,
-                                                                                  ),
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Spacer(),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  _onScanPressedHome();
-                                                                  Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                    _controller.animateTo(4);
-
-                                                                  });
-                                                                },
-                                                                child: Container(
-                                                                  width: (MediaQuery.of(context).size.width - 45)* (1/4),
-                                                                  height: 50,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(10.0),
-                                                                      color: AppTheme.themeColor),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 0.0,
-                                                                        bottom: 0.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
-                                                                            child: Container(
-                                                                                child: Icon(
-                                                                                  Icons.print_rounded,
-                                                                                  size: 25,
-                                                                                  color: Colors.black,
-                                                                                )
-                                                                              // child: Text(
-                                                                              //   '',
-                                                                              //   textAlign: TextAlign.center,
-                                                                              //   style: TextStyle(
-                                                                              //       fontSize: 18,
-                                                                              //       fontWeight: FontWeight.w600,
-                                                                              //       color: Colors.black
-                                                                              //   ),
-                                                                              // )
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ]
-                                                        )
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  // Container(
-                                                  //   height: 500,
-                                                  //   width: 200,
-                                                  //   child: GestureDetector(
-                                                  //       onTap: () {
-                                                  //         print('clicked');
-                                                  //         PdfApi.openFile(pdfFile);
-                                                  //       },
-                                                  //       child: PdfViewer.openFile(pdfText)
-                                                  //   ),
-                                                  // )
-                                                  // SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                    child: Text(textSetReceipt,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 14,
-                                                        letterSpacing: 2,
-                                                        color: Colors.grey,
-                                                      ),),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  pdfText == '' ? Container() :
-                                                  Expanded(
-                                                      child: GestureDetector(
-                                                          onTap: () {
-                                                            print('clicked');
-                                                            PdfApi.openFile(pdfFile!);
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                            child: PdfViewer.openFile(pdfText),
-                                                          )
-                                                      )
-                                                  ),
-                                                  SizedBox(
-                                                    height: 150,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                                                 child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                            color:
-                                                            AppTheme.skBorderColor2,
-                                                            width: 1.0),
-                                                      )),
-                                                  width: double.infinity,
-                                                  height: 138,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
+                                                  child: Stack(
                                                     children: [
-                                                      ListTile(
-                                                        title: Text(
-                                                          'Total price',
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          strutStyle: StrutStyle(
-                                                              forceStrutHeight: true,
-                                                              height: 1.3
-                                                          ),
-                                                        ),
-                                                        trailing: Text('$currencyUnit '+
-                                                            TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 10),
                                                       Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                          child: Row(
-                                                              children: [
-                                                                GestureDetector(
-                                                                  onTap: () async {
-                                                                    setState(() {
-                                                                      mystate(()  {
-                                                                        prodList = [];
-                                                                        discount = 0.0;
-                                                                        discountAmount =0.0;
-                                                                        debt =0;
-                                                                        refund =0;
-                                                                        customerId = 'name^name';
-                                                                        disText = '';
-                                                                        isDiscount = '';
-                                                                      });
-                                                                    });
-                                                                    // _controller.animateTo(0);
-                                                                    // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                    // saleCartDrag = true;
-                                                                    _textFieldController.clear();
-                                                                    Navigator.pop(context);
-                                                                    // sellDone = true;
-
-
-                                                                  },
+                                                        padding: EdgeInsets.only(top: 67, bottom: 70),
+                                                        child: _isLoading && _blueDevices.isEmpty
+                                                            ? Center(
+                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                              child: CupertinoActivityIndicator(radius: 15,)),
+                                                        )
+                                                            : _blueDevices.isNotEmpty
+                                                            ? Container(
+                                                          child: Column(
+                                                            children: [
+                                                              if(priInProgHome)
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
                                                                   child: Container(
-                                                                    width: (MediaQuery.of(context).size.width - 30),
-                                                                    height: 50,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(10.0),
-                                                                        color: AppTheme.themeColor),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  textSetNextSale,
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 17.5,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
+                                                                      child: Column(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                              child: Container(
+                                                                                width: MediaQuery.of(context).size.width,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.all(
+                                                                                    Radius.circular(10.0),
                                                                                   ),
-                                                                                  strutStyle: StrutStyle(
-                                                                                    height: 1.3,
-                                                                                    // fontSize:,
-                                                                                    forceStrutHeight: true,
-                                                                                  ),
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ]
-                                                          )
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(18.0),
-                                                topRight: Radius.circular(18.0),
-                                              ),
-                                              color: Colors.white,
-                                            ),
-                                            child: Container(
-                                              child: Stack(
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(top: 67, bottom: 70),
-                                                    child: _isLoading && _blueDevices.isEmpty
-                                                        ? Center(
-                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                          child: CupertinoActivityIndicator(radius: 15,)),
-                                                    )
-                                                        : _blueDevices.isNotEmpty
-                                                        ? Container(
-                                                      child: Column(
-                                                        children: [
-                                                          if(priInProgHome)
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                                                              child: Container(
-                                                                  child: Column(
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                                          child: Container(
-                                                                            width: MediaQuery.of(context).size.width,
-                                                                            decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.all(
-                                                                                Radius.circular(10.0),
-                                                                              ),
-                                                                              color: Color(0xffE8EEF9),
-                                                                              border: Border.all(
-                                                                                  color: Color(0xffBCCEEA),
-                                                                                  width: 1.0
-                                                                              ),
-                                                                            ),
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.only(top: 10, bottom: 11.3),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  SizedBox(width: 15),
-                                                                                  Icon(
-                                                                                    Icons.print_rounded,
-                                                                                    size: 25,
-                                                                                    color: Color(0xff5786DB),
-                                                                                  ),
-                                                                                  SizedBox(width: 8),
-                                                                                  Expanded(
-                                                                                    child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                                                                                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
-                                                                                  ),
-                                                                                  GestureDetector(
-                                                                                    onTap: () {
-                                                                                      mystate(() {
-                                                                                        priInProgHome = false;
-                                                                                      });
-                                                                                    },
-                                                                                    child: Padding(
-                                                                                      padding: const EdgeInsets.all(8.0),
-                                                                                      child: Container(
-                                                                                        decoration: BoxDecoration(
-                                                                                          borderRadius: BorderRadius.all(
-                                                                                            Radius.circular(15.0),
-                                                                                          ),
-                                                                                          color: Color(0xffBCCEEA),
-                                                                                        ),
-                                                                                        child: Padding(
-                                                                                          padding: const EdgeInsets.all(2.0),
-                                                                                          child: Icon(
-                                                                                            Icons.close_rounded,
-                                                                                            size: 15,
-                                                                                            color: Colors.white,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  SizedBox(width: 15),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 8),
-                                                                      ]
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          Expanded(
-                                                            child: SingleChildScrollView(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    SizedBox(height: 15),
-                                                                    // GestureDetector(
-                                                                    //     onTap: _isLoading ? null : _onScanPressed,
-                                                                    //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
-                                                                    // ),
-                                                                    Column(
-                                                                      children: List<Widget>.generate(_blueDevices.length,
-                                                                              (int index) {
-                                                                            return Row(
-                                                                              children: <Widget>[
-                                                                                Expanded(
-                                                                                  child: GestureDetector(
-                                                                                    onTap: _blueDevices[index].address ==
-                                                                                        (_selectedDevice?.address ?? '')
-                                                                                        ? _onDisconnectDeviceHome
-                                                                                        : () => _onSelectDevice(index),
-                                                                                    child: Container(
-                                                                                      color: Colors.white,
-                                                                                      child: Padding(
-                                                                                        padding: const EdgeInsets.all(8.0),
-                                                                                        child: Column(
-                                                                                          crossAxisAlignment:
-                                                                                          CrossAxisAlignment.start,
-                                                                                          children: <Widget>[
-                                                                                            Text(
-                                                                                              _blueDevices[index].name == ''? 'Unknown': _blueDevices[index].name,
-                                                                                              style: TextStyle(
-                                                                                                  color:
-                                                                                                  _selectedDevice?.address ==
-                                                                                                      _blueDevices[index]
-                                                                                                          .address
-                                                                                                      ? AppTheme.themeColor
-                                                                                                      : Colors.black,
-                                                                                                  fontWeight: FontWeight.w600,
-                                                                                                  fontSize: 19
-                                                                                              ),
-                                                                                            ),
-                                                                                            Text(
-                                                                                              _blueDevices[index].address,
-                                                                                              style: TextStyle(
-                                                                                                  color:
-                                                                                                  _selectedDevice?.address ==
-                                                                                                      _blueDevices[index]
-                                                                                                          .address
-                                                                                                      ? Colors.blueGrey
-                                                                                                      : Colors.grey,
-                                                                                                  fontSize: 14,
-                                                                                                  fontWeight: FontWeight.w500
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
+                                                                                  color: Color(0xffE8EEF9),
+                                                                                  border: Border.all(
+                                                                                      color: Color(0xffBCCEEA),
+                                                                                      width: 1.0
                                                                                   ),
                                                                                 ),
-                                                                                if (_loadingAtIndex == index && _isLoading)
-                                                                                  Container(
-                                                                                    height: 24.0,
-                                                                                    width: 65.0,
-                                                                                    margin: const EdgeInsets.only(right: 8.0),
-                                                                                    child: Center(
-                                                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 10, bottom: 11.3),
+                                                                                  child: Row(
+                                                                                    children: [
+                                                                                      SizedBox(width: 15),
+                                                                                      Icon(
+                                                                                        Icons.print_rounded,
+                                                                                        size: 25,
+                                                                                        color: Color(0xff5786DB),
+                                                                                      ),
+                                                                                      SizedBox(width: 8),
+                                                                                      Expanded(
+                                                                                        child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                                                                            fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                                                                                      ),
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          mystate(() {
+                                                                                            priInProgHome = false;
+                                                                                          });
+                                                                                        },
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.all(8.0),
+                                                                                          child: Container(
+                                                                                            decoration: BoxDecoration(
+                                                                                              borderRadius: BorderRadius.all(
+                                                                                                Radius.circular(15.0),
+                                                                                              ),
+                                                                                              color: Color(0xffBCCEEA),
+                                                                                            ),
+                                                                                            child: Padding(
+                                                                                              padding: const EdgeInsets.all(2.0),
+                                                                                              child: Icon(
+                                                                                                Icons.close_rounded,
+                                                                                                size: 15,
+                                                                                                color: Colors.white,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(width: 15),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 8),
+                                                                          ]
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              Expanded(
+                                                                child: SingleChildScrollView(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: <Widget>[
+                                                                        SizedBox(height: 15),
+                                                                        // GestureDetector(
+                                                                        //     onTap: _isLoading ? null : _onScanPressed,
+                                                                        //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
+                                                                        // ),
+                                                                        Column(
+                                                                          children: List<Widget>.generate(_blueDevices.length,
+                                                                                  (int index) {
+                                                                                return Row(
+                                                                                  children: <Widget>[
+                                                                                    Expanded(
+                                                                                      child: GestureDetector(
+                                                                                        onTap: _blueDevices[index].address ==
+                                                                                            (_selectedDevice?.address ?? '')
+                                                                                            ? _onDisconnectDeviceHome
+                                                                                            : () => _onSelectDevice(index),
+                                                                                        child: Container(
+                                                                                          color: Colors.white,
                                                                                           child: Padding(
-                                                                                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                                                                                            child: CupertinoActivityIndicator(radius: 10,),
+                                                                                            padding: const EdgeInsets.all(8.0),
+                                                                                            child: Column(
+                                                                                              crossAxisAlignment:
+                                                                                              CrossAxisAlignment.start,
+                                                                                              children: <Widget>[
+                                                                                                Text(
+                                                                                                  _blueDevices[index].name == ''? 'Unknown': _blueDevices[index].name,
+                                                                                                  style: TextStyle(
+                                                                                                      color:
+                                                                                                      _selectedDevice?.address ==
+                                                                                                          _blueDevices[index]
+                                                                                                              .address
+                                                                                                          ? AppTheme.themeColor
+                                                                                                          : Colors.black,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      fontSize: 19
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  _blueDevices[index].address,
+                                                                                                  style: TextStyle(
+                                                                                                      color:
+                                                                                                      _selectedDevice?.address ==
+                                                                                                          _blueDevices[index]
+                                                                                                              .address
+                                                                                                          ? Colors.blueGrey
+                                                                                                          : Colors.grey,
+                                                                                                      fontSize: 14,
+                                                                                                      fontWeight: FontWeight.w500
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    if (_loadingAtIndex == index && _isLoading)
+                                                                                      Container(
+                                                                                        height: 24.0,
+                                                                                        width: 65.0,
+                                                                                        margin: const EdgeInsets.only(right: 8.0),
+                                                                                        child: Center(
+                                                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                              child: Padding(
+                                                                                                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                                                                                child: CupertinoActivityIndicator(radius: 10,),
+                                                                                              )
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    if (!_isLoading &&
+                                                                                        _blueDevices[index].address ==
+                                                                                            (_selectedDevice?.address ?? ''))
+                                                                                      TextButton(
+                                                                                        onPressed: _onPrintReceipt,
+                                                                                        // child: Container(
+                                                                                        //   color: _selectedDevice == null
+                                                                                        //       ? AppTheme.buttonColor2
+                                                                                        //       : AppTheme.themeColor,
+                                                                                        //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
+                                                                                        //   child: Icon(
+                                                                                        //     Icons.print_rounded,
+                                                                                        //     size: 25,
+                                                                                        //     color: Colors.black,
+                                                                                        //   )
+                                                                                        //   // child: const Text(
+                                                                                        //   //     'Print',
+                                                                                        //   //     style: TextStyle(color: Colors.white)
+                                                                                        //   // ),
+                                                                                        // ),
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
+                                                                                          child: Icon(
+                                                                                            Icons.print_rounded,
+                                                                                            size: 25,
+                                                                                            color: Colors.black,
+                                                                                          ),
+                                                                                        ),
+                                                                                        style: ButtonStyle(
+                                                                                            backgroundColor: MaterialStateProperty
+                                                                                                .resolveWith<Color>(
+                                                                                                  (Set<MaterialState> states) {
+                                                                                                if (states.contains(
+                                                                                                    MaterialState.pressed)) {
+                                                                                                  return AppTheme.themeColor.withOpacity(0.5);
+                                                                                                }
+                                                                                                return AppTheme.themeColor;
+                                                                                              },
+                                                                                            ),
+                                                                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                                RoundedRectangleBorder(
+                                                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                                                )
+                                                                                            )
+                                                                                        ),
+                                                                                      ),
+                                                                                    SizedBox(width: 8.5)
+                                                                                  ],
+                                                                                );
+                                                                              }),
+                                                                        ),
+                                                                        SizedBox(height: 15),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                            : Center(
+                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                              child: CupertinoActivityIndicator(radius: 15,)),
+                                                        ),
+                                                        // child: _devices.isEmpty
+                                                        //     ? Center(child: Text(_devicesMsg ?? ''))
+                                                        //     : ListView.builder(
+                                                        //   itemCount: _devices.length,
+                                                        //   itemBuilder: (c, i) {
+                                                        //     return ListTile(
+                                                        //       leading: Icon(Icons.print),
+                                                        //       title: Text(_devices[i].name.toString()),
+                                                        //       subtitle: Text(_devices[i].address.toString()),
+                                                        //       onTap: () {
+                                                        //         // _startPrint(_devices[i]);
+                                                        //       },
+                                                        //     );
+                                                        //   },
+                                                        // )
+                                                      ),
+                                                      Container(
+                                                        height: 67,
+                                                        width: double.infinity,
+                                                        decoration: BoxDecoration(
+                                                            border: Border(
+                                                                bottom: BorderSide(
+                                                                    color: Colors.grey
+                                                                        .withOpacity(0.3),
+                                                                    width: 1.0))),
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 15.0,
+                                                              right: 15.0,
+                                                              top: 5.0,
+                                                              bottom: 0.0
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),
+                                                                  strutStyle: StrutStyle(
+                                                                      forceStrutHeight: true,
+                                                                      height: 1.2
+                                                                  )
+                                                              ),
+                                                              SizedBox(height: 2.5),
+                                                              Text(textSetPrinting, style: TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 19
+                                                              ),
+                                                                  strutStyle: StrutStyle(
+                                                                      forceStrutHeight: true,
+                                                                      height: 1.6
+                                                                  )
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment.bottomCenter,
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                border: Border(
+                                                                  top: BorderSide(
+                                                                      color:
+                                                                      AppTheme.skBorderColor2,
+                                                                      width: 1.0),
+                                                                )),
+                                                            width: double.infinity,
+                                                            height: 81,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.end,
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.end,
+                                                              children: [
+                                                                // ListTile(
+                                                                //   title: Text(
+                                                                //     'Total price',
+                                                                //     style: TextStyle(
+                                                                //         fontSize: 17,
+                                                                //         fontWeight:
+                                                                //         FontWeight
+                                                                //             .w500),
+                                                                //   ),
+                                                                //   trailing: Text('$currencyUnit '+
+                                                                //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                //     style: TextStyle(
+                                                                //         fontSize: 17,
+                                                                //         fontWeight:
+                                                                //         FontWeight
+                                                                //             .w500),
+                                                                //   ),
+                                                                // ),
+                                                                SizedBox(height: 10),
+                                                                Padding(
+                                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                    child: Row(
+                                                                        children: [
+                                                                          GestureDetector(
+                                                                            onTap: () {
+                                                                              _onScanPressed();
+                                                                            },
+                                                                            child: Container(
+                                                                              width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                              height: 50,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(10.0),
+                                                                                  color: AppTheme.secButtonColor),
+                                                                              child: Row(
+                                                                                mainAxisAlignment:
+                                                                                MainAxisAlignment
+                                                                                    .center,
+                                                                                children: [
+                                                                                  Expanded(
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                      child: Container(
+                                                                                          child: Text(
+                                                                                            textSetScan,
+                                                                                            textAlign: TextAlign.center,
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 18,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                color: Colors.black
+                                                                                            ),
                                                                                           )
                                                                                       ),
                                                                                     ),
                                                                                   ),
-                                                                                if (!_isLoading &&
-                                                                                    _blueDevices[index].address ==
-                                                                                        (_selectedDevice?.address ?? ''))
-                                                                                  TextButton(
-                                                                                    onPressed: _onPrintReceipt,
-                                                                                    // child: Container(
-                                                                                    //   color: _selectedDevice == null
-                                                                                    //       ? AppTheme.buttonColor2
-                                                                                    //       : AppTheme.themeColor,
-                                                                                    //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
-                                                                                    //   child: Icon(
-                                                                                    //     Icons.print_rounded,
-                                                                                    //     size: 25,
-                                                                                    //     color: Colors.black,
-                                                                                    //   )
-                                                                                    //   // child: const Text(
-                                                                                    //   //     'Print',
-                                                                                    //   //     style: TextStyle(color: Colors.white)
-                                                                                    //   // ),
-                                                                                    // ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Spacer(),
+                                                                          GestureDetector(
+                                                                            onTap: () async {
+                                                                              //printClosed = true;
+                                                                              Navigator.of(context).pop();
+                                                                              // Future.delayed(const Duration(milliseconds: 10000), () {
+                                                                              //   if(printClosed) {
+                                                                              //     _bluePrintPos.disconnect().then((ConnectionStatus status) {
+                                                                              //       if (status == ConnectionStatus.disconnect) {
+                                                                              //         setState(() {
+                                                                              //           _selectedDevice = null;
+                                                                              //         });
+                                                                              //       }
+                                                                              //     });
+                                                                              //   }
+                                                                              // });
+
+                                                                            },
+                                                                            child: Container(
+                                                                              width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                              height: 50,
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(10.0),
+                                                                                  color: AppTheme.themeColor),
+                                                                              child: Row(
+                                                                                mainAxisAlignment:
+                                                                                MainAxisAlignment
+                                                                                    .center,
+                                                                                children: [
+                                                                                  Expanded(
                                                                                     child: Padding(
-                                                                                      padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
-                                                                                      child: Icon(
-                                                                                        Icons.print_rounded,
-                                                                                        size: 25,
-                                                                                        color: Colors.black,
+                                                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                      child: Container(
+                                                                                          child: Text(
+                                                                                            textSetClose,
+                                                                                            textAlign: TextAlign.center,
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 17.5,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                color: Colors.black
+                                                                                            ),
+                                                                                            strutStyle: StrutStyle(
+                                                                                              height: 1.3,
+                                                                                              // fontSize:,
+                                                                                              forceStrutHeight: true,
+                                                                                            ),
+                                                                                          )
                                                                                       ),
                                                                                     ),
-                                                                                    style: ButtonStyle(
-                                                                                        backgroundColor: MaterialStateProperty
-                                                                                            .resolveWith<Color>(
-                                                                                              (Set<MaterialState> states) {
-                                                                                            if (states.contains(
-                                                                                                MaterialState.pressed)) {
-                                                                                              return AppTheme.themeColor.withOpacity(0.5);
-                                                                                            }
-                                                                                            return AppTheme.themeColor;
-                                                                                          },
-                                                                                        ),
-                                                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                                            RoundedRectangleBorder(
-                                                                                              borderRadius: BorderRadius.circular(10.0),
-                                                                                            )
-                                                                                        )
-                                                                                    ),
                                                                                   ),
-                                                                                SizedBox(width: 8.5)
-                                                                              ],
-                                                                            );
-                                                                          }),
-                                                                    ),
-                                                                    SizedBox(height: 15),
-                                                                  ],
-                                                                ),
-                                                              ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ]
+                                                                    )
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                        : Center(
-                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                          child: CupertinoActivityIndicator(radius: 15,)),
-                                                    ),
-                                                    // child: _devices.isEmpty
-                                                    //     ? Center(child: Text(_devicesMsg ?? ''))
-                                                    //     : ListView.builder(
-                                                    //   itemCount: _devices.length,
-                                                    //   itemBuilder: (c, i) {
-                                                    //     return ListTile(
-                                                    //       leading: Icon(Icons.print),
-                                                    //       title: Text(_devices[i].name.toString()),
-                                                    //       subtitle: Text(_devices[i].address.toString()),
-                                                    //       onTap: () {
-                                                    //         // _startPrint(_devices[i]);
-                                                    //       },
-                                                    //     );
-                                                    //   },
-                                                    // )
-                                                  ),
-                                                  Container(
-                                                    height: 67,
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                        border: Border(
-                                                            bottom: BorderSide(
-                                                                color: Colors.grey
-                                                                    .withOpacity(0.3),
-                                                                width: 1.0))),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 15.0,
-                                                          right: 15.0,
-                                                          top: 5.0,
-                                                          bottom: 0.0
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.grey,
-                                                          ),
-                                                              strutStyle: StrutStyle(
-                                                                  forceStrutHeight: true,
-                                                                  height: 1.2
-                                                              )
-                                                          ),
-                                                          SizedBox(height: 2.5),
-                                                          Text(textSetPrinting, style: TextStyle(
-                                                              fontWeight: FontWeight.w600,
-                                                              fontSize: 19
-                                                          ),
-                                                              strutStyle: StrutStyle(
-                                                                  forceStrutHeight: true,
-                                                                  height: 1.6
-                                                              )
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment: Alignment.bottomCenter,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border(
-                                                              top: BorderSide(
-                                                                  color:
-                                                                  AppTheme.skBorderColor2,
-                                                                  width: 1.0),
-                                                            )),
-                                                        width: double.infinity,
-                                                        height: 81,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.end,
-                                                          children: [
-                                                            // ListTile(
-                                                            //   title: Text(
-                                                            //     'Total price',
-                                                            //     style: TextStyle(
-                                                            //         fontSize: 17,
-                                                            //         fontWeight:
-                                                            //         FontWeight
-                                                            //             .w500),
-                                                            //   ),
-                                                            //   trailing: Text('$currencyUnit '+
-                                                            //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                            //     style: TextStyle(
-                                                            //         fontSize: 17,
-                                                            //         fontWeight:
-                                                            //         FontWeight
-                                                            //             .w500),
-                                                            //   ),
-                                                            // ),
-                                                            SizedBox(height: 10),
-                                                            Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                child: Row(
-                                                                    children: [
-                                                                      GestureDetector(
-                                                                        onTap: () {
-                                                                          _onScanPressed();
-                                                                        },
-                                                                        child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                          height: 50,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.secButtonColor),
-                                                                          child: Row(
-                                                                            mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                            children: [
-                                                                              Expanded(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                  child: Container(
-                                                                                      child: Text(
-                                                                                        textSetScan,
-                                                                                        textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 18,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      )
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Spacer(),
-                                                                      GestureDetector(
-                                                                        onTap: () async {
-                                                                          //printClosed = true;
-                                                                          Navigator.of(context).pop();
-                                                                          // Future.delayed(const Duration(milliseconds: 10000), () {
-                                                                          //   if(printClosed) {
-                                                                          //     _bluePrintPos.disconnect().then((ConnectionStatus status) {
-                                                                          //       if (status == ConnectionStatus.disconnect) {
-                                                                          //         setState(() {
-                                                                          //           _selectedDevice = null;
-                                                                          //         });
-                                                                          //       }
-                                                                          //     });
-                                                                          //   }
-                                                                          // });
-
-                                                                        },
-                                                                        child: Container(
-                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                          height: 50,
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                              color: AppTheme.themeColor),
-                                                                          child: Row(
-                                                                            mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                            children: [
-                                                                              Expanded(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                  child: Container(
-                                                                                      child: Text(
-                                                                                        textSetClose,
-                                                                                        textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17.5,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                        strutStyle: StrutStyle(
-                                                                                          height: 1.3,
-                                                                                          // fontSize:,
-                                                                                          forceStrutHeight: true,
-                                                                                        ),
-                                                                                      )
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ]
-                                                                )
-                                                            )
-                                                          ],
                                                         ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            top: 42,
-                                            child: Container(
-                                              width: MediaQuery.of(context).size.width,
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Container(
-                                                  width: 50,
-                                                  height: 5,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(25.0),
-                                                      ),
-                                                      color: Colors.white.withOpacity(0.5)),
                                                 ),
                                               ),
-                                            ),
+                                              Positioned(
+                                                top: 42,
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Container(
+                                                      width: 50,
+                                                      height: 5,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(25.0),
+                                                          ),
+                                                          color: Colors.white.withOpacity(0.5)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              // Align(
+                                              //   alignment: Alignment.topCenter,
+                                              //   child: Padding(
+                                              //     padding: const EdgeInsets.only(top: 90.0),
+                                              //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                              //   )
+                                              // ),
+                                            ],
                                           ),
-                                          // Align(
-                                          //   alignment: Alignment.topCenter,
-                                          //   child: Padding(
-                                          //     padding: const EdgeInsets.only(top: 90.0),
-                                          //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                          //   )
-                                          // ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 42,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Align(
-                                alignment: Alignment.center,
+                              Positioned(
+                                top: 42,
                                 child: Container(
-                                  width: 50,
-                                  height: 5,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(25.0),
-                                      ),
-                                      color: Colors.white.withOpacity(0.5)),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      width: 50,
+                                      height: 5,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(25.0),
+                                          ),
+                                          color: Colors.white.withOpacity(0.5)),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
-                        ],
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Visibility(
+                      visible: disableTouch,
+                      child: Container(
+                        color: Colors.grey.withOpacity(0.2),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
@@ -11559,6 +11597,47 @@ class HomePageState extends State<HomePage>
       return string;
     } else {
       return '0' + string;
+    }
+  }
+
+  convertToDate(String input) {
+    switch (input) {
+      case '01':
+        return 'January';
+        break;
+      case '02':
+        return 'February';
+        break;
+      case '03':
+        return 'March';
+        break;
+      case '04':
+        return 'April';
+        break;
+      case '05':
+        return 'May';
+        break;
+      case '06':
+        return 'June';
+        break;
+      case '07':
+        return 'July';
+        break;
+      case '08':
+        return 'August';
+        break;
+      case '09':
+        return 'September';
+        break;
+      case '10':
+        return 'October';
+        break;
+      case '11':
+        return 'November';
+        break;
+      case '12':
+        return 'December';
+        break;
     }
   }
 

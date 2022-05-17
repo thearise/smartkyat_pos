@@ -79,7 +79,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   String textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
   String textSetRemove = 'REMOVE';
   String textSetUnitMain = 'Unit/main unit';
-  String textSetSaveProd = 'Save as New Product';
+  String textSetSaveProd = 'Add product';
   String textSetMoreUnit = 'More unit?';
   String textSetUnitSub = 'Unit/sub1 unit';
 
@@ -144,8 +144,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
           textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
           textSetRemove = 'ဖယ်ရှားပါ';
           textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'ပစ္စည်းအသစ် မှတ်';
-          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
+          textSetSaveProd = 'သိမ်းဆည်းမည်';
+          textSetMoreUnit = 'ယူနစ်?';
           textSetUnitSub = 'Unit/sub1 unit';
         });
       } else if(value=='english') {
@@ -165,7 +165,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
           textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
           textSetRemove = 'REMOVE';
           textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'Save as New Product';
+          textSetSaveProd = 'Add product';
           textSetMoreUnit = 'More unit?';
           textSetUnitSub = 'Unit/sub1 unit';
         });
@@ -891,7 +891,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
                                               controller: pnameCtrl,
-                                              keyboardType: TextInputType.name,
+                                              keyboardType: TextInputType.text,
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(30),
                                               ],
@@ -1455,9 +1455,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           });
                                         }
                                       },
-                                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                          child: CupertinoActivityIndicator(radius: 10,)) :
-                                      Padding(
+                                      child: Padding(
                                         padding: const EdgeInsets.only(
                                             left: 5.0,
                                             right: 5.0,
