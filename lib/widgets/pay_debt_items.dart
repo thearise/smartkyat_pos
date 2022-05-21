@@ -396,9 +396,10 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   WriteBatch batch = FirebaseFirestore.instance.batch();
-
+                                  setState(() {
                                     loadingState = true;
                                     disableTouch = true;
+                                  });
 
                                   String noCustomer = '';
 
@@ -462,6 +463,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', paidCus);
 
                                     try {
+                                      print('loading state ' + loadingState.toString());
                                       batch.commit();
                                       Future.delayed(const Duration(milliseconds: 2000), () {
                                         loadingState = false;
@@ -483,7 +485,8 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                 } },
                               child: loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                  child: CupertinoActivityIndicator(radius: 10,)) :
+                              Padding(
                                 padding: const EdgeInsets.only(
                                     left: 5.0,
                                     right: 5.0,

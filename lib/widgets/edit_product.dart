@@ -107,13 +107,15 @@ class _EditProductState extends State<EditProduct> {
   }
 
   String _getRegexString() =>
-      r'[0-9]+[,.]{0,1}[0-9]*';
+      r'[1-9.][0-9.]*';
 
   String _getNum() =>
-      r'[0-9]';
+      r'[1-9][0-9]*';
 
 
   String currencyUnit = 'MMK';
+
+  bool priceWarning = false;
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -199,6 +201,35 @@ class _EditProductState extends State<EditProduct> {
           textSetUnitSub = 'Unit/sub1 unit';
         });
       }
+    });
+
+    mainSellCtrl.addListener((){
+      if(mainBuyCtrl.text != '' && mainSellCtrl.text != '' && double.parse(mainBuyCtrl.text) > double.parse(mainSellCtrl.text)) {
+        setState(() {
+          priceWarning = true;
+        });
+        // if (_formKey.currentState!.validate()) {
+        //   print('lee lar');
+        // }
+        print('Warning pya mal');
+      } else {
+        setState(() {
+          priceWarning = false;
+        });
+        print('Warning ma pya bu');}
+    });
+
+    mainBuyCtrl.addListener((){
+      if(mainBuyCtrl.text != '' && mainSellCtrl.text != '' && double.parse(mainBuyCtrl.text) > double.parse(mainSellCtrl.text)) {
+        setState(() {
+          priceWarning = true;
+        });
+        print('Warning pya mal');
+      } else {
+        setState(() {
+          priceWarning = false;
+        });
+        print('Warning ma pya bu');}
     });
 
     super.initState();
@@ -344,36 +375,36 @@ class _EditProductState extends State<EditProduct> {
                                 )
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child: Container(
-                              height: assets.isNotEmpty ? 120 : 82,
-                              child: Column(
-                                children: [
-                                  if (assets.isNotEmpty)
-                                    SelectedAssetsListView(
-                                      assets: assets,
-                                      isDisplayingDetail:
-                                      isDisplayingDetail,
-                                      onResult: onResult,
-                                      onRemoveAsset: removeAsset,
-                                    ),
-                                  Expanded(
-                                    child: MethodListView(
-                                      pickMethods: [
-                                        PickMethod.cameraAndStay(
-                                          maxAssetsCount: 1,
-                                        ),
-                                      ],
-                                      onSelectMethod: selectAssets,
-                                    ),
+                          SizedBox(
+                            height: 1,
+                          ),
+                          Container(
+                            height: assets.isNotEmpty ? 120 : 82,
+                            child: Column(
+                              children: [
+                                if (assets.isNotEmpty)
+                                  SelectedAssetsListView(
+                                    assets: assets,
+                                    isDisplayingDetail:
+                                    isDisplayingDetail,
+                                    onResult: onResult,
+                                    onRemoveAsset: removeAsset,
                                   ),
-                                ],
-                              ),
+                                Expanded(
+                                  child: MethodListView(
+                                    pickMethods: [
+                                      PickMethod.cameraAndStay(
+                                        maxAssetsCount: 1,
+                                      ),
+                                    ],
+                                    onSelectMethod: selectAssets,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            padding: const EdgeInsets.only( right: 15.0, left:15.0),
                             child: TextFormField(
                               controller: prodNameCtrl,
                               keyboardType: TextInputType.text,
@@ -741,70 +772,87 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                            child: TextFormField(
-                              controller: mainSellCtrl,
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return ' This field is required ';
-                                }
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
+                          Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                                child: TextFormField(
+                                  controller: mainSellCtrl,
+                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return ' This field is required ';
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                    height: 0.95,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
+                                        borderSide: BorderSide(
+                                            color: AppTheme.skBorderColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
 
-                                focusedBorder: OutlineInputBorder(
+                                    focusedBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                suffixText: '$currencyUnit',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                ),
-                                // errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                        borderSide: BorderSide(
+                                            color: AppTheme.themeColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    suffixText: '$currencyUnit',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                    ),
+                                    // errorText: wrongPassword,
+                                    errorStyle: TextStyle(
+                                        backgroundColor: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                        height: 0.1
+                                    ),
+                                    labelStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
 // errorText: 'Error message',
-                                labelText: textSetSalePrice,
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                    labelText: textSetSalePrice,
+                                    floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                               ),
+
+                          priceWarning ? Padding(
+                            padding: const EdgeInsets.only(
+                              top: 62.0, right: 15.0, left:30.0,),
+                            child: Container(
+                              color: Colors.white,
+                              //height: 20,
+                              child: Text('Price Warning',
+                                style: TextStyle(
+                                  color: Colors.yellow, fontSize: 12, fontWeight: FontWeight.w500,
+                                ),),
                             ),
+                          ) : Container(),
+                            ]
                           ),
                           (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
                           (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == 2 ? Column(

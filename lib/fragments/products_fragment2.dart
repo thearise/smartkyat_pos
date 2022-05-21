@@ -130,7 +130,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   var sectionList1;
   var sectionList2;
   var sectionListNo;
-  String searchValue = '';
+ // String searchValue = '';
   int slidingSearch = 0;
   bool noSearchData = false;
   bool searchingOverAll = false;
