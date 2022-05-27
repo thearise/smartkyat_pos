@@ -551,10 +551,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 bottom: 2,
                                                 child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '\u221E%' : percentByCost().toString() + '%',
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
-                                                      // color: Colors.blue
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                                    // color: Colors.blue
                                                   ),
                                                 )
                                             ),
@@ -1436,7 +1436,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
   }
 
-   percentBySale() {
+  percentBySale() {
     var percent = 0;
     if(_sliding == 0) {
       percent = growthRateDaySale(yestOrdersChart, todayOrdersChart);
@@ -2019,19 +2019,19 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       twoWeeksAgo = today.subtract(const Duration(days: 14));
 
       while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
-          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
-          if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in data['daily_order']) {
-              // print(double.parse(str));
-              total += double.parse(str.split('^')[2]);
-              weekCostsTotal += double.parse(str.split('^')[5]);
-            }
-            thisWeekOrdersChart[week] = total;
-
+        sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+        if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
+          double total = 0;
+          // print(doc['daily_order'].toString());
+          for(String str in data['daily_order']) {
+            // print(double.parse(str));
+            total += double.parse(str.split('^')[2]);
+            weekCostsTotal += double.parse(str.split('^')[5]);
           }
-          week = week + 1;
+          thisWeekOrdersChart[week] = total;
+
+        }
+        week = week + 1;
       }
 
 
@@ -2089,9 +2089,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           yestUnpaidChart += double.parse(str.split('^')[5]);
         }
       }
-      
+
     }
-print('yestorders ' + yestOrdersChart.toString());
+    print('yestorders ' + yestOrdersChart.toString());
     // print('each ');
     if(snapshot1 != null) {
       for(int loopOrd = 0; loopOrd < snapshot1.length; loopOrd++) {
@@ -2191,9 +2191,9 @@ print('yestorders ' + yestOrdersChart.toString());
 
       sevenDayAgo = today.subtract(const Duration(days: 7));
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
-          todayRefundTotal += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
+        todayRefundTotal += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
+      }
 
       if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'refu_cust'] != null) {
         ystRefundTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'refu_cust'];
@@ -2215,8 +2215,8 @@ print('yestorders ' + yestOrdersChart.toString());
       for(int i = 0; i < 7; i++) {
         if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'] != null) {
           lastWeekRefund +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'];
-       print('Europe ' +  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'].toString());
-           }
+          print('Europe ' +  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'].toString());
+        }
         print('Asia ' + lastWeekRefund.toString());
       }
 

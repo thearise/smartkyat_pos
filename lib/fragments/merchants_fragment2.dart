@@ -93,14 +93,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   bool searchOpeningR = false;
 
   changeSearchOpening(bool index) {
-    // setState(() {
-    //   searchOpening = index;
-    // });
-    // Future.delayed(const Duration(milliseconds: 500), () {
-    //   setState(() {
-    //     searchOpeningR = index;
-    //   });
-    // });
+    setState(() {
+      searchOpening = index;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        searchOpeningR = index;
+      });
+    });
   }
 
   void printFromOrdersFun(File file, var prodListPR) {
@@ -136,9 +136,27 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   bool i0Clicked = true;
   bool i1Clicked = true;
 
+  bool endOfResult = false;
+
+  ScrollController _scrollController = ScrollController();
+  int itemPerPage = 10;
+
+
   @override
   initState() {
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels && !endOfResult) {
+        print('maxxed ');
+        Future.delayed(const Duration(milliseconds: 500), () {
+          itemPerPage = itemPerPage + 10;
+          setState(() {});
+        });
+
+      }
+    });
 
     getLangId().then((value) {
       if(value=='burmese') {
@@ -263,8 +281,30 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['mer'];
-                              print('mer length' + prods.length.toString());
-                              for(int i = 0; i < prods.length; i++) {
+                              if(itemPerPage >= prods.length) {
+                                endOfResult = true;
+                              }
+                              if(cateScIndex == 0) {
+                                if(i0Clicked) {
+                                  prods = sortMapByNaS(prods);
+                                } else {
+                                  prods = sortMapByNaR(prods);
+                                }
+                              } else if(cateScIndex == 1) {
+                                if(i1Clicked) {
+                                  prods = sortMapByImS(prods);
+                                } else {
+                                  prods = sortMapByImR(prods);
+                                }
+                              }
+
+                              if(prods != null && prods.length > 0) {
+                                print('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
+                                for(int i = 0; i < itemPerPage; i++) {
+                                  if (i >= prods.length) {
+                                    break;
+                                  }
+
                                 var eachMap = prods.entries.elementAt(i);
                                 if(eachMap.value['na'] == null) {
                                   print('prods entri ' + eachMap.toString());
@@ -301,8 +341,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 } else {
                                   resProds = sortMapByImR(resProds);
                                 }
-                              }
+                              } }
                               return CustomScrollView(
+                                controller: _scrollController,
                                 slivers: [
                                   SliverAppBar(
                                     elevation: 0,
@@ -398,6 +439,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                           }
 
                                                           cateScIndex = 0;
+                                                          itemPerPage = 10;
+                                                          endOfResult = false;
                                                         });
                                                       },
                                                       child: Container(
@@ -438,6 +481,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                           }
 
                                                           cateScIndex = 1;
+                                                          itemPerPage = 10;
+                                                          endOfResult = false;
                                                         });
                                                       },
                                                       child: Container(
@@ -902,8 +947,30 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                       },
                                       childCount: resProds == null? 0: resProds.length,
                                     ),
-                                  )
-
+                                  ),
+                                  SliverAppBar(
+                                    toolbarHeight: 30,
+                                    elevation: 0,
+                                    backgroundColor: Colors.white,
+                                    // Provide a standard title.
+                                    // Allows the user to reveal the app bar if they begin scrolling
+                                    // back up the list of items.
+                                    floating: true,
+                                    flexibleSpace: !endOfResult?
+                                    Container(
+                                      child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                    ):
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            child: Text(
+                                              resProds.length == 0? '': 'End of results',
+                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               );
 
