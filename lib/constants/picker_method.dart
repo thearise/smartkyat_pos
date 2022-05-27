@@ -11,7 +11,7 @@ class PickMethod {
     this.onLongPress,
   });
 
-  factory PickMethod.cameraAndStay({required int maxAssetsCount}) {
+  factory PickMethod.cameraAndStay({required int maxAssetsCount, required String lang}) {
     return PickMethod(
       icon: '',
       name: '',
@@ -23,6 +23,7 @@ class PickMethod {
           selectedAssets: assets,
           requestType: RequestType.image,
           specialItemPosition: SpecialItemPosition.prepend,
+          textDelegate: lang == 'en'? EnglishTextDelegate(): MyanmarTextDelegate(),
           specialItemBuilder: (BuildContext context) {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -30,6 +31,7 @@ class PickMethod {
                 final AssetEntity? result = await CameraPicker.pickFromCamera(
                   context,
                   enableRecording: false,
+                  textDelegate: lang == 'en'? EnglishCameraPickerTextDelegate(): MyanmarCameraPickerTextDelegate()
                 );
                 if (result != null) {
                   final AssetPicker<AssetEntity, AssetPathEntity> picker =

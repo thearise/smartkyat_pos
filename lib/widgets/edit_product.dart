@@ -362,7 +362,7 @@ class _EditProductState extends State<EditProduct> {
                                     child: MethodListView(
                                       pickMethods: [
                                         PickMethod.cameraAndStay(
-                                          maxAssetsCount: 1,
+                                          maxAssetsCount: 1, lang: isEnglish? 'en': 'mm',
                                         ),
                                       ],
                                       onSelectMethod: selectAssets,
@@ -1011,8 +1011,9 @@ class _EditProductState extends State<EditProduct> {
                                           }
                                           else {
                                             if(assets.length == 0) {
+                                              print('printedhere');
                                               // data edit start
-                                              await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
+                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
                                                 'prods': {
                                                   widget.prodId: {
                                                     'na': prodNameCtrl.text,
@@ -1036,113 +1037,124 @@ class _EditProductState extends State<EditProduct> {
                                                 }
 
                                               },SetOptions(merge: true)).then((value) {
-                                                print('arrays added ' + '0-'.toString());
-                                                Navigator.of(context).popUntil((route) => route.isFirst);
-                                                smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                               }).catchError((error) => print("Failed to update user: $error"));
                                               // data edit end
 
+                                              print('arrays added ' + '0-'.toString());
+                                              Navigator.of(context).popUntil((route) => route.isFirst);
+                                              smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                               setState(() {
                                                 disableTouch = false;
                                                 prodAdding = false;
                                               });
                                             } else {
-                                              for (int i = 0; i < assets.length; i++) {
-                                                AssetEntity asset = assets.elementAt(i);
-                                                asset.originFile.then((value) async {
-                                                  if(widget.image == '') {
-                                                    addProduct(value!).then((val) async {
-                                                      if(val != 'error img upload') {
-                                                        await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
-                                                          'prods': {
-                                                            widget.prodId: {
-                                                              'img': val.toString()
-                                                            }
+                                              try {
+                                                final resultInt = await InternetAddress.lookup('google.com');
+                                                if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
+                                                  for (int i = 0; i < assets.length; i++) {
+                                                    AssetEntity asset = assets.elementAt(i);
+                                                    asset.originFile.then((value) async {
+                                                      if(widget.image == '') {
+                                                        addProduct(value!).then((val) async {
+                                                          if(val != 'error img upload') {
+                                                            await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
+                                                              'prods': {
+                                                                widget.prodId: {
+                                                                  'img': val.toString()
+                                                                }
+                                                              }
+
+                                                            },SetOptions(merge: true)).then((value) async {
+                                                              print('img data updated ' + '0-'.toString());
+
+                                                              await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
+                                                                'prods': {
+                                                                  widget.prodId: {
+                                                                    'na': prodNameCtrl.text,
+                                                                    'co': barCodeCtrl.text,
+                                                                    'im': double.parse(mainQtyCtrl.text.toString()),
+                                                                    'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                                                    'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                                                    'bm': double.parse(mainBuyCtrl.text),
+                                                                    'b1': sub1Buy,
+                                                                    'b2': sub2Buy,
+                                                                    'sm': double.parse(mainSellCtrl.text),
+                                                                    's1': double.parse(sub1SellCtrl.text),
+                                                                    's2': double.parse(sub2SellCtrl.text),
+                                                                    'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                                                    'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                                                    'nm': mainUnitNameCtrl.text,
+                                                                    'n1': sub1UnitNameCtrl.text,
+                                                                    'n2': sub2UnitNameCtrl.text,
+                                                                    'se': double.parse(subExistChange),
+                                                                  }
+                                                                }
+
+                                                              },SetOptions(merge: true)).then((value) {
+                                                                print('arrays added ' + '0-'.toString());
+                                                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                                                smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                              }).catchError((error) => print("Failed to update user: $error"));
+
+                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                          }
+                                                        });
+                                                      } else {
+                                                        addProductRe(value!, photoArray).then((val) async {
+                                                          if(val != 'error img upload') {
+                                                            await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
+                                                              'prods': {
+                                                                widget.prodId: {
+                                                                  'img': val.toString()
+                                                                }
+                                                              }
+
+                                                            },SetOptions(merge: true)).then((value) async {
+                                                              print('img data updated ' + '0-'.toString());
+
+                                                              await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
+                                                                'prods': {
+                                                                  widget.prodId: {
+                                                                    'na': prodNameCtrl.text,
+                                                                    'co': barCodeCtrl.text,
+                                                                    'im': double.parse(mainQtyCtrl.text.toString()),
+                                                                    'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                                                    'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                                                    'bm': double.parse(mainBuyCtrl.text),
+                                                                    'b1': sub1Buy,
+                                                                    'b2': sub2Buy,
+                                                                    'sm': double.parse(mainSellCtrl.text),
+                                                                    's1': double.parse(sub1SellCtrl.text),
+                                                                    's2': double.parse(sub2SellCtrl.text),
+                                                                    'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                                                    'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                                                    'nm': mainUnitNameCtrl.text,
+                                                                    'n1': sub1UnitNameCtrl.text,
+                                                                    'n2': sub2UnitNameCtrl.text,
+                                                                    'se': double.parse(subExistChange),
+                                                                  }
+                                                                }
+
+                                                              },SetOptions(merge: true)).then((value) {
+                                                                print('arrays added ' + '0-'.toString());
+                                                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                                                smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                              }).catchError((error) => print("Failed to update user: $error"));
+
+                                                            }).catchError((error) => print("Failed to update user: $error"));
                                                           }
 
-                                                        },SetOptions(merge: true)).then((value) async {
-                                                          print('img data updated ' + '0-'.toString());
-
-                                                          await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
-                                                            'prods': {
-                                                              widget.prodId: {
-                                                                'na': prodNameCtrl.text,
-                                                                'co': barCodeCtrl.text,
-                                                                'im': double.parse(mainQtyCtrl.text.toString()),
-                                                                'i1': double.parse(sub1QtyCtrl.text.toString()),
-                                                                'i2': double.parse(sub2QtyCtrl.text.toString()),
-                                                                'bm': double.parse(mainBuyCtrl.text),
-                                                                'b1': sub1Buy,
-                                                                'b2': sub2Buy,
-                                                                'sm': double.parse(mainSellCtrl.text),
-                                                                's1': double.parse(sub1SellCtrl.text),
-                                                                's2': double.parse(sub2SellCtrl.text),
-                                                                'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
-                                                                'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
-                                                                'nm': mainUnitNameCtrl.text,
-                                                                'n1': sub1UnitNameCtrl.text,
-                                                                'n2': sub2UnitNameCtrl.text,
-                                                                'se': double.parse(subExistChange),
-                                                              }
-                                                            }
-
-                                                          },SetOptions(merge: true)).then((value) {
-                                                            print('arrays added ' + '0-'.toString());
-                                                            Navigator.of(context).popUntil((route) => route.isFirst);
-                                                            smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                          }).catchError((error) => print("Failed to update user: $error"));
-
-                                                        }).catchError((error) => print("Failed to update user: $error"));
-                                                      }
-                                                    });
-                                                  } else {
-                                                    addProductRe(value!, photoArray).then((val) async {
-                                                      if(val != 'error img upload') {
-                                                        await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
-                                                          'prods': {
-                                                            widget.prodId: {
-                                                              'img': val.toString()
-                                                            }
-                                                          }
-
-                                                        },SetOptions(merge: true)).then((value) async {
-                                                          print('img data updated ' + '0-'.toString());
-
-                                                          await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
-                                                            'prods': {
-                                                              widget.prodId: {
-                                                                'na': prodNameCtrl.text,
-                                                                'co': barCodeCtrl.text,
-                                                                'im': double.parse(mainQtyCtrl.text.toString()),
-                                                                'i1': double.parse(sub1QtyCtrl.text.toString()),
-                                                                'i2': double.parse(sub2QtyCtrl.text.toString()),
-                                                                'bm': double.parse(mainBuyCtrl.text),
-                                                                'b1': sub1Buy,
-                                                                'b2': sub2Buy,
-                                                                'sm': double.parse(mainSellCtrl.text),
-                                                                's1': double.parse(sub1SellCtrl.text),
-                                                                's2': double.parse(sub2SellCtrl.text),
-                                                                'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
-                                                                'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
-                                                                'nm': mainUnitNameCtrl.text,
-                                                                'n1': sub1UnitNameCtrl.text,
-                                                                'n2': sub2UnitNameCtrl.text,
-                                                                'se': double.parse(subExistChange),
-                                                              }
-                                                            }
-
-                                                          },SetOptions(merge: true)).then((value) {
-                                                            print('arrays added ' + '0-'.toString());
-                                                            Navigator.of(context).popUntil((route) => route.isFirst);
-                                                            smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                          }).catchError((error) => print("Failed to update user: $error"));
-
-                                                        }).catchError((error) => print("Failed to update user: $error"));
+                                                        });
                                                       }
 
                                                     });
                                                   }
-
+                                                }
+                                              } on SocketException catch (_) {
+                                                smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                setState(() {
+                                                  disableTouch = false;
+                                                  prodAdding = false;
                                                 });
                                               }
                                             }
@@ -1996,5 +2008,174 @@ class _EditProductState extends State<EditProduct> {
         );
       },
     );
+  }
+
+  FlashController? _previousController;
+
+  Future smartKyatFMod<T>(BuildContext context, String message, String type) async {
+    if(_previousController != null) {
+      if (_previousController!.isDisposed == false) _previousController!.dismiss();
+    }
+
+    Widget widgetCon = Container();
+    Color bdColor = Color(0xffffffff);
+    Color bgColor = Color(0xffffffff);
+    if(type == 's') {
+      bdColor = Color(0xffB1D3B1);
+      bgColor = Color(0xffCFEEE0);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff419373)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 1.0),
+          child: Icon(
+            Icons.check_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'w') {
+      bdColor = Color(0xffF2E0BC);
+      bgColor = Color(0xffFCF4E2);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffF5C04A)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    } else if(type == 'e') {
+      bdColor = Color(0xffEAD2C8);
+      bgColor = Color(0xffFAEEEC);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffE9625E)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Icon(
+            Icons.close_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'i') {
+      bdColor = Color(0xffBCCEEA);
+      bgColor = Color(0xffE8EEF9);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff4788E2)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
+          child: Text('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    }
+
+    _previousController = FlashController<T>(
+      context,
+      builder: (context, controller) {
+        return Flash(
+          controller: controller,
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          // boxShadows: [BoxShadow(blurRadius: 4)],
+          // barrierBlur: 3.0,
+          // barrierColor: Colors.black38,
+          barrierDismissible: true,
+          behavior: FlashBehavior.floating,
+          position: FlashPosition.top,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 93.0, left: 15, right: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                color: bgColor,
+                border: Border.all(
+                    color: bdColor,
+                    width: 1.0
+                ),
+              ),
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: widgetCon,
+                ),
+                minLeadingWidth: 15,
+                horizontalTitleGap: 10,
+                minVerticalPadding: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                  child: Container(
+                    child: Text(message, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                  ),
+                ),
+                // subtitle: Text('shit2'),
+                // trailing: Text('GGG',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),),
+              ),
+            ),
+          ),
+        );
+        // return Flash.dialog(
+        //   controller: controller,
+        //   alignment: const Alignment(0, 0.5),
+        //   margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        //   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        //   backgroundColor: Colors.black87,
+        //   child: DefaultTextStyle(
+        //     style: const TextStyle(fontSize: 16.0, color: Colors.white),
+        //     child: Padding(
+        //       padding:
+        //       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        //       child: Text(message),
+        //     ),
+        //   ),
+        // );
+      },
+      duration: const Duration(milliseconds: 2500),
+      persistent: true,
+      transitionDuration: Duration(milliseconds: 300),
+    );
+    return _previousController!.show();
   }
 }

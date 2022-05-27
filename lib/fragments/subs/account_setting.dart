@@ -151,10 +151,16 @@ class _AccountSettingState extends State<AccountSetting> {
                                     // color: Colors.grey,
                                   ),),
                                 Text(textSetAccountSetting,
+                                  textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.3
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.3
+                                  ),
+                                  strutStyle: StrutStyle(
+                                    height: 1.7,
+                                    // fontSize:,
+                                    forceStrutHeight: true,
                                   ),
                                 )
                               ],
