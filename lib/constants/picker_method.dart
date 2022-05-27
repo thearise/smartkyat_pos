@@ -29,15 +29,15 @@ class PickMethod {
               behavior: HitTestBehavior.opaque,
               onTap: () async {
                 final AssetEntity? result = await CameraPicker.pickFromCamera(
-                    context,
-                    enableRecording: false,
-                    textDelegate: lang == 'en'? EnglishCameraPickerTextDelegate(): MyanmarCameraPickerTextDelegate()
+                  context,
+                  enableRecording: false,
+                  textDelegate: lang == 'en'? EnglishCameraPickerTextDelegate(): MyanmarCameraPickerTextDelegate()
                 );
                 if (result != null) {
                   final AssetPicker<AssetEntity, AssetPathEntity> picker =
-                  context.findAncestorWidgetOfExactType()!;
+                      context.findAncestorWidgetOfExactType()!;
                   final DefaultAssetPickerProvider p =
-                  picker.builder.provider as DefaultAssetPickerProvider;
+                      picker.builder.provider as DefaultAssetPickerProvider;
                   await p.currentPathEntity!.refreshPathProperties();
                   await p.switchPath(p.currentPathEntity!);
                   p.selectAsset(result);
@@ -75,7 +75,7 @@ class PickMethod {
       description: 'Pick assets from same scroll position.',
       method: (BuildContext context, List<AssetEntity> assets) async {
         final PermissionState _ps =
-        await PhotoManager.requestPermissionExtend();
+            await PhotoManager.requestPermissionExtend();
         if (_ps != PermissionState.authorized &&
             _ps != PermissionState.limited) {
           throw StateError('Permission state error with $_ps.');
@@ -95,8 +95,8 @@ class PickMethod {
   final String name;
   final String description;
   final Future<List<AssetEntity>?> Function(
-      BuildContext context,
-      List<AssetEntity> selectedAssets,
-      ) method;
+    BuildContext context,
+    List<AssetEntity> selectedAssets,
+  ) method;
   final GestureLongPressCallback? onLongPress;
 }

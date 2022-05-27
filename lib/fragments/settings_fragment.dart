@@ -102,9 +102,9 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
   bool searchOpening = false;
   changeSearchOpening(bool index) {
-    // setState(() {
-    //   searchOpening = index;
-    // });
+    setState(() {
+      searchOpening = index;
+    });
   }
 
   String isPro = 'free';
@@ -304,6 +304,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           bottom: true,
           top: true,
@@ -568,6 +569,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
   addStaffPage() {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: true,
@@ -724,6 +726,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               // mainAxisAlignment: MainAxisAlignment.end,
