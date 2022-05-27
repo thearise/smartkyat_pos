@@ -151,7 +151,7 @@ class _EditProductState extends State<EditProduct> {
     subExist = widget.subExist;
     photoArray = widget.image;
 
-   // print('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
+    // print('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
 
     getLangId().then((value) {
       if(value=='burmese') {
@@ -861,8 +861,8 @@ class _EditProductState extends State<EditProduct> {
                                           });
                                         } else {
                                           setState(() {
-                                          addSubUnit++;
-                                        });
+                                            addSubUnit++;
+                                          });
                                         }
 
                                         if(addSubUnit == 1 &&  subExist== 1 || addSubUnit == 2  &&  subExist== 0) {

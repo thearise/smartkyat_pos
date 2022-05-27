@@ -4523,11 +4523,11 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
                                                                       ),
-                                                                      strutStyle: StrutStyle(
-                                                                        height: 1.3,
-                                                                        // fontSize:,
-                                                                        forceStrutHeight: true,
-                                                                      ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1.3,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
                                                                       ),
 
                                                                     ],

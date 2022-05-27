@@ -208,10 +208,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
     docRef.snapshots().listen(
           (event) {
-            print("current data: ${event.data()}");
-            prodsEvent = event.data();
-            print('current worked ');
-          },
+        print("current data: ${event.data()}");
+        prodsEvent = event.data();
+        print('current worked ');
+      },
       onError: (error) => print("Listen failed: $error"),
     );
 
