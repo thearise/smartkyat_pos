@@ -121,14 +121,14 @@ class BuyListFragmentState extends State<BuyListFragment>
   bool searchOpeningR = false;
 
   changeSearchOpening(bool index) {
-    // setState(() {
-    //   searchOpening = index;
-    // });
-    // Future.delayed(const Duration(milliseconds: 500), () {
-    //   setState(() {
-    //     searchOpeningR = index;
-    //   });
-    // });
+    setState(() {
+      searchOpening = index;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        searchOpeningR = index;
+      });
+    });
   }
 
   getLangId() async {
@@ -4523,11 +4523,11 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
                                                                       ),
-                                                                      strutStyle: StrutStyle(
-                                                                        height: 1.3,
-                                                                        // fontSize:,
-                                                                        forceStrutHeight: true,
-                                                                      ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1.3,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
                                                                       ),
 
                                                                     ],

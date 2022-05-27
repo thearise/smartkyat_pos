@@ -180,9 +180,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
 
-   // if(msaleCtrl.text != '' && mcostCtrl.text != '') {
+    // if(msaleCtrl.text != '' && mcostCtrl.text != '') {
     mcostCtrl.addListener((){
-      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) > double.parse(mcostCtrl.text)) {
+      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) < double.parse(mcostCtrl.text)) {
         setState(() {
           priceWarning = true;
         });
@@ -190,7 +190,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         //   print('lee lar');
         // }
         print('Warning pya mal');
-       } else {
+      } else {
         setState(() {
           priceWarning = false;
         });
@@ -198,7 +198,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     });
 
     msaleCtrl.addListener((){
-      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) > double.parse(mcostCtrl.text)) {
+      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) < double.parse(mcostCtrl.text)) {
         setState(() {
           priceWarning = true;
         });
@@ -209,10 +209,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         });
         print('Warning ma pya bu');}
     });
-  //  }
+    //  }
 
 
-   // print('Warning pya mal');
+    // print('Warning pya mal');
     super.initState();
   }
 
@@ -910,7 +910,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           child: MethodListView(
                                             pickMethods: [
                                               PickMethod.cameraAndStay(
-                                                maxAssetsCount: 1,
+                                                maxAssetsCount: 1, lang: isEnglish? 'en': 'mm',
                                               ),
                                             ],
                                             onSelectMethod: selectAssets,
@@ -919,537 +919,541 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                       ],
                                     ),
                                   ),
-                                  Stack(
+                                  Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0),
-                                        child: TextFormField(
+                                      Stack(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0),
+                                            child: TextFormField(
 // The validator receives the text that the user has entered.
-                                          controller: pnameCtrl,
-                                          keyboardType: TextInputType.text,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(30),
-                                          ],
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required. ';
-                                            }
-                                            if(value.length > 30 ) {
-                                              return '  You have reached maximum no of characters.';
-                                            }
-                                            prodFieldsValue.add(value);
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 18.0,
-                                                bottom: 18.0),
-                                            //suffixText: 'Required',
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            suffixStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: textSetProdName,
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      // Container(
-                                      //   alignment: Alignment.topLeft,
-                                      //   padding: EdgeInsets.only(top: 20, left: 15),
-                                      //   child: Text(
-                                      //     "OTHER INFORMATION",
-                                      //     style: TextStyle(
-                                      //       fontWeight: FontWeight.bold,
-                                      //       fontSize: 13,
-                                      //       letterSpacing: 2,
-                                      //       color: Colors.grey,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0, top: 71),
-                                        child: TextFormField(
-                                          controller: bcodeCtrl,
-// The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value != null || value!.isNotEmpty) {
-                                              prodFieldsValue.add(value);
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 18.0,
-                                                bottom: 18.0),
-                                            suffixIcon: IconButton(
-                                              icon: Image.asset('assets/system/barcode.png', height: 28,),
-                                              onPressed: () async {
-                                                print("Barcode");
-                                                // var code = await Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //       builder: (context) =>
-                                                //           QRViewExample()),
-                                                // );
-
-                                                var code = await Navigator.of(context).push(
-                                                  FadeRoute(page: QRViewExample()),
-                                                );
-                                                bcodeCtrl.text = code;
-                                                print('bar bar ' + code);
+                                              controller: pnameCtrl,
+                                              keyboardType: TextInputType.text,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(30),
+                                              ],
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return ' This field is required. ';
+                                                }
+                                                if(value.length > 30 ) {
+                                                  return '  You have reached maximum no of characters.';
+                                                }
+                                                prodFieldsValue.add(value);
+                                                return null;
                                               },
-                                            ),
-                                            // suffixText: 'Optional',
-                                            suffixStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                            ),
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: textSetBarcode,
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      // Container(
-                                      //   alignment: Alignment.topLeft,
-                                      //   padding: EdgeInsets.only(top: 20, left: 15),
-                                      //   child: Text(
-                                      //     "MAIN UNIT QUANTITY",
-                                      //     style: TextStyle(
-                                      //       fontWeight: FontWeight.bold,
-                                      //       fontSize: 13,
-                                      //       letterSpacing: 2,
-                                      //       color: Colors.grey,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // SizedBox(height: 15),
-                                      // Container(
-                                      //   decoration: BoxDecoration(
-                                      //       color: Colors.white,
-                                      //       border: Border(
-                                      //         top: BorderSide(
-                                      //             color:
-                                      //             AppTheme.skBorderColor2,
-                                      //             width: 1.0),
-                                      //       )),
-                                      //   width: double.infinity,
-                                      // ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 145, left: 15.0),
-                                        child: Container(
-                                          color: AppTheme.skBorderColor2,
-                                          height: 1,
-                                          width: MediaQuery.of(context).size.width,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 160),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(textSetMainUnitQty, style: TextStyle(
-                                                letterSpacing: 1.5,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,color: Colors.grey,
-                                              ),
-                                                  strutStyle: StrutStyle(
-                                                    height: isEnglish? 1.4: 1.6,
-                                                    forceStrutHeight: true,
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0, top: 195),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width:
-                                              (MediaQuery.of(context).size.width -
-                                                  30) *
-                                                  (2.41 / 4),
-                                              // child: TextField(
-                                              //     controller: nameController,
-                                              //     decoration: InputDecoration(labelText: 'Full Name')
-                                              // ),
-                                              child: TextFormField(
-                                                controller: munitCtrl,
-                                                keyboardType: TextInputType.numberWithOptions(decimal: false),
-                                                inputFormatters: <TextInputFormatter>[
-                                                  FilteringTextInputFormatter.allow(RegExp(_getNum())),],
-// The validator receives the text that the user has entered.
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return ' This field is required ';
-                                                  }
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
 
-                                                  prodFieldsValue.add(value);
-                                                  return null;
-                                                },
-                                                decoration: InputDecoration(
-                                                  enabledBorder:
-                                                  const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                      borderSide:
-                                                      const BorderSide(
-                                                          color: AppTheme
-                                                              .skBorderColor,
-                                                          width: 2.0),
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              10.0))),
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
 
-                                                  focusedBorder: const OutlineInputBorder(
+                                                focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.themeColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-                                                  contentPadding:
-                                                  const EdgeInsets.only(
-                                                      left: 15.0,
-                                                      right: 15.0,
-                                                      top: 18.0,
-                                                      bottom: 18.0),
-                                                  //suffixText: 'Required',
-                                                  suffixStyle: TextStyle(
-                                                    color: Colors.grey,
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 18.0,
+                                                    bottom: 18.0),
+                                                //suffixText: 'Required',
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
                                                     fontSize: 12,
                                                     fontFamily: 'capsulesans',
-                                                  ),
-                                                  errorStyle: TextStyle(
-                                                      backgroundColor: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: 'capsulesans',
-                                                      height: 0.1
-                                                  ),
-                                                  labelStyle: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                  ),
+                                                    height: 0.1
+                                                ),
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
 // errorText: 'Error message',
-                                                  labelText: textSetUnitQty,
-                                                  floatingLabelBehavior:
-                                                  FloatingLabelBehavior.auto,
+                                                labelText: textSetProdName,
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
 //filled: true,
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(10),
-                                                  ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
                                             ),
-                                            Spacer(),
-                                            Container(
-                                              width:
-                                              (MediaQuery.of(context).size.width -
-                                                  30) *
-                                                  (1.41 / 4),
-                                              child: TextFormField(
-                                                controller: mnameCtrl,
-                                                keyboardType: TextInputType.text,
-                                                // The validator receives the text that the user has entered.
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return ' Required ';
-                                                  }
+                                          ),
+                                          // Container(
+                                          //   alignment: Alignment.topLeft,
+                                          //   padding: EdgeInsets.only(top: 20, left: 15),
+                                          //   child: Text(
+                                          //     "OTHER INFORMATION",
+                                          //     style: TextStyle(
+                                          //       fontWeight: FontWeight.bold,
+                                          //       fontSize: 13,
+                                          //       letterSpacing: 2,
+                                          //       color: Colors.grey,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0, top: 71),
+                                            child: TextFormField(
+                                              controller: bcodeCtrl,
+// The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value != null || value!.isNotEmpty) {
                                                   prodFieldsValue.add(value);
-                                                  return null;
-                                                },
-                                                decoration: InputDecoration(
-                                                  enabledBorder:
-                                                  const OutlineInputBorder(
-                                                    // width: 0.0 produces a thin "hairline" border
-                                                      borderSide:
-                                                      const BorderSide(
-                                                          color: AppTheme
-                                                              .skBorderColor,
-                                                          width: 2.0),
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              10.0))),
-
-                                                  focusedBorder: const OutlineInputBorder(
+                                                }
+                                                return null;
+                                              },
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                      borderSide: const BorderSide(
-                                                          color: AppTheme.themeColor,
-                                                          width: 2.0),
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(10.0))),
-                                                  contentPadding:
-                                                  const EdgeInsets.only(
-                                                      left: 15.0,
-                                                      right: 15.0,
-                                                      top: 18.0,
-                                                      bottom: 18.0),
-                                                  // suffixText: 'Required',
-                                                  suffixStyle: TextStyle(
-                                                    color: Colors.grey,
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 18.0,
+                                                    bottom: 18.0),
+                                                suffixIcon: IconButton(
+                                                  icon: Image.asset('assets/system/barcode.png', height: 28,),
+                                                  onPressed: () async {
+                                                    print("Barcode");
+                                                    // var code = await Navigator.push(
+                                                    //   context,
+                                                    //   MaterialPageRoute(
+                                                    //       builder: (context) =>
+                                                    //           QRViewExample()),
+                                                    // );
+
+                                                    var code = await Navigator.of(context).push(
+                                                      FadeRoute(page: QRViewExample()),
+                                                    );
+                                                    bcodeCtrl.text = code;
+                                                    print('bar bar ' + code);
+                                                  },
+                                                ),
+                                                // suffixText: 'Optional',
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
                                                     fontSize: 12,
                                                     fontFamily: 'capsulesans',
-                                                  ),
-                                                  errorStyle: TextStyle(
-                                                      backgroundColor: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: 'capsulesans',
-                                                      height: 0.1
-                                                  ),
-                                                  labelStyle: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                  ),
-                                                  // errorText: 'Error message',
-                                                  labelText: textSetUnitName,
-                                                  floatingLabelBehavior:
-                                                  FloatingLabelBehavior.auto,
-                                                  //filled: true,
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(10),
-                                                  ),
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: textSetBarcode,
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0, top: 266),
-                                        child: TextFormField(
-                                          controller: msaleCtrl,
-                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-// The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required ';
-                                            }
-                                            prodFieldsValue.add(value);
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 18.0,
-                                                bottom: 18.0),
-                                            suffixText: currencyUnit,
-                                            suffixStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                              fontSize: 12,
-//fontFamily: 'capsulesans',
-                                            ),
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: textSetBuyPrice,
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          // Container(
+                                          //   alignment: Alignment.topLeft,
+                                          //   padding: EdgeInsets.only(top: 20, left: 15),
+                                          //   child: Text(
+                                          //     "MAIN UNIT QUANTITY",
+                                          //     style: TextStyle(
+                                          //       fontWeight: FontWeight.bold,
+                                          //       fontSize: 13,
+                                          //       letterSpacing: 2,
+                                          //       color: Colors.grey,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          // SizedBox(height: 15),
+                                          // Container(
+                                          //   decoration: BoxDecoration(
+                                          //       color: Colors.white,
+                                          //       border: Border(
+                                          //         top: BorderSide(
+                                          //             color:
+                                          //             AppTheme.skBorderColor2,
+                                          //             width: 1.0),
+                                          //       )),
+                                          //   width: double.infinity,
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 145, left: 15.0),
+                                            child: Container(
+                                              color: AppTheme.skBorderColor2,
+                                              height: 1,
+                                              width: MediaQuery.of(context).size.width,
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0, top: 337),
-                                        child: TextFormField(
-                                          controller: mcostCtrl,
-                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-// The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required ';
-                                            }
-                                            prodFieldsValue.add(value);
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 18.0,
-                                                bottom: 18.0),
-                                            suffixText: currencyUnit,
-                                            suffixStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                              fontSize: 12,
-//fontFamily: 'capsulesans',
-                                            ),
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: textSetSalePrice,
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 160),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(textSetMainUnitQty, style: TextStyle(
+                                                    letterSpacing: 1.5,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,color: Colors.grey,
+                                                  ),
+                                                      strutStyle: StrutStyle(
+                                                        height: isEnglish? 1.4: 1.6,
+                                                        forceStrutHeight: true,
+                                                      )),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      priceWarning ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 30.0, right: 15.0, top: 384),
-                                        child: Container(
-                                          color: Colors.white,
-                                          //height: 20,
-                                          child: Text('Price Warning',
-                                            style: TextStyle(
-                                              color: Colors.yellow, fontSize: 12, fontWeight: FontWeight.w500,
-                                            ),),
-                                        ),
-                                      ) : Container(),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 403.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: cards.length,
-                                              itemBuilder:
-                                                  (BuildContext context, int index) {
-                                                return cards[index];
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0, top: 195),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width:
+                                                  (MediaQuery.of(context).size.width -
+                                                      30) *
+                                                      (2.41 / 4),
+                                                  // child: TextField(
+                                                  //     controller: nameController,
+                                                  //     decoration: InputDecoration(labelText: 'Full Name')
+                                                  // ),
+                                                  child: TextFormField(
+                                                    controller: munitCtrl,
+                                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                                    inputFormatters: <TextInputFormatter>[
+                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+// The validator receives the text that the user has entered.
+                                                    validator: (value) {
+                                                      if (value == null || value.isEmpty) {
+                                                        return ' This field is required ';
+                                                      }
+
+                                                      prodFieldsValue.add(value);
+                                                      return null;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      enabledBorder:
+                                                      const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide:
+                                                          const BorderSide(
+                                                              color: AppTheme
+                                                                  .skBorderColor,
+                                                              width: 2.0),
+                                                          borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.0))),
+
+                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.themeColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+                                                      contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 18.0,
+                                                          bottom: 18.0),
+                                                      //suffixText: 'Required',
+                                                      suffixStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                        fontFamily: 'capsulesans',
+                                                      ),
+                                                      errorStyle: TextStyle(
+                                                          backgroundColor: Colors.white,
+                                                          fontSize: 12,
+                                                          fontFamily: 'capsulesans',
+                                                          height: 0.1
+                                                      ),
+                                                      labelStyle: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                      ),
+// errorText: 'Error message',
+                                                      labelText: textSetUnitQty,
+                                                      floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                                      border: OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Container(
+                                                  width:
+                                                  (MediaQuery.of(context).size.width -
+                                                      30) *
+                                                      (1.41 / 4),
+                                                  child: TextFormField(
+                                                    controller: mnameCtrl,
+                                                    keyboardType: TextInputType.text,
+                                                    // The validator receives the text that the user has entered.
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return ' Required ';
+                                                      }
+                                                      prodFieldsValue.add(value);
+                                                      return null;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      enabledBorder:
+                                                      const OutlineInputBorder(
+                                                        // width: 0.0 produces a thin "hairline" border
+                                                          borderSide:
+                                                          const BorderSide(
+                                                              color: AppTheme
+                                                                  .skBorderColor,
+                                                              width: 2.0),
+                                                          borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.0))),
+
+                                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide: const BorderSide(
+                                                              color: AppTheme.themeColor,
+                                                              width: 2.0),
+                                                          borderRadius: BorderRadius.all(
+                                                              Radius.circular(10.0))),
+                                                      contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 18.0,
+                                                          bottom: 18.0),
+                                                      // suffixText: 'Required',
+                                                      suffixStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                        fontFamily: 'capsulesans',
+                                                      ),
+                                                      errorStyle: TextStyle(
+                                                          backgroundColor: Colors.white,
+                                                          fontSize: 12,
+                                                          fontFamily: 'capsulesans',
+                                                          height: 0.1
+                                                      ),
+                                                      labelStyle: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                      ),
+                                                      // errorText: 'Error message',
+                                                      labelText: textSetUnitName,
+                                                      floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
+                                                      //filled: true,
+                                                      border: OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0, top: 266),
+                                            child: TextFormField(
+                                              controller: msaleCtrl,
+                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+// The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return ' This field is required ';
+                                                }
+                                                prodFieldsValue.add(value);
+                                                return null;
                                               },
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 18.0,
+                                                    bottom: 18.0),
+                                                suffixText: currencyUnit,
+                                                suffixStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+//fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: textSetBuyPrice,
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                              ),
                                             ),
-                                            SizedBox(
-                                              height: 20,
-                                            )
-                                          ],
-                                        ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0, top: 337),
+                                            child: TextFormField(
+                                              controller: mcostCtrl,
+                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+// The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return ' This field is required ';
+                                                }
+                                                prodFieldsValue.add(value);
+                                                return null;
+                                              },
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 18.0,
+                                                    bottom: 18.0),
+                                                suffixText: currencyUnit,
+                                                suffixStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+//fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: textSetSalePrice,
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          priceWarning ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 30.0, right: 15.0, top: 384),
+                                            child: Container(
+                                              color: Colors.white,
+                                              //height: 20,
+                                              child: Text('Price Warning',
+                                                style: TextStyle(
+                                                  color: Colors.yellow, fontSize: 12, fontWeight: FontWeight.w500,
+                                                ),),
+                                            ),
+                                          ) : Container(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 403.0),
+                                            child: Column(
+                                              children: <Widget>[
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics: NeverScrollableScrollPhysics(),
+                                                  itemCount: cards.length,
+                                                  itemBuilder:
+                                                      (BuildContext context, int index) {
+                                                    return cards[index];
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

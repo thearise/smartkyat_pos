@@ -25,6 +25,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
@@ -79,8 +80,8 @@ import 'transparent.dart';
 class HomePage extends StatefulWidget {
 
   const HomePage(
-      {Key? key, required this.deviceId,});
-  final String deviceId;
+      {Key? key, this.deviceId,});
+  final String? deviceId;
 
   @override
   State<StatefulWidget> createState() => HomePageState();
@@ -108,6 +109,8 @@ class HomePageState extends State<HomePage>
 
   bool disableTouch = false;
 
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
   //String finalTotal = '';
 
   homePageLoadingOn() {
@@ -130,6 +133,7 @@ class HomePageState extends State<HomePage>
   String? shopId;
   String merchantId = 'name^name';
   List<TabItem> tabs = [];
+  List<TabItem> tabsSearch = [];
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
@@ -400,6 +404,7 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
+
     // FirebaseAuth.instance.signOut();
 
     // showOkCancelAlertDialog(
@@ -752,6 +757,16 @@ class HomePageState extends State<HomePage>
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
+          // TabItem(
+          //   tabName: "Champions",
+          //   icon: Icon(
+          //     Icons.add,
+          //   ),
+          //   page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
+          // ),
+        ];
+
+        tabsSearch = [
           TabItem(
             tabName: "Champions",
             icon: Icon(
@@ -765,6 +780,12 @@ class HomePageState extends State<HomePage>
       tabs.asMap().forEach((index, details) {
         details.setIndex(index);
       });
+
+      tabsSearch.asMap().forEach((index, details) {
+        details.setIndex(0);
+      });
+
+      _selectTabSearch(0);
     });
     super.initState();
   }
@@ -879,7 +900,8 @@ class HomePageState extends State<HomePage>
 
         chgIndex = ayinIndex;
       }
-      _selectTab(chgIndex);
+      //key?
+      // _selectTab(chgIndex);
       globalSearching = false;
       Future.delayed(const Duration(milliseconds: 500), () {
         // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -896,18 +918,21 @@ class HomePageState extends State<HomePage>
   }
 
   openSearchFromFrag() async {
-    ayinIndex = _selectIndex;
-    _selectTab(8);
-    tabs[8].key.currentState!.popUntil((route) => route.isFirst);
+    // ayinIndex = _selectIndex;
+    // _selectTab(8);
+    // tabs[8].key.currentState!.popUntil((route) => route.isFirst);
     globalSearching = true;
-    searchGlobalKey.currentState!.focusSearch();
-    homeGlobalKey.currentState!.changeSearchOpening(true);
-    prodGlobalKey.currentState!.changeSearchOpening(true);
-    sordGlobalKey.currentState!.changeSearchOpening(true);
-    bordGlobalKey.currentState!.changeSearchOpening(true);
-    custGlobalKey.currentState!.changeSearchOpening(true);
-    mercGlobalKey.currentState!.changeSearchOpening(true);
-    settGlobalKey.currentState!.changeSearchOpening(true);
+    // searchGlobalKey.currentState!.focusSearch();
+    // homeGlobalKey.currentState!.changeSearchOpening(true);
+    // prodGlobalKey.currentState!.changeSearchOpening(true);
+    // sordGlobalKey.currentState!.changeSearchOpening(true);
+    // bordGlobalKey.currentState!.changeSearchOpening(true);
+    // custGlobalKey.currentState!.changeSearchOpening(true);
+    // mercGlobalKey.currentState!.changeSearchOpening(true);
+    // settGlobalKey.currentState!.changeSearchOpening(true);
+    setState(() {
+
+    });
   }
 
   closeNewProduct() {
@@ -1079,203 +1104,203 @@ class HomePageState extends State<HomePage>
                                         color: Colors.white,
                                       ),
                                       child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                        builder: (context, snapshot) {
-                                          if(snapshot.hasData) {
-                                            var output = snapshot.data != null? snapshot.data!.data(): null;
-                                            var isPro = output?['is_pro'];
-                                            Timestamp isProStart = isPro['start'];
-                                            Timestamp isProEnd = isPro['end'];
+                                          stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                          builder: (context, snapshot) {
+                                            if(snapshot.hasData) {
+                                              var output = snapshot.data != null? snapshot.data!.data(): null;
+                                              var isPro = output?['is_pro'];
+                                              Timestamp isProStart = isPro['start'];
+                                              Timestamp isProEnd = isPro['end'];
 
-                                            DateTime start = isProStart.toDate();
-                                            DateTime end = isProEnd.toDate();
-                                            return Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(height: 55),
-                                                          Center(
-                                                            child: Text(
-                                                              'You are on pro version', style: TextStyle(
-                                                                fontWeight: FontWeight.w700,
-                                                                fontSize: 26,
-                                                                letterSpacing: -0.4
-                                                            ),
-                                                              strutStyle: StrutStyle(
-                                                                height: 2.2,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
+                                              DateTime start = isProStart.toDate();
+                                              DateTime end = isProEnd.toDate();
+                                              return Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                      child: Container(
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(height: 55),
+                                                            Center(
+                                                              child: Text(
+                                                                'You are on pro version', style: TextStyle(
+                                                                  fontWeight: FontWeight.w700,
+                                                                  fontSize: 26,
+                                                                  letterSpacing: -0.4
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 2.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(top: 20.0),
-                                                            child: Text('Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.',
-                                                              style: TextStyle( fontSize: 14),
-                                                              strutStyle: StrutStyle(
-                                                                height: 1.2,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 20.0),
+                                                              child: Text('Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.',
+                                                                style: TextStyle( fontSize: 14),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.2,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.all(
-                                                            Radius.circular(15.0),
-                                                          ),
-                                                          color: Color(0xFFF5F5F5),
-                                                          border: Border.all(
-                                                              color: Colors.grey.withOpacity(0.2),
-                                                              width: 1.0),
-                                                        ),
-                                                        width: MediaQuery.of(context).size.width,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 20.0),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              SizedBox(height: 18),
-                                                              Text('1 month pro version', style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 18,
-                                                                  letterSpacing: -0.3
-                                                              ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.5,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 5),
-                                                              Text('10,000 Kyats /month', style: TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 14,
-                                                                  letterSpacing: -0.3
-                                                              ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.2,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 22),
-                                                            ],
-                                                          ),
-                                                        )),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
                                                             borderRadius: BorderRadius.all(
                                                               Radius.circular(15.0),
                                                             ),
-                                                            gradient: LinearGradient(
-                                                                colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                                begin: Alignment(-1.0, -2.0),
-                                                                end: Alignment(1.0, 2.0),
-                                                                tileMode: TileMode.clamp)),
-                                                        width: MediaQuery.of(context).size.width,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 20.0),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              SizedBox(height: 18),
-                                                              Text('3 month pro version (save 20%)', style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 18,
-                                                                  letterSpacing: -0.3
-                                                              ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.5,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 5),
-                                                              Text('8,000 Kyats /month', style: TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 14,
-                                                                  letterSpacing: -0.3
-                                                              ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.2,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 22),
-                                                            ],
+                                                            color: Color(0xFFF5F5F5),
+                                                            border: Border.all(
+                                                                color: Colors.grey.withOpacity(0.2),
+                                                                width: 1.0),
                                                           ),
-                                                        )),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.all(
-                                                              Radius.circular(15.0),
+                                                          width: MediaQuery.of(context).size.width,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 20.0),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                SizedBox(height: 18),
+                                                                Text('1 month pro version', style: TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: -0.3
+                                                                ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.5,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 5),
+                                                                Text('10,000 Kyats /month', style: TextStyle(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 14,
+                                                                    letterSpacing: -0.3
+                                                                ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.2,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 22),
+                                                              ],
                                                             ),
-                                                            gradient: LinearGradient(
-                                                                colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                                begin: Alignment(-1.0, -2.0),
-                                                                end: Alignment(1.0, 2.0),
-                                                                tileMode: TileMode.clamp)),
-                                                        width: MediaQuery.of(context).size.width,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 20.0),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              SizedBox(height: 18),
-                                                              Text('5 month pro version (save 30%)', style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 18,
-                                                                  letterSpacing: -0.3
+                                                          )),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                Radius.circular(15.0),
                                                               ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.5,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
+                                                              gradient: LinearGradient(
+                                                                  colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                                  begin: Alignment(-1.0, -2.0),
+                                                                  end: Alignment(1.0, 2.0),
+                                                                  tileMode: TileMode.clamp)),
+                                                          width: MediaQuery.of(context).size.width,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 20.0),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                SizedBox(height: 18),
+                                                                Text('3 month pro version (save 20%)', style: TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: -0.3
                                                                 ),
-                                                              ),
-                                                              SizedBox(height: 5),
-                                                              Text('7,000 Kyats /month', style: TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 14,
-                                                                  letterSpacing: -0.3
-                                                              ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.2,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.5,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
                                                                 ),
+                                                                SizedBox(height: 5),
+                                                                Text('8,000 Kyats /month', style: TextStyle(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 14,
+                                                                    letterSpacing: -0.3
+                                                                ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.2,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 22),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                Radius.circular(15.0),
                                                               ),
-                                                              SizedBox(height: 22),
-                                                            ],
-                                                          ),
-                                                        )),
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                ]
-                                            );
+                                                              gradient: LinearGradient(
+                                                                  colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                                  begin: Alignment(-1.0, -2.0),
+                                                                  end: Alignment(1.0, 2.0),
+                                                                  tileMode: TileMode.clamp)),
+                                                          width: MediaQuery.of(context).size.width,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 20.0),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                SizedBox(height: 18),
+                                                                Text('5 month pro version (save 30%)', style: TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: -0.3
+                                                                ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.5,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 5),
+                                                                Text('7,000 Kyats /month', style: TextStyle(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 14,
+                                                                    letterSpacing: -0.3
+                                                                ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: 1.2,
+                                                                    // fontSize:,
+                                                                    forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 22),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                    ),
+                                                    SizedBox(height: 20),
+                                                  ]
+                                              );
+                                            }
+                                            return Container();
                                           }
-                                          return Container();
-                                        }
                                       ),
                                     ),
                                     Container(
@@ -1881,14 +1906,25 @@ class HomePageState extends State<HomePage>
 
   int _selectIndex = 0;
   void _selectTab(int index) {
-    if (index == currentTab) {
+    if (index == currentTab && tabs[index].key.currentState != null) {
       tabs[index].key.currentState!.popUntil((route) => route.isFirst);
     } else {
       // update the state
       // in order to repaint
       setState(() => currentTab = index);
     }
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   // homeGlobalKey.currentState!.changeSearchOpening(false);
+    //   homeGlobalKey.currentState!.changeSearchOpening(false);
+    //   prodGlobalKey.currentState!.changeSearchOpening(false);
+    //   sordGlobalKey.currentState!.changeSearchOpening(false);
+    //   bordGlobalKey.currentState!.changeSearchOpening(false);
+    //   custGlobalKey.currentState!.changeSearchOpening(false);
+    //   mercGlobalKey.currentState!.changeSearchOpening(false);
+    //   settGlobalKey.currentState!.changeSearchOpening(false);
+    // });
 
+    // chgIndexFromSearch(0);
     // Future.delayed(const Duration(milliseconds: 10), () {
     //   if(_selectIndex == 0) {
     //     homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1916,10 +1952,43 @@ class HomePageState extends State<HomePage>
     //     settGlobalKey.currentState!.changeSearchOpening(true);
     //   }
     // });
+  }
 
-
-
-
+  void _selectTabSearch(int index) {
+    if (index == currentTab) {
+      tabsSearch[index].key.currentState!.popUntil((route) => route.isFirst);
+    } else {
+      // update the state
+      // in order to repaint
+      setState(() => currentTab = index);
+    }
+    // Future.delayed(const Duration(milliseconds: 10), () {
+    //   if(_selectIndex == 0) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(false);
+    //     prodGlobalKey.currentState!.changeSearchOpening(true);
+    //     sordGlobalKey.currentState!.changeSearchOpening(true);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   } else if(_selectIndex == 1) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(true);
+    //     prodGlobalKey.currentState!.changeSearchOpening(false);
+    //     sordGlobalKey.currentState!.changeSearchOpening(true);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   } else if(_selectIndex == 2) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(true);
+    //     prodGlobalKey.currentState!.changeSearchOpening(true);
+    //     sordGlobalKey.currentState!.changeSearchOpening(false);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   }
+    // });
   }
 
   String pdfText = '';
@@ -2117,11 +2186,11 @@ class HomePageState extends State<HomePage>
                                 onEndDrawerChanged: (isOpened) {
                                   if(isOpened) {
                                     print('opening 2');
-                                    searchGlobalKey.currentState!.unfocusSearch();
+                                    // searchGlobalKey.currentState!.unfocusSearch();
                                   }
                                 },
                                 onDrawerChanged: (isOpened) {
-                                  searchGlobalKey.currentState!.unfocusSearch();
+                                  // searchGlobalKey.currentState!.unfocusSearch();
                                   if(isOpened) {
                                     // print('opening ');
                                     // searchGlobalKey.currentState!.unfocusSearch();
@@ -2286,6 +2355,7 @@ class HomePageState extends State<HomePage>
                                                                     settGlobalKey.currentState!.changeSearchOpening(false);
                                                                   });
                                                                 }
+                                                                globalSearching = false;
                                                                 _scaffoldKey.currentState!.openEndDrawer();
                                                               },
                                                               child: Padding(
@@ -2353,6 +2423,7 @@ class HomePageState extends State<HomePage>
                                                                   settGlobalKey.currentState!.changeSearchOpening(false);
                                                                 });
                                                               }
+                                                              globalSearching = false;
                                                               _scaffoldKey.currentState!.openEndDrawer();
 
                                                             },
@@ -2445,6 +2516,7 @@ class HomePageState extends State<HomePage>
                                                                   settGlobalKey.currentState!.changeSearchOpening(false);
                                                                 });
                                                               }
+                                                              globalSearching = false;
                                                               _scaffoldKey.currentState!.openEndDrawer();
                                                             },
                                                             child: Padding(
@@ -2497,6 +2569,7 @@ class HomePageState extends State<HomePage>
                                                                     settGlobalKey.currentState!.changeSearchOpening(false);
                                                                   });
                                                                 }
+                                                                globalSearching = false;
                                                                 _scaffoldKey.currentState!.openEndDrawer();
                                                               },
                                                               child: Padding(
@@ -2548,6 +2621,7 @@ class HomePageState extends State<HomePage>
                                                                   settGlobalKey.currentState!.changeSearchOpening(false);
                                                                 });
                                                               }
+                                                              globalSearching = false;
                                                               _scaffoldKey.currentState!.openEndDrawer();
                                                             },
                                                             child: Padding(
@@ -2639,6 +2713,7 @@ class HomePageState extends State<HomePage>
                                                                     settGlobalKey.currentState!.changeSearchOpening(false);
                                                                   });
                                                                 }
+                                                                globalSearching = false;
                                                                 _scaffoldKey.currentState!.openEndDrawer();
                                                               },
                                                               child: Padding(
@@ -2695,6 +2770,7 @@ class HomePageState extends State<HomePage>
                                                                   settGlobalKey.currentState!.changeSearchOpening(false);
                                                                 });
                                                               }
+                                                              globalSearching = false;
                                                               _scaffoldKey.currentState!.openEndDrawer();
                                                             },
                                                             child: Padding(
@@ -2875,211 +2951,6 @@ class HomePageState extends State<HomePage>
                                     ),
                                   ),
                                 ),
-                                // extendBody: true,
-                                // bottomNavigationBar: Container(
-                                //   color: Colors.transparent,
-                                //   child: Padding(
-                                //     padding: EdgeInsets.only(
-                                //       bottom: homeBotPadding,
-                                //       // bottom: MediaQuery.of(context).viewInsets.bottom
-                                //     ),
-                                //     child: Stack(
-                                //       children: [
-                                //         if (MediaQuery.of(context).size.width > 900) Container() else Padding(
-                                //           padding: EdgeInsets.only(bottom: 100.0),
-                                //           child: Container(
-                                //             decoration: BoxDecoration(
-                                //                 color: Colors.white,
-                                //                 border: Border(
-                                //                   top: BorderSide(
-                                //                       color: AppTheme.skBorderColor2,
-                                //                       width: 1.0),
-                                //                 )
-                                //             ),
-                                //             child: Padding(
-                                //               padding:
-                                //               const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                                //               child: Container(
-                                //                 height: 50,
-                                //                 child: GestureDetector(
-                                //                   onTap: () {
-                                //                     saleCart(context);
-                                //                   },
-                                //                   child: (prodList.length == 0) ?
-                                //                   Container(
-                                //                     decoration: BoxDecoration(
-                                //                       borderRadius: BorderRadius.circular(10.0),
-                                //                       color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                                //                       // color: Colors.blue
-                                //                     ),
-                                //
-                                //                     child: Padding(
-                                //                       padding: const EdgeInsets.only(
-                                //                           top: 13.0, bottom: 15.0),
-                                //                       child: Row(
-                                //                         mainAxisAlignment:
-                                //                         MainAxisAlignment.center,
-                                //                         children: [
-                                //                           Expanded(
-                                //                             child: Padding(
-                                //                               padding: const EdgeInsets.only(
-                                //                                   left: 8.0,
-                                //                                   right: 8.0,
-                                //                                   bottom: 2.0),
-                                //                               child: Container(
-                                //                                 child: Text(
-                                //                                   'Go to cart',
-                                //                                   textAlign: TextAlign.center,
-                                //                                   style: TextStyle(
-                                //                                       fontSize: 18,
-                                //                                       fontWeight: FontWeight.w500,
-                                //                                       color: Colors.black),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                         ],
-                                //                       ),
-                                //                     ),
-                                //                   ) :
-                                //                   Container(
-                                //                     decoration: BoxDecoration(
-                                //                       borderRadius: BorderRadius.circular(10.0),
-                                //                       color: AppTheme.themeColor,
-                                //                       // color: Colors.blue
-                                //                     ),
-                                //
-                                //                     child: Padding(
-                                //                       padding: const EdgeInsets.only(
-                                //                           top: 13.0, bottom: 15.0),
-                                //                       child: Row(
-                                //                         mainAxisAlignment:
-                                //                         MainAxisAlignment.center,
-                                //                         children: [
-                                //                           Expanded(
-                                //                             child: Padding(
-                                //                               padding: const EdgeInsets.only(
-                                //                                   left: 8.0,
-                                //                                   right: 8.0,
-                                //                                   bottom: 2.0),
-                                //                               child: double.parse(totalItems()) == 1? Container(
-                                //                                 child:
-                                //                                 Text(
-                                //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                                //                                   textAlign: TextAlign.center,
-                                //                                   style: TextStyle(
-                                //                                       fontSize: 18,
-                                //                                       fontWeight: FontWeight.w500,
-                                //                                       color: Colors.black),
-                                //                                 ),
-                                //                               ) : Container(
-                                //                                 child:
-                                //                                 Text(
-                                //                                   totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                                //                                   textAlign: TextAlign.center,
-                                //                                   style: TextStyle(
-                                //                                       fontSize: 18,
-                                //                                       fontWeight: FontWeight.w500,
-                                //                                       color: Colors.black),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                         ],
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //         Align(
-                                //           alignment: Alignment.bottomCenter,
-                                //           child: Padding(
-                                //             padding: const EdgeInsets.only(top: 0.0),
-                                //             child: Container(
-                                //               height: 57,
-                                //               decoration: BoxDecoration(
-                                //                   color: Colors.white,
-                                //                   border: Border(
-                                //                     top: BorderSide(
-                                //                         color: AppTheme.skBorderColor2, width: 1.0),
-                                //                   )),
-                                //               child: Padding(
-                                //                 padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                //                 child: Row(
-                                //                   mainAxisAlignment: MainAxisAlignment.center,
-                                //                   children: [
-                                //                     Padding(
-                                //                       padding: const EdgeInsets.only(
-                                //                           left: 15.0,top:0.0
-                                //                       ),
-                                //                       child: GestureDetector(
-                                //                         onTap: () {
-                                //                           _scaffoldKey.currentState!.openDrawer();
-                                //                         },
-                                //                         child: selectedTab(
-                                //
-                                //                         ),
-                                //                       ),
-                                //                     ),
-                                //                     Expanded(
-                                //                       child: Container(
-                                //                           child: Text(
-                                //                             '',
-                                //                             textAlign: TextAlign.center,
-                                //                             style: TextStyle(
-                                //                                 fontSize: 16.5,
-                                //                                 fontWeight: FontWeight.w600,
-                                //                                 color: Colors.black.withOpacity(0.6)),
-                                //                           )),
-                                //                     ),
-                                //                     GestureDetector(
-                                //                       onTap: () async {
-                                //                         // // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
-                                //                         // DateTime _myTime;
-                                //                         // DateTime _ntpTime;
-                                //                         //
-                                //                         // /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
-                                //                         // _myTime = await NTP.now();
-                                //                         //
-                                //                         // /// Or get NTP offset (in milliseconds) and add it yourself
-                                //                         // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
-                                //                         // _ntpTime = _myTime.add(Duration(milliseconds: offset));
-                                //                         //
-                                //                         // print('Date time: ' + DateTime.now().toString());
-                                //                         // print('My time: $_myTime');
-                                //                         // print('NTP time: $_ntpTime');
-                                //                         // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
-                                //                         Navigator.of(context).push(
-                                //                             FadeRoute(page: FirstLaunchPage(),)
-                                //                         );
-                                //                       },
-                                //                       child: Row(
-                                //                         children: [
-                                //                           Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'pro': 'free'),
-                                //                           Padding(
-                                //                             padding: const EdgeInsets.only(
-                                //                                 right: 13.0,top:2.0
-                                //                             ),
-                                //                             child: Container(
-                                //                                 child: Image.asset('assets/system/menu.png', height: 33,)
-                                //                             ),
-                                //                           ),
-                                //                         ],
-                                //                       ),
-                                //                     )
-                                //                   ],
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
                                 body: StreamBuilder(
                                     stream: shopFoundSnapshot,
                                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -3134,6 +3005,42 @@ class HomePageState extends State<HomePage>
                                       }
                                       return Stack(
                                         children: [
+                                          globalSearching? WillPopScope(
+                                            onWillPop: () async {
+                                              if (_navigatorKey.currentState!.canPop()) {
+                                                _navigatorKey.currentState!.pop();
+                                                return false;
+                                              }
+                                              return true;
+                                            },
+                                            child: Navigator(
+                                              key: _navigatorKey,
+                                              initialRoute: '/',
+                                              onGenerateRoute: (RouteSettings settings) {
+                                                WidgetBuilder builder;
+                                                // Manage your route names here
+                                                switch (settings.name) {
+                                                  case '/':
+                                                    builder = (BuildContext context) => SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),);
+                                                    break;
+                                                  case '/page1':
+                                                    builder = (BuildContext context) => Container(height: 400,color: Colors.yellow,);
+                                                    break;
+                                                  case '/page2':
+                                                    builder = (BuildContext context) => Container(height: 400,color: Colors.red,);
+                                                    break;
+                                                  default:
+                                                    throw Exception('Invalid route: ${settings.name}');
+                                                }
+                                                // You can also return a PageRouteBuilder and
+                                                // define custom transitions between pages
+                                                return MaterialPageRoute(
+                                                  builder: builder,
+                                                  settings: settings,
+                                                );
+                                              },
+                                            ),
+                                          ):
                                           WillPopScope(
                                             onWillPop: () async {
                                               final isFirstRouteInCurrentTab = !await tabs[currentTab].key.currentState!.maybePop();
@@ -3185,7 +3092,7 @@ class HomePageState extends State<HomePage>
                                                 Visibility(
                                                   visible: MediaQuery.of(context).size.width > 900,
                                                   child: IgnorePointer(
-                                                     ignoring: disableTouch,
+                                                    ignoring: disableTouch,
                                                     child: Align(
                                                       alignment: Alignment.centerRight,
                                                       child: Container(
@@ -4067,7 +3974,7 @@ class HomePageState extends State<HomePage>
                                                                                                         FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                       onChanged: (value) {
                                                                                                         setState(() async {
-                                                                                                         // String ttlProdListPriceFut = await TtlProdListPrice();
+                                                                                                          // String ttlProdListPriceFut = await TtlProdListPrice();
                                                                                                           totalAmount = double.parse( TtlProdListPrice());
                                                                                                           value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                                                           if((totalAmount - paidAmount).isNegative){
@@ -4526,9 +4433,9 @@ class HomePageState extends State<HomePage>
 
                                                                                                                     Future.delayed(const Duration(milliseconds: 1000), () {
                                                                                                                       setState(() {
-                                                                                                                          pdfText = pdfFile!.path.toString();
-                                                                                                                          orderCreating = false;
-                                                                                                                          disableTouch = false;
+                                                                                                                        pdfText = pdfFile!.path.toString();
+                                                                                                                        orderCreating = false;
+                                                                                                                        disableTouch = false;
                                                                                                                       });
                                                                                                                       // print('saleCartDrag ' + saleCartDrag.toString());
                                                                                                                       _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
@@ -4695,9 +4602,9 @@ class HomePageState extends State<HomePage>
                                                                                       var output2 = snapshot2.data != null? snapshot2.data!.data(): null;
                                                                                       return Padding(
                                                                                         padding: const EdgeInsets.only(
-                                                                                            top: 67.0,
-                                                                                            left: 15.0,
-                                                                                            right: 15.0, bottom: 138,),
+                                                                                          top: 67.0,
+                                                                                          left: 15.0,
+                                                                                          right: 15.0, bottom: 138,),
                                                                                         child: Container(
                                                                                             child: ListView(
                                                                                               padding: EdgeInsets.zero,
@@ -6381,10 +6288,10 @@ class HomePageState extends State<HomePage>
                                                                     _scaffoldKey.currentState!.openDrawer();
                                                                   },
                                                                   child: Container(
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                                                      child: selectedTab()
-                                                                    )
+                                                                      child: Padding(
+                                                                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                                                          child: selectedTab()
+                                                                      )
                                                                   ),
                                                                 ),
                                                               ),
@@ -13362,6 +13269,9 @@ class FadeRoute extends PageRouteBuilder {
   final Widget page;
   @override
   bool get opaque => false;
+
+  // @override
+  // bool get maintainState => false;
   FadeRoute({required this.page})
       : super(
     pageBuilder: (
