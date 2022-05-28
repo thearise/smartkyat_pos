@@ -170,6 +170,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     return BlocBuilder<PaginationCubit, PaginationState>(
       bloc: _cubit,
       builder: (context, state) {
+        print('shhh');
         if (state is PaginationInitial) {
           return widget.initialLoader;
         } else if (state is PaginationError) {
@@ -203,11 +204,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
               ),
             );
           }
-          return widget.itemBuilderType == PaginateBuilderType.listView
-              ? _buildListView(loadedState)
-              : widget.itemBuilderType == PaginateBuilderType.gridView
-                  ? _buildGridView(loadedState)
-                  : _buildShweView(loadedState);
+          return _buildListView(loadedState);
         }
       },
     );
@@ -229,8 +226,26 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     super.dispose();
   }
 
+  ScrollController _scrollController = ScrollController();
+  int itemPerPage = 10;
+  bool endOfResult = false;
+  bool noResult = false;
+  bool noFind = true;
+
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        print('maxxed');
+        Future.delayed(const Duration(milliseconds: 500), () {
+          itemPerPage = itemPerPage + 10;
+          setState(() {});
+        });
+
+      }
+    });
+
     today = widget.dateTime!;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -305,174 +320,304 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         .orderBy('date', descending: true);
   }
 
-  Widget _buildGridView(PaginationLoaded loadedState) {
-    var gridView = CustomScrollView(
-      reverse: widget.reverse,
-      controller: widget.scrollController,
-      shrinkWrap: widget.shrinkWrap,
-      scrollDirection: widget.scrollDirection,
-      physics: widget.physics,
-      slivers: [
-        if (widget.header != null) widget.header!,
-        SliverPadding(
-          padding: widget.padding,
-          sliver: SliverGrid(
-            gridDelegate: widget.gridDelegate,
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                if (index >= loadedState.documentSnapshots.length) {
-                  _cubit!.fetchPaginatedList();
-                  return widget.bottomLoader;
-                }
-                return widget.itemBuilder(
-                  context,
-                  loadedState.documentSnapshots,
-                  index,
-                );
-              },
-              childCount: loadedState.hasReachedEnd
-                  ? loadedState.documentSnapshots.length
-                  : loadedState.documentSnapshots.length + 1,
-            ),
-          ),
-        ),
-        if (widget.footer != null) widget.footer!,
-      ],
-    );
-
-    if (widget.listeners != null && widget.listeners!.isNotEmpty) {
-      return MultiProvider(
-        providers: widget.listeners!
-            .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
-            .toList(),
-        child: gridView,
-      );
-    }
-
-    return gridView;
-  }
-
   var sectionList3;
   final cateScCtler = ScrollController();
   final _width = 10.0;
   int cateScIndex = 0;
+  Map<dynamic, dynamic> countMap = {};
   Widget _buildListView(PaginationLoaded loadedState) {
+    print('whatting???');
+    List viewDocList = [];
+    int allItems = 0;
+
+    outerLoop:
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      // print('bloc_fire data ' + data.toString());
+      List sortedDailyOrder = [];
+      List filtDailyOrder = [];
+      for(int ii = 0; ii < data['daily_order'].length; ii++) {
+        if(cateScIndex == 2) {
+          if(data['daily_order'][ii].split('^')[4] == 'P' || data['daily_order'][ii].split('^')[4] == 'T') {
+            filtDailyOrder.add(data['daily_order'][ii]);
+          }
+        } else if(cateScIndex == 1) {
+          if(data['daily_order'][ii].split('^')[5] != '0.0') {
+            filtDailyOrder.add(data['daily_order'][ii]);
+          }
+        } else if(cateScIndex == 3) {
+          if(data['daily_order'][ii].split('^')[5] == '0.0') {
+            filtDailyOrder.add(data['daily_order'][ii]);
+          }
+        } else if(cateScIndex == 0) {
+          print('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
+          // if(dailyOrders.length >= itemPerPage) {
+          //   break;
+          // }
+          filtDailyOrder.add(data['daily_order'][ii]);
+        }
+      }
+      countMap[data['date'].toDate().year.toString() + zeroToTen(data['date'].toDate().month.toString()) + zeroToTen(data['date'].toDate().day.toString())]
+      = filtDailyOrder.length.toString();
+
+      sortedDailyOrder = sortList(filtDailyOrder);
+      List daily = [];
+      Map<dynamic, dynamic> temp = {};
+      for(int j = 0; j < itemPerPage; j++) {
+        allItems++;
+        if(j>= sortedDailyOrder.length) {
+          break;
+        }
+        daily.add(sortedDailyOrder[j]);
+        if(allItems>=itemPerPage) {
+          temp['daily_order'] = daily;
+          temp['date'] = data['date'];
+          viewDocList.add(temp);
+          break outerLoop;
+        }
+      }
+      temp['daily_order'] = daily;
+      temp['date'] = data['date'];
+      viewDocList.add(temp);
     }
+    // print('bloc_fire data ' + viewDocList.length.toString());
+    print('count map ' + countMap.toString());
 
     var sections = List<ExampleSection>.empty(growable: true);
     int docInc = 0;
-    print('HHHEEEE' + loadedState.documentSnapshots.length.toString() + ' ');
-    loadedState.documentSnapshots.map((document) async {
+    print('HHHEEEE' + viewDocList.length.toString() + ' ');
+    outerLoop:
+    for(int l = 0; l < viewDocList.length; l++) {
 
       // List<String> dailyOrders = document['daily_order'].cast<String>();
       List<String> dailyOrders = [];
-      for(String str in document['daily_order']) {
-        if(cateScIndex == 2) {
-          if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
-            dailyOrders.add(str);
-          }
-        } else if(cateScIndex == 1) {
-          if(str.split('^')[5] != '0.0') {
-            dailyOrders.add(str);
-          }
-        } else if(cateScIndex == 3) {
-          if(str.split('^')[5] == '0.0') {
-            dailyOrders.add(str);
-          }
-        } else if(cateScIndex == 0) {
-          dailyOrders.add(str);
-        }
 
+      for(String str in viewDocList[l]['daily_order']) {
+        // if(cateScIndex == 2) {
+        //   if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
+        //     dailyOrders.add(str);
+        //   }
+        // } else if(cateScIndex == 1) {
+        //   if(str.split('^')[5] != '0.0') {
+        //     dailyOrders.add(str);
+        //   }
+        // } else if(cateScIndex == 3) {
+        //   if(str.split('^')[5] == '0.0') {
+        //     dailyOrders.add(str);
+        //   }
+        // } else if(cateScIndex == 0) {
+        //   print('length checker ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+        //   // if(dailyOrders.length >= itemPerPage) {
+        //   //   break;
+        //   // }
+        //   dailyOrders.add(str);
+        // }
+        dailyOrders.add(str);
       }
+      print('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+      print('where is 2');
+      // print('herre ' + document.id);
+      var section = ExampleSection()
+        ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
+      // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+      //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+      //   ..items = document['daily_order'].cast<String>()
+
+
+        ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
+      // ..items = orderItems(document.id)
+        ..expanded = true;
+      sections.add(section);
+      // if(docInc>0) {
+      //   print('where is ');
+      //   Map<String,dynamic> dataLow = viewDocList[docInc-1].data()! as Map< String, dynamic>;
+      //   List<String> dataLowDailyOrder = [];
+      //   for(String str in dataLow['daily_order']) {
+      //     if(cateScIndex == 2) {
+      //       if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
+      //         dataLowDailyOrder.add(str);
+      //       }
+      //     } else if(cateScIndex == 1) {
+      //       if(str.split('^')[5] != '0.0') {
+      //         dataLowDailyOrder.add(str);
+      //       }
+      //     } else if(cateScIndex == 3) {
+      //       if(str.split('^')[5] == '0.0') {
+      //         dataLowDailyOrder.add(str);
+      //       }
+      //     } else if(cateScIndex == 0) {
+      //       dataLowDailyOrder.add(str);
+      //     }
+      //
+      //   }
+      //
+      //
+      //   print('DATA LOW ' + dataLow['date'].toDate().toString());
+      //   if( viewDocList[l]['date'].toDate().year.toString() + viewDocList[l]['date'].toDate().month.toString() + viewDocList[l]['date'].toDate().day.toString()
+      //       ==
+      //       dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
+      //   ) {
+      //     var section = ExampleSection()
+      //       ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
+      //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+      //     //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+      //
+      //     //   ..items = document['daily_order'].cast<String>()
+      //
+      //
+      //     // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+      //       ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
+      //     // ..items = orderItems(document.id)
+      //       ..expanded = true;
+      //     // sections.add(section);
+      //     sections[sections.length-1] = section;
+      //   } else {
+      //     // print('herre ' + document.id);
+      //     var section = ExampleSection()
+      //       ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
+      //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+      //     //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+      //
+      //     //   ..items = document['daily_order'].cast<String>()
+      //
+      //
+      //       ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
+      //     // ..items = orderItems(document.id)
+      //       ..expanded = true;
+      //     sections.add(section);
+      //   }
+      // } else {
+      //   print('where is 2');
+      //   // print('herre ' + document.id);
+      //   var section = ExampleSection()
+      //     ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
+      //   // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+      //   //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+      //
+      //   //   ..items = document['daily_order'].cast<String>()
+      //
+      //
+      //     ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
+      //   // ..items = orderItems(document.id)
+      //     ..expanded = true;
+      //   sections.add(section);
+      // }
       if(docInc>0) {
-        Map<String,dynamic> dataLow = loadedState.documentSnapshots[docInc-1].data()! as Map< String, dynamic>;
-        List<String> dataLowDailyOrder = [];
-        for(String str in dataLow['daily_order']) {
-          if(cateScIndex == 2) {
-            if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
-              dataLowDailyOrder.add(str);
-            }
-          } else if(cateScIndex == 1) {
-            if(str.split('^')[5] != '0.0') {
-              dataLowDailyOrder.add(str);
-            }
-          } else if(cateScIndex == 3) {
-            if(str.split('^')[5] == '0.0') {
-              dataLowDailyOrder.add(str);
-            }
-          } else if(cateScIndex == 0) {
-            dataLowDailyOrder.add(str);
-          }
-
-        }
-
-
-        print('DATA LOW ' + dataLow['date'].toDate().toString());
-        if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-            ==
-            dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
-        ) {
-          var section = ExampleSection()
-            ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-          //   ..items = document['daily_order'].cast<String>()
-
-
-          // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-            ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
-          // ..items = orderItems(document.id)
-            ..expanded = true;
-          // sections.add(section);
-          sections[sections.length-1] = section;
-        } else {
-          // print('herre ' + document.id);
-          var section = ExampleSection()
-            ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-          //   ..items = document['daily_order'].cast<String>()
-
-
-            ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
-          // ..items = orderItems(document.id)
-            ..expanded = true;
-          sections.add(section);
-        }
-      } else {
-        // print('herre ' + document.id);
-        var section = ExampleSection()
-          ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-        // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-        //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-        //   ..items = document['daily_order'].cast<String>()
-
-
-          ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
-        // ..items = orderItems(document.id)
-          ..expanded = true;
-        sections.add(section);
+        print('section p p lr 1 ' + sections[1].items.length.toString());
       }
-
-
-
       docInc++;
-    }).toList();
+      print('section p p lr 0 ' + sections[0].items.length.toString());
+
+    }
+    // loadedState.documentSnapshots.map((document) async {
+    //
+    //   // List<String> dailyOrders = document['daily_order'].cast<String>();
+    //   List<String> dailyOrders = [];
+    //   for(String str in document['daily_order']) {
+    //     if(cateScIndex == 2) {
+    //       if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
+    //         dailyOrders.add(str);
+    //       }
+    //     } else if(cateScIndex == 1) {
+    //       if(str.split('^')[5] != '0.0') {
+    //         dailyOrders.add(str);
+    //       }
+    //     } else if(cateScIndex == 3) {
+    //       if(str.split('^')[5] == '0.0') {
+    //         dailyOrders.add(str);
+    //       }
+    //     } else if(cateScIndex == 0) {
+    //       if(dailyOrders.length >= itemPerPage) {
+    //         break;
+    //       }
+    //       dailyOrders.add(str);
+    //     }
+    //
+    //   }
+    //   if(docInc>0) {
+    //     Map<String,dynamic> dataLow = loadedState.documentSnapshots[docInc-1].data()! as Map< String, dynamic>;
+    //     List<String> dataLowDailyOrder = [];
+    //     for(String str in dataLow['daily_order']) {
+    //       if(cateScIndex == 2) {
+    //         if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
+    //           dataLowDailyOrder.add(str);
+    //         }
+    //       } else if(cateScIndex == 1) {
+    //         if(str.split('^')[5] != '0.0') {
+    //           dataLowDailyOrder.add(str);
+    //         }
+    //       } else if(cateScIndex == 3) {
+    //         if(str.split('^')[5] == '0.0') {
+    //           dataLowDailyOrder.add(str);
+    //         }
+    //       } else if(cateScIndex == 0) {
+    //         dataLowDailyOrder.add(str);
+    //       }
+    //
+    //     }
+    //
+    //
+    //     print('DATA LOW ' + dataLow['date'].toDate().toString());
+    //     if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+    //         ==
+    //         dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
+    //     ) {
+    //       var section = ExampleSection()
+    //         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+    //       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+    //       //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+    //
+    //       //   ..items = document['daily_order'].cast<String>()
+    //
+    //
+    //       // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+    //         ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
+    //       // ..items = orderItems(document.id)
+    //         ..expanded = true;
+    //       // sections.add(section);
+    //       sections[sections.length-1] = section;
+    //     } else {
+    //       // print('herre ' + document.id);
+    //       var section = ExampleSection()
+    //         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+    //       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+    //       //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+    //
+    //       //   ..items = document['daily_order'].cast<String>()
+    //
+    //
+    //         ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
+    //       // ..items = orderItems(document.id)
+    //         ..expanded = true;
+    //       sections.add(section);
+    //     }
+    //   } else {
+    //     // print('herre ' + document.id);
+    //     var section = ExampleSection()
+    //       ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+    //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+    //     //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+    //
+    //     //   ..items = document['daily_order'].cast<String>()
+    //
+    //
+    //       ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
+    //     // ..items = orderItems(document.id)
+    //       ..expanded = true;
+    //     sections.add(section);
+    //   }
+    //
+    //
+    //
+    //   docInc++;
+    // }).toList();
     sectionList3 = sections;
 
     print('loaded in bloc_firestore ');
 
     var listView = CustomScrollView(
       reverse: widget.reverse,
-      controller: widget.scrollController,
+      controller: _scrollController,
       shrinkWrap: widget.shrinkWrap,
       scrollDirection: widget.scrollDirection,
       physics: widget.physics,
@@ -1131,7 +1276,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                           padding: const EdgeInsets.only(right: 15.0),
                           child: Text(
                             // "#30",
-                            '(' + sectionList3[sectionIndex].items.length.toString() + ')',
+                            // '(' + sectionList3[sectionIndex].items.length.toString() + ')',
+                            '(' + countMap[section.header.substring(0,8)] + ')',
                             // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                             style: TextStyle(
                               height: 0.8,
@@ -1442,92 +1588,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     }
   }
 
-  Widget _buildShweView(PaginationLoaded loadedState) {
-    var listView = ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      scrollDirection: Axis.vertical,
-      itemCount: max(
-          0,
-          (loadedState.hasReachedEnd
-              ? loadedState.documentSnapshots.length
-              : loadedState.documentSnapshots.length + 1) *
-              2 -
-              1),
-      itemBuilder: (context, index) {
-        final itemIndex = index ~/ 2;
-        if (index.isEven) {
-          if (itemIndex >= loadedState.documentSnapshots.length) {
-            _cubit!.fetchPaginatedList();
-            return widget.bottomLoader;
-          }
-          return widget.itemBuilder(
-            context,
-            loadedState.documentSnapshots,
-            itemIndex,
-          );
-        }
-        return widget.separator;
-      },
-    );
 
-    if (widget.listeners != null && widget.listeners!.isNotEmpty) {
-      return MultiProvider(
-        providers: widget.listeners!
-            .map((_listener) => ChangeNotifierProvider(
-          create: (context) => _listener,
-        ))
-            .toList(),
-        child: listView,
-      );
-    }
-
-    return listView;
-  }
-
-  Widget _buildPageView(PaginationLoaded loadedState) {
-    var pageView = Padding(
-      padding: widget.padding,
-      child: PageView.custom(
-        reverse: widget.reverse,
-        allowImplicitScrolling: widget.allowImplicitScrolling,
-        controller: widget.pageController,
-        scrollDirection: widget.scrollDirection,
-        physics: widget.physics,
-        onPageChanged: widget.onPageChanged,
-        childrenDelegate: SliverChildBuilderDelegate(
-          (context, index) {
-            if (index >= loadedState.documentSnapshots.length) {
-              _cubit!.fetchPaginatedList();
-              return widget.bottomLoader;
-            }
-            return widget.itemBuilder(
-              context,
-              loadedState.documentSnapshots,
-              index,
-            );
-          },
-          childCount: loadedState.hasReachedEnd
-              ? loadedState.documentSnapshots.length
-              : loadedState.documentSnapshots.length + 1,
-        ),
-      ),
-    );
-
-    if (widget.listeners != null && widget.listeners!.isNotEmpty) {
-      return MultiProvider(
-        providers: widget.listeners!
-            .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
-            .toList(),
-        child: pageView,
-      );
-    }
-
-    return pageView;
-  }
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1740,6 +1801,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         _animateToIndex(0);
                         setState(() {
                           cateScIndex = 0;
+                          itemPerPage = 10;
                         });
                       },
                       child: Container(
@@ -1770,6 +1832,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         _animateToIndex(5.4);
                         setState(() {
                           cateScIndex = 1;
+                          itemPerPage = 10;
                         });
                       },
                       child: Container(
@@ -1800,6 +1863,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         _animateToIndex(16.4);
                         setState(() {
                           cateScIndex = 2;
+                          itemPerPage = 10;
                         });
                       },
                       child: Container(
@@ -1830,6 +1894,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         _animateToIndex(20);
                         setState(() {
                           cateScIndex = 3;
+                          itemPerPage = 10;
                         });
                       },
                       child: Container(
