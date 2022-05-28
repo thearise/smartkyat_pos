@@ -925,7 +925,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
                                                               sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
                                                               buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
-                                                              toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                                                              toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: false,)),);
                                                     openDrawerFrom();
                                                   },
                                                   child: Padding(

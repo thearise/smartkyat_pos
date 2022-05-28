@@ -2763,7 +2763,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           width: 1.0),
                     )),//stoppppppp
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: homeBotPadding + 110),
+                  padding: EdgeInsets.only(bottom: homeBotPadding + 108),
                   child: sliverBodyWidget(),
                 )
             ),
@@ -4053,7 +4053,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
                             sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
                             buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
-                            toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
+                            toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: true,)),);
                   openDrawerFrom();
 
 
@@ -4711,10 +4711,65 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 .where('orderId', isEqualTo: searchValue)
                 .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+              String info = 'sm';
               if(snapshot1.hasData) {
+                print('snapping ' + snapshot1.data!.docs.toString());
+                if(snapshot1.data!.docs.length == 0 && searchValue != ''){
+                  info = 'no';
+                } else if(snapshot1.data!.docs.length > 0 && searchValue != '') {
+                  info = 'er';
+                } else {
+                  info = 'sm';
+                }
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
+                      if(index == snapshot1.data!.docs.length) {
+                        if(info == 'no') {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'No result found',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        } else if(info == 'er') {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'End of results',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'Search order (eg. 1001)',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        }
+
+                      }
                       return GestureDetector(
                         onTap: () async {
                           closeDrawerFrom();
@@ -4973,12 +5028,24 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                       );
                     },
-                    childCount: snapshot1.data!.docs == null? 0: snapshot1.data!.docs.length,
+                    childCount: snapshot1.data!.docs == null? 1: snapshot1.data!.docs.length + 1,
                     // childCount: 1,
                   ),
                 );
               }
-              return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+              return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Text(
+                          'Order has no data',
+                          strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                      )
+                  ),
+                ],
+              );}, childCount: 1,),);
             }
         ): StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -4988,10 +5055,65 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 .where('orderId', isEqualTo: searchValue)
                 .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+              String info = 'sm';
               if(snapshot2.hasData) {
+                print('snapping ' + snapshot2.data!.docs.toString());
+                if(snapshot2.data!.docs.length == 0 && searchValue != ''){
+                  info = 'no';
+                } else if(snapshot2.data!.docs.length > 0 && searchValue != '') {
+                  info = 'er';
+                } else {
+                  info = 'sm';
+                }
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
+                      if(index == snapshot2.data!.docs.length) {
+                        if(info == 'no') {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'No result found',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        } else if(info == 'er') {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'End of results',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Text(
+                                      'Search order (eg. 1001)',
+                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                                  )
+                              ),
+                            ],
+                          );
+                        }
+
+                      }
                       return GestureDetector(
                         onTap: () async {
                           closeDrawerFrom();
@@ -5250,12 +5372,24 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                       );
                     },
-                    childCount: snapshot2.data!.docs == null? 0: snapshot2.data!.docs.length,
+                    childCount: snapshot2.data!.docs == null? 1: snapshot2.data!.docs.length + 1,
                     // childCount: 1,
                   ),
                 );
               }
-              return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Container();}, childCount: 1,),);
+              return SliverList(delegate: SliverChildBuilderDelegate((context, index) {return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Text(
+                          'Order has no data',
+                          strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
+                      )
+                  ),
+                ],
+              );}, childCount: 1,),);
             }
         ),
         if(cateScIndex != 3 && cateScIndex != 4)
