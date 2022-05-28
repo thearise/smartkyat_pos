@@ -51,10 +51,11 @@ class ProductDetailsView2 extends StatefulWidget {
   required this.buyPrice1,
   required this.buyPrice2,
   required this.buyPrice3,
-        required void toggleCoinCallback(String str),
-        required void toggleCoinCallback3(String str),
-        required void openCartBtn(),
-        required void closeCartBtn(),
+  required this.fromSearch,
+  required void toggleCoinCallback(String str),
+  required void toggleCoinCallback3(String str),
+  required void openCartBtn(),
+  required void closeCartBtn(),
       })
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3,
@@ -84,6 +85,7 @@ class ProductDetailsView2 extends StatefulWidget {
   final double buyPrice1;
   final double buyPrice2;
   final double buyPrice3;
+  final bool fromSearch;
 
 
   @override
@@ -2159,6 +2161,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               ),
                                             ),
                                             SizedBox(height: 18,),
+                                            widget.fromSearch?SizedBox(height: 141): SizedBox(height: 0)
                                           ],
                                         ),
                                       ),
