@@ -16,12 +16,13 @@ class MerchantOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const MerchantOrdersInfoSubs({Key? key, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
+  const MerchantOrdersInfoSubs({Key? key, required this.fromSearch, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
   final String merchName;
   final String merchAddress;
+  final bool fromSearch;
 
   @override
   _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
@@ -458,7 +459,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(
-                            builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
+                            builder: (context) => BuyListInfo(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                         );
                       },
                       child: Stack(

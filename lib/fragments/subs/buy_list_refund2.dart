@@ -20,7 +20,7 @@ class BuyListRefund extends StatefulWidget {
   final _callback;
 
   const BuyListRefund(
-      {Key? key,  required this.documentId, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      {Key? key,  required this.documentId, required this.fromSearch,required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
@@ -28,6 +28,7 @@ class BuyListRefund extends StatefulWidget {
   final String shopId;
   final String docId;
   final String documentId;
+  final bool fromSearch;
 
   @override
   _BuyListRefundState createState() => _BuyListRefundState();
@@ -1282,6 +1283,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                     // height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                     height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                   ),
+                  widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
                 ])),
       ),
     );

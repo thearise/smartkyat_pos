@@ -8,12 +8,13 @@ import '../app_theme.dart';
 
 class EditMerchant extends StatefulWidget {
 
-  const EditMerchant({Key? key, required this.shopId, required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone});
+  const EditMerchant({Key? key, required this.shopId, required this.fromSearch,required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone});
   final String shopId;
   final String merchId;
   final String merchName;
   final String merchAddress;
   final String merchPhone;
+  final bool fromSearch;
 
 
   @override
@@ -506,6 +507,7 @@ class _EditMerchantState extends State<EditMerchant> {
                 color: Colors.white,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
         ),

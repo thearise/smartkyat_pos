@@ -4209,7 +4209,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                   await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
+                                                        builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                   );
                                                   openDrawerFrom();
                                                 },
@@ -4447,7 +4447,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                 await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
+                                                      builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                 );
                                                 openDrawerFrom();
                                               },

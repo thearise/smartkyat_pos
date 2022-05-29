@@ -16,7 +16,7 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-        required this.idString, required this.unitName, required this.shopId, required this.price,
+        required this.idString, required this.unitName, required this.fromSearch, required this.shopId, required this.price,
         required void toggleCoinCallback(String str), required this.unit,
         required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
       }) : _callback = toggleCoinCallback,
@@ -31,6 +31,7 @@ class FillProduct extends StatefulWidget {
   final String stock;
   final String link;
   final String subExist;
+  final bool fromSearch;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -629,6 +630,7 @@ class _FillProductState extends State<FillProduct> {
                 color: Colors.white,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
 

@@ -657,7 +657,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                          builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                     );
                     widget._openDrawerBtn();
                   },
@@ -913,7 +913,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                        builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                   );
                   widget._openDrawerBtn();
                 },
