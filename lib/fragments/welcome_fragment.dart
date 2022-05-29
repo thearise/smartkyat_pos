@@ -694,23 +694,28 @@ class _WelcomeState extends State<Welcome>
                                                                                       email: _email.text,
                                                                                       password: _password.text,
                                                                                     );
-                                                                                    print('mmsp 0.1');
-                                                                                    bool shopExists = false;
-                                                                                    FirebaseFirestore.instance
-                                                                                        .collection('shops')
-                                                                                        .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                                        .get()
-                                                                                        .then((QuerySnapshot querySnapshot) {
-                                                                                      querySnapshot.docs.forEach((doc) {
-                                                                                        shopExists = true;
-                                                                                      });
-                                                                                      print('shop shi lar ' + shopExists.toString());
+                                                                                    if(!auth.currentUser!.emailVerified) {
+                                                                                      Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
+                                                                                    } else {
+                                                                                      print('mmsp 0.1');
+                                                                                      bool shopExists = false;
+                                                                                      FirebaseFirestore.instance
+                                                                                          .collection('shops')
+                                                                                          .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                                          .get()
+                                                                                          .then((QuerySnapshot querySnapshot) {
+                                                                                        querySnapshot.docs.forEach((doc) {
+                                                                                          shopExists = true;
+                                                                                        });
+                                                                                        print('shop shi lar ' + shopExists.toString());
 
-                                                                                      if(shopExists) {
-                                                                                        Navigator.of(context).popUntil((_) => true);
-                                                                                        Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                                      } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-                                                                                    });
+                                                                                        if(shopExists) {
+                                                                                          Navigator.of(context).popUntil((_) => true);
+                                                                                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                                      });
+                                                                                    }
+
                                                                                   } on FirebaseAuthException catch (e) {
                                                                                     print('mmsp 1' + e.code.toString());
 
@@ -1741,28 +1746,32 @@ class _WelcomeState extends State<Welcome>
                                                                       'email': mail.toString(),
                                                                       'plan_type' : 'basic',
                                                                     }).then((val) {
-                                                                      print('uid +' + mail.toString());
-                                                                      bool shopExists = false;
-                                                                      FirebaseFirestore.instance
-                                                                          .collection('shops')
-                                                                          .where('users', arrayContains: mail.toString())
-                                                                          .get()
-                                                                          .then((QuerySnapshot querySnapshot) {
-                                                                        querySnapshot.docs.forEach((doc) {
-                                                                          shopExists = true;
+                                                                      if(!auth.currentUser!.emailVerified) {
+                                                                        Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
+                                                                      } else {
+                                                                        print('uid +' + mail.toString());
+                                                                        bool shopExists = false;
+                                                                        FirebaseFirestore.instance
+                                                                            .collection('shops')
+                                                                            .where('users', arrayContains: mail.toString())
+                                                                            .get()
+                                                                            .then((QuerySnapshot querySnapshot) {
+                                                                          querySnapshot.docs.forEach((doc) {
+                                                                            shopExists = true;
+                                                                          });
+
+
+                                                                          // setState(() {
+                                                                          //   loadingState = false;
+                                                                          // });
+
+                                                                          if(shopExists) {
+                                                                            Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                                                                          } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+
+                                                                          print('username' + mail.toString() + uid.toString());
                                                                         });
-
-
-                                                                        // setState(() {
-                                                                        //   loadingState = false;
-                                                                        // });
-
-                                                                        if(shopExists) {
-                                                                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
-
-                                                                        print('username' + mail.toString() + uid.toString());
-                                                                      });
+                                                                      }
                                                                     });
 
                                                                   });
