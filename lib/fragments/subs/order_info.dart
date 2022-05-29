@@ -30,7 +30,7 @@ class OrderInfoSub extends StatefulWidget {
   final _openCartBtn;
   final _printFromOrders;
   const OrderInfoSub(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void closeCartBtn(), required void openCartBtn(), this.selectedDev, required void printFromOrders(File file, var prodListPR)})
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required this.fromSearch,required void closeCartBtn(), required void openCartBtn(), this.selectedDev, required void printFromOrders(File file, var prodListPR)})
       : _callback = toggleCoinCallback,
         _closeCartBtn = closeCartBtn,
         _openCartBtn = openCartBtn,
@@ -38,6 +38,7 @@ class OrderInfoSub extends StatefulWidget {
   final String data;
   final String shopId;
   final BlueDevice? selectedDev;
+  final bool fromSearch;
 
   @override
   _OrderInfoSubState createState() => _OrderInfoSubState();
@@ -425,6 +426,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
                                                                     OrderRefundsSub(
+                                                                      fromSearch: widget.fromSearch,
                                                                       data: result,
                                                                       data2: prodList,
                                                                       realPrice: totalRealPrice,
@@ -502,7 +504,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtItems(fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }
@@ -592,14 +594,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                                  builder: (context) => PrintReceiptRoute(fromSearch : widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
                                                         } else {
                                                           smartKyatFlash(
                                                               'Try again in few seconds...', 'w');
                                                         }} else  Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                              builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -799,7 +801,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                                  builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                           ); } else {
                                                           smartKyatFlash(
                                                               'Try again in few seconds...',
@@ -807,7 +809,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         } } else Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                              builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                       );
                                                     },
                                                     child: Container(
@@ -1124,7 +1126,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         ),
                                                       ),
                                                     ],
-                                                  ); }
+                                                  );
+                                          }
                                           return Container();
                                         }
                                       ) : Container(),
@@ -1494,7 +1497,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           ),
                         );
 
-                      })
+                      }),
+                widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
               ])),
     );
   }

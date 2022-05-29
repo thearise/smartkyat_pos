@@ -10,11 +10,12 @@ import '../app_theme.dart';
 
 class LossProduct extends StatefulWidget {
   const LossProduct(
-      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price,});
+      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price, required this.fromSearch});
   final String idString;
   final String prodID;
   final String shopId;
   final String price;
+  final bool fromSearch;
 
   @override
   _LossProductState createState() => _LossProductState();
@@ -640,6 +641,7 @@ class _LossProductState extends State<LossProduct> {
                 color: Colors.white,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch?SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
         )

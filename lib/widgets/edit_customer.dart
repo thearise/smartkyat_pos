@@ -7,13 +7,14 @@ import 'package:flutter/services.dart';
 import '../app_theme.dart';
 
 class EditCustomer extends StatefulWidget {
-  const EditCustomer({Key? key, required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) :
+  const EditCustomer({Key? key, required this.fromSearch,required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) :
         super(key: key);
   final String shopId;
   final String cusId;
   final String cusName;
   final String cusAddress;
   final String cusPhone;
+  final bool fromSearch;
 
 
   @override
@@ -508,6 +509,7 @@ class _EditCustomerState extends State<EditCustomer> {
                 color: Colors.white,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
         ),

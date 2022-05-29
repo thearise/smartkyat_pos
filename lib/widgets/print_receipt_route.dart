@@ -24,13 +24,14 @@ import 'printer_check_route.dart';
 
 class PrintReceiptRoute extends StatefulWidget {
 
-  const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
+  const PrintReceiptRoute({Key? key, required this.currency, required this.fromSearch, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
       : _printFromOrders = printFromOrders;
   final String data;
   final List prodList;
   final String shopId;
   final _printFromOrders;
   final String currency;
+  final bool fromSearch;
 
   @override
   _PrintReceiptRouteState createState() => _PrintReceiptRouteState();
@@ -550,6 +551,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                       ),
                     ),
                   ),
+                  widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
                   // Padding(
                   //   padding: EdgeInsets.only(bottom: homeBotPadding),
                   //   child: Container(

@@ -10,12 +10,14 @@ import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 import '../app_theme.dart';
 
 class PayDebtBuyList extends StatefulWidget {
-  const PayDebtBuyList({Key? key, required this.documentId, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
+  const PayDebtBuyList({Key? key, required this.documentId, required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
   final String debt;
   final String data;
   final String docId;
   final String shopId;
   final String documentId;
+  final bool fromSearch;
+
   @override
   _PayDebtBuyListState createState() => _PayDebtBuyListState();
 }
@@ -508,6 +510,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                 color: Colors.white,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
 

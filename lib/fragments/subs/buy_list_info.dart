@@ -31,11 +31,12 @@ class BuyListInfo extends StatefulWidget {
   final _closeCartBtn;
   final _printFromOrders;
   const BuyListInfo(
-      {Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
+      {Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
       : _callback = toggleCoinCallback, _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn, _printFromOrders = printFromOrders;
   final String data;
   final String shopId;
   final BlueDevice? selectedDev;
+  final bool fromSearch;
 
   @override
   _BuyListInfoState createState() => _BuyListInfoState();
@@ -423,6 +424,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
                                                                     BuyListRefund(
+                                                                      fromSearch: widget.fromSearch,
                                                                       data: result,
                                                                       data2: prodList,
                                                                       realPrice: totalRealPrice,
@@ -502,7 +504,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtBuyList(fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }
@@ -593,7 +595,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                                  builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
                                                         } else {
                                                           smartKyatFMod(context, 'Try again in few seconds...', 'w');
                                                           // smartKyatFlash(
@@ -601,7 +603,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         }} else  Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                              builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
                                                     },
                                                     child: Container(
                                                       width: 100,
@@ -803,7 +805,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                                  builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                           ); } else {
                                                           smartKyatFMod(context, 'Try again in few seconds...', 'w');
                                                           // smartKyatFMod(
@@ -812,7 +814,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         } } else Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                              builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                       );
                                                     },
                                                     child: Container(
@@ -1499,7 +1501,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                           ),
                         );
 
-                      })
+                      }),
+                widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
               ])),
     );
   }

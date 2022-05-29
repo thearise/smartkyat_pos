@@ -521,7 +521,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                     MaterialPageRoute(
                                                         builder: (
                                                             context) =>
-                                                            MerchantInfoSubs(
+                                                            MerchantInfoSubs(fromSearch: false,
                                                               id: 'name', mercName: 'No merchant', mercAddress: 'Default buy orders',
                                                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                   );
@@ -642,7 +642,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                   MaterialPageRoute(
                                                       builder: (
                                                           context) =>
-                                                          MerchantInfoSubs(
+                                                          MerchantInfoSubs(fromSearch: false,
                                                             id: 'name', mercName: 'No merchant', mercAddress: 'Default buy orders',
                                                             toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                 );
@@ -788,7 +788,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      MerchantInfoSubs(
+                                                      MerchantInfoSubs(fromSearch: false,
                                                         id: prodKey.toString(), mercName: prodVal['na'], mercAddress:  prodVal['ad'],
                                                         toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );

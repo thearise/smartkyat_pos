@@ -11,13 +11,14 @@ import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
 
-  const PayDebtItems({Key? key, required this.documentId, required this.debt, required this.shopId, required this.data, required this.docId,});
+  const PayDebtItems({Key? key, required this.documentId, required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId,});
 
 final String debt;
 final String data;
 final String docId;
 final String shopId;
 final String documentId;
+final bool fromSearch;
 
   @override
   _PayDebtItemsState createState() => _PayDebtItemsState();
@@ -513,6 +514,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                     color: Colors.white,
                     height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                   ),
+                  widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
                 ],
               ),
 

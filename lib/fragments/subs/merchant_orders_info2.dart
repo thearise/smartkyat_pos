@@ -16,12 +16,13 @@ class MerchantOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const MerchantOrdersInfoSubs({Key? key, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
+  const MerchantOrdersInfoSubs({Key? key, required this.fromSearch, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
   final String merchName;
   final String merchAddress;
+  final bool fromSearch;
 
   @override
   _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
@@ -444,9 +445,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
                       ),
                     ),),
-                  footer: SliverToBoxAdapter(child: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                  footer: SliverToBoxAdapter(child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                      ),
+                      widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
+                    ],
                   )),
                   bottomLoader: Container(
                     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
@@ -458,7 +464,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(
-                            builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
+                            builder: (context) => BuyListInfo(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                         );
                       },
                       child: Stack(

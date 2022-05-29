@@ -19,12 +19,13 @@ class CustomerInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.custName, required this.custAddress, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const CustomerInfoSubs({Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.custName, required this.custAddress, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String custName;
   final String custAddress;
   final String shopId;
   final BlueDevice? selectedDev;
+  final bool fromSearch;
 
   @override
   _CustomerInfoSubsState createState() => _CustomerInfoSubsState();
@@ -383,6 +384,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                  MaterialPageRoute(
                                                    builder: (context) =>
                                                        CustomerOrdersInfoSubs(
+                                                         fromSearch: widget.fromSearch,
                                                          id: widget.id,
                                                          shopId: widget.shopId,
                                                          closeCartBtn: widget
@@ -479,6 +481,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      MaterialPageRoute(
                                                          builder: (context) =>
                                                              EditCustomer(
+                                                               fromSearch: widget.fromSearch,
                                                                shopId: widget
                                                                    .shopId,
                                                                cusId: widget.id,
@@ -1115,6 +1118,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                        ),
                                      ),
                                      SizedBox(height: 18,),
+                                     widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
                                    ],
                                  ),
                                ],
@@ -1377,6 +1381,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           CustomerOrdersInfoSubs(
+                                                            fromSearch: widget.fromSearch,
                                                             id: widget.id,
                                                             shopId: widget.shopId,
                                                             closeCartBtn: widget
@@ -1971,6 +1976,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                       ),
                                     ),
                                     SizedBox(height: 15,),
+                                   widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
                                     // Column(
                                     //   crossAxisAlignment: CrossAxisAlignment.start,
                                     //   children: [

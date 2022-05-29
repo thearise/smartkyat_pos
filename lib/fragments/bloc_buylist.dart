@@ -510,7 +510,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                          builder: (context) => BuyListInfo(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                     );
                     widget._openDrawerBtn();
                   },
@@ -766,7 +766,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                        builder: (context) => BuyListInfo(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                   );
                   widget._openDrawerBtn();
                 },
