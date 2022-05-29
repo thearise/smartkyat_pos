@@ -445,9 +445,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
                       ),
                     ),),
-                  footer: SliverToBoxAdapter(child: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                  footer: SliverToBoxAdapter(child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                      ),
+                      widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
+                    ],
                   )),
                   bottomLoader: Container(
                     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
