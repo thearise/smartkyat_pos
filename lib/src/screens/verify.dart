@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/add_new_shop_fragment.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
@@ -78,7 +79,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15, top: 70.0, bottom: 90.0),
                         child: Text(
-                          'We have sent an email to thearise.sps@gmail.com so that you can activate your account.',
+                          'We have sent an email to ' + auth.currentUser!.email.toString() + ' so that you can activate your account.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
@@ -89,6 +90,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          setStoreId('');
                           await FirebaseAuth.instance.signOut();
                           Navigator.of(context).pushReplacement(FadeRoute(page: Welcome()),);
                         },
@@ -122,6 +124,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             ),
                           ),
                           onPressed: () {
+                            user.sendEmailVerification();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -160,6 +163,13 @@ class _VerifyScreenState extends State<VerifyScreen> {
         ),
       ),
     );
+  }
+
+  setStoreId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    prefs.setString('store', id);
   }
 
   Future<void> checkEmailVerified() async {

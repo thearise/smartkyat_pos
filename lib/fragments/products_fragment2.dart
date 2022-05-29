@@ -177,6 +177,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
+    debugPrint('debug print?');
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels && !endOfResult) {
@@ -917,15 +918,15 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     await Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
-                                                              mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
-                                                              sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
-                                                              sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
-                                                              sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
-                                                              subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
-                                                              mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
-                                                              sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
-                                                              buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
-                                                              toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: false,)),);
+                                                            mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
+                                                            sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                                                            sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
+                                                            sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
+                                                            subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
+                                                            mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
+                                                            sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
+                                                            buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
+                                                            toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: false,)),);
                                                     openDrawerFrom();
                                                   },
                                                   child: Padding(

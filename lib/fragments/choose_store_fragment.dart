@@ -414,6 +414,7 @@ class chooseStoreState extends State<chooseStore> {
                                                           final result = await InternetAddress.lookup('google.com');
                                                           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                                             print('clicking? ');
+                                                            print('userid ' + auth.currentUser!.uid);
                                                             await FirebaseFirestore.instance.collection('users')
                                                                 .where('user_id' ,isEqualTo: auth.currentUser!.uid)
                                                                 .limit(1)
@@ -1136,16 +1137,19 @@ class chooseStoreState extends State<chooseStore> {
                                                       try {
                                                         final result = await InternetAddress.lookup('google.com');
                                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                          print('clicking? ');
                                                           await FirebaseFirestore.instance.collection('users')
                                                               .where('user_id' ,isEqualTo: auth.currentUser!.uid)
                                                               .limit(1)
                                                               .get()
                                                               .then((QuerySnapshot querySnapshot) async {
+                                                            print('clicking? 1');
                                                             Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
                                                             await FirebaseFirestore.instance.collection('shops')
                                                                 .where('owner_id' ,isEqualTo: auth.currentUser!.uid)
                                                                 .get()
                                                                 .then((QuerySnapshot querySnapshot) async {
+                                                              print('clicking? 2');
                                                               int shopCount = querySnapshot.docs.length;
                                                               if(userData['plan_type'] == 'basic' && shopCount >= 5) {
                                                                 showOkAlertDialog(
