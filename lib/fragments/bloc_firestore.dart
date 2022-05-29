@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -58,10 +59,10 @@ class BlocFirestore extends StatefulWidget {
   final _openDrawerBtn;
   final _closeDrawerBtn;
 
-   BlocFirestore({
+  BlocFirestore({
     Key? key,
-     required void openDrawerBtn(),
-     required void closeDrawerBtn(),
+    required void openDrawerBtn(),
+    required void closeDrawerBtn(),
     required void closeCartBtn(),
     required void openCartBtn(),
     this.selectedDev,
@@ -70,7 +71,7 @@ class BlocFirestore extends StatefulWidget {
     required this.query,
     required this.itemBuilderType,
     this.gridDelegate =
-        const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
 
     this.startAfterDocument,
     this.itemsPerPage = 15,
@@ -100,12 +101,12 @@ class BlocFirestore extends StatefulWidget {
     this.dateTime,
     required void resetState(DateTime resetD),
   }) : _resetState = resetState,
-         _closeCartBtn = closeCartBtn,
-         _openCartBtn = openCartBtn,
-         _printFromOrders = printFromOrders,
-         _openDrawerBtn = openDrawerBtn,
+        _closeCartBtn = closeCartBtn,
+        _openCartBtn = openCartBtn,
+        _printFromOrders = printFromOrders,
+        _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn,
-          super(key: key);
+        super(key: key);
 
   final BlueDevice? selectedDev;
   final Widget bottomLoader;
@@ -197,7 +198,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                     child: Container(
                       // color: AppTheme.lightBgColor,
                       color: Colors.white,
-                      child: Center(child: Text('No data found for selected week', style: TextStyle(fontSize: 15),)),
+                      child: Center(child: Text('No data found for selected month', style: TextStyle(fontSize: 15),)),
                     ),
                   )
                 ],
@@ -230,7 +231,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   int itemPerPage = 10;
   bool endOfResult = false;
   bool noResult = false;
-  bool noFind = true;
+  bool noFind = false;
 
   @override
   void initState() {
@@ -324,12 +325,42 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   final cateScCtler = ScrollController();
   final _width = 10.0;
   int cateScIndex = 0;
+  int itemsForPag = 0;
+
   Map<dynamic, dynamic> countMap = {};
   Widget _buildListView(PaginationLoaded loadedState) {
+    endOfResult = false;
+    noFind = false;
     print('whatting???');
     List viewDocList = [];
     int allItems = 0;
+    int itemsForEof = 0;
 
+    for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
+      Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
+      for(int ii = 0; ii < data['daily_order'].length; ii++) {
+        if(cateScIndex == 2) {
+          if(data['daily_order'][ii].split('^')[4] == 'P' || data['daily_order'][ii].split('^')[4] == 'T') {
+            itemsForEof++;
+          }
+        } else if(cateScIndex == 1) {
+          if(data['daily_order'][ii].split('^')[5] != '0.0') {
+            itemsForEof++;
+          }
+        } else if(cateScIndex == 3) {
+          if(data['daily_order'][ii].split('^')[5] == '0.0') {
+            itemsForEof++;
+          }
+        } else if(cateScIndex == 0) {
+          itemsForEof++;
+          // itemsForEof++;
+        }
+      }
+    }
+    print('testtt0 ' + itemsForEof.toString());
+    if(itemsForEof <= 0) {
+      noFind = true;
+    }
     outerLoop:
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
@@ -339,14 +370,17 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         if(cateScIndex == 2) {
           if(data['daily_order'][ii].split('^')[4] == 'P' || data['daily_order'][ii].split('^')[4] == 'T') {
             filtDailyOrder.add(data['daily_order'][ii]);
+            // itemsForPag++;
           }
         } else if(cateScIndex == 1) {
           if(data['daily_order'][ii].split('^')[5] != '0.0') {
             filtDailyOrder.add(data['daily_order'][ii]);
+            // itemsForPag++;
           }
         } else if(cateScIndex == 3) {
           if(data['daily_order'][ii].split('^')[5] == '0.0') {
             filtDailyOrder.add(data['daily_order'][ii]);
+            // itemsForPag++;
           }
         } else if(cateScIndex == 0) {
           print('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
@@ -354,8 +388,16 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           //   break;
           // }
           filtDailyOrder.add(data['daily_order'][ii]);
+          // itemsForPag++;
+          // itemsForEof++;
         }
+
       }
+
+      // if(itemsForPag!=0 && itemsForEof != 0 && itemsForPag > itemsForEof) {
+      //   endOfResult = true;
+      // }
+
       countMap[data['date'].toDate().year.toString() + zeroToTen(data['date'].toDate().month.toString()) + zeroToTen(data['date'].toDate().day.toString())]
       = filtDailyOrder.length.toString();
 
@@ -363,22 +405,33 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       List daily = [];
       Map<dynamic, dynamic> temp = {};
       for(int j = 0; j < itemPerPage; j++) {
-        allItems++;
         if(j>= sortedDailyOrder.length) {
           break;
         }
+        allItems++;
         daily.add(sortedDailyOrder[j]);
+        print('testtt1 ' + itemsForEof.toString() + ' ' + allItems.toString());
+
         if(allItems>=itemPerPage) {
           temp['daily_order'] = daily;
+          // itemsForPag += daily.length;
           temp['date'] = data['date'];
           viewDocList.add(temp);
           break outerLoop;
         }
       }
+      print('testing1 ' + itemsForEof.toString() + ' ' + allItems.toString());
+      if(allItems >= itemsForEof) {
+        endOfResult = true;
+        print('end twr p');
+      } else {
+        endOfResult = false;
+      }
       temp['daily_order'] = daily;
       temp['date'] = data['date'];
       viewDocList.add(temp);
     }
+    print('itemsForEof ' + itemsForEof.toString());
     // print('bloc_fire data ' + viewDocList.length.toString());
     print('count map ' + countMap.toString());
 
@@ -614,7 +667,6 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     sectionList3 = sections;
 
     print('loaded in bloc_firestore ');
-
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: _scrollController,
@@ -924,7 +976,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                       padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: AppTheme.lightBgColor,
+                          color: AppTheme.lightBgColor,
                         ),
                         child: Column(
                           children: [
@@ -976,10 +1028,10 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                             children: [
                                               Expanded(
                                                 child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
-                                                  overflow: TextOverflow.ellipsis
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                    overflow: TextOverflow.ellipsis
                                                 ),
                                                   maxLines: 1,
                                                   strutStyle: StrutStyle(
@@ -1177,43 +1229,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
             },
           ),
         ),
-        // SliverPadding(
-        //   padding: widget.padding,
-        //   sliver: SliverList(
-        //     delegate: SliverChildBuilderDelegate(
-        //       (context, index) {
-        //         final itemIndex = index ~/ 2;
-        //         if (index.isEven) {
-        //           if (itemIndex >= loadedState.documentSnapshots.length) {
-        //             _cubit!.fetchPaginatedList();
-        //             return widget.bottomLoader;
-        //           }
-        //           return widget.itemBuilder(
-        //             context,
-        //             loadedState.documentSnapshots,
-        //             itemIndex,
-        //           );
-        //         }
-        //         return widget.separator;
-        //       },
-        //       semanticIndexCallback: (widget, localIndex) {
-        //         if (localIndex.isEven) {
-        //           return localIndex ~/ 2;
-        //         }
-        //         // ignore: avoid_returning_null
-        //         return null;
-        //       },
-        //       childCount: max(
-        //           0,
-        //           (loadedState.hasReachedEnd
-        //                       ? loadedState.documentSnapshots.length
-        //                       : loadedState.documentSnapshots.length + 1) *
-        //                   2 -
-        //               1),
-        //     ),
-        //   ),
-        // ),
-        if (widget.footer != null) widget.footer!,
+        bottomBox()
       ],
     );
 
@@ -1221,8 +1237,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       return MultiProvider(
         providers: widget.listeners!
             .map((_listener) => ChangeNotifierProvider(
-                  create: (context) => _listener,
-                ))
+          create: (context) => _listener,
+        ))
             .toList(),
         child: listView,
       );
@@ -1230,6 +1246,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
     return listView;
   }
+
+
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
@@ -1797,11 +1815,16 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                           color: AppTheme.skBorderColor2,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         _animateToIndex(0);
                         setState(() {
                           cateScIndex = 0;
                           itemPerPage = 10;
+                        });
+                        // Delay to make sure the frames are rendered properly
+                        // await Future.delayed(const Duration(milliseconds: 300));
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
                         });
                       },
                       child: Container(
@@ -1834,6 +1857,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                           cateScIndex = 1;
                           itemPerPage = 10;
                         });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
                       },
                       child: Container(
                         child: Text(
@@ -1864,6 +1890,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         setState(() {
                           cateScIndex = 2;
                           itemPerPage = 10;
+                        });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
                         });
                       },
                       child: Container(
@@ -1896,6 +1925,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                           cateScIndex = 3;
                           itemPerPage = 10;
                         });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
                       },
                       child: Container(
                         child: Text(
@@ -1920,6 +1952,33 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
       ),
     );
+  }
+
+  bottomBox() {
+    if(noFind) {
+      return SliverToBoxAdapter(child: Padding(
+        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        child: Center(child: Text('No filter found', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+      ));
+    } else if (endOfResult) {
+      return SliverToBoxAdapter(child: Padding(
+        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+      ));
+    } else {
+      return SliverAppBar(
+        toolbarHeight: 30,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        // Provide a standard title.
+        // Allows the user to reveal the app bar if they begin scrolling
+        // back up the list of items.
+        floating: true,
+        flexibleSpace: Container(
+          child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+        ),
+      );
+    }
   }
 }
 
