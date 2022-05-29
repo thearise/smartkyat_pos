@@ -15,12 +15,13 @@ class CustomerOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const CustomerOrdersInfoSubs({Key? key, required this.custName, required this.custAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn, _printFromOrders = printFromOrders;
+  const CustomerOrdersInfoSubs({Key? key, required this.fromSearch ,required this.custName, required this.custAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn, _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
   final String custName;
   final String custAddress;
+  final bool fromSearch;
 
   @override
   _CustomerOrdersInfoSubsState createState() => _CustomerOrdersInfoSubsState();
@@ -447,9 +448,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
                       ),
                     ),),
-                  footer: SliverToBoxAdapter(child: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                  footer: SliverToBoxAdapter(child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                      ),
+                      widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
+                    ],
                   )),
                   bottomLoader: Container(
                     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
@@ -471,7 +477,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                       onTap: () {
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
+                            builder: (context) => OrderInfoSub(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                         );
                       },
                       child: Stack(

@@ -3714,7 +3714,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                 MaterialPageRoute(
                                                     builder: (
                                                         context) =>
-                                                        MerchantInfoSubs(
+                                                        MerchantInfoSubs(fromSearch: false,
                                                           id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
                                                           toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                               );
@@ -3892,7 +3892,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      MerchantInfoSubs(
+                                                      MerchantInfoSubs(fromSearch: false,
                                                         id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
                                                         toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
@@ -4242,7 +4242,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      MerchantInfoSubs(
+                                                      MerchantInfoSubs(fromSearch: false,
                                                         id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
                                                         toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
@@ -4420,7 +4420,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                             MaterialPageRoute(
                                                 builder: (
                                                     context) =>
-                                                    MerchantInfoSubs(
+                                                    MerchantInfoSubs(fromSearch: false,
                                                       id: 'name', mercAddress: 'Default buy orders', mercName: 'No merchant',
                                                       toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                           );
@@ -4631,7 +4631,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                     MaterialPageRoute(
                                         builder: (
                                             context) =>
-                                            MerchantInfoSubs(
+                                            MerchantInfoSubs(fromSearch: false,
                                               id: version, mercAddress: data['merchant_address'], mercName: data['merchant_name'],
                                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                   );

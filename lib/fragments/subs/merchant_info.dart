@@ -22,12 +22,13 @@ class MerchantInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const MerchantInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(), required void openCartBtn(),required this.id, required this.mercName, required this.mercAddress, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const MerchantInfoSubs({Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(), required void openCartBtn(),required this.id, required this.mercName, required this.mercAddress, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final String mercName;
   final String mercAddress;
   final BlueDevice? selectedDev;
+  final bool fromSearch;
 
 
   @override
@@ -330,6 +331,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   MerchantOrdersInfoSubs(
+                                                    fromSearch: widget.fromSearch,
                                                     id: widget.id,
                                                     shopId: widget.shopId
                                                         .toString(),
@@ -420,6 +422,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   builder: (context) =>
                                                       EditMerchant(shopId: widget
                                                           .shopId,
+                                                        fromSearch: widget.fromSearch,
                                                         merchId: widget.id,
                                                         merchName: merchantName,
                                                         merchAddress: address,
@@ -997,6 +1000,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                 ),
                               ),
                               SizedBox(height: 18,),
+                              widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
                             ],
                           ),
                         ],
@@ -1203,6 +1207,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             MerchantOrdersInfoSubs(
+                                                              fromSearch: widget.fromSearch,
                                                               id: widget.id,
                                                               shopId: widget.shopId
                                                                   .toString(),
@@ -1745,6 +1750,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                       ),
                                     ),
                                     SizedBox(height: 15,),
+                                    widget.fromSearch?SizedBox(height: 141): SizedBox(height: 0)
                                     // Column(
                                     //   crossAxisAlignment: CrossAxisAlignment.start,
                                     //   children: [

@@ -24,7 +24,7 @@ import 'package:async/async.dart';
 
 class EditProduct extends StatefulWidget {
   const EditProduct({Key? key,
-    required this.image, required this.shopId, required this.prodId, required this.prodName, required this.mainQty,  required this.mainName,
+    required this.image, required this.shopId, required this.fromSearch,required this.prodId, required this.prodName, required this.mainQty,  required this.mainName,
     required this.mainBuy, required this.mainSell, required this.barcode,  required this.sub1perUnit, required this.sub1UnitName,
     required this.sub1Qty, required this.sub1Sell, required this.sub2perUnit, required this.sub2UnitName,
     required this.sub2Qty, required this.sub2Sell, required this.subExist, }) :
@@ -47,6 +47,7 @@ class EditProduct extends StatefulWidget {
   final double sub2Sell;
   final double subExist;
   final String image;
+  final bool fromSearch;
 
   @override
   _EditProductState createState() => _EditProductState();
@@ -1330,6 +1331,7 @@ class _EditProductState extends State<EditProduct> {
                 // height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                 height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
               ),
+              widget.fromSearch? SizedBox(height: 65): SizedBox(height: 0)
             ],
           ),
         ),

@@ -3813,7 +3813,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      CustomerInfoSubs(
+                                                      CustomerInfoSubs(fromSearch: false,
                                                         id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                         toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
@@ -3991,7 +3991,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                             MaterialPageRoute(
                                                 builder: (
                                                     context) =>
-                                                    CustomerInfoSubs(
+                                                    CustomerInfoSubs(fromSearch: false,
                                                       id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                       toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                           );
@@ -4341,7 +4341,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                           MaterialPageRoute(
                                               builder: (
                                                   context) =>
-                                                  CustomerInfoSubs(
+                                                  CustomerInfoSubs(fromSearch: false,
                                                     id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                     toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                         );
@@ -4519,7 +4519,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                         MaterialPageRoute(
                                             builder: (
                                                 context) =>
-                                                CustomerInfoSubs(
+                                                CustomerInfoSubs(fromSearch: false,
                                                   id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                   toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                       );
@@ -4735,7 +4735,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                   MaterialPageRoute(
                                       builder: (
                                           context) =>
-                                          CustomerInfoSubs(
+                                          CustomerInfoSubs(fromSearch: false,
                                             id: version, custName: data['customer_name'], custAddress: data['customer_address'],
                                             toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                 );

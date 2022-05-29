@@ -4263,7 +4263,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     MaterialPageRoute(
                         builder: (
                             context) =>
-                            CustomerInfoSubs(
+                            CustomerInfoSubs(fromSearch: true,
                               id: prodKey.toString(), custName: prodVal['na'], custAddress: prodVal['ad'],
                               toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
@@ -4490,7 +4490,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     MaterialPageRoute(
                         builder: (
                             context) =>
-                            MerchantInfoSubs(
+                            MerchantInfoSubs(fromSearch: true,
                               id: prodKey.toString(), mercName: prodVal['na'], mercAddress: prodVal['ad'],
                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
@@ -4776,7 +4776,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+
+                                builder: (context) => OrderInfoSub(fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                         },
@@ -5120,7 +5121,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BuyListInfo(data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+
+                                builder: (context) => BuyListInfo(fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                         },

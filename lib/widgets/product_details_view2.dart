@@ -771,6 +771,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               context,
                                                               MaterialPageRoute(
                                                                   builder: (context) => FillProduct(
+                                                                    fromSearch: widget.fromSearch,
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
                                                                     toggleCoinCallback3: addProduct3,
@@ -806,6 +807,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder: (context) => FillProduct(
+                                                                        fromSearch: widget.fromSearch,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
@@ -816,6 +818,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder: (context) => FillProduct(
+                                                                        fromSearch: widget.fromSearch,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
@@ -826,6 +829,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder: (context) => FillProduct(
+                                                                        fromSearch: widget.fromSearch,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
@@ -889,7 +893,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           if (subExist == 0) {
                                                             widget._closeCartBtn();
                                                             await Navigator.push(
-                                                                context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: widget.idString + '^' + prodName + '^' + mainName.toString() +
+                                                                context, MaterialPageRoute( builder: (context) => LossProduct(fromSearch: widget.fromSearch, idString: widget.idString, prodID: widget.idString + '^' + prodName + '^' + mainName.toString() +
                                                                 '^unit_name' + '^' + mainQty.toString() + '^', shopId: widget.shopId, price: buyPrice1.toString(),
                                                             )
                                                             ));
@@ -926,17 +930,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               widget._closeCartBtn();
                                                               if(result.split('^')[3] == 'sub1_name') {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice2.toString(),
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice2.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               } else if(result.split('^')[3] == 'sub2_name') {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice3.toString(),
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice3.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               } else {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice1.toString(),
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice1.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               }
@@ -1040,7 +1044,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             var result = await Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: double.parse(mainQty.toString()), mainName: mainName, mainBuy: double.parse(buyPrice1.toString()), mainSell: double.parse(mainPrice.toString()), barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: double.parse(sub1Qty.toString()), sub1Sell: double.parse(sub1Price.toString()), sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: double.parse(sub2Qty.toString()), sub2Sell: double.parse(sub2Price.toString()), subExist : double.parse(subExist.toString()))));
+                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: double.parse(mainQty.toString()), mainName: mainName, mainBuy: double.parse(buyPrice1.toString()), mainSell: double.parse(mainPrice.toString()), barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: double.parse(sub1Qty.toString()), sub1Sell: double.parse(sub1Price.toString()), sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: double.parse(sub2Qty.toString()), sub2Sell: double.parse(sub2Price.toString()), fromSearch: widget.fromSearch, subExist : double.parse(subExist.toString()))));
                                                             widget._openCartBtn();
                                                             print('result check ' + result.toString());
                                                           },
@@ -2139,9 +2143,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                                   Navigator.pop(contextOver);
                                                                 }
-
-
-
                                                               }
                                                             });
                                                           },
