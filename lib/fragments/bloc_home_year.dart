@@ -289,13 +289,13 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('inside loss loss ' + data.toString());
+      debugPrint('inside loss loss ' + data.toString());
     }
 
     fetchOrdersYY(loadedState.documentSnapshots);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if(widget.intValIni == 2 || widget.intValIni == 3) {
-        print('animating to ');
+        debugPrint('animating to ');
         cateScCtler.jumpTo(156);
       }
     });
@@ -831,7 +831,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                     //
                                                     // }
                                                     Map<String, dynamic> dataL = loadedState.documentSnapshots[index].data()! as Map<String, dynamic>;
-                                                    print('check product ' + dataL['buy_price'].toString());
+                                                    debugPrint('check product ' + dataL['buy_price'].toString());
                                                     return Container();
                                                   }),
                                             ),
@@ -1315,7 +1315,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String _format = 'yyyy-MMMM-dd';
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1343,13 +1343,13 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1368,7 +1368,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1872,7 +1872,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
 
 
 
-            // print('value ' + findMax(roundMonth).toString());
+            // debugPrint('value ' + findMax(roundMonth).toString());
             return '';
           },
           reservedSize: 42,
@@ -1959,7 +1959,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       roundWeek.add(dbl.round());
     }
     int five = 5;
-    // print(roundWeek.toString);
+    // debugPrint(roundWeek.toString);
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -2086,7 +2086,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
 
 
 
-            // print('value ' + findMax(roundWeek).toString());
+            // debugPrint('value ' + findMax(roundWeek).toString());
             return '';
           },
           reservedSize: 42,
@@ -2265,7 +2265,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
 
 
 
-            // print('value ' + findMax(roundYear).toString());
+            // debugPrint('value ' + findMax(roundYear).toString());
             return '';
           },
           reservedSize: 35,
@@ -2349,9 +2349,9 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   }
 
   double funChange(max) {
-    // print(findMax(roundWeek));
+    // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
-    // print('gg ' + (5.0 - max).toString());
+    // debugPrint('gg ' + (5.0 - max).toString());
     return 5.0 - max;
   }
 
@@ -2361,7 +2361,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       ten = ten * 10;
     }
     return ten;
-    // print('length ' + ten.toString().toString());
+    // debugPrint('length ' + ten.toString().toString());
   }
 
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2416,17 +2416,17 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     lastYearRefund = 0;
     lastYearLoss = 0;
 
-    print('docs3 ' + snapshot0.length.toString());
+    debugPrint('docs3 ' + snapshot0.length.toString());
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
-      print('George Y sai 0 ' + snapshot0[loopOrd].id.toString());
+      debugPrint('George Y sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
 
       for(int i = 1; i<= 12; i++) {
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           thisYearOrdersChart[i] += thisYearOrdersChart[i] + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
 
@@ -2437,15 +2437,15 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'] != null) {
           yearCostsTotal2 +=  data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'].toString());
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if (data[(today.year - 1).toString() + zeroToTen(i.toString()) +
             'cash_merc'] != null) {
           lastYearCost +=
@@ -2454,48 +2454,48 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
           yearUnpaidTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
           lastYearUnpaid +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
           yearRefundTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
           lastYearRefund +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'] != null) {
           yearLossTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'];
-          print('LossOne ' + yearLossTotal.toString());
+          debugPrint('LossOne ' + yearLossTotal.toString());
         }
       }
 
       for(int i = 1; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'loss_cust'] != null) {
           lastYearLoss +=  data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'];
-          print('LossTwo ' + lastYearLoss.toString());
+          debugPrint('LossTwo ' + lastYearLoss.toString());
         }
       }
 

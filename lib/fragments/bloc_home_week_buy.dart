@@ -202,7 +202,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
   @override
   void initState() {
     today = widget.dateTime!;
-    print('calling buy ' + widget.sale.length.toString());
+    debugPrint('calling buy ' + widget.sale.length.toString());
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -282,7 +282,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('bloc_fire buy data ' + data.toString());
+      debugPrint('bloc_fire buy data ' + data.toString());
     }
 
     var listView = Container(
@@ -362,7 +362,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
   String _format = 'yyyy-MMMM-dd';
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -390,13 +390,13 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -415,7 +415,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {

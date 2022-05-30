@@ -312,7 +312,7 @@ class _AddShopState extends State<AddShop> {
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
                             child: TextFormField(
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                               controller: _shopName,
                               validator: (value) {
@@ -594,14 +594,14 @@ class _AddShopState extends State<AddShop> {
                                               }).then((value) {
 
                                               })
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                               shops.doc(value.id).collection('users_ver').doc(uid).set({
                                                 'email': email.toString(),
                                                 'role' : 'owner',
                                                 'device0': await _getId()
                                               }).then((value) {})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
 
 
                                               addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
@@ -628,16 +628,21 @@ class _AddShopState extends State<AddShop> {
 
 
                                               try {
+                                                FocusScope.of(context).unfocus();
                                                 await batch.commit();
                                                 await setDeviceId('0');
                                                 setStoreId(value.id.toString());
-                                                print('shop added');
-                                                var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                                debugPrint('shop added');
+                                                Future.delayed(const Duration(milliseconds: 1000), () async {
+                                                  var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                                });
+
+
 
                                                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
 
                                               } catch (error) {
-                                                print('shop adding error');
+                                                debugPrint('shop adding error');
                                                 await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
                                                 smartKyatFlash('Something went wrong while creating the shop', 'e');
                                                 setState(() {

@@ -425,7 +425,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     });
     _controller = new TabController(length: 3, vsync: this);
     _controller.addListener((){
-      print('my index is'+ _controller.index.toString());
+      debugPrint('my index is'+ _controller.index.toString());
       if(_controller.index.toString()=='1') {
         setState(() {
           _sliding = 1;
@@ -998,7 +998,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                             //               MaterialPageRoute(
                                             //                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: openCartFrom,)));
                                             //           widget._openCartBtn();
-                                            //           print('result check ' + result.toString());
+                                            //           debugPrint('result check ' + result.toString());
                                             //         },
                                             //         child: Text(
                                             //           'EDIT',
@@ -1046,7 +1046,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 MaterialPageRoute(
                                                                     builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: double.parse(mainQty.toString()), mainName: mainName, mainBuy: double.parse(buyPrice1.toString()), mainSell: double.parse(mainPrice.toString()), barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: double.parse(sub1Qty.toString()), sub1Sell: double.parse(sub1Price.toString()), sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: double.parse(sub2Qty.toString()), sub2Sell: double.parse(sub2Price.toString()), fromSearch: widget.fromSearch, subExist : double.parse(subExist.toString()))));
                                                             widget._openCartBtn();
-                                                            print('result check ' + result.toString());
+                                                            debugPrint('result check ' + result.toString());
                                                           },
                                                           child: Padding(
                                                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -2099,26 +2099,26 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               defaultType: OkCancelAlertDefaultType.cancel,
                                                             ).then((result) async {
                                                               if(result == OkCancelResult.ok) {
-                                                                print('widgeturl' + widget.imgUrl);
+                                                                debugPrint('widgeturl' + widget.imgUrl);
                                                                 if(widget.imgUrl != null && widget.imgUrl != '') {
                                                                   try {
                                                                     final resultInt = await InternetAddress.lookup('google.com');
                                                                     if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
                                                                       removeImgServer(widget.imgUrl).then((value) async {
-                                                                        print('val lue' + value.toString());
+                                                                        debugPrint('val lue' + value.toString());
                                                                         if(value == 200) {
-                                                                          print('all set');
+                                                                          debugPrint('all set');
                                                                           smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
 
                                                                           product.update({
                                                                             'prods.' + widget.idString: FieldValue.delete()
                                                                           }).then((value) async {
-                                                                          }).catchError((error) => print("Failed to update:  0 $error"));
+                                                                          }).catchError((error) => debugPrint("Failed to update:  0 $error"));
 
                                                                           productImg.update({
                                                                             'prods.' + widget.idString: FieldValue.delete()
                                                                           }).then((value) {
-                                                                          }).catchError((error) => print("Failed to update: 1 $error"));
+                                                                          }).catchError((error) => debugPrint("Failed to update: 1 $error"));
 
                                                                           Navigator.pop(contextOver);
                                                                         }
@@ -2128,18 +2128,18 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     smartKyatFMod(context,'Internet connection is required if this product has image.', 'w');
                                                                   }
                                                                 } else {
-                                                                  print('all set no img');
+                                                                  debugPrint('all set no img');
                                                                   smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
 
                                                                   product.update({
                                                                     'prods.' + widget.idString: FieldValue.delete()
                                                                   }).then((value) async {
-                                                                  }).catchError((error) => print("Failed to update:  0 $error"));
+                                                                  }).catchError((error) => debugPrint("Failed to update:  0 $error"));
 
                                                                   productImg.update({
                                                                     'prods.' + widget.idString: FieldValue.delete()
                                                                   }).then((value) {
-                                                                  }).catchError((error) => print("Failed to update: 1 $error"));
+                                                                  }).catchError((error) => debugPrint("Failed to update: 1 $error"));
 
                                                                   Navigator.pop(contextOver);
                                                                 }
@@ -2484,37 +2484,37 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 // }
 
 // Future<void> addDateExist(prodId, unit , buyPrice, amount, date) async {
-//   print('CHECKING PRODSALE ORD');
+//   debugPrint('CHECKING PRODSALE ORD');
 //   CollectionReference lossProduct = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID).collection(unit);
 //   lossProduct.doc(date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString())+ '0' + deviceIdNum).update({
 //     'count': FieldValue.increment(double.parse(amount.toString())),
 //     'buy_price': buyPrice,
-//   }).then((value) => print("User Updated"))
-//       .catchError((error) => print("Failed to update user: $error"));
+//   }).then((value) => debugPrint("User Updated"))
+//       .catchError((error) => debugPrint("Failed to update user: $error"));
 // }
 
 // Future<void> decStockFromInv(id, unit, num) async {
 //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 //
-//   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //   users
 //       .doc(id)
 //       .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-//       .then((value) => print("User Updated"))
-//       .catchError((error) => print("Failed to update user: $error"));
+//       .then((value) => debugPrint("User Updated"))
+//       .catchError((error) => debugPrint("Failed to update user: $error"));
 // }
 //
 // Future<void> incStockFromInv(id, unit, num) async {
 //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 //
-//   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //   users
 //       .doc(id)
 //       .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-//       .then((value) => print("User Updated"))
-//       .catchError((error) => print("Failed to update user: $error"));
+//       .then((value) => debugPrint("User Updated"))
+//       .catchError((error) => debugPrint("Failed to update user: $error"));
 // }
 //
 // Future<void> sub1Execution(subStock, subLink, id, num) async {

@@ -97,9 +97,9 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       }
     });
 
-    print('printing route1 ' + widget.data.toString());
-    print('printing route2 ' + widget.prodList.toString());
-   // print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
+    debugPrint('printing route1 ' + widget.data.toString());
+    debugPrint('printing route2 ' + widget.prodList.toString());
+   // debugPrint('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
     initOrderData();
     infoData();
     super.initState();
@@ -115,8 +115,8 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
     infoList.add(widget.data.split('^')[1]+ '<>' +widget.data.split('^')[3].split('&')[0]+ '<>' + dueDate.toString() + '<>' + discount + '<>' +widget.data.split('^')[6].split('-')[0]+ '<>' + widget.data.split('^')[5] + '<>' + widget.data.split('^')[1].toString() + '<>' + widget.data.split('^')[3].split('&')[0].toString() + '<>' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString());
     ttlInfoList = widget.prodList + infoList;
 
-    print('ttlInfoList' + ttlInfoList.toString());
-    print('tttttttt ' + widget.data.split('^')[1].toString() + '     ' + widget.data.split('^')[3].split('&')[0].toString() + '      ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString());
+    debugPrint('ttlInfoList' + ttlInfoList.toString());
+    debugPrint('tttttttt ' + widget.data.split('^')[1].toString() + '     ' + widget.data.split('^')[3].split('&')[0].toString() + '      ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString());
   }
 
 
@@ -128,7 +128,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
     final date = DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
     final dueDate = date.add(Duration(days: 7));
-    // print('CUZMER CHECK ' + customerId.toString());
+    // debugPrint('CUZMER CHECK ' + customerId.toString());
     var shopDocSnap = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
         .get();
     if (shopDocSnap.exists) {
@@ -180,7 +180,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       );
 
       getPaperId().then((value) async {
-        print('VVAALLUUEE ' + value.toString());
+        debugPrint('VVAALLUUEE ' + value.toString());
         pdfFile = await PdfInvoiceApi.generate(invoice, value);
         pdfFilePRoll = await PdfInvoiceApi.generate(invoice, 'Roll-57');
 
@@ -198,17 +198,17 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
     // for (String str in prodList) {
     //   subNameListLength = subNameListLength + 1;
-    //   print('DATA CHECK PROD ' + str.toString());
+    //   debugPrint('DATA CHECK PROD ' + str.toString());
     //   var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(str.split('^')[0])
     //       .get();
     //   if (docSnapshot10.exists) {
     //     Map<String, dynamic>? data10 = docSnapshot10.data();
     //     subNameList.add(data10 ? [str.split('^')[3]]);
     //     if(prodList.length == subNameListLength) {
-    //       print('fianlize : ' + subNameList.toString());
+    //       debugPrint('fianlize : ' + subNameList.toString());
     //       final date = DateTime.now();
     //       final dueDate = date.add(Duration(days: 7));
-    //       // print('CUZMER CHECK ' + customerId.toString());
+    //       // debugPrint('CUZMER CHECK ' + customerId.toString());
     //       final invoice = Invoice(
     //         supplier: Supplier(
     //           name: 'shopGloName',
@@ -250,7 +250,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
     //
     //
     //       // getPaperId().then((value) async {
-    //       //   print('VVAALLUUEE ' + value.toString());
+    //       //   debugPrint('VVAALLUUEE ' + value.toString());
     //       //   pdfFile = await PdfInvoiceApi.generate(invoice, value);
     //       //
     //       //   Uint8List bytes = pdfFile!.readAsBytesSync();
@@ -538,7 +538,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                     child: CupertinoActivityIndicator(radius: 15,)),
                               ): GestureDetector(
                                   onTap: () {
-                                    // print('clicked');
+                                    // debugPrint('clicked');
                                     PdfApi.openFile(pdfFile!);
                                   },
                                   child: Padding(
@@ -599,22 +599,22 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                   //               dailyOrders.doc(widget.documentId).update({
                   //                 'daily_order':
                   //                 FieldValue.arrayRemove([dataRm])
-                  //               }).then((value) {print('array removed');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //               }).then((value) {debugPrint('array removed');})
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               dailyOrders.doc(widget.documentId).update({
                   //                 'daily_order':
                   //                 FieldValue.arrayUnion([data])
-                  //               }).then((value) { print('array updated');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //               }).then((value) { debugPrint('array updated');})
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               order.doc(
                   //                   widget.docId)
                   //                   .update({
                   //                 'debt6' : debtAmount
                   //               })
-                  //                   .then((value) => print("User Updated"))
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //                   .then((value) => debugPrint("User Updated"))
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               double debts = 0;
                   //               if(debtAmount == 0.0) {
@@ -627,8 +627,8 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                   //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
                   //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
                   //                 })
-                  //                     .then((value) => print("User Updated"))
-                  //                     .catchError((error) => print("Failed to update user: $error"));}
+                  //                     .then((value) => debugPrint("User Updated"))
+                  //                     .catchError((error) => debugPrint("Failed to update user: $error"));}
                   //
                   //               _textFieldController.clear();
                   //               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -866,11 +866,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
     try {
       success = (await ImageSave.saveImage(_data, "receipt.jpg", albumName: "SmartKyatPOS"))!;
     } on PlatformException catch (e, s) {
-      print(e);
-      print(s);
+      debugPrint(e.toString());
+      debugPrint(s.toString());
     }
 
-    print(success ? "Save to album success" : "Save to album failed");
+    debugPrint(success ? "Save to album success" : "Save to album failed");
     // setState(() {
     //   _result = success ? "Save to album success" : "Save to album failed";
     // });

@@ -194,7 +194,7 @@
 //     //         _isBannerAdReady = true;
 //     //       });
 //     //     }, onAdFailedToLoad: (ad, LoadAdError error) {
-//     //       print("Failed to Load A Banner Ad${error.message}");
+//     //       debugPrint("Failed to Load A Banner Ad${error.message}");
 //     //       _isBannerAdReady = false;
 //     //       ad.dispose();
 //     //     }),
@@ -208,7 +208,7 @@
 //     //     searchValue = _searchController.text;
 //     //   });
 //     //   searchKeyChanged();
-//     //   print(searchValue);
+//     //   debugPrint(searchValue);
 //     // });
 //     // subTabController = TabController(length: 3, vsync: this);
 //     // slidingSearchCont();
@@ -294,17 +294,17 @@
 //   // slidingSearchCont() {
 //   //
 //   //   if(slidingSearch == 0) {
-//   //     print('gg0');
+//   //     debugPrint('gg0');
 //   //     subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //   //     setState(() {
 //   //     });
 //   //   } else if(slidingSearch == 1) {
-//   //     print('gg1');
+//   //     debugPrint('gg1');
 //   //     subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //   //     setState(() {
 //   //     });
 //   //   } else if(slidingSearch == 2) {
-//   //     print('gg2');
+//   //     debugPrint('gg2');
 //   //     subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //   //     setState(() {
 //   //     });
@@ -321,14 +321,14 @@
 //
 //   void closeSearch() {
 //     _searchController.clear();
-//     print('clicked testing ');
+//     debugPrint('clicked testing ');
 //     FocusScope.of(context).unfocus();
 //     setState(() {
 //       loadingSearch = false;
 //     });
 //   }
 //   void unfocusSearch() {
-//     print('clicked testing 2');
+//     debugPrint('clicked testing 2');
 //     FocusScope.of(context).unfocus();
 //   }
 //
@@ -573,7 +573,7 @@
 //       body: GestureDetector(
 //         onTap: () {
 //           FocusScope.of(context).unfocus();
-//           print('cateScIndex2' + cateScIndex.toString());
+//           debugPrint('cateScIndex2' + cateScIndex.toString());
 //         },
 //         child: Container(
 //           color: Colors.white,
@@ -615,8 +615,8 @@
 //                                                 ),
 //                                                 onPressed: () async {
 //                                                   widget._callback();
-//                                                   print('execution');
-//                                                   // print('array -> ' + textSplitFunction('abcde').toString());
+//                                                   debugPrint('execution');
+//                                                   // debugPrint('array -> ' + textSplitFunction('abcde').toString());
 //                                                   // getStoreId().then((value) async {
 //                                                   //   await FirebaseFirestore.instance.collection('shops').doc(
 //                                                   //       value.toString()).collection('customers')
@@ -625,16 +625,16 @@
 //                                                   //     querySnapshotProdChange.docs.map((document) async {
 //                                                   //       int length = 0;
 //                                                   //       length = document['customer_name'].length;
-//                                                   //       print('id    -> ' + length.toString());
-//                                                   //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-//                                                   //       print('array -> ' + textSplitFunction(document['customer_name']).length.toString());
+//                                                   //       debugPrint('id    -> ' + length.toString());
+//                                                   //       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
+//                                                   //       debugPrint('array -> ' + textSplitFunction(document['customer_name']).length.toString());
 //                                                   //
 //                                                   //
 //                                                   // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('customers');
 //                                                   // productId.doc(document.i).update({
 //                                                   //   'search_name': textSplitFunction(document['customer_name']),
 //                                                   // }).then((value) {
-//                                                   // }).catchError((error) => print("Failed to update: $error"));
+//                                                   // }).catchError((error) => debugPrint("Failed to update: $error"));
 //                                                   //     }).toList();
 //                                                   //   });
 //                                                   // });
@@ -789,8 +789,8 @@
 //                                             ),
 //                                             onPressed: () async {
 //                                               widget._callback();
-//                                               //print('execution');
-//                                               // print('array -> ' + textSplitFunction('abcde').toString());
+//                                               //debugPrint('execution');
+//                                               // debugPrint('array -> ' + textSplitFunction('abcde').toString());
 //                                               // getStoreId().then((value) async {
 //                                               //   await FirebaseFirestore.instance.collection('shops').doc(
 //                                               //       value.toString()).collection('merchants')
@@ -799,16 +799,16 @@
 //                                               //     querySnapshotProdChange.docs.map((document) async {
 //                                               //       int length = 0;
 //                                               //       length = document['merchant_name'].length;
-//                                               //       print('id    -> ' + length.toString());
-//                                               //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-//                                               //       print('array -> ' + textSplitFunction(document['merchant_name']).length.toString());
+//                                               //       debugPrint('id    -> ' + length.toString());
+//                                               //       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
+//                                               //       debugPrint('array -> ' + textSplitFunction(document['merchant_name']).length.toString());
 //                                               //
 //                                               //
 //                                               //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('merchants');
 //                                               //       productId.doc(document.id).update({
 //                                               //         'search_name': textSplitFunction(document['merchant_name']),
 //                                               //       }).then((value) {
-//                                               //       }).catchError((error) => print("Failed to update: $error"));
+//                                               //       }).catchError((error) => debugPrint("Failed to update: $error"));
 //                                               //     }).toList();
 //                                               //   });
 //                                               // });
@@ -1295,7 +1295,7 @@
 //   }
 //
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {
@@ -1432,7 +1432,7 @@
 //   //                             onPressed: () {
 //   //                               List<AssetEntity> assets = <AssetEntity>[];
 //   //                               MultiAssetsPageState().pageMultiGlo();
-//   //                               // print(assets.length.toString());
+//   //                               // debugPrint(assets.length.toString());
 //   //
 //   //
 //   //                               // if (_formKey.currentState!.validate()) {
@@ -1441,7 +1441,7 @@
 //   //                               //   ScaffoldMessenger.of(context).showSnackBar(
 //   //                               //     const SnackBar(content: Text('Processing Data')),
 //   //                               //   );
-//   //                               //   // print(prodFieldsValue);
+//   //                               //   // debugPrint(prodFieldsValue);
 //   //                               //
 //   //                               //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
 //   //                               //   var prodExist = false;
@@ -1455,9 +1455,9 @@
 //   //                               //       spaceDocId = doc.id;
 //   //                               //     });
 //   //                               //
-//   //                               //     print('space shi p thar');
+//   //                               //     debugPrint('space shi p thar');
 //   //                               //     getStoreId().then((String result2) {
-//   //                               //       print('store id ' + result2.toString());
+//   //                               //       debugPrint('store id ' + result2.toString());
 //   //                               //
 //   //                               //       FirebaseFirestore.instance
 //   //                               //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
@@ -1469,7 +1469,7 @@
 //   //                               //         });
 //   //                               //
 //   //                               //         if(prodExist) {
-//   //                               //           print('product already');
+//   //                               //           debugPrint('product already');
 //   //                               //           var result = await showOkAlertDialog(
 //   //                               //               context: context,
 //   //                               //               title: 'Warning',
@@ -1484,7 +1484,7 @@
 //   //                               //             'prod_name': prodFieldsValue[0]
 //   //                               //           })
 //   //                               //               .then((value) {
-//   //                               //             print('product added');
+//   //                               //             debugPrint('product added');
 //   //                               //
 //   //                               //             Navigator.pop(context);
 //   //                               //           });
@@ -1982,7 +1982,7 @@
 // //                   )),
 // //               onPressed: () {
 // //                 if (cards.length == 3) {
-// //                   print('Cards limit reached');
+// //                   debugPrint('Cards limit reached');
 // //                 } else
 // //                   setState(() => cards.add(createCard()));
 // //               },

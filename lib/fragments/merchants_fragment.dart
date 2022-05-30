@@ -140,7 +140,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     //     searchValue = _searchController.text;
     //   });
     //   searchKeyChanged();
-    //   print(searchValue);
+    //   debugPrint(searchValue);
     // });
     // subTabController = TabController(length: 3, vsync: this);
     // slidingSearchCont();
@@ -209,17 +209,17 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   // slidingSearchCont() {
   //
   //   if(slidingSearch == 0) {
-  //     print('gg0');
+  //     debugPrint('gg0');
   //     subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
   //   } else if(slidingSearch == 1) {
-  //     print('gg1');
+  //     debugPrint('gg1');
   //     subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
   //   } else if(slidingSearch == 2) {
-  //     print('gg2');
+  //     debugPrint('gg2');
   //     subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
@@ -242,14 +242,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -447,10 +447,10 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //         ;
   //       }
   //     }
-  //     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+  //     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
   //   }).toList();
   //
-  //   // print('changeData ' + snpsht.da);
+  //   // debugPrint('changeData ' + snpsht.da);
   //   return list;
   // }
   //
@@ -482,10 +482,10 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //         ;
   //       }
   //     }
-  //     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+  //     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
   //   }).toList();
   //
-  //   // print('changeData ' + snpsht.da);
+  //   // debugPrint('changeData ' + snpsht.da);
   //   return list;
   // }
   //
@@ -500,12 +500,12 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //         if(searchValue.contains('-')) {
   //           searchValue = searchValue.split('-')[1];
   //         }
-  //         print('hereeee');
+  //         debugPrint('hereeee');
   //         sectionList2 = List<ExampleSection>.empty(growable: true);
   //
   //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
   //
-  //         print("search " + searchValue);
+  //         debugPrint("search " + searchValue);
   //         String max = searchValue;
   //         // sectionList = [];
   //         List detailIdList = [];
@@ -547,7 +547,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                 //   ..items = detailIdList.cast<String>()
   //                 //   ..expanded = true;
   //
-  //                 print('buy ord ' + detailIdList.length.toString());
+  //                 debugPrint('buy ord ' + detailIdList.length.toString());
   //                 sections.add(saleOrders);
   //                 // sections.add(buyOrders);
   //                 sectionList2 = sections;
@@ -584,7 +584,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //               //   ..items = detailIdList.cast<String>()
   //               //   ..expanded = true;
   //
-  //               //  print('buy ord ' + detailIdList.length.toString());
+  //               //  debugPrint('buy ord ' + detailIdList.length.toString());
   //               sections.add(saleOrders);
   //               // sections.add(buyOrders);
   //               sectionList2 = sections;
@@ -595,12 +595,12 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //         if(searchValue.contains('-')) {
   //           searchValue = searchValue.split('-')[1];
   //         }
-  //         print('hereeee');
+  //         debugPrint('hereeee');
   //         sectionList2 = List<ExampleSection>.empty(growable: true);
   //
   //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
   //
-  //         print("search " + searchValue);
+  //         debugPrint("search " + searchValue);
   //         String max = searchValue;
   //         // sectionList = [];
   //         List detailIdList = [];
@@ -642,7 +642,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                 //   ..items = detailIdList.cast<String>()
   //                 //   ..expanded = true;
   //
-  //                 print('sale ord ' + detailIdList.length.toString());
+  //                 debugPrint('sale ord ' + detailIdList.length.toString());
   //                 sections.add(saleOrders);
   //                 // sections.add(buyOrders);
   //                 sectionList2 = sections;
@@ -680,7 +680,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //               //   ..items = detailIdList.cast<String>()
   //               //   ..expanded = true;
   //
-  //               // print('buy ord ' + detailIdList.length.toString());
+  //               // debugPrint('buy ord ' + detailIdList.length.toString());
   //               sections.add(saleOrders);
   //               // sections.add(buyOrders);
   //               sectionList2 = sections;
@@ -731,7 +731,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //               items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
   //             });
   //
-  //             // print(doc['prod_name'].toString());
+  //             // debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -760,7 +760,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //               items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
   //             });
   //
-  //             // print(doc['prod_name'].toString());
+  //             // debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -836,7 +836,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                   doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
   //             });
   //
-  //             print(doc['prod_name'].toString());
+  //             debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -1840,7 +1840,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                                   if(item.split('^')[9] == 'b') {
   //                                     return GestureDetector(
   //                                       onTap: () {
-  //                                         // print(item.split('^')[1]);
+  //                                         // debugPrint(item.split('^')[1]);
   //                                         Navigator.push(
   //                                           context,
   //                                           MaterialPageRoute(
@@ -2073,7 +2073,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                                   } else {
   //                                     return GestureDetector(
   //                                       onTap: () {
-  //                                         // print(item.split('^')[1]);
+  //                                         // debugPrint(item.split('^')[1]);
   //                                         Navigator.push(
   //                                           context,
   //                                           MaterialPageRoute(
@@ -2799,8 +2799,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                         //                                 //           } else
   //                         //                                 //             return Container();
   //                         //                                 //         }).toList();
-  //                         //                                 //         // print(sub1Quantity);
-  //                         //                                 //         // print(mainQuantity);
+  //                         //                                 //         // debugPrint(sub1Quantity);
+  //                         //                                 //         // debugPrint(mainQuantity);
   //                         //                                 //         if (sub3Quantity !=
   //                         //                                 //             null) {
   //                         //                                 //           return Text(
@@ -3111,7 +3111,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //                         //       }
   //                         //       return GestureDetector(
   //                         //         onTap: () {
-  //                         //           print('Items'+item);
+  //                         //           debugPrint('Items'+item);
   //                         //           // Navigator.push(
   //                         //           //   context,
   //                         //           //   MaterialPageRoute(
@@ -4621,7 +4621,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                             itemBuilder: (context1, documentSnapshots, index) {
                               final data =  documentSnapshots[index].data() as Map<String, dynamic>;
                               var version = documentSnapshots[index].id;
-                              print('hello ' + cateScIndex.toString());
+                              debugPrint('hello ' + cateScIndex.toString());
                               //String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                               return GestureDetector(
                                 onTap: () async {
@@ -4993,7 +4993,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     );
   }
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -5011,7 +5011,7 @@ Future<String> getStoreId() async {
   // return(prefs.getString('store'));
 
   var index = prefs.getString('store');
-  print(index);
+  debugPrint(index);
   if (index == null) {
     return 'idk';
   } else {

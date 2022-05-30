@@ -94,7 +94,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {

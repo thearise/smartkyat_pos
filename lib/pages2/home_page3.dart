@@ -160,16 +160,16 @@
 //   List<String> subList2 = [];
 // //bool saleLoadingState = false;
 //   testFunc() async {
-//     print('hi');
+//     debugPrint('hi');
 //     CollectionReference users = FirebaseFirestore.instance.collection('test');
 //
-//     print('gg ');
+//     debugPrint('gg ');
 //
 //     users
 //         .doc('TtWFXrDF1feBVlUTPyQr')
 //         .update({'double': FieldValue.increment(1)})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   testLoopData() {
@@ -286,7 +286,7 @@
 //     try {
 //       result = await _connectivity.checkConnectivity();
 //     } on PlatformException catch (e) {
-//       print(e.toString());
+//       debugPrint(e.toString());
 //     }
 //
 //     // If the widget was removed from the tree while the asynchronous platform
@@ -307,7 +307,7 @@
 //         try {
 //           final result = await InternetAddress.lookup('google.com');
 //           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-//             print('connected');
+//             debugPrint('connected');
 //             setState(() {
 //               _connectionStatus = true;
 //             });
@@ -365,7 +365,7 @@
 //     //   }
 //     // }
 //     // );
-//     print('dev check ' + widget.deviceId.toString());
+//     debugPrint('dev check ' + widget.deviceId.toString());
 //     getLangId().then((value) {
 //       if(value=='burmese') {
 //         setState(() {
@@ -421,7 +421,7 @@
 //     //     statusBarColor: Colors.black
 //     // ));
 //     _textFieldControllerTablet.addListener((){
-//       print("value: ${_textFieldControllerTablet.text}");
+//       debugPrint("value: ${_textFieldControllerTablet.text}");
 //       setState(() {
 //         totalAmount = double.parse(TtlProdListPrice());
 //         _textFieldControllerTablet.text != '' ? paidAmount = double.parse(_textFieldControllerTablet.text) : paidAmount = 0.0;
@@ -490,7 +490,7 @@
 //     _controllerTablet = new TabController(length: 5, vsync: this);
 //     _controller2 = new TabController(length: 3, vsync: this);
 //     _controllerTabBarCode = new TabController(length: 1, vsync: this);
-//     print('home_page' + 'sub1'.substring(3,4));
+//     debugPrint('home_page' + 'sub1'.substring(3,4));
 //
 //     slidableController = SlidableController(
 //       onSlideAnimationChanged: handleSlideAnimationChanged,
@@ -635,7 +635,7 @@
 //       endDateOfMonth = '31';
 //     }
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-//     print('DDDDD ' + yearStart.toString());
+//     debugPrint('DDDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 //
@@ -647,7 +647,7 @@
 //     DateTime notTday = today;
 //     notTday = today;
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
-//     print('DDDDDD ' + yearStart.toString());
+//     debugPrint('DDDDDD ' + yearStart.toString());
 //     return yearStart;
 //
 //   }
@@ -666,7 +666,7 @@
 //       endDateOfMonth = '31';
 //     }
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 //
@@ -685,7 +685,7 @@
 //       ayinMonth = month - 1;
 //     }
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 //
@@ -790,7 +790,7 @@
 //           FadeRoute(page: Transparent(key: tranGlobalKey),)
 //       );
 //     });
-//     print('disable' + disableTouch.toString());
+//     debugPrint('disable' + disableTouch.toString());
 //   }
 //   endProdLoadingState() {
 //     setState(() {
@@ -798,7 +798,7 @@
 //       tranGlobalKey.currentState!.disLoading();
 //
 //     });
-//     print('disable2' + disableTouch.toString());
+//     debugPrint('disable2' + disableTouch.toString());
 //   }
 //   // cusLoadingState() {
 //   //   setState(() {
@@ -807,7 +807,7 @@
 //   //         FadeRoute(page: Transparent(key: tranGlobalKey),)
 //   //     );
 //   //   });
-//   //   print('disable' + disableTouch.toString());
+//   //   debugPrint('disable' + disableTouch.toString());
 //   // }
 //   // endCusLoadingState() {
 //   //   setState(() {
@@ -815,7 +815,7 @@
 //   //     tranGlobalKey.currentState!.disLoading();
 //   //
 //   //   });
-//   //   print('disable2' + disableTouch.toString());
+//   //   debugPrint('disable2' + disableTouch.toString());
 //   // }
 //   //
 //   // merchCartLoadingState() {
@@ -825,7 +825,7 @@
 //   //         FadeRoute(page: Transparent(key: tranGlobalKey),)
 //   //     );
 //   //   });
-//   //   print('disable' + disableTouch.toString());
+//   //   debugPrint('disable' + disableTouch.toString());
 //   // }
 //   // endMerchCartLoadingState() {
 //   //   setState(() {
@@ -833,7 +833,7 @@
 //   //     tranGlobalKey.currentState!.disLoading();
 //   //
 //   //   });
-//   //   print('disable2' + disableTouch.toString());
+//   //   debugPrint('disable2' + disableTouch.toString());
 //   // }
 //   //
 //   // merchLoadingState() {
@@ -843,7 +843,7 @@
 //   //         FadeRoute(page: Transparent(key: tranGlobalKey),)
 //   //     );
 //   //   });
-//   //   print('disable' + disableTouch.toString());
+//   //   debugPrint('disable' + disableTouch.toString());
 //   // }
 //   // endMerchLoadingState() {
 //   //   setState(() {
@@ -851,7 +851,7 @@
 //   //     tranGlobalKey.currentState!.disLoading();
 //   //
 //   //   });
-//   //   print('disable2' + disableTouch.toString());
+//   //   debugPrint('disable2' + disableTouch.toString());
 //   // }
 //
 //   premiumCart() {
@@ -1651,7 +1651,7 @@
 //
 //   openOrHideCart() {
 //     if(_selectIndex != null) {
-//       print('select index' + _selectIndex.toString());
+//       debugPrint('select index' + _selectIndex.toString());
 //     }
 //   }
 //
@@ -1687,10 +1687,10 @@
 //                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
 //                   if(snapshotUser.hasData) {
 //                     Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
-//                     print('waiting? ' + dataUser['device0']);
+//                     debugPrint('waiting? ' + dataUser['device0']);
 //                     // _getId().then((value) async {
 //                     if(dataUser['device0'] != widget.deviceId) {
-//                       print('matuu');
+//                       debugPrint('matuu');
 //                       FirebaseAuth.instance.signOut();
 //                       setStoreId('').then((_) {
 //                         showOkAlertDialog(
@@ -1718,7 +1718,7 @@
 //                     }
 //                     // });
 //
-//                     // print('deviceidnum ' + await );
+//                     // debugPrint('deviceidnum ' + await );
 //                     // if(dataUser['device0'] != )
 //                     var role = dataUser['role'];
 //                     if(ayinHar != role) {
@@ -1745,27 +1745,27 @@
 //                             var isPro = output?['is_pro'];
 //                             Timestamp isProStart = isPro['start'];
 //                             Timestamp isProEnd = isPro['end'];
-//                             print('isPro? ' + isProStart.toDate().toString());
+//                             debugPrint('isPro? ' + isProStart.toDate().toString());
 //                             DateTime startDate = isProStart.toDate();
 //                             DateTime endDate = isProEnd.toDate();
 //
 //                             DateTime nowCheck = DateTime.now();
 //
-//                             print('now: $nowCheck');
-//                             print('startDate: $startDate');
-//                             print('endDate: $endDate');
-//                             print(startDate.isBefore(nowCheck));
-//                             print(endDate.isAfter(nowCheck));
+//                             debugPrint('now: $nowCheck');
+//                             debugPrint('startDate: $startDate');
+//                             debugPrint('endDate: $endDate');
+//                             debugPrint(startDate.isBefore(nowCheck));
+//                             debugPrint(endDate.isAfter(nowCheck));
 //
-//                             print('role ' + role.toString());
+//                             debugPrint('role ' + role.toString());
 //                             if(firstTime == true) {
 //                               // role=='cashier'
-//                               print('first time');
+//                               debugPrint('first time');
 //                               currentTab = 3;
 //                               _selectIndex = 1;
 //                               firstTime = false;
 //                             } else if(!firstTime) {
-//                               print('not first');
+//                               debugPrint('not first');
 //                               if(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)) {
 //                                 settGlobalKey.currentState!.isProSet('pro');
 //                               } else {
@@ -1798,14 +1798,14 @@
 //                               // ),
 //                               onEndDrawerChanged: (isOpened) {
 //                                 if(isOpened) {
-//                                   print('opening 2');
+//                                   debugPrint('opening 2');
 //                                   searchGlobalKey.currentState!.unfocusSearch();
 //                                 }
 //                               },
 //                               onDrawerChanged: (isOpened) {
 //                                 searchGlobalKey.currentState!.unfocusSearch();
 //                                 if(isOpened) {
-//                                   // print('opening ');
+//                                   // debugPrint('opening ');
 //                                   // searchGlobalKey.currentState!.unfocusSearch();
 //                                   // homeGlobalKey.currentState!.unfocusSearch();
 //                                   // prodGlobalKey.currentState!.unfocusSearch();
@@ -2425,7 +2425,7 @@
 //                                                               return Expanded(
 //                                                                 child: GestureDetector(
 //                                                                   onTap: () {
-//                                                                     print('go to cart 4');
+//                                                                     debugPrint('go to cart 4');
 //                                                                   },
 //                                                                   child: ListView(
 //                                                                     physics: NeverScrollableScrollPhysics(),
@@ -2487,7 +2487,7 @@
 //                                                                 ),
 //                                                               ],
 //                                                             );
-//                                                             print('clicked log ' + result.toString());
+//                                                             debugPrint('clicked log ' + result.toString());
 //                                                             if(result.toString() == 'logout') {
 //                                                               _selectTab(0);
 //                                                               await FirebaseAuth.instance.signOut();
@@ -2693,10 +2693,10 @@
 //                               //                         // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
 //                               //                         // _ntpTime = _myTime.add(Duration(milliseconds: offset));
 //                               //                         //
-//                               //                         // print('Date time: ' + DateTime.now().toString());
-//                               //                         // print('My time: $_myTime');
-//                               //                         // print('NTP time: $_ntpTime');
-//                               //                         // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
+//                               //                         // debugPrint('Date time: ' + DateTime.now().toString());
+//                               //                         // debugPrint('My time: $_myTime');
+//                               //                         // debugPrint('NTP time: $_ntpTime');
+//                               //                         // debugPrint('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
 //                               //                         Navigator.of(context).push(
 //                               //                             FadeRoute(page: FirstLaunchPage(),)
 //                               //                         );
@@ -2991,7 +2991,7 @@
 //                                                                                                           prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
 //                                                                                                       return GestureDetector(
 //                                                                                                         onTap: (){
-//                                                                                                           print('error prod' + prodList[i].toString());
+//                                                                                                           debugPrint('error prod' + prodList[i].toString());
 //                                                                                                           setState((){
 //                                                                                                             quantity = double.parse(prodList[i].split('^')[4]);
 //                                                                                                             price2 = double.parse(prodList[i].split('^')[2]);
@@ -3340,7 +3340,7 @@
 //                                                                                           );
 //                                                                                           setState(() {
 //                                                                                             discount =double.parse(amount![0].toString());
-//                                                                                             print('disss ' + discount.toString());
+//                                                                                             debugPrint('disss ' + discount.toString());
 //                                                                                           });
 //
 //                                                                                         } else {
@@ -3364,12 +3364,12 @@
 //                                                                                           // });
 //                                                                                           setState(() {
 //                                                                                             discount =double.parse(percentage![0].toString());
-//                                                                                             print('disss ' + discount.toString());
+//                                                                                             debugPrint('disss ' + discount.toString());
 //                                                                                           });
 //                                                                                         }
-//                                                                                         print('dis' + result.toString());
+//                                                                                         debugPrint('dis' + result.toString());
 //                                                                                         setState(() {
-//                                                                                           print('do something');
+//                                                                                           debugPrint('do something');
 //                                                                                         });
 //
 //                                                                                       },
@@ -3470,11 +3470,11 @@
 //
 //                                                                                             int i = 0;
 //                                                                                             String totalCashCal = totalAmount.toInt().toString();
-//                                                                                             print('CCC 0--> ' + totalAmount.toInt().toString());
+//                                                                                             debugPrint('CCC 0--> ' + totalAmount.toInt().toString());
 //
-//                                                                                             print('CCC 1--> ' + (totalCashCal.length - i).toString());
+//                                                                                             debugPrint('CCC 1--> ' + (totalCashCal.length - i).toString());
 //
-//                                                                                             print('totalAmount '+ totalAmount.toString());
+//                                                                                             debugPrint('totalAmount '+ totalAmount.toString());
 //                                                                                             _controllerTablet.animateTo(1);
 //                                                                                             if(_textFieldControllerTablet.text == '') {
 //                                                                                               debt = double.parse(TtlProdListPrice().toString());
@@ -3965,18 +3965,18 @@
 //                                                                                                     bool reFilter = false;
 //                                                                                                     bool deFilter = false;
 //                                                                                                     double debtAmounts = 0 ;
-//                                                                                                     print('order creating');
+//                                                                                                     debugPrint('order creating');
 //
 //                                                                                                     FirebaseFirestore.instance.collection('shops').doc(shopId)
 //                                                                                                         .get().then((value) async {
 //                                                                                                       length = int.parse(value.data()!['orders_length'].toString());
-//                                                                                                       print('lengthsss' + length.toString());
+//                                                                                                       debugPrint('lengthsss' + length.toString());
 //
 //                                                                                                       length = length + 1;
 //
 //                                                                                                       batch = await updateOrderLength(batch);
 //
-//                                                                                                       print('datacheck' + prodList.toString());
+//                                                                                                       debugPrint('datacheck' + prodList.toString());
 //                                                                                                       for (int k=0; k< prodList.length;  k++) {
 //                                                                                                         //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 //
@@ -4000,12 +4000,12 @@
 //                                                                                                           for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
 //                                                                                                             subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
 //                                                                                                             subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-//                                                                                                             print('inStock' + (i+1).toString());
-//                                                                                                             print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+//                                                                                                             debugPrint('inStock' + (i+1).toString());
+//                                                                                                             debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
 //                                                                                                             subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
 //                                                                                                           }
 //
-//                                                                                                           print(subStock.toString());
+//                                                                                                           debugPrint(subStock.toString());
 //
 //                                                                                                           if(prodList[k].split('^')[3] == 'unit_name') {
 //                                                                                                             batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
@@ -4014,7 +4014,7 @@
 //                                                                                                             // if ( k == prodList.length-1) {
 //                                                                                                             //   batch.commit();
 //                                                                                                             // }
-//                                                                                                             //print('batch complete');
+//                                                                                                             //debugPrint('batch complete');
 //                                                                                                             // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
 //                                                                                                           }
 //                                                                                                           else if(prodList[k].split('^')[3] == 'sub1_name') {
@@ -4042,7 +4042,7 @@
 //                                                                                                         deFilter = false;
 //                                                                                                       }
 //
-//                                                                                                       print('subList ' + subList.toString());
+//                                                                                                       debugPrint('subList ' + subList.toString());
 //
 //                                                                                                       totalOrders = totalOrders + 1;
 //
@@ -4058,7 +4058,7 @@
 //                                                                                                           monthExist = true;
 //                                                                                                           monthId = doc.id;
 //                                                                                                         });
-//                                                                                                         print('month ' + monthExist.toString());
+//                                                                                                         debugPrint('month ' + monthExist.toString());
 //                                                                                                         if (monthExist) {
 //                                                                                                           batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //                                                                                                         }
@@ -4084,7 +4084,7 @@
 //                                                                                                           }).then((value) async {
 //                                                                                                             batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
-//                                                                                                           }).catchError((error) => print("Failed to update user: $error"));
+//                                                                                                           }).catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                                                         }
 //
 //                                                                                                         CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
@@ -4097,7 +4097,7 @@
 //                                                                                                             yearExist = true;
 //                                                                                                             yearId = doc.id;
 //                                                                                                           });
-//                                                                                                           print('year ' + yearExist.toString());
+//                                                                                                           debugPrint('year ' + yearExist.toString());
 //                                                                                                           if (yearExist) {
 //                                                                                                             batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
@@ -4123,7 +4123,7 @@
 //
 //                                                                                                             }).then((value5) async {
 //                                                                                                               batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
-//                                                                                                             }).catchError((error) => print("Failed to update user: $error"));
+//                                                                                                             }).catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                                                           }
 //
 //
@@ -4157,17 +4157,17 @@
 //                                                                                                       for (String str in prodList) {
 //                                                                                                         subNameListLength = subNameListLength + 1;
 //                                                                                                         //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-//                                                                                                         print('DATA CHECK PROD ' + str.toString());
+//                                                                                                         debugPrint('DATA CHECK PROD ' + str.toString());
 //                                                                                                         var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
 //                                                                                                             .get();
 //                                                                                                         if (docSnapshot10.exists) {
 //                                                                                                           Map<String, dynamic>? data10 = docSnapshot10.data();
 //                                                                                                           subNameList.add(data10 ? [str.split('^')[3]]);
 //                                                                                                           if(prodList.length == subNameListLength) {
-//                                                                                                             print('fianlize : ' + subNameList.toString());
+//                                                                                                             debugPrint('fianlize : ' + subNameList.toString());
 //                                                                                                             final date = now;
 //                                                                                                             final dueDate = date.add(Duration(days: 7));
-//                                                                                                             print('CUZMER CHECK ' + customerId.toString());
+//                                                                                                             debugPrint('CUZMER CHECK ' + customerId.toString());
 //                                                                                                             final invoice = Invoice(
 //                                                                                                               supplier: Supplier(
 //                                                                                                                 name: shopGloName,
@@ -4210,7 +4210,7 @@
 //
 //
 //                                                                                                             getPaperId().then((value) async {
-//                                                                                                               print('VVAALLUUEE ' + value.toString());
+//                                                                                                               debugPrint('VVAALLUUEE ' + value.toString());
 //                                                                                                               pdfFile = await PdfInvoiceApi.generate(invoice, value);
 //
 //                                                                                                               Uint8List bytes = pdfFile!.readAsBytesSync();
@@ -4409,7 +4409,7 @@
 //                                                                                                 setState(() {
 //                                                                                                   quantity = double.parse(myControllerTablet.text) -1;
 //                                                                                                   myControllerTablet.text = quantity.round().toString();
-//                                                                                                   print('qqq' + quantity.toString());
+//                                                                                                   debugPrint('qqq' + quantity.toString());
 //                                                                                                 });
 //                                                                                               },
 //                                                                                               child: Container(
@@ -4500,7 +4500,7 @@
 //                                                                                                   setState(() {
 //                                                                                                     quantity = double.parse(myControllerTablet.text) +1;
 //                                                                                                     myControllerTablet.text = quantity.round().toString();
-//                                                                                                     print('qqq' + quantity.toString());
+//                                                                                                     debugPrint('qqq' + quantity.toString());
 //                                                                                                   });
 //                                                                                                 });
 //                                                                                               },
@@ -4875,15 +4875,15 @@
 //                                                                                                   GestureDetector(
 //                                                                                                     onTap: () {
 //                                                                                                       if (_formKey2.currentState!.validate()) {
-//                                                                                                         print('eachProduct' +eachProd);
+//                                                                                                         debugPrint('eachProduct' +eachProd);
 //                                                                                                         for (int j = 0; j < prodList.length; j++)
 //                                                                                                           if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
 //                                                                                                             setState((){
 //                                                                                                               eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
 //                                                                                                               prodList[j] = eachProd;
 //                                                                                                             });
-//                                                                                                             print('leepae' + prodList[j]);
-//                                                                                                           } else print('leelar');
+//                                                                                                             debugPrint('leepae' + prodList[j]);
+//                                                                                                           } else debugPrint('leelar');
 //                                                                                                         _controllerTablet.animateTo(0);
 //                                                                                                       }
 //                                                                                                     },
@@ -5147,7 +5147,7 @@
 //                                                                                     //   width: 200,
 //                                                                                     //   child: GestureDetector(
 //                                                                                     //       onTap: () {
-//                                                                                     //         print('clicked');
+//                                                                                     //         debugPrint('clicked');
 //                                                                                     //         PdfApi.openFile(pdfFile);
 //                                                                                     //       },
 //                                                                                     //       child: PdfViewer.openFile(pdfText)
@@ -5174,7 +5174,7 @@
 //                                                                                     Expanded(
 //                                                                                         child: GestureDetector(
 //                                                                                             onTap: () {
-//                                                                                               print('clicked');
+//                                                                                               debugPrint('clicked');
 //                                                                                               PdfApi.openFile(pdfFile!);
 //                                                                                             },
 //                                                                                             child: Padding(
@@ -5498,7 +5498,7 @@
 //                                                                               //       title: Text(_devices[i].name.toString()),
 //                                                                               //       subtitle: Text(_devices[i].address.toString()),
 //                                                                               //       onTap: () {
-//                                                                               //         // _startPrint(_devices[i]);
+//                                                                               //         // _startdebugPrint(_devices[i]);
 //                                                                               //       },
 //                                                                               //     );
 //                                                                               //   },
@@ -5971,7 +5971,7 @@
 //                                                             Expanded(
 //                                                               child: GestureDetector(
 //                                                                 onTap: () async {
-//                                                                   print('go to cart 3');
+//                                                                   debugPrint('go to cart 3');
 //                                                                 },
 //                                                                 child: Container(),
 //                                                               ),
@@ -5986,7 +5986,7 @@
 //                                                                         .where('email', isEqualTo: auth.currentUser!.email)
 //                                                                         .get()
 //                                                                         .then((QuerySnapshot querySnapshot) {
-//                                                                       print('shit ' + querySnapshot.docs[0]['devices'].toString());
+//                                                                       debugPrint('shit ' + querySnapshot.docs[0]['devices'].toString());
 //                                                                     });
 //                                                                   },
 //                                                                   child: Padding(
@@ -6173,9 +6173,9 @@
 //           .limit(1)
 //           .get()
 //           .then((QuerySnapshot querySnapshot) {
-//         // print()
+//         // debugPrint()
 //         querySnapshot.docs.forEach((doc) {
-//           print('CHECK ' + doc['prod_name'].toString());
+//           debugPrint('CHECK ' + doc['prod_name'].toString());
 //           scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
 //               + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
 //               doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']);
@@ -6216,7 +6216,7 @@
 //   //     orderLoading = true;
 //   //   });
 //   //
-//   //   print('order creating');
+//   //   debugPrint('order creating');
 //   //
 //   //   FirebaseFirestore
 //   //       .instance
@@ -6320,7 +6320,7 @@
 //   //                 '^pf'
 //   //           ])
 //   //         }).then((value) {
-//   //           print(
+//   //           debugPrint(
 //   //               'User updated');
 //   //           setState(() {
 //   //             orderLoading =
@@ -6370,7 +6370,7 @@
 //   //             'subs':
 //   //             data,
 //   //           }).then((value) {
-//   //             print(
+//   //             debugPrint(
 //   //                 'order added');
 //   //           });
 //   //         });
@@ -6420,7 +6420,7 @@
 //   //                   .day
 //   //                   .toString())
 //   //         }).then((value) {
-//   //           print(
+//   //           debugPrint(
 //   //               'order added');
 //   //
 //   //           FirebaseFirestore
@@ -6467,7 +6467,7 @@
 //   //             'subs':
 //   //             data,
 //   //           }).then((value) {
-//   //             print(
+//   //             debugPrint(
 //   //                 'order added');
 //   //           });
 //   //         });
@@ -6508,7 +6508,7 @@
 //                   name5 = result.split('^')[9];
 //                   data ='^unit_name^';
 //                 });
-//                 print('selected test is true');
+//                 debugPrint('selected test is true');
 //               } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
 //                 stateful((){
 //                   sellprice5 = result.split('^')[3];
@@ -6517,7 +6517,7 @@
 //                   data ='^sub1_name^';
 //                 });
 //
-//                 print('selected test is false');
+//                 debugPrint('selected test is false');
 //               } else{
 //                 stateful((){
 //                   sellprice5 = result.split('^')[4];
@@ -6525,7 +6525,7 @@
 //                   name5 = result.split('^')[11];
 //                   data ='^sub2_name^';
 //                 });
-//                 print('selected test is tf');}
+//                 debugPrint('selected test is tf');}
 //
 //               barcodeCtrl.addListener((){
 //
@@ -6700,7 +6700,7 @@
 //                                                                 stateful((){
 //                                                                   qty = double.parse(barcodeCtrl.text) - 1;
 //                                                                   barcodeCtrl.text = qty.round().toString();
-//                                                                   print('qqq' + qty.toString());
+//                                                                   debugPrint('qqq' + qty.toString());
 //                                                                 });});
 //                                                             },
 //                                                             child: Container(
@@ -6766,7 +6766,7 @@
 //                                                                 stateful((){
 //                                                                   qty = double.parse(barcodeCtrl.text) + 1;
 //                                                                   barcodeCtrl.text = qty.round().toString();
-//                                                                   print('qqq' + qty.toString());
+//                                                                   debugPrint('qqq' + qty.toString());
 //                                                                 });});
 //                                                             },
 //                                                             child: Container(
@@ -7018,7 +7018,7 @@
 //                                                           setState(() {
 //                                                             addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
 //                                                           });
-//                                                           print('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
+//                                                           debugPrint('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
 //                                                           Navigator.pop(context);
 //
 //                                                         },
@@ -7166,7 +7166,7 @@
 //       } else if (status == ConnectionStatus.timeout) {
 //         _onDisconnectDevice();
 //       } else {
-//         print('$runtimeType - something wrong');
+//         debugPrint('$runtimeType - something wrong');
 //       }
 //       setState(() => _isLoading = false);
 //     });
@@ -7218,7 +7218,7 @@
 //
 //     // imglib.Image gg;
 //
-//     // print('type check ' + mergedImage.runtimeType.toString());
+//     // debugPrint('type check ' + mergedImage.runtimeType.toString());
 //     // receiptText.addImage(
 //     //   base64.encode(imglib.encodeJpg(mergedImage, quality: 600)),
 //     //   width: 500,
@@ -7236,7 +7236,7 @@
 //     // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
 //
 //     getPaperId().then((value) async {
-//       print('VVAALLUUEE ' + value.toString());
+//       debugPrint('VVAALLUUEE ' + value.toString());
 //       int width = 570;
 //       if(value == 'Roll-57') {
 //         width = 413;
@@ -7312,7 +7312,7 @@
 //   prodListInCartMod() {
 //     prodListInCartModData = [];
 //     for(int i = 0; i < prodList.length; i++) {
-//       print('proddddd ' + prodList[i].toString());
+//       debugPrint('proddddd ' + prodList[i].toString());
 //       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[i].split('^')[0])
 //           .get().then((value) {
 //         prodListInCartModData.add(
@@ -7380,7 +7380,7 @@
 //                     prodListInd.split('^')[2] + '^' + prodListInd.split('^')[3] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[5];
 //                 return GestureDetector(
 //                   onTap: (){
-//                     print('error prod' + prodListInd.toString());
+//                     debugPrint('error prod' + prodListInd.toString());
 //                     setState((){
 //                       mystate((){
 //                         quantity = double.parse(prodListInd.split('^')[4]);
@@ -7552,7 +7552,7 @@
 //
 //
 //               _textFieldController.addListener((){
-//                 print("value: ${_textFieldController.text}");
+//                 debugPrint("value: ${_textFieldController.text}");
 //                 setState(() {
 //                   totalAmount = double.parse(TtlProdListPrice());
 //                   _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
@@ -7622,7 +7622,7 @@
 //                   } else if (status == ConnectionStatus.timeout) {
 //                     _onDisconnectDeviceHome();
 //                   } else {
-//                     print('$runtimeType - something wrong');
+//                     debugPrint('$runtimeType - something wrong');
 //                   }
 //                   mystate(() => _isLoading = false);
 //                 });
@@ -7675,7 +7675,7 @@
 //
 //                 // imglib.Image gg;
 //
-//                 // print('type check ' + mergedImage.runtimeType.toString());
+//                 // debugPrint('type check ' + mergedImage.runtimeType.toString());
 //                 // receiptText.addImage(
 //                 //   base64.encode(imglib.encodeJpg(mergedImage, quality: 600)),
 //                 //   width: 500,
@@ -7692,9 +7692,9 @@
 //
 //                 // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
 //
-//                 print('Got Snapshot' + saleInfo.toString());
+//                 debugPrint('Got Snapshot' + saleInfo.toString());
 //                 getPaperId().then((value) async {
-//                   print('VVAALLUUEE ' + value.toString());
+//                   debugPrint('VVAALLUUEE ' + value.toString());
 //                   int width = 570;
 //                   if(value == 'Roll-57') {
 //                     width = 413;
@@ -7827,7 +7827,7 @@
 //                   printClosed = true;
 //                   Future.delayed(const Duration(milliseconds: 30000), () {
 //                     if(printClosed) {
-//                       print('complete');
+//                       debugPrint('complete');
 //                       _onDisconnectDevice();
 //                     }
 //                   });
@@ -8047,7 +8047,7 @@
 //                                                         );
 //                                                         mystate(() {
 //                                                           discount =double.parse(amount![0].toString());
-//                                                           print('disss ' + discount.toString());
+//                                                           debugPrint('disss ' + discount.toString());
 //                                                         });
 //
 //                                                       } else {
@@ -8068,12 +8068,12 @@
 //                                                         );
 //                                                         mystate(() {
 //                                                           discount =double.parse(percentage![0].toString());
-//                                                           print('disss ' + discount.toString());
+//                                                           debugPrint('disss ' + discount.toString());
 //                                                         });
 //                                                       }
-//                                                       print('dis' + result.toString());
+//                                                       debugPrint('dis' + result.toString());
 //                                                       setState(() {
-//                                                         print('do something');
+//                                                         debugPrint('do something');
 //                                                       });
 //
 //                                                     },
@@ -8363,14 +8363,14 @@
 //                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
 //                                                       child: GestureDetector(
 //                                                         onTap: () {
-//                                                           print('productList' + prodList.toString());
+//                                                           debugPrint('productList' + prodList.toString());
 //                                                           setState(() {
 //                                                             mystate(() {
 //                                                               totalAmount = double.parse(TtlProdListPrice());
 //
 //                                                             });
 //                                                           });
-//                                                           print('totalAmount '+ totalAmount.toString());
+//                                                           debugPrint('totalAmount '+ totalAmount.toString());
 //                                                           _controller.animateTo(1);
 //                                                           if(_textFieldController.text == '') {
 //                                                             debt = double.parse(TtlProdListPrice());}
@@ -8412,7 +8412,7 @@
 //                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
 //                                                       child: GestureDetector(
 //                                                         onTap: () {
-//                                                           print('productList' + prodList.toString());
+//                                                           debugPrint('productList' + prodList.toString());
 //                                                         },
 //                                                         child: Container(
 //                                                           width: MediaQuery.of(context).size.width - 30,
@@ -8830,22 +8830,22 @@
 //                                                                         FadeRoute(page: Transparent(key: tranGlobalKey),)
 //                                                                     );
 //
-//                                                                     print('order creating');
+//                                                                     debugPrint('order creating');
 //
 //                                                                     FirebaseFirestore.instance.collection('shops').doc(shopId)
 //                                                                         .get().then((value) async {
 //                                                                       length = int.parse(value.data()!['orders_length'].toString());
-//                                                                       print('lengthsss' + length.toString());
+//                                                                       debugPrint('lengthsss' + length.toString());
 //                                                                       length = length + 1;
 //
 //                                                                       orderLength = length;
 //
-//                                                                       print('CHECK POINT 0' + deviceIdNum.toString());
-//                                                                       print('CHECK POINT 1');
+//                                                                       debugPrint('CHECK POINT 0' + deviceIdNum.toString());
+//                                                                       debugPrint('CHECK POINT 1');
 //
 //                                                                       batch = await updateOrderLength(batch);
 //
-//                                                                       print('datacheck' + prodList.toString());
+//                                                                       debugPrint('datacheck' + prodList.toString());
 //                                                                       for (int k=0; k< prodList.length;  k++) {
 //                                                                         //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 //
@@ -8869,12 +8869,12 @@
 //                                                                           for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
 //                                                                             subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
 //                                                                             subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-//                                                                             print('inStock' + (i+1).toString());
-//                                                                             print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+//                                                                             debugPrint('inStock' + (i+1).toString());
+//                                                                             debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
 //                                                                             subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
 //                                                                           }
 //
-//                                                                           print(subStock.toString());
+//                                                                           debugPrint(subStock.toString());
 //
 //                                                                           if(prodList[k].split('^')[3] == 'unit_name') {
 //                                                                             batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'main', prodList[k].split('^')[4]);
@@ -8883,7 +8883,7 @@
 //                                                                             // if ( k == prodList.length-1) {
 //                                                                             //   batch.commit();
 //                                                                             // }
-//                                                                             //print('batch complete');
+//                                                                             //debugPrint('batch complete');
 //                                                                             // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
 //                                                                           }
 //                                                                           else if(prodList[k].split('^')[3] == 'sub1_name') {
@@ -8912,7 +8912,7 @@
 //                                                                         deFilter = false;
 //                                                                       }
 //
-//                                                                       print('subList ' + subList.toString());
+//                                                                       debugPrint('subList ' + subList.toString());
 //
 //                                                                       totalOrders = totalOrders + 1;
 //                                                                       //CusOrder(totalOrders, debts, debtAmounts);
@@ -8931,7 +8931,7 @@
 //                                                                           monthExist = true;
 //                                                                           monthId = doc.id;
 //                                                                         });
-//                                                                         print('month ' + monthExist.toString());
+//                                                                         debugPrint('month ' + monthExist.toString());
 //                                                                         if (monthExist) {
 //                                                                           batch = await updateMonthlyData(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
@@ -8939,8 +8939,8 @@
 //                                                                           //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
 //                                                                           //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
 //                                                                           //
-//                                                                           // }).then((value) => print("data Updated"))
-//                                                                           //     .catchError((error) => print("Failed to update user: $error"));
+//                                                                           // }).then((value) => debugPrint("data Updated"))
+//                                                                           //     .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                                                                         }
 //                                                                         else {
@@ -8963,16 +8963,16 @@
 //                                                                             'date': now,
 //
 //                                                                           }).then((value) async {
-//                                                                             print('valueid' + value.id.toString());
+//                                                                             debugPrint('valueid' + value.id.toString());
 //
 //                                                                             batch = await updateMonthlyData(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
 //                                                                             // monthlyData.doc(value.id).update({
 //                                                                             //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
 //                                                                             //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
-//                                                                             // }).then((value) => print("Data Updated"))
-//                                                                             //     .catchError((error) => print("Failed to update user: $error"));
-//                                                                           }).catchError((error) => print("Failed to update user: $error"));
+//                                                                             // }).then((value) => debugPrint("Data Updated"))
+//                                                                             //     .catchError((error) => debugPrint("Failed to update user: $error"));
+//                                                                           }).catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                         }
 //
 //                                                                         CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
@@ -8985,7 +8985,7 @@
 //                                                                             yearExist = true;
 //                                                                             yearId = doc.id;
 //                                                                           });
-//                                                                           print('year ' + yearExist.toString());
+//                                                                           debugPrint('year ' + yearExist.toString());
 //                                                                           if (yearExist) {
 //                                                                             batch = await updateYearlyData(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
@@ -8993,8 +8993,8 @@
 //                                                                             //   now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
 //                                                                             //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
 //                                                                             //
-//                                                                             // }).then((value) => print("data Updated"))
-//                                                                             //     .catchError((error) => print("Failed to update user: $error"));
+//                                                                             // }).then((value) => debugPrint("data Updated"))
+//                                                                             //     .catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                           }
 //                                                                           else {
 //                                                                             yearlyData.add({
@@ -9016,15 +9016,15 @@
 //                                                                               'date': now,
 //
 //                                                                             }).then((value5) async {
-//                                                                               print('valueid' + value.id.toString());
+//                                                                               debugPrint('valueid' + value.id.toString());
 //                                                                               batch = await updateYearlyData(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice(), debtAmounts);
 //
 //                                                                               // yearlyData.doc(value.id).update({
 //                                                                               //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
 //                                                                               //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-//                                                                               // }).then((value) => print("Data Updated"))
-//                                                                               //     .catchError((error) => print("Failed to update user: $error"));
-//                                                                             }).catchError((error) => print("Failed to update user: $error"));
+//                                                                               // }).then((value) => debugPrint("Data Updated"))
+//                                                                               //     .catchError((error) => debugPrint("Failed to update user: $error"));
+//                                                                             }).catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                           }
 //
 //
@@ -9044,13 +9044,13 @@
 //
 //                                                                               //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
 //                                                                               //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-//                                                                               print('adddateexist added');
+//                                                                               debugPrint('adddateexist added');
 //                                                                             }
 //                                                                             else {
 //                                                                               batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
 //                                                                               DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
 //                                                                               //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-//                                                                               print('adddateexist not');
+//                                                                               debugPrint('adddateexist not');
 //                                                                             }
 //
 //                                                                             batch.commit();
@@ -9064,7 +9064,7 @@
 //                                                                       for (String str in prodList) {
 //                                                                         subNameListLength = subNameListLength + 1;
 //                                                                         CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-//                                                                         print('DATA CHECK PROD ' + str.toString());
+//                                                                         debugPrint('DATA CHECK PROD ' + str.toString());
 //
 //                                                                         var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
 //                                                                             .get();
@@ -9073,11 +9073,11 @@
 //                                                                           Map<String, dynamic>? data11 = docSnapshot10.data();
 //                                                                           subNameList.add(data11 ? [str.split('^')[3]]);
 //                                                                           if(prodList.length == subNameListLength) {
-//                                                                             print('fianlize : ' + subNameList.toString());
+//                                                                             debugPrint('fianlize : ' + subNameList.toString());
 //                                                                             // final date = DateTime.now();
 //                                                                             final date = now;
 //                                                                             final dueDate = date.add(Duration(days: 7));
-//                                                                             print('CUZMER CHECK ' + customerId.toString());
+//                                                                             debugPrint('CUZMER CHECK ' + customerId.toString());
 //                                                                             for(int i=0; i<prodList.length; i++) {
 //                                                                               productSale.add(prodList[i].split('^')[1].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
 //                                                                             }
@@ -9195,7 +9195,7 @@
 //                                                                             // });
 //
 //                                                                             getPaperId().then((value) async {
-//                                                                               print('VVAALLUUEE ' + value.toString());
+//                                                                               debugPrint('VVAALLUUEE ' + value.toString());
 //                                                                               pdfFile = await PdfInvoiceApi.generate(invoice, value);
 //
 //                                                                               Uint8List bytes = pdfFile!.readAsBytesSync();
@@ -9213,7 +9213,7 @@
 //                                                                                     // saleCartDrag = false;
 //                                                                                   });
 //                                                                                 });
-//                                                                                 // print('saleCartDrag ' + saleCartDrag.toString());
+//                                                                                 // debugPrint('saleCartDrag ' + saleCartDrag.toString());
 //                                                                                 tranGlobalKey.currentState!.disLoading();
 //                                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //                                                                               });
@@ -9357,7 +9357,7 @@
 //                                                                       mystate(() {
 //                                                                         quantity = double.parse(myController.text) -1;
 //                                                                         myController.text = quantity.round().toString();
-//                                                                         print('qqq' + quantity.toString());
+//                                                                         debugPrint('qqq' + quantity.toString());
 //                                                                       });
 //                                                                     },
 //                                                                     child: Container(
@@ -9446,7 +9446,7 @@
 //                                                                         mystate(() {
 //                                                                           quantity = double.parse(myController.text) +1;
 //                                                                           myController.text = quantity.round().toString();
-//                                                                           print('qqq' + quantity.toString());
+//                                                                           debugPrint('qqq' + quantity.toString());
 //                                                                         });
 //                                                                       });
 //                                                                     },
@@ -9847,7 +9847,7 @@
 //                                                                     GestureDetector(
 //                                                                       onTap: () {
 //                                                                         if (_formKey.currentState!.validate()) {
-//                                                                           print('eachProduct' + eachProd);
+//                                                                           debugPrint('eachProduct' + eachProd);
 //                                                                           for (int j = 0; j < prodList.length; j++)
 //                                                                             if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
 //                                                                               setState((){
@@ -9855,8 +9855,8 @@
 //                                                                                   eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + eachProd.split('^')[6] + '^' + eachProd.split('^')[7];
 //                                                                                   prodList[j] = eachProd;
 //                                                                                 }); });
-//                                                                               print('leepae' + prodList[j]);
-//                                                                             } else print('leelar');
+//                                                                               debugPrint('leepae' + prodList[j]);
+//                                                                             } else debugPrint('leelar');
 //                                                                           _controller.animateTo(0);
 //                                                                           // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
 //
@@ -10120,7 +10120,7 @@
 //                                                   //   width: 200,
 //                                                   //   child: GestureDetector(
 //                                                   //       onTap: () {
-//                                                   //         print('clicked');
+//                                                   //         debugPrint('clicked');
 //                                                   //         PdfApi.openFile(pdfFile);
 //                                                   //       },
 //                                                   //       child: PdfViewer.openFile(pdfText)
@@ -10147,7 +10147,7 @@
 //                                                   Expanded(
 //                                                       child: GestureDetector(
 //                                                           onTap: () {
-//                                                             print('clicked');
+//                                                             debugPrint('clicked');
 //                                                             PdfApi.openFile(pdfFile!);
 //                                                           },
 //                                                           child: Padding(
@@ -10522,7 +10522,7 @@
 //                                                     //       title: Text(_devices[i].name.toString()),
 //                                                     //       subtitle: Text(_devices[i].address.toString()),
 //                                                     //       onTap: () {
-//                                                     //         // _startPrint(_devices[i]);
+//                                                     //         // _startdebugPrint(_devices[i]);
 //                                                     //       },
 //                                                     //     );
 //                                                     //   },
@@ -10770,7 +10770,7 @@
 //           _onDisconnectDevice();
 //         }
 //       });
-//       print('Hey there, I\'m calling after hide bottomSheet');
+//       debugPrint('Hey there, I\'m calling after hide bottomSheet');
 //       if(sellDone) {
 //         setState(() {
 //           // mystate(()  {
@@ -10840,11 +10840,11 @@
 //     try {
 //       success = (await ImageSave.saveImage(_data, "receipt.jpg", albumName: "SmartKyatPOS"))!;
 //     } on PlatformException catch (e, s) {
-//       print(e);
-//       print(s);
+//       debugPrint(e);
+//       debugPrint(s);
 //     }
 //
-//     print(success ? "Save to album success" : "Save to album failed");
+//     debugPrint(success ? "Save to album success" : "Save to album failed");
 //     // setState(() {
 //     //   _result = success ? "Save to album success" : "Save to album failed";
 //     // });
@@ -10852,7 +10852,7 @@
 //
 //   TtlProdListPriceInit()  {
 //     double total = 0;
-//     print(prodList.toString());
+//     debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
 //     }
@@ -10861,7 +10861,7 @@
 //
 //   TtlProdListPriceInit2()  {
 //     double total = 0;
-//     print(prodList2.toString());
+//     debugPrint(prodList2.toString());
 //     for (String str in prodList2) {
 //       total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
 //     }
@@ -10870,7 +10870,7 @@
 //
 //   TtlProdListPrice()  {
 //     double total = 0;
-//     print(prodList.toString());
+//     debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
 //       disPercent = (double.parse(total.toString()) *
@@ -10878,7 +10878,7 @@
 //     }
 //     if(isDiscount == 'percent'){
 //       discountAmount = discount;
-//       print(discountAmount.toString());
+//       debugPrint(discountAmount.toString());
 //       disText = '-p';
 //       total = (double.parse(total.toString()) -
 //           (double.parse(total.toString()) *
@@ -10897,7 +10897,7 @@
 //
 //   totalItems2() {
 //     int total = 0;
-//     //print(prodList.toString());
+//     //debugPrint(prodList.toString());
 //     for (String str in prodList2) {
 //       total ++;
 //     }
@@ -10906,7 +10906,7 @@
 //
 //   totalItems() {
 //     int total = 0;
-//     //print(prodList.toString());
+//     //debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total ++;
 //     }
@@ -11242,7 +11242,7 @@
 //   }
 //
 //   decStockFromInv(WriteBatch batch, id, unit, num) {
-//     print('Double Check Sub1');
+//     debugPrint('Double Check Sub1');
 //     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id);
 //
 //     batch.update(documentReference, {changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString()))),});
@@ -11291,7 +11291,7 @@
 //
 //   todayToYearStart(DateTime now) {
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 //
@@ -11318,8 +11318,8 @@
 //       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
 //       'date' : date
 //     }).then((value) {
-//       print('date Exist added');
-//     }).catchError((error) => print("Failed to update user: $error"));
+//       debugPrint('date Exist added');
+//     }).catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   void smartKyatFlash(String text, String type) {
@@ -11535,11 +11535,11 @@
 //
 //   checkDrawerOpen() async {
 //     bool isFirstRouteInProd = !await tabs[3].key.currentState!.maybePop();
-//     print('check isFirst Prod ' + isFirstRouteInProd.toString());
+//     debugPrint('check isFirst Prod ' + isFirstRouteInProd.toString());
 //   }
 //
 //   closeByClick() async {
-//     print('closebyclick' + _selectIndex.toString());
+//     debugPrint('closebyclick' + _selectIndex.toString());
 //     if(ayinIndex2 != _selectIndex) {
 //       if(_selectIndex == 0) {
 //         closeGoToCart = !homeCartOpen;
@@ -11549,12 +11549,12 @@
 //         closeGoToCart = !prodCartOpen;
 //         drawerDrag = !prodDrawerOpen;
 //         // bool isFirstRouteInCur = await tabs[currentTab].key.currentState!.maybePop();
-//         // print('shwwwwww' + isFirstRouteInCur.toString());
+//         // debugPrint('shwwwwww' + isFirstRouteInCur.toString());
 //         // if(isFirstRouteInCur) {
 //         //   closeGoToCart = false;
 //         //   prodCartOpen = true;
 //         //
-//         //   // print('shwwwwww');
+//         //   // debugPrint('shwwwwww');
 //         // } else {
 //         //
 //         // }
@@ -11645,7 +11645,7 @@
 //   }
 //
 //   closeCartFrom(String from) {
-//     print('FROM close' + from);
+//     debugPrint('FROM close' + from);
 //     if(from == 'products') {
 //       prodCartOpen = false;
 //     } else if(from == 'saleorders') {
@@ -11672,7 +11672,7 @@
 //   }
 //
 //   openCartFrom(String from) {
-//     print('FROM open' + from);
+//     debugPrint('FROM open' + from);
 //     if(from == 'products') {
 //       prodCartOpen = true;
 //     } else if(from == 'saleorders') {
@@ -11699,7 +11699,7 @@
 //   }
 //
 //   closeDrawerFrom(String from) {
-//     print('FROM close' + from);
+//     debugPrint('FROM close' + from);
 //     if(from == 'products') {
 //       prodDrawerOpen = false;
 //     } else if(from == 'saleorders') {
@@ -11723,7 +11723,7 @@
 //   }
 //
 //   openDrawerFrom(String from) {
-//     print('FROM open' + from);
+//     debugPrint('FROM open' + from);
 //     if(from == 'products') {
 //       prodDrawerOpen = true;
 //     } else if(from == 'saleorders') {
@@ -11785,7 +11785,7 @@
 //
 //   printFromOrders(File file, var prodListPR,) {
 //
-//     print('PRRRRR ' +   prodListPR.toString());
+//     debugPrint('PRRRRR ' +   prodListPR.toString());
 //     subTotal = 0.0;
 //     printClosed = false;
 //     bool firstTimeOrderPri = true;
@@ -11829,16 +11829,16 @@
 //                   _isLoading = true;
 //                   _loadingAtIndex = index;
 //                 });
-//                 print('status ' + 'gg'.toString());
+//                 debugPrint('status ' + 'gg'.toString());
 //                 final BlueDevice blueDevice = _blueDevices[index];
 //                 _bluePrintPos.connect(blueDevice).then((ConnectionStatus status) {
-//                   print('status ' + status.toString());
+//                   debugPrint('status ' + status.toString());
 //                   if (status == ConnectionStatus.connected) {
 //                     mystate(() => _selectedDevice = blueDevice);
 //                   } else if (status == ConnectionStatus.timeout) {
 //                     _onDisconnectDeviceOrder();
 //                   } else {
-//                     print('$runtimeType - something wrong');
+//                     debugPrint('$runtimeType - something wrong');
 //                   }
 //                   mystate(() => _isLoading = false);
 //                 });
@@ -11887,7 +11887,7 @@
 //                   });
 //
 //                   getPaperId().then((value) async {
-//                     print('VVAALLUUEE ' + value.toString());
+//                     debugPrint('VVAALLUUEE ' + value.toString());
 //                     int width = 570;
 //                     if(value == 'Roll-57') {
 //                       width = 413;
@@ -12040,7 +12040,7 @@
 //                     printClosed = true;
 //                     Future.delayed(const Duration(milliseconds: 30000), () {
 //                       if(printClosed) {
-//                         print('complete');
+//                         debugPrint('complete');
 //                         _onDisconnectDevice();
 //                       }
 //                     });
@@ -12325,7 +12325,7 @@
 //                                       //       title: Text(_devices[i].name.toString()),
 //                                       //       subtitle: Text(_devices[i].address.toString()),
 //                                       //       onTap: () {
-//                                       //         // _startPrint(_devices[i]);
+//                                       //         // _startdebugPrint(_devices[i]);
 //                                       //       },
 //                                       //     );
 //                                       //   },
@@ -12544,7 +12544,7 @@
 //       printClosed = true;
 //       Future.delayed(const Duration(milliseconds: 30000), () {
 //         if(printClosed) {
-//           print('complete');
+//           debugPrint('complete');
 //           _onDisconnectDevice();
 //         }
 //       });

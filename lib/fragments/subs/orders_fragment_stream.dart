@@ -86,7 +86,7 @@
 //     // return(prefs.getString('store'));
 //
 //     var index = prefs.getString('store');
-//     print(index);
+//     debugPrint(index);
 //     if (index == null) {
 //       return 'idk';
 //     } else {
@@ -107,7 +107,7 @@
 //         searchValue = _searchController.text;
 //       });
 //       searchKeyChanged();
-//       print(searchValue);
+//       debugPrint(searchValue);
 //     });
 //     subTabController = TabController(length: 3, vsync: this);
 //     slidingSearchCont();
@@ -163,17 +163,17 @@
 //   slidingSearchCont() {
 //
 //     if(slidingSearch == 0) {
-//       print('gg0');
+//       debugPrint('gg0');
 //       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
 //     } else if(slidingSearch == 1) {
-//       print('gg1');
+//       debugPrint('gg1');
 //       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
 //     } else if(slidingSearch == 2) {
-//       print('gg2');
+//       debugPrint('gg2');
 //       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
@@ -188,14 +188,14 @@
 //
 //   void closeSearch() {
 //     _searchController.clear();
-//     print('clicked testing ');
+//     debugPrint('clicked testing ');
 //     FocusScope.of(context).unfocus();
 //     setState(() {
 //       loadingSearch = false;
 //     });
 //   }
 //   void unfocusSearch() {
-//     print('clicked testing 2');
+//     debugPrint('clicked testing 2');
 //     FocusScope.of(context).unfocus();
 //   }
 //
@@ -227,10 +227,10 @@
 //           ;
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -264,10 +264,10 @@
 //
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -533,12 +533,12 @@
 //           if(searchValue.contains('-')) {
 //             searchValue = searchValue.split('-')[1];
 //           }
-//           print('hereeee');
+//           debugPrint('hereeee');
 //           sectionList2 = List<ExampleSection>.empty(growable: true);
 //
 //           subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
 //
-//           print("search " + searchValue);
+//           debugPrint("search " + searchValue);
 //           String max = searchValue;
 //           // sectionList = [];
 //           List detailIdList = [];
@@ -580,7 +580,7 @@
 //                   //   ..items = detailIdList.cast<String>()
 //                   //   ..expanded = true;
 //
-//                   print('buy ord ' + detailIdList.length.toString());
+//                   debugPrint('buy ord ' + detailIdList.length.toString());
 //                   sections.add(saleOrders);
 //                   // sections.add(buyOrders);
 //                   sectionList2 = sections;
@@ -617,7 +617,7 @@
 //                 //   ..items = detailIdList.cast<String>()
 //                 //   ..expanded = true;
 //
-//                 //  print('buy ord ' + detailIdList.length.toString());
+//                 //  debugPrint('buy ord ' + detailIdList.length.toString());
 //                 sections.add(saleOrders);
 //                 // sections.add(buyOrders);
 //                 sectionList2 = sections;
@@ -628,12 +628,12 @@
 //           if(searchValue.contains('-')) {
 //             searchValue = searchValue.split('-')[1];
 //           }
-//           print('hereeee');
+//           debugPrint('hereeee');
 //           sectionList2 = List<ExampleSection>.empty(growable: true);
 //
 //           subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
 //
-//           print("search " + searchValue);
+//           debugPrint("search " + searchValue);
 //           String max = searchValue;
 //           // sectionList = [];
 //           List detailIdList = [];
@@ -675,7 +675,7 @@
 //                   //   ..items = detailIdList.cast<String>()
 //                   //   ..expanded = true;
 //
-//                   print('sale ord ' + detailIdList.length.toString());
+//                   debugPrint('sale ord ' + detailIdList.length.toString());
 //                   sections.add(saleOrders);
 //                   // sections.add(buyOrders);
 //                   sectionList2 = sections;
@@ -713,7 +713,7 @@
 //                 //   ..items = detailIdList.cast<String>()
 //                 //   ..expanded = true;
 //
-//                 // print('buy ord ' + detailIdList.length.toString());
+//                 // debugPrint('buy ord ' + detailIdList.length.toString());
 //                 sections.add(saleOrders);
 //                 // sections.add(buyOrders);
 //                 sectionList2 = sections;
@@ -764,7 +764,7 @@
 //                 items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
 //               });
 //
-//               // print(doc['prod_name'].toString());
+//               // debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -793,7 +793,7 @@
 //                 items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
 //               });
 //
-//               // print(doc['prod_name'].toString());
+//               // debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -869,7 +869,7 @@
 //                     doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
 //               });
 //
-//               print(doc['prod_name'].toString());
+//               debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -1022,7 +1022,7 @@
 //                         if(snapshot2.hasData) {
 //                           var sections = List<ExampleSection>.empty(growable: true);
 //                           int docInc = 0;
-//                           print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
+//                           debugPrint('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
 //
 //                           if(docInc>0) {
 //
@@ -1038,7 +1038,7 @@
 //
 //
 //
-//                             print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+//                             debugPrint('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
 //
 //                             List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
 //
@@ -1061,9 +1061,9 @@
 //                                 Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
 //                                 // var ayinDocLoo = data21Loop['date'];
 //
-//                                 print('CCC HERE' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
+//                                 debugPrint('CCC HERE' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
 //                                 if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
-//                                   print('not equal');
+//                                   debugPrint('not equal');
 //                                   sections.add(section);
 //                                   itemsList = [];
 //                                   if(a == snapshot.data!.docs.length-1) {
@@ -1329,7 +1329,7 @@
 //
 //                                     return cateScIndex == 0 ? GestureDetector(
 //                                       onTap: () {
-//                                         print('Items'+item);
+//                                         debugPrint('Items'+item);
 //                                         Navigator.push(
 //                                           context,
 //                                           MaterialPageRoute(
@@ -1561,7 +1561,7 @@
 //                                     ) : cateScIndex == 1 && item.split('^')[5] != '0.0' ?
 //                                     GestureDetector(
 //                                       onTap: () {
-//                                         print('Items'+item);
+//                                         debugPrint('Items'+item);
 //                                         Navigator.push(
 //                                           context,
 //                                           MaterialPageRoute(
@@ -1793,7 +1793,7 @@
 //                                     ) :
 //                                     cateScIndex == 2 && item.split('^')[4] != 'FALSE' ? GestureDetector(
 //                                       onTap: () {
-//                                         print('Items'+item);
+//                                         debugPrint('Items'+item);
 //                                         Navigator.push(
 //                                           context,
 //                                           MaterialPageRoute(
@@ -2025,7 +2025,7 @@
 //                                     ) :
 //                                     cateScIndex == 3 && item.split('^')[5] == '0.0' ? GestureDetector(
 //                                       onTap: () {
-//                                         print('Items'+item);
+//                                         debugPrint('Items'+item);
 //                                         Navigator.push(
 //                                           context,
 //                                           MaterialPageRoute(
@@ -2282,7 +2282,7 @@
 //   }
 //
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {
@@ -2302,7 +2302,7 @@
 //   }
 //
 //   checkTest(String input) {
-//     print("CHECK TEST " + input);
+//     debugPrint("CHECK TEST " + input);
 //   }
 //
 //   convertToAMPM(String input){
@@ -2583,10 +2583,10 @@
 //           ;
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -2608,10 +2608,10 @@
 //               list[i].split('^')[4];
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -2626,7 +2626,7 @@
 //
 //   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
 //     ExampleSection section = sectionList3[sectionIndex];
-//     print('section check25 '+ sectionList3[sectionIndex].items.toString());
+//     debugPrint('section check25 '+ sectionList3[sectionIndex].items.toString());
 //     if(sectionList3[sectionIndex].items.length == 0) {
 //       return Container();
 //     }
@@ -2719,11 +2719,11 @@
 //   //   //   });
 //   //   //
 //   //   // }).then((value) {
-//   //   //   // print('here ' + temp.toString());
+//   //   //   // debugPrint('here ' + temp.toString());
 //   //   //   //return temp;
 //   //   //   // return gloTemp;
 //   //   // });
-//   //   // print('here2 ' + temp.toString());
+//   //   // debugPrint('here2 ' + temp.toString());
 //   //   // return gloTemp;
 //   //
 //   //
@@ -2820,7 +2820,7 @@
 //                                         ),
 //                                         onPressed: () {
 //                                           Navigator.pop(context);
-//                                           print('clicked');
+//                                           debugPrint('clicked');
 //                                         },
 //                                       )
 //                                     ],
@@ -2872,12 +2872,12 @@
 //           _dateTime = _dateTime;
 //           today = today;
 //           // DateTime td = DateTime.now();
-//           print('closed 1 ' + today.toString());
-//           // print('closed 2 ' + td.toString());
+//           debugPrint('closed 1 ' + today.toString());
+//           // debugPrint('closed 2 ' + td.toString());
 //         });
 //         // fetchOrders();
 //       },
-//       onCancel: () => print('onCancel'),
+//       onCancel: () => debugPrint('onCancel'),
 //       onChange: (dateTime, List<int> index) {
 //         // setState(() {
 //         today = dateTime;
@@ -2909,7 +2909,7 @@
 //       endDateOfMonth = '31';
 //     }
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 //
@@ -2921,13 +2921,13 @@
 //     DateTime notTday = today;
 //     notTday = today;
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //
 //   }
 //
 //   String selectDaysCast() {
-//     print("TTT " + today.year.toString().length.toString());
+//     debugPrint("TTT " + today.year.toString().length.toString());
 //     // if(_sliding==0) {
 //     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
 //     if(today.month == 9) {
@@ -3019,7 +3019,7 @@
 //   }
 // }
 //
-// // print(item.split('^')[0].substring(0,8));
+// // debugPrint(item.split('^')[0].substring(0,8));
 // // var dateId = '';
 // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 // // // FirebaseFirestore.instance.collection('space')
@@ -3034,7 +3034,7 @@
 // // 'daily_order': FieldValue.arrayRemove([item])
 // // })
 // //     .then((value) {
-// // print('array removed');
+// // debugPrint('array removed');
 // //
 // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
 // //
@@ -3042,7 +3042,7 @@
 // // 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // })
 // //     .then((value) {
-// // print('array updated');
+// // debugPrint('array updated');
 // // });
 // //
 // //
@@ -3053,7 +3053,7 @@
 // // //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // // })
 // // //     .then((value) {
-// // //   print('array updated');
+// // //   debugPrint('array updated');
 // // // });
 // // // 2021081601575511001^1-1001^total^name^pf
 // //

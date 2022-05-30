@@ -26,7 +26,7 @@
 //   initState() {
 //
 //     // await Future.delayed(Duration(seconds: 2));
-//     // print(assets.length.toString());
+//     // debugPrint(assets.length.toString());
 //     MixinGlo();
 //
 //     // pageMixinGlo();// await Firebase.initializeApp();

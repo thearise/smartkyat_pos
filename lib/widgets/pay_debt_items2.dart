@@ -57,7 +57,7 @@
 //     debtAmount = double.parse(widget.debt.toString());
 //     SystemChannels.textInput.invokeMethod('TextInput.hide');
 //     _textFieldController.addListener((){
-//       print("value: ${_textFieldController.text}");
+//       debugPrint("value: ${_textFieldController.text}");
 //       setState(() {
 //         _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0;
 //         if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
@@ -129,22 +129,22 @@
 //     //               dailyOrders.doc(widget.documentId).update({
 //     //                 'daily_order':
 //     //                 FieldValue.arrayRemove([dataRm])
-//     //               }).then((value) {print('array removed');})
-//     //                   .catchError((error) => print("Failed to update user: $error"));
+//     //               }).then((value) {debugPrint('array removed');})
+//     //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //     //
 //     //               dailyOrders.doc(widget.documentId).update({
 //     //                 'daily_order':
 //     //                 FieldValue.arrayUnion([data])
-//     //               }).then((value) { print('array updated');})
-//     //                   .catchError((error) => print("Failed to update user: $error"));
+//     //               }).then((value) { debugPrint('array updated');})
+//     //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //     //
 //     //               order.doc(
 //     //                   widget.docId)
 //     //                   .update({
 //     //                 'debt' : debtAmount
 //     //               })
-//     //                   .then((value) => print("User Updated"))
-//     //                   .catchError((error) => print("Failed to update user: $error"));
+//     //                   .then((value) => debugPrint("User Updated"))
+//     //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //     //
 //     //               double debts = 0;
 //     //               if(debtAmount == 0.0) {
@@ -157,8 +157,8 @@
 //     //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
 //     //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
 //     //                 })
-//     //                     .then((value) => print("User Updated"))
-//     //                     .catchError((error) => print("Failed to update user: $error"));}
+//     //                     .then((value) => debugPrint("User Updated"))
+//     //                     .catchError((error) => debugPrint("Failed to update user: $error"));}
 //     //
 //     //               _textFieldController.clear();
 //     //               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -291,22 +291,22 @@
 //                             //           dailyOrders.doc(widget.documentId).update({
 //                             //             'daily_order':
 //                             //             FieldValue.arrayRemove([dataRm])
-//                             //           }).then((value) {print('array removed');})
-//                             //               .catchError((error) => print("Failed to update user: $error"));
+//                             //           }).then((value) {debugPrint('array removed');})
+//                             //               .catchError((error) => debugPrint("Failed to update user: $error"));
 //                             //
 //                             //           dailyOrders.doc(widget.documentId).update({
 //                             //             'daily_order':
 //                             //             FieldValue.arrayUnion([data])
-//                             //           }).then((value) { print('array updated');})
-//                             //               .catchError((error) => print("Failed to update user: $error"));
+//                             //           }).then((value) { debugPrint('array updated');})
+//                             //               .catchError((error) => debugPrint("Failed to update user: $error"));
 //                             //
 //                             //           order.doc(
 //                             //               widget.docId)
 //                             //               .update({
 //                             //             'debt' : debtAmount
 //                             //           })
-//                             //               .then((value) => print("User Updated"))
-//                             //               .catchError((error) => print("Failed to update user: $error"));
+//                             //               .then((value) => debugPrint("User Updated"))
+//                             //               .catchError((error) => debugPrint("Failed to update user: $error"));
 //                             //
 //                             //           double debts = 0;
 //                             //           if(debtAmount == 0.0) {
@@ -319,8 +319,8 @@
 //                             //             'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
 //                             //             'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
 //                             //           })
-//                             //               .then((value) => print("User Updated"))
-//                             //               .catchError((error) => print("Failed to update user: $error"));}
+//                             //               .then((value) => debugPrint("User Updated"))
+//                             //               .catchError((error) => debugPrint("Failed to update user: $error"));}
 //                             //
 //                             //           _textFieldController.clear();
 //                             //           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -635,22 +635,22 @@
 //                 //               dailyOrders.doc(widget.documentId).update({
 //                 //                 'daily_order':
 //                 //                 FieldValue.arrayRemove([dataRm])
-//                 //               }).then((value) {print('array removed');})
-//                 //                   .catchError((error) => print("Failed to update user: $error"));
+//                 //               }).then((value) {debugPrint('array removed');})
+//                 //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //                 //
 //                 //               dailyOrders.doc(widget.documentId).update({
 //                 //                 'daily_order':
 //                 //                 FieldValue.arrayUnion([data])
-//                 //               }).then((value) { print('array updated');})
-//                 //                   .catchError((error) => print("Failed to update user: $error"));
+//                 //               }).then((value) { debugPrint('array updated');})
+//                 //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //                 //
 //                 //               order.doc(
 //                 //                   widget.docId)
 //                 //                   .update({
 //                 //                 'debt' : debtAmount
 //                 //               })
-//                 //                   .then((value) => print("User Updated"))
-//                 //                   .catchError((error) => print("Failed to update user: $error"));
+//                 //                   .then((value) => debugPrint("User Updated"))
+//                 //                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //                 //
 //                 //               double debts = 0;
 //                 //               if(debtAmount == 0.0) {
@@ -663,8 +663,8 @@
 //                 //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
 //                 //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
 //                 //                 })
-//                 //                     .then((value) => print("User Updated"))
-//                 //                     .catchError((error) => print("Failed to update user: $error"));}
+//                 //                     .then((value) => debugPrint("User Updated"))
+//                 //                     .catchError((error) => debugPrint("Failed to update user: $error"));}
 //                 //
 //                 //               _textFieldController.clear();
 //                 //               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -743,22 +743,22 @@
 //                             dailyOrders.doc(widget.documentId).update({
 //                               'daily_order':
 //                               FieldValue.arrayRemove([dataRm])
-//                             }).then((value) {print('array removed');})
-//                                 .catchError((error) => print("Failed to update user: $error"));
+//                             }).then((value) {debugPrint('array removed');})
+//                                 .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                             dailyOrders.doc(widget.documentId).update({
 //                               'daily_order':
 //                               FieldValue.arrayUnion([data])
-//                             }).then((value) { print('array updated');})
-//                                 .catchError((error) => print("Failed to update user: $error"));
+//                             }).then((value) { debugPrint('array updated');})
+//                                 .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                             order.doc(
 //                                 widget.docId)
 //                                 .update({
 //                               'debt' : debtAmount
 //                             })
-//                                 .then((value) => print("User Updated"))
-//                                 .catchError((error) => print("Failed to update user: $error"));
+//                                 .then((value) => debugPrint("User Updated"))
+//                                 .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                             double debts = 0;
 //                             if(debtAmount == 0.0) {
@@ -771,8 +771,8 @@
 //                                 'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
 //                                 'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
 //                               })
-//                                   .then((value) => print("User Updated"))
-//                                   .catchError((error) => print("Failed to update user: $error"));}
+//                                   .then((value) => debugPrint("User Updated"))
+//                                   .catchError((error) => debugPrint("Failed to update user: $error"));}
 //
 //                             _textFieldController.clear();
 //                             Navigator.of(context).popUntil((route) => route.isFirst);

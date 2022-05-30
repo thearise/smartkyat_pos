@@ -66,7 +66,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
     //   // lang = await getLangId();
     //
     //   setState(() {
-    //     print('setting state ' + lang.toString());
+    //     debugPrint('setting state ' + lang.toString());
     //   });
     //
     // });
@@ -106,7 +106,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
     });
 
     setCurrency(selectedTest['keyword'].toString());
-    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'mmk'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    debugPrint(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'mmk'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   setCurrency(String id) async {
@@ -1132,7 +1132,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
     const oneSec = Duration(milliseconds:1000);
 
     Timer.periodic(oneSec, (Timer t) {
-      print('testted');
+      debugPrint('testted');
       setState(() {
         priProgVal = ((10000 - priProgVal) / 2).round();
       });

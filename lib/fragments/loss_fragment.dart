@@ -466,9 +466,9 @@ class _LossProductState extends State<LossProduct> {
                                     //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
                                     //   'type': 'loss1',
                                     // }).then((value) =>
-                                    //     print("User Updated"))
+                                    //     debugPrint("User Updated"))
                                     //     .catchError((error) =>
-                                    //     print(
+                                    //     debugPrint(
                                     //         "Failed to update datenotexist: $error"));
                                     // unit = 'loss1';
                                     // buyPriceUnit = 'buyPrice1';
@@ -486,9 +486,9 @@ class _LossProductState extends State<LossProduct> {
                                     //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
                                     //   'type': 'loss2',
                                     // }).then((value) =>
-                                    //     print("User Updated"))
+                                    //     debugPrint("User Updated"))
                                     //     .catchError((error) =>
-                                    //     print(
+                                    //     debugPrint(
                                     //         "Failed to update datenotexist: $error"));
                                   }
                                   else if (widget.prodID.split('^')[3] == 'sub2_name') {
@@ -501,9 +501,9 @@ class _LossProductState extends State<LossProduct> {
                                     //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
                                     //   'type': 'loss3',
                                     // }).then((value) =>
-                                    //     print("User Updated"))
+                                    //     debugPrint("User Updated"))
                                     //     .catchError((error) =>
-                                    //     print(
+                                    //     debugPrint(
                                     //         "Failed to update datenotexist: $error"));
 
                                     // unit = 'loss3';
@@ -528,8 +528,8 @@ class _LossProductState extends State<LossProduct> {
                                       //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
                                       //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
                                       //
-                                      // }).then((value) => print("data Updated"))
-                                      //     .catchError((error) => print("Failed to update user: $error"));
+                                      // }).then((value) => debugPrint("data Updated"))
+                                      //     .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                     }
                                     else {
@@ -552,11 +552,11 @@ class _LossProductState extends State<LossProduct> {
                                         'date': now,
 
                                       }).then((value) async {
-                                        print('valueid' + value.id.toString());
+                                        debugPrint('valueid' + value.id.toString());
 
                                         batch = await updateLossMonthly(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'loss_cust', ttlLossAmount.toString());
 
-                                      }).catchError((error) => print("Failed to update user: $error"));
+                                      }).catchError((error) => debugPrint("Failed to update user: $error"));
                                     }
 
                                     CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
@@ -598,9 +598,9 @@ class _LossProductState extends State<LossProduct> {
                                           // yearlyData.doc(value.id).update({
                                           //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
                                           //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                          // }).then((value) => print("Data Updated"))
-                                          //     .catchError((error) => print("Failed to update user: $error"));
-                                        }).catchError((error) => print("Failed to update user: $error"));
+                                          // }).then((value) => debugPrint("Data Updated"))
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
                                       }
                                       batch.commit();
                                     }); });
@@ -694,7 +694,7 @@ class _LossProductState extends State<LossProduct> {
   }
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
-    print('Double Check Sub1' + '$id.im');
+    debugPrint('Double Check Sub1' + '$id.im');
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
@@ -738,25 +738,25 @@ class _LossProductState extends State<LossProduct> {
 // Future<void> decStockFromInv(id, unit, num) async {
 //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 //
-//   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //   users
 //       .doc(id)
 //       .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-//       .then((value) => print("User Updated"))
-//       .catchError((error) => print("Failed to update user: $error"));
+//       .then((value) => debugPrint("User Updated"))
+//       .catchError((error) => debugPrint("Failed to update user: $error"));
 // }
 //
 // Future<void> incStockFromInv(id, unit, num) async {
 //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 //
-//   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //   users
 //       .doc(id)
 //       .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-//       .then((value) => print("User Updated"))
-//       .catchError((error) => print("Failed to update user: $error"));
+//       .then((value) => debugPrint("User Updated"))
+//       .catchError((error) => debugPrint("Failed to update user: $error"));
 // }
 //
 // Future<void> sub1Execution(subStock, subLink, id, num) async {

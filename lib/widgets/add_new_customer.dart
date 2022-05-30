@@ -367,10 +367,18 @@ class _AddCustomerState extends State<AddCustomer> {
                     Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          color: Colors.white,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  top: BorderSide(
+                                      color: Colors.grey
+                                          .withOpacity(0.3),
+                                      width: 1.0))
+
+                          ),
                           height: 91,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
+                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
                             child: Column(
                               children: [
                                 ButtonTheme(
@@ -399,7 +407,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
                                           FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt').get().then((value) {
                                             int cusCnt = value.data()!['count'];
-
+                                            debugPrint('created 0');
                                             cusArr.set({
                                               'cus': {
                                                 '$deviceIdNum-' + cusCnt.toString(): {
@@ -413,25 +421,28 @@ class _AddCustomerState extends State<AddCustomer> {
                                                   'ar' : false,
                                                 }
                                               }
-                                            },
-                                                SetOptions(merge: true)).then((value) {
+                                            }, SetOptions(merge: true)).then((value) {
+                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
+
+                                            debugPrint('created 1');
                                             FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
                                                 .update(
                                                 {
                                                   'count': FieldValue.increment(1)
                                                 }
                                             ).then((value) {
-                                              Future.delayed(const Duration(milliseconds: 1000), () {
-                                                setState(() {
-                                                  cusCreating = false;
-                                                  widget.endCusLoadingState();
-                                                  Navigator.pop(context);
-                                                });
-                                                smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                            debugPrint('arrays added ' + '0-' + cusCnt.toString());
+
+                                            debugPrint('created 2');
+                                            Future.delayed(const Duration(milliseconds: 1000), () {
+                                              setState(() {
+                                                cusCreating = false;
+                                                widget.endCusLoadingState();
+                                                Navigator.pop(context);
                                               });
-                                            }).catchError((error) => print("Failed to update user: $error"));
-                                            print('arrays added ' + '0-' + cusCnt.toString());
-                                            }).catchError((error) => print("Failed to update user: $error"));
+                                              smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                            });
                                           });
                                         }
                                     },

@@ -170,17 +170,17 @@ class HomeFragmentState extends State<HomeFragment>
   slidingSearchCont() {
 
     if(slidingSearch == 0) {
-      // print('gg0');
+      // debugPrint('gg0');
       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 1) {
-      // print('gg1');
+      // debugPrint('gg1');
       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 2) {
-      // print('gg2');
+      // debugPrint('gg2');
       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
@@ -225,7 +225,7 @@ class HomeFragmentState extends State<HomeFragment>
       endDateOfMonth = '31';
     }
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-    print('DDDD ' + yearStart.toString());
+    debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
 
@@ -244,13 +244,13 @@ class HomeFragmentState extends State<HomeFragment>
       ayinMonth = month - 1;
     }
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
-    print('DDDD ' + yearStart.toString());
+    debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
 
   @override
   initState() {
-    print('home frag3');
+    debugPrint('home frag3');
     // super.initState();
     // _bannerAd = BannerAd(
     //   // Change Banner Size According to Ur Need
@@ -261,7 +261,7 @@ class HomeFragmentState extends State<HomeFragment>
     //         _isBannerAdReady = true;
     //       });
     //     }, onAdFailedToLoad: (ad, LoadAdError error) {
-    //       print("Failed to Load A Banner Ad${error.message}");
+    //       debugPrint("Failed to Load A Banner Ad${error.message}");
     //       _isBannerAdReady = false;
     //       ad.dispose();
     //     }),
@@ -269,7 +269,7 @@ class HomeFragmentState extends State<HomeFragment>
     //   ..load();
 
     _dateTime = DateTime.now();
-    print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
+    debugPrint('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
     getStoreId().then((value) {
       setState(() {
         shopId = value;
@@ -281,7 +281,7 @@ class HomeFragmentState extends State<HomeFragment>
     //     searchValue = _searchController.text;
     //   });
     //   searchKeyChanged();
-    //   // print(searchValue);
+    //   // debugPrint(searchValue);
     // });
     subTabController = TabController(length: 3, vsync: this);
     slidingSearchCont();
@@ -387,12 +387,12 @@ class HomeFragmentState extends State<HomeFragment>
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -421,7 +421,7 @@ class HomeFragmentState extends State<HomeFragment>
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -490,12 +490,12 @@ class HomeFragmentState extends State<HomeFragment>
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.data!.docs.length; loopOrd++) {
-      // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
+      // debugPrint('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
       DateTime dateTimeOrders = data['date'].toDate();
       String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-      print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+      debugPrint('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
       int week = 0;
       int month = 0;
@@ -506,17 +506,17 @@ class HomeFragmentState extends State<HomeFragment>
       while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
         sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
-        // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-        // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+        // debugPrint('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+        // debugPrint('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
 
-        // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+        // debugPrint('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
         if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
           double total = 0;
-          // print(doc['daily_order'].toString());
+          // debugPrint(doc['daily_order'].toString());
           for(String str in data['daily_order']) {
-            // print(double.parse(str));
+            // debugPrint(double.parse(str));
             total += double.parse(str.split('^')[2]);
             weekCostsTotal += double.parse(str.split('^')[5]);
           }
@@ -530,22 +530,22 @@ class HomeFragmentState extends State<HomeFragment>
       while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
         monthAgo = monthAgo.add(const Duration(days: 1));
 
-        // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-        // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+        // debugPrint('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+        // debugPrint('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
 
-        // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+        // debugPrint('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
         if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
           double total = 0;
-          // print(doc['daily_order'].toString());
+          // debugPrint(doc['daily_order'].toString());
           for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            // print('testing ' + str.split('^')[2]);
+            // debugPrint(double.parse(str));
+            // debugPrint('testing ' + str.split('^')[2]);
             total += double.parse(str.split('^')[2]);
             monthCostsTotal += double.parse(str.split('^')[5]);
           }
-          // print('tatoos ' + total.toString());
+          // debugPrint('tatoos ' + total.toString());
           // setState(() {
           thisMonthOrdersChart[month] = total;
 
@@ -571,8 +571,8 @@ class HomeFragmentState extends State<HomeFragment>
               todayOrdersChart[i]+=double.parse(str.split('^')[2]);
               // });
             }
-            // print('laos ' + total.toString());
-            // print('World ' +todayOrdersChart.toString());
+            // debugPrint('laos ' + total.toString());
+            // debugPrint('World ' +todayOrdersChart.toString());
           }
         }
 
@@ -581,9 +581,9 @@ class HomeFragmentState extends State<HomeFragment>
       if (dataDate.substring(0,4) == today.year.toString()){
         double total = 0;
         for (String str in data['daily_order']) {
-          // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
+          // debugPrint('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
           for(int i=1; i<=12 ; i++ ){
-            // print('helloworld '+i.toString());
+            // debugPrint('helloworld '+i.toString());
 
             if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
             {
@@ -591,25 +591,25 @@ class HomeFragmentState extends State<HomeFragment>
               yearCostsTotal += double.parse(str.split('^')[5]);
               // setState(() {
               thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
-              // print('fortune ' +thisYearOrdersChart.toString());
+              // debugPrint('fortune ' +thisYearOrdersChart.toString());
               // });
             }
-            //print('laos ' + total.toString());
+            //debugPrint('laos ' + total.toString());
 
           }
         }
       }
     }
 
-    // print('each ');
+    // debugPrint('each ');
     if(snapshot1.data != null) {
       for(int loopOrd = 0; loopOrd < snapshot1.data!.docs.length; loopOrd++) {
-        print('DOC IIDDCost ' + snapshot1.data!.docs[loopOrd].id.toString());
+        debugPrint('DOC IIDDCost ' + snapshot1.data!.docs[loopOrd].id.toString());
         Map<String, dynamic> data = snapshot1.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
         DateTime dateTimeOrders = data['date'].toDate();
         String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-        print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+        debugPrint('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
         int week = 0;
         int month = 0;
@@ -620,17 +620,17 @@ class HomeFragmentState extends State<HomeFragment>
         while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
           sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
-          // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-          // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+          // debugPrint('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+          // debugPrint('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
 
-          // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+          // debugPrint('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
           if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
             double total = 0;
-            // print(doc['daily_order'].toString());
+            // debugPrint(doc['daily_order'].toString());
             for(String str in data['daily_order']) {
-              // print(double.parse(str));
+              // debugPrint(double.parse(str));
               weekCostsTotalR += double.parse(str.split('^')[2]);
             }
 
@@ -642,15 +642,15 @@ class HomeFragmentState extends State<HomeFragment>
         while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
           monthAgo = monthAgo.add(const Duration(days: 1));
 
-          // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-          // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          // debugPrint('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+          // debugPrint('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
 
-          // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          // debugPrint('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
           if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
             double total = 0;
-            // print(doc['daily_order'].toString());
+            // debugPrint(doc['daily_order'].toString());
             for(String str in data['daily_order']) {
               monthCostsTotalR += double.parse(str.split('^')[2]);
             }
@@ -679,24 +679,24 @@ class HomeFragmentState extends State<HomeFragment>
         if (dataDate.substring(0,4) == today.year.toString()){
           double total = 0;
           for (String str in data['daily_order']) {
-            // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
+            // debugPrint('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
             for(int i=1; i<=12 ; i++ ) {
-              // print('helloworld '+i.toString());
+              // debugPrint('helloworld '+i.toString());
 
               if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
               {
                 yearCostsTotalR += double.parse(str.split('^')[2]);
-                // print('fortune ' +thisYearOrdersChart.toString());
+                // debugPrint('fortune ' +thisYearOrdersChart.toString());
                 // });
               }
-              //print('laos ' + total.toString());
+              //debugPrint('laos ' + total.toString());
 
             }
           }
         }
 
         // setState(() {
-        //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
+        //   // debugPrint('CHECK todayCOSTS ' + todayCostsTotal.toString());
         // });
 
         // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
@@ -704,12 +704,12 @@ class HomeFragmentState extends State<HomeFragment>
         //
         //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
         //     double total = 0;
-        //     // print(doc['daily_order'].toString());
+        //     // debugPrint(doc['daily_order'].toString());
         //     for(String str in doc['daily_order']) {
-        //       // print(double.parse(str));
+        //       // debugPrint(double.parse(str));
         //       total += double.parse(str.split('^')[2]);
         //     }
-        //     print('total ' + total.toString());
+        //     debugPrint('total ' + total.toString());
         //     setState(() {
         //       thisYearOrdersChart[year] = total;
         //     });
@@ -718,36 +718,36 @@ class HomeFragmentState extends State<HomeFragment>
         //   year = year + 1;
         //
         // }
-        // print('this year' + thisYearOrdersChart.toString());
-        // print('this week ' + thisWeekOrdersChart.toString());
+        // debugPrint('this year' + thisYearOrdersChart.toString());
+        // debugPrint('this week ' + thisWeekOrdersChart.toString());
         // for(int j = 20210909; j <= 20210915; j++) {
         //
-        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-        //   print('here shwe 2 ' + j.toString());
+        //   // debugPrint('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+        //   debugPrint('here shwe 2 ' + j.toString());
         //   // if(doc['date'] == j.toString()) {
         //   //   double total = 0;
-        //   //   // print(doc['daily_order'].toString());
+        //   //   // debugPrint(doc['daily_order'].toString());
         //   //   for(String str in doc['daily_order']) {
-        //   //     // print(double.parse(str));
+        //   //     // debugPrint(double.parse(str));
         //   //     total += double.parse(str.split('^')[2]);
         //   //   }
-        //   //   print('total ' + total.toString());
+        //   //   debugPrint('total ' + total.toString());
         //   //   setState(() {
         //   //     thisWeekOrdersChart[ij] = total;
         //   //   });
         //   //
         //   // }
         //   // ij = ij + 1;
-        //   // print(ij);
+        //   // debugPrint(ij);
         // }
 
 
-        // print('this week 2' + thisWeekOrdersChart.toString());
+        // debugPrint('this week 2' + thisWeekOrdersChart.toString());
 
-        // print('each ' + doc.id.toString());
+        // debugPrint('each ' + doc.id.toString());
       }
     } else {
-      print('null pix');
+      debugPrint('null pix');
     }
 
   }
@@ -770,17 +770,17 @@ class HomeFragmentState extends State<HomeFragment>
 
 
 
-    print('docs ' + snapshot0.data!.docs.toString());
+    debugPrint('docs ' + snapshot0.data!.docs.toString());
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.data!.docs.length; loopOrd++) {
-      print('George sai 0 ' + snapshot0.data!.docs[loopOrd].id.toString());
+      debugPrint('George sai 0 ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
       for(int i = 0; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'];
-          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
+          debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
 
@@ -788,7 +788,7 @@ class HomeFragmentState extends State<HomeFragment>
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'] != null) {
          // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
-          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'].toString());
+          debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'].toString());
         }
       }
 
@@ -796,7 +796,7 @@ class HomeFragmentState extends State<HomeFragment>
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'] != null) {
           // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'];
-          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'].toString());
+          debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'debt_cust'].toString());
         }
       }
 
@@ -804,7 +804,7 @@ class HomeFragmentState extends State<HomeFragment>
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'] != null) {
           // thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_merc'];
           monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'];
-          print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'].toString());
+          debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'refu_cust'].toString());
         }
       }
     }
@@ -829,41 +829,41 @@ class HomeFragmentState extends State<HomeFragment>
    // monthRefundTotal = 0;
     yearRefundTotal = 0;
 
-    print('docs ' + snapshot0.data!.docs.toString());
+    debugPrint('docs ' + snapshot0.data!.docs.toString());
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.data!.docs.length; loopOrd++) {
-      print('George Y sai 0 ' + snapshot0.data!.docs[loopOrd].id.toString());
+      debugPrint('George Y sai 0 ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
       for(int i = 0; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           thisYearOrdersChart[i] += thisYearOrdersChart[i] + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
 
       for(int i = 0; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'] != null) {
           yearCostsTotal2 +=  data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'].toString());
         }
       }
 
       for(int i = 0; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
           yearUnpaidTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'].toString());
         }
       }
 
       for(int i = 0; i<= 12; i++) {
-        print('looping');
+        debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
           yearRefundTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
-          print('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
+          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
         }
       }
 
@@ -901,14 +901,14 @@ class HomeFragmentState extends State<HomeFragment>
 
   void closeSearch() {
     _searchController.clear();
-    // print('clicked testing ');
+    // debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    // print('clicked testing 2');
+    // debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -1248,7 +1248,7 @@ class HomeFragmentState extends State<HomeFragment>
 
 
 
-            // print('value ' + findMax(roundMonth).toString());
+            // debugPrint('value ' + findMax(roundMonth).toString());
             return '';
           },
           reservedSize: 42,
@@ -1335,7 +1335,7 @@ class HomeFragmentState extends State<HomeFragment>
       roundWeek.add(dbl.round());
     }
     int five = 5;
-    // print(roundWeek.toString);
+    // debugPrint(roundWeek.toString);
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -1462,7 +1462,7 @@ class HomeFragmentState extends State<HomeFragment>
 
 
 
-            // print('value ' + findMax(roundWeek).toString());
+            // debugPrint('value ' + findMax(roundWeek).toString());
             return '';
           },
           reservedSize: 42,
@@ -1641,7 +1641,7 @@ class HomeFragmentState extends State<HomeFragment>
 
 
 
-            // print('value ' + findMax(roundYear).toString());
+            // debugPrint('value ' + findMax(roundYear).toString());
             return '';
           },
           reservedSize: 35,
@@ -1718,9 +1718,9 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   double funChange(max) {
-    // print(findMax(roundWeek));
+    // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
-    // print('gg ' + (5.0 - max).toString());
+    // debugPrint('gg ' + (5.0 - max).toString());
     return 5.0 - max;
   }
 
@@ -1730,7 +1730,7 @@ class HomeFragmentState extends State<HomeFragment>
       ten = ten * 10;
     }
     return ten;
-    // print('length ' + ten.toString().toString());
+    // debugPrint('length ' + ten.toString().toString());
   }
 
   int _sliding = 0;
@@ -1868,7 +1868,7 @@ class HomeFragmentState extends State<HomeFragment>
                                       totalLossPrice += dataL['amount'] * dataL['buy_price'];
                                     }
 
-                                    print('totalLossPrice  ' + totalLossPrice.toString());
+                                    debugPrint('totalLossPrice  ' + totalLossPrice.toString());
                                 return CustomScrollView(
                                   slivers: [
 
@@ -2662,7 +2662,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                                 //
                                                                                                 // }
                                                                                                 Map<String, dynamic> dataL = snapshotLoss.data!.docs[index].data()! as Map<String, dynamic>;
-                                                                                                print('check product ' + dataL['buy_price'].toString());
+                                                                                                debugPrint('check product ' + dataL['buy_price'].toString());
                                                                                                 return Container();
                                                                                               }),
                                                                                         ),
@@ -2886,7 +2886,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                 );
                                               }
                                               else if(cateScIndex == 2) {
-                                                print('last day on e ' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString());
+                                                debugPrint('last day on e ' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString());
                                                 return StreamBuilder(
                                                     stream: FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
                                                         .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-00' + ' 00:00:00'))
@@ -2896,17 +2896,17 @@ class HomeFragmentState extends State<HomeFragment>
                                                       // if(snapshotMY.hasData) {
                                                       //
                                                       // }
-                                                      // print('length check mmsp ' + snapshotMY.data!.docs.length.toString());
+                                                      // debugPrint('length check mmsp ' + snapshotMY.data!.docs.length.toString());
 
                                                       fetchOrdersMY(snapshotMY, snapshotMY);
                                                       // if(snapshotMY.hasData) {
                                                       //   for(int loopOrd = 0; loopOrd < snapshotMY.data!.docs.length; loopOrd++) {
-                                                      //     print('George 0 ' + snapshotMY.data!.docs[loopOrd].id.toString());
+                                                      //     debugPrint('George 0 ' + snapshotMY.data!.docs[loopOrd].id.toString());
                                                       //     // Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
                                                       //     // for(int i = 1; i< 32; i++) {
                                                       //     //   if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
                                                       //     //     thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'];
-                                                      //     //     print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
+                                                      //     //     debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
                                                       //     //   }
                                                       //     // }
                                                       //
@@ -3409,7 +3409,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           //
                                                                                           // }
                                                                                           Map<String, dynamic> dataL = snapshotLoss.data!.docs[index].data()! as Map<String, dynamic>;
-                                                                                          print('check product ' + dataL['buy_price'].toString());
+                                                                                          debugPrint('check product ' + dataL['buy_price'].toString());
                                                                                           return Container();
                                                                                         }),
                                                                                   ),
@@ -3642,17 +3642,17 @@ class HomeFragmentState extends State<HomeFragment>
                                                           // if(snapshotMY.hasData) {
                                                           //
                                                           // }
-                                                          // print('length check mmsp ' + snapshotMY.data!.docs.length.toString());
+                                                          // debugPrint('length check mmsp ' + snapshotMY.data!.docs.length.toString());
 
                                                           fetchOrdersYY(snapshotYY, snapshotYY);
                                                           // if(snapshotMY.hasData) {
                                                           //   for(int loopOrd = 0; loopOrd < snapshotMY.data!.docs.length; loopOrd++) {
-                                                          //     print('George 0 ' + snapshotMY.data!.docs[loopOrd].id.toString());
+                                                          //     debugPrint('George 0 ' + snapshotMY.data!.docs[loopOrd].id.toString());
                                                           //     // Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
                                                           //     // for(int i = 1; i< 32; i++) {
                                                           //     //   if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
                                                           //     //     thisMonthOrdersChart[i] += thisMonthOrdersChart[i] + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'];
-                                                          //     //     print('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
+                                                          //     //     debugPrint('George ' + data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'].toString());
                                                           //     //   }
                                                           //     // }
                                                           //
@@ -4155,7 +4155,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                               //
                                                                                               // }
                                                                                               Map<String, dynamic> dataL = snapshotLoss.data!.docs[index].data()! as Map<String, dynamic>;
-                                                                                              print('check product ' + dataL['buy_price'].toString());
+                                                                                              debugPrint('check product ' + dataL['buy_price'].toString());
                                                                                               return Container();
                                                                                             }),
                                                                                       ),
@@ -4798,7 +4798,7 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -4808,7 +4808,7 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -4847,7 +4847,7 @@ class HomeFragmentState extends State<HomeFragment>
     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
-    print('DDDD ' + yearStart.toString());
+    debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
 
@@ -4857,7 +4857,7 @@ class HomeFragmentState extends State<HomeFragment>
     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59');
-    print('DDDD ' + yearStart.toString());
+    debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
 
@@ -4870,21 +4870,21 @@ class HomeFragmentState extends State<HomeFragment>
     if(cateScIndex == 0) {
       notTday = today;
       DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
-      print('DDDD ' + yearStart.toString());
+      debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else if(cateScIndex == 1) {
       notTday = today.subtract(Duration(days: 6));
       DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
-      print('DDDD ' + yearStart.toString());
+      debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else if(cateScIndex == 2) {
       notTday = today.subtract(Duration(days: 27));
       DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
-      print('DDDD ' + yearStart.toString());
+      debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else {
       DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
-      print('DDDD ' + yearStart.toString());
+      debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     }
 

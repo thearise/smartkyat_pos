@@ -205,7 +205,7 @@
 //
 //   @override
 //   initState() {
-//     print("inittttt2");
+//     debugPrint("inittttt2");
 //     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
 //     _scrollController.addListener(() {
 //       if (_scrollController.position.maxScrollExtent ==
@@ -227,7 +227,7 @@
 //
 //
 //
-//     // print('initializing ');
+//     // debugPrint('initializing ');
 //     // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('cacheArr').doc('prodsArr')
 //     //     .get().then((value) async {
 //     //   var array = value.data()!['array'];
@@ -246,7 +246,7 @@
 //     //   //
 //     //   //   querySnapshot.docs.forEach((doc) {
 //     //   //     DocumentSnapshot doc2 = doc;
-//     //   //     print('cache data s ' + doc['prod_name']);
+//     //   //     debugPrint('cache data s ' + doc['prod_name']);
 //     //   //
 //     //   //     // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
 //     //   //     // // docSnap.
@@ -256,7 +256,7 @@
 //     //   //     //
 //     //   //     // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
 //     //   //     // docSnap.listen((querySnapshot) {
-//     //   //     //   print('query snap changes ' + querySnapshot.toString());
+//     //   //     //   debugPrint('query snap changes ' + querySnapshot.toString());
 //     //   //     //   // querySnapshot..forEach((change) {
 //     //   //     //   //   // Do something with change
 //     //   //     //   // });
@@ -265,7 +265,7 @@
 //     //   //     CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 //     //   //
 //     //   //     if(!array.contains(doc.id)) {
-//     //   //       print('cache data s not equaling');
+//     //   //       debugPrint('cache data s not equaling');
 //     //   //       // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
 //     //   //       //     .doc(doc.id)
 //     //   //       //     .get();
@@ -289,12 +289,12 @@
 //     //     .get(GetOptions(source: Source.cache))
 //     //     .then((QuerySnapshot querySnapshot)  async {
 //     //   prodDocs = querySnapshot.docs;
-//     //   print('cache sd data ' + querySnapshot.docs.length.toString() + ' ---> ' + querySnapshot.metadata.isFromCache.toString());
+//     //   debugPrint('cache sd data ' + querySnapshot.docs.length.toString() + ' ---> ' + querySnapshot.metadata.isFromCache.toString());
 //     //   querySnapshot.docs.forEach((doc) {
-//     //     print('cache s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
+//     //     debugPrint('cache s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
 //     //   });
 //     //
-//     //   print('gg moda ' + querySnapshot.docs.last['update_time'].toString());
+//     //   debugPrint('gg moda ' + querySnapshot.docs.last['update_time'].toString());
 //     //
 //     //   if(querySnapshot.docs.length == 0) {
 //     //     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
@@ -313,19 +313,19 @@
 //     //         .get()
 //     //         .then((QuerySnapshot querySnapshotS)  async {
 //     //       prodDocs += querySnapshotS.docs;
-//     //       print('server sd data ' + querySnapshotS.docs.length.toString() + ' ---> ' + querySnapshotS.metadata.isFromCache.toString());
+//     //       debugPrint('server sd data ' + querySnapshotS.docs.length.toString() + ' ---> ' + querySnapshotS.metadata.isFromCache.toString());
 //     //       querySnapshotS.docs.forEach((doc) {
-//     //         print('server s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
+//     //         debugPrint('server s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
 //     //       });
 //     //     });
 //     //   }
 //     // });
 //     //
-//     // print('final sd data ' + prodDocs.length.toString());
+//     // debugPrint('final sd data ' + prodDocs.length.toString());
 //     // int i = 0;
 //     // prodDocs.forEach((doc) {
 //     //   i = i + 1;
-//     //   print('final s data doc ' + i.toString() + ' --> ' + doc['inStock1'].toString() + ' ' + doc['prod_name'].toString() + ' ' + doc.metadata.isFromCache.toString());
+//     //   debugPrint('final s data doc ' + i.toString() + ' --> ' + doc['inStock1'].toString() + ' ' + doc['prod_name'].toString() + ' ' + doc.metadata.isFromCache.toString());
 //     // });
 //
 //
@@ -1811,7 +1811,7 @@
 //   //                     item = item.split('^')[0] + '^' + item.split('^')[1] + '^' + item.split('^')[2] + '^' + 'No customer' + '&' + item.split('^')[3] + '^' + item.split('^')[4] + '^' + item.split('^')[5] + '^' + item.split('^')[6] + '^' + item.split('^')[7] + '^' + item.split('^')[8] + '^' + 's';
 //   //                     return GestureDetector(
 //   //                       onTap: () async {
-//   //                         print('clicked order list 1 ' + item);
+//   //                         debugPrint('clicked order list 1 ' + item);
 //   //                         closeDrawerFrom();
 //   //                         await Navigator.push(
 //   //                           context,
@@ -2339,7 +2339,7 @@
 //   //                     item = item.split('^')[0] + '^' + item.split('^')[1] + '^' + item.split('^')[2] + '^' + 'No customer' + '&' + item.split('^')[3] + '^' + item.split('^')[4] + '^' + item.split('^')[5] + '^' + item.split('^')[6] + '^' + item.split('^')[7] + '^' + item.split('^')[8] + '^' + 's';
 //   //                     return GestureDetector(
 //   //                       onTap: () async {
-//   //                         print('clicked order list 1 ' + item);
+//   //                         debugPrint('clicked order list 1 ' + item);
 //   //                         closeDrawerFrom();
 //   //                         await Navigator.push(
 //   //                           context,
@@ -3400,7 +3400,7 @@
 //                             ),
 //                             GestureDetector(
 //                               onTap: () {
-//                                 print('stfu ');
+//                                 debugPrint('stfu ');
 //                                 widget._chgIndex(0);
 //                                 FocusScope.of(context).unfocus();
 //                                 // Navigator.of(context).pushReplacement(
@@ -3498,7 +3498,7 @@
 //     );
 //   }
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {
@@ -3571,7 +3571,7 @@
 //               prods = prodsSnapOut?['prods'];
 //
 //               // prods.forEach((key, value) {
-//               //   print(value['na']);
+//               //   debugPrint(value['na']);
 //               // });
 //               if(prods == null) {
 //                 return CustomScrollView(
@@ -3893,7 +3893,7 @@
 //                                     //           buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
 //                                     //           toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
 //
-//                                     // print('keyboard ' + MediaQuery.of(context).viewInsets.bottom.toString());
+//                                     // debugPrint('keyboard ' + MediaQuery.of(context).viewInsets.bottom.toString());
 //
 //
 //
@@ -4163,7 +4163,7 @@
 //               custs = custsSnapOut?['cus'];
 //
 //               // prods.forEach((key, value) {
-//               //   print(value['na']);
+//               //   debugPrint(value['na']);
 //               // });
 //               if(custs == null) {
 //                 return CustomScrollView(
@@ -4692,7 +4692,7 @@
 //               mercs = mercsSnapOut?['mer'];
 //
 //               // prods.forEach((key, value) {
-//               //   print(value['na']);
+//               //   debugPrint(value['na']);
 //               // });
 //               if(mercs == null) {
 //                 return CustomScrollView(

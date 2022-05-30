@@ -22,10 +22,10 @@ class App extends StatelessWidget {
   // setStoreId(storeId) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   // int counter = (prefs.getInt('counter') ?? 0) + 1;
-  //   // print('Pressed $counter times.');
+  //   // debugPrint('Pressed $counter times.');
   //
   //   prefs.setInt("counter", storeId).then((bool success) {
-  //     print('success store saved');
+  //     debugPrint('success store saved');
   //   });
   // }
 }

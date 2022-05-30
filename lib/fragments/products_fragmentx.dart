@@ -199,7 +199,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     //         _isBannerAdReady = true;
     //       });
     //     }, onAdFailedToLoad: (ad, LoadAdError error) {
-    //       print("Failed to Load A Banner Ad${error.message}");
+    //       debugPrint("Failed to Load A Banner Ad${error.message}");
     //       _isBannerAdReady = false;
     //       ad.dispose();
     //     }),
@@ -213,7 +213,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     //     searchValue = _searchController.text;
     //   });
     //   searchKeyChanged();
-    //   print(searchValue);
+    //   debugPrint(searchValue);
     // });
     // subTabController = TabController(length: 3, vsync: this);
     // slidingSearchCont();
@@ -299,17 +299,17 @@ class ProductsFragmentState extends State<ProductsFragment>
   // slidingSearchCont() {
   //
   //   if(slidingSearch == 0) {
-  //     print('gg0');
+  //     debugPrint('gg0');
   //     subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
   //   } else if(slidingSearch == 1) {
-  //     print('gg1');
+  //     debugPrint('gg1');
   //     subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
   //   } else if(slidingSearch == 2) {
-  //     print('gg2');
+  //     debugPrint('gg2');
   //     subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
   //     setState(() {
   //     });
@@ -326,14 +326,14 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -586,7 +586,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          print('cateScIndex2' + cateScIndex.toString());
+          debugPrint('cateScIndex2' + cateScIndex.toString());
         },
         child: Container(
           color: Colors.white,
@@ -614,7 +614,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               for(int i = 0; i < prods.length; i++) {
                                 var eachMap = prods[i];
                                 if(eachMap['na'] == null) {
-                                  print('prods entri ' + prods.toString());
+                                  debugPrint('prods entri ' + prods.toString());
                                   FirebaseFirestore.instance
                                       .collection('shops')
                                       .doc(widget.shopId)
@@ -665,9 +665,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   ),
                                                   onPressed: () async {
                                                     widget._callback();
-                                                    // // print('execution3');
+                                                    // // debugPrint('execution3');
                                                     // getStoreId().then((value) async {
-                                                    //   print('value' + value.toString());
+                                                    //   debugPrint('value' + value.toString());
                                                     //   for(int i = 0; i<1000; i++)
                                                     //      // CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders');
                                                     //   await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('orders').doc('20220413274').update({
@@ -675,7 +675,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     //     'daily_order': FieldValue.arrayUnion(['202204132203' +'^7-293' + i.toString() +'^'+ i.toString() +'00.0^name<>name^F^0.0^0.0']),
                                                     //
                                                     //   }).then((value) {
-                                                    //       }).catchError((error) => print("Failed to update: $error"));
+                                                    //       }).catchError((error) => debugPrint("Failed to update: $error"));
                                                     //   //   }).toList();
                                                     //   // });
                                                     // });
@@ -795,7 +795,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     delegate: SliverChildBuilderDelegate(
                                           (context, index) {
                                         var prodMap = resProds[index];
-                                        // print('Prod map ' + prodMap.key.toString());
+                                        // debugPrint('Prod map ' + prodMap.key.toString());
                                         // var prodVal = prodMap.value;
                                         // var prodKey = prodMap.key;
                                         return Container(
@@ -1291,7 +1291,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1428,7 +1428,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   //                             onPressed: () {
   //                               List<AssetEntity> assets = <AssetEntity>[];
   //                               MultiAssetsPageState().pageMultiGlo();
-  //                               // print(assets.length.toString());
+  //                               // debugPrint(assets.length.toString());
   //
   //
   //                               // if (_formKey.currentState!.validate()) {
@@ -1437,7 +1437,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   //                               //   ScaffoldMessenger.of(context).showSnackBar(
   //                               //     const SnackBar(content: Text('Processing Data')),
   //                               //   );
-  //                               //   // print(prodFieldsValue);
+  //                               //   // debugPrint(prodFieldsValue);
   //                               //
   //                               //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
   //                               //   var prodExist = false;
@@ -1451,9 +1451,9 @@ class ProductsFragmentState extends State<ProductsFragment>
   //                               //       spaceDocId = doc.id;
   //                               //     });
   //                               //
-  //                               //     print('space shi p thar');
+  //                               //     debugPrint('space shi p thar');
   //                               //     getStoreId().then((String result2) {
-  //                               //       print('store id ' + result2.toString());
+  //                               //       debugPrint('store id ' + result2.toString());
   //                               //
   //                               //       FirebaseFirestore.instance
   //                               //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
@@ -1465,7 +1465,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   //                               //         });
   //                               //
   //                               //         if(prodExist) {
-  //                               //           print('product already');
+  //                               //           debugPrint('product already');
   //                               //           var result = await showOkAlertDialog(
   //                               //               context: context,
   //                               //               title: 'Warning',
@@ -1480,7 +1480,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   //                               //             'prod_name': prodFieldsValue[0]
   //                               //           })
   //                               //               .then((value) {
-  //                               //             print('product added');
+  //                               //             debugPrint('product added');
   //                               //
   //                               //             Navigator.pop(context);
   //                               //           });
@@ -1978,7 +1978,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 //                   )),
 //               onPressed: () {
 //                 if (cards.length == 3) {
-//                   print('Cards limit reached');
+//                   debugPrint('Cards limit reached');
 //                 } else
 //                   setState(() => cards.add(createCard()));
 //               },

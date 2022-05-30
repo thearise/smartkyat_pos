@@ -270,7 +270,7 @@ class _AddNewShopState extends State<AddNewShop> {
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
                             child: TextFormField(
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                               controller: _shopName,
                               validator: (value) {
@@ -510,13 +510,13 @@ class _AddNewShopState extends State<AddNewShop> {
                                           'email': email.toString(),
                                           'role' : 'owner',
                                           'device0': await _getId()
-                                        }).catchError((error) => print("Failed to update user: $error"));
+                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
 
                                         shops.doc(value.id).collection('users_ver').doc(uid).set({
                                           'email': email.toString(),
                                           'role' : 'owner',
                                           'device0': await _getId()
-                                        }).catchError((error) => print("Failed to update user: $error"));
+                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
                                        // setStoreId(value.id.toString());
 
                                         addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
@@ -542,14 +542,17 @@ class _AddNewShopState extends State<AddNewShop> {
                                         addNoMer(batch, value.id);
 
                                         try {
+                                          FocusScope.of(context).unfocus();
                                           await batch.commit();
                                           setStoreId(value.id.toString());
-                                          var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                          Future.delayed(const Duration(milliseconds: 1000), () async {
+                                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                          });
 
                                           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                          print('shop added');
+                                          debugPrint('shop added');
                                         } catch (error) {
-                                          print('shop adding error');
+                                          debugPrint('shop adding error');
                                           setState(() {
                                             loadingState = false;
                                           });
@@ -559,49 +562,49 @@ class _AddNewShopState extends State<AddNewShop> {
                                         // imageArr.doc('prodsArr').set({
                                         //   'prods' : {}
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
                                         // collectionArr.doc('cusArr').set({
                                         //   'cus' : {}
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // collectionArr.doc('merArr').set({
                                         //   'mer' : {}
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // collectionArr.doc('prodsArr').set({
                                         //   'prods' : {}
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('countColl');
                                         // countColl.doc('prodsCnt').set({
                                         //   'count' : 0
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // countColl.doc('cusCnt').set({
                                         //   'count' : 0
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // countColl.doc('merCnt').set({
                                         //   'count' : 0
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // countColl.doc('ordsCnt').set({
                                         //   'count' : 1000
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // countColl.doc('buyOrdsCnt').set({
                                         //   'count' : 1000
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
                                         // cusName.doc('name').set({
@@ -613,7 +616,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                         //   'debtAmount' : 0,
                                         //   'total_refunds' : 0,
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
                                         // merchName.doc('name').set({
@@ -625,11 +628,11 @@ class _AddNewShopState extends State<AddNewShop> {
                                         //   'debtAmount' : 0,
                                         //   'total_refunds' : 0,
                                         // }).then((value) {})
-                                        //     .catchError((error) => print("Failed to update user: $error"));
+                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
 
 
                                         //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                       // print('shop added');
+                                       // debugPrint('shop added');
                                       });
                                     }
                                   }

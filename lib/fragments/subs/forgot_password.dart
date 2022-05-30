@@ -497,7 +497,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         text2 = 'Email incorrect! Check your email and try again.';
         buttonPressed = 'E';
       });
-     print(e.toString());
+     debugPrint(e.toString());
     }
   }
 }

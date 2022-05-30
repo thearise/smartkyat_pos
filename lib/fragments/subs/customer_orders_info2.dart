@@ -465,10 +465,10 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                     String item = '';
                     if(data['dateTime'] == null) {
                       item = data['date'].toDate().year.toString() +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
-                      print('tmNow ' + data['date'].toDate().toString());
+                      debugPrint('tmNow ' + data['date'].toDate().toString());
                     } else {
                       item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12)  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
-                      print('date wrong ' + data['dateTime'].toString());
+                      debugPrint('date wrong ' + data['dateTime'].toString());
                     }
                     //DateTime.fromMicrosecondsSinceEpoch(data['date'], isUtc: true);
 
@@ -1001,7 +1001,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1011,7 +1011,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
   }
 
   queryFilter() {
-    print('cust id ' + widget.id.toString());
+    debugPrint('cust id ' + widget.id.toString());
     if(cateScIndex == 0) {
       return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').where('customerId', isEqualTo: widget.id).orderBy('date', descending: true);
     } else if(cateScIndex == 1) {

@@ -28,7 +28,7 @@ class BottomNavigation extends StatelessWidget {
               index,
             );
             gindex = index;
-            print(gindex);
+            debugPrint(gindex.toString());
           },
           elevation: 0,
           type: BottomNavigationBarType.fixed,

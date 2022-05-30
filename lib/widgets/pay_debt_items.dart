@@ -98,7 +98,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     debtAmount = double.parse(widget.debt.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _textFieldController.addListener((){
-      print("value: ${_textFieldController.text}");
+      debugPrint("value: ${_textFieldController.text}");
       setState(() {
         _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0;
         if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
@@ -409,7 +409,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
 
                                   var refundId = '';
-                                  print('textpaid ' + paidAmount.toString());
+                                  debugPrint('textpaid ' + paidAmount.toString());
 
                                   String dataRm = widget.data.split('^')[0] +
                                       '^' +
@@ -442,7 +442,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                   batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
 
-                                  print('detAmount' + debtAmount.toString());
+                                  debugPrint('detAmount' + debtAmount.toString());
 
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
                                   double paidCus = paidAmount;
@@ -464,7 +464,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', paidCus);
 
                                     try {
-                                      print('loading state ' + loadingState.toString());
+                                      debugPrint('loading state ' + loadingState.toString());
                                       batch.commit();
                                       Future.delayed(const Duration(milliseconds: 2000), () {
                                         loadingState = false;

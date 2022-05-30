@@ -41,7 +41,7 @@ class SelectedAssetsListView extends StatelessWidget {
       // testCompressAndGetFile(value!, randomNumber.toString()+value.path).then((value2) => addProduct(value2));
 
       // String? jpegPath = await HeicToJpg.convert(value!.path);
-      // print(jpegPath.toString());
+      // debugPrint(jpegPath.toString());
 
       // addProduct(File(jpegPath.toString()));
 
@@ -70,7 +70,7 @@ class SelectedAssetsListView extends StatelessWidget {
     // }).then((value) {
     //   params["attachment"] = jsonEncode(a);
     //   httpSend(params).then((sukses){
-    //     print('done connect ' + sukses.toString());
+    //     debugPrint('done connect ' + sukses.toString());
     //   });
     // });
 
@@ -113,8 +113,8 @@ class SelectedAssetsListView extends StatelessWidget {
       rotate: 180,
     );
 
-    print(file.lengthSync());
-    print(result!.lengthSync());
+    debugPrint(file.lengthSync().toString());
+    debugPrint(result!.lengthSync().toString());
 
     return result;
   }
@@ -139,9 +139,9 @@ class SelectedAssetsListView extends StatelessWidget {
 
     var respond = await request.send();
     if (respond.statusCode == 200) {
-      print("Image Uploaded");
+      debugPrint("Image Uploaded");
     } else {
-      print("Upload Failed");
+      debugPrint("Upload Failed");
     }
   }
 
@@ -150,7 +150,7 @@ class SelectedAssetsListView extends StatelessWidget {
     var endpoint = Uri.parse("https://hninsunyein.me/smartkyat_pos/api/images_upload.php");
     return await http.post(endpoint, body: params)
         .then((response) {
-      print('response ' + response.body);
+      debugPrint('response ' + response.body);
       if(response.statusCode==201)
       {
         Map<String, dynamic> body = jsonDecode(response.body);

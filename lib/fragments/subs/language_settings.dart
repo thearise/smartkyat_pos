@@ -80,7 +80,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
       });
 
       if(exist) {
-        print('space shi p thar');
+        debugPrint('space shi p thar');
 
         FirebaseFirestore.instance
             .collection('space').doc(docId).collection('shops')
@@ -92,7 +92,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
           });
 
           if(shopExist) {
-            print('shop already');
+            debugPrint('shop already');
 
           } else {
             CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -101,14 +101,14 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
               'shop_name': shopName
             })
                 .then((value) {
-              print('shop added');
+              debugPrint('shop added');
             });
           }
         });
 
 
       } else {
-        print('space mshi vuu');
+        debugPrint('space mshi vuu');
         return spaces
             .add({
           'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -121,10 +121,10 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
             'shop_name': shopName
           })
               .then((value) {
-            print('shop added');
+            debugPrint('shop added');
           });
 
-        }).catchError((error) => print("Failed to add shop: $error"));
+        }).catchError((error) => debugPrint("Failed to add shop: $error"));
       }
     });
   }
@@ -298,7 +298,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                             setState(() {
                               _result = value;
                               // _shop= data['shop_name'];
-                              print(_result);
+                              debugPrint(_result);
                             });
                             setLangId(_result).then((_) {
                               // widget._chgShopCB3();
@@ -389,7 +389,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                             setState(() {
                               _result = value;
                               // _shop= data['shop_name'];
-                              print(_result);
+                              debugPrint(_result);
                             });
                             setLangId(_result).then((_) {
                               // widget._chgShopCB3();

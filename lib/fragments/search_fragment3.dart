@@ -208,51 +208,51 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
     docRef.snapshots().listen(
           (event) {
-        print("current data: ${event.data()}");
+        debugPrint("current data: ${event.data()}");
         prodsEvent = event.data();
-        print('current worked ');
+        debugPrint('current worked ');
       },
-      onError: (error) => print("Listen failed: $error"),
+      onError: (error) => debugPrint("Listen failed: $error"),
     );
 
     final prodImgRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr');
     prodImgRef.snapshots().listen(
           (event) {
-        print("current data img: ${event.data()}");
+        debugPrint("current data img: ${event.data()}");
         prodsImgEvent = event.data();
         prodsImg = prodsImgEvent?['prods'];
-        print('current worked img');
+        debugPrint('current worked img');
       },
-      onError: (error) => print("Listen failed: $error"),
+      onError: (error) => debugPrint("Listen failed: $error"),
     );
 
     final custsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
     custsRef.snapshots().listen(
           (event) {
-        print("current data cus: ${event.data()}");
+        debugPrint("current data cus: ${event.data()}");
         custsEvent = event.data();
-        print('current worked cus');
+        debugPrint('current worked cus');
       },
-      onError: (error) => print("Listen failed: $error"),
+      onError: (error) => debugPrint("Listen failed: $error"),
     );
 
     final mercsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
     mercsRef.snapshots().listen(
           (event) {
-        print("current data mer: ${event.data()}");
+        debugPrint("current data mer: ${event.data()}");
         mercsEvent = event.data();
-        print('current worked mer');
+        debugPrint('current worked mer');
       },
-      onError: (error) => print("Listen failed: $error"),
+      onError: (error) => debugPrint("Listen failed: $error"),
     );
 
 
-    print("inittttt2");
+    debugPrint("inittttt2");
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
-        print('maxxed');
+        debugPrint('maxxed');
         Future.delayed(const Duration(milliseconds: 500), () {
           itemPerPage = itemPerPage + 10;
           searchKeyChanged();
@@ -271,7 +271,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
 
-    // print('initializing ');
+    // debugPrint('initializing ');
     // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('cacheArr').doc('prodsArr')
     //     .get().then((value) async {
     //   var array = value.data()!['array'];
@@ -290,7 +290,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //   //
     //   //   querySnapshot.docs.forEach((doc) {
     //   //     DocumentSnapshot doc2 = doc;
-    //   //     print('cache data s ' + doc['prod_name']);
+    //   //     debugPrint('cache data s ' + doc['prod_name']);
     //   //
     //   //     // Stream<DocumentSnapshot<Map<String, dynamic>>> docSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(doc.id).snapshots();
     //   //     // // docSnap.
@@ -300,7 +300,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //   //     //
     //   //     // // CollectionReference reference = FirebaseFirestore.instance.collection('planets');
     //   //     // docSnap.listen((querySnapshot) {
-    //   //     //   print('query snap changes ' + querySnapshot.toString());
+    //   //     //   debugPrint('query snap changes ' + querySnapshot.toString());
     //   //     //   // querySnapshot..forEach((change) {
     //   //     //   //   // Do something with change
     //   //     //   // });
@@ -309,7 +309,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //   //     CollectionReference prodsFetchServer = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
     //   //
     //   //     if(!array.contains(doc.id)) {
-    //   //       print('cache data s not equaling');
+    //   //       debugPrint('cache data s not equaling');
     //   //       // var docSnapNeed = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
     //   //       //     .doc(doc.id)
     //   //       //     .get();
@@ -333,12 +333,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //     .get(GetOptions(source: Source.cache))
     //     .then((QuerySnapshot querySnapshot)  async {
     //   prodDocs = querySnapshot.docs;
-    //   print('cache sd data ' + querySnapshot.docs.length.toString() + ' ---> ' + querySnapshot.metadata.isFromCache.toString());
+    //   debugPrint('cache sd data ' + querySnapshot.docs.length.toString() + ' ---> ' + querySnapshot.metadata.isFromCache.toString());
     //   querySnapshot.docs.forEach((doc) {
-    //     print('cache s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
+    //     debugPrint('cache s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
     //   });
     //
-    //   print('gg moda ' + querySnapshot.docs.last['update_time'].toString());
+    //   debugPrint('gg moda ' + querySnapshot.docs.last['update_time'].toString());
     //
     //   if(querySnapshot.docs.length == 0) {
     //     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products')
@@ -357,19 +357,19 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //         .get()
     //         .then((QuerySnapshot querySnapshotS)  async {
     //       prodDocs += querySnapshotS.docs;
-    //       print('server sd data ' + querySnapshotS.docs.length.toString() + ' ---> ' + querySnapshotS.metadata.isFromCache.toString());
+    //       debugPrint('server sd data ' + querySnapshotS.docs.length.toString() + ' ---> ' + querySnapshotS.metadata.isFromCache.toString());
     //       querySnapshotS.docs.forEach((doc) {
-    //         print('server s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
+    //         debugPrint('server s data doc ' + doc['inStock1'].toString() + doc['prod_name'].toString());
     //       });
     //     });
     //   }
     // });
     //
-    // print('final sd data ' + prodDocs.length.toString());
+    // debugPrint('final sd data ' + prodDocs.length.toString());
     // int i = 0;
     // prodDocs.forEach((doc) {
     //   i = i + 1;
-    //   print('final s data doc ' + i.toString() + ' --> ' + doc['inStock1'].toString() + ' ' + doc['prod_name'].toString() + ' ' + doc.metadata.isFromCache.toString());
+    //   debugPrint('final s data doc ' + i.toString() + ' --> ' + doc['inStock1'].toString() + ' ' + doc['prod_name'].toString() + ' ' + doc.metadata.isFromCache.toString());
     // });
 
 
@@ -450,7 +450,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     super.initState();
     WidgetsBinding.instance!
         .addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(nodeFirst);
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        FocusScope.of(context).requestFocus(nodeFirst);
+      });
+
     });
 
 
@@ -1855,7 +1858,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                     item = item.split('^')[0] + '^' + item.split('^')[1] + '^' + item.split('^')[2] + '^' + 'No customer' + '&' + item.split('^')[3] + '^' + item.split('^')[4] + '^' + item.split('^')[5] + '^' + item.split('^')[6] + '^' + item.split('^')[7] + '^' + item.split('^')[8] + '^' + 's';
   //                     return GestureDetector(
   //                       onTap: () async {
-  //                         print('clicked order list 1 ' + item);
+  //                         debugPrint('clicked order list 1 ' + item);
   //                         closeDrawerFrom();
   //                         await Navigator.push(
   //                           context,
@@ -2383,7 +2386,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                     item = item.split('^')[0] + '^' + item.split('^')[1] + '^' + item.split('^')[2] + '^' + 'No customer' + '&' + item.split('^')[3] + '^' + item.split('^')[4] + '^' + item.split('^')[5] + '^' + item.split('^')[6] + '^' + item.split('^')[7] + '^' + item.split('^')[8] + '^' + 's';
   //                     return GestureDetector(
   //                       onTap: () async {
-  //                         print('clicked order list 1 ' + item);
+  //                         debugPrint('clicked order list 1 ' + item);
   //                         closeDrawerFrom();
   //                         await Navigator.push(
   //                           context,
@@ -2763,7 +2766,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           width: 1.0),
                     )),//stoppppppp
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: homeBotPadding + 108),
+                  padding: EdgeInsets.only(bottom: 141),
                   child: sliverBodyWidget(),
                 )
             ),
@@ -3446,7 +3449,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             ),
                             GestureDetector(
                               onTap: () {
-                                print('stfu ');
+                                debugPrint('stfu ');
                                 widget._chgIndex(0);
                                 FocusScope.of(context).unfocus();
                                 // Navigator.of(context).pushReplacement(
@@ -3544,7 +3547,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     );
   }
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -3604,7 +3607,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     //   i += 1;
     // });
 
-    print('setting state ');
+    debugPrint('setting state ');
     prods = {};
     searchProds = {};
 
@@ -3634,7 +3637,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           var eachMap = prods.entries.elementAt(i);
           if(eachMap.value['na'] != null) {
             if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
-              print('each map ' + eachMap.value['na'].toString());
+              debugPrint('each map ' + eachMap.value['na'].toString());
               searchProds[eachMap.key] = eachMap.value;
               noResult = false;
               if(searchProds.length >= itemPerPage) {
@@ -3806,7 +3809,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               selectedIntVal(0);
                               itemPerPage = 10;
                               endOfResult = false;
-                              print('products clicked');
+                              debugPrint('products clicked');
                               searchKeyChanged();
                             },
                             child: Container(
@@ -3848,7 +3851,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               selectedIntVal(1);
                               itemPerPage = 10;
                               endOfResult = false;
-                              print('customers clicked');
+                              debugPrint('customers clicked');
                               searchKeyChanged();
 
                             },
@@ -3891,7 +3894,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               selectedIntVal(2);
                               itemPerPage = 10;
                               endOfResult = false;
-                              print('merchants clicked');
+                              debugPrint('merchants clicked');
                               searchKeyChanged();
                             },
                             child: Container(
@@ -3921,7 +3924,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             onPressed: () {
                               // _animateToIndex(0);
                               selectedIntVal(3);
-                              print('sale orders clicked');
+                              debugPrint('sale orders clicked');
                               searchKeyChanged();
                             },
                             child: Container(
@@ -3951,7 +3954,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             onPressed: () {
                               // _animateToIndex(0);
                               selectedIntVal(4);
-                              print('buy orders clicked');
+                              debugPrint('buy orders clicked');
                               searchKeyChanged();
                             },
                             child: Container(
@@ -4015,7 +4018,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                   //           buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
                   //           toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl)),);
 
-                  // print('keyboard ' + MediaQuery.of(context).viewInsets.bottom.toString());
+                  // debugPrint('keyboard ' + MediaQuery.of(context).viewInsets.bottom.toString());
 
 
 
@@ -4038,8 +4041,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                   // } else {
                   //   FocusScope.of(context).unfocus();
                   // }
-
-
+                  FocusScope.of(context).unfocus();
                   closeDrawerFrom();
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -4257,6 +4259,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               var prodKey = prodMap.key;
               return GestureDetector(
                 onTap: () async {
+                  FocusScope.of(context).unfocus();
                   closeDrawerFrom();
                   await Navigator.push(
                     context,
@@ -4484,6 +4487,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               var prodKey = prodMap.key;
               return GestureDetector(
                 onTap: () async {
+                  FocusScope.of(context).unfocus();
                   closeDrawerFrom();
                   await Navigator.push(
                     context,
@@ -4713,7 +4717,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
               String info = 'sm';
               if(snapshot1.hasData) {
-                print('snapping ' + snapshot1.data!.docs.toString());
+                debugPrint('snapping ' + snapshot1.data!.docs.toString());
                 if(snapshot1.data!.docs.length == 0 && searchValue != ''){
                   info = 'no';
                 } else if(snapshot1.data!.docs.length > 0 && searchValue != '') {
@@ -4772,6 +4776,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                       }
                       return GestureDetector(
                         onTap: () async {
+                          FocusScope.of(context).unfocus();
                           closeDrawerFrom();
                           await Navigator.push(
                             context,
@@ -5058,7 +5063,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
               String info = 'sm';
               if(snapshot2.hasData) {
-                print('snapping ' + snapshot2.data!.docs.toString());
+                debugPrint('snapping ' + snapshot2.data!.docs.toString());
                 if(snapshot2.data!.docs.length == 0 && searchValue != ''){
                   info = 'no';
                 } else if(snapshot2.data!.docs.length > 0 && searchValue != '') {
@@ -5117,6 +5122,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                       }
                       return GestureDetector(
                         onTap: () async {
+                          FocusScope.of(context).unfocus();
                           closeDrawerFrom();
                           await Navigator.push(
                             context,
