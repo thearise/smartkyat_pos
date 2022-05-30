@@ -137,7 +137,7 @@
 //       searchValue = _searchController.text.toLowerCase();
 //       // });
 //       searchKeyChanged();
-//       print(searchValue);
+//       debugPrint(searchValue);
 //     });
 //     subTabController = TabController(length: 3, vsync: this);
 //     slidingSearchCont();
@@ -208,17 +208,17 @@
 //   slidingSearchCont() {
 //
 //     if(slidingSearch == 0) {
-//       print('gg0');
+//       debugPrint('gg0');
 //       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
 //     } else if(slidingSearch == 1) {
-//       print('gg1');
+//       debugPrint('gg1');
 //       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
 //     } else if(slidingSearch == 2) {
-//       print('gg2');
+//       debugPrint('gg2');
 //       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //       setState(() {
 //       });
@@ -240,14 +240,14 @@
 //
 //   void closeSearch() {
 //     _searchController.clear();
-//     print('clicked testing ');
+//     debugPrint('clicked testing ');
 //     FocusScope.of(context).unfocus();
 //     setState(() {
 //       loadingSearch = true;
 //     });
 //   }
 //   void unfocusSearch() {
-//     print('clicked testing 2');
+//     debugPrint('clicked testing 2');
 //     // FocusScope.of(context).unfocus();
 //     FocusManager.instance.primaryFocus!.unfocus();
 //   }
@@ -425,7 +425,7 @@
 //       await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(list[i].split('^')[3])
 //           .get().then((value) async {
 //         if(value.exists) {
-//           print('customer name ' + value.data()!['customer_name'].toString());
+//           debugPrint('customer name ' + value.data()!['customer_name'].toString());
 //           list[i] = list[i].split('^')[0] +
 //               '^' +
 //               list[i].split('^')[1] +
@@ -448,7 +448,7 @@
 //               '^' + 's'
 //           ;
 //         } else {
-//           print('customer name ' + value.data()!['customer_name'].toString());
+//           debugPrint('customer name ' + value.data()!['customer_name'].toString());
 //           list[i] = list[i].split('^')[0] +
 //               '^' +
 //               list[i].split('^')[1] +
@@ -501,10 +501,10 @@
 //     //       ;
 //     //     }
 //     //   }
-//     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     // }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -515,7 +515,7 @@
 //       await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(list[i].split('^')[3])
 //           .get().then((value) async {
 //         if(value.exists) {
-//           print('merchant name ' + value.data()!['merchant_name'].toString());
+//           debugPrint('merchant name ' + value.data()!['merchant_name'].toString());
 //           list[i] = list[i].split('^')[0] +
 //               '^' +
 //               list[i].split('^')[1] +
@@ -538,7 +538,7 @@
 //               '^' + 's'
 //           ;
 //         } else {
-//           print('merchant name ' + value.data()!['merchant_name'].toString());
+//           debugPrint('merchant name ' + value.data()!['merchant_name'].toString());
 //           list[i] = list[i].split('^')[0] +
 //               '^' +
 //               list[i].split('^')[1] +
@@ -591,10 +591,10 @@
 //     //       ;
 //     //     }
 //     //   }
-//     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     // }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //   changeData4(list, snpsht) {
@@ -625,10 +625,10 @@
 //           ;
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -643,12 +643,12 @@
 //           if(searchValue.contains('-')) {
 //             searchValue = searchValue.split('-')[1].toLowerCase();
 //           }
-//           print('hereeee');
+//           debugPrint('hereeee');
 //           sectionList2 = List<ExampleSection>.empty(growable: true);
 //
 //           subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
 //
-//           print("search " + searchValue);
+//           debugPrint("search " + searchValue);
 //           String max = searchValue;
 //           // sectionList = [];
 //           List detailIdList = [];
@@ -691,7 +691,7 @@
 //                   //   ..items = detailIdList.cast<String>()
 //                   //   ..expanded = true;
 //
-//                   print('buy ord ' + detailIdList.length.toString());
+//                   debugPrint('buy ord ' + detailIdList.length.toString());
 //                   sections.add(saleOrders);
 //                   // sections.add(buyOrders);
 //                   sectionList2 = sections;
@@ -726,7 +726,7 @@
 //                 //   ..items = detailIdList.cast<String>()
 //                 //   ..expanded = true;
 //
-//                 // print('buy ord ' + detailIdList.length.toString());
+//                 // debugPrint('buy ord ' + detailIdList.length.toString());
 //                 sections.add(saleOrders);
 //                 // sections.add(buyOrders);
 //                 sectionList2 = sections;
@@ -760,7 +760,7 @@
 //             //     //   ..items = detailIdList.cast<String>()
 //             //     //   ..expanded = true;
 //             //
-//             //     //  print('buy ord ' + detailIdList.length.toString());
+//             //     //  debugPrint('buy ord ' + detailIdList.length.toString());
 //             //     sections.add(saleOrders);
 //             //     // sections.add(buyOrders);
 //             //     sectionList2 = sections;
@@ -771,12 +771,12 @@
 //           if(searchValue.contains('-')) {
 //             searchValue = searchValue.split('-')[1].toLowerCase();
 //           }
-//           print('hereeee');
+//           debugPrint('hereeee');
 //           sectionList2 = List<ExampleSection>.empty(growable: true);
 //
 //           subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
 //
-//           print("search " + searchValue);
+//           debugPrint("search " + searchValue);
 //           String max = searchValue;
 //           // sectionList = [];
 //           List detailIdList = [];
@@ -803,7 +803,7 @@
 //               .limit(10)
 //               .get()
 //               .then((QuerySnapshot querySnapshot2) async {
-//             print('searching mf ' + searchValue.toString() + ' ' + querySnapshot2.docs.length.toString());
+//             debugPrint('searching mf ' + searchValue.toString() + ' ' + querySnapshot2.docs.length.toString());
 //             if(querySnapshot2.docs.length == 0) {
 //               setState(() {
 //                 detailIdList = [];
@@ -820,7 +820,7 @@
 //                   //   ..items = detailIdList.cast<String>()
 //                   //   ..expanded = true;
 //
-//                   print('sale ord ' + detailIdList.length.toString());
+//                   debugPrint('sale ord ' + detailIdList.length.toString());
 //                   sections.add(saleOrders);
 //                   // sections.add(buyOrders);
 //                   sectionList2 = sections;
@@ -830,7 +830,7 @@
 //             querySnapshot2.docs.forEach((doc) {
 //
 //               setState(() {
-//                 print('trying');
+//                 debugPrint('trying');
 //                 try {
 //                   detailIdList.add(doc['dateTime'].substring(0,4) + doc['dateTime'].substring(4,6) +  doc['dateTime'].substring(6,8) +  doc['dateTime'].substring(8,10) +  doc['dateTime'].substring(10,12) + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
 //                 } catch (e) {
@@ -873,7 +873,7 @@
 //                 //   ..items = detailIdList.cast<String>()
 //                 //   ..expanded = true;
 //
-//                 // print('buy ord ' + detailIdList.length.toString());
+//                 // debugPrint('buy ord ' + detailIdList.length.toString());
 //                 sections.add(saleOrders);
 //                 // sections.add(buyOrders);
 //                 sectionList2 = sections;
@@ -929,7 +929,7 @@
 //                 items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
 //               });
 //
-//               // print(doc['prod_name'].toString());
+//               // debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -961,7 +961,7 @@
 //                 items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
 //               });
 //
-//               // print(doc['prod_name'].toString());
+//               // debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -1050,7 +1050,7 @@
 //             //         doc['sub2_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub2_name']);
 //             //   });
 //             //
-//             //   print(doc['prod_name'].toString());
+//             //   debugPrint(doc['prod_name'].toString());
 //             // }
 //           });
 //
@@ -1296,7 +1296,7 @@
 //                           // }
 //
 //                           if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
-//                             print('data infoo ' + item.toString());
+//                             debugPrint('data infoo ' + item.toString());
 //                             return GestureDetector(
 //                               onTap: () async {
 //                                 closeDrawerFrom();
@@ -2070,7 +2070,7 @@
 //                         itemBuilder: (context, sectionIndex, itemIndex, index) {
 //                           String item = sectionList2[sectionIndex].items[itemIndex];
 //                           int length = sectionList2[sectionIndex].items.length;
-//                           print('checkkk ' + item.toString());
+//                           debugPrint('checkkk ' + item.toString());
 //                           if(searchValue == '') {
 //                             return Container();
 //                           }
@@ -2079,9 +2079,9 @@
 //                             if(searchValue.toLowerCase().contains('b')) {
 //                               return GestureDetector(
 //                                 onTap: () async {
-//                                   print('clicked buy list');
+//                                   debugPrint('clicked buy list');
 //                                   closeDrawerFrom();
-//                                   // print(item.split('^')[1]);
+//                                   // debugPrint(item.split('^')[1]);
 //                                   await Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
@@ -2321,12 +2321,12 @@
 //                                 ),
 //                               );
 //                             } else {
-//                               print('orderinfosub ' + searchValue.toString());
+//                               debugPrint('orderinfosub ' + searchValue.toString());
 //                               return GestureDetector(
 //                                 onTap: () async {
 //                                   closeDrawerFrom();
-//                                   print('clicked order list');
-//                                   // print(item.split('^')[1]);
+//                                   debugPrint('clicked order list');
+//                                   // debugPrint(item.split('^')[1]);
 //                                   if(_searchController.text.toLowerCase().contains('b')) {
 //                                     await Navigator.push(
 //                                       context,
@@ -2334,7 +2334,7 @@
 //                                           builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
 //                                     );
 //                                   } else {
-//                                     print('item detail list ' + item);
+//                                     debugPrint('item detail list ' + item);
 //                                     await Navigator.push(
 //                                       context,
 //                                       MaterialPageRoute(
@@ -2592,7 +2592,7 @@
 //                           //     return GestureDetector(
 //                           //       onTap: () async {
 //                           //         closeDrawerFrom();
-//                           //         // print(item.split('^')[1]);
+//                           //         // debugPrint(item.split('^')[1]);
 //                           //         await Navigator.push(
 //                           //           context,
 //                           //           MaterialPageRoute(
@@ -2827,7 +2827,7 @@
 //                           //     return GestureDetector(
 //                           //       onTap: () async {
 //                           //         closeDrawerFrom();
-//                           //         // print(item.split('^')[1]);
+//                           //         // debugPrint(item.split('^')[1]);
 //                           //         await Navigator.push(
 //                           //           context,
 //                           //           MaterialPageRoute(
@@ -3312,7 +3312,7 @@
 //       body: GestureDetector(
 //         onTapDown: (TapDownDetails tapDownDetails) {
 //           FocusScope.of(context).unfocus();
-//           print('Hello World');
+//           debugPrint('Hello World');
 //         },
 //         child: Container(
 //           color: Colors.white,
@@ -3531,7 +3531,7 @@
 //     );
 //   }
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {
@@ -3550,7 +3550,7 @@
 //   // return(prefs.getString('store'));
 //
 //   var index = prefs.getString('store');
-//   print(index);
+//   debugPrint(index);
 //   if (index == null) {
 //     return 'idk';
 //   } else {

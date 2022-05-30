@@ -32,13 +32,13 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     // checkDoneMap();
     // if(doneMap) {
-    //   print(' done map ');
+    //   debugPrint(' done map ');
     // }
 
   }
 
   MixinGlo() {
-    print('max c ' + maxAssetsCount.toString());
+    debugPrint('max c ' + maxAssetsCount.toString());
   }
 
   int get maxAssetsCount;
@@ -65,7 +65,7 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
   }
 
   pageMixinGlo() {
-    print('Mixin innerr ' + assets.length.toString());
+    debugPrint('Mixin innerr ' + assets.length.toString());
     // return assets;
   }
 
@@ -100,7 +100,7 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
           GestureDetector(
             onTap: () {
               // _waitUntilDone();
-              print('_waitUntilDone ' + assets.length.toString());
+              debugPrint('_waitUntilDone ' + assets.length.toString());
 
 
 
@@ -138,7 +138,7 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
     doneMap = false;
 
     var length = 0;
-    // print(assets[0].toString());
+    // debugPrint(assets[0].toString());
     for (final AssetEntity entity in assets) {
       late List<Map> s = <Map>[];
 
@@ -157,13 +157,13 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
 
       }).then((value) {
         //await Future.delayed(Duration(seconds: 2));
-        print('shining ' + s.toString());
+        debugPrint('shining ' + s.toString());
 
         // List<Map> attch = toBase64(fileList);
 
         params["attachment"] = jsonEncode(s);
         httpSend(params).then((sukses){
-          print('done connect ' + sukses.toString());
+          debugPrint('done connect ' + sukses.toString());
         });
 
         // if(length == assets.length) {
@@ -203,9 +203,9 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
 //
 //     var respond = await request.send();
 //     if (respond.statusCode == 200) {
-//       print("Image Uploaded");
+//       debugPrint("Image Uploaded");
 //     } else {
-//       print("Upload Failed");
+//       debugPrint("Upload Failed");
 //     }
 //   }
 
@@ -215,9 +215,9 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
   //     await Future.delayed(Duration(seconds: 2));
   //
   //     if(doneMap) {
-  //       print('yes');
+  //       debugPrint('yes');
   //     } else {
-  //       print('no');
+  //       debugPrint('no');
   //     }
   //
   //   }
@@ -233,7 +233,7 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
     var endpoint = Uri.parse("https://hninsunyein.me/smartkyat_pos/api/images_upload.php");
     return await http.post(endpoint, body: params)
         .then((response) {
-      print('response ' + response.body);
+      debugPrint('response ' + response.body);
       if(response.statusCode==201)
       {
         Map<String, dynamic> body = jsonDecode(response.body);

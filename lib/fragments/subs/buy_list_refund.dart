@@ -45,7 +45,7 @@ class _BuyListRefundState extends State<BuyListRefund>
       quantityCtrlList.add(TextEditingController());
       quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
     }
-    print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
+    debugPrint('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
     super.initState();
   }
   void smartKyatFlash(String text, String type) {
@@ -358,7 +358,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {
                           var output1 = snapshot2.data!.data();
-                          // print(output1?['subs'].toString());
+                          // debugPrint(output1?['subs'].toString());
                           List prodList = output1?['subs'];
                           List prodListBefore = widget.data2;
                           prodListView = [];
@@ -489,7 +489,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                       }
                                                                     });
                                                                   }
-                                                                  print('dataRMM' + widget.data.toString());
+                                                                  debugPrint('dataRMM' + widget.data.toString());
 
                                                                 },
                                                                 child: Container(
@@ -722,25 +722,25 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   refund = true;
                                                 }
 
-                                                print('unit _name' + prodListView[i]);
-                                                print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+                                                debugPrint('unit _name' + prodListView[i]);
+                                                debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
 
                                                 ref2Cust = [];
                                                 ref2Shop = [];
                                                 for(int i=0; i < deffItems.length; i++) {
                                                   if(deffItems[i] - refundItems[i] < 0) {
-                                                    print('ref to shop ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                                    debugPrint('ref to shop ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
                                                     ref2Shop.add(prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + (deffItems[i] - refundItems[i]).abs().toString() + '-' + prodListView[i].split('-')[5]);
                                                   } else if(deffItems[i] - refundItems[i] > 0) {
-                                                    print('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                                    debugPrint('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
                                                   }
                                                 }
                                               }
 
-                                              print('che ' + ref2Shop.toString());
-                                              print('che2 ' + prodListView.toString());
+                                              debugPrint('che ' + ref2Shop.toString());
+                                              debugPrint('che2 ' + prodListView.toString());
 
-                                              print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+                                              debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
 
                                               if(widget.data.split('^')[6] != '0.0') {
                                                 if(widget.data.split('^')[6].split('-')[1] == 'p') {
@@ -749,8 +749,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
                                                 }
                                               }
-                                              print('result__ 3' + total.toString());
-                                              print('prodListBef 1 ' + prodListBefore.toString());
+                                              debugPrint('result__ 3' + total.toString());
+                                              debugPrint('prodListBef 1 ' + prodListBefore.toString());
 
                                               for(int i=0; i < prodListView.length; i++) {
                                                 // int.parse(ref2Shop[i].split('-')[2])
@@ -758,14 +758,14 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 String prodId = prodListView[i].split('-')[0];
                                                 String prodTp = prodListView[i].split('-')[5];
 
-                                                print(prodId + ' ' + prodTp);
+                                                debugPrint(prodId + ' ' + prodTp);
 
                                                 for(int j=0; j< prodList.length; j++) {
-                                                  print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                                   double refund = 0;
                                                   if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= double.parse(prodList[j].split('-')[3])) {
                                                     refund = value - double.parse(prodList[j].split('-')[7]);
-                                                    print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
                                                     prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
                                                         value.toString() + '-' + prodList[j].split('-')[8];
 
@@ -774,7 +774,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     break;
                                                   } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
                                                     refund = value - int.parse(prodList[j].split('-')[7]);
-                                                    print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
                                                     prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
                                                         prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
                                                     value = value - int.parse(prodList[j].split('-')[3]);
@@ -782,13 +782,13 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 }
                                               }
 
-                                              print('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                              print('prodListBef 2 ' + prodListBefore.toString());
+                                              debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                              debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('-')[7]) - double.parse(prodListBefore[i].split('-')[7]);
                                                 if(refNum > 0) {
-                                                  print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
+                                                  debugPrint('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
                                                   var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
                                                       .collection('products').doc(prodList[i].split('-')[0]).get();
                                                   if (docSnapshot.exists) {
@@ -797,8 +797,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     prods.doc(prodList[i].split('-')[0])
                                                         .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(0 - double.parse(refNum.toString()))
                                                     })
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                        .then((value) => debugPrint("User Updated"))
+                                                        .catchError((error) => debugPrint("Failed to update user: $error"));
                                                   }
                                                 }
                                               }
@@ -817,7 +817,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 ttlQ += double.parse(prodList[i].split('-')[3]);
                                               }
 
-                                              print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                              debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                               if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
                                                 refundAmount = 'TRUE';
                                               }
@@ -849,7 +849,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   '^' +
                                                   refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
 
-                                              print('result___ ' + data + dataRm);
+                                              debugPrint('result___ ' + data + dataRm);
 
                                               CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
                                               CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
@@ -859,27 +859,27 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               dailyOrders.doc(widget.documentId).update({
                                                 'daily_order':
                                                 FieldValue.arrayRemove([dataRm])
-                                              }).then((value) {print('array removed');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                              }).then((value) {debugPrint('array removed');})
+                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                               dailyOrders.doc(widget.documentId).update({
                                                 'daily_order':
                                                 FieldValue.arrayUnion([data])
-                                              }).then((value) { print('array updated');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                              }).then((value) { debugPrint('array updated');})
+                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                               dOrder.doc(widget.docId).update({
                                                 'subs': prodList,
                                                 'total': total.toString(),
                                                 'refund' : refundAmount,
                                                 'debt' : debt,
-                                              }).then((value) { print('detail updated');})
-                                                  .catchError((error) => print("Failed to update user: $error"));
+                                              }).then((value) { debugPrint('detail updated');})
+                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                               int totalRefunds = 0;
                                               double chgDebts = 0;
                                               int ttlDebts = 0;
-                                              print('leesin ' +widget.data.split('^')[4].toString());
+                                              debugPrint('leesin ' +widget.data.split('^')[4].toString());
 
 
                                               if (double.parse(widget.data.split('^')[5]) != debt) {
@@ -906,8 +906,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
                                                   'debtAmount' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
                                                 }).then((value) {
-                                                  print('merchant updated');
-                                                }).catchError((error) => print("Failed to update user: $error"));
+                                                  debugPrint('merchant updated');
+                                                }).catchError((error) => debugPrint("Failed to update user: $error"));
                                               }
 
                                               setState(() {
@@ -1039,7 +1039,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context, changedPrice);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
                                       )
                                     ],

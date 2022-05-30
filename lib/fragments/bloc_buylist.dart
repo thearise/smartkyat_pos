@@ -361,12 +361,12 @@ class _BlocBuyListState extends State<BlocBuyList> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      // print('bloc_fire data ' + data.toString());
+      // debugPrint('bloc_fire data ' + data.toString());
     }
 
     var sections = List<ExampleSection>.empty(growable: true);
     int docInc = 0;
-    print('HHHEEEE' + loadedState.documentSnapshots.length.toString() + ' ');
+    debugPrint('HHHEEEE' + loadedState.documentSnapshots.length.toString() + ' ');
     loadedState.documentSnapshots.map((document) async {
 
       // List<String> dailyOrders = document['daily_order'].cast<String>();
@@ -412,7 +412,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
         }
 
 
-        print('DATA LOW ' + dataLow['date'].toDate().toString());
+        debugPrint('DATA LOW ' + dataLow['date'].toDate().toString());
         if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
             ==
             dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
@@ -432,7 +432,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
           // sections.add(section);
           sections[sections.length-1] = section;
         } else {
-          // print('herre ' + document.id);
+          // debugPrint('herre ' + document.id);
           var section = ExampleSection()
             ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
           // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -447,7 +447,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
           sections.add(section);
         }
       } else {
-        // print('herre ' + document.id);
+        // debugPrint('herre ' + document.id);
         var section = ExampleSection()
           ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
         // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -506,7 +506,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                 return GestureDetector(
                   onTap: () async {
                     widget._closeDrawerBtn();
-                    // print(item.split('^')[1]);
+                    // debugPrint(item.split('^')[1]);
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -762,7 +762,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
               return GestureDetector(
                 onTap: () async {
                   widget._closeDrawerBtn();
-                  print('Items'+item);
+                  debugPrint('Items'+item);
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -1086,7 +1086,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
-    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
     }
@@ -1359,7 +1359,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
 
     }
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -1556,13 +1556,13 @@ class _BlocBuyListState extends State<BlocBuyList> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1581,7 +1581,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1615,7 +1615,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
   }
 
   String selectMonthCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1649,7 +1649,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {

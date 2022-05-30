@@ -390,7 +390,7 @@ class _EditMerchantState extends State<EditMerchant> {
                           //             merchLoading = false;
                           //             disableTouch = false;
                           //           });
-                          //           }).catchError((error){print("Failed to update user: $error");});
+                          //           }).catchError((error){debugPrint("Failed to update user: $error");});
                           //           Navigator.pop(context);
                           //           widget._openCartBtn();
                           //           smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
@@ -468,7 +468,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                     disableTouch = false;
                                   });
                                 });
-                              }).catchError((error){print("Failed to update user: $error");});
+                              }).catchError((error){debugPrint("Failed to update user: $error");});
                               Navigator.pop(context);
                               smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
                             }

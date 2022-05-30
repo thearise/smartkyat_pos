@@ -370,8 +370,8 @@
 // //           } else
 // //             return Container();
 // //         }).toList();
-// //         // print(sub1Quantity);
-// //         // print(mainQuantity);
+// //         // debugPrint(sub1Quantity);
+// //         // debugPrint(mainQuantity);
 // //         if (sub3Quantity !=
 // //             null) {
 // //           return Text(
@@ -677,7 +677,7 @@
 //                     }
 //                     return GestureDetector(
 //                       onTap: () {
-//                         print('Items'+item);
+//                         debugPrint('Items'+item);
 // // Navigator.push(
 // //   context,
 // //   MaterialPageRoute(
@@ -974,7 +974,7 @@
 //   Future<void> searchKeyChanged() async {
 //     if(searchValue != '') {
 //       if(slidingSearch == 2) {
-//         print("search " + searchValue);
+//         debugPrint("search " + searchValue);
 //         String max = searchValue;
 //         // sectionList = [];
 //         List detailIdList = [];
@@ -1044,7 +1044,7 @@
 //                   ..items = detailIdList.cast<String>()
 //                   ..expanded = true;
 //
-//                 print('buy ord ' + detailIdList.length.toString());
+//                 debugPrint('buy ord ' + detailIdList.length.toString());
 //                 sections.add(init);
 //                 sections.add(buyOrders);
 //                 sections.add(sellOrders);
@@ -1091,7 +1091,7 @@
 //                 items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
 //               });
 //
-//               // print(doc['prod_name'].toString());
+//               // debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //
@@ -1162,7 +1162,7 @@
 //                     doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
 //               });
 //
-//               print(doc['prod_name'].toString());
+//               debugPrint(doc['prod_name'].toString());
 //             }
 //           });
 //

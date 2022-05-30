@@ -104,7 +104,7 @@ class _WelcomeState extends State<Welcome>
         .authStateChanges()
         .listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
+        debugPrint('User is currently signed out!');
         Future.delayed(const Duration(milliseconds: 1000), () {
           if(this.mounted) {
             setState(() {
@@ -114,7 +114,7 @@ class _WelcomeState extends State<Welcome>
         });
 
         getStoreId().then((value) {
-          print('Out ID -> ' + value.toString());
+          debugPrint('Out ID -> ' + value.toString());
         });
 
         setStoreId('');
@@ -126,7 +126,7 @@ class _WelcomeState extends State<Welcome>
           // );
 
           getLangId().then((val) {
-            print('ffirs ' + val.toString());
+            debugPrint('ffirs ' + val.toString());
             lang = val;
             if(lang == 'english') {
               isEnglish = true;
@@ -136,7 +136,7 @@ class _WelcomeState extends State<Welcome>
           });
 
           // setState(() {
-          //   print('setting state ' + lang.toString());
+          //   debugPrint('setting state ' + lang.toString());
           // });
 
         });
@@ -145,7 +145,7 @@ class _WelcomeState extends State<Welcome>
           if(!auth.currentUser!.emailVerified) {
             Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
           } else {
-            print('ID -> ' + value.toString());
+            debugPrint('ID -> ' + value.toString());
             Future.delayed(const Duration(milliseconds: 1000), () async {
               if(value.toString() != '' && value.toString() != 'idk') {
                 // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -175,7 +175,7 @@ class _WelcomeState extends State<Welcome>
 
 
 
-        print('User is signed in!');
+        debugPrint('User is signed in!');
       }
     });
 
@@ -194,7 +194,7 @@ class _WelcomeState extends State<Welcome>
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -689,7 +689,7 @@ class _WelcomeState extends State<Welcome>
                                                                                   //   loadingState = true;
                                                                                   // });
                                                                                   try {
-                                                                                    print('mmsp 0');
+                                                                                    debugPrint('mmsp 0');
                                                                                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                                                                                       email: _email.text,
                                                                                       password: _password.text,
@@ -697,7 +697,7 @@ class _WelcomeState extends State<Welcome>
                                                                                     if(!auth.currentUser!.emailVerified) {
                                                                                       Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
                                                                                     } else {
-                                                                                      print('mmsp 0.1');
+                                                                                      debugPrint('mmsp 0.1');
                                                                                       bool shopExists = false;
                                                                                       FirebaseFirestore.instance
                                                                                           .collection('shops')
@@ -707,7 +707,7 @@ class _WelcomeState extends State<Welcome>
                                                                                         querySnapshot.docs.forEach((doc) {
                                                                                           shopExists = true;
                                                                                         });
-                                                                                        print('shop shi lar ' + shopExists.toString());
+                                                                                        debugPrint('shop shi lar ' + shopExists.toString());
 
                                                                                         if(shopExists) {
                                                                                           Navigator.of(context).popUntil((_) => true);
@@ -717,7 +717,7 @@ class _WelcomeState extends State<Welcome>
                                                                                     }
 
                                                                                   } on FirebaseAuthException catch (e) {
-                                                                                    print('mmsp 1' + e.code.toString());
+                                                                                    debugPrint('mmsp 1' + e.code.toString());
 
                                                                                     if (e.code == 'user-not-found') {
                                                                                       setState(() {
@@ -726,7 +726,7 @@ class _WelcomeState extends State<Welcome>
                                                                                         loadingState = false;
                                                                                         overLoading = false;
                                                                                       });
-                                                                                      print('No user found for that email.');
+                                                                                      debugPrint('No user found for that email.');
                                                                                     } else if (e.code == 'wrong-password') {
                                                                                       setState(() {
                                                                                         wrongEmail = ' may be incorrect ';
@@ -734,7 +734,7 @@ class _WelcomeState extends State<Welcome>
                                                                                         loadingState = false;
                                                                                         overLoading = false;
                                                                                       });
-                                                                                      print('Wrong password provided for that user.');
+                                                                                      debugPrint('Wrong password provided for that user.');
                                                                                     } else if (e.code == 'invalid-email') {
                                                                                       setState(() {
                                                                                         wrongEmail = ' is invalid email ';
@@ -742,12 +742,12 @@ class _WelcomeState extends State<Welcome>
                                                                                         overLoading = false;
                                                                                         // wrongPassword = ' may be incorrect ';
                                                                                       });
-                                                                                      print('Invalid email.');
+                                                                                      debugPrint('Invalid email.');
                                                                                     }
                                                                                   } on PlatformException catch(e) {
-                                                                                    print('mmsp ee ' + e.toString());
+                                                                                    debugPrint('mmsp ee ' + e.toString());
                                                                                   }
-                                                                                  print('mmsp 34 ');
+                                                                                  debugPrint('mmsp 34 ');
 
                                                                                 } else {
                                                                                   setState(() {
@@ -1241,15 +1241,15 @@ class _WelcomeState extends State<Welcome>
 //                                                   setState(() {
 //                                                     weakPassword = ' Password is too weak (must be at least 6 characters long) ';
 //                                                   });
-//                                                   print('The password provided is too weak.');
+//                                                   debugPrint('The password provided is too weak.');
 //                                                 } else if (e.code == 'email-already-in-use') {
 //                                                   setState(() {
 //                                                     emailExist = ' Account already exists ';
 //                                                   });
-//                                                   print('The account already exists for that email.');
+//                                                   debugPrint('The account already exists for that email.');
 //                                                 }
 //                                               } catch (e) {
-//                                                 print(e);
+//                                                 debugPrint(e);
 //                                               }
 //                                             }
 //                                           },
@@ -1749,7 +1749,7 @@ class _WelcomeState extends State<Welcome>
                                                                       if(!auth.currentUser!.emailVerified) {
                                                                         Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
                                                                       } else {
-                                                                        print('uid +' + mail.toString());
+                                                                        debugPrint('uid +' + mail.toString());
                                                                         bool shopExists = false;
                                                                         FirebaseFirestore.instance
                                                                             .collection('shops')
@@ -1769,7 +1769,7 @@ class _WelcomeState extends State<Welcome>
                                                                             Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
                                                                           } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
 
-                                                                          print('username' + mail.toString() + uid.toString());
+                                                                          debugPrint('username' + mail.toString() + uid.toString());
                                                                         });
                                                                       }
                                                                     });
@@ -1784,23 +1784,23 @@ class _WelcomeState extends State<Welcome>
                                                                       weakPassword = ' must be 6 characters long ';
                                                                       overLoading = false;
                                                                     });
-                                                                    print('The password provided is too weak.');
+                                                                    debugPrint('The password provided is too weak.');
                                                                   } else if (e.code == 'email-already-in-use') {
                                                                     setState(() {
                                                                       emailExist = ' Account already exists ';
                                                                       overLoading = false;
                                                                     });
-                                                                    print('The account already exists for that email.');
+                                                                    debugPrint('The account already exists for that email.');
                                                                   } else if (e.code == 'invalid-email') {
                                                                     setState(() {
                                                                       emailExist = ' is invalid email ';
                                                                       overLoading = false;
                                                                       // wrongPassword = ' may be incorrect ';
                                                                     });
-                                                                    print('Invalid email.');
+                                                                    debugPrint('Invalid email.');
                                                                   }
                                                                 } catch (e) {
-                                                                  print(e);
+                                                                  debugPrint(e.toString());
                                                                 }
                                                               }
                                                             }

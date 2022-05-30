@@ -518,7 +518,7 @@ class _FillProductState extends State<FillProduct> {
                           //             'Phyo' +
                           //
                           //             '^'+ widget.unitname + '^' + '1'.toString());
-                          //         print(widget.idString +
+                          //         debugPrint(widget.idString +
                           //             '^' +
                           //             msaleCtrl.text +
                           //             '^' +
@@ -588,7 +588,7 @@ class _FillProductState extends State<FillProduct> {
                                   'Phyo' +
 
                                   '^'+ widget.unitName + '^' + '1' + '^' + widget.prodName + '^' + widget.unit + '^' + widget.image + '^'+ widget.stock + '^' + widget.link + '^' + widget.subExist);
-                              print(widget.idString +
+                              debugPrint(widget.idString +
                                   '^' +
                                   msaleCtrl.text +
                                   '^' +

@@ -84,7 +84,7 @@
 //     final appDocDir = await getApplicationDocumentsDirectory();
 //     final appDocPath = appDocDir.path;
 //     final file = File(appDocPath + '/' + 'document.pdf');
-//     print('Save as file ${file.path} ...');
+//     debugPrint('Save as file ${file.path} ...');
 //     await file.writeAsBytes(bytes);
 //     await OpenFile.open(file.path);
 //   }
@@ -159,10 +159,10 @@
 //               list[i].split('^')[4];
 //         }
 //       }
-//       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//       // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //     }).toList();
 //
-//     // print('changeData ' + snpsht.da);
+//     // debugPrint('changeData ' + snpsht.da);
 //     return list;
 //   }
 //
@@ -229,11 +229,11 @@
 //   //   //   });
 //   //   //
 //   //   // }).then((value) {
-//   //   //   // print('here ' + temp.toString());
+//   //   //   // debugPrint('here ' + temp.toString());
 //   //   //   //return temp;
 //   //   //   // return gloTemp;
 //   //   // });
-//   //   // print('here2 ' + temp.toString());
+//   //   // debugPrint('here2 ' + temp.toString());
 //   //   // return gloTemp;
 //   //
 //   //
@@ -329,7 +329,7 @@
 //                                         ),
 //                                         onPressed: () {
 //                                           Navigator.pop(context);
-//                                           print('clicked');
+//                                           debugPrint('clicked');
 //                                         },
 //                                       )
 //                                     ],
@@ -444,7 +444,7 @@
 //
 //
 //
-// // print(item.split('^')[0].substring(0,8));
+// // debugPrint(item.split('^')[0].substring(0,8));
 // // var dateId = '';
 // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 // // // FirebaseFirestore.instance.collection('space')
@@ -459,7 +459,7 @@
 // // 'daily_order': FieldValue.arrayRemove([item])
 // // })
 // //     .then((value) {
-// // print('array removed');
+// // debugPrint('array removed');
 // //
 // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
 // //
@@ -467,7 +467,7 @@
 // // 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // })
 // //     .then((value) {
-// // print('array updated');
+// // debugPrint('array updated');
 // // });
 // //
 // //
@@ -478,7 +478,7 @@
 // // //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // // })
 // // //     .then((value) {
-// // //   print('array updated');
+// // //   debugPrint('array updated');
 // // // });
 // // // 2021081601575511001^1-1001^total^name^pf
 // //

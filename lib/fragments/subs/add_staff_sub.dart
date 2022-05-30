@@ -60,7 +60,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -91,7 +91,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
       _selectedTest = selectedTest;
     });
 
-    print(_selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-55'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    debugPrint(_selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-55'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   bool firstTime = true;
@@ -416,7 +416,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update(
                                       {'users': FieldValue.arrayUnion([_accountName.text]),}
                                   ).then((value) async {
-                                    print('users added');
+                                    debugPrint('users added');
 
                                     // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').add({
                                     //   'email': _accountName.text,
@@ -687,13 +687,13 @@ class _AddStaffSubState extends State<AddStaffSub> {
   //     buttonTextStyle: TextStyle(color: Colors.blue),
   //     titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
   //     onSubmit: (index) {
-  //       print(index);
+  //       debugPrint(index);
   //     },
   //   ).show(context);
   // }
 
   roleModify() {
-    print('role modify ' + _selectedTest.toString());
+    debugPrint('role modify ' + _selectedTest.toString());
     if(_selectedTest == null) {
       return 'cashier';
     }

@@ -103,7 +103,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
 
     }
-    print('phyopyaesohn' + widget.data.toString());
+    debugPrint('phyopyaesohn' + widget.data.toString());
     super.initState();
   }
 
@@ -152,7 +152,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                         builder: (BuildContext context, snapshot2) {
                           if (snapshot2.hasData) {
                             var output5 = snapshot2.data!.data();
-                            // print(output1?['subs'].toString());
+                            // debugPrint(output1?['subs'].toString());
                             List prodList = output5?['subs'];
                             List prodListBefore = widget.data2;
                             prodListView = [];
@@ -374,7 +374,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                               }
                                                                             });
                                                                           }
-                                                                          print(
+                                                                          debugPrint(
                                                                               'dataRMM' +
                                                                                   widget
                                                                                       .data
@@ -735,25 +735,25 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   refund = true;
                                                 }
 
-                                                print('unit _name' + prodListView[i]);
-                                                print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+                                                debugPrint('unit _name' + prodListView[i]);
+                                                debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
 
                                                 ref2Cust = [];
                                                 ref2Shop = [];
                                                 for(int i=0; i < deffItems.length; i++) {
                                                   if(deffItems[i] - refundItems[i] < 0) {
-                                                    print('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                    debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                     ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
                                                   } else if(deffItems[i] - refundItems[i] > 0) {
-                                                    print('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                    debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                   }
                                                 }
                                               }
 
-                                              print('che ' + ref2Shop.toString());
-                                              print('che2 ' + prodListView.toString());
+                                              debugPrint('che ' + ref2Shop.toString());
+                                              debugPrint('che2 ' + prodListView.toString());
 
-                                              print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+                                              debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
 
                                               if(widget.data.split('^')[6] != '0.0') {
                                                 if(widget.data.split('^')[6].split('-')[1] == 'p') {
@@ -762,8 +762,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
                                                 }
                                               }
-                                              print('result__ 3' + total.toString());
-                                              print('prodListBef 1 ' + prodListBefore.toString());
+                                              debugPrint('result__ 3' + total.toString());
+                                              debugPrint('prodListBef 1 ' + prodListBefore.toString());
 
                                               for(int i=0; i < prodListView.length; i++) {
                                                 // int.parse(ref2Shop[i].split('^')[2])
@@ -771,21 +771,21 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 String prodId = prodListView[i].split('^')[0];
                                                 String prodTp = prodListView[i].split('^')[5];
 
-                                                print(prodId + ' ' + prodTp);
+                                                debugPrint(prodId + ' ' + prodTp);
 
                                                 for(int j=0; j< prodList.length; j++) {
-                                                  print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                                   double refund = 0;
 
                                                   if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
                                                     refund = value - double.parse(prodList[j].split('^')[7]);
-                                                    print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                     prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                         value.toString() + '^' + prodList[j].split('^')[8];
                                                     break;
                                                   } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
                                                     refund = value - int.parse(prodList[j].split('^')[7]);
-                                                    print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                     prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                         prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
                                                     value = value - int.parse(prodList[j].split('^')[3]);
@@ -793,8 +793,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 }
                                               }
 
-                                              print('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                              print('prodListBef 2 ' + prodListBefore.toString());
+                                              debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                              debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
@@ -836,7 +836,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 ttlQ += double.parse(prodList[i].split('^')[3]);
                                               }
 
-                                              print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                              debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                               if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
                                                 refundAmount = 'T';
                                                 reFilter = true;
@@ -850,7 +850,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               int ttlDebts = 0;
                                               double chgTotal = 0;
 
-                                              print('leesin ' +widget.data.split('^')[4].toString());
+                                              debugPrint('leesin ' +widget.data.split('^')[4].toString());
 
 
                                               if (double.parse(widget.data.split('^')[5]) != debt) {
@@ -870,7 +870,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               } else {
                                                 deFilter = true;
                                               }
-                                              print('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
+                                              debugPrint('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
 
                                               if(widget.data.split('^')[4] == 'F') {
                                                 totalRefunds = 1;
@@ -924,7 +924,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                               batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
                                               //
-                                              // print('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
+                                              // debugPrint('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
                                               batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                               //
 
@@ -933,7 +933,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   .then((DocumentSnapshot documentSnapshot) async {
                                                 if (documentSnapshot.exists) {
                                                   documentSnapshot['cus'].forEach((key, value) async {
-                                                    print('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
+                                                    debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
                                                     if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
                                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                                     }
@@ -1241,7 +1241,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     if(split == 'unit_name') {
       return 'im';
     } else {
-      print('split 3 ' +split[3].toString());
+      debugPrint('split 3 ' +split[3].toString());
       return 'i' + (int.parse(split[3])).toString();
     }
   }
@@ -1305,7 +1305,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateOrderDetail(WriteBatch batch, id,  lists, total, refAmt, debt, reF, deF) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').doc(id);
-    print('updateDetail '+ id.toString() + lists.toString() + total.toString() + debt.toString() + deF.toString());
+    debugPrint('updateDetail '+ id.toString() + lists.toString() + total.toString() + debt.toString() + deF.toString());
     batch.update(documentReference, {
       'subs': lists,
       'total': total.toString(),

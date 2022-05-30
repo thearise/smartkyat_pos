@@ -112,7 +112,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -156,11 +156,11 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
         });
 
         setPaperId(selectedTest['keyword'].toString());
-        print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-57'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+        debugPrint(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-57'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
       }
     });
 
-    //print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    //debugPrint(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   addShop(shopName) {
@@ -179,7 +179,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       });
 
       if(exist) {
-        print('space shi p thar');
+        debugPrint('space shi p thar');
 
         FirebaseFirestore.instance
             .collection('space').doc(docId).collection('shops')
@@ -191,7 +191,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
           });
 
           if(shopExist) {
-            print('shop already');
+            debugPrint('shop already');
 
           } else {
             CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -200,14 +200,14 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
               'shop_name': shopName
             })
                 .then((value) {
-              print('shop added');
+              debugPrint('shop added');
             });
           }
         });
 
 
       } else {
-        print('space mshi vuu');
+        debugPrint('space mshi vuu');
         return spaces
             .add({
           'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -220,10 +220,10 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
             'shop_name': shopName
           })
               .then((value) {
-            print('shop added');
+            debugPrint('shop added');
           });
 
-        }).catchError((error) => print("Failed to add shop: $error"));
+        }).catchError((error) => debugPrint("Failed to add shop: $error"));
       }
     });
   }
@@ -1004,7 +1004,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
 
                                       )

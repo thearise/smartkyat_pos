@@ -136,7 +136,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                           child: FutureBuilder(
                             future: controller?.getFlashStatus(),
                             builder: (context, snapshot) {
-                              print('gg' + snapshot.data.toString());
+                              debugPrint('gg' + snapshot.data.toString());
                               if (snapshot.data == null || snapshot.data == false) {
                                 return Icon(
                                   Icons.flash_on_rounded,

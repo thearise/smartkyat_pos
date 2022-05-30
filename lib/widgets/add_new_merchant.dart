@@ -362,10 +362,18 @@ class _AddMerchantState extends State<AddMerchant> {
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              top: BorderSide(
+                                  color: Colors.grey
+                                      .withOpacity(0.3),
+                                  width: 1.0))
+
+                      ),
                       height: 91,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
                         child: Column(
                           children: [
                             ButtonTheme(
@@ -424,9 +432,9 @@ class _AddMerchantState extends State<AddMerchant> {
                                             });
                                             smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
                                           });
-                                        }).catchError((error) => print("Failed to update user: $error"));
-                                        print('arrays added ' + '0-' + merCnt.toString());
-                                      }).catchError((error) => print("Failed to update user: $error"));
+                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                        debugPrint('arrays added ' + '0-' + merCnt.toString());
+                                      }).catchError((error) => debugPrint("Failed to update user: $error"));
                                     });
 
 

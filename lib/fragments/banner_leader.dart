@@ -40,7 +40,7 @@ class _BannerLeaderState extends State<BannerLeader>  with TickerProviderStateMi
             _isBannerAdReady = true;
           });
         }, onAdFailedToLoad: (ad, LoadAdError error) {
-          print("Failed to Load A Banner Ad${error.message}");
+          debugPrint("Failed to Load A Banner Ad${error.message}");
           _isBannerAdReady = false;
           ad.dispose();
         }),

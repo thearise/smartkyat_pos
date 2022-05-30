@@ -139,7 +139,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                           child: FutureBuilder(
                             future: controller?.getFlashStatus(),
                             builder: (context, snapshot) {
-                              print('gg' + snapshot.data.toString());
+                              debugPrint('gg' + snapshot.data.toString());
                               if (snapshot.data == null || snapshot.data == false) {
                                 return Icon(
                                   Icons.flash_on_rounded,
@@ -401,7 +401,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
             controller.toggleFlash();
           }
         });
-        print(scanData.code);
+        debugPrint(scanData.code);
         // _onQRViewCreated(controller);
         Navigator.pop(context, scanData.code);
 

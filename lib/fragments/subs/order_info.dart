@@ -64,7 +64,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -85,7 +85,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         try {
           final result = await InternetAddress.lookup('google.com');
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('connected');
+            debugPrint('connected');
             setState(() {
               _connectionStatus = true;
             });
@@ -187,8 +187,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    // print('WIDGET-' + widget.data);
-    // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
+    // debugPrint('WIDGET-' + widget.data);
+    // debugPrint('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -249,8 +249,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {
                           var output1 = snapshot2.data!.data();
-                          print('phyophyo' + result.toString());
-                          // print(output1?['subs'].toString());
+                          debugPrint('phyophyo' + result.toString());
+                          // debugPrint(output1?['subs'].toString());
                           if(output1?['subs'] == null) {
                             //smartKyatFlash('Internet connection is required to take this action.', 'w');
                             return Expanded(
@@ -270,7 +270,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
                           totalRealPrice = 0;
-                          print(totalPrice.toString() +
+                          debugPrint(totalPrice.toString() +
                               'totalPrice ' +
                               prodList.toString());
 
@@ -307,7 +307,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
                           }
 
-                          print('view ' + prodListView.toString());
+                          debugPrint('view ' + prodListView.toString());
 
                           result = widget.data
                               .split('^')[0] +
@@ -348,7 +348,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           }
                           if (i == prodListView.length - 1) {
                             firstBuild = false;
-                            retrieveForPrint();
+                            retrieveFordebugPrint();
                           }  }
 
                           return Expanded(
@@ -389,7 +389,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           widget._closeCartBtn();
                                                           String isRef = 'p';
                                                           double debt = double.parse(widget.data.split('^')[5]);
-                                                          print('result__1 ' + result.toString());
+                                                          debugPrint('result__1 ' + result.toString());
                                                           for (int i = 0; i < prodListView.length; i++) {
                                                             if (prodListView[i].split('^')[7] != '0' && prodListView[i].split('^')[7] == prodListView[i].split('^')[3]) {
                                                               isRef = 'r';
@@ -419,7 +419,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                               .split('^')[6];
 
-                                                          print('Result'+ result.toString());
+                                                          debugPrint('Result'+ result.toString());
 
                                                           await Navigator.push(
                                                             context,
@@ -434,7 +434,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                           () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
                                                           );
                                                           widget._openCartBtn();
-                                                          print('result__2 ' + result.toString());
+                                                          debugPrint('result__2 ' + result.toString());
                                                         }
                                                       } on SocketException catch (_) {
                                                         setState(() {
@@ -588,7 +588,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
-                                                      print('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
+                                                      debugPrint('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
                                                       if( prodListView.length > 2) {
                                                         if( prodListView.length == prodListPrintMod.length) {
                                                           Navigator.push(
@@ -795,7 +795,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                           .split('^')[6];
 
-                                                      print('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
+                                                      debugPrint('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
                                                       if( prodListView.length > 2) {
                                                         if(prodListView.length == prodListPrintMod.length) {
                                                           Navigator.push(
@@ -1587,7 +1587,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
                                       )
                                     ],
@@ -1829,7 +1829,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   }
 
   String whatTheFuck() {
-    print('GGGGGGG');
+    debugPrint('GGGGGGG');
     return '';
   }
 
@@ -1843,10 +1843,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   bool firstRetFPrint = true;
   List<String> prodListPrintMod = [];
-  Future<void> retrieveForPrint() async {
+  Future<void> retrieveFordebugPrint() async {
     if(firstRetFPrint) {
       firstRetFPrint = false;
-      print('retrieveForPrint ' + prodListView.toString());
+      debugPrint('retrieveForPrint ' + prodListView.toString());
       List <String> productExist = [];
 
       for(int i = 0; i< prodListView.length; i++) {
@@ -1857,7 +1857,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                 prodListView[i].split('^')[4] + '^' + (double.parse(prodListView[i].split('^')[3]) - double.parse(prodListView[i].split('^')[7])).toString() + '^'
         );
           if(i == prodListView.length - 1) {
-            print('GGG ' + prodListPrintMod.toString() + prodListView.length.toString());
+            debugPrint('GGG ' + prodListPrintMod.toString() + prodListView.length.toString());
           }
 
       }

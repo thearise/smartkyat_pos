@@ -297,7 +297,7 @@ class MerchantCartState extends State<MerchantCart>
                                     );
                                     setState(() {
                                       discount2 =double.parse(amount![0].toString());
-                                      print('disss ' + discount2.toString());
+                                      debugPrint('disss ' + discount2.toString());
                                     });
 
                                   } else {
@@ -316,12 +316,12 @@ class MerchantCartState extends State<MerchantCart>
                                     );
                                     setState(() {
                                       discount2 =double.parse(percentage![0].toString());
-                                      print('disss ' + discount2.toString());
+                                      debugPrint('disss ' + discount2.toString());
                                     });
                                   }
-                                  print('dis' + result.toString());
+                                  debugPrint('dis' + result.toString());
                                   setState(() {
-                                    print('do something');
+                                    debugPrint('do something');
                                   });
 
                                 },
@@ -471,7 +471,7 @@ class MerchantCartState extends State<MerchantCart>
                                 widget.prodList2[i].split('-')[2] + '-' + widget.prodList2[i].split('-')[3] + '-' + widget.prodList2[i].split('-')[4] + '-' + widget.prodList2[i].split('-')[5] +'-' + widget.prodList2[i].split('-')[6];
                             return GestureDetector(
                               onTap: (){
-                                print('error prod' + widget.prodList2[i].toString());
+                                debugPrint('error prod' + widget.prodList2[i].toString());
                                 setState((){
                                   quantity2 = int.parse(widget.prodList2[i].split('-')[2]);
                                   price2 = int.parse(widget.prodList2[i].split('-')[1]);
@@ -796,7 +796,7 @@ class MerchantCartState extends State<MerchantCart>
                               totalAmount2 = double.parse(TtlProdListPrice2());
                             });
 
-                            print('totalAmount '+ totalAmount2.toString());
+                            debugPrint('totalAmount '+ totalAmount2.toString());
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -863,7 +863,7 @@ class MerchantCartState extends State<MerchantCart>
 
   TtlProdListPriceInit2()  {
     double total = 0;
-    print(widget.prodList2.toString());
+    debugPrint(widget.prodList2.toString());
     for (String str in widget.prodList2) {
       total += double.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
     }
@@ -872,7 +872,7 @@ class MerchantCartState extends State<MerchantCart>
 
   TtlProdListPrice2()  {
     double total = 0;
-    print(widget.prodList2.toString());
+    debugPrint(widget.prodList2.toString());
     for (String str in widget.prodList2) {
       total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
       disPercent2 = (double.parse(total.toString()) *
@@ -880,7 +880,7 @@ class MerchantCartState extends State<MerchantCart>
     }
     if(isDiscount2 == 'percent'){
       discountAmount2 = discount2;
-      print(discountAmount2.toString());
+      debugPrint(discountAmount2.toString());
       disText2 = '-p';
       total = (double.parse(total.toString()) -
           (double.parse(total.toString()) *
@@ -906,30 +906,30 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   Future<void> buyOrderLengthIncrease() async {
-    print('CHECKING PRODSALE ORD');
+    debugPrint('CHECKING PRODSALE ORD');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 
     users
         .doc(shopId)
         .update({'buyOrders_length': FieldValue.increment(1)})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> addDateExist2(id1, id2, dOrder , length) async {
-    print('CHECKING PRODSALE ORD addDateExist');
+    debugPrint('CHECKING PRODSALE ORD addDateExist');
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       'each_order' : FieldValue.arrayUnion([length.toString()])})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> Detail2(id1, id2 , length) async {
-    print('CHECKING PRODSALE ORD');
+    debugPrint('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(id1).collection('expansion');
 
     detail.doc(id2).set({
@@ -942,12 +942,12 @@ class MerchantCartState extends State<MerchantCart>
       'customerId' : widget.merchantId.split('-')[0],
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> merchOrder(id1, id2 , length) async {
-    print('CHECKING PRODSALE ORD');
+    debugPrint('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(widget.merchantId.split('-')[0]).collection('buyOrders');
 
     cusOrder.doc(id2).set({
@@ -959,8 +959,8 @@ class MerchantCartState extends State<MerchantCart>
       'total': TtlProdListPrice2(),
       'deviceId' : deviceIdNum.toString() + '-',
       'voucherId' : length.toString(),})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> DatenotExist2(prodList2, id1, id2, dOrder , length, date,) async {
@@ -972,7 +972,7 @@ class MerchantCartState extends State<MerchantCart>
     }
     if(isDiscount2 == 'percent'){
       discountAmount2 = discount2;
-      print(discountAmount2.toString());
+      debugPrint(discountAmount2.toString());
       disText2 = '-p';
       totalTOTAL = (double.parse(totalTOTAL.toString()) -
           (double.parse(totalTOTAL.toString()) *
@@ -987,7 +987,7 @@ class MerchantCartState extends State<MerchantCart>
       totalTOTAL = double.parse(totalTOTAL.toString());
     }
 
-    print('CHECKING PRODSALE ORD DatenotExist');
+    debugPrint('CHECKING PRODSALE ORD DatenotExist');
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
     CollectionReference cusOrder = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(widget.merchantId.split('-')[0]).collection('buyOrders');
 
@@ -1000,10 +1000,10 @@ class MerchantCartState extends State<MerchantCart>
     }).then((value) {
 
     })
-        .catchError((error) => print("Failed to update user: $error"));
+        .catchError((error) => debugPrint("Failed to update user: $error"));
 
-    print("order new Updated");
-    print('totalPrice ' + totalTOTAL.toString());
+    debugPrint("order new Updated");
+    debugPrint('totalPrice ' + totalTOTAL.toString());
 
     //addDateExist(value.id, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
     Detail2(custId, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
@@ -1155,7 +1155,7 @@ class MerchantCartState extends State<MerchantCart>
                                         mystate((){
                                         quantity2 = int.parse(myController.text) - 1;
                                         myController.text = quantity2.toString();
-                                        print('qqq' + quantity2.toString());
+                                        debugPrint('qqq' + quantity2.toString());
                                       });});
                                     },
                                     child: Container(
@@ -1229,7 +1229,7 @@ class MerchantCartState extends State<MerchantCart>
                                         mystate((){
                                         quantity2 = int.parse(myController.text) + 1;
                                         myController.text = quantity2.toString();
-                                        print('qqq' + quantity2.toString());
+                                        debugPrint('qqq' + quantity2.toString());
                                       }); });
                                     },
                                     child: Container(
@@ -1569,7 +1569,7 @@ class MerchantCartState extends State<MerchantCart>
                           child: GestureDetector(
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
-                              print('eachProduct' +eachProd);
+                              debugPrint('eachProduct' +eachProd);
                               for (int j = 0; j < widget.prodList2.length; j++)
                                 if( widget.prodList2[j].split('-')[0] == eachProd.split('-')[0] && widget.prodList2[j].split('-')[4] == eachProd.split('-')[4]){
                                   setState((){
@@ -1577,7 +1577,7 @@ class MerchantCartState extends State<MerchantCart>
                                     eachProd = eachProd.split('-')[0] +'-' + price2.toString() +'-'+(quantity2.toString())+'-'+eachProd.split('-')[3]+ '-'+ eachProd.split('-')[4]+'-'+eachProd.split('-')[5]+'-'+eachProd.split('-')[6];
                                     widget.prodList2[j] = eachProd;
                                   });  });
-                                } else print('leelar');
+                                } else debugPrint('leelar');
 
                               Navigator.pop(context);
                                  }
@@ -1637,7 +1637,7 @@ class MerchantCartState extends State<MerchantCart>
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
       _textFieldController2.addListener((){
-        print("value: ${_textFieldController2.text}");
+        debugPrint("value: ${_textFieldController2.text}");
         setState(() {
           mystate(() {
           totalAmount2 = double.parse(TtlProdListPrice2());
@@ -1965,13 +1965,13 @@ class MerchantCartState extends State<MerchantCart>
                               CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
                                   shopId).collection('products');
                               int length = 0;
-                              print('order creating here2');
+                              debugPrint('order creating here2');
 
                               FirebaseFirestore.instance.collection('shops').doc(shopId)
                               // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
                                   .get().then((value) async {
                                 length = int.parse(value.data()!['buyOrders_length'].toString());
-                                print('lengthsss' + length.toString());
+                                debugPrint('lengthsss' + length.toString());
                                 length = length + 1;
                                 //Check new date or not
                                 var dateExist = false;
@@ -1996,12 +1996,12 @@ class MerchantCartState extends State<MerchantCart>
                                     for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
                                       subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
                                       subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                      print('inStock' + (i+1).toString());
+                                      debugPrint('inStock' + (i+1).toString());
                                       subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                     }
                                   }
 
-                                  print(subStock.toString());
+                                  debugPrint(subStock.toString());
 
                                   if(str.split('-')[4]=='unit_name') {
                                     prods.doc(
@@ -2010,8 +2010,8 @@ class MerchantCartState extends State<MerchantCart>
                                       'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
                                       'buyPrice1': str.split('-')[1].toString(),
                                     })
-                                        .then((value) => print("User Updated"))
-                                        .catchError((error) => print("Failed to update user: $error"));
+                                        .then((value) => debugPrint("User Updated"))
+                                        .catchError((error) => debugPrint("Failed to update user: $error"));
                                   }
                                   else if (str.split('-')[4]=='sub1_name') {
                                     prods.doc(
@@ -2020,8 +2020,8 @@ class MerchantCartState extends State<MerchantCart>
                                       'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
                                       'buyPrice2': str.split('-')[1].toString(),
                                     })
-                                        .then((value) => print("User Updated"))
-                                        .catchError((error) => print("Failed to update user: $error"));
+                                        .then((value) => debugPrint("User Updated"))
+                                        .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                   } else if (str.split('-')[4]=='sub2_name') {
                                     prods.doc(
@@ -2030,8 +2030,8 @@ class MerchantCartState extends State<MerchantCart>
                                       'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
                                       'buyPrice3' : str.split('-')[1].toString(),
                                     })
-                                        .then((value) => print("User Updated"))
-                                        .catchError((error) => print("Failed to update user: $error"));
+                                        .then((value) => debugPrint("User Updated"))
+                                        .catchError((error) => debugPrint("Failed to update user: $error"));
                                   }
                                 }
                                 await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')

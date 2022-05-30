@@ -111,7 +111,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
-      print('my index is'+ _controller.index.toString());
+      debugPrint('my index is'+ _controller.index.toString());
       if(_controller.index.toString()=='1') {
         setState(() {
           _sliding = 1;
@@ -1094,7 +1094,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                    ' is successfully removed.',
                                                                's');
                                                          }).catchError((
-                                                             error) => print(
+                                                             error) => debugPrint(
                                                              "Failed to update: $error"));
                                                        }
                                                      });
@@ -2093,7 +2093,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                     //                                   ' is successfully removed.',
                                     //                               's');
                                     //                         }).catchError((
-                                    //                             error) => print(
+                                    //                             error) => debugPrint(
                                     //                             "Failed to update: $error"));
                                     //                       }
                                     //                     });

@@ -33,7 +33,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
 
   @override
   void initState() {
-    print('printing route ' + widget.data.toString());
+    debugPrint('printing route ' + widget.data.toString());
     _onScanPressed();
     super.initState();
   }
@@ -285,7 +285,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                     //       title: Text(_devices[i].name.toString()),
                     //       subtitle: Text(_devices[i].address.toString()),
                     //       onTap: () {
-                    //         // _startPrint(_devices[i]);
+                    //         // _startdebugPrint(_devices[i]);
                     //       },
                     //     );
                     //   },
@@ -338,22 +338,22 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                   //               dailyOrders.doc(widget.documentId).update({
                   //                 'daily_order':
                   //                 FieldValue.arrayRemove([dataRm])
-                  //               }).then((value) {print('array removed');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //               }).then((value) {debugPrint('array removed');})
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               dailyOrders.doc(widget.documentId).update({
                   //                 'daily_order':
                   //                 FieldValue.arrayUnion([data])
-                  //               }).then((value) { print('array updated');})
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //               }).then((value) { debugPrint('array updated');})
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               order.doc(
                   //                   widget.docId)
                   //                   .update({
                   //                 'debt' : debtAmount
                   //               })
-                  //                   .then((value) => print("User Updated"))
-                  //                   .catchError((error) => print("Failed to update user: $error"));
+                  //                   .then((value) => debugPrint("User Updated"))
+                  //                   .catchError((error) => debugPrint("Failed to update user: $error"));
                   //
                   //               double debts = 0;
                   //               if(debtAmount == 0.0) {
@@ -366,8 +366,8 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                   //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
                   //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
                   //                 })
-                  //                     .then((value) => print("User Updated"))
-                  //                     .catchError((error) => print("Failed to update user: $error"));}
+                  //                     .then((value) => debugPrint("User Updated"))
+                  //                     .catchError((error) => debugPrint("Failed to update user: $error"));}
                   //
                   //               _textFieldController.clear();
                   //               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -447,7 +447,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
       } else if (status == ConnectionStatus.timeout) {
         _onDisconnectDevice();
       } else {
-        print('$runtimeType - something wrong');
+        debugPrint('$runtimeType - something wrong');
       }
       setState(() => _isLoading = false);
     });
@@ -498,7 +498,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
 
     // imglib.Image gg;
 
-    // print('type check ' + mergedImage.runtimeType.toString());
+    // debugPrint('type check ' + mergedImage.runtimeType.toString());
     // receiptText.addImage(
     //   base64.encode(imglib.encodeJpg(mergedImage, quality: 600)),
     //   width: 500,

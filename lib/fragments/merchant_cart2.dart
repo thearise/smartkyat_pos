@@ -94,7 +94,7 @@ class MerchantCartState extends State<MerchantCart>
   initState() {
     merchId = widget.merchantId.split('^')[1];
     merchRealId = widget.merchantId.split('^')[0];
-    print('initializing ' + widget.prodList2.toString());
+    debugPrint('initializing ' + widget.prodList2.toString());
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -204,13 +204,13 @@ class MerchantCartState extends State<MerchantCart>
     widget.prodList2[index] = widget.prodList2[index].split('^')[0] + '^' + widget.prodList2[index].split('^')[1] + '^' +
         widget.prodList2[index].split('^')[2] + '^' + widget.prodList2[index].split('^')[3] + '^' + widget.prodList2[index].split('^')[4] + '^' + widget.prodList2[index].split('^')[5] + '^' + widget.prodList2[index].split('^')[6] + '^' + widget.prodList2[index].split('^')[7] + '^' + widget.prodList2[index].split('^')[8] +'^' + widget.prodList2[index].split('^')[9] +'^' + widget.prodList2[index].split('^')[10] +'^' + widget.prodList2[index].split('^')[11] +'^' + widget.prodList2[index].split('^')[12];
 
-    print('prodincart ' + widget.prodList2.toString());
+    debugPrint('prodincart ' + widget.prodList2.toString());
     String image = widget.prodList2[index].split('^')[9];
     prodListInd = prodListInd.split('^')[0] + '^' + widget.prodList2[index].split('^')[6] + '^' +
         prodListInd.split('^')[1] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[2] + '^' + prodListInd.split('^')[6];
     return GestureDetector(
       onTap: (){
-        print('error prod' + prodListInd.toString());
+        debugPrint('error prod' + prodListInd.toString());
         setState((){
             quantity2 = double.parse(prodListInd.split('^')[4]);
             price2 = double.parse(prodListInd.split('^')[2]);
@@ -689,9 +689,9 @@ class MerchantCartState extends State<MerchantCart>
                                                     discount2 =double.parse(percentage![0].toString());
                                                   });
                                                 }
-                                                print('dis' + result.toString());
+                                                debugPrint('dis' + result.toString());
                                                 setState(() {
-                                                  print('do something');
+                                                  debugPrint('do something');
                                                 });
                                               }
                                             }
@@ -789,9 +789,9 @@ class MerchantCartState extends State<MerchantCart>
                                                   discount2 =double.parse(percentage![0].toString());
                                                 });
                                               }
-                                              print('dis' + result.toString());
+                                              debugPrint('dis' + result.toString());
                                               setState(() {
-                                                print('do something');
+                                                debugPrint('do something');
                                               });
                                             }
                                           }
@@ -1055,7 +1055,7 @@ class MerchantCartState extends State<MerchantCart>
                                 totalAmount2 = double.parse(TtlProdListPrice2());
                               });
 
-                              print('totalAmount '+ totalAmount2.toString());
+                              debugPrint('totalAmount '+ totalAmount2.toString());
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -1113,7 +1113,7 @@ class MerchantCartState extends State<MerchantCart>
                           padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0.0),
                           child: GestureDetector(
                             onTap: () {
-                              print('no products to refill');
+                              debugPrint('no products to refill');
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width - 30,
@@ -1180,7 +1180,7 @@ class MerchantCartState extends State<MerchantCart>
 
   TtlProdListPriceInit2()  {
     double total = 0;
-    print('myanmar' + widget.prodList2.toString());
+    debugPrint('myanmar' + widget.prodList2.toString());
     for (String str in widget.prodList2) {
       total += double.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
     }
@@ -1189,7 +1189,7 @@ class MerchantCartState extends State<MerchantCart>
 
   TtlProdListPrice2()  {
     double total = 0;
-    print(widget.prodList2.toString());
+    debugPrint(widget.prodList2.toString());
     for (String str in widget.prodList2) {
       total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
       disPercent2 = (double.parse(total.toString()) *
@@ -1197,7 +1197,7 @@ class MerchantCartState extends State<MerchantCart>
     }
     if(isDiscount2 == 'percent'){
       discountAmount2 = discount2;
-      print(discountAmount2.toString());
+      debugPrint(discountAmount2.toString());
       disText2 = '-p';
       total = (double.parse(total.toString()) -
           (double.parse(total.toString()) *
@@ -1223,16 +1223,16 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   Future<void> buyOrderLengthIncrease() async {
-    print('CHECKING PRODSALE ORD');
+    debugPrint('CHECKING PRODSALE ORD');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
 
-    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
+    // debugPrint('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(shopId)
         .update({'buyOrders_length': FieldValue.increment(1)})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> addDateExist(id1, dOrder , length) async {
@@ -1240,8 +1240,8 @@ class MerchantCartState extends State<MerchantCart>
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
     })
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> DatenotExist(dOrder, date, length) async {
@@ -1253,14 +1253,14 @@ class MerchantCartState extends State<MerchantCart>
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       'date' : date
     },SetOptions(merge: true)).then((value) {
-    print('date Exist added');
-    }).catchError((error) => print("Failed to update user: $error"));
+    debugPrint('date Exist added');
+    }).catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> Detail2(date, length , subs, docId, reFilter, deFilter, dateTime) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
-    print('detailsub3 ' + subs.toString());
+    debugPrint('detailsub3 ' + subs.toString());
     detail.doc(customId).set({
       'date' : date,
       'total': TtlProdListPrice2(),
@@ -1277,12 +1277,12 @@ class MerchantCartState extends State<MerchantCart>
       'dateTime': dateTime.toString()
     })
 
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   Future<void> merchOrder(ttlOrders, debts , debtAmount) async {
-    print('CHECKING PRODSALE ORD');
+    debugPrint('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants');
 
     cusOrder.doc(merchRealId).update({
@@ -1290,8 +1290,8 @@ class MerchantCartState extends State<MerchantCart>
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
     })
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
   double totalFixAmount = 0.0;
@@ -1455,7 +1455,7 @@ class MerchantCartState extends State<MerchantCart>
                                                   mystate((){
                                                     quantity2 = double.parse(myController.text) - 1;
                                                     myController.text = quantity2.toString();
-                                                    print('qqq' + quantity2.toString());
+                                                    debugPrint('qqq' + quantity2.toString());
                                                   });});
                                               },
                                               child: Container(
@@ -1542,7 +1542,7 @@ class MerchantCartState extends State<MerchantCart>
                                                   mystate((){
                                                     quantity2 = double.parse(myController.text) + 1;
                                                     myController.text = quantity2.toString();
-                                                    print('qqq' + quantity2.toString());
+                                                    debugPrint('qqq' + quantity2.toString());
                                                   }); });
                                               },
                                               child: Container(
@@ -1895,7 +1895,7 @@ class MerchantCartState extends State<MerchantCart>
                               child: GestureDetector(
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
-                                    print('eachProduct' +eachProd);
+                                    debugPrint('eachProduct' +eachProd);
 
                                     for (int j = 0; j < widget.prodList2.length; j++)
                                       if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[3]){
@@ -1904,7 +1904,7 @@ class MerchantCartState extends State<MerchantCart>
                                             eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+ 'Phyo'+ '^'+ eachProd.split('^')[3]+'^'+ '1' +'^'+ eachProd.split('^')[5] + '^' + widget.prodList2[j].split('^')[7] +'^'+ widget.prodList2[j].split('^')[8] +'^'+ widget.prodList2[j].split('^')[9] +'^'+ widget.prodList2[j].split('^')[10]+'^'+ widget.prodList2[j].split('^')[11]+'^'+ widget.prodList2[j].split('^')[12] ;
                                             widget.prodList2[j] = eachProd;
                                           });  });
-                                      } else print('leelar');
+                                      } else debugPrint('leelar');
 
                                     Navigator.pop(context);
                                   }
@@ -2148,7 +2148,7 @@ class MerchantCartState extends State<MerchantCart>
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
           _textFieldController2.addListener((){
-            print("value: ${_textFieldController2.text}");
+            debugPrint("value: ${_textFieldController2.text}");
             setState(() {
               mystate(() {
                 totalAmount2 = double.parse(TtlProdListPrice2());
@@ -2524,7 +2524,7 @@ class MerchantCartState extends State<MerchantCart>
                                     bool reFilter = false;
                                     bool deFilter = false;
                                     double debtAmounts = 0 ;
-                                    print('order creating here2');
+                                    debugPrint('order creating here2');
 
                                     mystate(() {
                                       setState(() {
@@ -2552,7 +2552,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 str.split('^')[4] + '^' +
                                                 str.split('^')[2] + '^0^' +
                                                 str.split('^')[9]);
-                                        print('subList2 init ' + subList2.toString());
+                                        debugPrint('subList2 init ' + subList2.toString());
 
                                         String sub1Buy = '0';
                                         String sub2Buy = '0';
@@ -2604,7 +2604,7 @@ class MerchantCartState extends State<MerchantCart>
                                       //merchOrder(totalOrders, debts, debtAmounts);
                                       batch = await updateMerchOrder(batch, merchRealId, totalOrders, debts, debtAmounts);
 
-                                      print('subList2 Two'+ subList2.toString());
+                                      debugPrint('subList2 Two'+ subList2.toString());
 
                                       DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                       batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc', TtlProdListPrice2().toString(), debtAmounts, ordCntDate);
@@ -2623,14 +2623,14 @@ class MerchantCartState extends State<MerchantCart>
                                       //     monthExist = true;
                                       //     monthId = doc.id;
                                       //   });
-                                      //   print('month ' + monthExist.toString());
+                                      //   debugPrint('month ' + monthExist.toString());
                                       //   if (monthExist) {
                                       //     batch = await updateMonthlyData(batch, monthId, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc', TtlProdListPrice2(), debtAmounts);
                                       //     // monthlyData.doc(monthId).update({
                                       //     //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                       //     //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
-                                      //     // }).then((value) => print("data Updated"))
-                                      //     //     .catchError((error) => print("Failed to update user: $error"));
+                                      //     // }).then((value) => debugPrint("data Updated"))
+                                      //     //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                       //   }
                                       //   else {
                                       //     monthlyData.add({
@@ -2653,14 +2653,14 @@ class MerchantCartState extends State<MerchantCart>
                                       //
                                       //     }).then((value) async {
                                       //       batch = await updateMonthlyData(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc', TtlProdListPrice2(), debtAmounts);
-                                      //       // print('valueid' + value.id.toString());
+                                      //       // debugPrint('valueid' + value.id.toString());
                                       //       // monthlyData.doc(value.id).update({
                                       //       //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                       //       //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_merc' : FieldValue.increment(debtAmounts),
                                       //       //
-                                      //       // }).then((value) => print("Data Updated"))
-                                      //       //     .catchError((error) => print("Failed to update user: $error"));
-                                      //     }).catchError((error) => print("Failed to update user: $error"));
+                                      //       // }).then((value) => debugPrint("Data Updated"))
+                                      //       //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                      //     }).catchError((error) => debugPrint("Failed to update user: $error"));
                                       //   }
                                       //
                                       //   CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
@@ -2673,15 +2673,15 @@ class MerchantCartState extends State<MerchantCart>
                                       //       yearExist = true;
                                       //       yearId = doc.id;
                                       //     });
-                                      //     print('year ' + yearExist.toString());
+                                      //     debugPrint('year ' + yearExist.toString());
                                       //     if (yearExist) {
                                       //       batch = await updateYearlyData(batch, yearId, now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc', TtlProdListPrice2(), debtAmounts);
                                       //       // yearlyData.doc(yearId).update({
                                       //       //   now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                       //       //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
                                       //       //
-                                      //       // }).then((value) => print("data Updated"))
-                                      //       //     .catchError((error) => print("Failed to update user: $error"));
+                                      //       // }).then((value) => debugPrint("data Updated"))
+                                      //       //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                       //     }
                                       //     else {
                                       //       yearlyData.add({
@@ -2703,15 +2703,15 @@ class MerchantCartState extends State<MerchantCart>
                                       //         'date': now,
                                       //
                                       //       }).then((value13) async {
-                                      //         print('valueid' + value.id.toString());
+                                      //         debugPrint('valueid' + value.id.toString());
                                       //         batch = await updateYearlyData(batch, value13.id, now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_merc', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc', TtlProdListPrice2(), debtAmounts);
                                       //
                                       //         // yearlyData.doc(value.id).update({
                                       //         //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_merc' : FieldValue.increment(double.parse(TtlProdListPrice2())),
                                       //         //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_merc' : FieldValue.increment(debtAmounts)
-                                      //         // }).then((value) => print("Data Updated"))
-                                      //         //     .catchError((error) => print("Failed to update user: $error"));
-                                      //       }).catchError((error) => print("Failed to update user: $error"));
+                                      //         // }).then((value) => debugPrint("Data Updated"))
+                                      //         //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                      //       }).catchError((error) => debugPrint("Failed to update user: $error"));
                                       //     }
 
                                           // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
@@ -2729,13 +2729,13 @@ class MerchantCartState extends State<MerchantCart>
                                           //     // addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())   + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId +'^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
                                           //     //Detail2(now, length.toString() , subList2, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                           //     batch = await updateDetail(batch, now, length.toString(), subList2, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                          //     print('adddateexist added');
+                                          //     debugPrint('adddateexist added');
                                           //   }
                                           //   else {
                                           //     DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
                                           //     batch = await updateDetail(batch, now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
                                           //     //Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                          //     print('adddateexist not');
+                                          //     debugPrint('adddateexist not');
                                           //   }
                                       widget.clearMerch();
                                       widget.clearProd();
@@ -2754,7 +2754,7 @@ class MerchantCartState extends State<MerchantCart>
                                           smartKyatFlash('Refill process has been complete successfully.', 's');
                                         });
                                       } catch(error) {
-                                        print('error while creating orders');
+                                        debugPrint('error while creating orders');
                                         smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
 
                                       }});

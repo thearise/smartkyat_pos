@@ -791,7 +791,7 @@
 //                                               ScaffoldMessenger.of(context).showSnackBar(
 //                                                 const SnackBar(content: Text('Processing Data')),
 //                                               );
-//                                               // print(prodFieldsValue);
+//                                               // debugPrint(prodFieldsValue);
 //
 //                                               CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
 //                                               orders
@@ -799,7 +799,7 @@
 //                                                 'cust_name': 'U Pyaung'
 //                                               })
 //                                                   .then((value) {
-//                                                 print('order added');
+//                                                 debugPrint('order added');
 //
 //                                                 FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 //                                                 // FirebaseFirestore.instance.collection('space')
@@ -818,8 +818,8 @@
 //                                                     FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 //                                                         .doc(doc.id)
 //                                                         .update({'data': doc['data']+'^U Pyaung~'+value.id})
-//                                                         .then((value) => print("User Updated"))
-//                                                         .catchError((error) => print("Failed to update user: $error"));
+//                                                         .then((value) => debugPrint("User Updated"))
+//                                                         .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                                                   });
 //
@@ -911,7 +911,7 @@
 //                                   orderLoading = true;
 //                                 });
 //
-//                                 print('order creating');
+//                                 debugPrint('order creating');
 //
 //
 //                                 FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
@@ -945,7 +945,7 @@
 //                                           .doc(dateId).update({
 //                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'])
 //                                       }).then((value) {
-//                                         print('User updated');
+//                                         debugPrint('User updated');
 //                                         setState(() {
 //                                           orderLoading = false;
 //                                         });
@@ -958,7 +958,7 @@
 //                                           'subs': ['name'],
 //                                         })
 //                                             .then((value) {
-//                                           print('order added');
+//                                           debugPrint('order added');
 //                                         });
 //                                       });
 //                                     } else {
@@ -968,7 +968,7 @@
 //                                         'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
 //                                       })
 //                                           .then((value) {
-//                                         print('order added');
+//                                         debugPrint('order added');
 //
 //
 //                                         FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
@@ -978,7 +978,7 @@
 //                                           'subs': ['name'],
 //                                         })
 //                                             .then((value) {
-//                                           print('order added');
+//                                           debugPrint('order added');
 //                                         });
 //                                       });
 //                                     }
@@ -1041,7 +1041,7 @@
 //                           child: GestureDetector(
 //                             onTap: () {
 //                               DateTime now = DateTime.now();
-//                               print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
+//                               debugPrint(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
 //
 //                             },
 //                             child: Padding(

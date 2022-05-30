@@ -199,7 +199,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
   @override
   void initState() {
-    print('loaded in bloc_home_week');
+    debugPrint('loaded in bloc_home_week');
     today = widget.dateTime!;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -246,7 +246,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   }
 
   ordersQuery() {
-    print('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
+    debugPrint('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrders')
         .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
@@ -256,7 +256,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('bloc_fire sale 1st data ' + data.toString());
+      debugPrint('bloc_fire sale 1st data ' + data.toString());
     }
 
     var listView = Container(
@@ -306,7 +306,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   String _format = 'yyyy-MMMM-dd';
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -316,7 +316,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {

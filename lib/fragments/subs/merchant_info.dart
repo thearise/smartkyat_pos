@@ -118,7 +118,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     });
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
-      print('my index is'+ _controller.index.toString());
+      debugPrint('my index is'+ _controller.index.toString());
       if(_controller.index.toString()=='1') {
         setState(() {
           _sliding = 1;
@@ -979,7 +979,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         merchantName.toString() +
                                                             ' is successfully removed.',
                                                         's');
-                                                  }).catchError((error) => print(
+                                                  }).catchError((error) => debugPrint(
                                                       "Failed to update: $error"));
                                                 }
                                               });
@@ -1854,7 +1854,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     //                               merchantName.toString() +
                                     //                                   ' is successfully removed.',
                                     //                               's');
-                                    //                         }).catchError((error) => print(
+                                    //                         }).catchError((error) => debugPrint(
                                     //                             "Failed to update: $error"));
                                     //                       }
                                     //                     });

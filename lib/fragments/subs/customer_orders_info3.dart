@@ -66,10 +66,10 @@
 //   //         ;
 //   //       }
 //   //     }
-//   //     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+//   //     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
 //   //   }).toList();
 //   //
-//   //   // print('changeData ' + snpsht.da);
+//   //   // debugPrint('changeData ' + snpsht.da);
 //   //   return list;
 //   // }
 //
@@ -205,8 +205,8 @@
 //                                         // loadingDone = true;
 //                                         var sections = List<ExampleSection>.empty(growable: true);
 //                                         int docInc = 0;
-//                                         print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
-//                                         print('Last ' + snapshotLast.data!.docs[0].id.toString());
+//                                         debugPrint('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
+//                                         debugPrint('Last ' + snapshotLast.data!.docs[0].id.toString());
 //
 //                                         endOfResultCheck(snapshot, snapshotLast.data!.docs[0].id);
 //
@@ -222,7 +222,7 @@
 //
 //
 //
-//                                           print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+//                                           debugPrint('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
 //
 //                                           List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + customerName + '&'+ data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
 //
@@ -245,9 +245,9 @@
 //                                               Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
 //                                               // var ayinDocLoo = data21Loop['date'];
 //
-//                                              // print('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
+//                                              // debugPrint('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
 //                                               if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
-//                                                 print('not equal');
+//                                                 debugPrint('not equal');
 //                                                 sections.add(section);
 //                                                 itemsList = [];
 //                                                 if(a == snapshot.data!.docs.length-1) {
@@ -297,7 +297,7 @@
 //                                             if(loadingDone && !endOfResult) {
 //                                               if(snapshot.data!.docs.length >= 6) {
 //                                                 if(notification.metrics.pixels >= _customScrollViewCtl.position.maxScrollExtent) {
-//                                                   print('on loading ' + limitToLast.toString());
+//                                                   debugPrint('on loading ' + limitToLast.toString());
 //
 //                                                   // setState(() {
 //                                                   //   limitToLast += 6;
@@ -541,7 +541,7 @@
 //
 //                                                     return cateScIndex == 0 ? GestureDetector(
 //                                                       onTap: () {
-//                                                         print('Items'+item);
+//                                                         debugPrint('Items'+item);
 //                                                         Navigator.push(
 //                                                           context,
 //                                                           MaterialPageRoute(
@@ -773,7 +773,7 @@
 //                                                     ) : cateScIndex == 1 && item.split('^')[5] != '0.0' ?
 //                                                     GestureDetector(
 //                                                       onTap: () {
-//                                                         print('Items'+item);
+//                                                         debugPrint('Items'+item);
 //                                                         Navigator.push(
 //                                                           context,
 //                                                           MaterialPageRoute(
@@ -1005,7 +1005,7 @@
 //                                                     ) :
 //                                                     cateScIndex == 2 && item.split('^')[4] != 'FALSE' ? GestureDetector(
 //                                                       onTap: () {
-//                                                         print('Items'+item);
+//                                                         debugPrint('Items'+item);
 //                                                         Navigator.push(
 //                                                           context,
 //                                                           MaterialPageRoute(
@@ -1237,7 +1237,7 @@
 //                                                     ) :
 //                                                     cateScIndex == 3 && item.split('^')[5] == '0.0' ? GestureDetector(
 //                                                       onTap: () {
-//                                                         print('Items'+item);
+//                                                         debugPrint('Items'+item);
 //                                                         Navigator.push(
 //                                                           context,
 //                                                           MaterialPageRoute(
@@ -1547,7 +1547,7 @@
 //
 //   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
 //     ExampleSection section = sectionList3[sectionIndex];
-//     // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+//     // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
 //     if(sectionList3[sectionIndex].items.length == 0) {
 //       return Container();
 //     }
@@ -1863,7 +1863,7 @@
 //   }
 //
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {

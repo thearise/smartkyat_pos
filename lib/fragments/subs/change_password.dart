@@ -432,20 +432,20 @@ Widget build(BuildContext context) {
                               //             user.updatePassword(_newPassword.text)
                               //                 .then((success) {
                               //                   Navigator.pop(context);
-                              //               print('success changed');
+                              //               debugPrint('success changed');
                               //             }).catchError((error) {
                               //               setState(() {
                               //                 weak = ' Password must be 6 characters long';
                               //               });
                               //
-                              //               print('error changed');
+                              //               debugPrint('error changed');
                               //             });
                               //           }).catchError((err) {
                               //             setState(() {
                               //               current = ' Invalid current password';
                               //             });
                               //
-                              //             print('current password is wrong. ');
+                              //             debugPrint('current password is wrong. ');
                               //           });
                               //         }
                               //       },
@@ -520,7 +520,7 @@ Widget build(BuildContext context) {
                                                 });
                                                 Navigator.pop(context);
                                                 smartKyatFlash('You have successfully changed your password.', 's');
-                                                print('success changed');
+                                                debugPrint('success changed');
                                               }).catchError((error) {
                                                 setState(() {
                                                   weak = ' Password must be 6 characters long';
@@ -528,7 +528,7 @@ Widget build(BuildContext context) {
                                                   loadingState = false;
                                                 });
 
-                                                print('error changed');
+                                                debugPrint('error changed');
                                               });
                                             }).catchError((err) {
                                               setState(() {
@@ -537,7 +537,7 @@ Widget build(BuildContext context) {
                                                 loadingState = false;
                                               });
 
-                                              print('current password is wrong. ');
+                                              debugPrint('current password is wrong. ');
                                             });
                                           }
                                         } on SocketException catch (_) {

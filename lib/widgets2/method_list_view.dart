@@ -46,7 +46,7 @@ class MethodListView extends StatelessWidget {
                   final result = await InternetAddress.lookup('google.com');
                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                     await onSelectMethod(model);
-                    print('go on');
+                    debugPrint('go on');
                     Future.delayed(const Duration(milliseconds: 300), () {
                       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                     });
@@ -133,7 +133,7 @@ class MethodListView extends StatelessWidget {
                       );
                     },
                   );
-                  print('Internet connection');
+                  debugPrint('Internet connection');
                  // smartKyatFlash('Internet connection is required to take this action.', 'w');
                 }
 
