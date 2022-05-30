@@ -95,7 +95,7 @@
 //           });
 //         },
 //         verificationFailed: (FirebaseAuthException e) {
-//           print(e.message);
+//           debugPrint(e.message);
 //         },
 //         codeSent: (String verficationID, int? resendToken) {
 //           setState(() {

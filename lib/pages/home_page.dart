@@ -53,19 +53,19 @@
 //   int routeIndex = 0;
 //   @override
 //   void initState() {
-//     print('user ' + FirebaseAuth.instance.currentUser!.uid);
-//     print('newUserCheck ' + newUserCheck(FirebaseAuth.instance.currentUser!.uid).toString());
+//     debugPrint('user ' + FirebaseAuth.instance.currentUser!.uid);
+//     debugPrint('newUserCheck ' + newUserCheck(FirebaseAuth.instance.currentUser!.uid).toString());
 //
 //     // setStoreId('PucvhZDuUz3XlkTgzcjb').then((String result) {
 //     //   getStoreId().then((String result2) {
-//     //     print('store id ' + result2.toString());
+//     //     debugPrint('store id ' + result2.toString());
 //     //   });
-//     //   print('resutl');
+//     //   debugPrint('resutl');
 //     // });
 //     store = getStoreId();
 //
 //
-//     // print('store id ' + ());
+//     // debugPrint('store id ' + ());
 //
 //
 //     FirebaseFirestore.instance
@@ -74,9 +74,9 @@
 //         .get()
 //         .then((DocumentSnapshot documentSnapshot) {
 //       if (documentSnapshot.exists) {
-//         print('exits ');
+//         debugPrint('exits ');
 //       } else {
-//         print('no exits ');
+//         debugPrint('no exits ');
 //       }
 //     });
 //     super.initState();
@@ -96,7 +96,7 @@
 //           //     .doc(dateId).update({
 //           //   'daily_order': FieldValue.arrayUnion([now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString()+'~'+length.toString()])
 //           // }).then((value) {
-//           //   print('User updated');
+//           //   debugPrint('User updated');
 //           //   setState(() {
 //           //     orderLoading = false;
 //           //   });
@@ -118,7 +118,7 @@
 //             })
 //                 .then((value) {
 //               deviceIdNum = length+1;
-//               print('order added');
+//               debugPrint('order added');
 //             });
 //           });
 //
@@ -143,7 +143,7 @@
 //   Future<String> setStoreId(storeId) async {
 //     SharedPreferences prefs = await SharedPreferences.getInstance();
 //     // int counter = (prefs.getInt('counter') ?? 0) + 1;
-//     // print('Pressed $counter times.');
+//     // debugPrint('Pressed $counter times.');
 //     prefs.setString('store', storeId).then((bool success) {
 //       return 'success store saved';
 //     });
@@ -155,7 +155,7 @@
 //     // return(prefs.getString('store'));
 //
 //     var index = prefs.getString('store');
-//     print(index);
+//     debugPrint(index);
 //     if(index == null) {
 //       return 'idk';
 //     } else {
@@ -170,9 +170,9 @@
 //         .get()
 //         .then((DocumentSnapshot documentSnapshot) {
 //       if (documentSnapshot.exists) {
-//         print('here exits ');
+//         debugPrint('here exits ');
 //       } else {
-//         print('here no exits ');
+//         debugPrint('here no exits ');
 //       }
 //     });
 //   }
@@ -186,7 +186,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //
-//     print(MediaQuery.of(context).size.width.toString());
+//     debugPrint(MediaQuery.of(context).size.width.toString());
 //     List<Widget> drawerOptions = [];
 //     for (var i = 0; i < widget.drawerItems.length; i++) {
 //       var d = widget.drawerItems[i];
@@ -998,7 +998,7 @@
 //                                   orderLoading = true;
 //                                 });
 //
-//                                 print('order creating');
+//                                 debugPrint('order creating');
 //
 //
 //                                 FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
@@ -1032,7 +1032,7 @@
 //                                               .doc(dateId).update({
 //                                             'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'])
 //                                           }).then((value) {
-//                                             print('User updated');
+//                                             debugPrint('User updated');
 //                                             setState(() {
 //                                               orderLoading = false;
 //                                             });
@@ -1045,7 +1045,7 @@
 //                                               'subs': ['name'],
 //                                             })
 //                                                 .then((value) {
-//                                               print('order added');
+//                                               debugPrint('order added');
 //                                             });
 //                                           });
 //                                         } else {
@@ -1055,7 +1055,7 @@
 //                                             'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
 //                                           })
 //                                           .then((value) {
-//                                             print('order added');
+//                                             debugPrint('order added');
 //
 //
 //                                             FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
@@ -1065,7 +1065,7 @@
 //                                               'subs': ['name'],
 //                                             })
 //                                                 .then((value) {
-//                                               print('order added');
+//                                               debugPrint('order added');
 //                                             });
 //                                           });
 //                                         }
@@ -1111,7 +1111,7 @@
 //                           child: GestureDetector(
 //                             onTap: () {
 //                               DateTime now = DateTime.now();
-//                               print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
+//                               debugPrint(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
 //
 //                             },
 //                             child: Padding(
@@ -1164,13 +1164,13 @@
 //                     //     caption: 'Archive',
 //                     //     color: Colors.blue,
 //                     //     icon: Icons.archive,
-//                     //     onTap: () => print('Archive'),
+//                     //     onTap: () => debugPrint('Archive'),
 //                     //   ),
 //                     //   IconSlideAction(
 //                     //     caption: 'Share',
 //                     //     color: Colors.indigo,
 //                     //     icon: Icons.share,
-//                     //     onTap: () => print('Share'),
+//                     //     onTap: () => debugPrint('Share'),
 //                     //   ),
 //                     // ],
 //                     dismissal: SlidableDismissal(
@@ -1184,7 +1184,7 @@
 //                         caption: 'Delete',
 //                         color: Colors.red,
 //                         icon: Icons.delete,
-//                         onTap: () => print('Delete'),
+//                         onTap: () => debugPrint('Delete'),
 //                       ),
 //                     ],
 //                   )
@@ -1250,7 +1250,7 @@
 //                         ScaffoldMessenger.of(context).showSnackBar(
 //                           const SnackBar(content: Text('Processing Data')),
 //                         );
-//                         // print(prodFieldsValue);
+//                         // debugPrint(prodFieldsValue);
 //
 //                         CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
 //                         orders
@@ -1258,7 +1258,7 @@
 //                           'cust_name': 'U Pyaung'
 //                         })
 //                             .then((value) {
-//                           print('order added');
+//                           debugPrint('order added');
 //
 //                           FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 //                           // FirebaseFirestore.instance.collection('space')
@@ -1277,8 +1277,8 @@
 //                               FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 //                                   .doc(doc.id)
 //                                   .update({'data': doc['data']+'^U Pyaung~'+value.id})
-//                                   .then((value) => print("User Updated"))
-//                                   .catchError((error) => print("Failed to update user: $error"));
+//                                   .then((value) => debugPrint("User Updated"))
+//                                   .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                             });
 //
@@ -1359,7 +1359,7 @@
 //     setState(() {
 //       prodList.add(data);
 //     });
-//     // print(data);
+//     // debugPrint(data);
 //   }
 //
 //

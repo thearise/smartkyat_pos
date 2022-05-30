@@ -187,7 +187,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     //     searchValue = _searchController.text;
     //   });
     //   searchKeyChanged();
-    //   print(searchValue);
+    //   debugPrint(searchValue);
     // });
     // subTabController = TabController(length: 3, vsync: this);
     // slidingSearchCont();
@@ -254,7 +254,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -278,17 +278,17 @@ class OrdersFragmentState extends State<OrdersFragment>
   slidingSearchCont() {
 
     if(slidingSearch == 0) {
-      print('gg0');
+      debugPrint('gg0');
       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 1) {
-      print('gg1');
+      debugPrint('gg1');
       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 2) {
-      print('gg2');
+      debugPrint('gg2');
       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
@@ -303,14 +303,14 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -338,10 +338,10 @@ class OrdersFragmentState extends State<OrdersFragment>
   //         ;
   //       }
   //     }
-  //     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+  //     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
   //   }).toList();
   //
-  //   // print('changeData ' + snpsht.da);
+  //   // debugPrint('changeData ' + snpsht.da);
   //   return list;
   // }
   //
@@ -370,10 +370,10 @@ class OrdersFragmentState extends State<OrdersFragment>
   //         ;
   //       }
   //     }
-  //     // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+  //     // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
   //   }).toList();
   //
-  //   // print('changeData ' + snpsht.da);
+  //   // debugPrint('changeData ' + snpsht.da);
   //   return list;
   // }
   //
@@ -639,12 +639,12 @@ class OrdersFragmentState extends State<OrdersFragment>
   //         if(searchValue.contains('-')) {
   //           searchValue = searchValue.split('-')[1];
   //         }
-  //         print('hereeee');
+  //         debugPrint('hereeee');
   //         sectionList2 = List<ExampleSection>.empty(growable: true);
   //
   //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
   //
-  //         print("search " + searchValue);
+  //         debugPrint("search " + searchValue);
   //         String max = searchValue;
   //         // sectionList = [];
   //         List detailIdList = [];
@@ -672,7 +672,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //             .limit(1)
   //             .get()
   //             .then((QuerySnapshot querySnapshot1) {
-  //           print('leng ' + querySnapshot1.docs.length.toString());
+  //           debugPrint('leng ' + querySnapshot1.docs.length.toString());
   //           if(querySnapshot1.docs.length == 0) {
   //             setState(() {
   //               detailIdList = [];
@@ -689,7 +689,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                 //   ..items = detailIdList.cast<String>()
   //                 //   ..expanded = true;
   //
-  //                 print('buy ord ' + detailIdList.length.toString());
+  //                 debugPrint('buy ord ' + detailIdList.length.toString());
   //                 sections.add(saleOrders);
   //                 // sections.add(buyOrders);
   //                 sectionList2 = sections;
@@ -740,7 +740,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                   //   ..items = detailIdList.cast<String>()
   //                   //   ..expanded = true;
   //
-  //                   print('buy ord ' + detailIdList.length.toString());
+  //                   debugPrint('buy ord ' + detailIdList.length.toString());
   //                   sections.add(saleOrders);
   //                   // sections.add(buyOrders);
   //                   sectionList2 = sections;
@@ -758,12 +758,12 @@ class OrdersFragmentState extends State<OrdersFragment>
   //         if(searchValue.contains('-')) {
   //           searchValue = searchValue.split('-')[1];
   //         }
-  //         print('hereeee');
+  //         debugPrint('hereeee');
   //         sectionList2 = List<ExampleSection>.empty(growable: true);
   //
   //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
   //
-  //         print("search " + searchValue);
+  //         debugPrint("search " + searchValue);
   //         String max = searchValue;
   //         // sectionList = [];
   //         List detailIdList = [];
@@ -791,7 +791,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //             .limit(1)
   //             .get()
   //             .then((QuerySnapshot querySnapshot1) {
-  //           print('leng ' + querySnapshot1.docs.length.toString());
+  //           debugPrint('leng ' + querySnapshot1.docs.length.toString());
   //           if(querySnapshot1.docs.length == 0) {
   //             setState(() {
   //               detailIdList = [];
@@ -808,7 +808,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                 //   ..items = detailIdList.cast<String>()
   //                 //   ..expanded = true;
   //
-  //                 print('buy ord ' + detailIdList.length.toString());
+  //                 debugPrint('buy ord ' + detailIdList.length.toString());
   //                 sections.add(saleOrders);
   //                 // sections.add(buyOrders);
   //                 sectionList2 = sections;
@@ -859,7 +859,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                   //   ..items = detailIdList.cast<String>()
   //                   //   ..expanded = true;
   //
-  //                   print('buy ord ' + detailIdList.length.toString());
+  //                   debugPrint('buy ord ' + detailIdList.length.toString());
   //                   sections.add(saleOrders);
   //                   // sections.add(buyOrders);
   //                   sectionList2 = sections;
@@ -917,7 +917,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //               items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
   //             });
   //
-  //             // print(doc['prod_name'].toString());
+  //             // debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -946,7 +946,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //               items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
   //             });
   //
-  //             // print(doc['prod_name'].toString());
+  //             // debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -1022,7 +1022,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                   doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
   //             });
   //
-  //             print(doc['prod_name'].toString());
+  //             debugPrint(doc['prod_name'].toString());
   //           }
   //         });
   //
@@ -1416,8 +1416,8 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                                                             //           } else
   //                                                             //             return Container();
   //                                                             //         }).toList();
-  //                                                             //         // print(sub1Quantity);
-  //                                                             //         // print(mainQuantity);
+  //                                                             //         // debugPrint(sub1Quantity);
+  //                                                             //         // debugPrint(mainQuantity);
   //                                                             //         if (sub3Quantity !=
   //                                                             //             null) {
   //                                                             //           return Text(
@@ -2286,7 +2286,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                                   if(item.split('^')[7] == 'b') {
   //                                     return GestureDetector(
   //                                       onTap: () {
-  //                                         // print(item.split('^')[1]);
+  //                                         // debugPrint(item.split('^')[1]);
   //                                         Navigator.push(
   //                                           context,
   //                                           MaterialPageRoute(
@@ -2517,7 +2517,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                                   } else {
   //                                     return GestureDetector(
   //                                       onTap: () {
-  //                                         // print(item.split('^')[1]);
+  //                                         // debugPrint(item.split('^')[1]);
   //                                         Navigator.push(
   //                                           context,
   //                                           MaterialPageRoute(
@@ -3241,8 +3241,8 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                         //                                 //           } else
   //                         //                                 //             return Container();
   //                         //                                 //         }).toList();
-  //                         //                                 //         // print(sub1Quantity);
-  //                         //                                 //         // print(mainQuantity);
+  //                         //                                 //         // debugPrint(sub1Quantity);
+  //                         //                                 //         // debugPrint(mainQuantity);
   //                         //                                 //         if (sub3Quantity !=
   //                         //                                 //             null) {
   //                         //                                 //           return Text(
@@ -3553,7 +3553,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   //                         //       }
   //                         //       return GestureDetector(
   //                         //         onTap: () {
-  //                         //           print('Items'+item);
+  //                         //           debugPrint('Items'+item);
   //                         //           // Navigator.push(
   //                         //           //   context,
   //                         //           //   MaterialPageRoute(
@@ -3879,7 +3879,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                 if(snapshot.hasData) {
                                   var sections = List<ExampleSection>.empty(growable: true);
                                   int docInc = 0;
-                                  print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
+                                  debugPrint('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
                                   snapshot.data!.docs.map((document) async {
 
                                     // List<String> dailyOrders = document['daily_order'].cast<String>();
@@ -3925,7 +3925,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                       }
 
 
-                                      print('DATA LOW ' + dataLow['date'].toDate().toString());
+                                      debugPrint('DATA LOW ' + dataLow['date'].toDate().toString());
                                       if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
                                           ==
                                           dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
@@ -3945,7 +3945,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         // sections.add(section);
                                         sections[sections.length-1] = section;
                                       } else {
-                                        // print('herre ' + document.id);
+                                        // debugPrint('herre ' + document.id);
                                         var section = ExampleSection()
                                           ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
                                         // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -3960,7 +3960,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         sections.add(section);
                                       }
                                     } else {
-                                      // print('herre ' + document.id);
+                                      // debugPrint('herre ' + document.id);
                                       var section = ExampleSection()
                                         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
                                       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -4205,7 +4205,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                               return GestureDetector(
                                                 onTap: () async {
                                                   closeDrawerFrom();
-                                                  // print(item.split('^')[1]);
+                                                  // debugPrint(item.split('^')[1]);
                                                   await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -4443,7 +4443,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                             return GestureDetector(
                                               onTap: () async {
                                                 closeDrawerFrom();
-                                                print('Items'+item);
+                                                debugPrint('Items'+item);
                                                 await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -4830,7 +4830,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -4850,7 +4850,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   checkTest(String input) {
-    print("CHECK TEST " + input);
+    debugPrint("CHECK TEST " + input);
   }
 
   convertToAMPM(String input){
@@ -5108,7 +5108,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
     }
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -5135,10 +5135,10 @@ class OrdersFragmentState extends State<OrdersFragment>
           ;
         }
       }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+      // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
     }).toList();
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -5160,10 +5160,10 @@ class OrdersFragmentState extends State<OrdersFragment>
               list[i].split('^')[4];
         }
       }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+      // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
     }).toList();
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -5178,7 +5178,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
-    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
     }
@@ -5267,11 +5267,11 @@ class OrdersFragmentState extends State<OrdersFragment>
   //   //   });
   //   //
   //   // }).then((value) {
-  //   //   // print('here ' + temp.toString());
+  //   //   // debugPrint('here ' + temp.toString());
   //   //   //return temp;
   //   //   // return gloTemp;
   //   // });
-  //   // print('here2 ' + temp.toString());
+  //   // debugPrint('here2 ' + temp.toString());
   //   // return gloTemp;
   //
   //
@@ -5368,7 +5368,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
                                       )
                                     ],
@@ -5420,12 +5420,12 @@ class OrdersFragmentState extends State<OrdersFragment>
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -5457,7 +5457,7 @@ class OrdersFragmentState extends State<OrdersFragment>
       endDateOfMonth = '31';
     }
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-    print('DDDDD ' + yearStart.toString());
+    debugPrint('DDDDD ' + yearStart.toString());
     return yearStart;
   }
 
@@ -5469,13 +5469,13 @@ class OrdersFragmentState extends State<OrdersFragment>
     DateTime notTday = today;
     notTday = today;
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
-    print('DDDDDD ' + yearStart.toString());
+    debugPrint('DDDDDD ' + yearStart.toString());
     return yearStart;
 
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -5574,7 +5574,7 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-// print(item.split('^')[0].substring(0,8));
+// debugPrint(item.split('^')[0].substring(0,8));
 // var dateId = '';
 // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 // // FirebaseFirestore.instance.collection('space')
@@ -5589,7 +5589,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // 'daily_order': FieldValue.arrayRemove([item])
 // })
 //     .then((value) {
-// print('array removed');
+// debugPrint('array removed');
 //
 // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
 //
@@ -5597,7 +5597,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // })
 //     .then((value) {
-// print('array updated');
+// debugPrint('array updated');
 // });
 //
 //
@@ -5608,7 +5608,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // })
 // //     .then((value) {
-// //   print('array updated');
+// //   debugPrint('array updated');
 // // });
 // // 2021081601575511001^1-1001^total^name^pf
 //

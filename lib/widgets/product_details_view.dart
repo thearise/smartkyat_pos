@@ -337,7 +337,7 @@
 //     });
 //     _controller = new TabController(length: 3, vsync: this);
 //     _controller.addListener((){
-//       print('my index is'+ _controller.index.toString());
+//       debugPrint('my index is'+ _controller.index.toString());
 //       if(_controller.index.toString()=='1') {
 //         setState(() {
 //           _sliding = 1;
@@ -461,7 +461,7 @@
 //                   subLink.add(output?['sub' + (i+1).toString() + '_link']);
 //                   subName.add(output?['sub' + (i+1).toString() + '_name']);
 //                 }
-//                 print(subSell.toString() + subLink.toString() + subName.toString());
+//                 debugPrint(subSell.toString() + subLink.toString() + subName.toString());
 //                 return StreamBuilder(
 //                     stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('users')
 //                         .where('email', isEqualTo: auth.currentUser!.email.toString())
@@ -891,7 +891,7 @@
 //                                                         //   for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
 //                                                         //     subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
 //                                                         //     subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-//                                                         //     print('inStock' + (i+1).toString());
+//                                                         //     debugPrint('inStock' + (i+1).toString());
 //                                                         //     subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
 //                                                         //   }
 //                                                         // }
@@ -925,31 +925,31 @@
 //                                                         // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
 //                                                         //   buyPrice = value.data()![buyPriceUnit].toString();
 //                                                         //
-//                                                         //   print("SHOP ID " + widget.shopId + ' ' + prodID.split('-')[0]);
+//                                                         //   debugPrint("SHOP ID " + widget.shopId + ' ' + prodID.split('-')[0]);
 //                                                         //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit)
 //                                                         //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
 //                                                         //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
 //                                                         //       .get()
 //                                                         //       .then((QuerySnapshot qsNew)  async {
 //                                                         //
-//                                                         //     print("LENGTH " + qsNew.docs.length.toString());
+//                                                         //     debugPrint("LENGTH " + qsNew.docs.length.toString());
 //                                                         //
 //                                                         //     qsNew.docs.forEach((doc) {
 //                                                         //       dateExist = true;
 //                                                         //       dateId = doc.id;
-//                                                         //       print('UNIT ' + doc.id.toString());
+//                                                         //       debugPrint('UNIT ' + doc.id.toString());
 //                                                         //     });
 //                                                         //
-//                                                         //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
-//                                                         //     print('dick exist - > ' + dateExist.toString());
+//                                                         //     debugPrint('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
+//                                                         //     debugPrint('dick exist - > ' + dateExist.toString());
 //                                                         //     CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit);
 //                                                         //     //
 //                                                         //     if(dateExist){
 //                                                         //       lossProduct.doc(dateId).update({
 //                                                         //         'count': FieldValue.increment(double.parse(amount[0].toString())),
 //                                                         //         'buy_price': buyPrice,
-//                                                         //       }).then((value) => print("User Updated"))
-//                                                         //           .catchError((error) => print("Failed to update dateexist: $error"));
+//                                                         //       }).then((value) => debugPrint("User Updated"))
+//                                                         //           .catchError((error) => debugPrint("Failed to update dateexist: $error"));
 //                                                         //     }
 //                                                         //     else {
 //                                                         //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
@@ -961,9 +961,9 @@
 //                                                         //         'buy_price': buyPrice,
 //                                                         //         'date': now,
 //                                                         //       }).then((value) =>
-//                                                         //           print("User Updated"))
+//                                                         //           debugPrint("User Updated"))
 //                                                         //           .catchError((error) =>
-//                                                         //           print(
+//                                                         //           debugPrint(
 //                                                         //               "Failed to update datenotexist: $error"));
 //                                                         //     }
 //                                                         //   });
@@ -1019,7 +1019,7 @@
 //                                           //               MaterialPageRoute(
 //                                           //                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: openCartFrom,)));
 //                                           //           widget._openCartBtn();
-//                                           //           print('result check ' + result.toString());
+//                                           //           debugPrint('result check ' + result.toString());
 //                                           //         },
 //                                           //         child: Text(
 //                                           //           'EDIT',
@@ -1068,7 +1068,7 @@
 //                                                               MaterialPageRoute(
 //                                                                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
 //                                                           widget._openCartBtn();
-//                                                           print('result check ' + result.toString());
+//                                                           debugPrint('result check ' + result.toString());
 //                                                         },
 //                                                         child: Padding(
 //                                                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -2170,7 +2170,7 @@
 //                                                               }).then((value) {
 //                                                                 Navigator.pop(context);
 //                                                                 smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
-//                                                               }).catchError((error) => print("Failed to update: $error"));
+//                                                               }).catchError((error) => debugPrint("Failed to update: $error"));
 //
 //                                                             }
 //                                                           });
@@ -2323,37 +2323,37 @@
 // // }
 //
 // // Future<void> addDateExist(prodId, unit , buyPrice, amount, date) async {
-// //   print('CHECKING PRODSALE ORD');
+// //   debugPrint('CHECKING PRODSALE ORD');
 // //   CollectionReference lossProduct = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID).collection(unit);
 // //   lossProduct.doc(date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString())+ '0' + deviceIdNum).update({
 // //     'count': FieldValue.increment(double.parse(amount.toString())),
 // //     'buy_price': buyPrice,
-// //   }).then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //   }).then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 //
 // // Future<void> decStockFromInv(id, unit, num) async {
 // //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 // //
-// //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+// //   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 // //
 // //   users
 // //       .doc(id)
 // //       .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-// //       .then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //       .then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 // //
 // // Future<void> incStockFromInv(id, unit, num) async {
 // //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 // //
-// //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+// //   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 // //
 // //   users
 // //       .doc(id)
 // //       .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-// //       .then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //       .then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 // //
 // // Future<void> sub1Execution(subStock, subLink, id, num) async {

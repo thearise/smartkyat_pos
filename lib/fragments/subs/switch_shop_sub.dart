@@ -68,7 +68,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -96,7 +96,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
       });
 
       if(exist) {
-        print('space shi p thar');
+        debugPrint('space shi p thar');
 
         FirebaseFirestore.instance
             .collection('space').doc(docId).collection('shops')
@@ -108,7 +108,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
           });
 
           if(shopExist) {
-            print('shop already');
+            debugPrint('shop already');
 
           } else {
             CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -117,14 +117,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
               'shop_name': shopName
             })
                 .then((value) {
-              print('shop added');
+              debugPrint('shop added');
             });
           }
         });
 
 
       } else {
-        print('space mshi vuu');
+        debugPrint('space mshi vuu');
         return spaces
             .add({
           'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -137,10 +137,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
             'shop_name': shopName
           })
               .then((value) {
-            print('shop added');
+            debugPrint('shop added');
           });
 
-        }).catchError((error) => print("Failed to add shop: $error"));
+        }).catchError((error) => debugPrint("Failed to add shop: $error"));
       }
     });
   }
@@ -244,7 +244,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                           .snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if(snapshot.hasData) {
-                        // print(snapshot.data!.docs.length);
+                        // debugPrint(snapshot.data!.docs.length);
                         int ownShopsCount = 0;
                         for(int i = 0; i < snapshot.data!.docs.length; i++) {
                           if(i == 0) {
@@ -255,7 +255,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                             ownShopsCount++;
                           }
                         }
-                        print('Own shop count ' + ownShopsCount.toString());
+                        debugPrint('Own shop count ' + ownShopsCount.toString());
                         var index = 0;
                         return Expanded(
                           child: Column(
@@ -279,7 +279,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUsers) {
                                     if(snapshotUsers.hasData) {
                                       Map<String, dynamic> userData = snapshotUsers.data!.docs[0].data()! as Map<String, dynamic>;
-                                      print('userdocument ' + userData['plan_type'].toString());
+                                      debugPrint('userdocument ' + userData['plan_type'].toString());
                                       if(userData['plan_type'] == 'basic' && ownShopsCount >= 5) {
                                         return Container();
                                       } else if(userData['plan_type'] == 'medium' && ownShopsCount >= 10) {
@@ -439,18 +439,18 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                     defaultType: OkCancelAlertDefaultType.cancel,
                                                   ).then((result) async {
                                                     if(result == OkCancelResult.ok) {
+                                                      var _val = value;
                                                       homePageLoadingOn();
                                                       setState(() {
-                                                        _result = value;
                                                         _shop= data['shop_name'];
-                                                        print(_result);
+                                                        debugPrint(_result);
                                                       });
 
-                                                      if(_result != null) {
-                                                        await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                                      if(_val != null) {
+                                                        await FirebaseFirestore.instance.collection('shops').doc(_val.toString())
                                                         // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
                                                             .get().then((value2) async {
-                                                          print('got it 2');
+                                                          debugPrint('got it 2');
                                                           var isPro = value2.data()!['is_pro'];
                                                           String shopName = value2.data()!['shop_name'];
                                                           Timestamp isProStart = isPro['start'];
@@ -459,10 +459,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                                           DateTime startDate = isProStart.toDate();
                                                           DateTime endDate = isProEnd.toDate();
-
                                                           DateTime nowCheck = DateTime.now();
 
                                                           if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                                            homePageLoadingOff();
                                                             Future.delayed(const Duration(milliseconds: 500), () {
                                                               smartKyatFlash('$shopName shop pro version ended', 'e');
                                                               // setState(() {
@@ -470,7 +470,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                               // });
                                                             });
                                                           } else {
-                                                            print('working here ');
+                                                            setState(() {
+                                                              _result = _val.toString();
+                                                            });
+                                                            debugPrint('working here ');
                                                             if(ownerId == FirebaseAuth.instance.currentUser!.uid) {
                                                               await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
                                                                 'email': FirebaseAuth.instance.currentUser!.email,
@@ -483,14 +486,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                     .doc(FirebaseAuth.instance.currentUser!.email).get().then((userEmailSnap) async {
                                                                   if(userEmailSnap.exists) {
                                                                     if(userEmailSnap.exists) {
-                                                                      print('working here 1');
+                                                                      debugPrint('working here 1');
                                                                       await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
                                                                         'email': FirebaseAuth.instance.currentUser!.email,
                                                                         'role': userEmailSnap.data()!['role']
                                                                       }).then((value4) async {
-                                                                        print('working here 2');
+                                                                        debugPrint('working here 2');
                                                                         _getId().then((value1) async {
-                                                                          print('IDD ' + value1.toString());
+                                                                          debugPrint('IDD ' + value1.toString());
                                                                           WriteBatch batch = FirebaseFirestore.instance.batch();
 
                                                                           batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
@@ -503,7 +506,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                                                           try {
                                                                             batch.commit();
-                                                                            print('whating? what ');
+                                                                            debugPrint('whating? what ');
                                                                             // FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl').doc('ordsCnt')
                                                                             //     .get().then((value) async {
                                                                             //
@@ -513,7 +516,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                             FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl')
                                                                                 .get()
                                                                                 .then((QuerySnapshot cntQuery)  async {
-                                                                              print('count checking ' + cntQuery.toString());
+                                                                              debugPrint('count checking ' + cntQuery.toString());
                                                                               cntQuery.docs.forEach((doc) {
                                                                                 try{
                                                                                   if(doc['count'] == null) {
@@ -521,17 +524,17 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                                   } else {
                                                                                     cntColFetch[loop] = doc['count'].toString();
                                                                                   }
-                                                                                  print('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
+                                                                                  debugPrint('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
                                                                                 } catch(error) {
                                                                                   cntColFetch[loop] = 'null';
-                                                                                  print('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
+                                                                                  debugPrint('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
                                                                                 }
 
 
 
                                                                                 if(loop == 4) {
-                                                                                  print('cntColFetch 3 ' + cntColFetch.toString());
-                                                                                  print('checking cond ' + cntColFetch.contains('1').toString());
+                                                                                  debugPrint('cntColFetch 3 ' + cntColFetch.toString());
+                                                                                  debugPrint('checking cond ' + cntColFetch.contains('1').toString());
                                                                                   if(cntColFetch.contains('') || cntColFetch.contains('null')) {
                                                                                     smartKyatFlash('Something went wrong. Please try again later', 'e');
                                                                                     // setState(() {
@@ -544,14 +547,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                                     int? deviceIdNum;
                                                                                     for(int i = 0; i < devicesList.length; i++) {
                                                                                       if(devicesList[i] == value1.toString()) {
-                                                                                        print('DV LIST 54' + devicesList[i].toString());
+                                                                                        debugPrint('DV LIST 54' + devicesList[i].toString());
                                                                                         setState(() {
                                                                                           deviceIdNum = i;
-                                                                                          print('DV LIST 2 32' + deviceIdNum.toString());
+                                                                                          debugPrint('DV LIST 2 32' + deviceIdNum.toString());
                                                                                         });
                                                                                       }
                                                                                     }
-                                                                                    print('vola');
+                                                                                    debugPrint('vola');
                                                                                     showOkAlertDialog(
                                                                                         context: context,
                                                                                         title: 'Restart required',
@@ -570,7 +573,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                                                             });
 
-                                                                            print('cntColFetch ' + cntColFetch.toString());
+                                                                            debugPrint('cntColFetch ' + cntColFetch.toString());
 
 
                                                                           } catch (error) {
@@ -580,20 +583,20 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                           // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
                                                                           //   'devices': FieldValue.arrayUnion([value1.toString()]),
                                                                           // }).then((value3) async {
-                                                                          //   print('got it 1');
+                                                                          //   debugPrint('got it 1');
                                                                           //
-                                                                          //   print('got it 3');
+                                                                          //   debugPrint('got it 3');
                                                                           //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
                                                                           //       .where('email', isEqualTo: auth.currentUser!.email)
                                                                           //       .get()
                                                                           //       .then((QuerySnapshot querySnapshot) async {
-                                                                          //     print('got it 4');
-                                                                          //     print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                          //     debugPrint('got it 4');
+                                                                          //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
                                                                           //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
                                                                           //       // 'device0': FieldValue.arrayUnion([await _getId()]),
                                                                           //       'device0': await _getId(),
                                                                           //     }).then((value3) async {
-                                                                          //       print('whating? what ');
+                                                                          //       debugPrint('whating? what ');
                                                                           //
                                                                           //
                                                                           //       setStoreId(_result);
@@ -601,10 +604,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                           //       int? deviceIdNum;
                                                                           //       for(int i = 0; i < devicesList.length; i++) {
                                                                           //         if(devicesList[i] == value1.toString()) {
-                                                                          //           print('DV LIST ' + devicesList[i].toString());
+                                                                          //           debugPrint('DV LIST ' + devicesList[i].toString());
                                                                           //           setState(() {
                                                                           //             deviceIdNum = i;
-                                                                          //             print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                          //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
                                                                           //           });
                                                                           //         }
                                                                           //       }
@@ -632,14 +635,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                   .doc(FirebaseAuth.instance.currentUser!.email).get().then((userEmailSnap) async {
                                                                 if(userEmailSnap.exists) {
                                                                   if(userEmailSnap.exists) {
-                                                                    print('working here 1');
+                                                                    debugPrint('working here 1');
                                                                     FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
                                                                       'email': FirebaseAuth.instance.currentUser!.email,
                                                                       'role': userEmailSnap.data()!['role']
                                                                     }).then((value4) async {
-                                                                      print('working here 2');
+                                                                      debugPrint('working here 2');
                                                                       _getId().then((value1) async {
-                                                                        print('IDD ' + value1.toString());
+                                                                        debugPrint('IDD ' + value1.toString());
                                                                         WriteBatch batch = FirebaseFirestore.instance.batch();
 
                                                                         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
@@ -652,7 +655,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                                                         try {
                                                                           batch.commit();
-                                                                          print('whating? what ');
+                                                                          debugPrint('whating? what ');
                                                                           // FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl').doc('ordsCnt')
                                                                           //     .get().then((value) async {
                                                                           //
@@ -662,7 +665,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                           FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl')
                                                                               .get()
                                                                               .then((QuerySnapshot cntQuery)  async {
-                                                                            print('count checking ' + cntQuery.toString());
+                                                                            debugPrint('count checking ' + cntQuery.toString());
                                                                             cntQuery.docs.forEach((doc) {
                                                                               try{
                                                                                 if(doc['count'] == null) {
@@ -670,17 +673,17 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                                 } else {
                                                                                   cntColFetch[loop] = doc['count'].toString();
                                                                                 }
-                                                                                print('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
+                                                                                debugPrint('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
                                                                               } catch(error) {
                                                                                 cntColFetch[loop] = 'null';
-                                                                                print('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
+                                                                                debugPrint('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
                                                                               }
 
 
 
                                                                               if(loop == 4) {
-                                                                                print('cntColFetch 3 ' + cntColFetch.toString());
-                                                                                print('checking cond ' + cntColFetch.contains('1').toString());
+                                                                                debugPrint('cntColFetch 3 ' + cntColFetch.toString());
+                                                                                debugPrint('checking cond ' + cntColFetch.contains('1').toString());
                                                                                 if(cntColFetch.contains('') || cntColFetch.contains('null')) {
                                                                                   smartKyatFlash('Something went wrong. Please try again later', 'e');
                                                                                   // setState(() {
@@ -693,14 +696,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                                   int? deviceIdNum;
                                                                                   for(int i = 0; i < devicesList.length; i++) {
                                                                                     if(devicesList[i] == value1.toString()) {
-                                                                                      print('DV LIST fewjail ' + devicesList[i].toString());
+                                                                                      debugPrint('DV LIST fewjail ' + devicesList[i].toString());
                                                                                       setState(() {
                                                                                         deviceIdNum = i;
-                                                                                        print('DV LIST 2 jfeia ' + deviceIdNum.toString());
+                                                                                        debugPrint('DV LIST 2 jfeia ' + deviceIdNum.toString());
                                                                                       });
                                                                                     }
                                                                                   }
-                                                                                  print('vola 3');
+                                                                                  debugPrint('vola 3');
                                                                                   showOkAlertDialog(
                                                                                       context: context,
                                                                                       title: 'Restart required',
@@ -719,7 +722,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                                                           });
 
-                                                                          print('cntColFetch ' + cntColFetch.toString());
+                                                                          debugPrint('cntColFetch ' + cntColFetch.toString());
 
 
                                                                         } catch (error) {
@@ -729,20 +732,20 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                         // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
                                                                         //   'devices': FieldValue.arrayUnion([value1.toString()]),
                                                                         // }).then((value3) async {
-                                                                        //   print('got it 1');
+                                                                        //   debugPrint('got it 1');
                                                                         //
-                                                                        //   print('got it 3');
+                                                                        //   debugPrint('got it 3');
                                                                         //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
                                                                         //       .where('email', isEqualTo: auth.currentUser!.email)
                                                                         //       .get()
                                                                         //       .then((QuerySnapshot querySnapshot) async {
-                                                                        //     print('got it 4');
-                                                                        //     print('shit ' + querySnapshot.docs[0].id.toString());
+                                                                        //     debugPrint('got it 4');
+                                                                        //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
                                                                         //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
                                                                         //       // 'device0': FieldValue.arrayUnion([await _getId()]),
                                                                         //       'device0': await _getId(),
                                                                         //     }).then((value3) async {
-                                                                        //       print('whating? what ');
+                                                                        //       debugPrint('whating? what ');
                                                                         //
                                                                         //
                                                                         //       setStoreId(_result);
@@ -750,10 +753,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                         //       int? deviceIdNum;
                                                                         //       for(int i = 0; i < devicesList.length; i++) {
                                                                         //         if(devicesList[i] == value1.toString()) {
-                                                                        //           print('DV LIST ' + devicesList[i].toString());
+                                                                        //           debugPrint('DV LIST ' + devicesList[i].toString());
                                                                         //           setState(() {
                                                                         //             deviceIdNum = i;
-                                                                        //             print('DV LIST 2 ' + deviceIdNum.toString());
+                                                                        //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
                                                                         //           });
                                                                         //         }
                                                                         //       }
@@ -773,27 +776,19 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                 }
                                                               });
                                                             }
-
-
-
-
-
-
-
-
                                                             // FirebaseFirestore.instance.runTransaction((transaction) async {
                                                             //   DocumentSnapshot userEmailSnap = await transaction.get(userDocEmail);
                                                             //   if(userEmailSnap.exists) {
                                                             //     // userEmailSnap.data()['role']
                                                             //     var role = userEmailSnap.data() != null? userEmailSnap.data()['role']: '';
-                                                            //     print('working here 1');
+                                                            //     debugPrint('working here 1');
                                                             //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
                                                             //       'email': auth.currentUser!.email,
                                                             //       'role':
                                                             //     }).then((value4) async {
-                                                            //       print('working here 2');
+                                                            //       debugPrint('working here 2');
                                                             //       _getId().then((value1) async {
-                                                            //         print('IDD ' + value1.toString());
+                                                            //         debugPrint('IDD ' + value1.toString());
                                                             //         WriteBatch batch = FirebaseFirestore.instance.batch();
                                                             //
                                                             //         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
@@ -805,7 +800,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                             //         });
                                                             //
                                                             //         batch.commit().then((value) {
-                                                            //           print('whating? what ');
+                                                            //           debugPrint('whating? what ');
                                                             //
                                                             //
                                                             //           setStoreId(_result);
@@ -813,10 +808,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                             //           int? deviceIdNum;
                                                             //           for(int i = 0; i < devicesList.length; i++) {
                                                             //             if(devicesList[i] == value1.toString()) {
-                                                            //               print('DV LIST ' + devicesList[i].toString());
+                                                            //               debugPrint('DV LIST ' + devicesList[i].toString());
                                                             //               setState(() {
                                                             //                 deviceIdNum = i;
-                                                            //                 print('DV LIST 2 ' + deviceIdNum.toString());
+                                                            //                 debugPrint('DV LIST 2 ' + deviceIdNum.toString());
                                                             //               });
                                                             //             }
                                                             //           }
@@ -832,20 +827,20 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                             //         // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
                                                             //         //   'devices': FieldValue.arrayUnion([value1.toString()]),
                                                             //         // }).then((value3) async {
-                                                            //         //   print('got it 1');
+                                                            //         //   debugPrint('got it 1');
                                                             //         //
-                                                            //         //   print('got it 3');
+                                                            //         //   debugPrint('got it 3');
                                                             //         //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
                                                             //         //       .where('email', isEqualTo: auth.currentUser!.email)
                                                             //         //       .get()
                                                             //         //       .then((QuerySnapshot querySnapshot) async {
-                                                            //         //     print('got it 4');
-                                                            //         //     print('shit ' + querySnapshot.docs[0].id.toString());
+                                                            //         //     debugPrint('got it 4');
+                                                            //         //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
                                                             //         //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
                                                             //         //       // 'device0': FieldValue.arrayUnion([await _getId()]),
                                                             //         //       'device0': await _getId(),
                                                             //         //     }).then((value3) async {
-                                                            //         //       print('whating? what ');
+                                                            //         //       debugPrint('whating? what ');
                                                             //         //
                                                             //         //
                                                             //         //       setStoreId(_result);
@@ -853,10 +848,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                             //         //       int? deviceIdNum;
                                                             //         //       for(int i = 0; i < devicesList.length; i++) {
                                                             //         //         if(devicesList[i] == value1.toString()) {
-                                                            //         //           print('DV LIST ' + devicesList[i].toString());
+                                                            //         //           debugPrint('DV LIST ' + devicesList[i].toString());
                                                             //         //           setState(() {
                                                             //         //             deviceIdNum = i;
-                                                            //         //             print('DV LIST 2 ' + deviceIdNum.toString());
+                                                            //         //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
                                                             //         //           });
                                                             //         //         }
                                                             //         //       }
@@ -1025,17 +1020,17 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                   //                                 setState(() {
                   //                                   _result = value;
                   //                                   _shop= data['shop_name'];
-                  //                                   print(_result);
+                  //                                   debugPrint(_result);
                   //                                 });
                   //                                 // setStoreId(_result);
                   //                                 // widget._chgShopCB3();
                   //
                   //                                 _getId().then((value1) async {
-                  //                                   print('IDD ' + value1.toString());
+                  //                                   debugPrint('IDD ' + value1.toString());
                   //                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update({
                   //                                     'devices': FieldValue.arrayUnion([value1.toString()]),
                   //                                   }).then((value3) async {
-                  //                                     print('done');
+                  //                                     debugPrint('done');
                   //                                     await FirebaseFirestore.instance.collection('shops').doc(_result)
                   //                                     // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
                   //                                         .get().then((value2) async {
@@ -1043,10 +1038,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                   //                                       int? deviceIdNum;
                   //                                       for(int i = 0; i < devicesList.length; i++) {
                   //                                         if(devicesList[i] == value1.toString()) {
-                  //                                           print('DV LIST ' + devicesList[i].toString());
+                  //                                           debugPrint('DV LIST ' + devicesList[i].toString());
                   //                                           setState(() {
                   //                                             deviceIdNum = i;
-                  //                                             print('DV LIST 2 ' + deviceIdNum.toString());
+                  //                                             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
                   //                                           });
                   //                                         }
                   //                                       }
@@ -1054,17 +1049,17 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                   //                                       setDeviceId(deviceIdNum.toString()).then((value) {
                   //                                         _getId().then((val) async {
                   //                                           String deviceId = val!;
-                  //                                           print('valuee ' + val.toString());
+                  //                                           debugPrint('valuee ' + val.toString());
                   //                                           await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
                   //                                               .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
                   //                                               .get()
                   //                                               .then((QuerySnapshot querySnapshot) async {
-                  //                                             print('shit ' + querySnapshot.docs[0].id.toString());
+                  //                                             debugPrint('shit ' + querySnapshot.docs[0].id.toString());
                   //                                             await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
                   //                                               // 'device0': FieldValue.arrayUnion([await _getId()]),
                   //                                               'device0': deviceId,
                   //                                             }).then((value3) async {
-                  //                                               print('done');
+                  //                                               debugPrint('done');
                   //                                               setStoreId(_result);
                   //                                               // if (Platform.isAndroid) {
                   //                                               //   SystemNavigator.pop();
@@ -1655,7 +1650,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
 
                                       )

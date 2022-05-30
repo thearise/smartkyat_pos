@@ -312,7 +312,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
                             child: TextFormField(
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                               controller: _shopName,
                               validator: (value) {
@@ -590,7 +590,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                             }).then((value) {
 
                                             })
-                                                .catchError((error) => print("Failed to update user: $error"));
+                                                .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                             shops.doc(value.id).collection('users_ver').doc(uid).set({
                                               'email': email.toString(),
@@ -599,7 +599,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                             }).then((value) {
 
                                             })
-                                                .catchError((error) => print("Failed to update user: $error"));
+                                                .catchError((error) => debugPrint("Failed to update user: $error"));
 
                                             addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
@@ -639,9 +639,9 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                                   exit(0);
                                                 }
                                               });
-                                              print('shop added');
+                                              debugPrint('shop added');
                                             } catch (error) {
-                                              print('shop adding error');
+                                              debugPrint('shop adding error');
                                               await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
                                               smartKyatFlash('Something went wrong while creating the shop', 'e');
                                               setState(() {

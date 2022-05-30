@@ -146,7 +146,7 @@ class _ProductInfoSubState extends State<ProductInfoSub>  with TickerProviderSta
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
 
                                       )

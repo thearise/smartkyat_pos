@@ -82,16 +82,16 @@
 //
 //   List<String> subList = [];
 //   testFunc() async {
-//     print('hi');
+//     debugPrint('hi');
 //     CollectionReference users = FirebaseFirestore.instance.collection('test');
 //
-//     print('gg ');
+//     debugPrint('gg ');
 //
 //     users
 //         .doc('TtWFXrDF1feBVlUTPyQr')
 //         .update({'double': FieldValue.increment(1)})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   testLoopData() {
@@ -168,20 +168,20 @@
 //       });
 //
 //       _getId().then((value1) async {
-//         print('IDD ' + value1.toString());
+//         debugPrint('IDD ' + value1.toString());
 //
 //
 //         // if(value2.data()!['devices'] == null) {
 //         //   FirebaseFirestore.instance.collection('shops').doc(shopId).update({
 //         //     'devices': FieldValue.arrayUnion([value1.toString()]),
 //         //   }).then((value3) async {
-//         //     print('User updated');
+//         //     debugPrint('User updated');
 //         //   });
 //         // }
 //         await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
 //           'devices': FieldValue.arrayUnion([value1.toString()]),
 //         }).then((value3) async {
-//           print('User updated');
+//           debugPrint('User updated');
 //           await FirebaseFirestore.instance.collection('shops').doc(shopId)
 //           // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
 //               .get().then((value2) async {
@@ -189,10 +189,10 @@
 //
 //             for(int i = 0; i < devicesList.length; i++) {
 //               if(devicesList[i] == value1.toString()) {
-//                 print('DV LIST ' + devicesList[i].toString());
+//                 debugPrint('DV LIST ' + devicesList[i].toString());
 //                 setState(() {
 //                   deviceIdNum = i;
-//                   print('DV LIST 2 ' + deviceIdNum.toString());
+//                   debugPrint('DV LIST 2 ' + deviceIdNum.toString());
 //                 });
 //               }
 //             }
@@ -202,7 +202,7 @@
 //     });
 //     _controller = new TabController(length: 4, vsync: this);
 //     _controller2 = new TabController(length: 3, vsync: this);
-//     print('home_page' + 'sub1'.substring(3,4));
+//     debugPrint('home_page' + 'sub1'.substring(3,4));
 //
 //
 //     slidableController = SlidableController(
@@ -298,7 +298,7 @@
 //   }
 //
 //   chgShopIdFromSetting() {
-//     // print('gg');
+//     // debugPrint('gg');
 //     homeGlobalKey.currentState!.chgShopIdFrmHomePage();
 //     prodGlobalKey.currentState!.chgShopIdFrmHomePage();
 //     bordGlobalKey.currentState!.chgShopIdFrmHomePage();
@@ -911,7 +911,7 @@
 //               .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
 //               .snapshots(),
 //           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//             print('current ' + FirebaseAuth.instance.currentUser.toString());
+//             debugPrint('current ' + FirebaseAuth.instance.currentUser.toString());
 //             if(snapshot.hasData) {
 //               List<bool> shopFound = [];
 //               getStoreId().then((value) async {
@@ -931,7 +931,7 @@
 //                 Map<String, dynamic> data = snapshot.data!.docs[loop]
 //                     .data()! as Map<String, dynamic>;
 //                 var shop_name = data['shop_name'];
-//                 print('SHOP LIST ' + shop_name);
+//                 debugPrint('SHOP LIST ' + shop_name);
 //                 getStoreId().then((value) async {
 //                   if(snapshot.data!.docs[loop].id == value) {
 //                     shopFound.add(true);
@@ -939,7 +939,7 @@
 //                     shopFound.add(false);
 //                   }
 //                   if(loop == snapshot.data!.docs.length-1) {
-//                     print('SHOP LIST LIST ' + shopFound.toString());
+//                     debugPrint('SHOP LIST LIST ' + shopFound.toString());
 //                     for(int i = 0; i < shopFound.length; i++) {
 //                       if(shopFound[i]) {
 //                         break;
@@ -960,14 +960,14 @@
 //                 });
 //
 //
-//                 // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+//                 // debugPrint(snapshot.data!.docs[loop].data()!['shop_name'].toString());
 //
 //               }
 //               // for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
 //               //   Map<String, dynamic> data = snapshot.data!.docs[loop]
 //               //       .data()! as Map<String, dynamic>;
 //               //   var shop_name = data['shop_name'];
-//               //   print('SHOP LIST ' + shop_name);
+//               //   debugPrint('SHOP LIST ' + shop_name);
 //               //   getStoreId().then((value) async {
 //               //     if(snapshot.data!.docs[loop].id == value) {
 //               //       shopFound.add(true);
@@ -975,7 +975,7 @@
 //               //       shopFound.add(false);
 //               //     }
 //               //     if(loop == snapshot.data!.docs.length-1) {
-//               //       print('SHOP LIST LIST ' + shopFound.toString());
+//               //       debugPrint('SHOP LIST LIST ' + shopFound.toString());
 //               //       for(int i = 0; i < shopFound.length; i++) {
 //               //         if(shopFound[i]) {
 //               //           break;
@@ -996,7 +996,7 @@
 //               //   });
 //               //
 //               //
-//               //   // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+//               //   // debugPrint(snapshot.data!.docs[loop].data()!['shop_name'].toString());
 //               //
 //               // }
 //             }
@@ -1197,7 +1197,7 @@
 //                                           mercGlobalKey.currentState!.closeSearch();
 //                                           sordGlobalKey.currentState!.closeSearch();
 //                                           bordGlobalKey.currentState!.closeSearch();
-//                                           // print('sub ' + subList.toString());
+//                                           // debugPrint('sub ' + subList.toString());
 //                                           // testLoopData();
 //                                           // addDailyExp(context);
 //                                           // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
@@ -1326,7 +1326,7 @@
 //   //     orderLoading = true;
 //   //   });
 //   //
-//   //   print('order creating');
+//   //   debugPrint('order creating');
 //   //
 //   //   FirebaseFirestore
 //   //       .instance
@@ -1430,7 +1430,7 @@
 //   //                 '^pf'
 //   //           ])
 //   //         }).then((value) {
-//   //           print(
+//   //           debugPrint(
 //   //               'User updated');
 //   //           setState(() {
 //   //             orderLoading =
@@ -1480,7 +1480,7 @@
 //   //             'subs':
 //   //             data,
 //   //           }).then((value) {
-//   //             print(
+//   //             debugPrint(
 //   //                 'order added');
 //   //           });
 //   //         });
@@ -1530,7 +1530,7 @@
 //   //                   .day
 //   //                   .toString())
 //   //         }).then((value) {
-//   //           print(
+//   //           debugPrint(
 //   //               'order added');
 //   //
 //   //           FirebaseFirestore
@@ -1577,7 +1577,7 @@
 //   //             'subs':
 //   //             data,
 //   //           }).then((value) {
-//   //             print(
+//   //             debugPrint(
 //   //                 'order added');
 //   //           });
 //   //         });
@@ -1636,7 +1636,7 @@
 //           return StatefulBuilder(
 //             builder: (BuildContext context, StateSetter mystate) {
 //               _textFieldController.addListener((){
-//                 print("value: ${_textFieldController.text}");
+//                 debugPrint("value: ${_textFieldController.text}");
 //                 setState(() {
 //                   totalAmount = double.parse(TtlProdListPrice());
 //                   _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
@@ -1833,7 +1833,7 @@
 //                                                               );
 //                                                               mystate(() {
 //                                                                 discount =double.parse(amount![0].toString());
-//                                                                 print('disss ' + discount.toString());
+//                                                                 debugPrint('disss ' + discount.toString());
 //                                                               });
 //
 //                                                             } else {
@@ -1852,12 +1852,12 @@
 //                                                               );
 //                                                               mystate(() {
 //                                                                 discount =double.parse(percentage![0].toString());
-//                                                                 print('disss ' + discount.toString());
+//                                                                 debugPrint('disss ' + discount.toString());
 //                                                               });
 //                                                             }
-//                                                             print('dis' + result.toString());
+//                                                             debugPrint('dis' + result.toString());
 //                                                             setState(() {
-//                                                               print('do something');
+//                                                               debugPrint('do something');
 //                                                             });
 //
 //                                                           },
@@ -1978,7 +1978,7 @@
 //                                                             prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
 //                                                         return GestureDetector(
 //                                                           onTap: (){
-//                                                             print('error prod' + prodList[i].toString());
+//                                                             debugPrint('error prod' + prodList[i].toString());
 //                                                             setState((){
 //                                                               mystate((){
 //                                                                 quantity = 0;
@@ -2300,7 +2300,7 @@
 //
 //                                                         }); });
 //
-//                                                       print('totalAmount '+ totalAmount.toString());
+//                                                       debugPrint('totalAmount '+ totalAmount.toString());
 //                                                       _controller.animateTo(1);
 //                                                       sellDone = false;
 //                                                     },
@@ -2686,26 +2686,26 @@
 //                                                                 CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 //
 //                                                                 int length = 0;
-//                                                                 print('order creating');
+//                                                                 debugPrint('order creating');
 //
 //                                                                 await FirebaseFirestore.instance.collection('shops').doc(shopId)
 //                                                                 // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
 //                                                                     .get().then((value) async {
 //                                                                   length = int.parse(value.data()!['orders_length'].toString());
-//                                                                   print('lengthsss' + length.toString());
+//                                                                   debugPrint('lengthsss' + length.toString());
 //
 //                                                                   length = length + 1;
 //                                                                   //Check new date or not
 //                                                                   var dateExist = false;
 //                                                                   var dateId = '';
 //
-//                                                                   print('CHECK POINT 0' + deviceIdNum.toString());
+//                                                                   debugPrint('CHECK POINT 0' + deviceIdNum.toString());
 //
-//                                                                   print('CHECK POINT 1');
+//                                                                   debugPrint('CHECK POINT 1');
 //
 //                                                                   for (String str in prodList) {
 //                                                                     var productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]);
-//                                                                     // print('DATA CHECK ' + )
+//                                                                     // debugPrint('DATA CHECK ' + )
 //                                                                     await productsFire
 //                                                                         .get().then((val22) async {
 //                                                                       // List<String> subSell = [];
@@ -2724,13 +2724,13 @@
 //                                                                         for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
 //                                                                           subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
 //                                                                           subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-//                                                                           print('inStock' + (i+1).toString());
-//                                                                           print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+//                                                                           debugPrint('inStock' + (i+1).toString());
+//                                                                           debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
 //                                                                           subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
 //                                                                         }
 //                                                                       }
 //
-//                                                                       print(subStock.toString());
+//                                                                       debugPrint(subStock.toString());
 //                                                                       if(str.split('-')[3] == 'unit_name') {
 //                                                                         orderLengthIncrease(str.split('-')[0]);
 //                                                                         decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
@@ -2756,7 +2756,7 @@
 //
 //                                                                   }
 //
-//                                                                   print('subList ' + subList.toString());
+//                                                                   debugPrint('subList ' + subList.toString());
 //
 //
 //                                                                   //Order Add
@@ -2789,7 +2789,7 @@
 //                                                                       //   'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
 //                                                                       //   'each_order' : FieldValue.arrayUnion([length.toString()])
 //                                                                       // }).then((value) async {
-//                                                                       //   print('User updated');
+//                                                                       //   debugPrint('User updated');
 //                                                                       //   setState(() {
 //                                                                       //     orderLoading = false;
 //                                                                       //   });
@@ -2806,8 +2806,8 @@
 //                                                                       //     'refund' : 'FALSE',
 //                                                                       //     'discount' : discountAmount.toString() + disText,
 //                                                                       //   }).then((value) {
-//                                                                       //     print('order added');
-//                                                                       //     print('totalPrice3 ' + TtlProdListPrice());
+//                                                                       //     debugPrint('order added');
+//                                                                       //     debugPrint('totalPrice3 ' + TtlProdListPrice());
 //                                                                       //   });
 //                                                                       //
 //                                                                       //
@@ -2824,7 +2824,7 @@
 //                                                                       //       'deviceId' : deviceIdNum.toString() + '-',
 //                                                                       //       'voucherId' : length.toString(),
 //                                                                       //     }).then((value) {
-//                                                                       //       print('cus order added');
+//                                                                       //       debugPrint('cus order added');
 //                                                                       //     }); }
 //                                                                       // });
 //                                                                     } else {
@@ -2835,8 +2835,8 @@
 //                                                                         'date' : now,
 //                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
 //                                                                       }).then((value) async  {
-//                                                                         print('totalPrice ' + TtlProdListPrice());
-//                                                                         print('order added');
+//                                                                         debugPrint('totalPrice ' + TtlProdListPrice());
+//                                                                         debugPrint('order added');
 //                                                                         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
 //                                                                             .set({
 //                                                                           'total': TtlProdListPrice(),
@@ -2849,7 +2849,7 @@
 //                                                                           'refund' : 'FALSE',
 //                                                                           'discount' : discountAmount.toString() + disText,
 //                                                                         }).then((value) {
-//                                                                           print('order added');
+//                                                                           debugPrint('order added');
 //                                                                         });
 //
 //                                                                         if(customerId.split('-')[0] != 'name') {
@@ -2865,7 +2865,7 @@
 //                                                                           })
 //                                                                               .then((
 //                                                                               value) {
-//                                                                             print(
+//                                                                             debugPrint(
 //                                                                                 'cus order added');
 //                                                                           });
 //                                                                         }
@@ -3120,7 +3120,7 @@
 //                                                               mystate(() {
 //                                                                 quantity = int.parse(myController.text) -1;
 //                                                                 myController.text = quantity.toString();
-//                                                                 print('qqq' + quantity.toString());
+//                                                                 debugPrint('qqq' + quantity.toString());
 //                                                               });
 //                                                             },
 //                                                             child: Container(
@@ -3195,7 +3195,7 @@
 //                                                                 mystate(() {
 //                                                                   quantity = int.parse(myController.text) +1;
 //                                                                   myController.text = quantity.toString();
-//                                                                   print('qqq' + quantity.toString());
+//                                                                   debugPrint('qqq' + quantity.toString());
 //                                                                 });
 //                                                               });
 //                                                             },
@@ -3510,7 +3510,7 @@
 //                                                             GestureDetector(
 //                                                               onTap: () {
 //
-//                                                                 print('eachProduct' +eachProd);
+//                                                                 debugPrint('eachProduct' +eachProd);
 //                                                                 for (int j = 0; j < prodList.length; j++)
 //                                                                   if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
 //                                                                     setState((){
@@ -3518,8 +3518,8 @@
 //                                                                         eachProd = eachProd.split('-')[0] +'-' + eachProd.split('-')[1]+'-'+eachProd.split('-')[2]+'-'+eachProd.split('-')[3]+ '-'+ (quantity.toString())+'-'+eachProd.split('-')[5];
 //                                                                         prodList[j] = eachProd;
 //                                                                       }); });
-//                                                                     print('leepae' + prodList[j]);
-//                                                                   } else print('leelar');
+//                                                                     debugPrint('leepae' + prodList[j]);
+//                                                                   } else debugPrint('leelar');
 //
 //
 //                                                                 _controller.animateTo(0);
@@ -3768,7 +3768,7 @@
 //                                               //   width: 200,
 //                                               //   child: GestureDetector(
 //                                               //       onTap: () {
-//                                               //         print('clicked');
+//                                               //         debugPrint('clicked');
 //                                               //         PdfApi.openFile(pdfFile);
 //                                               //       },
 //                                               //       child: PdfViewer.openFile(pdfText)
@@ -3778,7 +3778,7 @@
 //                                               Expanded(
 //                                                   child: GestureDetector(
 //                                                       onTap: () {
-//                                                         print('clicked');
+//                                                         debugPrint('clicked');
 //                                                         PdfApi.openFile(pdfFile!);
 //                                                       },
 //                                                       child: Padding(
@@ -3938,7 +3938,7 @@
 //         });
 //   }
 //   // addDailyExp2(priContext) {
-//   //   print('BRmfo76jzim66dLrm9pj-1500-10-Phyo-unit_name-1-0-' + prodList2.toString());
+//   //   debugPrint('BRmfo76jzim66dLrm9pj-1500-10-Phyo-unit_name-1-0-' + prodList2.toString());
 //   // }
 //
 //   setStoreId(String id) async {
@@ -4000,7 +4000,7 @@
 //           return StatefulBuilder(
 //             builder: (BuildContext context, StateSetter mystate) {
 //               _textFieldController2.addListener((){
-//                 print("value: ${_textFieldController2.text}");
+//                 debugPrint("value: ${_textFieldController2.text}");
 //                 setState(() {
 //                   totalAmount2 = double.parse(TtlProdListPrice2());
 //                   _textFieldController2.text != '' ? paidAmount2 = double.parse(_textFieldController2.text) : paidAmount2 = 0.0;
@@ -4197,7 +4197,7 @@
 //                                                               );
 //                                                               mystate(() {
 //                                                                 discount2 =double.parse(amount![0].toString());
-//                                                                 print('disss ' + discount2.toString());
+//                                                                 debugPrint('disss ' + discount2.toString());
 //                                                               });
 //
 //                                                             } else {
@@ -4216,12 +4216,12 @@
 //                                                               );
 //                                                               mystate(() {
 //                                                                 discount2 =double.parse(percentage![0].toString());
-//                                                                 print('disss ' + discount2.toString());
+//                                                                 debugPrint('disss ' + discount2.toString());
 //                                                               });
 //                                                             }
-//                                                             print('dis' + result.toString());
+//                                                             debugPrint('dis' + result.toString());
 //                                                             setState(() {
-//                                                               print('do something');
+//                                                               debugPrint('do something');
 //                                                             });
 //
 //                                                           },
@@ -4342,7 +4342,7 @@
 //                                                             prodList2[i].split('-')[2] + '-' + prodList2[i].split('-')[3] + '-' + prodList2[i].split('-')[4] + '-' + prodList2[i].split('-')[5] +'-' + prodList2[i].split('-')[6];
 //                                                         return GestureDetector(
 //                                                           onTap: (){
-//                                                             print('error prod' + prodList2[i].toString());
+//                                                             debugPrint('error prod' + prodList2[i].toString());
 //                                                             setState((){
 //                                                               mystate((){
 //                                                                 quantity2 = 0;
@@ -4664,7 +4664,7 @@
 //
 //                                                         }); });
 //
-//                                                       print('totalAmount '+ totalAmount2.toString());
+//                                                       debugPrint('totalAmount '+ totalAmount2.toString());
 //                                                       _controller2.animateTo(1);
 //                                                       sellDone = false;
 //                                                     },
@@ -5049,7 +5049,7 @@
 //
 //                                                                 CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
 //                                                                 int length = 0;
-//                                                                 print('order creating here2');
+//                                                                 debugPrint('order creating here2');
 //
 //                                                                 await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
 //                                                                   querySnapshot.docs.forEach((doc) {
@@ -5079,12 +5079,12 @@
 //                                                                       for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
 //                                                                         subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
 //                                                                         subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-//                                                                         print('inStock' + (i+1).toString());
+//                                                                         debugPrint('inStock' + (i+1).toString());
 //                                                                         subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
 //                                                                       }
 //                                                                     }
 //
-//                                                                     print(subStock.toString());
+//                                                                     debugPrint(subStock.toString());
 //
 //                                                                     if(str.split('-')[4]=='unit_name') {
 //                                                                       await FirebaseFirestore.instance.collection('shops').doc(
@@ -5094,8 +5094,8 @@
 //                                                                         'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
 //                                                                         'buyPrice1': str.split('-')[1].toString(),
 //                                                                       })
-//                                                                           .then((value) => print("User Updated"))
-//                                                                           .catchError((error) => print("Failed to update user: $error"));
+//                                                                           .then((value) => debugPrint("User Updated"))
+//                                                                           .catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                     }
 //                                                                     else if (str.split('-')[4]=='sub1_name') {
 //                                                                       await FirebaseFirestore.instance.collection('shops').doc(
@@ -5105,8 +5105,8 @@
 //                                                                         'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
 //                                                                         'buyPrice2': str.split('-')[1].toString(),
 //                                                                       })
-//                                                                           .then((value) => print("User Updated"))
-//                                                                           .catchError((error) => print("Failed to update user: $error"));
+//                                                                           .then((value) => debugPrint("User Updated"))
+//                                                                           .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //                                                                     } else if (str.split('-')[4]=='sub2_name') {
 //                                                                       await FirebaseFirestore.instance.collection('shops').doc(
@@ -5116,8 +5116,8 @@
 //                                                                         'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
 //                                                                         'buyPrice3' : str.split('-')[1].toString(),
 //                                                                       })
-//                                                                           .then((value) => print("User Updated"))
-//                                                                           .catchError((error) => print("Failed to update user: $error"));
+//                                                                           .then((value) => debugPrint("User Updated"))
+//                                                                           .catchError((error) => debugPrint("Failed to update user: $error"));
 //                                                                     }
 //                                                                   }
 //                                                                   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
@@ -5136,7 +5136,7 @@
 //                                                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2]),
 //                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
 //                                                                       }).then((value) async {
-//                                                                         print('User updated');
+//                                                                         debugPrint('User updated');
 //                                                                         setState(() {
 //                                                                           orderLoading = false;
 //                                                                         });
@@ -5154,7 +5154,7 @@
 //                                                                           'refund' : 'FALSE',
 //                                                                           'discount' : discountAmount2.toString() + disText2,
 //                                                                         }).then((value) {
-//                                                                           print('order added');
+//                                                                           debugPrint('order added');
 //                                                                         });
 //
 //                                                                         if(merchantId.split('-')[0] != 'name') {
@@ -5170,7 +5170,7 @@
 //                                                                             'deviceId' : deviceIdNum.toString() + '-',
 //                                                                             'voucherId' : length.toString(),
 //                                                                           }).then((value) {
-//                                                                             print('cus order added');
+//                                                                             debugPrint('cus order added');
 //                                                                           }); }
 //                                                                       });
 //                                                                     } else {
@@ -5180,7 +5180,7 @@
 //                                                                         'date' : now,
 //                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
 //                                                                       }).then((value) async  {
-//                                                                         print('order added');
+//                                                                         debugPrint('order added');
 //                                                                         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
 //                                                                             .set({
 //                                                                           'total': TtlProdListPrice2(),
@@ -5193,7 +5193,7 @@
 //                                                                           'refund' : 'FALSE',
 //                                                                           'discount' : discountAmount2.toString() + disText2,
 //                                                                         }).then((value) {
-//                                                                           print('order added');
+//                                                                           debugPrint('order added');
 //                                                                         });
 //                                                                         if(merchantId.split('-')[0] != 'name') {
 //                                                                           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
@@ -5208,7 +5208,7 @@
 //                                                                           })
 //                                                                               .then((
 //                                                                               value) {
-//                                                                             print(
+//                                                                             debugPrint(
 //                                                                                 'cus order added');
 //                                                                           });
 //                                                                         }
@@ -5366,7 +5366,7 @@
 //                                                               mystate(() {
 //                                                                 quantity2 = int.parse(myController.text) -1;
 //                                                                 myController.text = quantity2.toString();
-//                                                                 print('qqq' + quantity2.toString());
+//                                                                 debugPrint('qqq' + quantity2.toString());
 //                                                               });
 //                                                             },
 //                                                             child: Container(
@@ -5441,7 +5441,7 @@
 //                                                                 mystate(() {
 //                                                                   quantity2 = int.parse(myController.text) +1;
 //                                                                   myController.text = quantity2.toString();
-//                                                                   print('qqq' + quantity2.toString());
+//                                                                   debugPrint('qqq' + quantity2.toString());
 //                                                                 });
 //                                                               });
 //                                                             },
@@ -5756,7 +5756,7 @@
 //                                                             GestureDetector(
 //                                                               onTap: () {
 //
-//                                                                 print('eachProduct' +eachProd);
+//                                                                 debugPrint('eachProduct' +eachProd);
 //                                                                 for (int j = 0; j < prodList2.length; j++)
 //                                                                   if( prodList2[j].split('-')[0] == eachProd.split('-')[0] && prodList2[j].split('-')[4] == eachProd.split('-')[4]){
 //                                                                     setState((){
@@ -5764,8 +5764,8 @@
 //                                                                         eachProd = eachProd.split('-')[0] +'-' + eachProd.split('-')[1]+'-'+(quantity2.toString())+'-'+eachProd.split('-')[3]+ '-'+ eachProd.split('-')[4]+'-'+eachProd.split('-')[5]+'-'+eachProd.split('-')[6];
 //                                                                         prodList2[j] = eachProd;
 //                                                                       }); });
-//                                                                     print('leepae' + prodList2[j]);
-//                                                                   } else print('leelar');
+//                                                                     debugPrint('leepae' + prodList2[j]);
+//                                                                   } else debugPrint('leelar');
 //
 //
 //                                                                 _controller2.animateTo(0);
@@ -5866,11 +5866,11 @@
 //     try {
 //       success = (await ImageSave.saveImage(_data, "demo.jpg", albumName: "SmartKyatPOS"))!;
 //     } on PlatformException catch (e, s) {
-//       print(e);
-//       print(s);
+//       debugPrint(e);
+//       debugPrint(s);
 //     }
 //
-//     print(success ? "Save to album success" : "Save to album failed");
+//     debugPrint(success ? "Save to album success" : "Save to album failed");
 //     // setState(() {
 //     //   _result = success ? "Save to album success" : "Save to album failed";
 //     // });
@@ -5878,7 +5878,7 @@
 //
 //   TtlProdListPriceInit()  {
 //     double total = 0;
-//     print(prodList.toString());
+//     debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total += double.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
 //     }
@@ -5887,7 +5887,7 @@
 //
 //   TtlProdListPriceInit2()  {
 //     double total = 0;
-//     print(prodList2.toString());
+//     debugPrint(prodList2.toString());
 //     for (String str in prodList2) {
 //       total += double.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
 //     }
@@ -5896,7 +5896,7 @@
 //
 //   TtlProdListPrice()  {
 //     double total = 0;
-//     print(prodList.toString());
+//     debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
 //       disPercent = (double.parse(total.toString()) *
@@ -5904,7 +5904,7 @@
 //     }
 //     if(isDiscount == 'percent'){
 //       discountAmount = discount;
-//       print(discountAmount.toString());
+//       debugPrint(discountAmount.toString());
 //       disText = '-p';
 //       total = (double.parse(total.toString()) -
 //           (double.parse(total.toString()) *
@@ -5923,7 +5923,7 @@
 //
 //   TtlProdListPrice2()  {
 //     double total = 0;
-//     print(prodList2.toString());
+//     debugPrint(prodList2.toString());
 //     for (String str in prodList2) {
 //       total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
 //       disPercent2 = (double.parse(total.toString()) *
@@ -5931,7 +5931,7 @@
 //     }
 //     if(isDiscount2 == 'percent'){
 //       discountAmount2 = discount2;
-//       print(discountAmount2.toString());
+//       debugPrint(discountAmount2.toString());
 //       disText2 = '-p';
 //       total = (double.parse(total.toString()) -
 //           (double.parse(total.toString()) *
@@ -5951,7 +5951,7 @@
 //
 //   // TtlProdListPrice2() {
 //   //   int total = 0;
-//   //   //print(prodList.toString());
+//   //   //debugPrint(prodList.toString());
 //   //   for (String str in prodList2) {
 //   //     total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
 //   //   }
@@ -5959,7 +5959,7 @@
 //   // }
 //   totalItems2() {
 //     int total = 0;
-//     //print(prodList.toString());
+//     //debugPrint(prodList.toString());
 //     for (String str in prodList2) {
 //       total += int.parse(str.split('-')[2]);
 //     }
@@ -5968,7 +5968,7 @@
 //
 //   totalItems() {
 //     int total = 0;
-//     //print(prodList.toString());
+//     //debugPrint(prodList.toString());
 //     for (String str in prodList) {
 //       total += int.parse(str.split('-')[4]);
 //     }
@@ -6213,17 +6213,17 @@
 //   }
 //
 //   Future<void> addDateExist(id1, id2, dOrder , length) async {
-//     print('CHECKING PRODSALE ORD');
+//     debugPrint('CHECKING PRODSALE ORD');
 //     //CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
 //     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 //     // CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders');
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     daily.doc(id1).update({
 //       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
 //       'each_order' : FieldValue.arrayUnion([length.toString()])})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //
 //     // detail.doc(id2).set({
 //     //            'total': TtlProdListPrice(),
@@ -6235,8 +6235,8 @@
 //     //            'customerId' : customerId.split('-')[0],
 //     //            'deviceId' : deviceIdNum.toString() + '-',
 //     //            'orderId' : length.toString(),})
-//     //     .then((value) => print("User Updated"))
-//     //     .catchError((error) => print("Failed to update user: $error"));
+//     //     .then((value) => debugPrint("User Updated"))
+//     //     .catchError((error) => debugPrint("Failed to update user: $error"));
 //     //
 //     // if(customerId.split('-')[0] != 'name') {
 //     // cusOrder.doc(id2).set({
@@ -6248,12 +6248,12 @@
 //     // 'total': TtlProdListPrice(),
 //     // 'deviceId' : deviceIdNum.toString() + '-',
 //     // 'voucherId' : length.toString(),})
-//     //     .then((value) => print("User Updated"))
-//     //     .catchError((error) => print("Failed to update user: $error")); }
+//     //     .then((value) => debugPrint("User Updated"))
+//     //     .catchError((error) => debugPrint("Failed to update user: $error")); }
 //   }
 //
 //   Future<void> Detail(id1, id2 , length) async {
-//     print('CHECKING PRODSALE ORD');
+//     debugPrint('CHECKING PRODSALE ORD');
 //     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
 //
 //     detail.doc(id2).set({
@@ -6266,16 +6266,16 @@
 //       'customerId' : customerId.split('-')[0],
 //       'deviceId' : deviceIdNum.toString() + '-',
 //       'orderId' : length.toString(),})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   Future<void> CusOrder(id1, id2 , length) async {
-//     print('CHECKING PRODSALE ORD');
+//     debugPrint('CHECKING PRODSALE ORD');
 //     // CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
 //     //  CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 //     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders');
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     cusOrder.doc(id2).set({
 //       'order_id': id2,
@@ -6286,59 +6286,59 @@
 //       'total': TtlProdListPrice(),
 //       'deviceId' : deviceIdNum.toString() + '-',
 //       'voucherId' : length.toString(),})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   Future<void> orderLengthIncrease(id) async {
-//     print('CHECKING PRODSALE ORD');
+//     debugPrint('CHECKING PRODSALE ORD');
 //     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
 //
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     users
 //         .doc(shopId)
 //         .update({'orders_length': FieldValue.increment(1)})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //
 //   Future<void> prodSaleData(id, num) async {
-//     print('CHECKING PRODSALE');
+//     debugPrint('CHECKING PRODSALE');
 //     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 //
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     users
 //         .doc(id)
 //         .update({'mainSellUnit': FieldValue.increment(double.parse(num.toString()))})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   Future<void> decStockFromInv(id, unit, num) async {
 //     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 //
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     users
 //         .doc(id)
 //         .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   Future<void> incStockFromInv(id, unit, num) async {
 //     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 //
-//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//     // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 //
 //     users
 //         .doc(id)
 //         .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-//         .then((value) => print("User Updated"))
-//         .catchError((error) => print("Failed to update user: $error"));
+//         .then((value) => debugPrint("User Updated"))
+//         .catchError((error) => debugPrint("Failed to update user: $error"));
 //   }
 //
 //   Future<void> sub1Execution(subStock, subLink, id, num) async {
@@ -6373,7 +6373,7 @@
 //
 //   todayToYearStart(DateTime now) {
 //     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
-//     print('DDDD ' + yearStart.toString());
+//     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
 // }

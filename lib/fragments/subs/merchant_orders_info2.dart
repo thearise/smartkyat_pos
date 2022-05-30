@@ -798,7 +798,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
   }
 
   queryFilter() {
-    print('cust id ' + widget.id.toString());
+    debugPrint('cust id ' + widget.id.toString());
     if(cateScIndex == 0) {
       return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id).orderBy('date', descending: true);
     } else if(cateScIndex == 1) {
@@ -1014,7 +1014,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {

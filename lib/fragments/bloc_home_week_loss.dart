@@ -265,18 +265,18 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('inside loss loss ' + data.toString());
+      debugPrint('inside loss loss ' + data.toString());
     }
 
 
     for(int i = 0; i < widget.sale.length; i++) {
       Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
-      print('inside loss sale ' + data.toString());
+      debugPrint('inside loss sale ' + data.toString());
     }
 
     for(int i = 0; i < widget.buy.length; i++) {
       Map<String, dynamic> data = widget.buy[i].data() as Map<String, dynamic>;
-      print('inside loss buy ' + data.toString());
+      debugPrint('inside loss buy ' + data.toString());
     }
 
     fetchOrdersMY(loadedState.documentSnapshots);
@@ -1286,7 +1286,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String _format = 'yyyy-MMMM-dd';
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1314,13 +1314,13 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1339,7 +1339,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1404,7 +1404,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   String totalStockCostsBySlide() {
-    print('todaycoststotal' + todayCostsTotal.toString());
+    debugPrint('todaycoststotal' + todayCostsTotal.toString());
     if(_sliding == 0) {
       return todayCostsTotal.toString();
     } else  {
@@ -1688,7 +1688,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       roundWeek.add(dbl.round());
     }
     int five = 5;
-    // print(roundWeek.toString);
+    // debugPrint(roundWeek.toString);
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -1815,7 +1815,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
 
 
-            // print('value ' + findMax(roundWeek).toString());
+            // debugPrint('value ' + findMax(roundWeek).toString());
             return '';
           },
           reservedSize: 42,
@@ -1896,9 +1896,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   double funChange(max) {
-    // print(findMax(roundWeek));
+    // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
-    // print('gg ' + (5.0 - max).toString());
+    // debugPrint('gg ' + (5.0 - max).toString());
     return 5.0 - max;
   }
 
@@ -1908,7 +1908,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       ten = ten * 10;
     }
     return ten;
-    // print('length ' + ten.toString().toString());
+    // debugPrint('length ' + ten.toString().toString());
   }
 
   calMonth(month) {
@@ -2005,12 +2005,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
-      // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
+      // debugPrint('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
 
       DateTime dateTimeOrders = data['date'].toDate();
       String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-      print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+      debugPrint('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
       int week = 0;
       int month = 0;
@@ -2022,9 +2022,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
         if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
           double total = 0;
-          // print(doc['daily_order'].toString());
+          // debugPrint(doc['daily_order'].toString());
           for(String str in data['daily_order']) {
-            // print(double.parse(str));
+            // debugPrint(double.parse(str));
             total += double.parse(str.split('^')[2]);
             weekCostsTotal += double.parse(str.split('^')[5]);
           }
@@ -2037,17 +2037,17 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
       while(!(today.subtract(const Duration(days: 7)).year.toString() == twoWeeksAgo.year.toString() && zeroToTen(today.subtract(const Duration(days: 7)).month.toString()) == zeroToTen(twoWeeksAgo.month.toString()) && zeroToTen(today.subtract(const Duration(days: 7)).day.toString()) == zeroToTen(twoWeeksAgo.day.toString()))) {
         twoWeeksAgo = twoWeeksAgo.add(const Duration(days: 1));
-        print('youare ' + twoWeeksAgo.toString());
+        debugPrint('youare ' + twoWeeksAgo.toString());
         if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
 
           for(String str in data['daily_order']) {
-            print('1369' + '1');
+            debugPrint('1369' + '1');
             lastWeekOrderChart  += double.parse(str.split('^')[2]);
             lastWeekUnpaid  += double.parse(str.split('^')[5]);
           }
         }
       }
-      print('thousand '+ lastWeekOrderChart.toString());
+      debugPrint('thousand '+ lastWeekOrderChart.toString());
 
 
 
@@ -2063,15 +2063,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                 zeroToTen(today.day.toString()) +
                 zeroToTen(i.toString()))
             {
-              print('string check ' + str);
+              debugPrint('string check ' + str);
               total += double.parse(str.split('^')[2]);
               todayCostsTotal += double.parse(str.split('^')[5]);
               // setState(() {
               todayOrdersChart[i]+=double.parse(str.split('^')[2]);
               // });
             }
-            // print('laos ' + total.toString());
-            // print('World ' +todayOrdersChart.toString());
+            // debugPrint('laos ' + total.toString());
+            // debugPrint('World ' +todayOrdersChart.toString());
           }
         }
       }
@@ -2091,16 +2091,16 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       }
 
     }
-    print('yestorders ' + yestOrdersChart.toString());
-    // print('each ');
+    debugPrint('yestorders ' + yestOrdersChart.toString());
+    // debugPrint('each ');
     if(snapshot1 != null) {
       for(int loopOrd = 0; loopOrd < snapshot1.length; loopOrd++) {
-        print('DOC IIDDCost ' + snapshot1[loopOrd].id.toString());
+        debugPrint('DOC IIDDCost ' + snapshot1[loopOrd].id.toString());
         Map<String, dynamic> data = snapshot1[loopOrd].data()! as Map<String, dynamic>;
 
         DateTime dateTimeOrders = data['date'].toDate();
         String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-        print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+        debugPrint('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
         int week = 0;
         int month = 0;
@@ -2114,9 +2114,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
           if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
             double total = 0;
-            // print(doc['daily_order'].toString());
+            // debugPrint(doc['daily_order'].toString());
             for(String str in data['daily_order']) {
-              // print(double.parse(str));
+              // debugPrint(double.parse(str));
               weekCostsTotalR += double.parse(str.split('^')[2]);
             }
 
@@ -2134,7 +2134,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             }
           }
         }
-        print('yest ton ka2 ' + lastWeekCost.toString() + ' ' + weekCostsTotalR.toString());
+        debugPrint('yest ton ka2 ' + lastWeekCost.toString() + ' ' + weekCostsTotalR.toString());
 
         if (dataDate.substring(0,8) == today.year.toString() +
             zeroToTen(today.month.toString()) +
@@ -2162,7 +2162,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         }
       }
     } else {
-      print('null pix');
+      debugPrint('null pix');
     }
   }
 
@@ -2186,7 +2186,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     for(int loopOrd = 0; loopOrd < snapshot2.length; loopOrd++) {
 
-      print('George sai 0 ' + snapshot2[loopOrd].id.toString());
+      debugPrint('George sai 0 ' + snapshot2[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot2[loopOrd].data()! as Map<String, dynamic>;
 
       sevenDayAgo = today.subtract(const Duration(days: 7));
@@ -2215,9 +2215,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       for(int i = 0; i < 7; i++) {
         if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'] != null) {
           lastWeekRefund +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'];
-          print('Europe ' +  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'].toString());
+          debugPrint('Europe ' +  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'refu_cust'].toString());
         }
-        print('Asia ' + lastWeekRefund.toString());
+        debugPrint('Asia ' + lastWeekRefund.toString());
       }
 
       for(int i = 0; i < 7; i++) {
@@ -2232,7 +2232,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         }
       }
 
-      print('testing for ' + weekRefundTotal.toString() + ', ' +  lastWeekRefund.toString()+ ', ' +  lastWeekRefund.toString());
+      debugPrint('testing for ' + weekRefundTotal.toString() + ', ' +  lastWeekRefund.toString()+ ', ' +  lastWeekRefund.toString());
 
     }
   }

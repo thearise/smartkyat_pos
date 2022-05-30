@@ -138,14 +138,14 @@
 //     DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
 //     DateTime monthAgo = today.subtract(const Duration(days: 31));
 //
-//     // print('each ');
+//     // debugPrint('each ');
 //     CollectionReference orders = FirebaseFirestore
 //         .instance
 //         .collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
 //
 //     orders.get().then((QuerySnapshot
 //     querySnapshot) async {
-//       // print(DateTime.now().subtract(duration))
+//       // debugPrint(DateTime.now().subtract(duration))
 //       //today = today.add(const Duration(hours: 1));
 //       sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 //       monthAgo = monthAgo.add(const Duration(days: 1));
@@ -160,20 +160,20 @@
 //         while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
 //           sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 //
-//           print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-//           print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+//           debugPrint('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+//           debugPrint('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 //
 //
-//           print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+//           debugPrint('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 //
 //           if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
 //             double total = 0;
-//             // print(doc['daily_order'].toString());
+//             // debugPrint(doc['daily_order'].toString());
 //             for(String str in doc['daily_order']) {
-//               // print(double.parse(str));
+//               // debugPrint(double.parse(str));
 //               total += double.parse(str.split('^')[2]);
 //             }
-//             print('total ' + total.toString());
+//             debugPrint('total ' + total.toString());
 //             setState(() {
 //               thisWeekOrdersChart[week] = total;
 //             });
@@ -186,21 +186,21 @@
 //         while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
 //           monthAgo = monthAgo.add(const Duration(days: 1));
 //
-//           print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-//           print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+//           debugPrint('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+//           debugPrint('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 //
 //
-//           print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+//           debugPrint('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 //
 //           if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
 //             double total = 0;
-//             // print(doc['daily_order'].toString());
+//             // debugPrint(doc['daily_order'].toString());
 //             for(String str in doc['daily_order']) {
-//               // print(double.parse(str));
-//               print('testing ' + str.split('^')[2]);
+//               // debugPrint(double.parse(str));
+//               debugPrint('testing ' + str.split('^')[2]);
 //               total += double.parse(str.split('^')[2]);
 //             }
-//             print('tatoos ' + total.toString());
+//             debugPrint('tatoos ' + total.toString());
 //             setState(() {
 //               thisMonthOrdersChart[month] = total;
 //             });
@@ -226,8 +226,8 @@
 //                   todayOrdersChart[i]+=double.parse(str.split('^')[2]);
 //                 });
 //               }
-//               // print('laos ' + total.toString());
-//               print('World ' +todayOrdersChart.toString());
+//               // debugPrint('laos ' + total.toString());
+//               debugPrint('World ' +todayOrdersChart.toString());
 //             }
 //           }
 //         }
@@ -235,16 +235,16 @@
 //           double total = 0;
 //           for (String str in doc['daily_order']) {
 //             for(int i=1; i<=12 ; i++ ){
-//               // print('helloworld '+i.toString());
+//               // debugPrint('helloworld '+i.toString());
 //
 //               if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
 //               {
 //                 total += double.parse(str.split('^')[2]);
 //                 setState(() {
 //                   thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
-//                   print('fortune ' +thisYearOrdersChart.toString()); });
+//                   debugPrint('fortune ' +thisYearOrdersChart.toString()); });
 //               }
-//               //print('laos ' + total.toString());
+//               //debugPrint('laos ' + total.toString());
 //
 //             }
 //           }
@@ -255,12 +255,12 @@
 //         //
 //         //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
 //         //     double total = 0;
-//         //     // print(doc['daily_order'].toString());
+//         //     // debugPrint(doc['daily_order'].toString());
 //         //     for(String str in doc['daily_order']) {
-//         //       // print(double.parse(str));
+//         //       // debugPrint(double.parse(str));
 //         //       total += double.parse(str.split('^')[2]);
 //         //     }
-//         //     print('total ' + total.toString());
+//         //     debugPrint('total ' + total.toString());
 //         //     setState(() {
 //         //       thisYearOrdersChart[year] = total;
 //         //     });
@@ -269,35 +269,35 @@
 //         //   year = year + 1;
 //         //
 //         // }
-//         print('this year' + thisYearOrdersChart.toString());
-//         print('this week ' + thisWeekOrdersChart.toString());
+//         debugPrint('this year' + thisYearOrdersChart.toString());
+//         debugPrint('this week ' + thisWeekOrdersChart.toString());
 //         // for(int j = 20210909; j <= 20210915; j++) {
 //         //
-//         //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-//         //   print('here shwe 2 ' + j.toString());
+//         //   // debugPrint('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+//         //   debugPrint('here shwe 2 ' + j.toString());
 //         //   // if(doc['date'] == j.toString()) {
 //         //   //   double total = 0;
-//         //   //   // print(doc['daily_order'].toString());
+//         //   //   // debugPrint(doc['daily_order'].toString());
 //         //   //   for(String str in doc['daily_order']) {
-//         //   //     // print(double.parse(str));
+//         //   //     // debugPrint(double.parse(str));
 //         //   //     total += double.parse(str.split('^')[2]);
 //         //   //   }
-//         //   //   print('total ' + total.toString());
+//         //   //   debugPrint('total ' + total.toString());
 //         //   //   setState(() {
 //         //   //     thisWeekOrdersChart[ij] = total;
 //         //   //   });
 //         //   //
 //         //   // }
 //         //   // ij = ij + 1;
-//         //   // print(ij);
+//         //   // debugPrint(ij);
 //         // }
 //
 //
-//         // print('this week 2' + thisWeekOrdersChart.toString());
+//         // debugPrint('this week 2' + thisWeekOrdersChart.toString());
 //
-//         // print('each ' + doc.id.toString());
+//         // debugPrint('each ' + doc.id.toString());
 //       });
-//       print('this month ' + thisMonthOrdersChart.toString());
+//       debugPrint('this month ' + thisMonthOrdersChart.toString());
 //       // setState(() {
 //       //   thisWeekOrdersChart
 //       // });
@@ -306,7 +306,7 @@
 //     // CollectionReference col1 = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
 //     // final snapshots = col1.snapshots().map((snapshot) => snapshot.docs.where((doc) => doc['date'] == "20210914" || doc['date'] == "20210913"));
 //     //
-//     // print((await snapshots.first).toList());
+//     // debugPrint((await snapshots.first).toList());
 //   }
 //
 //   void _incrementCounter() {
@@ -334,14 +334,14 @@
 //   bool showAvg = false;
 //
 //   void closeSearch() {
-//     print('clicked testing ');
+//     debugPrint('clicked testing ');
 //     FocusScope.of(context).unfocus();
 //     setState(() {
 //       loadingSearch = false;
 //     });
 //   }
 //   void unfocusSearch() {
-//     print('clicked testing 2');
+//     debugPrint('clicked testing 2');
 //     FocusScope.of(context).unfocus();
 //   }
 //
@@ -657,7 +657,7 @@
 //
 //
 //
-//             print('value ' + findMax(roundMonth).toString());
+//             debugPrint('value ' + findMax(roundMonth).toString());
 //             return '';
 //           },
 //           reservedSize: 42,
@@ -740,7 +740,7 @@
 //       roundWeek.add(dbl.round());
 //     }
 //     int five = 5;
-//     // print(roundWeek.toString);
+//     // debugPrint(roundWeek.toString);
 //     return LineChartData(
 //       gridData: FlGridData(
 //         show: true,
@@ -867,7 +867,7 @@
 //
 //
 //
-//             print('value ' + findMax(roundWeek).toString());
+//             debugPrint('value ' + findMax(roundWeek).toString());
 //             return '';
 //           },
 //           reservedSize: 42,
@@ -1034,7 +1034,7 @@
 //
 //
 //
-//             print('value ' + findMax(roundYear).toString());
+//             debugPrint('value ' + findMax(roundYear).toString());
 //             return '';
 //           },
 //           reservedSize: 35,
@@ -1111,9 +1111,9 @@
 //   }
 //
 //   double funChange(max) {
-//     // print(findMax(roundWeek));
+//     // debugPrint(findMax(roundWeek));
 //     max = max/chgDeci3Place(max);
-//     print('gg ' + (5.0 - max).toString());
+//     debugPrint('gg ' + (5.0 - max).toString());
 //     return 5.0 - max;
 //   }
 //
@@ -1123,7 +1123,7 @@
 //       ten = ten * 10;
 //     }
 //     return ten;
-//     // print('length ' + ten.toString().toString());
+//     // debugPrint('length ' + ten.toString().toString());
 //   }
 //
 //   int _sliding = 0;
@@ -3116,7 +3116,7 @@
 //                                       ),
 //                                       GestureDetector(
 //                                         onTap: () {
-//                                           print('open barcode');
+//                                           debugPrint('open barcode');
 //                                         },
 //                                         child: Padding(
 //                                           padding: const EdgeInsets.only(
@@ -3554,7 +3554,7 @@
 //     Future.delayed(const Duration(milliseconds: 500), () async {
 //       if(searchValue != '') {
 //         if(slidingSearch == 2) {
-//           print("search " + searchValue);
+//           debugPrint("search " + searchValue);
 //           String max = searchValue;
 //           // sectionList = [];
 //           List detailIdList = [];
@@ -3624,7 +3624,7 @@
 //                     ..items = detailIdList.cast<String>()
 //                     ..expanded = true;
 //
-//                   print('buy ord ' + detailIdList.length.toString());
+//                   debugPrint('buy ord ' + detailIdList.length.toString());
 //                   sections.add(init);
 //                   sections.add(buyOrders);
 //                   sections.add(sellOrders);
@@ -3671,7 +3671,7 @@
 //                   items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
 //                 });
 //
-//                 // print(doc['prod_name'].toString());
+//                 // debugPrint(doc['prod_name'].toString());
 //               }
 //             });
 //
@@ -3742,7 +3742,7 @@
 //                       doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
 //                 });
 //
-//                 print(doc['prod_name'].toString());
+//                 debugPrint(doc['prod_name'].toString());
 //               }
 //             });
 //
@@ -4144,8 +4144,8 @@
 //                                                     //           } else
 //                                                     //             return Container();
 //                                                     //         }).toList();
-//                                                     //         // print(sub1Quantity);
-//                                                     //         // print(mainQuantity);
+//                                                     //         // debugPrint(sub1Quantity);
+//                                                     //         // debugPrint(mainQuantity);
 //                                                     //         if (sub3Quantity !=
 //                                                     //             null) {
 //                                                     //           return Text(
@@ -4456,7 +4456,7 @@
 //                           }
 //                           return GestureDetector(
 //                             onTap: () {
-//                               print('Items'+item);
+//                               debugPrint('Items'+item);
 //                               // Navigator.push(
 //                               //   context,
 //                               //   MaterialPageRoute(
@@ -4808,7 +4808,7 @@
 //
 //   void listenForJiggles() {
 //     widget.jiggleController.stream.listen((event) {
-//       // print("From Listen" + event.toString());
+//       // debugPrint("From Listen" + event.toString());
 //       if (event == JiggleState.STATIC) {
 //         _jiggleAnimationController.animateTo(1, duration: Duration.zero);
 //         _jiggleAnimationController.stop();

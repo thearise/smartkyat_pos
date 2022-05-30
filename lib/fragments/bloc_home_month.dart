@@ -288,13 +288,13 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      print('inside loss loss ' + data.toString());
+      debugPrint('inside loss loss ' + data.toString());
     }
 
     fetchOrdersMY(loadedState.documentSnapshots);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if(widget.intValIni == 2 || widget.intValIni == 3) {
-        print('animating to ');
+        debugPrint('animating to ');
         cateScCtler.jumpTo(156);
       }
     });
@@ -1299,7 +1299,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   String _format = 'yyyy-MMMM-dd';
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1327,13 +1327,13 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1352,7 +1352,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1945,7 +1945,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
 
 
-            // print('value ' + findMax(roundMonth).toString());
+            // debugPrint('value ' + findMax(roundMonth).toString());
             return '';
           },
           reservedSize: 42,
@@ -2032,7 +2032,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       roundWeek.add(dbl.round());
     }
     int five = 5;
-    // print(roundWeek.toString);
+    // debugPrint(roundWeek.toString);
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -2159,7 +2159,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
 
 
-            // print('value ' + findMax(roundWeek).toString());
+            // debugPrint('value ' + findMax(roundWeek).toString());
             return '';
           },
           reservedSize: 42,
@@ -2338,7 +2338,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
 
 
-            // print('value ' + findMax(roundYear).toString());
+            // debugPrint('value ' + findMax(roundYear).toString());
             return '';
           },
           reservedSize: 35,
@@ -2422,9 +2422,9 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
   double funChange(max) {
-    // print(findMax(roundWeek));
+    // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
-    // print('gg ' + (5.0 - max).toString());
+    // debugPrint('gg ' + (5.0 - max).toString());
     return 5.0 - max;
   }
 
@@ -2434,7 +2434,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       ten = ten * 10;
     }
     return ten;
-    // print('length ' + ten.toString().toString());
+    // debugPrint('length ' + ten.toString().toString());
   }
 
 
@@ -2517,7 +2517,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
 
-      print('George sai 0 ' + snapshot0[loopOrd].id.toString());
+      debugPrint('George sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
 
       for(int i = 1; i< 32; i++) {

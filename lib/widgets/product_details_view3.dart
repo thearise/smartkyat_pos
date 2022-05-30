@@ -336,7 +336,7 @@
 //     });
 //     _controller = new TabController(length: 3, vsync: this);
 //     _controller.addListener((){
-//       print('my index is'+ _controller.index.toString());
+//       debugPrint('my index is'+ _controller.index.toString());
 //       if(_controller.index.toString()=='1') {
 //         setState(() {
 //           _sliding = 1;
@@ -456,7 +456,7 @@
 //                     subLink.add(output?['prods'][widget.idString]['c' + (i+1).toString()]);
 //                     subName.add(output?['prods'][widget.idString]['n' + (i+1).toString()]);
 //                   }
-//                   print(subSell.toString() + subLink.toString() + subName.toString());
+//                   debugPrint(subSell.toString() + subLink.toString() + subName.toString());
 //                   return StreamBuilder(
 //                       stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('users')
 //                           .where('email', isEqualTo: auth.currentUser!.email.toString())
@@ -936,7 +936,7 @@
 //                                             //               MaterialPageRoute(
 //                                             //                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: openCartFrom,)));
 //                                             //           widget._openCartBtn();
-//                                             //           print('result check ' + result.toString());
+//                                             //           debugPrint('result check ' + result.toString());
 //                                             //         },
 //                                             //         child: Text(
 //                                             //           'EDIT',
@@ -985,7 +985,7 @@
 //                                                                 MaterialPageRoute(
 //                                                                     builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
 //                                                             widget._openCartBtn();
-//                                                             print('result check ' + result.toString());
+//                                                             debugPrint('result check ' + result.toString());
 //                                                           },
 //                                                           child: Padding(
 //                                                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -2040,7 +2040,7 @@
 //                                                                 product.update({
 //                                                                   'prods.' + widget.idString: FieldValue.delete()
 //                                                                 }).then((value) {
-//                                                                   print('all set');
+//                                                                   debugPrint('all set');
 //                                                                   smartKyatFlash(prodName.toString() + ' is successfully removed.', 's');
 //                                                                   Navigator.pop(contextOver);
 //
@@ -2048,7 +2048,7 @@
 //                                                                     'count' : FieldValue.increment(-1)
 //                                                                   }).then((val) {
 //                                                                   });
-//                                                                 }).catchError((error) => print("Failed to update: $error"));
+//                                                                 }).catchError((error) => debugPrint("Failed to update: $error"));
 //                                                               }
 //                                                             });
 //                                                           },
@@ -2202,37 +2202,37 @@
 // // }
 //
 // // Future<void> addDateExist(prodId, unit , buyPrice, amount, date) async {
-// //   print('CHECKING PRODSALE ORD');
+// //   debugPrint('CHECKING PRODSALE ORD');
 // //   CollectionReference lossProduct = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID).collection(unit);
 // //   lossProduct.doc(date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString())+ '0' + deviceIdNum).update({
 // //     'count': FieldValue.increment(double.parse(amount.toString())),
 // //     'buy_price': buyPrice,
-// //   }).then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //   }).then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 //
 // // Future<void> decStockFromInv(id, unit, num) async {
 // //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 // //
-// //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+// //   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 // //
 // //   users
 // //       .doc(id)
 // //       .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-// //       .then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //       .then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 // //
 // // Future<void> incStockFromInv(id, unit, num) async {
 // //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 // //
-// //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+// //   // debugPrint('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 // //
 // //   users
 // //       .doc(id)
 // //       .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-// //       .then((value) => print("User Updated"))
-// //       .catchError((error) => print("Failed to update user: $error"));
+// //       .then((value) => debugPrint("User Updated"))
+// //       .catchError((error) => debugPrint("Failed to update user: $error"));
 // // }
 // //
 // // Future<void> sub1Execution(subStock, subLink, id, num) async {

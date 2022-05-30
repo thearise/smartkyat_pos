@@ -149,7 +149,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels && !endOfResult) {
-        print('maxxed ');
+        debugPrint('maxxed ');
         Future.delayed(const Duration(milliseconds: 500), () {
           itemPerPage = itemPerPage + 10;
           setState(() {});
@@ -204,14 +204,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -299,7 +299,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                               }
 
                               if(prods != null && prods.length > 0) {
-                                print('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
+                                debugPrint('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
                                 for(int i = 0; i < itemPerPage; i++) {
                                   if (i >= prods.length) {
                                     break;
@@ -307,7 +307,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
                                 var eachMap = prods.entries.elementAt(i);
                                 if(eachMap.value['na'] == null) {
-                                  print('prods entri ' + eachMap.toString());
+                                  debugPrint('prods entri ' + eachMap.toString());
                                   List<dynamic> deleteExpenseData = [];
                                   deleteExpenseData.add(eachMap);
 
@@ -322,7 +322,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                     },
                                   );
 
-                                  print('prods entri');
+                                  debugPrint('prods entri');
                                 }
                                 else {
                                   resProds[eachMap.key] = eachMap.value;
@@ -777,7 +777,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                     delegate: SliverChildBuilderDelegate(
                                           (context, index) {
                                         var prodMap = resProds.entries.elementAt(index);
-                                        print('Prod map ' + prodMap.key.toString());
+                                        debugPrint('Prod map ' + prodMap.key.toString());
                                         var prodVal = prodMap.value;
                                         var prodKey = prodMap.key;
                                         return  GestureDetector(
@@ -1142,7 +1142,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -1160,7 +1160,7 @@ Future<String> getStoreId() async {
   // return(prefs.getString('store'));
 
   var index = prefs.getString('store');
-  print(index);
+  debugPrint(index);
   if (index == null) {
     return 'idk';
   } else {

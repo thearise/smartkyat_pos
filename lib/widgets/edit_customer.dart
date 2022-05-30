@@ -469,7 +469,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                     disableTouch = false;
                                   });
                                 });
-                                }).catchError((error) => print("Failed to update user: $error"));
+                                }).catchError((error) => debugPrint("Failed to update user: $error"));
                               Navigator.pop(context);
                               smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
                             }

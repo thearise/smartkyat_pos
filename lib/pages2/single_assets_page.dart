@@ -103,6 +103,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   String _getNum() =>
       r'[1-9][0-9]*';
 
+  String _getNumSubQty() =>
+      r'[0-9][0-9]*';
+
   String currencyUnit = 'MMK';
 
   getCurrency() async {
@@ -182,37 +185,37 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
     // if(msaleCtrl.text != '' && mcostCtrl.text != '') {
     mcostCtrl.addListener((){
-      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) < double.parse(mcostCtrl.text)) {
+      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) > double.parse(mcostCtrl.text)) {
         setState(() {
           priceWarning = true;
         });
         // if (_formKey.currentState!.validate()) {
-        //   print('lee lar');
+        //   debugPrint('lee lar');
         // }
-        print('Warning pya mal');
+        debugPrint('Warning pya mal');
       } else {
         setState(() {
           priceWarning = false;
         });
-        print('Warning ma pya bu');}
+        debugPrint('Warning ma pya bu');}
     });
 
     msaleCtrl.addListener((){
-      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) < double.parse(mcostCtrl.text)) {
+      if(msaleCtrl.text != '' && mcostCtrl.text != '' && double.parse(msaleCtrl.text) > double.parse(mcostCtrl.text)) {
         setState(() {
           priceWarning = true;
         });
-        print('Warning pya mal');
+        debugPrint('Warning pya mal');
       } else {
         setState(() {
           priceWarning = false;
         });
-        print('Warning ma pya bu');}
+        debugPrint('Warning ma pya bu');}
     });
     //  }
 
 
-    // print('Warning pya mal');
+    // debugPrint('Warning pya mal');
     super.initState();
   }
 
@@ -315,13 +318,13 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                 setState(() {
 //                                   prodAdding = true;
 //                                 });
-//                                 print('validate ' + prodFieldsValue.toString());
+//                                 debugPrint('validate ' + prodFieldsValue.toString());
 //
 //                                 List<PersonEntry> entries = [];
 //
-//                                 print('shit ' + entries.toString());
+//                                 debugPrint('shit ' + entries.toString());
 //
-//                                 print('here ' + assets.length.toString());
+//                                 debugPrint('here ' + assets.length.toString());
 //                                 photoUploadCount = 0;
 //                                 var photoArray = ['', '', '', '', ''];
 //
@@ -339,7 +342,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                    //    });
 //
 //                                       // if (prodExist) {
-//                                       //   print('product already');
+//                                       //   debugPrint('product already');
 //                                       //   var result = await showOkAlertDialog(
 //                                       //     context: context,
 //                                       //     title: 'Warning',
@@ -397,7 +400,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                             // var job = jobTECs[i].text;
 //                                             // entries.add(PersonEntry(name, age, job));
 //                                           }
-//                                           print('gg nothing' +
+//                                           debugPrint('gg nothing' +
 //                                               subUnitFieldValue.toString());
 //
 //
@@ -483,7 +486,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                 });
 //
 //                                                 if (prodExist) {
-//                                                   print('product already');
+//                                                   debugPrint('product already');
 //                                                   var result =
 //                                                       await showOkAlertDialog(
 //                                                     context: context,
@@ -564,7 +567,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                     'img_4': '',
 //                                                     'img_5': '',
 //                                                   }).then((value) {
-//                                                     print('product added');
+//                                                     debugPrint('product added');
 //                                                     // setState(() {
 //                                                     //   prodAdding = false;
 //                                                     // });
@@ -594,12 +597,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                     //       prodFieldsValue[4],
 //                                                     //   'type': 'main',
 //                                                     // }).then((value) {
-//                                                     //   print('product added 2');
+//                                                     //   debugPrint('product added 2');
 //                                                     // });
-//                                                     // print('sub1'+ prodFieldsValue[4]);
-//                                                     // print('unit1'+ subUnitFieldValue[0]);
-//                                                     // print('unit2'+ subUnitFieldValue[8]);
-//                                                     // print('unit3'+ subUnitFieldValue[4]);
+//                                                     // debugPrint('sub1'+ prodFieldsValue[4]);
+//                                                     // debugPrint('unit1'+ subUnitFieldValue[0]);
+//                                                     // debugPrint('unit2'+ subUnitFieldValue[8]);
+//                                                     // debugPrint('unit3'+ subUnitFieldValue[4]);
 //                                                     // var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
 //                                                     // var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
 //                                                     // var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
@@ -634,7 +637,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                     //   'buy_price': sub1_buy,
 //                                                     //   'type': 'sub1',
 //                                                     // }).then((value) {
-//                                                     //   print('product added 3');
+//                                                     //   debugPrint('product added 3');
 //
 //                                                     // });
 //
@@ -652,7 +655,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                     //   'buy_price': sub2_buy,
 //                                                     //   'type': 'sub2',
 //                                                     // }).then((value) {
-//                                                     //   print('product added 4');
+//                                                     //   debugPrint('product added 4');
 //                                                     // });
 //                                                       setState(() {
 //                                                         prodAdding = false;
@@ -739,7 +742,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                                     // .add({
 //                                                     //   'prod_name': prodFieldsValue[0]
 //                                                     // }).then((value) {
-//                                                     //   print('product added 2');
+//                                                     //   debugPrint('product added 2');
 //                                                     // });
 //
 //                                                     // Navigator.pop(context);
@@ -749,7 +752,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                                         }
 //                               }
 //
-// // print('here ' + nameController.text.toString());
+// // debugPrint('here ' + nameController.text.toString());
 // // Navigator.pop(context, entries);
 //
 // // if (_formKey.currentState!.validate()) {
@@ -758,7 +761,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // //   ScaffoldMessenger.of(context).showSnackBar(
 // //     const SnackBar(content: Text('Processing Data')),
 // //   );
-// //   // print(prodFieldsValue);
+// //   // debugPrint(prodFieldsValue);
 // //
 // //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
 // //   var prodExist = false;
@@ -772,9 +775,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // //       spaceDocId = doc.id;
 // //     });
 // //
-// //     print('space shi p thar');
+// //     debugPrint('space shi p thar');
 // //     getStoreId().then((String result2) {
-// //       print('store id ' + result2.toString());
+// //       debugPrint('store id ' + result2.toString());
 // //
 // //       FirebaseFirestore.instance
 // //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
@@ -786,7 +789,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // //         });
 // //
 // //         if(prodExist) {
-// //           print('product already');
+// //           debugPrint('product already');
 // //           var result = await showOkAlertDialog(
 // //               context: context,
 // //               title: 'Warning',
@@ -801,7 +804,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // //             'prod_name': prodFieldsValue[0]
 // //           })
 // //               .then((value) {
-// //             print('product added');
+// //             debugPrint('product added');
 // //
 // //             Navigator.pop(context);
 // //           });
@@ -895,7 +898,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           GestureDetector(
                                             onTap: () {
                                               widget._callback();
-                                              print('_waitUntilDone ' +
+                                              debugPrint('_waitUntilDone ' +
                                                   assets.length.toString());
                                             },
                                             child: SelectedAssetsListView(
@@ -1040,7 +1043,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 suffixIcon: IconButton(
                                                   icon: Image.asset('assets/system/barcode.png', height: 28,),
                                                   onPressed: () async {
-                                                    print("Barcode");
+                                                    debugPrint("Barcode");
                                                     // var code = await Navigator.push(
                                                     //   context,
                                                     //   MaterialPageRoute(
@@ -1052,7 +1055,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       FadeRoute(page: QRViewExample()),
                                                     );
                                                     bcodeCtrl.text = code;
-                                                    print('bar bar ' + code);
+                                                    debugPrint('bar bar ' + code);
                                                   },
                                                 ),
                                                 // suffixText: 'Optional',
@@ -1428,9 +1431,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: Container(
                                               color: Colors.white,
                                               //height: 20,
-                                              child: Text('Price Warning',
+                                              child: Text(' Price warning ',
                                                 style: TextStyle(
-                                                  color: Colors.yellow, fontSize: 12, fontWeight: FontWeight.w500,
+                                                  color: Colors.amber, fontSize: 12, fontWeight: FontWeight.w500,
                                                 ),),
                                             ),
                                           ) : Container(),
@@ -1473,10 +1476,19 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              top: BorderSide(
+                                  color: Colors.grey
+                                      .withOpacity(0.3),
+                                  width: 1.0))
+
+                      ),
+
                       height: 91,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
                         child: Column(
                           children: [
                             Row(
@@ -1554,13 +1566,13 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             widget.prodLoadingState();
                                             prodAdding = true;
                                           });
-                                          print('validate ' + prodFieldsValue.toString());
+                                          debugPrint('validate ' + prodFieldsValue.toString());
 
                                           List<PersonEntry> entries = [];
 
-                                          print('shit ' + entries.toString());
+                                          debugPrint('shit ' + entries.toString());
 
-                                          print('here ' + assets.length.toString());
+                                          debugPrint('here ' + assets.length.toString());
                                           photoUploadCount = 0;
                                           var photoArray = ['', '', '', '', ''];
 
@@ -1578,7 +1590,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           //   });
                                           //
                                           //   if (prodExist) {
-                                          //     print('product already');
+                                          //     debugPrint('product already');
                                           //     var result = await showOkAlertDialog(
                                           //       context: context,
                                           //       title: 'Warning',
@@ -1625,7 +1637,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // var job = jobTECs[i].text;
 // entries.add(PersonEntry(name, age, job));
                                             }
-                                            print('gg nothing' +
+                                            debugPrint('gg nothing' +
                                                 subUnitFieldValue.toString());
                                             double sub1_buy;
                                             double sub2_buy;
@@ -1718,15 +1730,15 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     prodExist = true;
                                                     // });
 
-                                                    print('document print no image ' + productExist.toString());
-                                                    print('document print no image ' + prodExist.toString());
+                                                    debugPrint('document print no image ' + productExist.toString());
+                                                    debugPrint('document print no image ' + prodExist.toString());
                                                   }
 
                                                 });
 
                                               }
                                               if (prodExist) {
-                                                print('product already');
+                                                debugPrint('product already');
                                                 var result =
                                                 await showOkAlertDialog(
                                                   context: context,
@@ -1741,7 +1753,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 });
                                               }
                                               else {
-                                                print('adding nmow');
+                                                debugPrint('adding nmow');
                                                 DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
                                                 FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
@@ -1749,7 +1761,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     .then((value) {
                                                   int prodsCnt = value.data()!['count'];
 
-                                                  print("adding nmow " + prodsCnt.toString());
+                                                  debugPrint("adding nmow " + prodsCnt.toString());
 
                                                   prodsArr.set({
                                                     'prods': {
@@ -1778,14 +1790,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       }
                                                     }
                                                   },SetOptions(merge: true)).then((value) {
-                                                    print('arrays added ' + '0-' + prodsCnt.toString());
-                                                  }).catchError((error) => print("Failed to update user: $error"));
+                                                    debugPrint('arrays added ' + '0-' + prodsCnt.toString());
+                                                  }).catchError((error) => debugPrint("Failed to update user: $error"));
 
 
                                                   FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                       .update(
                                                       {'count': FieldValue.increment(1)}
-                                                  ).then((value) => print('updated product count'));
+                                                  ).then((value) => debugPrint('updated product count'));
                                                 });
 
                                                 Future.delayed(const Duration(milliseconds: 3000), () {
@@ -1852,7 +1864,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 //   'update_time' : DateTime.now(),
                                                 //   'archive' : false
                                                 // }).then((value) {
-                                                //   print('product added');
+                                                //   debugPrint('product added');
                                                 // });
                                                 // Future.delayed(const Duration(milliseconds: 3000), () {
                                                 //   setState(() {
@@ -1885,8 +1897,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                                   }
 
-                                                  print('document print ' + productExist.toString());
-                                                  print('document print ' + prodExist.toString());
+                                                  debugPrint('document print ' + productExist.toString());
+                                                  debugPrint('document print ' + prodExist.toString());
                                                 });     }
 
                                               //
@@ -1906,7 +1918,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               //   });
 
                                               if (prodExist) {
-                                                print('product already');
+                                                debugPrint('product already');
                                                 var result =
                                                 await showOkAlertDialog(
                                                   context: context,
@@ -1928,7 +1940,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   assets.elementAt(i);
                                                   asset.originFile.then((value) async {
                                                     addProduct(value!).then((value) {
-                                                      print('value check ' + value.toString());
+                                                      debugPrint('value check ' + value.toString());
                                                       if(value != 'error img upload') {
                                                         photoArray[i] = value.toString();
                                                         var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', '',];
@@ -1949,7 +1961,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // var job = jobTECs[i].text;
 // entries.add(PersonEntry(name, age, job));
                                                         }
-                                                        print('gg nothing' +
+                                                        debugPrint('gg nothing' +
                                                             subUnitFieldValue.toString());
 
 
@@ -2104,7 +2116,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                           //     .update(
                                                           //     {'count': FieldValue.increment(1)}
-                                                          // ).then((value) => print('updated product count'));
+                                                          // ).then((value) => debugPrint('updated product count'));
 
 
                                                           // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('imgArr').doc('prodsArr').set({
@@ -2114,8 +2126,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           //     }
                                                           //   }
                                                           // },SetOptions(merge: true)).then((value) {
-                                                          //   print('arrays added ' + '0-' + prodsCnt.toString());
-                                                          // }).catchError((error) => print("Failed to update user: $error"));
+                                                          //   debugPrint('arrays added ' + '0-' + prodsCnt.toString());
+                                                          // }).catchError((error) => debugPrint("Failed to update user: $error"));
                                                         });
 
 
@@ -2173,7 +2185,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         //   'update_time' : DateTime.now(),
                                                         //   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
                                                         // }).then((value) {
-                                                        //   print('product added');
+                                                        //   debugPrint('product added');
                                                         //   setState(() {
                                                         //     widget.endProdLoadingState();
                                                         //     prodAdding = false;
@@ -2262,7 +2274,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     //           widget._callback();
     //
     //           // _waitUntilDone();
-    //           print('_waitUntilDone ' + assets.length.toString());
+    //           debugPrint('_waitUntilDone ' + assets.length.toString());
     //         },
     //         child: SelectedAssetsListView(
     //           assets: assets,
@@ -2657,11 +2669,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   }
 
   // photoUploaded(length, photoArray) {
-  //   print('upload ' + photoUploadCount.toString());
+  //   debugPrint('upload ' + photoUploadCount.toString());
   //   photoUploadCount++;
   //
   //   if (length == photoUploadCount) {
-  //     print('all fking done' + photoArray.toString());
+  //     debugPrint('all fking done' + photoArray.toString());
   //
   //     var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', ''];
   //     int j = -1;
@@ -2675,7 +2687,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   //       // var job = jobTECs[i].text;
   //       // entries.add(PersonEntry(name, age, job));
   //     }
-  //     print('gg nothing' + subUnitFieldValue.toString());
+  //     debugPrint('gg nothing' + subUnitFieldValue.toString());
   //     setState(() {
   //       prodAdding = true;
   //     });
@@ -2693,9 +2705,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   //         spaceDocId = doc.id;
   //       });
   //
-  //       print('space shi p thar');
+  //       debugPrint('space shi p thar');
   //       getStoreId().then((String result2) {
-  //         print('store id ' + result2.toString());
+  //         debugPrint('store id ' + result2.toString());
   //
   //         FirebaseFirestore.instance
   //             .collection('space')
@@ -2711,7 +2723,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   //           });
   //
   //           if (prodExist) {
-  //             print('product already');
+  //             debugPrint('product already');
   //             var result = await showOkAlertDialog(
   //               context: context,
   //               title: 'Warning',
@@ -2750,7 +2762,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   //               // 'img_4': photoArray[3],
   //               // 'img_5': photoArray[4],
   //             }).then((value) {
-  //               print('product added');
+  //               debugPrint('product added');
   //               setState(() {
   //                 prodAdding = false;
   //               });
@@ -2761,7 +2773,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   //               // .add({
   //               //   'prod_name': prodFieldsValue[0]
   //               // }).then((value) {
-  //               //   print('product added 2');
+  //               //   debugPrint('product added 2');
   //               // });
   //
   //               // Navigator.pop(context);
@@ -3050,12 +3062,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               controller: priceController,
               keyboardType: TextInputType.numberWithOptions(decimal: false),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                FilteringTextInputFormatter.allow(RegExp(_getNumSubQty())),],
               // The validator receives the text that the user has entered.
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return ' This field is required ';
-                }
+                // if (value == null || value.isEmpty) {
+                //   return ' This field is required ';
+                // }
                 // prodFieldsValue.add(value);
                 return null;
               },
@@ -3184,7 +3196,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   Future<void> selectAssets(PickMethod model) async {
     try {
       final List<AssetEntity>? result = await model.method(context, assets);
-      print('ASSETS ' + result.toString());
+      debugPrint('ASSETS ' + result.toString());
       if (result != null) {
         assets = List<AssetEntity>.from(result);
         if (mounted) {
@@ -3192,7 +3204,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         }
       }
     } catch (error) {
-      print('never reached');
+      debugPrint('never reached');
     }
 
 
@@ -3283,7 +3295,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {

@@ -68,7 +68,7 @@
 //         .authStateChanges()
 //         .listen((User? user) {
 //       if (user == null) {
-//         print('User is currently signed out!');
+//         debugPrint('User is currently signed out!');
 //         Future.delayed(const Duration(milliseconds: 5000), () {
 //           // setState(() {
 //             isLoading = 0.obs;
@@ -76,11 +76,11 @@
 //         });
 //
 //         getStoreId().then((value) {
-//           print('Out ID -> ' + value.toString());
+//           debugPrint('Out ID -> ' + value.toString());
 //         });
 //       } else {
 //         getStoreId().then((value) {
-//           print('ID -> ' + value.toString());
+//           debugPrint('ID -> ' + value.toString());
 //           Future.delayed(const Duration(milliseconds: 1000), () {
 //             if(value.toString() != '' && value.toString() != 'idk') {
 //               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -99,7 +99,7 @@
 //
 //
 //
-//         print('User is signed in!');
+//         debugPrint('User is signed in!');
 //       }
 //     });
 //
@@ -137,20 +137,20 @@
 //         .authStateChanges()
 //         .listen((User? user) {
 //       if (user == null) {
-//         print('User is currently signed out!');
+//         debugPrint('User is currently signed out!');
 //         Future.delayed(const Duration(milliseconds: 5000), () {
 //           // setState(() {
 //           isLoading--;
-//           print(isLoading);
+//           debugPrint(isLoading);
 //           // });
 //         });
 //
 //         getStoreId().then((value) {
-//           print('Out ID -> ' + value.toString());
+//           debugPrint('Out ID -> ' + value.toString());
 //         });
 //       } else {
 //         getStoreId().then((value) {
-//           print('ID -> ' + value.toString());
+//           debugPrint('ID -> ' + value.toString());
 //           Future.delayed(const Duration(milliseconds: 1000), () {
 //             if(value.toString() != '' && value.toString() != 'idk') {
 //               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -169,7 +169,7 @@
 //
 //
 //
-//         print('User is signed in!');
+//         debugPrint('User is signed in!');
 //       }
 //     });
 //     return Scaffold(
@@ -192,7 +192,7 @@
 //                           child: GestureDetector(
 //                             onTap: () {
 //                               isLoading++;
-//                               print('clicked');
+//                               debugPrint('clicked');
 //                             },
 //                             child: Container(
 //                                 child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
@@ -671,25 +671,25 @@
 // // //                                                                               } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
 // // //                                                                             });
 // // //                                                                           } on FirebaseAuthException catch (e) {
-// // //                                                                             print(e.code.toString());
+// // //                                                                             debugPrint(e.code.toString());
 // // //                                                                             if (e.code == 'user-not-found') {
 // // //                                                                               setState(() {
 // // //                                                                                 wrongEmail = ' may be incorrect ';
 // // //                                                                                 wrongPassword = ' may be incorrect ';
 // // //                                                                               });
-// // //                                                                               print('No user found for that email.');
+// // //                                                                               debugPrint('No user found for that email.');
 // // //                                                                             } else if (e.code == 'wrong-password') {
 // // //                                                                               setState(() {
 // // //                                                                                 wrongEmail = ' may be incorrect ';
 // // //                                                                                 wrongPassword = ' may be incorrect ';
 // // //                                                                               });
-// // //                                                                               print('Wrong password provided for that user.');
+// // //                                                                               debugPrint('Wrong password provided for that user.');
 // // //                                                                             } else if (e.code == 'invalid-email') {
 // // //                                                                               setState(() {
 // // //                                                                                 wrongEmail = ' is invalid email ';
 // // //                                                                                 // wrongPassword = ' may be incorrect ';
 // // //                                                                               });
-// // //                                                                               print('Invalid email.');
+// // //                                                                               debugPrint('Invalid email.');
 // // //                                                                             }
 // // //                                                                           }
 // // //
@@ -1145,15 +1145,15 @@
 // // //                                                   setState(() {
 // // //                                                     weakPassword = ' Password is too weak (must be at least 6 characters long) ';
 // // //                                                   });
-// // //                                                   print('The password provided is too weak.');
+// // //                                                   debugPrint('The password provided is too weak.');
 // // //                                                 } else if (e.code == 'email-already-in-use') {
 // // //                                                   setState(() {
 // // //                                                     emailExist = ' Account already exists ';
 // // //                                                   });
-// // //                                                   print('The account already exists for that email.');
+// // //                                                   debugPrint('The account already exists for that email.');
 // // //                                                 }
 // // //                                               } catch (e) {
-// // //                                                 print(e);
+// // //                                                 debugPrint(e);
 // // //                                               }
 // // //                                             }
 // // //                                           },
@@ -1654,28 +1654,28 @@
 // //                                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
 // //                                                             } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
 // //
-// //                                                             print('username' + mail.toString() + uid.toString());
+// //                                                             debugPrint('username' + mail.toString() + uid.toString());
 // //                                                           });
 // //                                                         } on FirebaseAuthException catch (e) {
 // //                                                           if (e.code == 'weak-password') {
 // //                                                             // setState(() {
 // //                                                               weakPassword = ' must be 6 characters long ';
 // //                                                             // });
-// //                                                             print('The password provided is too weak.');
+// //                                                             debugPrint('The password provided is too weak.');
 // //                                                           } else if (e.code == 'email-already-in-use') {
 // //                                                             // setState(() {
 // //                                                               emailExist = ' Account already exists ';
 // //                                                             // });
-// //                                                             print('The account already exists for that email.');
+// //                                                             debugPrint('The account already exists for that email.');
 // //                                                           } else if (e.code == 'invalid-email') {
 // //                                                             // setState(() {
 // //                                                               emailExist = ' is invalid email ';
 // //                                                               // wrongPassword = ' may be incorrect ';
 // //                                                             // });
-// //                                                             print('Invalid email.');
+// //                                                             debugPrint('Invalid email.');
 // //                                                           }
 // //                                                         } catch (e) {
-// //                                                           print(e);
+// //                                                           debugPrint(e);
 // //                                                         }
 // //                                                       }
 // //                                                     },
@@ -2047,7 +2047,7 @@
 //                           child: GestureDetector(
 //                             onTap: () {
 //                               isLoading--;
-//                               print(isLoading);
+//                               debugPrint(isLoading);
 //                             },
 //                             child: Padding(
 //                               padding: const EdgeInsets.only(bottom: 15.0),

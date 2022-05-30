@@ -177,7 +177,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -201,17 +201,17 @@ class BuyListFragment2State extends State<BuyListFragment2>
   slidingSearchCont() {
 
     if(slidingSearch == 0) {
-      print('gg0');
+      debugPrint('gg0');
       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 1) {
-      print('gg1');
+      debugPrint('gg1');
       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 2) {
-      print('gg2');
+      debugPrint('gg2');
       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
@@ -227,14 +227,14 @@ class BuyListFragment2State extends State<BuyListFragment2>
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -354,7 +354,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          print('clicked saerch');
+                          debugPrint('clicked saerch');
                           widget._searchBtn();
                         },
                         child: Container(
@@ -475,7 +475,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
 
 
   checkTest(String input) {
-    print("CHECK TEST " + input);
+    debugPrint("CHECK TEST " + input);
   }
 
 

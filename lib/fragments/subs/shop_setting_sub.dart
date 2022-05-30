@@ -95,7 +95,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -127,7 +127,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
       });
 
       if(exist) {
-        print('space shi p thar');
+        debugPrint('space shi p thar');
 
         FirebaseFirestore.instance
             .collection('space').doc(docId).collection('shops')
@@ -139,7 +139,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
           });
 
           if(shopExist) {
-            print('shop already');
+            debugPrint('shop already');
 
           } else {
             CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -148,12 +148,12 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
               'shop_name': shopName
             })
                 .then((value) {
-              print('shop added');
+              debugPrint('shop added');
             });
           }
         });
       } else {
-        print('space mshi vuu');
+        debugPrint('space mshi vuu');
         return spaces
             .add({
           'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -166,10 +166,10 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
             'shop_name': shopName
           })
               .then((value) {
-            print('shop added');
+            debugPrint('shop added');
           });
 
-        }).catchError((error) => print("Failed to add shop: $error"));
+        }).catchError((error) => debugPrint("Failed to add shop: $error"));
       }
     });
   }
@@ -301,12 +301,12 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                   .snapshots(),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if(snapshot.hasData) {
-                                  // print(snapshot.data!.docs.length);
+                                  // debugPrint(snapshot.data!.docs.length);
                                   int ownShopsCount = 0;
                                   for(int i = 0; i < snapshot.data!.docs.length; i++) {
                                     ownShopsCount++;
                                   }
-                                  print('Own shop count ' + ownShopsCount.toString());
+                                  debugPrint('Own shop count ' + ownShopsCount.toString());
                                   var index = 0;
                                   return eachTile('Switch shop', 'total ' + ownShopsCount.toString());
                                 }

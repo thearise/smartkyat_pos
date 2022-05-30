@@ -183,7 +183,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -207,17 +207,17 @@ class OrdersFragmentState extends State<OrdersFragment>
   slidingSearchCont() {
 
     if(slidingSearch == 0) {
-      print('gg0');
+      debugPrint('gg0');
       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 1) {
-      print('gg1');
+      debugPrint('gg1');
       subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
     } else if(slidingSearch == 2) {
-      print('gg2');
+      debugPrint('gg2');
       subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
       setState(() {
       });
@@ -233,14 +233,14 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   void closeSearch() {
     _searchController.clear();
-    print('clicked testing ');
+    debugPrint('clicked testing ');
     FocusScope.of(context).unfocus();
     setState(() {
       loadingSearch = false;
     });
   }
   void unfocusSearch() {
-    print('clicked testing 2');
+    debugPrint('clicked testing 2');
     FocusScope.of(context).unfocus();
   }
 
@@ -360,7 +360,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          print('clicked saerch');
+                          debugPrint('clicked saerch');
                           widget._searchBtn();
                         },
                         child: Container(
@@ -881,7 +881,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
@@ -907,7 +907,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   checkTest(String input) {
-    print("CHECK TEST " + input);
+    debugPrint("CHECK TEST " + input);
   }
 
   convertToAMPM(String input){
@@ -1165,7 +1165,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
     }
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -1192,10 +1192,10 @@ class OrdersFragmentState extends State<OrdersFragment>
           ;
         }
       }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+      // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
     }).toList();
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -1217,10 +1217,10 @@ class OrdersFragmentState extends State<OrdersFragment>
               list[i].split('^')[4];
         }
       }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+      // debugPrint('changeData ' + document['customer_name'].toString() + list[0].toString());
     }).toList();
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -1235,7 +1235,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
-    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
     }
@@ -1324,11 +1324,11 @@ class OrdersFragmentState extends State<OrdersFragment>
   //   //   });
   //   //
   //   // }).then((value) {
-  //   //   // print('here ' + temp.toString());
+  //   //   // debugPrint('here ' + temp.toString());
   //   //   //return temp;
   //   //   // return gloTemp;
   //   // });
-  //   // print('here2 ' + temp.toString());
+  //   // debugPrint('here2 ' + temp.toString());
   //   // return gloTemp;
   //
   //
@@ -1425,7 +1425,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
                                       )
                                     ],
@@ -1477,12 +1477,12 @@ class OrdersFragmentState extends State<OrdersFragment>
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1514,7 +1514,7 @@ class OrdersFragmentState extends State<OrdersFragment>
       endDateOfMonth = '31';
     }
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-    print('DDDDD ' + yearStart.toString());
+    debugPrint('DDDDD ' + yearStart.toString());
     return yearStart;
   }
 
@@ -1526,13 +1526,13 @@ class OrdersFragmentState extends State<OrdersFragment>
     DateTime notTday = today;
     notTday = today;
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
-    print('DDDDDD ' + yearStart.toString());
+    debugPrint('DDDDDD ' + yearStart.toString());
     return yearStart;
 
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1597,7 +1597,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
     //     .orderBy('date', descending: true);
 
-    print('date checkkki ' + DateTime(today.year, today.month + 1, 0).toString());
+    debugPrint('date checkkki ' + DateTime(today.year, today.month + 1, 0).toString());
 
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
         .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (DateTime(today.year, today.month + 1, 0).day).toString() + ' 23:59:59'))
@@ -1678,7 +1678,7 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-// print(item.split('^')[0].substring(0,8));
+// debugPrint(item.split('^')[0].substring(0,8));
 // var dateId = '';
 // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 // // FirebaseFirestore.instance.collection('space')
@@ -1693,7 +1693,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // 'daily_order': FieldValue.arrayRemove([item])
 // })
 //     .then((value) {
-// print('array removed');
+// debugPrint('array removed');
 //
 // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
 //
@@ -1701,7 +1701,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // })
 //     .then((value) {
-// print('array updated');
+// debugPrint('array updated');
 // });
 //
 //
@@ -1712,7 +1712,7 @@ class ExampleSection implements ExpandableListSection<String> {
 // //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
 // // })
 // //     .then((value) {
-// //   print('array updated');
+// //   debugPrint('array updated');
 // // });
 // // 2021081601575511001^1-1001^total^name^pf
 //

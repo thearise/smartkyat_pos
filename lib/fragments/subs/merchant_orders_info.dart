@@ -329,7 +329,7 @@
 //                                                 MaterialPageRoute(
 //                                                     builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {},
 //                                                       shopId: widget.shopId.toString(),)),);
-//                                               print('Items');
+//                                               debugPrint('Items');
 //                                             },
 //                                             child: Stack(
 //                                               alignment: Alignment.center,
@@ -765,7 +765,7 @@
 //   }
 //
 //   _animateToIndex(i) {
-//     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+//     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
 //     if((_width * i) > cateScCtler.position.maxScrollExtent) {
 //       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
 //     } else {

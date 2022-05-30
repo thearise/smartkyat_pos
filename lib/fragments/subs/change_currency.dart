@@ -94,7 +94,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -131,19 +131,31 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
         setState(() {
           _selectedTest = selectedTest;
         });
+        debugPrint('currr ' + selectedTest['keyword'].toString());
         setCurrency(selectedTest['keyword'].toString()).then((_) {
           // widget._chgShopCB3();
-          if (Platform.isAndroid) {
-            SystemNavigator.pop();
-          } else if (Platform.isIOS) {
-            exit(0);
-          }
+          showOkAlertDialog(
+              context: context,
+              title: 'Restart required',
+              message: 'Currency changed successfully at your current shop.'
+          ).then((result) async {
+            if (Platform.isAndroid) {
+              SystemNavigator.pop();
+            } else if (Platform.isIOS) {
+              exit(0);
+            }
+          });
+          // if (Platform.isAndroid) {
+          //   SystemNavigator.pop();
+          // } else if (Platform.isIOS) {
+          //   exit(0);
+          // }
         });
 
       }
     });
 
-    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    debugPrint(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   // addShop(shopName) {
@@ -162,7 +174,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   //     });
   //
   //     if(exist) {
-  //       print('space shi p thar');
+  //       debugPrint('space shi p thar');
   //
   //       FirebaseFirestore.instance
   //           .collection('space').doc(docId).collection('shops')
@@ -174,7 +186,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   //         });
   //
   //         if(shopExist) {
-  //           print('shop already');
+  //           debugPrint('shop already');
   //
   //         } else {
   //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -183,14 +195,14 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   //             'shop_name': shopName
   //           })
   //               .then((value) {
-  //             print('shop added');
+  //             debugPrint('shop added');
   //           });
   //         }
   //       });
   //
   //
   //     } else {
-  //       print('space mshi vuu');
+  //       debugPrint('space mshi vuu');
   //       return spaces
   //           .add({
   //         'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -203,10 +215,10 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   //           'shop_name': shopName
   //         })
   //             .then((value) {
-  //           print('shop added');
+  //           debugPrint('shop added');
   //         });
   //
-  //       }).catchError((error) => print("Failed to add shop: $error"));
+  //       }).catchError((error) => debugPrint("Failed to add shop: $error"));
   //     }
   //   });
   // }
@@ -902,7 +914,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                         ),
 //                                         onPressed: () {
 //                                           Navigator.pop(context);
-//                                           print('clicked');
+//                                           debugPrint('clicked');
 //                                         },
 //
 //                                       )

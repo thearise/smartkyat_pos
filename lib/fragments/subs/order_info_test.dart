@@ -60,7 +60,7 @@
 //     try {
 //       result = await _connectivity.checkConnectivity();
 //     } on PlatformException catch (e) {
-//       print(e.toString());
+//       debugPrint(e.toString());
 //     }
 //
 //     // If the widget was removed from the tree while the asynchronous platform
@@ -81,7 +81,7 @@
 //         try {
 //           final result = await InternetAddress.lookup('google.com');
 //           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-//             print('connected');
+//             debugPrint('connected');
 //             setState(() {
 //               _connectionStatus = true;
 //             });
@@ -134,7 +134,7 @@
 //   @override
 //   initState() {
 //     // WidgetsBinding.instance!.addPostFrameCallback((_) async {
-//     //   print('list check ' + prodListView.toString());
+//     //   debugPrint('list check ' + prodListView.toString());
 //     // });
 //
 //     getLangId().then((value) {
@@ -183,8 +183,8 @@
 //     initConnectivity();
 //     _connectivitySubscription =
 //         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-//     // print('WIDGET-' + widget.data);
-//     // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
+//     // debugPrint('WIDGET-' + widget.data);
+//     // debugPrint('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
 //     result = widget.data
 //         .split('^')[0] +
 //         '^' +
@@ -201,7 +201,7 @@
 //             .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
 //         .split('^')[6];
 //
-//     print('ccccccc' + result.split('^')[0].split('-')[0].toString());
+//     debugPrint('ccccccc' + result.split('^')[0].split('-')[0].toString());
 //     docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
 //
 //     super.initState();
@@ -325,8 +325,8 @@
 //                       builder: (BuildContext context, snapshot2) {
 //                         if (snapshot2.hasData) {
 //                           var output1 = snapshot2.data!.data();
-//                           print('phyophyo' + result.toString());
-//                           // print(output1?['subs'].toString());
+//                           debugPrint('phyophyo' + result.toString());
+//                           // debugPrint(output1?['subs'].toString());
 //                           if(output1?['subs'] == null) {
 //                             //smartKyatFlash('Internet connection is required to take this action.', 'w');
 //                             return Expanded(
@@ -346,7 +346,7 @@
 //                           prodListView.add(prodList[0]);
 //                           totalPrice = 0;
 //                           totalRealPrice = 0;
-//                           print(totalPrice.toString() +
+//                           debugPrint(totalPrice.toString() +
 //                               'totalPrice ' +
 //                               prodList.toString());
 //
@@ -383,7 +383,7 @@
 //
 //                           }
 //
-//                           print('view ' + prodListView.toString());
+//                           debugPrint('view ' + prodListView.toString());
 //
 //                           result = widget.data
 //                               .split('^')[0] +
@@ -440,7 +440,7 @@
 //                                                       widget._closeCartBtn();
 //                                                       String isRef = 'p';
 //                                                       double debt = double.parse(widget.data.split('^')[5]);
-//                                                       print('result__1 ' + result.toString());
+//                                                       debugPrint('result__1 ' + result.toString());
 //                                                       for (int i = 0; i < prodListView.length; i++) {
 //                                                         if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
 //                                                           isRef = 'r';
@@ -470,7 +470,7 @@
 //                                                               .split('^')[4] + '^' + debt.toString() + '^' + widget.data
 //                                                           .split('^')[6];
 //
-//                                                       print('Result'+ result.toString());
+//                                                       debugPrint('Result'+ result.toString());
 //
 //                                                       await Navigator.push(
 //                                                         context,
@@ -484,7 +484,7 @@
 //                                                                       () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
 //                                                       );
 //                                                       widget._openCartBtn();
-//                                                       print('result__2 ' + result.toString());
+//                                                       debugPrint('result__2 ' + result.toString());
 //                                                     },
 //                                                     child: Container(
 //                                                       width: 100,
@@ -615,7 +615,7 @@
 //
 //
 //
-//                                                       print('shit shit here' + prodListView.toString());
+//                                                       debugPrint('shit shit here' + prodListView.toString());
 //
 //
 //                                                       Navigator.push(
@@ -881,7 +881,7 @@
 //                                     //       // );
 //                                     //       // var output2 = snapshot2.data!.data();
 //                                     //       var image = data['img_1'];
-//                                     //       print('image htwet heree' + prodListView[i].toString());
+//                                     //       debugPrint('image htwet heree' + prodListView[i].toString());
 //                                     //       if(i == 0) {
 //                                     //         prodListPrint = [];
 //                                     //         prodListPrint.add(
@@ -1043,7 +1043,7 @@
 //                                             // );
 //                                             // var output2 = snapshot2.data!.data();
 //                                             var image = data['img_1'];
-//                                             print('image htwet server heree' + prodListView[i].toString());
+//                                             debugPrint('image htwet server heree' + prodListView[i].toString());
 //                                             if(firstBuild) {
 //                                               prodListPrint.add(
 //                                                   data['prod_name'] + '^' +
@@ -1054,7 +1054,7 @@
 //                                             }
 //                                             if(i == prodListView.length-1) {
 //                                               firstBuild = false;
-//                                               retrieveForPrint();
+//                                               retrieveFordebugPrint();
 //                                             }
 //
 //                                             return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1193,7 +1193,7 @@
 //                                             }
 //                                             if(i == prodListView.length-1) {
 //                                               firstBuild = false;
-//                                               retrieveForPrint();
+//                                               retrieveFordebugPrint();
 //                                             }
 //
 //                                             return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -1305,7 +1305,7 @@
 //                                           }
 //                                           if(i == prodListView.length-1) {
 //                                             firstBuild = false;
-//                                             retrieveForPrint();
+//                                             retrieveFordebugPrint();
 //                                           }
 //
 //                                           return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
@@ -2154,7 +2154,7 @@
 //                                         ),
 //                                         onPressed: () {
 //                                           Navigator.pop(context);
-//                                           print('clicked');
+//                                           debugPrint('clicked');
 //                                         },
 //                                       )
 //                                     ],
@@ -2396,7 +2396,7 @@
 //   }
 //
 //   String whatTheFuck() {
-//     print('GGGGGGG');
+//     debugPrint('GGGGGGG');
 //     return '';
 //   }
 //
@@ -2410,10 +2410,10 @@
 //
 //   bool firstRetFPrint = true;
 //   List<String> prodListPrintMod = [];
-//   Future<void> retrieveForPrint() async {
+//   Future<void> retrieveFordebugPrint() async {
 //     if(firstRetFPrint) {
 //       firstRetFPrint = false;
-//       print('retrieveForPrint ' + prodListView.toString());
+//       debugPrint('retrieveForPrint ' + prodListView.toString());
 //
 //       for(int i = 0; i< prodListView.length; i++) {
 //         await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
@@ -2433,7 +2433,7 @@
 //           }
 //
 //           if(i == prodListView.length - 1) {
-//             print('GGG ' + prodListPrintMod.toString());
+//             debugPrint('GGG ' + prodListPrintMod.toString());
 //           }
 //
 //         });

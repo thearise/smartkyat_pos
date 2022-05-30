@@ -140,7 +140,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   //     });
   //
   //     if(exist) {
-  //       print('space shi p thar');
+  //       debugPrint('space shi p thar');
   //
   //       FirebaseFirestore.instance
   //           .collection('space').doc(docId).collection('shops')
@@ -152,7 +152,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   //         });
   //
   //         if(shopExist) {
-  //           print('shop already');
+  //           debugPrint('shop already');
   //
   //         } else {
   //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
@@ -161,14 +161,14 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   //             'shop_name': shopName
   //           })
   //               .then((value) {
-  //             print('shop added');
+  //             debugPrint('shop added');
   //           });
   //         }
   //       });
   //
   //
   //     } else {
-  //       print('space mshi vuu');
+  //       debugPrint('space mshi vuu');
   //       return spaces
   //           .add({
   //         'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -181,10 +181,10 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   //           'shop_name': shopName
   //         })
   //             .then((value) {
-  //           print('shop added');
+  //           debugPrint('shop added');
   //         });
   //
-  //       }).catchError((error) => print("Failed to add shop: $error"));
+  //       }).catchError((error) => debugPrint("Failed to add shop: $error"));
   //     }
   //   });
   // }
@@ -233,7 +233,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 ),
                                 onPressed: () {
                                   // getEmail(ownerId);
-                                  // print('getEmail' + getEmail(ownerId).toString());
+                                  // debugPrint('getEmail' + getEmail(ownerId).toString());
                                   Navigator.pop(context);
                                 }),
                           ),
@@ -289,7 +289,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                       if(snapshot.hasData) {
                         var output = snapshot.data != null? snapshot.data!.data(): null;
                         int staffCount = output?['users'].length;
-                        print('staff ' + staffCount.toString() + output?['plan_type']);
+                        debugPrint('staff ' + staffCount.toString() + output?['plan_type']);
                         var usersList = output?['users'];
                         return ListView(
                           children: [
@@ -336,14 +336,14 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                     .limit(1)
                                                     .snapshots(),
                                                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                  print('check1 ' + usersList[i].toString());
+                                                  debugPrint('check1 ' + usersList[i].toString());
                                                   if(snapshot2.hasData) {
 
-                                                    print('getOwnerrr' + ownerEmail.toString());
-                                                    print('hasData' + snapshot2.data!.docs.length.toString());
+                                                    debugPrint('getOwnerrr' + ownerEmail.toString());
+                                                    debugPrint('hasData' + snapshot2.data!.docs.length.toString());
                                                     if(snapshot2.data!.docs.length == 0) {
 
-                                                      // print('ownerrr' + ownerId.toString());
+                                                      // debugPrint('ownerrr' + ownerId.toString());
 
                                                       // return StreamBuilder(
                                                       // stream: FirebaseFirestore.instance
@@ -399,7 +399,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                       //                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update(
                                                       //                                       {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
                                                       //                                   ).then((value) async {
-                                                      //                                     print('users removed');
+                                                      //                                     debugPrint('users removed');
                                                       //                                   });
                                                       //                                 }
                                                       //                               }
@@ -431,7 +431,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                               String userDocId = snapshot3.data!.docs[0].id.toString();
                                                               var role = dataUser['role'];
 
-                                                              print('roooo 6' + role.toString());
+                                                              debugPrint('roooo 6' + role.toString());
                                                               return Container(
                                                                 height: 65,
                                                                 child: Column(
@@ -497,12 +497,12 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                                 //   users.doc(userDocId)
                                                                                                 //       .delete()
                                                                                                 //       .then((value) {
-                                                                                                //     print('users removed');
+                                                                                                //     debugPrint('users removed');
                                                                                                 //   }).catchError((error) {
                                                                                                 //     users_ver.doc(userVerSnap.docs[0].id)
                                                                                                 //         .delete()
                                                                                                 //         .then((value) {
-                                                                                                //       print('users ver removed');
+                                                                                                //       debugPrint('users ver removed');
                                                                                                 //     }).catchError((error) {
                                                                                                 //     });
                                                                                                 //   });
@@ -612,16 +612,16 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                             Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
                                                             String userDocId = snapshot3.data!.docs[0].id.toString();
                                                             var role = dataUser['role'];
-                                                            print('roooo ' + role.toString());
+                                                            debugPrint('roooo ' + role.toString());
                                                             return Container(
                                                               height: 65,
                                                               child: Column(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: snapshot2.data!.docs.map((DocumentSnapshot document) {
-                                                                    print('hasData' + snapshot2.data!.docs.length.toString());
+                                                                    debugPrint('hasData' + snapshot2.data!.docs.length.toString());
                                                                     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                                    print('email found ' + data.toString());
+                                                                    debugPrint('email found ' + data.toString());
 
                                                                     var _selectedTest;
                                                                     List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
@@ -665,7 +665,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                             CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
 
 
-                                                                                            print('emailling check ' + usersList[i].toString());
+                                                                                            debugPrint('emailling check ' + usersList[i].toString());
                                                                                             users_ver
                                                                                                 .where('email', isEqualTo: usersList[i].toString())
                                                                                                 .limit(1)
@@ -687,12 +687,12 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                               //   users.doc(userDocId)
                                                                                               //       .delete()
                                                                                               //       .then((value) {
-                                                                                              //     print('users removed');
+                                                                                              //     debugPrint('users removed');
                                                                                               //   }).catchError((error) {
                                                                                               //     users_ver.doc(userVerSnap.docs[0].id)
                                                                                               //         .delete()
                                                                                               //         .then((value) {
-                                                                                              //       print('users ver removed');
+                                                                                              //       debugPrint('users ver removed');
                                                                                               //     }).catchError((error) {
                                                                                               //     });
                                                                                               //   });
@@ -769,7 +769,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                         smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                                                       }
 
-                                                                                      // print('resultPicker ' + resultPicker.toString());
+                                                                                      // debugPrint('resultPicker ' + resultPicker.toString());
 
                                                                                       // _selectTab(0);
                                                                                       // await FirebaseAuth.instance.signOut();
@@ -1053,7 +1053,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
     } else {
       selectedIndex = 0;
     }
-    print('test');
+    debugPrint('test');
     BottomPicker(
       // displayButtonIcon: false,
       buttonText: 'Set permission',
@@ -1066,15 +1066,15 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       buttonTextStyle: TextStyle(color: Colors.blue),
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       onSubmit: (index) {
-        print(userDocId + ' id -> ' + index.toString());
+        debugPrint(userDocId + ' id -> ' + index.toString());
 
         FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver')
             .where('email', isEqualTo: userDocId)
             .get()
             .then((QuerySnapshot querySnapshot) {
-          print('what?');
+          debugPrint('what?');
           querySnapshot.docs.forEach((doc) async {
-            print('win lar   lar?');
+            debugPrint('win lar   lar?');
             if(doc.exists) {
               WriteBatch batch  = FirebaseFirestore.instance.batch();
 
@@ -1091,8 +1091,8 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
               //     .update({
               //   'role': index == 0? 'cashier' : 'admin'
               // })
-              //     .then((value) => print("User Updated"))
-              //     .catchError((error) => print("Failed to update user: $error"));
+              //     .then((value) => debugPrint("User Updated"))
+              //     .catchError((error) => debugPrint("Failed to update user: $error"));
             }
           });
           if(querySnapshot.docs.length==0) {

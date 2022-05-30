@@ -816,19 +816,19 @@ class _productDetails extends StatelessWidget {
 // //     caption: 'Archive',
 // //     color: Colors.blue,
 // //     icon: Icons.archive,
-// //     onTap: () => print('Archive'),
+// //     onTap: () => debugPrint('Archive'),
 // //   ),
 // //   IconSlideAction(
 // //     caption: 'Share',
 // //     color: Colors.indigo,
 // //     icon: Icons.share,
-// //     onTap: () => print('Share'),
+// //     onTap: () => debugPrint('Share'),
 // //   ),
 // // ],
 // dismissal: SlidableDismissal(
 // child: SlidableDrawerDismissal(),
 // onWillDismiss: (actionType) {
-// print('here');
+// debugPrint('here');
 // return true;
 // },
 // ),
@@ -837,7 +837,7 @@ class _productDetails extends StatelessWidget {
 // caption: 'Delete',
 // color: Colors.red,
 // icon: Icons.delete,
-// onTap: () => print('Delete'),
+// onTap: () => debugPrint('Delete'),
 // ),
 // ],
 // )

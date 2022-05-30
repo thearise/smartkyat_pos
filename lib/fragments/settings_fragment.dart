@@ -57,7 +57,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    print(index);
+    debugPrint(index);
     if (index == null) {
       return 'idk';
     } else {
@@ -203,7 +203,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   //     });
   //
   //     if(exist) {
-  //       print('space shi p thar');
+  //       debugPrint('space shi p thar');
   //
   //       FirebaseFirestore.instance
   //           .collection('space').doc(docId).collection('shops')
@@ -215,7 +215,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   //         });
   //
   //         if(shopExist) {
-  //           print('shop already');
+  //           debugPrint('shop already');
   //         } else {
   //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
   //           return shops
@@ -223,14 +223,14 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   //             'shop_name': shopName
   //           })
   //               .then((value) {
-  //             print('shop added');
+  //             debugPrint('shop added');
   //           });
   //         }
   //       });
   //
   //
   //     } else {
-  //       print('space mshi vuu');
+  //       debugPrint('space mshi vuu');
   //       return spaces
   //           .add({
   //         'user_id': FirebaseAuth.instance.currentUser!.uid
@@ -243,10 +243,10 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   //           'shop_name': shopName
   //         })
   //             .then((value) {
-  //           print('shop added');
+  //           debugPrint('shop added');
   //         });
   //
-  //       }).catchError((error) => print("Failed to add shop: $error"));
+  //       }).catchError((error) => debugPrint("Failed to add shop: $error"));
   //     }
   //   });
   // }
@@ -806,7 +806,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          print('clicked');
+                                          debugPrint('clicked');
                                         },
 
                                       )

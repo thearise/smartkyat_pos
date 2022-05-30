@@ -171,7 +171,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     return BlocBuilder<PaginationCubit, PaginationState>(
       bloc: _cubit,
       builder: (context, state) {
-        print('shhh');
+        debugPrint('shhh');
         if (state is PaginationInitial) {
           return widget.initialLoader;
         } else if (state is PaginationError) {
@@ -238,7 +238,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
-        print('maxxed');
+        debugPrint('maxxed');
         Future.delayed(const Duration(milliseconds: 500), () {
           itemPerPage = itemPerPage + 10;
           setState(() {});
@@ -331,7 +331,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   Widget _buildListView(PaginationLoaded loadedState) {
     endOfResult = false;
     noFind = false;
-    print('whatting???');
+    debugPrint('whatting???');
     List viewDocList = [];
     int allItems = 0;
     int itemsForEof = 0;
@@ -357,7 +357,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         }
       }
     }
-    print('testtt0 ' + itemsForEof.toString());
+    debugPrint('testtt0 ' + itemsForEof.toString());
     if(itemsForEof <= 0) {
       noFind = true;
     }
@@ -383,7 +383,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
             // itemsForPag++;
           }
         } else if(cateScIndex == 0) {
-          print('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
+          debugPrint('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
           // if(dailyOrders.length >= itemPerPage) {
           //   break;
           // }
@@ -410,7 +410,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         }
         allItems++;
         daily.add(sortedDailyOrder[j]);
-        print('testtt1 ' + itemsForEof.toString() + ' ' + allItems.toString());
+        debugPrint('testtt1 ' + itemsForEof.toString() + ' ' + allItems.toString());
 
         if(allItems>=itemPerPage) {
           temp['daily_order'] = daily;
@@ -420,10 +420,10 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           break outerLoop;
         }
       }
-      print('testing1 ' + itemsForEof.toString() + ' ' + allItems.toString());
+      debugPrint('testing1 ' + itemsForEof.toString() + ' ' + allItems.toString());
       if(allItems >= itemsForEof) {
         endOfResult = true;
-        print('end twr p');
+        debugPrint('end twr p');
       } else {
         endOfResult = false;
       }
@@ -431,13 +431,13 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       temp['date'] = data['date'];
       viewDocList.add(temp);
     }
-    print('itemsForEof ' + itemsForEof.toString());
-    // print('bloc_fire data ' + viewDocList.length.toString());
-    print('count map ' + countMap.toString());
+    debugPrint('itemsForEof ' + itemsForEof.toString());
+    // debugPrint('bloc_fire data ' + viewDocList.length.toString());
+    debugPrint('count map ' + countMap.toString());
 
     var sections = List<ExampleSection>.empty(growable: true);
     int docInc = 0;
-    print('HHHEEEE' + viewDocList.length.toString() + ' ');
+    debugPrint('HHHEEEE' + viewDocList.length.toString() + ' ');
     outerLoop:
     for(int l = 0; l < viewDocList.length; l++) {
 
@@ -458,7 +458,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         //     dailyOrders.add(str);
         //   }
         // } else if(cateScIndex == 0) {
-        //   print('length checker ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+        //   debugPrint('length checker ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
         //   // if(dailyOrders.length >= itemPerPage) {
         //   //   break;
         //   // }
@@ -466,9 +466,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         // }
         dailyOrders.add(str);
       }
-      print('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
-      print('where is 2');
-      // print('herre ' + document.id);
+      debugPrint('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+      debugPrint('where is 2');
+      // debugPrint('herre ' + document.id);
       var section = ExampleSection()
         ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -482,7 +482,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         ..expanded = true;
       sections.add(section);
       // if(docInc>0) {
-      //   print('where is ');
+      //   debugPrint('where is ');
       //   Map<String,dynamic> dataLow = viewDocList[docInc-1].data()! as Map< String, dynamic>;
       //   List<String> dataLowDailyOrder = [];
       //   for(String str in dataLow['daily_order']) {
@@ -505,7 +505,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       //   }
       //
       //
-      //   print('DATA LOW ' + dataLow['date'].toDate().toString());
+      //   debugPrint('DATA LOW ' + dataLow['date'].toDate().toString());
       //   if( viewDocList[l]['date'].toDate().year.toString() + viewDocList[l]['date'].toDate().month.toString() + viewDocList[l]['date'].toDate().day.toString()
       //       ==
       //       dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
@@ -525,7 +525,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       //     // sections.add(section);
       //     sections[sections.length-1] = section;
       //   } else {
-      //     // print('herre ' + document.id);
+      //     // debugPrint('herre ' + document.id);
       //     var section = ExampleSection()
       //       ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
       //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -540,8 +540,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       //     sections.add(section);
       //   }
       // } else {
-      //   print('where is 2');
-      //   // print('herre ' + document.id);
+      //   debugPrint('where is 2');
+      //   // debugPrint('herre ' + document.id);
       //   var section = ExampleSection()
       //     ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
       //   // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -556,10 +556,10 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       //   sections.add(section);
       // }
       if(docInc>0) {
-        print('section p p lr 1 ' + sections[1].items.length.toString());
+        debugPrint('section p p lr 1 ' + sections[1].items.length.toString());
       }
       docInc++;
-      print('section p p lr 0 ' + sections[0].items.length.toString());
+      debugPrint('section p p lr 0 ' + sections[0].items.length.toString());
 
     }
     // loadedState.documentSnapshots.map((document) async {
@@ -610,7 +610,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     //     }
     //
     //
-    //     print('DATA LOW ' + dataLow['date'].toDate().toString());
+    //     debugPrint('DATA LOW ' + dataLow['date'].toDate().toString());
     //     if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
     //         ==
     //         dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
@@ -630,7 +630,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     //       // sections.add(section);
     //       sections[sections.length-1] = section;
     //     } else {
-    //       // print('herre ' + document.id);
+    //       // debugPrint('herre ' + document.id);
     //       var section = ExampleSection()
     //         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
     //       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -645,7 +645,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     //       sections.add(section);
     //     }
     //   } else {
-    //     // print('herre ' + document.id);
+    //     // debugPrint('herre ' + document.id);
     //     var section = ExampleSection()
     //       ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
     //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -666,7 +666,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     // }).toList();
     sectionList3 = sections;
 
-    print('loaded in bloc_firestore ');
+    debugPrint('loaded in bloc_firestore ');
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: _scrollController,
@@ -705,7 +705,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                 return GestureDetector(
                   onTap: () async {
                     widget._closeDrawerBtn();
-                    // print(item.split('^')[1]);
+                    // debugPrint(item.split('^')[1]);
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -961,7 +961,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
               return GestureDetector(
                 onTap: () async {
                   widget._closeDrawerBtn();
-                  print('Items'+item);
+                  debugPrint('Items'+item);
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -1251,7 +1251,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
-    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
     }
@@ -1525,7 +1525,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
 
     }
 
-    // print('changeData ' + snpsht.da);
+    // debugPrint('changeData ' + snpsht.da);
     return list;
   }
 
@@ -1637,13 +1637,13 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
-          print('closed 1 ' + today.toString());
-          // print('closed 2 ' + td.toString());
+          debugPrint('closed 1 ' + today.toString());
+          // debugPrint('closed 2 ' + td.toString());
         });
         widget._resetState(today);
         // fetchOrders();
       },
-      onCancel: () => print('onCancel'),
+      onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
         today = dateTime;
@@ -1662,7 +1662,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   }
 
   String selectDaysCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1696,7 +1696,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   }
 
   String selectMonthCast() {
-    print("TTT " + today.year.toString().length.toString());
+    debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
@@ -1730,7 +1730,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
   }
 
   _animateToIndex(i) {
-    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
       cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
     } else {
