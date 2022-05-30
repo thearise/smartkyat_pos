@@ -152,7 +152,7 @@ class _EditProductState extends State<EditProduct> {
     subExist = widget.subExist;
     photoArray = widget.image;
 
-    // print('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
+    // debugPrint('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
 
     getLangId().then((value) {
       if(value=='burmese') {
@@ -232,7 +232,7 @@ class _EditProductState extends State<EditProduct> {
   @override
   Widget build(BuildContext context) {
     // homeBotPadding = MediaQuery.of(context).padding.bottom;
-    print('homebotpad ' + homeBotPadding.toString());
+    debugPrint('homebotpad ' + homeBotPadding.toString());
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -478,14 +478,14 @@ class _EditProductState extends State<EditProduct> {
                                 suffixIcon: IconButton(
                                   icon: Image.asset('assets/system/barcode.png', height: 28,),
                                   onPressed: () async {
-                                    print("Barcode");
+                                    debugPrint("Barcode");
                                     var code = await  Navigator.of(context).push(
                                         FadeRoute(page:
                                         QREditExample(prodName: widget.prodName,),
                                         )
                                     );
                                     barCodeCtrl.text = code;
-                                    print('bar bar ' + code);
+                                    debugPrint('bar bar ' + code);
                                   },
                                 ),
                                 suffixStyle: TextStyle(
@@ -943,15 +943,15 @@ class _EditProductState extends State<EditProduct> {
                                           sub1Buy = '0';
                                           sub2Buy = '0';
                                         }
-                                        print('whatting 0 ?' + subExistChange + ' ' + sub2perUnitCtrl.text);
+                                        debugPrint('whatting 0 ?' + subExistChange + ' ' + sub2perUnitCtrl.text);
 
 
                                         FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                             .get()
                                             .then((DocumentSnapshot documentSnapshot) async {
-                                          print('whatting? 2');
+                                          debugPrint('whatting? 2');
                                           if (documentSnapshot.exists) {
-                                            print('whatting? 3');
+                                            debugPrint('whatting? 3');
                                             // documentSnapshot['prods'].forEach((key, value) {
                                             //
                                             //   productExist.add( value['na'].toString());
@@ -964,15 +964,15 @@ class _EditProductState extends State<EditProduct> {
                                                 prodExist = true;
                                                 // });
 
-                                                print('document print no image ' + productExist.toString());
-                                                print('document print no image ' + prodExist.toString());
+                                                debugPrint('document print no image ' + productExist.toString());
+                                                debugPrint('document print no image ' + prodExist.toString());
                                               }
-                                              print('val ' + value['na'].toString());
+                                              debugPrint('val ' + value['na'].toString());
 
                                             });
 
                                             // for(int i = 0; i < documentSnapshot['prods'].length; i++) {
-                                            //   // print('whatting 5?');*-**
+                                            //   // debugPrint('whatting 5?');*-**
                                             //   var eachMap = documentSnapshot['prods'].entries.elementAt(i);
                                             //   if(eachMap.value['na'] == prodNameCtrl.text) {
                                             //     prodExist = true;
@@ -991,12 +991,12 @@ class _EditProductState extends State<EditProduct> {
                                             //   }
                                             // }
 
-                                            // print('document print ' + productExist.toString());
-                                            print('document print ' + prodExist.toString());
+                                            // debugPrint('document print ' + productExist.toString());
+                                            debugPrint('document print ' + prodExist.toString());
                                           }
 
                                           if (prodExist) {
-                                            print('product already');
+                                            debugPrint('product already');
                                             var result =
                                             await showOkAlertDialog(
                                               context: context,
@@ -1012,7 +1012,7 @@ class _EditProductState extends State<EditProduct> {
                                           }
                                           else {
                                             if(assets.length == 0) {
-                                              print('printedhere');
+                                              debugPrint('printedhere');
                                               // data edit start
                                               FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
                                                 'prods': {
@@ -1038,10 +1038,10 @@ class _EditProductState extends State<EditProduct> {
                                                 }
 
                                               },SetOptions(merge: true)).then((value) {
-                                              }).catchError((error) => print("Failed to update user: $error"));
+                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
                                               // data edit end
 
-                                              print('arrays added ' + '0-'.toString());
+                                              debugPrint('arrays added ' + '0-'.toString());
                                               Navigator.of(context).popUntil((route) => route.isFirst);
                                               smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                               setState(() {
@@ -1066,7 +1066,7 @@ class _EditProductState extends State<EditProduct> {
                                                               }
 
                                                             },SetOptions(merge: true)).then((value) async {
-                                                              print('img data updated ' + '0-'.toString());
+                                                              debugPrint('img data updated ' + '0-'.toString());
 
                                                               await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
                                                                 'prods': {
@@ -1092,12 +1092,12 @@ class _EditProductState extends State<EditProduct> {
                                                                 }
 
                                                               },SetOptions(merge: true)).then((value) {
-                                                                print('arrays added ' + '0-'.toString());
+                                                                debugPrint('arrays added ' + '0-'.toString());
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                              }).catchError((error) => print("Failed to update user: $error"));
+                                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
 
-                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
                                                           }
                                                         });
                                                       } else {
@@ -1111,7 +1111,7 @@ class _EditProductState extends State<EditProduct> {
                                                               }
 
                                                             },SetOptions(merge: true)).then((value) async {
-                                                              print('img data updated ' + '0-'.toString());
+                                                              debugPrint('img data updated ' + '0-'.toString());
 
                                                               await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
                                                                 'prods': {
@@ -1137,12 +1137,12 @@ class _EditProductState extends State<EditProduct> {
                                                                 }
 
                                                               },SetOptions(merge: true)).then((value) {
-                                                                print('arrays added ' + '0-'.toString());
+                                                                debugPrint('arrays added ' + '0-'.toString());
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                              }).catchError((error) => print("Failed to update user: $error"));
+                                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
 
-                                                            }).catchError((error) => print("Failed to update user: $error"));
+                                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
                                                           }
 
                                                         });
@@ -1172,7 +1172,7 @@ class _EditProductState extends State<EditProduct> {
                                         //   });
                                         //
                                         //   if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
-                                        //     print('product already');
+                                        //     debugPrint('product already');
                                         //     var result =
                                         //     await showOkAlertDialog(
                                         //       context: context,
@@ -1208,8 +1208,8 @@ class _EditProductState extends State<EditProduct> {
                                         //           }
                                         //         }
                                         //       }).then((value) {
-                                        //         print('arrays added ' + '0-'.toString());
-                                        //       }).catchError((error) => print("Failed to update user: $error"));
+                                        //         debugPrint('arrays added ' + '0-'.toString());
+                                        //       }).catchError((error) => debugPrint("Failed to update user: $error"));
                                         //
                                         //
                                         //       productId.doc(widget.prodId).update({
@@ -1233,7 +1233,7 @@ class _EditProductState extends State<EditProduct> {
                                         //         'update_time' : DateTime.now(),
                                         //         'search_name': textSplitFunction(prodNameCtrl.text.toString()),
                                         //       }).then((value) {
-                                        //       }).catchError((error) => print("Failed to update: $error"));
+                                        //       }).catchError((error) => debugPrint("Failed to update: $error"));
                                         //
                                         //       Future.delayed(const Duration(milliseconds: 2000), () {
                                         //         setState(() {
@@ -1282,7 +1282,7 @@ class _EditProductState extends State<EditProduct> {
                                         //             });
                                         //             Navigator.pop(context);
                                         //             smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                        //             }).catchError((error) => print("Failed to update: $error"));
+                                        //             }).catchError((error) => debugPrint("Failed to update: $error"));
                                         //           }
                                         //           );
                                         //         });
@@ -1370,7 +1370,7 @@ class _EditProductState extends State<EditProduct> {
   }
 
   Future addProductRe(File imageFile, String rm_image) async {
-    print('RM path ' + rm_image.toString());
+    debugPrint('RM path ' + rm_image.toString());
 // ignore: deprecated_member_use
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
@@ -1390,13 +1390,13 @@ class _EditProductState extends State<EditProduct> {
     var respond = await request.send();
     final respStr = await respond.stream.bytesToString();
     if (respond.statusCode == 200) {
-      print("Image Uploaded");
+      debugPrint("Image Uploaded");
       return respStr.toString();
     } else {
-      print("Upload Failed");
+      debugPrint("Upload Failed");
       return 'error img upload';
     }
-    // print('her ' + respStr.toString());
+    // debugPrint('her ' + respStr.toString());
     // return respStr.toString();
   }
 
@@ -1420,11 +1420,11 @@ class _EditProductState extends State<EditProduct> {
 //     var respond = await request.send();
 //     final respStr = await respond.stream.bytesToString();
 //     if (respond.statusCode == 200) {
-//       print("Image Uploaded");
+//       debugPrint("Image Uploaded");
 //     } else {
-//       print("Upload Failed");
+//       debugPrint("Upload Failed");
 //     }
-//     print('her ' + respStr.toString());
+//     debugPrint('her ' + respStr.toString());
 //     return respStr.toString();
 //   }
 
@@ -1803,7 +1803,7 @@ class _EditProductState extends State<EditProduct> {
   Future<void> selectAssets(PickMethod model) async {
     try {
       final List<AssetEntity>? result = await model.method(context, assets);
-      print('ASSETS ' + result.toString());
+      debugPrint('ASSETS ' + result.toString());
       if (result != null) {
         assets = List<AssetEntity>.from(result);
         if (mounted) {
@@ -1811,7 +1811,7 @@ class _EditProductState extends State<EditProduct> {
         }
       }
     } catch (error) {
-      print('never reached');
+      debugPrint('never reached');
     }
 
 
