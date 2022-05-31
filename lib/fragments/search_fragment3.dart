@@ -211,6 +211,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         debugPrint("current data: ${event.data()}");
         prodsEvent = event.data();
         debugPrint('current worked ');
+        setState(() {
+          searchKeyChanged();
+        });
       },
       onError: (error) => debugPrint("Listen failed: $error"),
     );
@@ -222,6 +225,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         prodsImgEvent = event.data();
         prodsImg = prodsImgEvent?['prods'];
         debugPrint('current worked img');
+        setState(() {
+          searchKeyChanged();
+        });
       },
       onError: (error) => debugPrint("Listen failed: $error"),
     );
@@ -232,6 +238,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         debugPrint("current data cus: ${event.data()}");
         custsEvent = event.data();
         debugPrint('current worked cus');
+        setState(() {
+          searchKeyChanged();
+        });
       },
       onError: (error) => debugPrint("Listen failed: $error"),
     );
@@ -242,6 +251,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         debugPrint("current data mer: ${event.data()}");
         mercsEvent = event.data();
         debugPrint('current worked mer');
+        setState(() {
+          searchKeyChanged();
+        });
       },
       onError: (error) => debugPrint("Listen failed: $error"),
     );
@@ -450,9 +462,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     super.initState();
     WidgetsBinding.instance!
         .addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 2000), () {
-        FocusScope.of(context).requestFocus(nodeFirst);
-      });
+      FocusScope.of(context).requestFocus(nodeFirst);
 
     });
 
@@ -4057,6 +4067,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
                             toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: true,)),);
                   openDrawerFrom();
+                  debugPrint('working here5');
+
+                  // Future.delayed(const Duration(milliseconds: 1000), () {
+                  //   setState(() {
+                  //     searchKeyChanged();
+                  //   });
+                  // });
+
 
 
 
@@ -4271,6 +4289,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
                   openDrawerFrom();
+                  setState(() {});
                 },
                 child: Padding(
                   padding:
@@ -4499,6 +4518,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
                   openDrawerFrom();
+                  setState(() {});
                 },
                 child: Padding(
                   padding:
@@ -4785,6 +4805,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 builder: (context) => OrderInfoSub(fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
+                          setState(() {});
                         },
                         child: Stack(
                           alignment: Alignment.center,
@@ -5131,6 +5152,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 builder: (context) => BuyListInfo(fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
+                          setState(() {});
                         },
                         child: Stack(
                           alignment: Alignment.center,
