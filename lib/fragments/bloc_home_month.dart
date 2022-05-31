@@ -157,7 +157,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   String textSetTodaySoFar = 'TODAY SO FAR';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Buys';
+  String textSetBuys = 'Refunds';
   String textSetLoss = 'Loss';
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
@@ -225,10 +225,13 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
   @override
   void initState() {
+
+    //debugPrint('inside loss leeeee ' + widget.query.toString());
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {

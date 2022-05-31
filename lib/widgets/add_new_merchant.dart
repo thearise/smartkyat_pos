@@ -392,60 +392,67 @@ class _AddMerchantState extends State<AddMerchant> {
                                 onPressed: () async {
                                   merchFieldsValue = [];
                                   if (_formKey.currentState!.validate()) {
+                                    WriteBatch batch = FirebaseFirestore.instance.batch();
+
                                     setState(() {
                                       widget.merchLoadingState();
                                       merchAdding = true;
                                     });
 
-
-                                    DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
-
-                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt').get().then((value) {
+                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt').get().then((value) async {
                                       int merCnt = value.data()!['count'];
 
-                                      cusArr.set({
-                                        'mer': {
-                                          '$deviceIdNum-' + merCnt.toString(): {
-                                            'na': merchFieldsValue[0],
-                                            'ad': merchFieldsValue[1],
-                                            'ph': merchFieldsValue[2],
-                                            'or' : 0,
-                                            'de' : 0,
-                                            'da' : 0,
-                                            're' : 0,
-                                            'ar' : false,
-                                          }
-                                        }
-                                      },
-                                          SetOptions(merge: true)).then((value) {
-                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt')
-                                            .update(
-                                            {
-                                              'count': FieldValue.increment(1)
-                                            }
-                                        ).then((value) {
-                                          Future.delayed(const Duration(milliseconds: 1000), () {
-                                            setState(() {
-                                              merchAdding = false;
-                                              widget.endMerchLoadingState();
-                                              Navigator.pop(context);
-                                            });
-                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                      debugPrint("adding nmow " + merCnt.toString());
+                                      batch = await addCustomer(batch, '$deviceIdNum-' + merCnt.toString());
+
+                                      // cusArr.set({
+                                      //   'cus': {
+                                      //     '$deviceIdNum-' + prodsCnt.toString(): {
+                                      //       'na': merchFieldsValue[0],
+                                      //       'ad': merchFieldsValue[1],
+                                      //       'ph': merchFieldsValue[2],
+                                      //       'or' : 0,
+                                      //       'de' : 0,
+                                      //       'da' : 0,
+                                      //       're' : 0,
+                                      //       'ar' : false,
+                                      //     }
+                                      //   }
+                                      // },SetOptions(merge: true)).then((value) {
+                                      //   debugPrint('arrays added ' + '0-' + prodsCnt.toString());
+                                      // }).catchError((error) => debugPrint("Failed to update user: $error"));
+
+                                      batch = await updateCount(batch);
+                                      try {
+                                        batch.commit();
+                                        Future.delayed(const Duration(milliseconds: 1000), () {
+                                          setState(() {
+                                            merchAdding = false;
+                                            widget.endMerchLoadingState();
+                                            Navigator.pop(context);
                                           });
-                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                        debugPrint('arrays added ' + '0-' + merCnt.toString());
-                                      }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                          smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                        });
+                                      } catch(error) {
+                                        debugPrint('error while creating orders');
+                                        smartKyatFlash('An error occurred while creating new merchant. Please try again later.', 'e');
+                                        setState(() {
+                                          merchAdding = false;
+                                          widget.endMerchLoadingState();
+                                          Navigator.pop(context);
+                                        });
+                                      }
                                     });
 
 
-                                      Future.delayed(const Duration(milliseconds: 3000), () {
-                                        setState(() {
-                                          widget.endMerchLoadingState();
-                                          merchAdding = false;
-                                        });
-                                        Navigator.pop(context);
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-                                      });
+                                      // Future.delayed(const Duration(milliseconds: 3000), () {
+                                      //   setState(() {
+                                      //     widget.endMerchLoadingState();
+                                      //     merchAdding = false;
+                                      //   });
+                                      //   Navigator.pop(context);
+                                      //   smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                      // });
                                     }
 
                                     // });
@@ -680,4 +687,30 @@ class _AddMerchantState extends State<AddMerchant> {
       },
     );
   }
+
+  updateCount(WriteBatch batch){
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt');
+    batch.update(documentReference, {'count': FieldValue.increment(1)});
+    return batch;
+  }
+
+  addCustomer(WriteBatch batch, id) {
+    debugPrint('Double Check Sub1' + '$id.im');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
+
+    batch.update(documentReference, {
+      'mer.$id.na': merchFieldsValue[0],
+      'mer.$id.ad': merchFieldsValue[1],
+      'mer.$id.ph': merchFieldsValue[2],
+      'mer.$id.de': 0,
+      'mer.$id.or': 0,
+      'mer.$id.da': 0,
+      'mer.$id.re': 0,
+      'mer.$id.ar': false,
+
+    });
+
+    return batch;
+  }
+
 }

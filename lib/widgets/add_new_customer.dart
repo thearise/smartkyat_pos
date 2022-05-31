@@ -196,7 +196,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                               // suffixText: 'Required',
+                                                // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -291,7 +291,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                 left: 15.0, right: 15.0, top: 172),
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
-                                            keyboardType: TextInputType.number,
+                                              keyboardType: TextInputType.number,
                                               controller: mphoneCtrl,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -321,7 +321,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                               // suffixText: 'Required',
+                                                // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -397,44 +397,44 @@ class _AddCustomerState extends State<AddCustomer> {
                                     onPressed: () async {
                                       merchFieldsValue = [];
                                       if (_formKey.currentState!.validate()) {
+                                        WriteBatch batch = FirebaseFirestore.instance.batch();
 
                                         setState(() {
                                           cusCreating = true;
                                           widget.cusLoadingState();
                                         });
 
-                                        DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
+                                        //DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
 
-                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt').get().then((value) {
-                                            int cusCnt = value.data()!['count'];
-                                            debugPrint('created 0');
-                                            cusArr.set({
-                                              'cus': {
-                                                '$deviceIdNum-' + cusCnt.toString(): {
-                                                  'na': merchFieldsValue[0],
-                                                  'ad': merchFieldsValue[1],
-                                                  'ph': merchFieldsValue[2],
-                                                  'or' : 0,
-                                                  'de' : 0,
-                                                  'da' : 0,
-                                                  're' : 0,
-                                                  'ar' : false,
-                                                }
-                                              }
-                                            }, SetOptions(merge: true)).then((value) {
-                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
 
-                                            debugPrint('created 1');
-                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
-                                                .update(
-                                                {
-                                                  'count': FieldValue.increment(1)
-                                                }
-                                            ).then((value) {
-                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                            debugPrint('arrays added ' + '0-' + cusCnt.toString());
+                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
+                                            .get()
+                                            .then((value) async {
+                                          int prodsCnt = value.data()!['count'];
 
-                                            debugPrint('created 2');
+                                          debugPrint("adding nmow " + prodsCnt.toString());
+                                          batch = await addCustomer(batch, '$deviceIdNum-' + prodsCnt.toString());
+
+                                          // cusArr.set({
+                                          //   'cus': {
+                                          //     '$deviceIdNum-' + prodsCnt.toString(): {
+                                          //       'na': merchFieldsValue[0],
+                                          //       'ad': merchFieldsValue[1],
+                                          //       'ph': merchFieldsValue[2],
+                                          //       'or' : 0,
+                                          //       'de' : 0,
+                                          //       'da' : 0,
+                                          //       're' : 0,
+                                          //       'ar' : false,
+                                          //     }
+                                          //   }
+                                          // },SetOptions(merge: true)).then((value) {
+                                          //   debugPrint('arrays added ' + '0-' + prodsCnt.toString());
+                                          // }).catchError((error) => debugPrint("Failed to update user: $error"));
+
+                                          batch = await updateCount(batch);
+                                          try {
+                                            batch.commit();
                                             Future.delayed(const Duration(milliseconds: 1000), () {
                                               setState(() {
                                                 cusCreating = false;
@@ -443,8 +443,23 @@ class _AddCustomerState extends State<AddCustomer> {
                                               });
                                               smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
                                             });
-                                          });
-                                        }
+                                          } catch(error) {
+                                            debugPrint('error while creating orders');
+                                            smartKyatFlash('An error occurred while creating new customer. Please try again later.', 'e');
+                                            setState(() {
+                                              cusCreating = false;
+                                              widget.endCusLoadingState();
+                                              Navigator.pop(context);
+                                            });
+                                          }
+
+                                          // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
+                                          //     .update(
+                                          //     {'count': FieldValue.increment(1)}
+                                          // ).then((value) => debugPrint('updated product count'));
+                                        });
+
+                                      }
                                     },
                                     child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                         child: CupertinoActivityIndicator(radius: 10,)) :Padding(
@@ -454,7 +469,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                           bottom: 3.0),
                                       child: Container(
                                         child: Text(
-                                         textSetAdd,
+                                          textSetAdd,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18,
@@ -676,4 +691,30 @@ class _AddCustomerState extends State<AddCustomer> {
       },
     );
   }
+
+  updateCount(WriteBatch batch){
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt');
+    batch.update(documentReference, {'count': FieldValue.increment(1)});
+    return batch;
+  }
+
+  addCustomer(WriteBatch batch, id) {
+    debugPrint('Double Check Sub1' + '$id.im');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
+
+    batch.update(documentReference, {
+      'cus.$id.na': merchFieldsValue[0],
+      'cus.$id.ad': merchFieldsValue[1],
+      'cus.$id.ph': merchFieldsValue[2],
+      'cus.$id.de': 0,
+      'cus.$id.or': 0,
+      'cus.$id.da': 0,
+      'cus.$id.re': 0,
+      'cus.$id.ar': false,
+
+    });
+
+    return batch;
+  }
+
 }
