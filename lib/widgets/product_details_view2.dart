@@ -713,7 +713,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 );
                                                                 widget._callback(result.toString());
                                                               }
-                                                              if(mainQty - 1 <= 0) {smartKyatFlash('Out of Stock', 'w');}
+                                                              if(mainQty - 1 <= 0) {smartKyatFMod(context, 'Low Stock', 'w');}
                                                             },
                                                             child: Container(
                                                               width: 100,

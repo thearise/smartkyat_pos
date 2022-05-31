@@ -156,7 +156,7 @@ class HomeFragmentState extends State<HomeFragment>
   String textSetTodaySoFar = 'TODAY SO FAR';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Buys';
+  String textSetBuys = 'Refunds';
   String textSetLoss = 'Loss';
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
@@ -289,7 +289,7 @@ class HomeFragmentState extends State<HomeFragment>
           textSetTodaySoFar = 'ဒီနေ့အတွင်း';
           textSetStockCosts = 'ဝယ်ယူစရိတ်';
           textSetUnpaid = 'အကြွေးရရန်';
-          textSetBuys = 'ဝယ်ယူစရိတ်';
+          textSetBuys = 'ပြန်ပေးငွေ';
           textSetLoss = 'ဆုံးရှုံး';
           textSetToday = 'နေ့စဉ်';
           textSetLastWeek = 'အပတ်စဉ်';
@@ -306,7 +306,7 @@ class HomeFragmentState extends State<HomeFragment>
           textSetTodaySoFar = 'TODAY SO FAR';
           textSetStockCosts = 'Stock costs';
           textSetUnpaid = 'Unpaid';
-          textSetBuys = 'Buys';
+          textSetBuys = 'Refunds';
           textSetLoss = 'Loss';
           textSetToday = 'Day';
           textSetLastWeek = 'Last week';
@@ -2422,10 +2422,14 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   ordersQueryMonth() {
+    debugPrint('inside loss leeeee2 ' + (calYear(today.month, today.year).toString() + '-' + zeroToTen(today.month.toString()) + '-01' + ' 00:00:00'));
+
+    debugPrint('inside loss leeeee ' + (today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 23:59:59').toString());
     return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen( calMonth(today.month).toString()) + '-00' + ' 00:00:00'))
-        .where('date', isLessThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 00:00:00'));
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen(today.month.toString()) + '-01' + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 23:59:59'));
   }
+
 
   String valKTog = '0';
 
