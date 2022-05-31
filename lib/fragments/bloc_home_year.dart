@@ -158,7 +158,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String textSetTodaySoFar = 'TODAY SO FAR';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Buys';
+  String textSetBuys = 'Refunds';
   String textSetLoss = 'Loss';
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
