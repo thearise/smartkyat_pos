@@ -1299,7 +1299,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
   DateTime today = DateTime.now();
   DateTime? _dateTime;
-  String _format = 'yyyy-MMMM-dd';
+  String _format = 'yyyy-MMMM';
 
   _animateToIndex(i) {
     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
@@ -1339,16 +1339,16 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
-        today = dateTime;
-        _dateTime = dateTime;
+        today = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateTime.year.toString() + '-' + dateTime.month.toString() + '-' + today.day.toString() + ' 00:00:00');
+        _dateTime = today;
         // });
 
 
       },
       onConfirm: (dateTime, List<int> index) {
         setState(() {
-          today = dateTime;
-          _dateTime = dateTime;
+          today = today;
+          _dateTime = today;
         });
       },
     );
