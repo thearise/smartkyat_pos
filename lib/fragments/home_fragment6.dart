@@ -2423,11 +2423,19 @@ class HomeFragmentState extends State<HomeFragment>
 
   ordersQueryMonth() {
     debugPrint('inside loss leeeee2 ' + (calYear(today.month, today.year).toString() + '-' + zeroToTen(today.month.toString()) + '-01' + ' 00:00:00'));
-
-    debugPrint('inside loss leeeee ' + (today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 23:59:59').toString());
+    debugPrint('wtshit ' + DateTime(today.year, nokLa(today.month), 0).day.toString());
+    debugPrint('inside loss leeeee ' + (today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (zeroToTen(DateTime(today.year, nokLa(today.month), 0).day.toString())).toString() + ' 23:59:59').toString());
     return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
         .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen(today.month.toString()) + '-01' + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + ((DateTime(_dateTime!.year, _dateTime!.month + 1, 0).day+1).toInt() - 2).toString() + ' 23:59:59'));
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (zeroToTen(DateTime(today.year, nokLa(today.month), 0).day.toString())).toString() + ' 23:59:59'));
+  }
+
+  nokLa(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month+1;
+    }
   }
 
 
