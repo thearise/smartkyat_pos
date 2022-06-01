@@ -4666,9 +4666,16 @@ class HomePageState extends State<HomePage>
                                                                                                           width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
                                                                                                           height: 50,
                                                                                                           child: TextField(
-                                                                                                            keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                            inputFormatters: <TextInputFormatter>[
-                                                                                                              FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                                                            keyboardType: TextInputType
+                                                                                                                .numberWithOptions(
+                                                                                                                decimal: false),
+                                                                                                            inputFormatters: <
+                                                                                                                TextInputFormatter>[
+                                                                                                              FilteringTextInputFormatter
+                                                                                                                  .allow(
+                                                                                                                  RegExp(
+                                                                                                                      _getNum())),
+                                                                                                            ],
                                                                                                             textAlign: TextAlign.center,
                                                                                                             style: TextStyle(
                                                                                                                 height: 0.95
@@ -6910,9 +6917,16 @@ class HomePageState extends State<HomePage>
                                                               width: (MediaQuery.of(context).size.width - 60)/3,
                                                               height: 50,
                                                               child: TextField(
-                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                inputFormatters: <TextInputFormatter>[
-                                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                keyboardType: TextInputType
+                                                                    .numberWithOptions(
+                                                                    decimal: false),
+                                                                inputFormatters: <
+                                                                    TextInputFormatter>[
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(
+                                                                      RegExp(
+                                                                          _getNum())),
+                                                                ],
                                                                 textAlign: TextAlign.center,
                                                                 decoration: InputDecoration(
                                                                   enabledBorder: const OutlineInputBorder(
@@ -9883,9 +9897,16 @@ class HomePageState extends State<HomePage>
                                                                             width: (MediaQuery.of(context).size.width - 60)/3,
                                                                             height: 50,
                                                                             child: TextField(
-                                                                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                              inputFormatters: <TextInputFormatter>[
-                                                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                              keyboardType: TextInputType
+                                                                                  .numberWithOptions(
+                                                                                  decimal: false),
+                                                                              inputFormatters: <
+                                                                                  TextInputFormatter>[
+                                                                                FilteringTextInputFormatter
+                                                                                    .allow(
+                                                                                    RegExp(
+                                                                                        _getNum())),
+                                                                              ],
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                   height: 0.95
