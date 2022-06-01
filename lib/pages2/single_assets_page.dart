@@ -1762,52 +1762,81 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   int prodsCnt = value.data()!['count'];
 
                                                   debugPrint("adding nmow " + prodsCnt.toString());
+                                                  WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                                  prodsArr.set({
-                                                    'prods': {
-                                                      '$deviceIdNum-' + prodsCnt.toString(): {
-                                                        'na': prodFieldsValue[0],
-                                                        'lm': 0,
-                                                        'l1': 0,
-                                                        'l2': 0,
-                                                        'ar': false,
-                                                        'co': prodFieldsValue[1],
-                                                        'im': mainStock,
-                                                        'i1': sub1Stock,
-                                                        'i2': sub2Stock,
-                                                        'bm': double.parse(prodFieldsValue[4].toString()),
-                                                        'b1': sub1_buy,
-                                                        'b2': sub2_buy,
-                                                        'sm':  double.parse(prodFieldsValue[5].toString()),
-                                                        's1': sub1Sell,
-                                                        's2': sub2Sell,
-                                                        'c1': subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
-                                                        'c2': subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
-                                                        'nm': prodFieldsValue[3],
-                                                        'n1': subUnitFieldValue[1],
-                                                        'n2': subUnitFieldValue[5],
-                                                        'se': double.parse(subExist.toString()),
-                                                      }
-                                                    }
-                                                  },SetOptions(merge: true)).then((value) {
-                                                    debugPrint('arrays added ' + '0-' + prodsCnt.toString());
-                                                  }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                                  batch.set(
+                                                      prodsArr,
+                                                      {
+                                                        'prods': {
+                                                          '$deviceIdNum-' + prodsCnt.toString(): {
+                                                            'na': prodFieldsValue[0],
+                                                            'lm': 0,
+                                                            'l1': 0,
+                                                            'l2': 0,
+                                                            'ar': false,
+                                                            'co': prodFieldsValue[1],
+                                                            'im': mainStock,
+                                                            'i1': sub1Stock,
+                                                            'i2': sub2Stock,
+                                                            'bm': double.parse(prodFieldsValue[4].toString()),
+                                                            'b1': sub1_buy,
+                                                            'b2': sub2_buy,
+                                                            'sm': double.parse(prodFieldsValue[5].toString()),
+                                                            's1': sub1Sell,
+                                                            's2': sub2Sell,
+                                                            'c1': subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
+                                                            'c2': subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
+                                                            'nm': prodFieldsValue[3],
+                                                            'n1': subUnitFieldValue[1],
+                                                            'n2': subUnitFieldValue[5],
+                                                            'se': double.parse(subExist.toString()),
+                                                            // 'img_1': photoArray[0],
+                                                          }
+                                                        }
+                                                      },SetOptions(merge: true)
+                                                  );
 
-
-                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
-                                                      .update(
+                                                  batch.update(
+                                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
                                                       {'count': FieldValue.increment(1)}
-                                                  ).then((value) => debugPrint('updated product count'));
+                                                  );
+                                                  try {
+                                                    batch.commit();
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 3000), () {
+                                                      setState(() {
+                                                        prodAdding = false;
+                                                        widget
+                                                            .endProdLoadingState();
+                                                        Navigator.pop(context);
+                                                      });
+                                                      smartKyatFlash(
+                                                          prodFieldsValue[0]
+                                                              .toString() +
+                                                              ' has been added successfully.',
+                                                          's');
+                                                    });
+
+                                                  } catch(error) {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 3000), () {
+                                                      setState(() {
+                                                        prodAdding = false;
+                                                        widget
+                                                            .endProdLoadingState();
+                                                        Navigator.pop(context);
+                                                      });
+                                                      smartKyatFlash(
+                                                          'An error occurred while adding new product. Please try again later.',
+                                                          's');
+                                                    });
+
+                                                  }
                                                 });
 
-                                                Future.delayed(const Duration(milliseconds: 3000), () {
-                                                  setState(() {
-                                                    prodAdding = false;
-                                                    widget.endProdLoadingState();
-                                                    Navigator.pop(context);
-                                                  });
-                                                  smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
-                                                });
+
 
 
 
@@ -2101,16 +2130,40 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                               },SetOptions(merge: true)
                                                           );
 
-                                                          batch.commit().then((value) {
-                                                            Future.delayed(const Duration(milliseconds: 3000), () {
+                                                          try {
+                                                            batch.commit();
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds: 3000), () {
                                                               setState(() {
                                                                 prodAdding = false;
-                                                                widget.endProdLoadingState();
+                                                                widget
+                                                                    .endProdLoadingState();
                                                                 Navigator.pop(context);
                                                               });
-                                                              smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
+                                                              smartKyatFlash(
+                                                                  prodFieldsValue[0]
+                                                                      .toString() +
+                                                                      ' has been added successfully.',
+                                                                  's');
                                                             });
-                                                          });
+
+                                                          } catch(error) {
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds: 3000), () {
+                                                              setState(() {
+                                                                prodAdding = false;
+                                                                widget
+                                                                    .endProdLoadingState();
+                                                                Navigator.pop(context);
+                                                              });
+                                                              smartKyatFlash(
+                                                                  'An error occurred while adding new product. Please try again later.',
+                                                                  's');
+                                                            });
+
+                                                          }
 
 
                                                           // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
