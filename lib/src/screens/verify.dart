@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/add_new_shop_fragment.dart';
@@ -25,15 +26,40 @@ class _VerifyScreenState extends State<VerifyScreen> {
   late Timer timer;
   // final JiggleController jiggleCtl = JiggleController();
 
+  late Timer _timer;
+  int _start = 60;
+
+   startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+          (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
     // jiggleCtl.toggle();
+
+    startTimer();
     user = auth.currentUser!;
     user.sendEmailVerification();
 
     timer = Timer.periodic(Duration(seconds: 2), (timer) {
       checkEmailVerified();
     });
+
+
     super.initState();
   }
 
@@ -123,24 +149,55 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               color: AppTheme.buttonColor2,
                             ),
                           ),
-                          onPressed: () {
-                            user.sendEmailVerification();
+                          onPressed: () async {
+                            if(_start == 0) {
+                              user.sendEmailVerification();
+                              setState(() {
+                                _start = 60;
+                              });
+                              startTimer();
+                            } else debugPrint('wait nay tl');
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 left: 5.0,
                                 right: 5.0,
                                 bottom: 3.0),
-                            child: Container(
-                              child: Text(
-                                'Resend email',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing:-0.1
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 90.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Resend email',
+                                      textAlign: TextAlign.center,
+                                      style: _start == 0 ?  TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1
+                                      ) : TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1,
+                                          color: Colors.black.withOpacity(0.3)
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Spacer(),
+                                Container(
+                                  child: Text(
+                                    _start == 0 ? '' : '($_start)' + ' s',
+                                    textAlign: TextAlign.center,
+                                    style:  TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing:-0.1,
+                                      color: Colors.black.withOpacity(0.3)
+                                    )
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -163,6 +220,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
         ),
       ),
     );
+  }
+
+
+
+  waitingTime() {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+
+    });
   }
 
   setStoreId(String id) async {
