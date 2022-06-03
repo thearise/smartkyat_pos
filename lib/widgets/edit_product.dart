@@ -1059,41 +1059,95 @@ class _EditProductState extends State<EditProduct> {
                                           else {
                                             if(assets.length == 0) {
                                               debugPrint('printedhere');
-                                              // data edit start
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
-                                                'prods': {
-                                                  widget.prodId: {
-                                                    'na': prodNameCtrl.text,
-                                                    'co': barCodeCtrl.text,
-                                                    'im': double.parse(mainQtyCtrl.text.toString()),
-                                                    'i1': double.parse(sub1QtyCtrl.text.toString()),
-                                                    'i2': double.parse(sub2QtyCtrl.text.toString()),
-                                                    'bm': double.parse(mainBuyCtrl.text),
-                                                    'b1': sub1Buy,
-                                                    'b2': sub2Buy,
-                                                    'sm': double.parse(mainSellCtrl.text),
-                                                    's1': double.parse(sub1SellCtrl.text),
-                                                    's2': double.parse(sub2SellCtrl.text),
-                                                    'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
-                                                    'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
-                                                    'nm': mainUnitNameCtrl.text,
-                                                    'n1': sub1UnitNameCtrl.text,
-                                                    'n2': sub2UnitNameCtrl.text,
-                                                    'se': double.parse(subExistChange),
-                                                  }
-                                                }
+                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-                                              },SetOptions(merge: true)).then((value) {
-                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                              WriteBatch batch = FirebaseFirestore.instance.batch();
+
+                                              // data edit start
+                                              // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
+                                              //   'prods': {
+                                              //     widget.prodId: {
+                                              //       'na': prodNameCtrl.text,
+                                              //       'co': barCodeCtrl.text,
+                                              //       'im': double.parse(mainQtyCtrl.text.toString()),
+                                              //       'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                              //       'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                              //       'bm': double.parse(mainBuyCtrl.text),
+                                              //       'b1': sub1Buy,
+                                              //       'b2': sub2Buy,
+                                              //       'sm': double.parse(mainSellCtrl.text),
+                                              //       's1': double.parse(sub1SellCtrl.text),
+                                              //       's2': double.parse(sub2SellCtrl.text),
+                                              //       'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                              //       'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                              //       'nm': mainUnitNameCtrl.text,
+                                              //       'n1': sub1UnitNameCtrl.text,
+                                              //       'n2': sub2UnitNameCtrl.text,
+                                              //       'se': double.parse(subExistChange),
+                                              //     }
+                                              //   }
+                                              //
+                                              // },SetOptions(merge: true)).then((value) {
+                                              // }).catchError((error) => debugPrint("Failed to update user: $error"));
                                               // data edit end
 
+                                              batch.set(
+                                                  prodsArr,
+                                                  {
+                                                    'prods': {
+                                                  widget.prodId: {
+                                                        'na': prodNameCtrl.text,
+                                                        'co': barCodeCtrl.text,
+                                                        'im': double.parse(mainQtyCtrl.text.toString()),
+                                                        'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                                        'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                                        'bm': double.parse(mainBuyCtrl.text),
+                                                        'b1': sub1Buy,
+                                                        'b2': sub2Buy,
+                                                        'sm': double.parse(mainSellCtrl.text),
+                                                        's1': double.parse(sub1SellCtrl.text),
+                                                        's2': double.parse(sub2SellCtrl.text),
+                                                        'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                                        'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                                        'nm': mainUnitNameCtrl.text,
+                                                        'n1': sub1UnitNameCtrl.text,
+                                                        'n2': sub2UnitNameCtrl.text,
+                                                        'se': double.parse(subExistChange),
+                                                      }
+                                                    }
+                                                  },SetOptions(merge: true)
+                                              );
+
+                                              try {
+                                                batch.commit();
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 3000), () {
+                                                  Navigator.of(context).popUntil((route) => route.isFirst);
+                                                  smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                  setState(() {
+                                                    disableTouch = false;
+                                                    prodAdding = false;
+                                                  });
+                                                });
+
+                                              } catch(error) {
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 3000), () {
+                                                  Navigator.of(context).popUntil((route) => route.isFirst);
+                                                  smartKyatFlash(
+                                                      'An error occurred while editing a product. Please try again later.',
+                                                      's');                                                  setState(() {
+                                                    disableTouch = false;
+                                                    prodAdding = false;
+                                                  });
+                                                });
+
+                                              }
+
                                               debugPrint('arrays added ' + '0-'.toString());
-                                              Navigator.of(context).popUntil((route) => route.isFirst);
-                                              smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                              setState(() {
-                                                disableTouch = false;
-                                                prodAdding = false;
-                                              });
+
                                             } else {
                                               try {
                                                 final resultInt = await InternetAddress.lookup('google.com');
@@ -1104,91 +1158,148 @@ class _EditProductState extends State<EditProduct> {
                                                       if(widget.image == '') {
                                                         addProduct(value!).then((val) async {
                                                           if(val != 'error img upload') {
-                                                            await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
-                                                              'prods': {
-                                                                widget.prodId: {
-                                                                  'img': val.toString()
-                                                                }
-                                                              }
 
-                                                            },SetOptions(merge: true)).then((value) async {
-                                                              debugPrint('img data updated ' + '0-'.toString());
+                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-                                                              await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
-                                                                'prods': {
-                                                                  widget.prodId: {
-                                                                    'na': prodNameCtrl.text,
-                                                                    'co': barCodeCtrl.text,
-                                                                    'im': double.parse(mainQtyCtrl.text.toString()),
-                                                                    'i1': double.parse(sub1QtyCtrl.text.toString()),
-                                                                    'i2': double.parse(sub2QtyCtrl.text.toString()),
-                                                                    'bm': double.parse(mainBuyCtrl.text),
-                                                                    'b1': sub1Buy,
-                                                                    'b2': sub2Buy,
-                                                                    'sm': double.parse(mainSellCtrl.text),
-                                                                    's1': double.parse(sub1SellCtrl.text),
-                                                                    's2': double.parse(sub2SellCtrl.text),
-                                                                    'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
-                                                                    'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
-                                                                    'nm': mainUnitNameCtrl.text,
-                                                                    'n1': sub1UnitNameCtrl.text,
-                                                                    'n2': sub2UnitNameCtrl.text,
-                                                                    'se': double.parse(subExistChange),
+                                                            WriteBatch batch = FirebaseFirestore.instance.batch();
+
+                                                            batch.set(
+                                                                prodsArr,
+                                                                {
+                                                                  'prods': {
+                                                                   widget.prodId: {
+                                                                     'na': prodNameCtrl.text,
+                                                                     'co': barCodeCtrl.text,
+                                                                     'im': double.parse(mainQtyCtrl.text.toString()),
+                                                                     'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                                                     'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                                                     'bm': double.parse(mainBuyCtrl.text),
+                                                                     'b1': sub1Buy,
+                                                                     'b2': sub2Buy,
+                                                                     'sm': double.parse(mainSellCtrl.text),
+                                                                     's1': double.parse(sub1SellCtrl.text),
+                                                                     's2': double.parse(sub2SellCtrl.text),
+                                                                     'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                                                     'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                                                     'nm': mainUnitNameCtrl.text,
+                                                                     'n1': sub1UnitNameCtrl.text,
+                                                                     'n2': sub2UnitNameCtrl.text,
+                                                                     'se': double.parse(subExistChange),
+                                                                    }
                                                                   }
-                                                                }
+                                                                },SetOptions(merge: true)
+                                                            );
 
-                                                              },SetOptions(merge: true)).then((value) {
-                                                                debugPrint('arrays added ' + '0-'.toString());
+                                                            batch.set(
+                                                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr'),
+                                                                {
+                                                                  'prods': {
+                                                                    widget.prodId: {
+                                                                      'img': val.toString()
+                                                                    }
+                                                                  }
+                                                                },SetOptions(merge: true)
+                                                            );
+
+                                                            try {
+                                                              batch.commit();
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                                                setState(() {
+                                                                  disableTouch = false;
+                                                                  prodAdding = false;
+                                                                });
+                                                              });
 
-                                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                                            } catch(error) {
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds: 3000), () {
+                                                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                                                smartKyatFlash(
+                                                                    'An error occurred while editing a product. Please try again later.',
+                                                                    's');                                                  setState(() {
+                                                                  disableTouch = false;
+                                                                  prodAdding = false;
+                                                                });
+                                                              });
+                                                            }
                                                           }
                                                         });
                                                       } else {
                                                         addProductRe(value!, photoArray).then((val) async {
                                                           if(val != 'error img upload') {
-                                                            await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').set({
-                                                              'prods': {
-                                                                widget.prodId: {
-                                                                  'img': val.toString()
-                                                                }
-                                                              }
+                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
-                                                            },SetOptions(merge: true)).then((value) async {
-                                                              debugPrint('img data updated ' + '0-'.toString());
+                                                            WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                                              await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
-                                                                'prods': {
-                                                                  widget.prodId: {
-                                                                    'na': prodNameCtrl.text,
-                                                                    'co': barCodeCtrl.text,
-                                                                    'im': double.parse(mainQtyCtrl.text.toString()),
-                                                                    'i1': double.parse(sub1QtyCtrl.text.toString()),
-                                                                    'i2': double.parse(sub2QtyCtrl.text.toString()),
-                                                                    'bm': double.parse(mainBuyCtrl.text),
-                                                                    'b1': sub1Buy,
-                                                                    'b2': sub2Buy,
-                                                                    'sm': double.parse(mainSellCtrl.text),
-                                                                    's1': double.parse(sub1SellCtrl.text),
-                                                                    's2': double.parse(sub2SellCtrl.text),
-                                                                    'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
-                                                                    'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
-                                                                    'nm': mainUnitNameCtrl.text,
-                                                                    'n1': sub1UnitNameCtrl.text,
-                                                                    'n2': sub2UnitNameCtrl.text,
-                                                                    'se': double.parse(subExistChange),
+                                                            batch.set(
+                                                                prodsArr,
+                                                                {
+                                                                  'prods': {
+                                                                    widget.prodId: {
+                                                                      'na': prodNameCtrl.text,
+                                                                      'co': barCodeCtrl.text,
+                                                                      'im': double.parse(mainQtyCtrl.text.toString()),
+                                                                      'i1': double.parse(sub1QtyCtrl.text.toString()),
+                                                                      'i2': double.parse(sub2QtyCtrl.text.toString()),
+                                                                      'bm': double.parse(mainBuyCtrl.text),
+                                                                      'b1': sub1Buy,
+                                                                      'b2': sub2Buy,
+                                                                      'sm': double.parse(mainSellCtrl.text),
+                                                                      's1': double.parse(sub1SellCtrl.text),
+                                                                      's2': double.parse(sub2SellCtrl.text),
+                                                                      'c1': sub1perUnitCtrl.text == ''? 0:double.parse(sub1perUnitCtrl.text),
+                                                                      'c2': sub2perUnitCtrl.text == ''? 0:double.parse(sub2perUnitCtrl.text),
+                                                                      'nm': mainUnitNameCtrl.text,
+                                                                      'n1': sub1UnitNameCtrl.text,
+                                                                      'n2': sub2UnitNameCtrl.text,
+                                                                      'se': double.parse(subExistChange),
+                                                                    }
                                                                   }
-                                                                }
+                                                                },SetOptions(merge: true)
+                                                            );
 
-                                                              },SetOptions(merge: true)).then((value) {
-                                                                debugPrint('arrays added ' + '0-'.toString());
+                                                            batch.set(
+                                                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr'),
+                                                                {
+                                                                  'prods': {
+                                                                    widget.prodId: {
+                                                                      'img': val.toString()
+                                                                    }
+                                                                  }
+                                                                },SetOptions(merge: true)
+                                                            );
+
+                                                            try {
+                                                              batch.commit();
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                                              }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                                                setState(() {
+                                                                  disableTouch = false;
+                                                                  prodAdding = false;
+                                                                });
+                                                              });
 
-                                                            }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                                            } catch(error) {
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds: 3000), () {
+                                                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                                                smartKyatFlash(
+                                                                    'An error occurred while editing a product. Please try again later.',
+                                                                    's');                                                  setState(() {
+                                                                  disableTouch = false;
+                                                                  prodAdding = false;
+                                                                });
+                                                              });
+                                                            }
                                                           }
 
                                                         });
@@ -1209,6 +1320,7 @@ class _EditProductState extends State<EditProduct> {
 
                                           }
                                         });
+                                        FocusScope.of(context).unfocus();
 
                                         // productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
                                         // querySnapshot) async {
