@@ -62,6 +62,8 @@ import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment3.dart';
 import 'TabItem.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
 
@@ -118,6 +120,8 @@ class HomePageState extends State<HomePage>
       homePageLoading = true;
     });
   }
+
+  Future<void>? _launched;
 
   homePageLoadingOff() {
     setState(() {
@@ -428,7 +432,7 @@ class HomePageState extends State<HomePage>
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'Discount';
+          VDiscount = 'လျှော့ငွေ';
           textSetClear = 'ပယ်ဖျက်ရန်';
           textSetTotalSale = 'စုစုပေါင်း';
           textSetCheckOut = 'ရောင်းမည်';
@@ -476,7 +480,7 @@ class HomePageState extends State<HomePage>
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'လျှော့ငွေ';
+          VDiscount = 'Discount';
           textSetClear = 'Clear cart';
           textSetTotalSale = 'Total sale';
           textSetCheckOut = 'Checkout';
@@ -1365,14 +1369,28 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                     ),
                                                     SizedBox(height: 10),
-                                                    Text('Call now', style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 17, color: Colors.blue,
-                                                    ),
-                                                      strutStyle: StrutStyle(
-                                                        height: 1.3,
-                                                        // fontSize:,
-                                                        forceStrutHeight: true,
+                                                    // FlatButton(
+                                                    //
+                                                    // child: new Text("Call now", style: TextStyle(
+                                                    //   fontWeight: FontWeight.w500,
+                                                    //   fontSize: 17, color: Colors.blue,
+                                                    // ),
+                                                    //   strutStyle: StrutStyle(
+                                                    //     height: 1.3,
+                                                    //     // fontSize:,
+                                                    //     forceStrutHeight: true,
+                                                    //   ),)),
+                                                    GestureDetector(
+                                                      onTap: () => launch("tel://+959794335708"),
+                                                      child: Text('Call now', style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 17, color: Colors.blue,
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
                                                       ),
                                                     ),
                                                     SizedBox(height: 10),
@@ -1438,14 +1456,17 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                     ),
                                                     SizedBox(height: 10),
-                                                    Text('Messenger', style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 17, color: Colors.blue,
-                                                    ),
-                                                      strutStyle: StrutStyle(
-                                                        height: 1.3,
-                                                        // fontSize:,
-                                                        forceStrutHeight: true,
+                                                    GestureDetector(
+                                                      onTap: () => launch("http://m.me/smartkyat.pos"),
+                                                      child: Text('Messenger', style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 17, color: Colors.blue,
+                                                      ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
                                                       ),
                                                     ),
                                                     SizedBox(height: 10),

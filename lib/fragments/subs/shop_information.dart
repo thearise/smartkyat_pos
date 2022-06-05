@@ -58,13 +58,13 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetEdit = 'ဆိုင်အပြင်အဆင်';
+          textSetEdit = 'Edit shop';
           textSetShopInfo = 'Shop info';
           textSetInformation = 'SHOP INFORMATION';
           textSetName = 'ဆိုင်အမည်';
           textSetAddress = 'ဆိုင်လိပ်စာ';
           textSetPhone = 'ဖုန်းနံပါတ်';
-          textSetSave = 'ပြငိဆင်မည်';
+          textSetSave = 'ပြင်ဆင်မည်';
         });
       } else if(value=='english') {
         setState(() {

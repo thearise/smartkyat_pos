@@ -56,10 +56,10 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
-          textSetSwitchShop = 'ဆိုင်ပြောင်းရန်';
+          textSetShopSetting = 'Shop setting';
+          textSetSwitchShop = 'ဆိုင်များ';
           textSetStaffSetting = 'ဝန်ထမ်းများ';
-          textSetShopInfo = 'ဆိုင်အချက်အလက်';
+          textSetShopInfo = 'အချက်အလက်';
         });
       } else if(value=='english') {
         setState(() {
@@ -308,9 +308,9 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                   }
                                   debugPrint('Own shop count ' + ownShopsCount.toString());
                                   var index = 0;
-                                  return eachTile('Switch shop', 'total ' + ownShopsCount.toString());
+                                  return eachTile(textSetSwitchShop, 'Total ' + ownShopsCount.toString());
                                 }
-                                return eachTile('Switch shop', '...');
+                                return eachTile(textSetSwitchShop, '...');
                               }),
                         ),
                         StreamBuilder(
@@ -355,7 +355,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                       stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
                                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                         if(snapshot.hasData) {
-                                          return eachTile(textSetStaffSetting, 'total ' + snapshot.data!.docs.length.toString());
+                                          return eachTile(textSetStaffSetting, 'Total ' + snapshot.data!.docs.length.toString());
                                         }
                                         return eachTile(textSetStaffSetting, '...');
                                       }

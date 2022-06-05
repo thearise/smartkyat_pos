@@ -53,7 +53,7 @@ class _AccountSettingState extends State<AccountSetting> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAccountSetting = 'အကောင့်အပြင်အဆင်';
+          textSetAccountSetting = 'Account setting';
           textSetAccountName = 'နာမည်';
           textSetInfo = 'သင့်အကောင့်အမည်ကို အခြားစတိုးဆိုင်များမှ ဝန်ထမ်းများကို စာရင်းသွင်းရန်အတွက်လည်း အသုံးပြုမည်ဖြစ်သည်။';
           textSetSave = 'သိမ်းမည်';
