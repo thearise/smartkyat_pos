@@ -56,6 +56,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   String textSetInfo = 'information';
   String textSetStaff = 'Staff setting';
   String textSetList = 'Staff list';
+  String textSetAdd = 'Add staff';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,15 +72,17 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetInfo = 'information';
-          textSetStaff = 'ဝန်ထမ်းအပြင်အဆင်';
-          textSetList = 'ဝန်ထမ်းစာရင်း';
+          textSetInfo = 'Information';
+          textSetStaff = 'Staff setting';
+          textSetList = 'STAFF LIST';
+          textSetAdd = 'ဝန်ထမ်း ထည့်ရန်';
         });
       } else if(value=='english') {
         setState(() {
            textSetInfo = 'information';
            textSetStaff = 'Staff setting';
-           textSetList = 'Staff list';
+           textSetList = 'STAFF LIST';
+           textSetAdd = 'Add staff';
         });
       }
     });
@@ -295,7 +298,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                              child: Text('STAFF LIST', style: TextStyle(
+                              child: Text(textSetList, style: TextStyle(
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,color: Colors.grey,

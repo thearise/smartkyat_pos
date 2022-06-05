@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../app_theme.dart';
 
 
@@ -39,6 +40,33 @@ void _toggle1() {
   setState(() {
     _obscureText1 = !_obscureText1;
   });
+}
+getLangId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if(prefs.getString('lang') == null) {
+    return 'english';
+  }
+  return prefs.getString('lang');
+}
+
+String textSetChangePassword = 'Change password';
+
+@override
+initState() {
+
+  getLangId().then((value) {
+    if(value=='burmese') {
+      setState(() {
+        textSetChangePassword = 'စကားဝှက်ပြောင်းလဲရန်';
+      });
+    } else if(value=='english') {
+      setState(() {
+        textSetChangePassword = 'Change password';
+      });
+    }
+  });
+
+  super.initState();
 }
 
   final _formKey = GlobalKey<FormState>();
@@ -554,7 +582,7 @@ Widget build(BuildContext context) {
                                           bottom: 3.0),
                                       child: Container(
                                         child: Text(
-                                          'Change password',
+                                         textSetChangePassword,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               height: 1.3,
