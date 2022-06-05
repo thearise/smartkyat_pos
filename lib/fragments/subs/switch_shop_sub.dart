@@ -38,14 +38,37 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
   var _shop ;
   bool firstTime = true;
 
+  String textSetAddShop = 'Add new shop';
+
   setStoreId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // return(prefs.getString('store'));
     prefs.setString('store', id);
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetAddShop = 'ဆိုင်အသစ် ပြုလုပ်ရန်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetAddShop = 'Add new shop';
+        });
+      }
+    });
+
     getStoreId().then((value) {
       setState(() {
         _result = value.toString();
@@ -320,7 +343,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                     bottom: 2.0),
                                                 child: Container(
                                                   child: Text(
-                                                    'Add new shop',
+                                                    textSetAddShop,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontSize: 18,

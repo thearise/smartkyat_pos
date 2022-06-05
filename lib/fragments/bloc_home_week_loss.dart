@@ -194,6 +194,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     super.dispose();
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -213,6 +221,45 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       } else if(value == 'Myanmar Kyat (MMK)') {
         setState(() {
           currencyUnit = 'MMK';
+        });
+      }
+    });
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+          textSetStockCosts = 'ဝယ်ယူစရိတ်';
+          textSetUnpaid = 'အကြွေးရရန်';
+          textSetBuys = 'ပြန်ပေးငွေ';
+          textSetLoss = 'ဆုံးရှုံး';
+          textSetToday = 'နေ့စဉ်';
+          textSetLastWeek = 'အပတ်စဉ်';
+          textSetLastMonth = 'လစဉ်';
+          textSetLastYear = 'နှစ်စဉ်';
+          textSetLast7Days = '၇ရက်အတွင်း';
+          textSetLast28D = '၂၈ရက်အတွင်း';
+          textSetLast12M = '၁၂လအတွင်း';
+          textSetSearch = 'ရှာဖွေရန်';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetTotalSales = 'TOTAL SALES';
+          textSetTodaySoFar = 'TODAY SO FAR';
+          textSetStockCosts = 'Stock costs';
+          textSetUnpaid = 'Unpaid';
+          textSetBuys = 'Refunds';
+          textSetLoss = 'Loss';
+          textSetToday = 'Day';
+          textSetLastWeek = 'Last week';
+          textSetLastMonth = 'This month';
+          textSetLastYear = 'This year';
+          textSetLast7Days = 'Last 7 Days';
+          textSetLast28D = 'LAST 28 DAYS';
+          textSetLast12M = 'LAST 12 MONTHS';
+          textSetSearch = 'Search';
+
         });
       }
     });

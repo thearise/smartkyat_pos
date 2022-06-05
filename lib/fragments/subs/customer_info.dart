@@ -613,7 +613,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                  Padding(
                                    padding: const EdgeInsets.only(top: 5.0),
                                    child: Container(
-                                     height: 253,
+                                     height: 266,
                                      child: TabBarView(
                                        controller: _controller,
                                        physics: NeverScrollableScrollPhysics(),
@@ -1609,7 +1609,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
                                       child: Container(
-                                        height: 253,
+                                        height: 266,
                                         child: TabBarView(
                                           controller: _controller,
                                           physics: NeverScrollableScrollPhysics(),
