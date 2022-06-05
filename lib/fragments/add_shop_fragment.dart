@@ -634,7 +634,7 @@ class _AddShopState extends State<AddShop> {
                                                 setStoreId(value.id.toString());
                                                 debugPrint('shop added');
                                                 Future.delayed(const Duration(milliseconds: 1000), () async {
-                                                  var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                                  var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
                                                 });
 
 
