@@ -29,7 +29,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   late Timer _timer;
   int _start = 60;
 
-   startTimer() {
+  startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
@@ -49,6 +49,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   void initState() {
+    print('initstate verify');
     // jiggleCtl.toggle();
 
     startTimer();
@@ -66,6 +67,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   void dispose() {
     timer.cancel();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -241,6 +243,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user = auth.currentUser!;
     await user.reload();
     if (user.emailVerified) {
+      user.getIdToken(true);
       timer.cancel();
       // Navigator.of(context).pushReplacement(
       //     MaterialPageRoute(builder: (context) => HomePage()));

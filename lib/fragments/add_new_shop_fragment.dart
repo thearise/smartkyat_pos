@@ -482,9 +482,9 @@ class _AddNewShopState extends State<AddNewShop> {
                                   final result = await InternetAddress.lookup('google.com');
                                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                     shopFieldsValue = [];
-                                    final User? user = auth.currentUser;
-                                    final uid = user!.uid;
-                                    final email = user.email;
+                                    User? user = auth.currentUser;
+                                    var uid = user!.uid;
+                                    var email = user.email;
                                     if (_formKey.currentState!.validate()) {
                                       WriteBatch batch = FirebaseFirestore.instance.batch();
                                       setState(() {
@@ -506,19 +506,21 @@ class _AddNewShopState extends State<AddNewShop> {
 
                                           }
                                       ).then((value) async {
+                                        await user.reload();
+                                        debugPrint('wworked here 0');
                                         shops.doc(value.id).collection('users').doc(email).set({
                                           'email': email.toString(),
                                           'role' : 'owner',
                                           'device0': await _getId()
-                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
-
+                                        }).catchError((error) => debugPrint("Failed to update user1: $error"));
+                                        debugPrint('wworked here 1');
                                         shops.doc(value.id).collection('users_ver').doc(uid).set({
                                           'email': email.toString(),
                                           'role' : 'owner',
                                           'device0': await _getId()
-                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
+                                        }).catchError((error) => debugPrint("Failed to update user2: $error"));
                                        // setStoreId(value.id.toString());
-
+                                        debugPrint('wworked here 2');
                                         addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
                                         addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
@@ -540,17 +542,19 @@ class _AddNewShopState extends State<AddNewShop> {
                                         addNoCus(batch, value.id);
 
                                         addNoMer(batch, value.id);
+                                        debugPrint('wworked here 3');
 
                                         try {
                                           FocusScope.of(context).unfocus();
                                           await batch.commit();
                                           setStoreId(value.id.toString());
-                                          Future.delayed(const Duration(milliseconds: 1000), () async {
-                                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(deviceId: deviceId,)));
+                                          debugPrint('shop added');
+                                          Future.delayed(const Duration(milliseconds: 2000), () async {
+                                            var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
                                           });
 
                                           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                          debugPrint('shop added');
+
                                         } catch (error) {
                                           debugPrint('shop adding error');
                                           setState(() {
@@ -766,4 +770,34 @@ class _AddNewShopState extends State<AddNewShop> {
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+
+  // @override
+  // bool get maintainState => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
 }
