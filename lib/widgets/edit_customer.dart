@@ -28,6 +28,24 @@ class _EditCustomerState extends State<EditCustomer> {
   final cusAddressCtrl = TextEditingController();
   final cusPhoneCtrl = TextEditingController();
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
   @override
   void initState() {
     cusNameCtrl.text = widget.cusName;
@@ -457,6 +475,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 cusLoading = true;
                                 disableTouch = true;
                               });
+                              openOverAllSubLoading();
 
                               customerLocate.update({
                                 'cus.'+ widget.cusId + '.na': cusNameCtrl.text,
@@ -468,10 +487,23 @@ class _EditCustomerState extends State<EditCustomer> {
                                     cusLoading = false;
                                     disableTouch = false;
                                   });
+                                  closeOverAllSubLoading();
+                                  Navigator.pop(context);
+                                  smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
                                 });
-                                }).catchError((error) => debugPrint("Failed to update user: $error"));
-                              Navigator.pop(context);
-                              smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
+                                }).catchError((error) {
+                                Future.delayed(const Duration(milliseconds: 2000), () {
+                                  setState(() {
+                                    cusLoading = false;
+                                    disableTouch = false;
+                                  });
+                                  closeOverAllSubLoading();
+                                  Navigator.pop(context);
+                                  smartKyatFlash('An error occurred while editing customer. Please try again later.', 'e');
+                                });
+
+                              });
+
                             }
 
                           },

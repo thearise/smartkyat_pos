@@ -1159,7 +1159,7 @@ class _EditProductState extends State<EditProduct> {
                                                     const Duration(
                                                         milliseconds: 3000), () {
                                                   Navigator.of(context).popUntil((route) => route.isFirst);
-                                                  smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                  smartKyatFlash('An error occurred while editing a product. Please try again later.', 'e');
                                                   closeOverAllSubLoading();
                                                   setState(() {
                                                     disableTouch = false;
@@ -1243,7 +1243,7 @@ class _EditProductState extends State<EditProduct> {
                                                                   const Duration(
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
-                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 'e');
                                                                 closeOverAllSubLoading();
                                                                 setState(() {
                                                                   disableTouch = false;
@@ -1317,7 +1317,7 @@ class _EditProductState extends State<EditProduct> {
                                                                   const Duration(
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
-                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 'e');
                                                                 closeOverAllSubLoading();
                                                                 setState(() {
                                                                   disableTouch = false;

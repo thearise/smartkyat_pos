@@ -63,6 +63,25 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     return prefs.getString('currency');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
+
   @override
   initState() {
 
@@ -402,6 +421,8 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     disableTouch = true;
                                   });
 
+                                  openOverAllSubLoading();
+
                                   String noCustomer = '';
 
                                   if(widget.data.split('^')[3].split('&')[0] == 'No customer') {
@@ -471,16 +492,22 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                           loadingState = false;
                                           disableTouch = false;
                                         });
+                                        closeOverAllSubLoading();
 
                                         _textFieldController.clear();
                                         Navigator.of(context).popUntil((route) => route.isFirst);
                                         smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
                                       });
                                     } catch(error) {
-                                      smartKyatFlash('An error occurred while payment process. Please try again later.', 'e');
-                                      setState(() {
-                                        loadingState = false;
-                                        disableTouch = false;
+                                      Future.delayed(const Duration(milliseconds: 2000), () {
+                                        setState(() {
+                                          loadingState = false;
+                                          disableTouch = false;
+                                        });
+                                        closeOverAllSubLoading();
+                                        _textFieldController.clear();
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
+                                        smartKyatFlash('An error occurred while payment process. Please try again later.', 'e');
                                       });
                                     }
 
