@@ -74,6 +74,25 @@ class MerchantCartState extends State<MerchantCart>
     return prefs.getString('lang');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
+
   String textSetMerchOrders = 'Merchant cart';
   String textSetClearCart = 'Clear cart';
   String textSetDiscount = 'Discount';
@@ -2533,6 +2552,7 @@ class MerchantCartState extends State<MerchantCart>
                                         widget.merchCartLoadingState();
                                       });
                                     });
+                                    openOverAllSubLoading();
 
                                     FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('buyOrdsCnt')
                                         .get().then((value) async {
@@ -2749,13 +2769,24 @@ class MerchantCartState extends State<MerchantCart>
                                               disableTouch = false;
                                               merchCartCreating = false;
                                             });
+                                            closeOverAllSubLoading();
                                           });
                                           Navigator.of(context).popUntil((route) => route.isFirst);
                                           smartKyatFlash('Refill process has been complete successfully.', 's');
                                         });
                                       } catch(error) {
-                                        debugPrint('error while creating orders');
-                                        smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                        Future.delayed(const Duration(milliseconds: 2000), () {
+                                          mystate(() {
+                                            setState(() {
+                                              widget.endMerchCartLoadingState();
+                                              disableTouch = false;
+                                              merchCartCreating = false;
+                                            });
+                                            closeOverAllSubLoading();
+                                          });
+                                          Navigator.of(context).popUntil((route) => route.isFirst);
+                                          smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                        });
 
                                       }});
 

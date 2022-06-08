@@ -64,6 +64,24 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     return prefs.getString('lang');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
 
   String textSetTtlRefund = 'Refunded items price';
   String textSetTtlRefundAmount = 'Total refund amount';
@@ -709,6 +727,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 loadingState = true;
                                                 disableTouch = true;
                                               });
+                                              openOverAllSubLoading();
                                               double total = 0;
                                               bool refund = false;
                                               var monthId = '';
@@ -950,6 +969,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     loadingState = false;
                                                     disableTouch = false;
                                                   });
+                                                  closeOverAllSubLoading();
                                                   Navigator.of(context).popUntil((route) => route.isFirst);
                                                   smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
                                                 });
@@ -960,6 +980,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                  loadingState = false;
                                                  disableTouch = false;
                                                });
+                                               closeOverAllSubLoading();
                                              }
                                               });
 

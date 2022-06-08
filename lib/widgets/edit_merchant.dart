@@ -41,6 +41,24 @@ class _EditMerchantState extends State<EditMerchant> {
     super.dispose();
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
   textSplitFunction(String text) {
     List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
     List result = [];
@@ -457,6 +475,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                 merchLoading = true;
                                 disableTouch = true;
                               });
+                              openOverAllSubLoading();
                               customerLocate.update({
                                 'mer.'+ widget.merchId + '.na': merchNameCtrl.text,
                                 'mer.'+ widget.merchId + '.ad': merchAddressCtrl.text,
@@ -467,10 +486,22 @@ class _EditMerchantState extends State<EditMerchant> {
                                     merchLoading = false;
                                     disableTouch = false;
                                   });
+                                  closeOverAllSubLoading();
+                                  Navigator.pop(context);
+                                  smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
                                 });
-                              }).catchError((error){debugPrint("Failed to update user: $error");});
-                              Navigator.pop(context);
-                              smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
+                              }).catchError((error){
+                                Future.delayed(const Duration(milliseconds: 2000), () {
+                                  setState(() {
+                                    merchLoading = false;
+                                    disableTouch = false;
+                                  });
+                                  closeOverAllSubLoading();
+                                  Navigator.pop(context);
+                                  smartKyatFlash('An error occurred while editing merchant. Please try again later.', 'e');
+                                });
+                              });
+
                             }
                           },
                           child: merchLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),

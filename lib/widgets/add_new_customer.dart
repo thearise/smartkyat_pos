@@ -40,6 +40,24 @@ class _AddCustomerState extends State<AddCustomer> {
     return prefs.getString('lang');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
 
   String textSetInformation = 'CUSTOMER INFORMATION';
   String textSetName = 'Name';
@@ -403,6 +421,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                           cusCreating = true;
                                           widget.cusLoadingState();
                                         });
+                                        openOverAllSubLoading();
 
                                         //DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
 
@@ -439,18 +458,22 @@ class _AddCustomerState extends State<AddCustomer> {
                                               setState(() {
                                                 cusCreating = false;
                                                 widget.endCusLoadingState();
-                                                Navigator.pop(context);
                                               });
+                                              closeOverAllSubLoading();
+                                              Navigator.pop(context);
                                               smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
                                             });
                                           } catch(error) {
                                             debugPrint('error while creating orders');
-                                            smartKyatFlash('An error occurred while creating new customer. Please try again later.', 'e');
                                             setState(() {
                                               cusCreating = false;
                                               widget.endCusLoadingState();
-                                              Navigator.pop(context);
+
                                             });
+                                            closeOverAllSubLoading();
+                                            Navigator.pop(context);
+                                            smartKyatFlash('An error occurred while creating new customer. Please try again later.', 'e');
+
                                           }
 
                                           // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
