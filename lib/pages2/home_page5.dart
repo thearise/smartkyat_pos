@@ -4467,6 +4467,31 @@ class HomePageState extends State<HomePage>
                                                                                                                   orderCreating = false;
                                                                                                                   disableTouch = false;
                                                                                                                 });
+
+
+                                                                                                                //setting new design
+                                                                                                                setState(() {
+                                                                                                                  // mystate(()  {
+                                                                                                                  prodList = [];
+                                                                                                                  discount = 0.0;
+                                                                                                                  discountAmount =0.0;
+                                                                                                                  debt =0;
+                                                                                                                  refund =0;
+                                                                                                                  customerId = 'name^name';
+                                                                                                                  disText = '';
+                                                                                                                  isDiscount = '';
+                                                                                                                  // });
+                                                                                                                });
+                                                                                                                // _controller.animateTo(0);
+                                                                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                                                                _textFieldControllerTablet.clear();
+                                                                                                                _controllerTablet.animateTo(0);
+                                                                                                                // Navigator.pop(context);
+                                                                                                                // sellDone = true;
+                                                                                                                //setting new design
+
+
                                                                                                                 // debugPrint('saleCartDrag ' + saleCartDrag.toString());
                                                                                                                 _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                                                               });
@@ -6552,7 +6577,7 @@ class HomePageState extends State<HomePage>
           ),
           homePageLoading? Positioned.fill(
             child: Container(
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withOpacity(0.4),
               child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                   child: CupertinoActivityIndicator(radius: 15,)),
             ),
@@ -6571,6 +6596,7 @@ class HomePageState extends State<HomePage>
 
   late final SlidableController slidableController;
   addProduct(data) async {
+    _controllerTablet.animateTo(0);
     debugPrint('added producting ' + data);
     String prod_name = data.split('^')[5];
     String unit_name = data.split('^')[6];
@@ -6623,12 +6649,14 @@ class HomePageState extends State<HomePage>
   String custPrintTitle = 'name';
 
   addCustomer2Cart(data) {
+    _controllerTablet.animateTo(0);
     setState(() {
       customerId = data.toString();
     });
   }
 
   addMerchant2Cart(data) {
+    _controllerTablet.animateTo(0);
     setState(() {
       merchantId = data.toString();
     });
