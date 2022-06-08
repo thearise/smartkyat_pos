@@ -426,7 +426,7 @@ class _EditMerchantState extends State<EditMerchant> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: homeBotPadding),
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
                   child: Container(
                     color: Colors.white,
                     child: Padding(

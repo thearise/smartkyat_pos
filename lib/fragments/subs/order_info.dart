@@ -147,7 +147,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
           textSetDebt = 'ကျန်ငွေ';
           textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
-          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
+          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
           textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
           textSetPrint = 'ဘောင်ချာထုတ်ရန်';
           textSetPercent = 'Percentage';
