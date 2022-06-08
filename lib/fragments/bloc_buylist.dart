@@ -1475,7 +1475,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
               '^' +
               list[i].split('^')[2] +
               '^' +
-              'No customer' +
+              'No merchant' +
               '&' +
               list[i].split('^')[3].split('<>')[0] +
               '^' +

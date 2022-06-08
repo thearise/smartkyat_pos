@@ -395,8 +395,10 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             if (_formKey.currentState!.validate()) {
                               WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                              loadingState = true;
-                              disableTouch = true;
+                              setState(() {
+                                loadingState = true;
+                                disableTouch = true;
+                              });
 
                               String noCustomer = '';
 
@@ -462,9 +464,10 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 try {
                                   batch.commit();
                                   Future.delayed(const Duration(milliseconds: 2000), () {
-                                    loadingState = false;
-                                    disableTouch = false;
-
+                                    setState(() {
+                                      loadingState = false;
+                                      disableTouch = false;
+                                    });
                                     _textFieldController.clear();
                                     Navigator.of(context).popUntil((route) => route.isFirst);
                                     smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
