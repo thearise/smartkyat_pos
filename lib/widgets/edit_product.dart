@@ -123,6 +123,25 @@ class _EditProductState extends State<EditProduct> {
     return prefs.getString('currency');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
+
   @override
   initState() {
 
@@ -963,6 +982,8 @@ class _EditProductState extends State<EditProduct> {
                                       ),
                                     ),
                                     onPressed: () async {
+
+                                      openOverAllSubLoading();
                                       if (_formKey.currentState!.validate()) {
                                         setState(() {
                                           prodAdding = true;
@@ -1051,6 +1072,7 @@ class _EditProductState extends State<EditProduct> {
                                               'Product name already!',
                                               okLabel: 'OK',
                                             );
+                                            closeOverAllSubLoading();
                                             setState(() {
                                               disableTouch = false;
                                               prodAdding = false;
@@ -1125,6 +1147,7 @@ class _EditProductState extends State<EditProduct> {
                                                         milliseconds: 3000), () {
                                                   Navigator.of(context).popUntil((route) => route.isFirst);
                                                   smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                  closeOverAllSubLoading();
                                                   setState(() {
                                                     disableTouch = false;
                                                     prodAdding = false;
@@ -1136,9 +1159,9 @@ class _EditProductState extends State<EditProduct> {
                                                     const Duration(
                                                         milliseconds: 3000), () {
                                                   Navigator.of(context).popUntil((route) => route.isFirst);
-                                                  smartKyatFlash(
-                                                      'An error occurred while editing a product. Please try again later.',
-                                                      's');                                                  setState(() {
+                                                  smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                  closeOverAllSubLoading();
+                                                  setState(() {
                                                     disableTouch = false;
                                                     prodAdding = false;
                                                   });
@@ -1208,6 +1231,7 @@ class _EditProductState extends State<EditProduct> {
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                                closeOverAllSubLoading();
                                                                 setState(() {
                                                                   disableTouch = false;
                                                                   prodAdding = false;
@@ -1219,9 +1243,9 @@ class _EditProductState extends State<EditProduct> {
                                                                   const Duration(
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
-                                                                smartKyatFlash(
-                                                                    'An error occurred while editing a product. Please try again later.',
-                                                                    's');                                                  setState(() {
+                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                                closeOverAllSubLoading();
+                                                                setState(() {
                                                                   disableTouch = false;
                                                                   prodAdding = false;
                                                                 });
@@ -1281,6 +1305,7 @@ class _EditProductState extends State<EditProduct> {
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                                 smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                                                closeOverAllSubLoading();
                                                                 setState(() {
                                                                   disableTouch = false;
                                                                   prodAdding = false;
@@ -1292,9 +1317,9 @@ class _EditProductState extends State<EditProduct> {
                                                                   const Duration(
                                                                       milliseconds: 3000), () {
                                                                 Navigator.of(context).popUntil((route) => route.isFirst);
-                                                                smartKyatFlash(
-                                                                    'An error occurred while editing a product. Please try again later.',
-                                                                    's');                                                  setState(() {
+                                                                smartKyatFlash('An error occurred while editing a product. Please try again later.', 's');
+                                                                closeOverAllSubLoading();
+                                                                setState(() {
                                                                   disableTouch = false;
                                                                   prodAdding = false;
                                                                 });
@@ -1310,6 +1335,7 @@ class _EditProductState extends State<EditProduct> {
                                                 }
                                               } on SocketException catch (_) {
                                                 smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                closeOverAllSubLoading();
                                                 setState(() {
                                                   disableTouch = false;
                                                   prodAdding = false;
@@ -1448,7 +1474,8 @@ class _EditProductState extends State<EditProduct> {
                                         //     }
                                         //   }
                                         // });
-                                      } },
+                                      }
+                                    },
                                     child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                         child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                                       padding: const EdgeInsets.only(
