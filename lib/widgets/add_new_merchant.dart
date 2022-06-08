@@ -42,6 +42,24 @@ class _AddMerchantState extends State<AddMerchant> {
     return prefs.getString('lang');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
 
   String textSetInformation = 'MERCHANT INFORMATION';
   String textSetName = 'Name';
@@ -398,6 +416,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                       widget.merchLoadingState();
                                       merchAdding = true;
                                     });
+                                    openOverAllSubLoading();
 
                                     FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('merCnt').get().then((value) async {
                                       int merCnt = value.data()!['count'];
@@ -429,18 +448,21 @@ class _AddMerchantState extends State<AddMerchant> {
                                           setState(() {
                                             merchAdding = false;
                                             widget.endMerchLoadingState();
-                                            Navigator.pop(context);
                                           });
+                                          closeOverAllSubLoading();
+                                          Navigator.pop(context);
                                           smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
                                         });
                                       } catch(error) {
                                         debugPrint('error while creating orders');
-                                        smartKyatFlash('An error occurred while creating new merchant. Please try again later.', 'e');
                                         setState(() {
                                           merchAdding = false;
                                           widget.endMerchLoadingState();
-                                          Navigator.pop(context);
                                         });
+                                        closeOverAllSubLoading();
+                                        Navigator.pop(context);
+                                        smartKyatFlash('An error occurred while creating new merchant. Please try again later.', 'e');
+
                                       }
                                     });
 

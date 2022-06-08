@@ -97,6 +97,24 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     return prefs.getString('lang');
   }
 
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
+  }
+
   String _getRegexString() =>
       r'[1-9.][0-9.]*';
 
@@ -1566,6 +1584,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             widget.prodLoadingState();
                                             prodAdding = true;
                                           });
+                                          openOverAllSubLoading();
                                           debugPrint('validate ' + prodFieldsValue.toString());
 
                                           List<PersonEntry> entries = [];
@@ -1751,6 +1770,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   widget.endProdLoadingState();
                                                   prodAdding = false;
                                                 });
+                                                closeOverAllSubLoading();
                                               }
                                               else {
                                                 debugPrint('adding nmow');
@@ -1807,10 +1827,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                             milliseconds: 3000), () {
                                                       setState(() {
                                                         prodAdding = false;
-                                                        widget
-                                                            .endProdLoadingState();
+                                                        widget.endProdLoadingState();
                                                         Navigator.pop(context);
                                                       });
+                                                      closeOverAllSubLoading();
                                                       smartKyatFlash(
                                                           prodFieldsValue[0]
                                                               .toString() +
@@ -1825,9 +1845,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       setState(() {
                                                         prodAdding = false;
                                                         widget
-                                                            .endProdLoadingState();
+                                                            .endProdLoadingState(); });
+                                                      closeOverAllSubLoading();
                                                         Navigator.pop(context);
-                                                      });
+
+
                                                       smartKyatFlash(
                                                           'An error occurred while adding new product. Please try again later.',
                                                           's');
@@ -1960,6 +1982,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   widget.endProdLoadingState();
                                                   prodAdding = false;
                                                 });
+                                                closeOverAllSubLoading();
                                               }
                                               else {
                                                 for (int i = 0;
@@ -2139,8 +2162,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                 prodAdding = false;
                                                                 widget
                                                                     .endProdLoadingState();
-                                                                Navigator.pop(context);
                                                               });
+                                                              closeOverAllSubLoading();
+                                                                Navigator.pop(context);
+
                                                               smartKyatFlash(
                                                                   prodFieldsValue[0]
                                                                       .toString() +
@@ -2156,8 +2181,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                 prodAdding = false;
                                                                 widget
                                                                     .endProdLoadingState();
-                                                                Navigator.pop(context);
+
                                                               });
+                                                              Navigator.pop(context);
+                                                              closeOverAllSubLoading();
                                                               smartKyatFlash(
                                                                   'An error occurred while adding new product. Please try again later.',
                                                                   's');
@@ -2247,7 +2274,19 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         //   smartKyatFlash( prodFieldsValue[0].toString() +' has been added successfully.', 's');
                                                         // });
                                                       } else {
-                                                        smartKyatFlash('Something went wrong while uploading image of ' + prodFieldsValue[0].toString() + '.', 'e');
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                milliseconds: 3000), () {
+                                                          setState(() {
+                                                            prodAdding = false;
+                                                            widget
+                                                                .endProdLoadingState();
+
+                                                          });
+                                                          Navigator.pop(context);
+                                                          closeOverAllSubLoading();
+                                                          smartKyatFlash('Something went wrong while uploading image of ' + prodFieldsValue[0].toString() + '.', 'e');
+                                                        });
                                                       }
 
                                                     });
