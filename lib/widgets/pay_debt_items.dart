@@ -467,8 +467,10 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       debugPrint('loading state ' + loadingState.toString());
                                       batch.commit();
                                       Future.delayed(const Duration(milliseconds: 2000), () {
-                                        loadingState = false;
-                                        disableTouch = false;
+                                        setState(() {
+                                          loadingState = false;
+                                          disableTouch = false;
+                                        });
 
                                         _textFieldController.clear();
                                         Navigator.of(context).popUntil((route) => route.isFirst);
