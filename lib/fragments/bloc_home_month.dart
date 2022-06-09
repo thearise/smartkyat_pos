@@ -477,12 +477,19 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
+                                            color: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? Colors.blue : growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
                                           // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text(' ' +  growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() == '1000'? '\u221E% ': growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() + '% ',
+                                            child: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ?
+                                            Text(' -%   ',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.white),
+                                            ) :  Text(' ' +  growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() + '%  ',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -620,11 +627,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateCost(lastMonthCost, monthCostsTotal2).toString() == '1000' ? '\u221E%' : growthRateCost(lastMonthCost, monthCostsTotal2).toString() + '%',
+                                                child: Text(growthRateCost(lastMonthCost, monthCostsTotal2).toString() == '1000' ? '-%' : growthRateCost(lastMonthCost, monthCostsTotal2).toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: growthRateCost(lastMonthCost, monthCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color:  growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Colors.blue : growthRateCost(lastMonthCost, monthCostsTotal2) < 0? AppTheme.badgeFgDanger : Colors.green,
                                                   ),
                                                 )
                                             ),
@@ -710,11 +717,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() == '1000' ? '\u221E%' : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() + '%',
+                                                child: Text(growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() == '1000' ? '-%' : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000? Colors.blue : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
                                                   ),
                                                 )
                                             ),
@@ -800,11 +807,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateRefund(lastMonthRefund, monthRefundTotal).toString() == '1000' ? '\u221E%' : growthRateRefund(lastMonthRefund, monthRefundTotal).toString() + '%',
+                                                child: Text(growthRateRefund(lastMonthRefund, monthRefundTotal).toString() == '1000' ? '-%' : growthRateRefund(lastMonthRefund, monthRefundTotal).toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000? Colors.blue: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
                                                   ),
                                                 )
                                             ),
@@ -888,11 +895,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(growthRateLoss(lastMonthLoss, monthLossTotal).toString() == '1000' ? '\u221E%' : growthRateLoss(lastMonthLoss, monthLossTotal).toString() + '%',
+                                                child: Text(growthRateLoss(lastMonthLoss, monthLossTotal).toString() == '1000' ? '-%' : growthRateLoss(lastMonthLoss, monthLossTotal).toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: growthRateLoss(lastMonthLoss, monthLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: growthRateLoss(lastMonthLoss, monthLossTotal) == 1000? Colors.blue : growthRateLoss(lastMonthLoss, monthLossTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
                                                   ),
                                                 )
                                             ),
