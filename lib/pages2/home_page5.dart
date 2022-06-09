@@ -2941,7 +2941,7 @@ class HomePageState extends State<HomePage>
                                                               );
                                                               debugPrint('clicked log ' + result.toString());
                                                               if(result.toString() == textSetLogOut) {
-                                                                _selectTab(0);
+                                                                // _selectTab(0);
                                                                 await FirebaseAuth.instance.signOut();
                                                                 setStoreId('');
                                                                 Navigator.of(context).pushReplacement(
