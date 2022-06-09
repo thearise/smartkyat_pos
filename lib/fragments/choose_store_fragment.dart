@@ -1660,7 +1660,7 @@ class chooseStoreState extends State<chooseStore> {
               Visibility(
                 visible: loadingState,
                 child: Container(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: Colors.white.withOpacity(0.4),
                   child: Column(
                     children: [
                       Expanded(

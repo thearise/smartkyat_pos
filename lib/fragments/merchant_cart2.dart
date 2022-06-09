@@ -449,17 +449,20 @@ class MerchantCartState extends State<MerchantCart>
                             ],
                           ),
                           Spacer(),
-                          Container(
-                            width: 37,
-                            height: 37,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(35.0),
+                          Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              Container(
+                                width: 37,
+                                height: 37,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(35.0),
+                                    ),
+                                    color: Colors.grey.withOpacity(0.3)
                                 ),
-                                color: Colors.grey.withOpacity(0.3)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 3.0),
-                              child: IconButton(
+                              ),
+                              IconButton(
                                   icon: Icon(
                                     Icons.close,
                                     size: 23,
@@ -468,8 +471,8 @@ class MerchantCartState extends State<MerchantCart>
                                   onPressed: () {
                                     Navigator.pop(context);
 
-                                  }),
-                            ),
+                                  })
+                            ],
                           ),
                         ],
                       ),

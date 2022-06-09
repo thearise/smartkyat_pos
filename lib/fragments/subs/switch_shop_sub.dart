@@ -188,7 +188,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                 color: Colors.grey.withOpacity(0.3),
                                 width: 1.0))),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
