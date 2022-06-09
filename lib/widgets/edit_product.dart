@@ -937,9 +937,7 @@ class _EditProductState extends State<EditProduct> {
                                           });
                                         }
                                       },
-                                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                          child: CupertinoActivityIndicator(radius: 10,)) :
-                                      Padding(
+                                      child: Padding(
                                         padding: const EdgeInsets.only(
                                             left: 5.0,
                                             right: 5.0,
