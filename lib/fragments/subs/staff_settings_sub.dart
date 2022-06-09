@@ -657,7 +657,9 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                                 WriteBatch batch = FirebaseFirestore.instance.batch();
                                                                                                 batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
                                                                                                 batch.delete(users.doc(userDocId));
-                                                                                                batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                                if(userVerSnap.docs.length != 0) {
+                                                                                                  batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                                }
 
                                                                                                 batch.commit().then((value) {
                                                                                                   smartKyatFlash('Selected user is removed successfully.', 's');
@@ -847,7 +849,10 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                               WriteBatch batch = FirebaseFirestore.instance.batch();
                                                                                               batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
                                                                                               batch.delete(users.doc(userDocId));
-                                                                                              batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                              if(userVerSnap.docs.length != 0) {
+                                                                                                batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                              }
+
 
                                                                                               batch.commit().then((value) {
                                                                                                 smartKyatFlash('Selected user is removed successfully.', 's');
