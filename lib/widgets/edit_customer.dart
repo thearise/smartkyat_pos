@@ -471,6 +471,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 .doc(widget.shopId)
                                 .collection('collArr').doc('cusArr');
                             if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
                               setState(() {
                                 cusLoading = true;
                                 disableTouch = true;

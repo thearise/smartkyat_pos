@@ -471,6 +471,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                 .doc(widget.shopId)
                                 .collection('collArr').doc('merArr');
                             if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
                               setState(() {
                                 merchLoading = true;
                                 disableTouch = true;
