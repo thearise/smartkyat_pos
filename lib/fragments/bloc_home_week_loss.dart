@@ -405,14 +405,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      titleTextBySlide(),
-                                      style: TextStyle( height: 0.9,
-                                        letterSpacing: 2,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,color: Colors.grey,
-                                      ),
-                                    )
+                                    // Text(
+                                    //   titleTextBySlide(),
+                                    //   style: TextStyle( height: 0.9,
+                                    //     letterSpacing: 2,
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontSize: 14,color: Colors.grey,
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -588,6 +588,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetStockCosts,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -674,6 +678,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetUnpaid,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13, height: 1.2,
                                                   fontWeight: FontWeight.w500,
@@ -761,6 +769,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetBuys,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -847,6 +859,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetLoss,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -2355,6 +2371,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double todayTotal = 0;
     for (int i = 0; i < weekOrdersChart.length; i++){
       todayTotal += weekOrdersChart[i];
+    }
+
+    if(lastWeekOrdersChart == 0 || todayTotal == 0) {
+      return 1001;
     }
 
     growthRate = (todayTotal - lastWeekOrdersChart) / lastWeekOrdersChart * 100;

@@ -2225,7 +2225,7 @@ class _WelcomeState extends State<Welcome>
           Visibility(
             visible: overLoading,
             child: Container(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.white.withOpacity(0.4),
               child: Column(
                 children: [
                   Expanded(
