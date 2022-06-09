@@ -608,6 +608,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetStockCosts,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -693,8 +697,12 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetUnpaid,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
-                                                  fontSize: 13, height: 0.9,
+                                                  fontSize: 13, height: 1.2,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
@@ -779,6 +787,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetBuys,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -864,6 +876,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 child: Text('?')
                                             ),
                                             Text(textSetLoss,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,

@@ -405,14 +405,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                         ),
                                       ),
                                     ),
-                                    // Text(
-                                    //   titleTextBySlide(),
-                                    //   style: TextStyle( height: 0.9,
-                                    //     letterSpacing: 2,
-                                    //     fontWeight: FontWeight.bold,
-                                    //     fontSize: 14,color: Colors.grey,
-                                    //   ),
-                                    // )
+                                    Text(
+                                      titleTextBySlide(),
+                                      style: TextStyle( height: 0.9,
+                                        letterSpacing: 2,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,color: Colors.grey,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
