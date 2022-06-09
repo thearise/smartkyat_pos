@@ -457,7 +457,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5.0),
                                             ),
-                                            color: percentBySale() == 1001? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                            color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
                                           ),
                                           // width: 50,
                                           height: 25,
@@ -600,11 +600,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '\u221E%' : percentByCost().toString() + '%',
+                                                child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '-%' : percentByCost().toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByCost().toString() == '1001' ? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                                    color: percentByCost().toString() == '1001' || percentByCost().toString() == '1000'? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
                                                     // color: Colors.blue
                                                   ),
                                                 )
@@ -691,11 +691,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByUnpaid().toString() == '1001' ? '-%' : percentByUnpaid().toString() == '1000' ? '\u221E%' : percentByUnpaid().toString() + '%',
+                                                child: Text(percentByUnpaid().toString() == '1001' ? '-%' : percentByUnpaid().toString() == '1000' ? '-%' : percentByUnpaid().toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByUnpaid() == 1001? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,
+                                                    color: percentByUnpaid().toString() == '1001' || percentByUnpaid().toString() == '1000' ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,
                                                     // color: Colors.blue
                                                   ),
                                                 )
@@ -782,11 +782,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByRefund().toString() == '1001' ? '-%' : percentByRefund().toString() == '1000' ? '\u221E%' : percentByRefund().toString() + '%',
+                                                child: Text(percentByRefund().toString() == '1001' ? '-%' : percentByRefund().toString() == '1000' ? '-%' : percentByRefund().toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByRefund() == 1001? Colors.blue: percentByRefund() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? Colors.green: AppTheme.badgeFgDanger,
                                                     // color: Colors.blue
                                                   ),
                                                 )
@@ -871,11 +871,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             Positioned(
                                                 right: 0,
                                                 bottom: 2,
-                                                child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '\u221E%' : percentByLoss().toString() + '%',
+                                                child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '-%' : percentByLoss().toString() + '%',
                                                   style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: percentByLoss() == 1001? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
                                                     // color: Colors.blue
                                                   ),
                                                 )
@@ -2491,7 +2491,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     if(percentBySale == 1001) {
       return '-%  ';
     } else if(percentBySale == 1000) {
-      return '\u221E%  ';
+      return '-%  ';
     } else {
       return percentBySale.toString() + '% ';
     }
