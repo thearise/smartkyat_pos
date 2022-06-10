@@ -127,7 +127,7 @@ class _EditProductState extends State<EditProduct> {
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -531,7 +531,7 @@ class _EditProductState extends State<EditProduct> {
                                     debugPrint("Barcode");
                                     var code = await  Navigator.of(context).push(
                                         FadeRoute(page:
-                                        QREditExample(prodName: widget.prodName,),
+                                        QREditExample(prodName: widget.prodName, isEnglish: isEnglish),
                                         )
                                     );
                                     barCodeCtrl.text = code;

@@ -86,6 +86,7 @@ class SearchFragment extends StatefulWidget {
     required void closeCartBtn(String str),
     required void openCartBtn(String str),
     required this.shopId,
+    required this.isEnglish,
     Key? key,
     required Function(dynamic index) chgIndexFromSearch, this.deviceId,}
       ) : _closeCartBtn = closeCartBtn,
@@ -97,6 +98,7 @@ class SearchFragment extends StatefulWidget {
   final BlueDevice? selectedDev;
   final String shopId;
   final String? deviceId;
+  final bool isEnglish;
 
   @override
   SearchFragmentState createState() => SearchFragmentState();
@@ -451,7 +453,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       if(value=='burmese') {
         setState(() {
           textSetSearch = 'ရှာဖွေရန်';
-
         });
       } else if(value=='english') {
         setState(() {
@@ -3386,7 +3387,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                             ),
 
                                             decoration: InputDecoration(
-                                              hintText:textSetSearch,
+                                              hintText: widget.isEnglish? 'Search': 'ရှာဖွေရန်',
                                               // hintText: 'Search',
                                               isDense: true,
                                               // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
@@ -3407,7 +3408,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(10),
                                               ),
-                                              hintStyle: textSetSearch == 'Search' ?
+                                              hintStyle: widget.isEnglish ?
                                               TextStyle(
                                                   color: Colors.black.withOpacity(0.55)
                                               ):
@@ -3824,7 +3825,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                'Products',
+                                widget.isEnglish? 'Products': 'ကုန်ပစ္စည်း',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3867,7 +3868,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                'Customers',
+                                widget.isEnglish? 'Customers': 'ဖောက်သည်',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3909,7 +3910,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                'Merchants',
+                                widget.isEnglish? 'Merchants': 'ကုန်သည်',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3939,7 +3940,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                'Sale orders',
+                                widget.isEnglish? 'Sale orders': 'အရောင်းစာရင်း',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3969,7 +3970,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                'Buy orders',
+                                widget.isEnglish? 'Buy orders': 'အဝယ်စာရင်း',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,

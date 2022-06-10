@@ -345,7 +345,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if(widget.intValIni == 2 || widget.intValIni == 3) {
         debugPrint('animating to ');
-        cateScCtler.jumpTo(156);
+        cateScCtler.jumpTo(cateScCtler.position.maxScrollExtent);
       }
     });
     // fetchOrders(loadedState.documentSnapshots, widget.buy);
@@ -425,14 +425,14 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      titleTextBySlide(),
-                                      style: TextStyle( height: 0.9,
-                                        letterSpacing: 2,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,color: Colors.grey,
-                                      ),
-                                    )
+                                    // Text(
+                                    //   titleTextBySlide(),
+                                    //   style: TextStyle( height: 0.9,
+                                    //     letterSpacing: 2,
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontSize: 14,color: Colors.grey,
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -1429,29 +1429,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
-      return 'Sep ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Sep, ' + today.year.toString();
     } else if(today.month == 1) {
-      return 'Jan ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jan, ' + today.year.toString();
     } else if(today.month == 2) {
-      return 'Feb ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Feb, ' + today.year.toString();
     } else if(today.month == 3) {
-      return 'Mar ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Mar, ' + today.year.toString();
     } else if(today.month == 4) {
-      return 'Apr ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Apr, ' + today.year.toString();
     } else if(today.month == 5) {
-      return 'May ' + today.day.toString() + ', ' + today.year.toString();
+      return 'May, ' + today.year.toString();
     } else if(today.month == 6) {
-      return 'Jun ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jun, ' + today.year.toString();
     } else if(today.month == 7) {
-      return 'Jul ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jul, ' + today.year.toString();
     } else if(today.month == 8) {
-      return 'Aug ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Aug, ' + today.year.toString();
     } else if(today.month == 10) {
-      return 'Oct ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Oct, ' + today.year.toString();
     } else if(today.month == 11) {
-      return 'Nov ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Nov, ' + today.year.toString();
     } else if(today.month == 12) {
-      return 'Dec ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Dec, ' + today.year.toString();
     } else {
       return '';
     }

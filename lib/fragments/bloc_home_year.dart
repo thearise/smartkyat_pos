@@ -344,7 +344,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if(widget.intValIni == 2 || widget.intValIni == 3) {
         debugPrint('animating to ');
-        cateScCtler.jumpTo(156);
+        cateScCtler.jumpTo(cateScCtler.position.maxScrollExtent);
       }
     });
     // fetchOrders(widget.sale, widget.buy);
@@ -424,14 +424,14 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      titleTextBySlide(),
-                                      style: TextStyle( height: 0.9,
-                                        letterSpacing: 2,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,color: Colors.grey,
-                                      ),
-                                    )
+                                    // Text(
+                                    //   titleTextBySlide(),
+                                    //   style: TextStyle( height: 0.9,
+                                    //     letterSpacing: 2,
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontSize: 14,color: Colors.grey,
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -1199,21 +1199,26 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                   child: Container(
                     child: Row(
                       // mainAxisAlignment: Main,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 3.0),
+                          padding: const EdgeInsets.only(right: 5.0),
                           child: Icon(
                             Icons.calendar_view_day_rounded,
                             size: 18,
                           ),
                         ),
-                        Text(
-                          selectDaysCast(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.5),
+                          child: Text(
+                            selectDaysCast(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
                         ),
                       ],
                     ),
@@ -1439,6 +1444,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   }
 
   String selectDaysCast() {
+    return today.year.toString();
     debugPrint("TTT " + today.year.toString().length.toString());
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
