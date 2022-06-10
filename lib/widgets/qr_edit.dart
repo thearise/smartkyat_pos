@@ -9,8 +9,9 @@ import '../app_theme.dart';
 class QREditExample extends StatefulWidget {
 
   const QREditExample({Key? key,
-    required this.prodName,});
+    required this.prodName, required this.isEnglish});
   final String prodName;
+  final bool isEnglish;
   @override
   State<StatefulWidget> createState() => _QREditExampleState();
 }
@@ -31,12 +32,12 @@ class _QREditExampleState extends State<QREditExample> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+    return Container(
+      color: Colors.white,
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 125.0),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 0.0, right: 0.3),
             child: Container(
                 child: _buildQrView(context)),
           ),
@@ -69,7 +70,7 @@ class _QREditExampleState extends State<QREditExample> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 20, left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -175,7 +176,7 @@ class _QREditExampleState extends State<QREditExample> {
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: 125.0),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 80.0),
               child: Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -220,7 +221,7 @@ class _QREditExampleState extends State<QREditExample> {
           Align(
             alignment: Alignment.topCenter,
             child:  Padding(
-              padding: const EdgeInsets.only(top: 30.0),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
@@ -234,66 +235,71 @@ class _QREditExampleState extends State<QREditExample> {
                               width: 1.0)),
                       color: Colors.white),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Container(
-                            width: 37,
-                            height: 37,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(35.0),
+                        Container(
+                          width: 37,
+                          height: 37,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(35.0),
+                              ),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 3.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 17,
+                                  color: Colors.black,
                                 ),
-                                color: Colors.grey.withOpacity(0.3)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 3.0),
-                              child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_ios_rounded,
-                                    size: 17,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
-                            ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
                           ),
                         ),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      widget.prodName,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    widget.prodName,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                        fontWeight: FontWeight.w500,
+                                        overflow: TextOverflow.ellipsis
+                                      // height: 1.5
                                     ),
-                                  ],
-                                ),
-                                Text(
-                                  'Edit Product',
-                                  textAlign: TextAlign.right,
+                                    strutStyle: StrutStyle(
+                                      height: 1.4,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                widget.isEnglish? 'Edit product': 'ပစ္စည်း ပြင်ဆင်ခြင်း',
+                                textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                   ),
-                                ),
-                              ],
-                            ),
+                                  strutStyle: StrutStyle(
+                                    height: widget.isEnglish? 1.4: 1.6,
+                                    forceStrutHeight: true,
+                                  )
+                              ),
+                            ],
                           ),
                         )
                       ],

@@ -70,7 +70,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
         setState(() {
           isEnglish = false;
           textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
-          textSetPurchasedOrders = 'ရောင်းထားသော\norders များ';
+          textSetPurchasedOrders = 'ရောင်းပြီး\norders များ';
           textSetEdit = 'Edit customer';
           textSetSaleInfo = 'အရောင်းဆိုင်ရာ';
           textSetContactInfo = 'ဆက်သွယ်ရန်';
@@ -735,7 +735,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
-                                                                     .w600,
+                                                                     .w500,
                                                                ),),
                                                              Spacer(),
                                                              Text('MMK ' +
@@ -749,7 +749,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
-                                                                     .w600,
+                                                                     .w500,
                                                                  color: Colors
                                                                      .grey,
                                                                ),),
@@ -775,7 +775,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
-                                                                     .w600,
+                                                                     .w500,
                                                                ),),
                                                              Spacer(),
                                                              Text(totalRefunds
@@ -785,7 +785,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
-                                                                     .w600,
+                                                                     .w500,
                                                                  color: Colors
                                                                      .grey,
                                                                ),
@@ -921,9 +921,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                              border: Border(
                                                                  bottom: BorderSide(
                                                                      color: Colors
-                                                                         .grey
-                                                                         .withOpacity(
-                                                                         0.2),
+                                                                         .white,
                                                                      width: 1.0))),
                                                          child: Row(
                                                            children: [
@@ -933,7 +931,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
-                                                                     .w600,
+                                                                     .w500,
                                                                ),),
                                                              Spacer(),
                                                              Text(
@@ -941,7 +939,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                              TextStyle(
                                                                fontSize: 15,
                                                                fontWeight: FontWeight
-                                                                   .w600,
+                                                                   .w500,
                                                                color: Colors
                                                                    .grey,
                                                              ),),

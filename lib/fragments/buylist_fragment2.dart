@@ -147,6 +147,8 @@ class BuyListFragment2State extends State<BuyListFragment2>
     widget._printFromOrders(file, prodListPR);
   }
 
+  bool isEnglish = true;
+
   @override
   initState() {
 
@@ -154,10 +156,12 @@ class BuyListFragment2State extends State<BuyListFragment2>
       if(value=='burmese') {
         setState(() {
           textSetSearch = 'ရှာဖွေရန်';
+          isEnglish = false;
         });
       } else if(value=='english') {
         setState(() {
           textSetSearch = 'Search';
+          isEnglish = true;
         });
       }
     });
@@ -285,6 +289,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: BlocBuyList(
+                            isEnglish: isEnglish,
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
