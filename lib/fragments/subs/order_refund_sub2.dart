@@ -649,30 +649,30 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 } return Container();
                                               }
                                           ),
-                                        ListTile(
-                                          title: Text(
-                                            textSetTtlRefund,
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w500
-                                            ),
-                                          ),
-                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                              style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )) : Text(totalItems().toString() + ' items',
-                                              style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )),
-                                          trailing: Text('$currencyUnit '+
-                                              totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w500),
-                                          ),
-                                        ),
+                                        // ListTile(
+                                        //   title: Text(
+                                        //     textSetTtlRefund,
+                                        //     style: TextStyle(
+                                        //         fontSize: 17,
+                                        //         fontWeight: FontWeight.w500
+                                        //     ),
+                                        //   ),
+                                        //   subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                        //       style: TextStyle(
+                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        //       )) : Text(totalItems().toString() + ' items',
+                                        //       style: TextStyle(
+                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                        //       )),
+                                        //   trailing: Text('$currencyUnit '+
+                                        //       totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                        //     style: TextStyle(
+                                        //         fontSize: 17,
+                                        //         fontWeight:
+                                        //         FontWeight
+                                        //             .w500),
+                                        //   ),
+                                        // ),
                                         ListTile(
                                           title: Text(
                                             textSetTtlRefundAmount,

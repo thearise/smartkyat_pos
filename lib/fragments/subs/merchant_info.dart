@@ -79,7 +79,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
         setState(() {
           isEnglish = false;
           textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
-          textSetPurchasedOrders = 'ဝယ်ထားသော\norders များ';
+          textSetPurchasedOrders = 'ဝယ်ပြီး\norders များ';
           textSetEdit = 'Edit merchant';
           textSetSaleInfo = 'အဝယ်ဆိုင်ရာ';
           textSetContactInfo = 'ဆက်သွယ်ရန်';

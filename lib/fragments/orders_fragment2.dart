@@ -153,6 +153,8 @@ class OrdersFragmentState extends State<OrdersFragment>
     widget._printFromOrders(file, prodListPR);
   }
 
+  bool isEnglish = true;
+
   @override
   initState() {
 
@@ -160,10 +162,12 @@ class OrdersFragmentState extends State<OrdersFragment>
       if(value=='burmese') {
         setState(() {
           textSetSearch = 'ရှာဖွေရန်';
+          isEnglish = false;
         });
       } else if(value=='english') {
         setState(() {
           textSetSearch = 'Search';
+          isEnglish = true;
         });
       }
     });
@@ -291,6 +295,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: BlocFirestore(
+                            isEnglish: isEnglish,
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),

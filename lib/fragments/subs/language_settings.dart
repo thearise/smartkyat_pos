@@ -302,11 +302,17 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                             });
                             setLangId(_result).then((_) {
                               // widget._chgShopCB3();
-                              if (Platform.isAndroid) {
-                                SystemNavigator.pop();
-                              } else if (Platform.isIOS) {
-                                exit(0);
-                              }
+                              showOkAlertDialog(
+                                  context: context,
+                                  title: 'Restart required',
+                                  message: 'Selected language is switched successfully. Please restart your application.'
+                              ).then((result) async {
+                                if (Platform.isAndroid) {
+                                  SystemNavigator.pop();
+                                } else if (Platform.isIOS) {
+                                  exit(0);
+                                }
+                              });
                             });
                           }
                         }
@@ -393,11 +399,17 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                             });
                             setLangId(_result).then((_) {
                               // widget._chgShopCB3();
-                              if (Platform.isAndroid) {
-                                SystemNavigator.pop();
-                              } else if (Platform.isIOS) {
-                                exit(0);
-                              }
+                              showOkAlertDialog(
+                                  context: context,
+                                  title: 'Restart required',
+                                  message: 'Selected language is switched successfully. Please restart your application.'
+                              ).then((result) async {
+                                if (Platform.isAndroid) {
+                                  SystemNavigator.pop();
+                                } else if (Platform.isIOS) {
+                                  exit(0);
+                                }
+                              });
                             });
                           }
                         }

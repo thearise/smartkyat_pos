@@ -445,11 +445,11 @@ class HomePageState extends State<HomePage>
           textSetDebtAmt = 'ကျန်ငွေ';
           textSetBack = 'နောက်သို့';
           textSetDone = 'ဆက်ရန်';
-          textSetInvoice = 'ပြေစာ';
-          textSetSaveImage = 'ဓာတ်ပုံ အဖြစ် သိမ်းမည်';
+          textSetInvoice = 'ငွေလက်ခံပြေစာ';
+          textSetSaveImage = 'ဓာတ်ပုံအဖြစ် သိမ်းမည်';
           textSetReceipt = 'ငွေလက်ခံပြေစာ';
-          textSetNextSale = 'ထပ်ရောင်းရန်';
-          textSetPrinting = 'ပရင့်ထုတ်ရန်';
+          textSetNextSale = 'နောထပ် ရောင်းရန်';
+          textSetPrinting = 'ပရင့် ထုတ်ရန်';
           textSetScan = 'ရှာရန်';
           textSetClose = 'ပိတ်ရန်';
           textSetQty = 'အရေအတွက်';
@@ -776,7 +776,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
+            page: SearchFragment(isEnglish: isEnglish,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
           ),
         ];
       });
@@ -3046,7 +3046,7 @@ class HomePageState extends State<HomePage>
                                                   // Manage your route names here
                                                   switch (settings.name) {
                                                     case '/':
-                                                      builder = (BuildContext context) => SearchFragment(openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),);
+                                                      builder = (BuildContext context) => SearchFragment(isEnglish: isEnglish, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),);
                                                       break;
                                                     case '/page1':
                                                       builder = (BuildContext context) => Container(height: 400,color: Colors.yellow,);
@@ -3415,16 +3415,12 @@ class HomePageState extends State<HomePage>
                                                                                               TextAlign
                                                                                                   .center,
                                                                                               style: TextStyle(
-                                                                                                  height: 1.3,
-                                                                                                  fontSize:
-                                                                                                  17,
-                                                                                                  fontWeight:
-                                                                                                  FontWeight
-                                                                                                      .w600,
-                                                                                                  color: Colors
-                                                                                                      .black),
+                                                                                                  fontSize: 17.5,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  color: Colors.black),
                                                                                               strutStyle: StrutStyle(
-                                                                                                height: isEnglish? 1.4: 1.6,
+                                                                                                height: 1.3,
+                                                                                                // fontSize:,
                                                                                                 forceStrutHeight: true,
                                                                                               ),
                                                                                             ),
@@ -3698,14 +3694,14 @@ class HomePageState extends State<HomePage>
                                                                                                 TextAlign
                                                                                                     .center,
                                                                                                 style: TextStyle(
-                                                                                                    height: 1.3,
-                                                                                                    fontSize:
-                                                                                                    17,
-                                                                                                    fontWeight:
-                                                                                                    FontWeight
-                                                                                                        .w600,
-                                                                                                    color: Colors
-                                                                                                        .black),
+                                                                                                    fontSize: 17.5,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    color: Colors.black),
+                                                                                                strutStyle: StrutStyle(
+                                                                                                  height: 1.3,
+                                                                                                  // fontSize:,
+                                                                                                  forceStrutHeight: true,
+                                                                                                ),
                                                                                               )),
                                                                                         ),
                                                                                       ),
@@ -3816,13 +3812,12 @@ class HomePageState extends State<HomePage>
                                                                                                         textSetCheckOut,
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
-                                                                                                            height: 1.3,
                                                                                                             fontSize: 17.5,
                                                                                                             fontWeight: FontWeight.w600,
-                                                                                                            color: Colors.black
-                                                                                                        ),
+                                                                                                            color: Colors.black),
                                                                                                         strutStyle: StrutStyle(
-                                                                                                          height: isEnglish? 1.4: 1.6,
+                                                                                                          height: 1.3,
+                                                                                                          // fontSize:,
                                                                                                           forceStrutHeight: true,
                                                                                                         ),
                                                                                                       )
@@ -3861,13 +3856,12 @@ class HomePageState extends State<HomePage>
                                                                                                         textSetCheckOut,
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
-                                                                                                            height: 1.3,
                                                                                                             fontSize: 17.5,
                                                                                                             fontWeight: FontWeight.w600,
-                                                                                                            color: Colors.black
-                                                                                                        ),
+                                                                                                            color: Colors.black),
                                                                                                         strutStyle: StrutStyle(
-                                                                                                          height: isEnglish? 1.4: 1.6,
+                                                                                                          height: 1.3,
+                                                                                                          // fontSize:,
                                                                                                           forceStrutHeight: true,
                                                                                                         ),
                                                                                                       )
@@ -8447,14 +8441,14 @@ class HomePageState extends State<HomePage>
                                                                     TextAlign
                                                                         .center,
                                                                     style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize:
-                                                                        17,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                        color: Colors
-                                                                            .black),
+                                                                        fontSize: 17.5,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.black),
+                                                                    strutStyle: StrutStyle(
+                                                                      height: 1.3,
+                                                                      // fontSize:,
+                                                                      forceStrutHeight: true,
+                                                                    ),
                                                                   )),
                                                             ),
                                                           ),
@@ -8732,14 +8726,9 @@ class HomePageState extends State<HomePage>
                                                                     TextAlign
                                                                         .center,
                                                                     style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize:
-                                                                        17,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                        color: Colors
-                                                                            .black),
+                                                                        fontSize: 17.5,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.black),
                                                                     strutStyle: StrutStyle(
                                                                       height: 1.3,
                                                                       // fontSize:,
