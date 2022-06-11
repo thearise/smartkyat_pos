@@ -53,6 +53,7 @@ class BuyListFragment extends StatefulWidget {
         required void searchBtn(),
         required void closeDrawerBtn(String str),
         required void openDrawerBtn(String str),
+        required this.isEnglish,
         Key? key,
       })
       :
@@ -70,6 +71,7 @@ class BuyListFragment extends StatefulWidget {
   final buyOrdersSnapshot;
   final merchantsSnapshot;
   final BlueDevice? selectedDev;
+  final bool isEnglish;
 
   @override
   BuyListFragmentState createState() => BuyListFragmentState();
@@ -4213,7 +4215,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                   await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => BuyListInfo(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
+                                                        builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
                                                           data: item,
                                                           toggleCoinCallback:
                                                               () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
@@ -4456,7 +4458,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                 await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => BuyListInfo(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
+                                                      builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
                                                         data: item,
                                                         toggleCoinCallback:
                                                             () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),

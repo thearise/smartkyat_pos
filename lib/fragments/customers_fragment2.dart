@@ -51,11 +51,13 @@ class CustomersFragment extends StatefulWidget {
     required void searchBtn(),
     required this.customersSnapshot,
     required this.shopId,
+    required this.isEnglish,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
   }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,_printFromOrders = printFromOrders, super(key: key);
   final String shopId;
   final customersSnapshot;
   final BlueDevice? selectedDev;
+  final bool isEnglish;
   @override
   CustomersFragmentState createState() => CustomersFragmentState();
 }
@@ -117,13 +119,13 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     });
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
+  // getLangId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if(prefs.getString('lang') == null) {
+  //     return 'english';
+  //   }
+  //   return prefs.getString('lang');
+  // }
 
   void closeCartFrom() {
     widget._closeCartBtn('customers');
@@ -162,23 +164,24 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     });
 
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true){
+      setState(() {
+        textSetNewCus = 'Customer';
+        textSetAll = 'All';
+        textSetUnpaids = 'Unpaids';
+        textSetSearch = 'Search';
+      });
+    }
+      else {
         setState(() {
           textSetNewCus = 'ဝယ်သူ';
           textSetAll = 'အားလုံး';
           textSetUnpaids = 'မရှင်းသေး';
           textSetSearch = 'ရှာဖွေရန်';
         });
-      } else if(value=='english') {
-        setState(() {
-          textSetNewCus = 'Customer';
-          textSetAll = 'All';
-          textSetUnpaids = 'Unpaids';
-          textSetSearch = 'Search';
-        });
       }
-    });
+
     super.initState();
   }
 
@@ -535,7 +538,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                 MaterialPageRoute(
                                                                     builder: (
                                                                         context) =>
-                                                                        CustomerInfoSubs(fromSearch: false,
+                                                                        CustomerInfoSubs(fromSearch: false, isEnglish: widget.isEnglish,
                                                                           id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                                           toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                               );
@@ -713,7 +716,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                               MaterialPageRoute(
                                                                   builder: (
                                                                       context) =>
-                                                                      CustomerInfoSubs(fromSearch: false,
+                                                                      CustomerInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
                                                                         id: 'name', custName: 'No customer', custAddress: 'Default sale orders',
                                                                         toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                             );
@@ -915,7 +918,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                           MaterialPageRoute(
                                                               builder: (
                                                                   context) =>
-                                                                  CustomerInfoSubs(fromSearch: false,
+                                                                  CustomerInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
                                                                     id: prodKey.toString(), custName: prodVal['na'], custAddress:  prodVal['ad'],
                                                                     toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                         );

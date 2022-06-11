@@ -23,11 +23,12 @@ class SettingsFragment extends StatefulWidget {
   final _premiumCart;
   final _homePageLoadingOn;
   final _homePageLoadingOff;
-  SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), required void closeDrawerBtn(String str),
+  SettingsFragment({required this.usersSnapshot, required this.isEnglish,required void changeShopCallback(), required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str), required void premiumCart(), Key? key, required void homePageLoadingOn(), required void homePageLoadingOff()}):
         _chgShopCB = changeShopCallback,_openDrawerBtn = openDrawerBtn, _homePageLoadingOn = homePageLoadingOn, _homePageLoadingOff = homePageLoadingOff,
         _closeDrawerBtn = closeDrawerBtn, _premiumCart = premiumCart, super(key: key);
   final usersSnapshot;
+  final bool isEnglish;
 
   @override
   SettingsFragmentState createState() => SettingsFragmentState();
@@ -114,13 +115,6 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
     });
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   initState() {
     getPaperId().then((value) {
@@ -141,20 +135,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
       });
 
     });
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          languageId = 'Burmese';
-          textSetTitle = 'အပြင်အဆင်';
-          textSetAccount = 'အကောင့်';
-          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
-          textSetLanguage = 'ဘာသာစကား';
-          textSetPrint = 'ပရင်တာအပြင်အဆင်';
-          textInfo = 'INFORMATION';
-          textDisplay = 'DISPLAY';
-          textSetCur = 'ငွေကြေးအမျိုးအမည်';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
         setState(() {
           languageId = 'English';
           textSetTitle = 'Settings';
@@ -166,8 +147,19 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
           textDisplay = 'DISPLAY';
           textSetCur = 'Currency';
         });
+      } else  {
+        setState(() {
+          languageId = 'Burmese';
+          textSetTitle = 'အပြင်အဆင်';
+          textSetAccount = 'အကောင့်';
+          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
+          textSetLanguage = 'ဘာသာစကား';
+          textSetPrint = 'ပရင်တာအပြင်အဆင်';
+          textInfo = 'INFORMATION';
+          textDisplay = 'DISPLAY';
+          textSetCur = 'ငွေကြေးအမျိုးအမည်';
+        });
       }
-    });
     super.initState();
   }
 

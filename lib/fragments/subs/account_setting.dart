@@ -87,7 +87,7 @@ class _AccountSettingState extends State<AccountSetting> {
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {

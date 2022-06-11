@@ -32,6 +32,7 @@ import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import '../app_theme.dart';
 import '../pages2/home_page5.dart';
+import 'bloc_buylist.dart';
 
 class FadeRoute extends PageRouteBuilder {
   final Widget page;
@@ -162,13 +163,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   String textSetSearch = 'Search';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   void closeCartFrom() {
     widget._closeCartBtn('search');
@@ -449,17 +443,17 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         });
       }
     });
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      } else if(value=='english') {
+
+      if(widget.isEnglish == true) {
         setState(() {
           textSetSearch = 'Search';
         });
+      } else {
+        setState(() {
+          textSetSearch = 'ရှာဖွေရန်';
+        });
       }
-    });
+
     super.initState();
     WidgetsBinding.instance!
         .addPostFrameCallback((_) {
@@ -4057,7 +4051,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                         maintainState: false,
-                        builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                        builder: (context) => ProductDetailsView2(isEnglish : widget.isEnglish, idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
                             mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
                             sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
                             sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
@@ -4285,7 +4279,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     MaterialPageRoute(
                         builder: (
                             context) =>
-                            CustomerInfoSubs(fromSearch: true,
+                            CustomerInfoSubs(fromSearch: true, isEnglish : widget.isEnglish,
                               id: prodKey.toString(), custName: prodVal['na'], custAddress: prodVal['ad'],
                               toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
@@ -4514,7 +4508,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     MaterialPageRoute(
                         builder: (
                             context) =>
-                            MerchantInfoSubs(fromSearch: true,
+                            MerchantInfoSubs(fromSearch: true,isEnglish : widget.isEnglish,
                               id: prodKey.toString(), mercName: prodVal['na'], mercAddress: prodVal['ad'],
                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                   );
@@ -4803,7 +4797,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => OrderInfoSub(fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => OrderInfoSub(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});
@@ -5150,7 +5144,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => BuyListInfo(fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});

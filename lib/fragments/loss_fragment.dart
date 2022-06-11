@@ -10,12 +10,13 @@ import '../app_theme.dart';
 
 class LossProduct extends StatefulWidget {
   const LossProduct(
-      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price, required this.fromSearch});
+      {Key? key, required this.idString, required this.isEnglish, required this.prodID, required this.shopId, required this.price, required this.fromSearch});
   final String idString;
   final String prodID;
   final String shopId;
   final String price;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _LossProductState createState() => _LossProductState();
@@ -57,42 +58,28 @@ class _LossProductState extends State<LossProduct> {
     return prefs.getString('currency');
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
-  bool isEnglish = true;
-
   @override
   initState() {
     lossAmount.text = '1';
 
-    getLangId().then((value) {
-      if(value=='burmese') {
+      if(widget.isEnglish == true) {
+
         setState(() {
-          isEnglish = false;
+          textSetAddLoss = 'Add loss item';
+          textSetLossInventory = 'LOSS IN INVENTORY';
+          textSetLossQty = 'Loss quantity';
+          textSetBuyPrice = 'Buy price';
+          textSetSave = 'Save';
+        });
+      } else {
+        setState(() {
           textSetAddLoss = 'ဆုံးရှုံးပစ္စည်းထည့်ရန်';
           textSetLossInventory = 'LOSS IN INVENTORY';
           textSetLossQty = 'အရေအတွက်';
           textSetBuyPrice = 'ဝယ်ဈေး';
           textSetSave = 'သိမ်းဆည်းမည်';
         });
-      } else if(value =='english') {
-        setState(() {
-          isEnglish = true;
-          textSetAddLoss = 'Add loss item';
-          textSetLossInventory = 'LOSS IN INVENTORY';
-          textSetLossQty = 'Loss quantity';
-          textSetBuyPrice = 'Buy price';
-          textSetSave = 'Save';
-
-        });
       }
-    });
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -204,7 +191,7 @@ class _LossProductState extends State<LossProduct> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                   strutStyle: StrutStyle(
-                                    height: isEnglish? 1.4: 1.6,
+                                    height: widget.isEnglish? 1.4: 1.6,
                                     forceStrutHeight: true,
                                   )
                               ),
@@ -237,7 +224,7 @@ class _LossProductState extends State<LossProduct> {
                                           height: 0.9
                                       ),
                                       strutStyle: StrutStyle(
-                                        height: isEnglish? 1.4: 1.6,
+                                        height: widget.isEnglish? 1.4: 1.6,
                                         forceStrutHeight: true,
                                       )
                                   ),
@@ -625,7 +612,7 @@ class _LossProductState extends State<LossProduct> {
                                       letterSpacing:-0.1
                                   ),
                                   strutStyle: StrutStyle(
-                                    height: isEnglish? 1.4: 1.6,
+                                    height: widget.isEnglish? 1.4: 1.6,
                                     forceStrutHeight: true,
                                   )
                               ),

@@ -23,7 +23,7 @@ import '../app_theme.dart';
 import 'package:async/async.dart';
 
 class EditProduct extends StatefulWidget {
-  const EditProduct({Key? key,
+  const EditProduct({Key? key, required this.isEnglish,
     required this.image, required this.shopId, required this.fromSearch,required this.prodId, required this.prodName, required this.mainQty,  required this.mainName,
     required this.mainBuy, required this.mainSell, required this.barcode,  required this.sub1perUnit, required this.sub1UnitName,
     required this.sub1Qty, required this.sub1Sell, required this.sub2perUnit, required this.sub2UnitName,
@@ -48,6 +48,7 @@ class EditProduct extends StatefulWidget {
   final double subExist;
   final String image;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _EditProductState createState() => _EditProductState();
@@ -97,17 +98,7 @@ class _EditProductState extends State<EditProduct> {
 
   bool unitLimit = false;
 
-  bool isEnglish = true;
-
   bool priceWarning = false;
-
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   String _getRegexString() =>
       r'[0-9]+[,.]{0,1}[0-9]*';
@@ -204,32 +195,9 @@ class _EditProductState extends State<EditProduct> {
 
     // debugPrint('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
 
-    getLangId().then((value) {
-      if(value=='burmese') {
+      if(widget.isEnglish == true) {
+
         setState(() {
-          isEnglish = false;
-          textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
-          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
-          textSetProdName = 'ပစ္စည်းအမည်';
-          textSetBarcode = 'Barcode';
-          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetUnitQty = 'အရေအတွက်';
-          textSetUnitName = 'ယူနစ်';
-          textSetBuyPrice = 'ဝယ်ဈေး';
-          textSetSalePrice = 'ရောင်းဈေး';
-          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'ဖယ်ရှားပါ';
-          textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'သိမ်းဆည်းမည်';
-          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
-          textSetUnitSub = 'Unit/sub1 unit';
-        });
-      } else if(value=='english') {
-        setState(() {
-          isEnglish = true;
           textSetEdit = 'Edit product';
           textSetProductInfo = 'PRODUCT INFORMATION';
           textSetProdName = 'Product name';
@@ -249,8 +217,28 @@ class _EditProductState extends State<EditProduct> {
           textSetMoreUnit = 'More unit?';
           textSetUnitSub = 'Unit/sub1 unit';
         });
+      } else {
+        setState(() {
+          textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
+          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+          textSetProdName = 'ပစ္စည်းအမည်';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetUnitName = 'ယူနစ်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+          textSetRemove = 'ဖယ်ရှားပါ';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'သိမ်းဆည်းမည်';
+          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
+          textSetUnitSub = 'Unit/sub1 unit';
+        });
       }
-    });
 
     super.initState();
   }
@@ -361,7 +349,7 @@ class _EditProductState extends State<EditProduct> {
                                   fontWeight: FontWeight.w600,
                                 ),
                                 strutStyle: StrutStyle(
-                                  height: isEnglish? 1.4: 1.6,
+                                  height: widget.isEnglish? 1.4: 1.6,
                                   forceStrutHeight: true,
                                 )
                             ),
@@ -390,7 +378,7 @@ class _EditProductState extends State<EditProduct> {
                                   fontSize: 14,color: Colors.grey,
                                 ),
                                 strutStyle: StrutStyle(
-                                  height: isEnglish? 1.4: 1.6,
+                                  height: widget.isEnglish? 1.4: 1.6,
                                   forceStrutHeight: true,
                                 )
                             ),
@@ -413,7 +401,7 @@ class _EditProductState extends State<EditProduct> {
                                     child: MethodListView(
                                       pickMethods: [
                                         PickMethod.cameraAndStay(
-                                          maxAssetsCount: 1, lang: isEnglish? 'en': 'mm',
+                                          maxAssetsCount: 1, lang: widget.isEnglish? 'en': 'mm',
                                         ),
                                       ],
                                       onSelectMethod: selectAssets,
@@ -531,7 +519,7 @@ class _EditProductState extends State<EditProduct> {
                                     debugPrint("Barcode");
                                     var code = await  Navigator.of(context).push(
                                         FadeRoute(page:
-                                        QREditExample(prodName: widget.prodName, isEnglish: isEnglish),
+                                        QREditExample(prodName: widget.prodName, isEnglish: widget.isEnglish),
                                         )
                                     );
                                     barCodeCtrl.text = code;
@@ -576,7 +564,7 @@ class _EditProductState extends State<EditProduct> {
                                         fontSize: 14,color: Colors.grey,
                                       ),
                                       strutStyle: StrutStyle(
-                                        height: isEnglish? 1.4: 1.6,
+                                        height: widget.isEnglish? 1.4: 1.6,
                                         forceStrutHeight: true,
                                       )
                                   ),
@@ -952,7 +940,7 @@ class _EditProductState extends State<EditProduct> {
                                                   letterSpacing:-0.1
                                               ),
                                               strutStyle: StrutStyle(
-                                                height: isEnglish? 1.4: 1.6,
+                                                height: widget.isEnglish? 1.4: 1.6,
                                                 forceStrutHeight: true,
                                               )
                                           ),
@@ -1491,7 +1479,7 @@ class _EditProductState extends State<EditProduct> {
                                                 color: Colors.black
                                             ),
                                             strutStyle: StrutStyle(
-                                              height: isEnglish? 1.4: 1.6,
+                                              height: widget.isEnglish? 1.4: 1.6,
                                               forceStrutHeight: true,
                                             )
                                         ),
@@ -1700,7 +1688,7 @@ class _EditProductState extends State<EditProduct> {
                         fontSize: 14,color: Colors.blue,
                       ),
                       strutStyle: StrutStyle(
-                        height: isEnglish? 1.4: 1.6,
+                        height: widget.isEnglish? 1.4: 1.6,
                         forceStrutHeight: true,
                       )
                   ),

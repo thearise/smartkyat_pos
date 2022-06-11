@@ -31,12 +31,13 @@ class BuyListInfo extends StatefulWidget {
   final _closeCartBtn;
   final _printFromOrders;
   const BuyListInfo(
-      {Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
+      {Key? key, this.selectedDev, required this.isEnglish, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
       : _callback = toggleCoinCallback, _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn, _printFromOrders = printFromOrders;
   final String data;
   final String shopId;
   final BlueDevice? selectedDev;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _BuyListInfoState createState() => _BuyListInfoState();
@@ -113,13 +114,6 @@ class _BuyListInfoState extends State<BuyListInfo>
     return prefs.getString('currency');
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   String textSetPurchase = 'PURCHASED ITEMS';
   String textSetRefund = 'REFUNDED ITEMS';
@@ -139,23 +133,8 @@ class _BuyListInfoState extends State<BuyListInfo>
     //   debugPrint('list check ' + prodListView.toString());
     // });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
-          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
-          textSetDebt = 'ကျန်ငွေ';
-          textSetDiscount = 'လျှော့ငွေ';
-          textSetAmount = 'Amount applied';
-          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
-          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
-          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
-          textSetPercent = 'Percentage';
-          textSetAllRefund = 'All Items Refunded';
-          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
-          isEnglish = false;
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetPurchase = 'PURCHASED ITEMS';
           textSetRefund = 'REFUNDED ITEMS';
@@ -170,8 +149,22 @@ class _BuyListInfoState extends State<BuyListInfo>
           textSetFullyRef = 'FULLY REFUNDED';
           isEnglish = true;
         });
+      } else {
+        setState(() {
+          textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
+          isEnglish = false;
+        });
       }
-    });
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -423,7 +416,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
-                                                                    BuyListRefund(
+                                                                    BuyListRefund( isEnglish: widget.isEnglish,
                                                                       fromSearch: widget.fromSearch,
                                                                       data: result,
                                                                       data2: prodList,
@@ -504,7 +497,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtBuyList(fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtBuyList(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }

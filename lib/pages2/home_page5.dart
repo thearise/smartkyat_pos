@@ -696,7 +696,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
-              toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,
+              toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, isEnglish: isEnglish,
             ),
           ),
           TabItem(
@@ -704,7 +704,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag, selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+            page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag, selectedDev: _selectedDevice, printFromOrders: printFromOrders, isEnglish: isEnglish,
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
@@ -713,7 +713,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: CustomersFragment(selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+            page: CustomersFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -722,6 +722,7 @@ class HomePageState extends State<HomePage>
             ),
             page: ProductsFragment(
               key: prodGlobalKey,
+              isEnglish: isEnglish,
               // checkDOpen: checkDrawerOpen,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
@@ -732,7 +733,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: MerchantsFragment(selectedDev: _selectedDevice, printFromOrders: printFromOrders,searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
+            page: MerchantsFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders,searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
           ),
           TabItem(
             tabName: "Settings",
@@ -748,7 +749,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: SettingsFragment(homePageLoadingOn: homePageLoadingOn, homePageLoadingOff: homePageLoadingOff, key: settGlobalKey, premiumCart: premiumCart, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+            page: SettingsFragment(isEnglish: isEnglish, homePageLoadingOn: homePageLoadingOn, homePageLoadingOff: homePageLoadingOff, key: settGlobalKey, premiumCart: premiumCart, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -756,7 +757,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: BuyListFragment2(selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+            page: BuyListFragment2(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               key: bordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
@@ -776,7 +777,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(isEnglish: isEnglish,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
+            page: SearchFragment(isEnglish: isEnglish, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom, shopId: shopId.toString(),),
           ),
         ];
       });
@@ -1626,7 +1627,7 @@ class HomePageState extends State<HomePage>
                                     top: 67.0,
                                     left: 0.0,
                                     right: 0.0),
-                                child: AddMerchant(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
+                                child: AddMerchant(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState, isEnglish: isEnglish,),
                               ),
                             ],
                           ),
@@ -1745,7 +1746,7 @@ class HomePageState extends State<HomePage>
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 67.0, left: 0.0, right: 0.0),
-                                  child: AddCustomer(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
+                                  child: AddCustomer(isEnglish: isEnglish, toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
                                 ),
                               ],
                             ),
@@ -1871,7 +1872,7 @@ class HomePageState extends State<HomePage>
                                       top: 57.0,
                                       left: 0.0,
                                       right: 0.0),
-                                  child: SingleAssetPage(toggleCoinCallback: closeNewProduct, toggleCoinCallback2: prodLoadingState, toggleCoinCallback3: endProdLoadingState),
+                                  child: SingleAssetPage(isEnglish: isEnglish,toggleCoinCallback: closeNewProduct, toggleCoinCallback2: prodLoadingState, toggleCoinCallback3: endProdLoadingState),
                                 ),
                                 // Align(
                                 //   alignment: Alignment.bottomCenter,
@@ -6044,7 +6045,7 @@ class HomePageState extends State<HomePage>
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => MerchantCart(deviceId: deviceIdNum.toString(), shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
+                                                      builder: (context) => MerchantCart(deviceId: deviceIdNum.toString(), shop: shopId.toString(), merchantId: merchantId, isEnglish: isEnglish, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState, remProdListInd: remProdListInd)),);
                                               },
                                               child: Stack(
                                                 children: [

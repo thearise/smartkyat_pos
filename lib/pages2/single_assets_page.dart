@@ -33,10 +33,11 @@ class SingleAssetPage extends StatefulWidget {
   final prodLoadingState;
   final endProdLoadingState;
 
-  SingleAssetPage({required void toggleCoinCallback(), required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+  SingleAssetPage({required void toggleCoinCallback(), required this.isEnglish, required void toggleCoinCallback2(), required void toggleCoinCallback3()})
       : _callback = toggleCoinCallback,
         prodLoadingState = toggleCoinCallback2,
         endProdLoadingState = toggleCoinCallback3;
+  final bool isEnglish;
   @override
   _SingleAssetPageState createState() => _SingleAssetPageState();
 }
@@ -85,23 +86,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
   bool unitLimit = false;
 
-  bool isEnglish = true;
 
   var deviceIdNum;
-
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   late BuildContext dialogContext;
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -149,31 +141,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
+      if(widget.isEnglish == true) {
+
         setState(() {
-          isEnglish = false;
-          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
-          textSetProdName = 'ပစ္စည်းအမည်';
-          textSetBarcode = 'Barcode';
-          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetUnitQty = 'အရေအတွက်';
-          textSetUnitName = 'ယူနစ်';
-          textSetBuyPrice = 'ဝယ်ဈေး';
-          textSetSalePrice = 'ရောင်းဈေး';
-          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'ဖယ်ရှားပါ';
-          textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'သိမ်းဆည်းမည်';
-          textSetMoreUnit = 'ယူနစ်?';
-          textSetUnitSub = 'Unit/sub1 unit';
-        });
-      } else if(value=='english') {
-        setState(() {
-          isEnglish = true;
           textSetProductInfo = 'PRODUCT INFORMATION';
           textSetProdName = 'Product name';
           textSetBarcode = 'Barcode';
@@ -192,8 +162,28 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
           textSetMoreUnit = 'More unit?';
           textSetUnitSub = 'Unit/sub1 unit';
         });
+      } else {
+        setState(() {
+          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+          textSetProdName = 'ပစ္စည်းအမည်';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetUnitName = 'ယူနစ်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+          textSetRemove = 'ဖယ်ရှားပါ';
+          textSetUnitMain = 'Unit/main unit';
+          textSetSaveProd = 'သိမ်းဆည်းမည်';
+          textSetMoreUnit = 'ယူနစ်?';
+          textSetUnitSub = 'Unit/sub1 unit';
+        });
       }
-    });
+
 
     getDeviceId().then((value) {
       deviceIdNum = value;
@@ -900,7 +890,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         fontSize: 14,color: Colors.grey,
                                       ),
                                       strutStyle: StrutStyle(
-                                        height: isEnglish? 1.4: 1.6,
+                                        height: widget.isEnglish? 1.4: 1.6,
                                         forceStrutHeight: true,
                                       ),
                                     ),
@@ -931,7 +921,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           child: MethodListView(
                                             pickMethods: [
                                               PickMethod.cameraAndStay(
-                                                maxAssetsCount: 1, lang: isEnglish? 'en': 'mm',
+                                                maxAssetsCount: 1, lang: widget.isEnglish? 'en': 'mm',
                                               ),
                                             ],
                                             onSelectMethod: selectAssets,
@@ -1147,7 +1137,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     fontSize: 14,color: Colors.grey,
                                                   ),
                                                       strutStyle: StrutStyle(
-                                                        height: isEnglish? 1.4: 1.6,
+                                                        height: widget.isEnglish? 1.4: 1.6,
                                                         forceStrutHeight: true,
                                                       )),
                                                 ),
@@ -1550,7 +1540,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   letterSpacing:-0.1
                                               ),
                                               strutStyle: StrutStyle(
-                                                height: isEnglish? 1.4: 1.6,
+                                                height: widget.isEnglish? 1.4: 1.6,
                                                 forceStrutHeight: true,
                                               )
                                           ),
@@ -2320,7 +2310,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     letterSpacing:-0.1
                                                 ),
                                                 strutStyle: StrutStyle(
-                                                  height: isEnglish? 1.4: 1.6,
+                                                  height: widget.isEnglish? 1.4: 1.6,
                                                   forceStrutHeight: true,
                                                 )
 
@@ -2970,7 +2960,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                       fontSize: 14,color: Colors.blue,
                     ),
                     strutStyle: StrutStyle(
-                      height: isEnglish? 1.4: 1.6,
+                      height: widget.isEnglish? 1.4: 1.6,
                       forceStrutHeight: true,
                     ),
                   ),
@@ -3349,7 +3339,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                 fontFamily: 'capsulesans',
                                 fontWeight: FontWeight.w600),
                             strutStyle: StrutStyle(
-                              height: isEnglish? 1.4: 1.6,
+                              height: widget.isEnglish? 1.4: 1.6,
                               forceStrutHeight: true,
                             ),
                             textAlign: TextAlign.left,

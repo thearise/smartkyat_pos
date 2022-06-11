@@ -52,6 +52,7 @@ class BlocHomeWeek extends StatefulWidget {
 
   const BlocHomeWeek({
     Key? key,
+    required this.isEnglish,
     required this.itemBuilder,
     required this.query,
     required this.itemBuilderType,
@@ -92,6 +93,7 @@ class BlocHomeWeek extends StatefulWidget {
         super(key: key);
 
   final int intValIni;
+  final bool isEnglish;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
@@ -261,6 +263,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
     var listView = Container(
       child: BlocHomeWeekBuy(
+        isEnglish: widget.isEnglish,
         shopId: widget.shopId,
         sale: loadedState.documentSnapshots,
         key: valueKeyTog(),
