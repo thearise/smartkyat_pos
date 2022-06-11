@@ -121,7 +121,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(top: 81.0),
+                padding: EdgeInsets.only(top: 81.0, bottom: widget.fromSearch? 141: 0),
                 child: PaginateFirestore(
                   itemsPerPage: 10,
                   onEmpty: Align(
@@ -444,17 +444,15 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
                       ),
                     ),),
-                  footer: SliverToBoxAdapter(child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
-                      ),
-                      widget.fromSearch? SizedBox(height: 141): SizedBox(height: 0)
-                    ],
-                  )),
-                  bottomLoader: Container(
-                    child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                  footer: SliverToBoxAdapter(child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
+                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                  ),),
+                  bottomLoader: Padding(
+                    padding: const EdgeInsets.only(bottom: 34.0),
+                    child: Container(
+                      child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                    ),
                   ),
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
