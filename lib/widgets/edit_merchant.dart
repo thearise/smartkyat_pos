@@ -8,13 +8,14 @@ import '../app_theme.dart';
 
 class EditMerchant extends StatefulWidget {
 
-  const EditMerchant({Key? key, required this.shopId, required this.fromSearch,required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone});
+  const EditMerchant({Key? key, required this.isEnglish ,required this.shopId, required this.fromSearch,required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone});
   final String shopId;
   final String merchId;
   final String merchName;
   final String merchAddress;
   final String merchPhone;
   final bool fromSearch;
+  final bool isEnglish;
 
 
   @override
@@ -145,7 +146,7 @@ class _EditMerchantState extends State<EditMerchant> {
                               ),
                             ),
                             Text(
-                              'Edit Merchant',
+                              widget.isEnglish ? 'Edit Merchant' : 'ကုန်သည် ပြင်ဆင်ရန်',
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 20,
@@ -235,7 +236,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Name',
+                                labelText: widget.isEnglish ? 'Name' : 'နာမည်',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -298,7 +299,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Address',
+                                labelText: widget.isEnglish ? 'Address' : 'လိပ်စာ',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -361,7 +362,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Phone Number',
+                                labelText: widget.isEnglish ? 'Phone Number' : 'ဖုန်းနံပါတ်',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -513,7 +514,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                'Save merchant',
+                               widget.isEnglish ? 'Save' : 'သိမ်းဆည်းမည်',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     height: 1.3,

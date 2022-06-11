@@ -75,15 +75,15 @@ class _AddMerchantState extends State<AddMerchant> {
           textSetName = 'Name';
           textSetAddress = 'Address';
           textSetPhone = 'Phone number';
-          textSetAdd = 'Add Merchant';
+          textSetAdd = 'Save';
         });
       } else {
         setState(() {
           textSetInformation = 'MERCHANT INFORMATION';
-          textSetName = 'Name';
-          textSetAddress = 'Address';
-          textSetPhone = 'Phone number';
-          textSetAdd = 'Add Merchant';
+          textSetName = 'နာမည်';
+          textSetAddress = 'လိပ်စာ';
+          textSetPhone = 'ဖုန်းနံပါတ်';
+          textSetAdd = 'သိမ်းဆည်းမည်';
         });
       }
 
