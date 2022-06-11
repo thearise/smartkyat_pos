@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import '../app_theme.dart';
 
 class EditCustomer extends StatefulWidget {
-  const EditCustomer({Key? key, required this.fromSearch,required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) :
+  const EditCustomer({Key? key, required this.isEnglish, required this.fromSearch, required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) :
         super(key: key);
   final String shopId;
   final String cusId;
@@ -15,6 +15,7 @@ class EditCustomer extends StatefulWidget {
   final String cusAddress;
   final String cusPhone;
   final bool fromSearch;
+  final bool isEnglish;
 
 
   @override
@@ -146,7 +147,7 @@ class _EditCustomerState extends State<EditCustomer> {
                               ),
                             ),
                             Text(
-                              'Edit Customer',
+                              widget.isEnglish ? 'Edit Customer' : 'ဖောက်သည် ပြင်ဆင်ရန်',
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 20,
@@ -236,7 +237,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                     color: Colors.black,
                                   ),
 // errorText: 'Error message',
-                                  labelText: 'Name',
+                                  labelText: widget.isEnglish ? 'Name' : 'နာမည်',
                                   floatingLabelBehavior:
                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -299,7 +300,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                     color: Colors.black,
                                   ),
 // errorText: 'Error message',
-                                  labelText: 'Address',
+                                  labelText: widget.isEnglish ? 'Address' : 'လိပ်စာ',
                                   floatingLabelBehavior:
                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -362,7 +363,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                     color: Colors.black,
                                   ),
 // errorText: 'Error message',
-                                  labelText: 'Phone Number',
+                                  labelText: widget.isEnglish ? 'Phone Number' : 'ဖုန်းနံပါတ်',
                                   floatingLabelBehavior:
                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -516,7 +517,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                'Save customer',
+                                widget.isEnglish ? 'Save' : 'သိမ်းဆည်းမည်',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     height: 1.3,

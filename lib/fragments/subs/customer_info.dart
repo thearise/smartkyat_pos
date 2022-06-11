@@ -475,6 +475,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      MaterialPageRoute(
                                                          builder: (context) =>
                                                              EditCustomer(
+                                                               isEnglish: widget.isEnglish,
                                                                fromSearch: widget.fromSearch,
                                                                shopId: widget
                                                                    .shopId,
