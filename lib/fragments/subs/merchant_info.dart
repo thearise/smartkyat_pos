@@ -416,7 +416,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditMerchant(shopId: widget
+                                                      EditMerchant(isEnglish: widget.isEnglish,
+                                                        shopId: widget
                                                           .shopId,
                                                         fromSearch: widget.fromSearch,
                                                         merchId: widget.id,

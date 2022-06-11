@@ -73,15 +73,15 @@ class _AddCustomerState extends State<AddCustomer> {
           textSetName = 'Name';
           textSetAddress = 'Address';
           textSetPhone = 'Phone number';
-          textSetAdd = 'Add Customer';
+          textSetAdd = 'Save';
         });
       } else{
         setState(() {
           textSetInformation = 'CUSTOMER INFORMATION';
-          textSetName = 'Name';
-          textSetAddress = 'Address';
-          textSetPhone = 'Phone number';
-          textSetAdd = 'Add Customer';
+          textSetName = 'နာမည်';
+          textSetAddress = 'လိပ်စာ';
+          textSetPhone = 'ဖုန်းနံပါတ်';
+          textSetAdd = 'သိမ်းဆည်းမည်';
         });
       }
 

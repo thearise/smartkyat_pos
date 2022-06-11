@@ -448,7 +448,7 @@ class HomePageState extends State<HomePage>
           textSetInvoice = 'ငွေလက်ခံပြေစာ';
           textSetSaveImage = 'ဓာတ်ပုံအဖြစ် သိမ်းမည်';
           textSetReceipt = 'ငွေလက်ခံပြေစာ';
-          textSetNextSale = 'နောထပ် ရောင်းရန်';
+          textSetNextSale = 'နောက်ထပ် ရောင်းရန်';
           textSetPrinting = 'ပရင့် ထုတ်ရန်';
           textSetScan = 'ရှာရန်';
           textSetClose = 'ပိတ်ရန်';
