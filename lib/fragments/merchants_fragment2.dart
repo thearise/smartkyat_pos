@@ -39,11 +39,12 @@ class MerchantsFragment extends StatefulWidget {
   final _openCartBtn;
   final _printFromOrders;
 
-  MerchantsFragment( {this.selectedDev, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
+  MerchantsFragment( {this.selectedDev, required this.isEnglish, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
         _printFromOrders = printFromOrders, _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
   final String shopId;
   final merchantsSnapshot;
   final BlueDevice? selectedDev;
+  final bool isEnglish;
 
   @override
   MerchantsFragmentState createState() => MerchantsFragmentState();
@@ -107,14 +108,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     widget._printFromOrders(file, prodListPR);
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   void closeCartFrom() {
     widget._closeCartBtn('merchants');
   }
@@ -158,16 +151,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetNewMerch = 'ကုန်သည်';
-          textSetAll = 'အားလုံး';
-          textSetDebts = 'မရှင်းသေး';
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      }
-      else if(value=='english') {
+
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetNewMerch = 'Merchant';
           textSetAll = 'All';
@@ -175,7 +161,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
           textSetSearch = 'Search';
         });
       }
-    });
+      else {
+        setState(() {
+          textSetNewMerch = 'ကုန်သည်';
+          textSetAll = 'အားလုံး';
+          textSetDebts = 'မရှင်းသေး';
+          textSetSearch = 'ရှာဖွေရန်';
+        });
+      }
     super.initState();
   }
 
@@ -521,7 +514,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                     MaterialPageRoute(
                                                         builder: (
                                                             context) =>
-                                                            MerchantInfoSubs(fromSearch: false,
+                                                            MerchantInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
                                                               id: 'name', mercName: 'No merchant', mercAddress: 'Default buy orders',
                                                               toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                   );
@@ -642,7 +635,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                   MaterialPageRoute(
                                                       builder: (
                                                           context) =>
-                                                          MerchantInfoSubs(fromSearch: false,
+                                                          MerchantInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
                                                             id: 'name', mercName: 'No merchant', mercAddress: 'Default buy orders',
                                                             toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                                 );
@@ -788,7 +781,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      MerchantInfoSubs(fromSearch: false,
+                                                      MerchantInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
                                                         id: prodKey.toString(), mercName: prodVal['na'], mercAddress:  prodVal['ad'],
                                                         toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );

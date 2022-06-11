@@ -22,13 +22,14 @@ class MerchantInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const MerchantInfoSubs({Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(), required void openCartBtn(),required this.id, required this.mercName, required this.mercAddress, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const MerchantInfoSubs({Key? key, required this.isEnglish, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(), required void openCartBtn(),required this.id, required this.mercName, required this.mercAddress, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final String mercName;
   final String mercAddress;
   final BlueDevice? selectedDev;
   final bool fromSearch;
+  final bool isEnglish;
 
 
   @override
@@ -44,13 +45,6 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     widget._printFromOrders(file, prodListPR);
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   int _sliding = 0;
   late TabController _controller;
@@ -70,43 +64,24 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
   String textSetSaleTitle = 'PURCHASED INFORMATION';
-  bool isEnglish = true;
+
 
   @override
   void initState() {
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true) {
+
         setState(() {
-          isEnglish = false;
-          textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
-          textSetPurchasedOrders = 'ဝယ်ပြီး\norders များ';
-          textSetEdit = 'Edit merchant';
-          textSetSaleInfo = 'အဝယ်ဆိုင်ရာ';
-          textSetContactInfo = 'ဆက်သွယ်ရန်';
-          textSetInfo = 'ကုန်သည် အချက်အလက်';
-           textSetName = 'နာမည်';
-           textSetPhone = 'ဖုန်းနံပါတ်';
-           textSetAddress = 'လိပ်စာ';
-          textSetBarcode = 'ဘားကုဒ်';
-          textSetDebtAmount = 'ပေးရန် စုစုပေါင်း';
-          textSetDebts = 'ပေးရန် အော်ဒါ အရေအတွက်';
-          textSetTtlOrders = 'ဝယ်ယူထားသော အော်ဒါများ';
-          textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
-          textSetSaleTitle = 'အဝယ်ဆိုင်ရာ အချက်အလက်';
-        });
-      }
-      else if(value=='english') {
-        setState(() {
-          isEnglish = true;
+
           textSetSaleCart = 'Add to\nbuy cart';
           textSetPurchasedOrders = 'Purchased\norders';
           textSetEdit = 'Edit merchant';
           textSetSaleInfo = 'Purchased info';
           textSetContactInfo = 'Contact info';
           textSetInfo = 'MERCHANT INFORMATION';
-           textSetName = 'Name';
-           textSetPhone = 'Phone';
-           textSetAddress = 'Address';
+          textSetName = 'Name';
+          textSetPhone = 'Phone';
+          textSetAddress = 'Address';
           textSetBarcode = 'Barcode';
           textSetDebtAmount = 'Total Unpaid';
           textSetDebts = 'Total Unpaid Orders';
@@ -115,7 +90,27 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
           textSetSaleTitle = 'PURCHASED INFORMATION';
         });
       }
-    });
+      else  {
+        setState(() {
+
+          textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
+          textSetPurchasedOrders = 'ဝယ်ပြီး\norders များ';
+          textSetEdit = 'Edit merchant';
+          textSetSaleInfo = 'အဝယ်ဆိုင်ရာ';
+          textSetContactInfo = 'ဆက်သွယ်ရန်';
+          textSetInfo = 'ကုန်သည် အချက်အလက်';
+          textSetName = 'နာမည်';
+          textSetPhone = 'ဖုန်းနံပါတ်';
+          textSetAddress = 'လိပ်စာ';
+          textSetBarcode = 'ဘားကုဒ်';
+          textSetDebtAmount = 'ပေးရန် စုစုပေါင်း';
+          textSetDebts = 'ပေးရန် အော်ဒါ အရေအတွက်';
+          textSetTtlOrders = 'ဝယ်ယူထားသော အော်ဒါများ';
+          textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
+          textSetSaleTitle = 'အဝယ်ဆိုင်ရာ အချက်အလက်';
+        });
+      }
+
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
       debugPrint('my index is'+ _controller.index.toString());
@@ -298,7 +293,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       fontSize: 16,
                                                     ),
                                                     strutStyle: StrutStyle(
-                                                      height: isEnglish
+                                                      height: widget.isEnglish
                                                           ? 1.4
                                                           : 1.6,
                                                       forceStrutHeight: true,
@@ -331,6 +326,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   MerchantOrdersInfoSubs(
+                                                    isEnglish: widget.isEnglish,
                                                     fromSearch: widget.fromSearch,
                                                     id: widget.id,
                                                     shopId: widget.shopId
@@ -369,7 +365,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     fontSize: 16,
                                                   ),
                                                   strutStyle: StrutStyle(
-                                                    height: isEnglish ? 1.4 : 1.6,
+                                                    height: widget.isEnglish ? 1.4 : 1.6,
                                                     forceStrutHeight: true,
                                                   )
                                               ),
@@ -1207,6 +1203,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             MerchantOrdersInfoSubs(
+                                                              isEnglish: widget.isEnglish,
                                                               fromSearch: widget.fromSearch,
                                                               id: widget.id,
                                                               shopId: widget.shopId
@@ -1245,7 +1242,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
-                                                              height: isEnglish ? 1.4 : 1.6,
+                                                              height: widget.isEnglish ? 1.4 : 1.6,
                                                               forceStrutHeight: true,
                                                             )
                                                         ),

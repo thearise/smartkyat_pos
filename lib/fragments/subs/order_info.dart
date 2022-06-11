@@ -30,7 +30,7 @@ class OrderInfoSub extends StatefulWidget {
   final _openCartBtn;
   final _printFromOrders;
   const OrderInfoSub(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required this.fromSearch,required void closeCartBtn(), required void openCartBtn(), this.selectedDev, required void printFromOrders(File file, var prodListPR)})
+      {Key? key, required this.data, required this.isEnglish,  required this.shopId,required void toggleCoinCallback(), required this.fromSearch,required void closeCartBtn(), required void openCartBtn(), this.selectedDev, required void printFromOrders(File file, var prodListPR)})
       : _callback = toggleCoinCallback,
         _closeCartBtn = closeCartBtn,
         _openCartBtn = openCartBtn,
@@ -39,6 +39,7 @@ class OrderInfoSub extends StatefulWidget {
   final String shopId;
   final BlueDevice? selectedDev;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _OrderInfoSubState createState() => _OrderInfoSubState();
@@ -116,13 +117,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     return prefs.getString('currency');
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
+
 
   String textSetPurchase = 'SALE ITEMS';
   String textSetRefund = 'REFUNDED ITEMS';
@@ -135,27 +130,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   String textSetPercent = 'Percentage';
   String textSetAllRefund = 'All Items Refunded';
   String textSetFullyRef = 'FULLY REFUNDED';
-  bool isEnglish = true;
+
   @override
   initState() {
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
-          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
-          textSetDebt = 'ကျန်ငွေ';
-          textSetDiscount = 'လျှော့ငွေ';
-          textSetAmount = 'Amount applied';
-          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
-          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
-          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
-          textSetPercent = 'Percentage';
-          textSetAllRefund = 'All Items Refunded';
-          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
-          isEnglish = false;
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetPurchase = 'PURCHASED ITEMS';
           textSetRefund = 'REFUNDED ITEMS';
@@ -168,10 +148,23 @@ class _OrderInfoSubState extends State<OrderInfoSub>
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
           textSetFullyRef = 'FULLY REFUNDED';
-          isEnglish = true;
+        });
+      } else  {
+        setState(() {
+          textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
         });
       }
-    });
+
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -426,6 +419,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
                                                                     OrderRefundsSub(
+                                                                      isEnglish: widget.isEnglish,
                                                                       fromSearch: widget.fromSearch,
                                                                       data: result,
                                                                       data2: prodList,
@@ -472,7 +466,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      height: widget.isEnglish? 1.4: 1.6,
                                                                       forceStrutHeight: true,
                                                                     )
                                                                 ),
@@ -504,7 +498,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtItems(fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtItems(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }
@@ -544,7 +538,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      height: widget.isEnglish? 1.4: 1.6,
                                                                       forceStrutHeight: true,
                                                                     )
                                                                 ),
@@ -633,7 +627,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      height: widget.isEnglish? 1.4: 1.6,
                                                                       forceStrutHeight: true,
                                                                     )
                                                                 ),
@@ -694,7 +688,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   fontSize: 16,
                                                                 ),
                                                                 strutStyle: StrutStyle(
-                                                                  height: isEnglish? 1.4: 1.6,
+                                                                  height: widget.isEnglish? 1.4: 1.6,
                                                                   forceStrutHeight: true,
                                                                 )
                                                             ),
@@ -749,7 +743,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      height: widget.isEnglish? 1.4: 1.6,
                                                                       forceStrutHeight: true,
                                                                     )
                                                                 ),
@@ -842,7 +836,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
+                                                                      height: widget.isEnglish? 1.4: 1.6,
                                                                       forceStrutHeight: true,
                                                                     )
                                                                 ),

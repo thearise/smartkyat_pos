@@ -74,6 +74,7 @@ class HomeFragment extends StatefulWidget {
     required this.buyOrdersSnapshot,
     required this.lossSnapshot,
     required this.shopId,
+    required this.isEnglish,
     required void toggleCoinCallback(String str),
     required void toggleCoinCallback2(String str),
     required void toggleCoinCallback3(String str),
@@ -94,6 +95,7 @@ class HomeFragment extends StatefulWidget {
   final ordersSnapshot;
   final buyOrdersSnapshot;
   final lossSnapshot;
+  final bool isEnglish;
   @override
   HomeFragmentState createState() => HomeFragmentState();
 
@@ -200,13 +202,13 @@ class HomeFragmentState extends State<HomeFragment>
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
+  // getLangId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if(prefs.getString('lang') == null) {
+  //     return 'english';
+  //   }
+  //   return prefs.getString('lang');
+  // }
 
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -282,25 +284,8 @@ class HomeFragmentState extends State<HomeFragment>
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-          textSetStockCosts = 'ဝယ်ယူစရိတ်';
-          textSetUnpaid = 'အကြွေးရရန်';
-          textSetBuys = 'ပြန်ပေးငွေ';
-          textSetLoss = 'ဆုံးရှုံး';
-          textSetToday = 'နေ့စဉ်';
-          textSetLastWeek = 'အပတ်စဉ်';
-          textSetLastMonth = 'လစဉ်';
-          textSetLastYear = 'နှစ်စဉ်';
-          textSetLast7Days = '၇ရက်အတွင်း';
-          textSetLast28D = '၂၈ရက်အတွင်း';
-          textSetLast12M = '၁၂လအတွင်း';
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true)
+      {
         setState(() {
           textSetTotalSales = 'TOTAL SALES';
           textSetTodaySoFar = 'TODAY SO FAR';
@@ -319,7 +304,26 @@ class HomeFragmentState extends State<HomeFragment>
 
         });
       }
-    });
+      else
+      {
+        setState(() {
+          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+          textSetStockCosts = 'ဝယ်ယူစရိတ်';
+          textSetUnpaid = 'အကြွေးရရန်';
+          textSetBuys = 'ပြန်ပေးငွေ';
+          textSetLoss = 'ဆုံးရှုံး';
+          textSetToday = 'နေ့စဉ်';
+          textSetLastWeek = 'အပတ်စဉ်';
+          textSetLastMonth = 'လစဉ်';
+          textSetLastYear = 'နှစ်စဉ်';
+          textSetLast7Days = '၇ရက်အတွင်း';
+          textSetLast28D = '၂၈ရက်အတွင်း';
+          textSetLast12M = '၁၂လအတွင်း';
+          textSetSearch = 'ရှာဖွေရန်';
+        });
+      }
+
 
     // fetchOrders();
     super.initState();
@@ -1816,6 +1820,7 @@ class HomeFragmentState extends State<HomeFragment>
 
                             child: cateScIndex == 0 || cateScIndex == 1?
                             BlocHomeWeek(
+                              isEnglish: widget.isEnglish,
                               dateTime: today,
                               key: valueKeyTog(),
                               shopId: widget.shopId,
@@ -1838,6 +1843,7 @@ class HomeFragmentState extends State<HomeFragment>
                             ):
                             cateScIndex == 3?
                             BlocHomeYearImp.BlocHomeYear(
+                              isEnglish: widget.isEnglish,
                               dateTime: today,
                               key: valueKeyTog(),
                               shopId: widget.shopId,
@@ -1860,6 +1866,7 @@ class HomeFragmentState extends State<HomeFragment>
                             ):
                             BlocHomeMonthImp.BlocHomeMonth(
                               dateTime: today,
+                              isEnglish: widget.isEnglish,
                               key: valueKeyTog(),
                               shopId: widget.shopId,
                               query: ordersQueryMonth(),

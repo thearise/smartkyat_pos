@@ -41,6 +41,7 @@ class OrdersFragment extends StatefulWidget {
         required void closeDrawerBtn(String str),
         required void openDrawerBtn(String str),
         required this.shopId,
+        required this.isEnglish,
         this.selectedDev,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
@@ -69,6 +70,7 @@ class OrdersFragment extends StatefulWidget {
 
   final String shopId;
   final BlueDevice? selectedDev;
+  final bool isEnglish;
 
   @override
   OrdersFragmentState createState() => OrdersFragmentState();
@@ -125,13 +127,13 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
+  // getLangId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if(prefs.getString('lang') == null) {
+  //     return 'english';
+  //   }
+  //   return prefs.getString('lang');
+  // }
 
   void closeCartFrom() {
     widget._closeCartBtn('saleorders');
@@ -153,26 +155,24 @@ class OrdersFragmentState extends State<OrdersFragment>
     widget._printFromOrders(file, prodListPR);
   }
 
-  bool isEnglish = true;
-
   @override
   initState() {
-
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetSearch = 'ရှာဖွေရန်';
-          isEnglish = false;
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true)
+      {
         setState(() {
           textSetSearch = 'Search';
-          isEnglish = true;
+
         });
       }
-    });
+      else {
+        setState(() {
+          textSetSearch = 'ရှာဖွေရန်';
 
-    super.initState();
+        });
+      }
+
+
+      super.initState();
   }
 
 
@@ -295,7 +295,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: BlocFirestore(
-                            isEnglish: isEnglish,
+                            isEnglish: widget.isEnglish,
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),

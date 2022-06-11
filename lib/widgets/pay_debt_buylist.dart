@@ -10,13 +10,14 @@ import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 import '../app_theme.dart';
 
 class PayDebtBuyList extends StatefulWidget {
-  const PayDebtBuyList({Key? key, required this.documentId, required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
+  const PayDebtBuyList({Key? key, required this.documentId, required this.isEnglish,required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
   final String debt;
   final String data;
   final String docId;
   final String shopId;
   final String documentId;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _PayDebtBuyListState createState() => _PayDebtBuyListState();
@@ -46,14 +47,6 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
   String textSetCusPrice = 'Custom price';
   String textSetDone = 'Done';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -63,7 +56,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -80,23 +73,22 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
   @override
   initState() {
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetDebt = 'ကျန်ငွေ';
-          textSetCashRec = 'ပေးငွေ';
-          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
-          textSetDone = 'ပြီးပြီ';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetDebt = 'Debt Remaining';
           textSetCashRec = 'PAID AMOUNT';
           textSetCusPrice = 'Custom amount';
           textSetDone = 'Done';
         });
+      } else {
+        setState(() {
+          textSetDebt = 'ကျန်ငွေ';
+          textSetCashRec = 'ပေးငွေ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
+          textSetDone = 'ပြီးပြီ';
+        });
       }
-    });
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {

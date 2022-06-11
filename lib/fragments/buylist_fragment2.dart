@@ -36,6 +36,7 @@ class BuyListFragment2 extends StatefulWidget {
         required void openDrawerBtn(String str),
         required this.shopId,
         this.selectedDev,
+        required this.isEnglish,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -63,6 +64,7 @@ class BuyListFragment2 extends StatefulWidget {
 
   final String shopId;
   final BlueDevice? selectedDev;
+  final bool isEnglish;
 
   @override
   BuyListFragment2State createState() => BuyListFragment2State();
@@ -119,14 +121,6 @@ class BuyListFragment2State extends State<BuyListFragment2>
   }
 
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   void closeCartFrom() {
     widget._closeCartBtn('saleorders');
   }
@@ -147,24 +141,21 @@ class BuyListFragment2State extends State<BuyListFragment2>
     widget._printFromOrders(file, prodListPR);
   }
 
-  bool isEnglish = true;
-
   @override
   initState() {
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetSearch = 'ရှာဖွေရန်';
-          isEnglish = false;
-        });
-      } else if(value=='english') {
+
+      if(widget.isEnglish == true) {
         setState(() {
           textSetSearch = 'Search';
-          isEnglish = true;
+        });
+      } else {
+        setState(() {
+          textSetSearch = 'ရှာဖွေရန်';
+
         });
       }
-    });
+
 
     super.initState();
   }
@@ -289,7 +280,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: BlocBuyList(
-                            isEnglish: isEnglish,
+                            isEnglish: widget.isEnglish,
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),

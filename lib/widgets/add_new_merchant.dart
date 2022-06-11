@@ -15,9 +15,10 @@ class AddMerchant extends StatefulWidget {
   final merchLoadingState;
   final endMerchLoadingState;
 
-  AddMerchant({ required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+  AddMerchant({ required this.isEnglish,required void toggleCoinCallback2(), required void toggleCoinCallback3()})
       : merchLoadingState = toggleCoinCallback2,
         endMerchLoadingState = toggleCoinCallback3;
+  final bool isEnglish;
 
   @override
   _AddMerchantState createState() => _AddMerchantState();
@@ -33,20 +34,11 @@ class _AddMerchantState extends State<AddMerchant> {
 
   String? shopId;
 
-
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   late BuildContext dialogContext;
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -75,25 +67,26 @@ class _AddMerchantState extends State<AddMerchant> {
     getDeviceId().then((value) {
       deviceIdNum = value;
     });
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true) {
+
         setState(() {
-           textSetInformation = 'MERCHANT INFORMATION';
-           textSetName = 'Name';
-           textSetAddress = 'Address';
-           textSetPhone = 'Phone number';
-           textSetAdd = 'Add Merchant';
+          textSetInformation = 'MERCHANT INFORMATION';
+          textSetName = 'Name';
+          textSetAddress = 'Address';
+          textSetPhone = 'Phone number';
+          textSetAdd = 'Add Merchant';
         });
-      } else if(value=='english') {
+      } else {
         setState(() {
-           textSetInformation = 'MERCHANT INFORMATION';
-           textSetName = 'Name';
-           textSetAddress = 'Address';
-           textSetPhone = 'Phone number';
-           textSetAdd = 'Add Merchant';
+          textSetInformation = 'MERCHANT INFORMATION';
+          textSetName = 'Name';
+          textSetAddress = 'Address';
+          textSetPhone = 'Phone number';
+          textSetAdd = 'Add Merchant';
         });
       }
-    });
+
 
     getStoreId().then((value) => shopId = value);
     super.initState();

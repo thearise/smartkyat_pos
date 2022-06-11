@@ -19,13 +19,14 @@ class CustomerInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const CustomerInfoSubs({Key? key, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.custName, required this.custAddress, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const CustomerInfoSubs({Key? key, required this.isEnglish, this.selectedDev, required this.fromSearch, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.custName, required this.custAddress, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String custName;
   final String custAddress;
   final String shopId;
   final BlueDevice? selectedDev;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _CustomerInfoSubsState createState() => _CustomerInfoSubsState();
@@ -39,13 +40,6 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   int _sliding = 0;
   late TabController _controller;
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   String textSetSaleCart = 'Add to\nsale cart';
   String textSetPurchasedOrders = 'Purchased\norders';
@@ -62,13 +56,33 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   String textSetTtlOrders = 'Total Orders';
   String textSetRefunds = 'Total Refunded Orders';
   String textSetSaleTitle = 'SALE INFORMATION';
-  bool isEnglish = true;
+
   @override
   void initState() {
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true) {
         setState(() {
-          isEnglish = false;
+
+          textSetSaleCart = 'Add to\nsale cart';
+          textSetPurchasedOrders = 'Purchased\norders';
+          textSetEdit = 'Edit customer';
+          textSetSaleInfo = 'Sale info';
+          textSetContactInfo = 'Contact info';
+          textSetInfo = 'CUSTOMER INFORMATION';
+          textSetName = 'Name';
+          textSetPhone = 'Phone';
+          textSetAddress = 'Address';
+          textSetBarcode = 'Barcode';
+          textSetDebtAmount = 'Total Unpaid Amount';
+          textSetDebts = 'Total Unpaid Orders';
+          textSetTtlOrders = 'Total Orders';
+          textSetRefunds = 'Total Refunded Orders';
+          textSetSaleTitle = 'SALE INFORMATION';
+        });
+      }
+      else {
+        setState(() {
+
           textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
           textSetPurchasedOrders = 'ရောင်းပြီး\norders များ';
           textSetEdit = 'Edit customer';
@@ -87,27 +101,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
         });
       }
-      else if(value=='english') {
-        setState(() {
-          isEnglish = true;
-          textSetSaleCart = 'Add to\nsale cart';
-          textSetPurchasedOrders = 'Purchased\norders';
-          textSetEdit = 'Edit customer';
-          textSetSaleInfo = 'Sale info';
-          textSetContactInfo = 'Contact info';
-          textSetInfo = 'CUSTOMER INFORMATION';
-          textSetName = 'Name';
-          textSetPhone = 'Phone';
-          textSetAddress = 'Address';
-          textSetBarcode = 'Barcode';
-          textSetDebtAmount = 'Total Unpaid Amount';
-          textSetDebts = 'Total Unpaid Orders';
-          textSetTtlOrders = 'Total Orders';
-          textSetRefunds = 'Total Refunded Orders';
-          textSetSaleTitle = 'SALE INFORMATION';
-        });
-      }
-    });
+
 
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
@@ -351,7 +345,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                              fontSize: 16,
                                                            ),
                                                            strutStyle: StrutStyle(
-                                                             height: isEnglish
+                                                             height: widget.isEnglish
                                                                  ? 1.4
                                                                  : 1.6,
                                                              forceStrutHeight: true,
@@ -395,7 +389,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          selectedDev: widget
                                                              .selectedDev,
                                                          custName: customerName,
-                                                         custAddress: address,),
+                                                         custAddress: address, isEnglish: widget.isEnglish,),
                                                  ),
                                                );
                                              },
@@ -423,7 +417,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                            fontSize: 16,
                                                          ),
                                                          strutStyle: StrutStyle(
-                                                           height: isEnglish
+                                                           height: widget.isEnglish
                                                                ? 1.4
                                                                : 1.6,
                                                            forceStrutHeight: true,
@@ -1390,7 +1384,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             selectedDev: widget
                                                                 .selectedDev,
                                                             custName: customerName,
-                                                            custAddress: address,),
+                                                            custAddress: address, isEnglish: widget.isEnglish,),
                                                     ),
                                                   );
                                                 },
@@ -1418,7 +1412,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
-                                                              height: isEnglish
+                                                              height: widget.isEnglish
                                                                   ? 1.4
                                                                   : 1.6,
                                                               forceStrutHeight: true,

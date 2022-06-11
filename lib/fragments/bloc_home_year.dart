@@ -85,6 +85,7 @@ class BlocHomeYear extends StatefulWidget {
     this.options,
     this.shopId,
     this.dateTime,
+    required this.isEnglish,
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
@@ -119,6 +120,7 @@ class BlocHomeYear extends StatefulWidget {
   final DateTime? dateTime;
   final _resetState;
   final _selectedIntVal;
+  final bool isEnglish;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -219,14 +221,6 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     super.dispose();
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -235,25 +229,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   @override
   void initState() {
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-          textSetStockCosts = 'ဝယ်ယူစရိတ်';
-          textSetUnpaid = 'အကြွေးရရန်';
-          textSetBuys = 'ပြန်ပေးငွေ';
-          textSetLoss = 'ဆုံးရှုံး';
-          textSetToday = 'နေ့စဉ်';
-          textSetLastWeek = 'အပတ်စဉ်';
-          textSetLastMonth = 'လစဉ်';
-          textSetLastYear = 'နှစ်စဉ်';
-          textSetLast7Days = '၇ရက်အတွင်း';
-          textSetLast28D = '၂၈ရက်အတွင်း';
-          textSetLast12M = '၁၂လအတွင်း';
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
         setState(() {
           textSetTotalSales = 'TOTAL SALES';
           textSetTodaySoFar = 'TODAY SO FAR';
@@ -271,8 +247,24 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           textSetSearch = 'Search';
 
         });
+      } else {
+        setState(() {
+          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+          textSetStockCosts = 'ဝယ်ယူစရိတ်';
+          textSetUnpaid = 'အကြွေးရရန်';
+          textSetBuys = 'ပြန်ပေးငွေ';
+          textSetLoss = 'ဆုံးရှုံး';
+          textSetToday = 'နေ့စဉ်';
+          textSetLastWeek = 'အပတ်စဉ်';
+          textSetLastMonth = 'လစဉ်';
+          textSetLastYear = 'နှစ်စဉ်';
+          textSetLast7Days = '၇ရက်အတွင်း';
+          textSetLast28D = '၂၈ရက်အတွင်း';
+          textSetLast12M = '၁၂လအတွင်း';
+          textSetSearch = 'ရှာဖွေရန်';
+        });
       }
-    });
 
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
