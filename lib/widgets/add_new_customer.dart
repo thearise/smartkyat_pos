@@ -15,9 +15,10 @@ class AddCustomer extends StatefulWidget {
   final cusLoadingState;
   final endCusLoadingState;
 
-  AddCustomer({ required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+  AddCustomer({ required void toggleCoinCallback2(), required this.isEnglish , required void toggleCoinCallback3()})
       : cusLoadingState = toggleCoinCallback2,
         endCusLoadingState = toggleCoinCallback3;
+  final bool isEnglish;
 
   @override
   _AddCustomerState createState() => _AddCustomerState();
@@ -31,20 +32,11 @@ class _AddCustomerState extends State<AddCustomer> {
   final _formKey = GlobalKey<FormState>();
   String? shopId;
 
-
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   late BuildContext dialogContext;
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -74,8 +66,8 @@ class _AddCustomerState extends State<AddCustomer> {
       deviceIdNum = value;
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true) {
         setState(() {
           textSetInformation = 'CUSTOMER INFORMATION';
           textSetName = 'Name';
@@ -83,7 +75,7 @@ class _AddCustomerState extends State<AddCustomer> {
           textSetPhone = 'Phone number';
           textSetAdd = 'Add Customer';
         });
-      } else if(value=='english') {
+      } else{
         setState(() {
           textSetInformation = 'CUSTOMER INFORMATION';
           textSetName = 'Name';
@@ -92,7 +84,6 @@ class _AddCustomerState extends State<AddCustomer> {
           textSetAdd = 'Add Customer';
         });
       }
-    });
 
     getStoreId().then((value) => shopId = value);
     super.initState();

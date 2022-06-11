@@ -22,7 +22,7 @@ class MerchantCart extends StatefulWidget {
   final remProdListIndFun;
 
   MerchantCart(
-      {Key? key,
+      {Key? key, required this.isEnglish,
         required void toggleCoinCallback3(), required void toggleCoinCallback4(), required void toggleCoinCallback(), required this.prodList2, required this.merchantId, required this.shop,
         required this.deviceId,
         required void toggleCoinCallback2(),
@@ -37,6 +37,7 @@ class MerchantCart extends StatefulWidget {
   final String deviceId;
   final List<String> prodList2;
   final String merchantId;
+  final bool isEnglish;
 
   @override
   MerchantCartState createState() => MerchantCartState();
@@ -66,19 +67,12 @@ class MerchantCartState extends State<MerchantCart>
   String _getNum() =>
       r'[0-9]';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   late BuildContext dialogContext;
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -127,26 +121,8 @@ class MerchantCartState extends State<MerchantCart>
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetMerchOrders = 'အ၀ယ်စာရင်း';
-          textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
-          textSetDiscount = 'လျော့ဈေး';
-          textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
-          textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
-          textSetCheckout = 'ငွေရှင်းမည်';
-          textSetAmountApplied = 'Amount applied';
-          textSetPercent = 'Percentage';
-          textSetCashAccept = 'Cash acceptance';
-          textSetCashRev = 'CASH RECEIVED';
-          textSetCustom = 'Custom amount';
-          textSetDebt = 'Unpaid amount';
-          textSetRefund = 'Cash refund';
-          textSetDone = 'ငွေရှင်းမည်';
-        });
-      }
-      else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetMerchOrders = 'Merchant cart';
           textSetClearCart = 'Clear cart';
@@ -164,7 +140,24 @@ class MerchantCartState extends State<MerchantCart>
           textSetDone = 'Done';
         });
       }
-    });
+      else {
+        setState(() {
+          textSetMerchOrders = 'အ၀ယ်စာရင်း';
+          textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
+          textSetDiscount = 'လျော့ဈေး';
+          textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
+          textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
+          textSetCheckout = 'ငွေရှင်းမည်';
+          textSetAmountApplied = 'Amount applied';
+          textSetPercent = 'Percentage';
+          textSetCashAccept = 'Cash acceptance';
+          textSetCashRev = 'CASH RECEIVED';
+          textSetCustom = 'Custom amount';
+          textSetDebt = 'Unpaid amount';
+          textSetRefund = 'Cash refund';
+          textSetDone = 'ငွေရှင်းမည်';
+        });
+      }
     deviceIdNum = widget.deviceId;
     shopId = widget.shop;
     super.initState();

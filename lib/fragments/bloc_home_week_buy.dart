@@ -86,7 +86,7 @@ class BlocHomeWeekBuy extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
-    required this.sale,
+    required this.sale, required this.isEnglish,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
@@ -119,6 +119,7 @@ class BlocHomeWeekBuy extends StatefulWidget {
   final DateTime? dateTime;
   final _resetState;
   final _selectedIntVal;
+  final bool isEnglish;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -287,6 +288,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
 
     var listView = Container(
       child: BlocHomeWeekLoss(
+        isEnglish: widget.isEnglish,
         shopId: widget.shopId,
         sale: widget.sale,
         buy: loadedState.documentSnapshots,

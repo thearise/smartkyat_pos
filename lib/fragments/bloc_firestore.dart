@@ -213,15 +213,6 @@ class _BlocFirestoreState extends State<BlocFirestore> {
     );
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
-
   @override
   void dispose() {
     widget.scrollController?.dispose();
@@ -261,16 +252,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         });
       }
     });
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetAll = 'အားလုံး';
-          textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်ပေး';
-          textSetTPaid = 'ရှင်းပြီး';
-        });
-      }
-      else if(value=='english') {
+
+      if(widget.isEnglish == true ) {
         setState(() {
           textSetAll = 'All';
           textSetTUnpaid = 'Unpaids';
@@ -278,7 +261,15 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           textSetTPaid = 'Paids';
         });
       }
-    });
+      else  {
+        setState(() {
+          textSetAll = 'အားလုံး';
+          textSetTUnpaid = 'မရှင်းသေး';
+          textSetTRefunds = 'ပြန်ပေး';
+          textSetTPaid = 'ရှင်းပြီး';
+        });
+
+      }
 
     if (widget.listeners != null) {
       for (var listener in widget.listeners!) {
@@ -711,7 +702,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                          builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                     );
                     widget._openDrawerBtn();
                   },
@@ -992,7 +983,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OrderInfoSub(fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                        builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish,fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                   );
                   widget._openDrawerBtn();
                 },

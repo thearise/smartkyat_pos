@@ -11,7 +11,7 @@ import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
 
-  const PayDebtItems({Key? key, required this.documentId, required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId,});
+  const PayDebtItems({Key? key, required this.isEnglish, required this.documentId, required this.fromSearch, required this.debt, required this.shopId, required this.data, required this.docId,});
 
 final String debt;
 final String data;
@@ -19,7 +19,7 @@ final String docId;
 final String shopId;
 final String documentId;
 final bool fromSearch;
-
+final bool isEnglish;
   @override
   _PayDebtItemsState createState() => _PayDebtItemsState();
 }
@@ -50,14 +50,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
   String textSetCusPrice = 'Custom price';
   String textSetDone = 'Done';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -67,7 +59,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -84,24 +76,22 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   @override
   initState() {
+      if(widget.isEnglish == true) {
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetDebt = 'ကျန်ငွေ';
-          textSetCashRec = 'လက်ခံရရှိငွေ';
-          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
-          textSetDone = 'ပြီးပြီ';
-        });
-      } else if(value=='english') {
         setState(() {
           textSetDebt = 'Debt Remaining';
           textSetCashRec = 'CASH RECEIVED';
           textSetCusPrice = 'Custom amount';
           textSetDone = 'Done';
         });
+      } else {
+        setState(() {
+          textSetDebt = 'ကျန်ငွေ';
+          textSetCashRec = 'လက်ခံရရှိငွေ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
+          textSetDone = 'ပြီးပြီ';
+        });
       }
-    });
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -465,6 +455,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                   debugPrint('detAmount' + debtAmount.toString());
 
+
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
                                   double paidCus = paidAmount;
                                   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
@@ -481,7 +472,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
                                     }
 
-                                    batch = await updateMonthlyData(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', paidCus);
+                                    batch = await updateMonthlyData(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', paidCus, DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString()) + 'paid_cust');
                                     batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', paidCus);
 
                                     try {
@@ -739,12 +730,21 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     );
   }
 
-  updateMonthlyData(WriteBatch batch, id, field1, double price1) {
+  updateMonthlyData(WriteBatch batch, id, field1, double price1, field2) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()));
     batch.set(documentReference, {
       field1.toString() : FieldValue.increment(0 - double.parse(price1.toString())),
 
     }, SetOptions(merge: true));
+
+    print('check id string' + id.toString() + ', ' + DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()));
+
+    if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())) {
+    batch.set(documentReference2, {
+      field2.toString() : FieldValue.increment(double.parse(price1.toString())),
+
+    }, SetOptions(merge: true)); }
     return batch;
   }
 
@@ -794,4 +794,12 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     }
     return batch;
   }
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
 }

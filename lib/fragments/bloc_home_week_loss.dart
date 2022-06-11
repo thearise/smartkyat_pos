@@ -62,6 +62,7 @@ class BlocHomeWeekLoss extends StatefulWidget {
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
     required this.sale, required this.buy,
+    required this.isEnglish,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
@@ -95,6 +96,7 @@ class BlocHomeWeekLoss extends StatefulWidget {
   final DateTime? dateTime;
   final _resetState;
   final _selectedIntVal;
+  final bool isEnglish;
 
   /// Use this only if `isLive = false`
   final GetOptions? options;
@@ -143,6 +145,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';
   String textSetSearch = 'Search';
+  String textSetEarn = 'Debt-to-income';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit, PaginationState>(
@@ -194,14 +197,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     super.dispose();
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -225,25 +220,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-          textSetStockCosts = 'ဝယ်ယူစရိတ်';
-          textSetUnpaid = 'အကြွေးရရန်';
-          textSetBuys = 'ပြန်ပေးငွေ';
-          textSetLoss = 'ဆုံးရှုံး';
-          textSetToday = 'နေ့စဉ်';
-          textSetLastWeek = 'အပတ်စဉ်';
-          textSetLastMonth = 'လစဉ်';
-          textSetLastYear = 'နှစ်စဉ်';
-          textSetLast7Days = '၇ရက်အတွင်း';
-          textSetLast28D = '၂၈ရက်အတွင်း';
-          textSetLast12M = '၁၂လအတွင်း';
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetTotalSales = 'TOTAL SALES';
           textSetTodaySoFar = 'TODAY SO FAR';
@@ -259,10 +237,28 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           textSetLast28D = 'LAST 28 DAYS';
           textSetLast12M = 'LAST 12 MONTHS';
           textSetSearch = 'Search';
+          textSetEarn = 'Debt-to-income';
 
         });
+      } else {
+        setState(() {
+          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+          textSetStockCosts = 'ဝယ်ယူစရိတ်';
+          textSetUnpaid = 'အကြွေးကျန်ငွေ';
+          textSetBuys = 'ပြန်ပေးငွေ';
+          textSetLoss = 'ဆုံးရှုံး';
+          textSetToday = 'နေ့စဉ်';
+          textSetLastWeek = 'အပတ်စဉ်';
+          textSetLastMonth = 'လစဉ်';
+          textSetLastYear = 'နှစ်စဉ်';
+          textSetLast7Days = '၇ရက်အတွင်း';
+          textSetLast28D = '၂၈ရက်အတွင်း';
+          textSetLast12M = '၁၂လအတွင်း';
+          textSetSearch = 'ရှာဖွေရန်';
+          textSetEarn = 'အကြွေးရငွေ';
+        });
       }
-    });
 
     if (widget.listeners != null) {
       for (var listener in widget.listeners!) {
@@ -897,6 +893,97 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     SizedBox(
                                       width: 15,
                                     ),
+                                    _sliding == 0 ? Column(
+                                      children: [
+                                        Container(
+                                          // width: 100,
+                                          height: 100,
+                                          constraints: BoxConstraints(
+                                              maxWidth: double.infinity, minWidth: 120),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(8),
+                                              border: Border(
+                                                bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                              ),
+                                              color: AppTheme.lightBgColor
+                                          ),
+
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                            child: Stack(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                        height:26
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:30.0),
+                                                      child: Text(totalEarnBySlide(),
+                                                        textAlign: TextAlign.left,
+                                                        style: GoogleFonts.lato(
+                                                            textStyle: TextStyle(
+                                                                letterSpacing: 1,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.black
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Positioned(
+                                                    right: 0,
+                                                    top: 0,
+                                                    child: Text('?')
+                                                ),
+                                                Text(textSetEarn,
+                                                  strutStyle: StrutStyle(
+                                                      forceStrutHeight: true,
+                                                      height: 1.2
+                                                  ),
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black.withOpacity(0.6)),
+                                                ),
+                                                Positioned(
+                                                    right: 0,
+                                                    bottom: 2,
+                                                    child: Text(percentByEarn().toString() == '1001' ? '-%' : percentByEarn().toString() == '1000' ? '-%' : percentByEarn().toString() + '%',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                        // color: Colors.blue
+                                                      ),
+                                                    )
+                                                ),
+                                                Positioned(
+                                                  left: 0,
+                                                  bottom: 2,
+                                                  child: Text(currencyUnit,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                      ],
+                                    ) : Container(),
                                   ],
                                 ),
                               ),
@@ -1499,6 +1586,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
   }
 
+  String totalEarnBySlide() {
+    if(_sliding == 0) {
+      return todayEarnTotal.toString();
+    } else  {
+      return weekEarnTotal.toString();
+    }
+  }
+
   percentBySale() {
     var percent = 0;
     if(_sliding == 0) {
@@ -1544,6 +1639,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     if(_sliding == 0) {
       percent = growthRateDayLoss(ystLossTotal, todayLossTotal);
     } else percent = growthRateWeekLoss(lastWeekLoss, weekLossTotal);
+    return percent;
+  }
+
+  percentByEarn() {
+    var percent = 0;
+    if(_sliding == 0) {
+      percent = growthRateDayLoss(ystEarnTotal, todayEarnTotal);
+    } else percent = growthRateWeekCost(lastWeekEarn, weekEarnTotal);
     return percent;
   }
 
@@ -2044,6 +2147,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double lastWeekRefund = 0;
   double ystLossTotal = 0;
   double lastWeekLoss = 0;
+  double todayEarnTotal = 0;
+  double ystEarnTotal = 0;
+  double weekEarnTotal = 0;
+  double lastWeekEarn = 0;
+
 
   fetchOrders(snapshot0, snapshot1) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 7));
@@ -2247,11 +2355,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     todayRefundTotal = 0;
     weekRefundTotal = 0;
     todayLossTotal= 0;
+    todayEarnTotal = 0;
     weekLossTotal = 0;
     ystRefundTotal=0;
     lastWeekRefund = 0;
     ystLossTotal = 0;
+    ystEarnTotal = 0;
     lastWeekLoss = 0;
+    weekEarnTotal = 0;
+    lastWeekEarn = 0;
 
 
 
@@ -2277,6 +2389,15 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'] != null) {
         ystLossTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'];
       }
+
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'paid_cust'] != null) {
+        todayEarnTotal += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'paid_cust'];
+      }
+
+      if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'paid_cust'] != null) {
+        ystEarnTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'paid_cust'];
+      }
+
       for(int i = 0; i < 7; i++) {
         if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'refu_cust'] != null) {
           weekRefundTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'refu_cust'];
@@ -2298,8 +2419,20 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       }
 
       for(int i = 0; i < 7; i++) {
+        if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'paid_cust'] != null) {
+          weekEarnTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'paid_cust'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
         if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'loss_cust'] != null) {
           lastWeekLoss +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'loss_cust'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
+        if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'paid_cust'] != null) {
+          lastWeekEarn +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'paid_cust'];
         }
       }
 
@@ -2463,6 +2596,22 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     return growthRate.toInt();
   }
 
+  growthRateDayEarn(double lastDayEarn, double totalEarn) {
+    double growthRate = 0;
+    double todayTotal = totalEarn;
+
+    growthRate = (todayTotal - lastDayEarn) / lastDayEarn * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
   growthRateWeekRefund(double lastWeekRef, double weekTotalRef) {
     double growthRate = 0;
     double todayTotal = weekTotalRef;
@@ -2484,6 +2633,22 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double todayTotal = weekTotalLoss;
 
     growthRate = (todayTotal - lastWeekLoss) / lastWeekLoss * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateWeekEarn(double lastWeekEar, double weekTotalEarn) {
+    double growthRate = 0;
+    double todayTotal = weekTotalEarn;
+
+    growthRate = (todayTotal - lastWeekEar) / lastWeekEar * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {

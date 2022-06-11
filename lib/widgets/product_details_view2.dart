@@ -51,7 +51,7 @@ class ProductDetailsView2 extends StatefulWidget {
   required this.buyPrice1,
   required this.buyPrice2,
   required this.buyPrice3,
-  required this.fromSearch,
+  required this.fromSearch, required this.isEnglish,
   required void toggleCoinCallback(String str),
   required void toggleCoinCallback3(String str),
   required void openCartBtn(),
@@ -86,6 +86,7 @@ class ProductDetailsView2 extends StatefulWidget {
   final double buyPrice2;
   final double buyPrice3;
   final bool fromSearch;
+  final bool isEnglish;
 
 
   @override
@@ -346,14 +347,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   String textSetWarning = 'Once you remove it, there is no going back.';
   String textSetRemove = 'Remove';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   String currencyUnit = 'MMK';
 
   getCurrency() async {
@@ -441,32 +434,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          isEnglish = false;
-          textSetAddtoCart = 'ရောင်းရန်\nစာရင်းထည့်';
-          textSetRefill =  'ကုန်ပစ္စည်း\nပြန်ဖြည့်ရန်';
-          textSetAddLoss = 'ဆုံးရှုံးပစ္စည်း\nထည့်ရန်';
-          textSetEdit = 'ပြင်ဆင်ရန်';
-          textSetMainUnit = 'UNIT ITEM (MAIN)';
-          textSetSub1 = 'UNIT ITEM (SUB 1)';
-          textSetSub2 = 'UNIT ITEM (SUB 2)';
-          textSetSalePrice = 'ရောင်းဈေး';
-          textSetInStock = 'လက်ကျန်ပစ္စည်း';
-          textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
-          textSetBarcode = 'Barcode';
-          textSetOtherInfo = 'OTHER INFORMATION';
-          textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
-          textSetBuyPrice = 'ဝယ်ဈေး';
-          textSetLink1 = 'Items per Main Unit';
-          textSetLink2 = 'Items per Sub-1 Unit';
-          textSetArchive = 'ARCHIVE ITEM';
-          textSetRemoveItem = 'ဤပစ္စည်းကို ဖယ်ရှားမည်';
-          textSetWarning = 'တစ်ခါဖယ်ပြီးလျှင် နောက်ထပ်ပြန်ဖော်လို့ မရနိုင်ပါ';
-          textSetRemove = 'ဖယ်ရှားမည်';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
         setState(() {
           isEnglish = true;
           textSetAddtoCart = 'Add to\nsell cart';
@@ -490,10 +458,31 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
           textSetWarning = 'Once you remove it, there is no going back.';
           textSetRemove = 'Remove';
         });
+      } else {
+        setState(() {
+          isEnglish = false;
+          textSetAddtoCart = 'ရောင်းရန်\nစာရင်းထည့်';
+          textSetRefill =  'ကုန်ပစ္စည်း\nပြန်ဖြည့်ရန်';
+          textSetAddLoss = 'ဆုံးရှုံးပစ္စည်း\nထည့်ရန်';
+          textSetEdit = 'ပြင်ဆင်ရန်';
+          textSetMainUnit = 'UNIT ITEM (MAIN)';
+          textSetSub1 = 'UNIT ITEM (SUB 1)';
+          textSetSub2 = 'UNIT ITEM (SUB 2)';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetInStock = 'လက်ကျန်ပစ္စည်း';
+          textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
+          textSetBarcode = 'Barcode';
+          textSetOtherInfo = 'OTHER INFORMATION';
+          textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetLink1 = 'Items per Main Unit';
+          textSetLink2 = 'Items per Sub-1 Unit';
+          textSetArchive = 'ARCHIVE ITEM';
+          textSetRemoveItem = 'ဤပစ္စည်းကို ဖယ်ရှားမည်';
+          textSetWarning = 'တစ်ခါဖယ်ပြီးလျှင် နောက်ထပ်ပြန်ဖော်လို့ မရနိုင်ပါ';
+          textSetRemove = 'ဖယ်ရှားမည်';
+        });
       }
-    });
-
-
 
     super.initState();
   }
@@ -770,7 +759,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => FillProduct(
+                                                                  builder: (context) => FillProduct(isEnglish : widget.isEnglish,
                                                                     fromSearch: widget.fromSearch,
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
@@ -806,7 +795,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               await Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder: (context) => FillProduct(
+                                                                      builder: (context) => FillProduct(isEnglish : widget.isEnglish,
                                                                         fromSearch: widget.fromSearch,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
@@ -817,7 +806,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               await Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder: (context) => FillProduct(
+                                                                      builder: (context) => FillProduct(isEnglish : widget.isEnglish,
                                                                         fromSearch: widget.fromSearch,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
@@ -829,7 +818,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder: (context) => FillProduct(
-                                                                        fromSearch: widget.fromSearch,
+                                                                        fromSearch: widget.fromSearch,isEnglish : widget.isEnglish,
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
@@ -894,7 +883,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             widget._closeCartBtn();
                                                             await Navigator.push(
                                                                 context, MaterialPageRoute( builder: (context) => LossProduct(fromSearch: widget.fromSearch, idString: widget.idString, prodID: widget.idString + '^' + prodName + '^' + mainName.toString() +
-                                                                '^unit_name' + '^' + mainQty.toString() + '^', shopId: widget.shopId, price: buyPrice1.toString(),
+                                                                '^unit_name' + '^' + mainQty.toString() + '^', shopId: widget.shopId, price: buyPrice1.toString(), isEnglish: widget.isEnglish,
                                                             )
                                                             ));
                                                             widget._openCartBtn();
@@ -930,17 +919,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               widget._closeCartBtn();
                                                               if(result.split('^')[3] == 'sub1_name') {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice2.toString(), fromSearch: widget.fromSearch,
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(isEnglish: widget.isEnglish, idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice2.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               } else if(result.split('^')[3] == 'sub2_name') {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice3.toString(), fromSearch: widget.fromSearch,
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(isEnglish: widget.isEnglish, idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice3.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               } else {
                                                                 await Navigator.push(
-                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice1.toString(), fromSearch: widget.fromSearch,
+                                                                    context, MaterialPageRoute( builder: (context) => LossProduct(isEnglish: widget.isEnglish, idString: widget.idString, prodID: result, shopId: widget.shopId, price: buyPrice1.toString(), fromSearch: widget.fromSearch,
                                                                 )
                                                                 ));
                                                               }
@@ -1044,7 +1033,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             var result = await Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: double.parse(mainQty.toString()), mainName: mainName, mainBuy: double.parse(buyPrice1.toString()), mainSell: double.parse(mainPrice.toString()), barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: double.parse(sub1Qty.toString()), sub1Sell: double.parse(sub1Price.toString()), sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, sub2Qty: double.parse(sub2Qty.toString()), sub2Sell: double.parse(sub2Price.toString()), fromSearch: widget.fromSearch, subExist : double.parse(subExist.toString()))));
+                                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: double.parse(mainQty.toString()), mainName: mainName, mainBuy: double.parse(buyPrice1.toString()), mainSell: double.parse(mainPrice.toString()), barcode: barcode, sub1perUnit: double.parse(sub1Unit.toString()), sub1UnitName: sub1Name, sub1Qty: double.parse(sub1Qty.toString()), sub1Sell: double.parse(sub1Price.toString()), sub2perUnit: double.parse(sub2Unit.toString()), sub2UnitName: sub2Name, isEnglish : widget.isEnglish, sub2Qty: double.parse(sub2Qty.toString()), sub2Sell: double.parse(sub2Price.toString()), fromSearch: widget.fromSearch, subExist : double.parse(subExist.toString()))));
                                                             widget._openCartBtn();
                                                             debugPrint('result check ' + result.toString());
                                                           },

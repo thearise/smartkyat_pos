@@ -66,6 +66,7 @@ class ProductsFragment extends StatefulWidget {
         required void openDrawerBtn(String str),
         required this.productsSnapshot,
         required this.shopId,
+        required this.isEnglish,
         required void toggleCoinCallback(),
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
@@ -93,6 +94,7 @@ class ProductsFragment extends StatefulWidget {
   final String shopId;
   final productsSnapshot;
   final lowStockSnapshot;
+  final bool isEnglish;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
@@ -160,13 +162,13 @@ class ProductsFragmentState extends State<ProductsFragment>
     });
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
+  // getLangId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if(prefs.getString('lang') == null) {
+  //     return 'english';
+  //   }
+  //   return prefs.getString('lang');
+  // }
 
   String currencyUnit = 'MMK';
 
@@ -266,23 +268,25 @@ class ProductsFragmentState extends State<ProductsFragment>
     //     });
     //   }
     // });
-    getLangId().then((value) {
-      if(value=='burmese') {
+
+      if(widget.isEnglish == true)
+    {
+      setState(() {
+        textSetNewItem = 'New item';
+        textSetAll = 'All';
+        textSetLowStocks = 'Low stocks';
+        textSetSearch = 'Search';
+      });
+    }
+      else {
         setState(() {
           textSetNewItem = 'ကုန်ပစ္စည်း';
           textSetAll = 'အားလုံး';
           textSetLowStocks = 'အနည်းမှ အများ';
           textSetSearch = 'ရှာဖွေရန်';
         });
-      } else if(value=='english') {
-        setState(() {
-          textSetNewItem = 'New item';
-          textSetAll = 'All';
-          textSetLowStocks = 'Low stocks';
-          textSetSearch = 'Search';
-        });
       }
-    });
+
 
     super.initState();
   }
@@ -924,7 +928,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                       MaterialPageRoute(
                                                           builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
                                                             mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
-                                                            sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                                                            sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(), isEnglish: widget.isEnglish,
                                                             sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
                                                             sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
                                                             subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),

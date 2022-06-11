@@ -19,7 +19,7 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.documentId,  required this.fromSearch, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      {Key? key, required this.documentId,  required this.isEnglish, required this.fromSearch, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
@@ -28,6 +28,7 @@ class OrderRefundsSub extends StatefulWidget {
   final String docId;
   final String documentId;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -56,19 +57,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     return prefs.getString('currency');
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   late BuildContext dialogContext;
 
   openOverAllSubLoading() {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0.4),
       context: context,
       builder: (context) {
@@ -89,21 +83,22 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   @override
   void initState() {
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetTtlRefund = 'ပြန်ပေးပစ္စည်းများ ကျသင့်ငွေ';
-          textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
-          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းထည့်မည်';
-        });
-      } else if(value=='english') {
+
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetTtlRefund = 'Refunded items price';
           textSetTtlRefundAmount = 'Total refund amount';
           textSetRefundBtn = 'Refund';
         });
+      } else {
+        setState(() {
+          textSetTtlRefund = 'ပြန်ပေးပစ္စည်းများ ကျသင့်ငွေ';
+          textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
+          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းထည့်မည်';
+        });
       }
-    });
+
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {

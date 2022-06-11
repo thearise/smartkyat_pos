@@ -16,13 +16,14 @@ class MerchantOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const MerchantOrdersInfoSubs({Key? key, required this.fromSearch, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
+  const MerchantOrdersInfoSubs({Key? key,required this.isEnglish, required this.fromSearch, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
   final String merchName;
   final String merchAddress;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
@@ -56,13 +57,6 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
     widget._printFromOrders(file, prodListPR);
   }
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
 
   String currencyUnit = 'MMK';
 
@@ -90,23 +84,23 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
       }
     });
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetAll = 'အားလုံး';
-          textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်အမ်း';
-          textSetTPaid = 'ရှင်းပြီး';
-        });
-      } else if(value=='english') {
+      if(widget.isEnglish == true) {
+
         setState(() {
           textSetAll = 'All';
           textSetTUnpaid = 'Unpadis';
           textSetTRefunds = 'Refunds';
           textSetTPaid = 'Paids';
         });
+      } else {
+        setState(() {
+          textSetAll = 'အားလုံး';
+          textSetTUnpaid = 'မရှင်းသေး';
+          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTPaid = 'ရှင်းပြီး';
+        });
       }
-    });
+
     super.initState();
   }
 
@@ -464,7 +458,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                       onTap: () {
                         Navigator.push(context,
                           MaterialPageRoute(
-                            builder: (context) => BuyListInfo(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
+                            builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                         );
                       },
                       child: Stack(

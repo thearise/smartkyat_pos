@@ -15,7 +15,7 @@ class FillProduct extends StatefulWidget {
   final _callback;
   final _callback3;
   const FillProduct(
-      {Key? key,
+      {Key? key, required this.isEnglish,
         required this.idString, required this.unitName, required this.fromSearch, required this.shopId, required this.price,
         required void toggleCoinCallback(String str), required this.unit,
         required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
@@ -32,6 +32,7 @@ class FillProduct extends StatefulWidget {
   final String link;
   final String subExist;
   final bool fromSearch;
+  final bool isEnglish;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -64,14 +65,6 @@ class _FillProductState extends State<FillProduct> {
   String textSetBuyPrice = 'Buy Price';
   String textSetAddBuy = 'Add to Buy Cart';
 
-  getLangId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('lang') == null) {
-      return 'english';
-    }
-    return prefs.getString('lang');
-  }
-
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -85,19 +78,8 @@ class _FillProductState extends State<FillProduct> {
     munitCtrl.text = '1';
     msaleCtrl.text = widget.price;
 
-    getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          isEnglish = false;
-          textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်ရန်';
-          textSetMainQty = 'PRICING & INVENTORY';
-          textSetUnitQty = 'အရေအတွက်';
-          textSetBuyPrice = 'ဝယ်ဈေး';
-          textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
+      if(widget.isEnglish == true) {
 
-        });
-      }
-      else if(value=='english') {
         setState(() {
           isEnglish = true;
           textSetRefill = 'Refill to inventory';
@@ -108,7 +90,17 @@ class _FillProductState extends State<FillProduct> {
 
         });
       }
-    });
+      else {
+        setState(() {
+          isEnglish = false;
+          textSetRefill = 'ပစ္စည်း ပြန်ဖြည့်ရန်';
+          textSetMainQty = 'PRICING & INVENTORY';
+          textSetUnitQty = 'အရေအတွက်';
+          textSetBuyPrice = 'ဝယ်ဈေး';
+          textSetAddBuy = 'အဝယ်စာရင်းသို့ ';
+
+        });
+      }
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
