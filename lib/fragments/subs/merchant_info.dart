@@ -396,7 +396,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                               child: Row(
                                 children: [
                                Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
+                                    padding: const EdgeInsets.only(right: 0.0),
                                     child: Row(
                                       children: [
                                         FlatButton(
@@ -464,7 +464,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     child: ListView(
                                       scrollDirection: Axis.horizontal,
                                       children: [
-                                        //SizedBox(width: 10),
+                                        SizedBox(width: 10),
                                         FlatButton(
                                           minWidth: 0,
                                           padding: EdgeInsets.only(
@@ -647,7 +647,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
-                                                            .w600,
+                                                            .w500,
                                                       ),),
                                                       Spacer(),
                                                       Text('MMK ' +
@@ -660,7 +660,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight
-                                                              .w600,
+                                                              .w500,
                                                           color: Colors.grey,
                                                         ),),
 
@@ -683,7 +683,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
-                                                            .w600,
+                                                            .w500,
                                                       ),),
                                                       Spacer(),
                                                       Text(totalRefunds.round()
@@ -691,7 +691,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
-                                                            .w600,
+                                                            .w500,
                                                         color: Colors.grey,
                                                       ),
                                                       ),
@@ -827,14 +827,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
-                                                            .w600,
+                                                            .w500,
                                                       ),),
                                                       Spacer(),
                                                       Text(address, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
-                                                            .w600,
+                                                            .w500,
                                                         color: Colors.grey,
                                                       ),),
 
@@ -1239,7 +1239,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         child: Text(
                                                             textSetPurchasedOrders,
                                                             style: TextStyle(
-                                                              fontWeight: FontWeight.w600,
+                                                              fontWeight: FontWeight.w500,
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
@@ -1523,7 +1523,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                 ),),
                                                                 Spacer(),
                                                                 Text('MMK ' +
@@ -1536,7 +1536,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                     color: Colors.grey,
                                                                   ),),
 
@@ -1559,7 +1559,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(totalRefunds.round()
@@ -1567,7 +1567,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                   color: Colors.grey,
                                                                 ),
                                                                 ),
@@ -1703,14 +1703,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(address, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                   color: Colors.grey,
                                                                 ),),
 
