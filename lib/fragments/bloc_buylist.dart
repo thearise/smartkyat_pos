@@ -2000,17 +2000,17 @@ class _BlocBuyListState extends State<BlocBuyList> {
   bottomBox() {
     if(noFind) {
       return SliverToBoxAdapter(child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
         child: Center(child: Text('No filter found', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
       ));
     } else if (endOfResult) {
       return SliverToBoxAdapter(child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
         child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
       ));
     } else {
       return SliverAppBar(
-        toolbarHeight: 30,
+        toolbarHeight: 38,
         elevation: 0,
         backgroundColor: Colors.white,
         // Provide a standard title.
