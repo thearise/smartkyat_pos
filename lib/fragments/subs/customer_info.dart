@@ -453,7 +453,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                        children: [
                                          Padding(
                                            padding: const EdgeInsets.only(
-                                               right: 10.0),
+                                               right: 0.0),
                                            child: Row(
                                              children: [
                                                FlatButton(
@@ -528,7 +528,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                            child: ListView(
                                              scrollDirection: Axis.horizontal,
                                              children: [
-                                               // SizedBox(width: 10),
+                                                SizedBox(width: 10),
                                                FlatButton(
                                                  minWidth: 0,
                                                  padding: EdgeInsets.only(
@@ -1409,7 +1409,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             textSetPurchasedOrders,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight
-                                                                  .w600,
+                                                                  .w500,
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
@@ -1724,7 +1724,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                   ),),
                                                                 Spacer(),
                                                                 Text('MMK ' +
@@ -1738,7 +1738,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                     color: Colors
                                                                         .grey,
                                                                   ),),
@@ -1764,7 +1764,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                   ),),
                                                                 Spacer(),
                                                                 Text(totalRefunds
@@ -1774,7 +1774,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                     color: Colors
                                                                         .grey,
                                                                   ),
@@ -1922,7 +1922,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                   ),),
                                                                 Spacer(),
                                                                 Text(
@@ -1930,7 +1930,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
-                                                                      .w600,
+                                                                      .w500,
                                                                   color: Colors
                                                                       .grey,
                                                                 ),),
