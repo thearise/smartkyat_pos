@@ -156,8 +156,8 @@ class _BuyListInfoState extends State<BuyListInfo>
           textSetDebt = 'ကျန်ငွေ';
           textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
-          textSetRefBtn = 'ပြန်ပေးပစ္စည်းထည့်ရန်';
-          textSetPayCashBtn = 'ကျန်ငွေပေးချေ';
+          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
           textSetPrint = 'ဘောင်ချာထုတ်ရန်';
           textSetPercent = 'Percentage';
           textSetAllRefund = 'All Items Refunded';
@@ -438,37 +438,34 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Stack(
                                                         children: [
-                                                          Container(
-                                                            height: 40,
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                              child: Icon(
-                                                                SmartKyat_POS.product,
-                                                                size: 18,
-                                                              ),
+                                                          Positioned(
+                                                            top: 15,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              SmartKyat_POS.product,
+                                                              size: 18,
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 6),
-                                                              child: Container(
-                                                                child: Text(
-                                                                    textSetRefBtn,
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
-                                                                ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetRefBtn,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ),
@@ -511,37 +508,34 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Stack(
                                                         children: [
-                                                          Container(
-                                                            height: 40,
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                              child: Icon(
-                                                                SmartKyat_POS.pay,
-                                                                size: 22,
-                                                              ),
+                                                          Positioned(
+                                                            top: 15,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              SmartKyat_POS.pay,
+                                                              size: 22,
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 6),
-                                                              child: Container(
-                                                                child: Text(
-                                                                    textSetPayCashBtn,
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
-                                                                ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetPayCashBtn,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ),
@@ -601,37 +595,34 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Stack(
                                                         children: [
-                                                          Container(
-                                                            height: 40,
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                              child: Icon(
-                                                                Icons.print_rounded,
-                                                                size: 23,
-                                                              ),
+                                                          Positioned(
+                                                            top: 15,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              Icons.print_rounded,
+                                                              size: 23,
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 6),
-                                                              child: Container(
-                                                                child: Text(
-                                                                    textSetPrint,
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
-                                                                ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetPrint,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ),
@@ -671,7 +662,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       child: Stack(
                                                         children: [
                                                           Positioned(
-                                                            top: 17,
+                                                            top: 15,
                                                             left: 0,
                                                             child: Icon(
                                                               SmartKyat_POS.product,
@@ -681,18 +672,22 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           Positioned(
                                                             bottom: 15,
                                                             left: 0,
-                                                            child: Text(
-                                                                textSetRefBtn,
-                                                                maxLines: 2,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 16,
-                                                                ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: isEnglish? 1.4: 1.6,
-                                                                  forceStrutHeight: true,
-                                                                )
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetRefBtn,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
+                                                              ),
                                                             ),
                                                           ),
                                                         ],
@@ -719,37 +714,34 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Stack(
                                                         children: [
-                                                          Container(
-                                                            height: 40,
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                              child: Icon(
-                                                                SmartKyat_POS.pay,
-                                                                size: 22,
-                                                              ),
+                                                          Positioned(
+                                                            top: 15,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              SmartKyat_POS.pay,
+                                                              size: 22,
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 6),
-                                                              child: Container(
-                                                                child: Text(
-                                                                    textSetPayCashBtn,
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
-                                                                ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetPayCashBtn,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ),
@@ -813,37 +805,34 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     child: Container(
                                                       width: 100,
                                                       height: 100,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Stack(
                                                         children: [
-                                                          Container(
-                                                            height: 40,
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                              child: Icon(
-                                                                Icons.print_rounded,
-                                                                size: 23,
-                                                              ),
+                                                          Positioned(
+                                                            top: 15,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              Icons.print_rounded,
+                                                              size: 23,
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 6),
-                                                              child: Container(
-                                                                child: Text(
-                                                                    textSetPrint,
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: isEnglish? 1.4: 1.6,
-                                                                      forceStrutHeight: true,
-                                                                    )
-                                                                ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Container(
+                                                              width: 80,
+                                                              child: Text(
+                                                                  textSetPrint,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight
+                                                                        .w600,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                  strutStyle: StrutStyle(
+                                                                    height: widget.isEnglish
+                                                                        ? 1.4
+                                                                        : 1.6,
+                                                                    forceStrutHeight: true,
+                                                                  )
                                                               ),
                                                             ),
                                                           ),
