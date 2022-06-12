@@ -285,9 +285,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 }
                               } else if(cateScIndex == 1) {
                                 if(i1Clicked) {
-                                  prods = sortMapByImS(prods);
-                                } else {
                                   prods = sortMapByImR(prods);
+                                } else {
+                                  prods = sortMapByImS(prods);
                                 }
                               }
 
@@ -330,9 +330,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 }
                               } else if(cateScIndex == 1) {
                                 if(i1Clicked) {
-                                  resProds = sortMapByImS(resProds);
-                                } else {
                                   resProds = sortMapByImR(resProds);
+                                } else {
+                                  resProds = sortMapByImS(resProds);
                                 }
                               } }
                               return CustomScrollView(
