@@ -4764,7 +4764,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             children: [
                               Container(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 15.0),
+                                    padding: const EdgeInsets.only(top: 10.0),
                                     child: Text(
                                       'End of results',
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
