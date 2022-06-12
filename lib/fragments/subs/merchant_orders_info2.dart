@@ -547,10 +547,15 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 color: AppTheme.badgeBgSuccess,
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                child: Text('Paid',
+                                                padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.25,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.white
                                                   ),
@@ -569,10 +574,15 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 color: AppTheme.badgeFgDangerLight,
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                child: Text('Partially paid',
+                                                padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.25,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
                                                       color: AppTheme.badgeFgDanger
                                                   ),
@@ -590,10 +600,15 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 color: AppTheme.badgeFgDanger,
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                child: Text('Unpaid',
+                                                padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.25,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.white
                                                   ),
@@ -611,10 +626,15 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 color: AppTheme.badgeBgSecond,
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                child: Text('Refunded',
+                                                padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.25,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.white
                                                   ),
@@ -633,10 +653,15 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 color: AppTheme.badgeBgSecondLight,
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                child: Text('Partially refunded',
+                                                padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.25,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
                                                       color: AppTheme.badgeBgSecond
                                                   ),
