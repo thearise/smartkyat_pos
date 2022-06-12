@@ -101,6 +101,7 @@ class MerchantCartState extends State<MerchantCart>
   String textSetDebt = 'Unpaid amount';
   String textSetRefund = 'Cash refund';
   String textSetDone = 'Done';
+  String textSetTSale = 'Total Buy';
 
 
   @override
@@ -128,16 +129,17 @@ class MerchantCartState extends State<MerchantCart>
           textSetClearCart = 'Clear cart';
           textSetDiscount = 'Discount';
           textSetNoMerchant = 'No merchant';
-          textSetTotalSale = 'Total sale';
+          textSetTotalSale = 'Total buy';
           textSetCheckout = 'Checkout';
           textSetAmountApplied = 'Amount applied';
           textSetPercent = 'Percentage';
-          textSetCashAccept = 'Cash acceptance';
-          textSetCashRev = 'CASH RECEIVED';
+          textSetCashAccept = 'Payment';
+          textSetCashRev = 'CASH PAID';
           textSetCustom = 'Custom amount';
           textSetDebt = 'Unpaid amount';
           textSetRefund = 'Cash refund';
           textSetDone = 'Done';
+          textSetTSale = 'Total buy';
         });
       }
       else {
@@ -147,15 +149,16 @@ class MerchantCartState extends State<MerchantCart>
           textSetDiscount = 'လျော့ဈေး';
           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
-          textSetCheckout = 'ငွေရှင်းမည်';
+          textSetCheckout = 'ဝယ်မည်';
           textSetAmountApplied = 'Amount applied';
           textSetPercent = 'Percentage';
-          textSetCashAccept = 'Cash acceptance';
-          textSetCashRev = 'CASH RECEIVED';
-          textSetCustom = 'Custom amount';
-          textSetDebt = 'Unpaid amount';
+          textSetCashAccept = 'ပေးချေရန်';
+          textSetCashRev = 'ငွေပေးချေ';
+          textSetCustom ='စိတ်ကြိုက် ပမာဏ';
+          textSetDebt = 'ကျန်ငွေ';
           textSetRefund = 'Cash refund';
           textSetDone = 'ငွေရှင်းမည်';
+          textSetTSale = 'စုစုပေါင်း';
         });
       }
     deviceIdNum = widget.deviceId;
@@ -543,15 +546,15 @@ class MerchantCartState extends State<MerchantCart>
                                           child: Container(
                                               child: Text(
                                                 textSetClearCart,
-                                                textScaleFactor: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
+                                                  // height: 1.3,
+                                                    fontSize: 17.5,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                ),
                                                 strutStyle: StrutStyle(
-                                                  height: 1.3,
-                                                  // fontSize:,
+                                                  height: 1.22,
                                                   forceStrutHeight: true,
                                                 ),
                                               )),
@@ -823,15 +826,15 @@ class MerchantCartState extends State<MerchantCart>
                                           child: Container(
                                               child: Text(
                                                 textSetDiscount,
-                                                textScaleFactor: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
+                                                  // height: 1.3,
+                                                    fontSize: 17.5,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                ),
                                                 strutStyle: StrutStyle(
-                                                  height: 1.3,
-                                                  // fontSize:,
+                                                  height: 1.22,
                                                   forceStrutHeight: true,
                                                 ),
                                               )),
@@ -1101,15 +1104,15 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Container(
                                             child: Text(
                                               textSetCheckout,
-                                              textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
+                                                 // height: 1.3,
+                                                  fontSize: 17.5,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                              ),
                                               strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
+                                                height: 1.22,
                                                 forceStrutHeight: true,
                                               ),
                                             )
@@ -1152,15 +1155,15 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Container(
                                             child: Text(
                                               textSetCheckout,
-                                              textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
+                                                // height: 1.3,
+                                                  fontSize: 17.5,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                              ),
                                               strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
+                                                height: 1.22,
                                                 forceStrutHeight: true,
                                               ),
                                             )
@@ -2291,7 +2294,7 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('Total sale - $currencyUnit',
+                                          Text('$textSetTSale - $currencyUnit',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 20,
@@ -2819,15 +2822,15 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Container(
                                           child: Text(
                                             textSetDone,
-                                            textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
+                                              // height: 1.3,
+                                                fontSize: 17.5,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black
+                                            ),
                                             strutStyle: StrutStyle(
-                                              height: 1.3,
-                                              // fontSize:,
+                                              height: 1.22,
                                               forceStrutHeight: true,
                                             ),
                                           ),
