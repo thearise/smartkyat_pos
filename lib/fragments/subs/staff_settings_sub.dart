@@ -454,569 +454,564 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                   ),
                 ),
               ),
-              Expanded(
-                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    stream: shopSnapshot,
-                    builder: (context, snapshot) {
-                      if(snapshot.hasData) {
-                        var output = snapshot.data != null? snapshot.data!.data(): null;
-                        int staffCount = output?['users'].length;
-                        debugPrint('staff ' + staffCount.toString() + output?['plan_type']);
-                        var usersList = output?['users'];
-                        return ListView(
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                child: Text(textSetList, style: TextStyle(
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,color: Colors.grey,
+                )),
+              ),
+              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: shopSnapshot,
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
+                      var output = snapshot.data != null? snapshot.data!.data(): null;
+                      int staffCount = output?['users'].length;
+                      debugPrint('staff ' + staffCount.toString() + output?['plan_type']);
+                      var usersList = output?['users'];
+                      return Expanded(
+                        child: !isLoading?
+                      Container(
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                              child: Text(textSetList, style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,color: Colors.grey,
-                              )),
-                            ),
                             addStaffBtn(output?['plan_type'], staffCount),
-
                             SizedBox(height: 10,),
-                            !isLoading?
-                            Container(
-                              child: Column(
-                                children: [
-                                  for (int i = 0;
-                                  i < usersList.length;
-                                  i++)
-                                  // if((FirebaseAuth.instance.currentUser == null? '':FirebaseAuth.instance.currentUser!.email) != usersList[i].toString())
-                                  //   if( ownerEmail != usersList[i].toString())
-                                    if( ownerEmail != usersList[i].toString())
-                                      Padding(
-                                        padding: EdgeInsets.only(left: i == usersList.length-1? 0.0:15.0),
-                                        child: Container(
-                                          height: 65,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    color: i == usersList.length-1? Colors.transparent: AppTheme.skBorderColor2,
-                                                    width: 1.0),
-                                              )
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 4.0),
-                                            child: StreamBuilder(
-                                                stream: FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .where('email', isEqualTo: usersList[i].toString())
-                                                //.where('email', isNotEqualTo: ownerEmail.toString())
-                                                    .limit(1)
-                                                    .snapshots(),
-                                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                  debugPrint('check1 ' + usersList[i].toString());
-                                                  if(snapshot2.hasData) {
+                            for (int i = 0;
+                            i < usersList.length;
+                            i++)
+                            // if((FirebaseAuth.instance.currentUser == null? '':FirebaseAuth.instance.currentUser!.email) != usersList[i].toString())
+                            //   if( ownerEmail != usersList[i].toString())
+                              if( ownerEmail != usersList[i].toString())
+                                Padding(
+                                  padding: EdgeInsets.only(left: i == usersList.length-1? 0.0:15.0),
+                                  child: Container(
+                                    height: 65,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              color: i == usersList.length-1? Colors.transparent: AppTheme.skBorderColor2,
+                                              width: 1.0),
+                                        )
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 4.0),
+                                      child: StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('users')
+                                              .where('email', isEqualTo: usersList[i].toString())
+                                          //.where('email', isNotEqualTo: ownerEmail.toString())
+                                              .limit(1)
+                                              .snapshots(),
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                            debugPrint('check1 ' + usersList[i].toString());
+                                            if(snapshot2.hasData) {
 
-                                                    debugPrint('getOwnerrr' + ownerEmail.toString());
-                                                    debugPrint('hasData' + snapshot2.data!.docs.length.toString());
-                                                    if(snapshot2.data!.docs.length == 0) {
+                                              debugPrint('getOwnerrr' + ownerEmail.toString());
+                                              debugPrint('hasData' + snapshot2.data!.docs.length.toString());
+                                              if(snapshot2.data!.docs.length == 0) {
 
-                                                      // debugPrint('ownerrr' + ownerId.toString());
+                                                // debugPrint('ownerrr' + ownerId.toString());
 
-                                                      // return StreamBuilder(
-                                                      // stream: FirebaseFirestore.instance
-                                                      //     .collection('shops').doc(_result).collection('users')
-                                                      //     .where('email', isEqualTo: usersList[i].toString())
-                                                      //     .limit(1)
-                                                      //     .snapshots(),
-                                                      // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                                      //     if(snapshot3.hasData) {
-                                                      //       return Container(
-                                                      //         height: 50,
-                                                      //         child: Column(
-                                                      //             mainAxisAlignment: MainAxisAlignment.center,
-                                                      //             crossAxisAlignment: CrossAxisAlignment.center,
-                                                      //             children: [
-                                                      //               Container(
-                                                      //                 height: 45,
-                                                      //                 child: Row(
-                                                      //                   mainAxisAlignment: MainAxisAlignment.center,
-                                                      //                   crossAxisAlignment: CrossAxisAlignment.center,
-                                                      //                   children: [
-                                                      //                     SizedBox(
-                                                      //                       width: i == usersList.length-1? 15: 0,
-                                                      //                     ),
-                                                      //                     Column(
-                                                      //                       children: [
-                                                      //                         Text('Unknown user', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),),
-                                                      //                         Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                      //                       ],
-                                                      //                     ),
-                                                      //                     SizedBox(
-                                                      //                       width: 15,
-                                                      //                     ),
-                                                      //                     Container(
-                                                      //                       color: Colors.grey,
-                                                      //                       height: 45,
-                                                      //                       child: Padding(
-                                                      //                         padding: const EdgeInsets.only(top: 2.0),
-                                                      //                         child: IconButton(
-                                                      //                             icon: Icon(
-                                                      //                               Icons.remove_circle_rounded,
-                                                      //                               size: 18,
-                                                      //                               color: Colors.red,
-                                                      //                             ),
-                                                      //                             onPressed: () {
-                                                      //                               showOkCancelAlertDialog(
-                                                      //                                 context: context,
-                                                      //                                 title: 'Confirmation alert',
-                                                      //                                 message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
-                                                      //                                 defaultType: OkCancelAlertDefaultType.cancel,
-                                                      //                               ).then((result) async {
-                                                      //                                 if(result == OkCancelResult.ok) {
-                                                      //                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update(
-                                                      //                                       {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                      //                                   ).then((value) async {
-                                                      //                                     debugPrint('users removed');
-                                                      //                                   });
-                                                      //                                 }
-                                                      //                               }
-                                                      //                               );
-                                                      //                             }
-                                                      //                         ),
-                                                      //                       ),
-                                                      //                     ),
-                                                      //                   ],
-                                                      //                 ),
-                                                      //               )
-                                                      //             ]
-                                                      //         ),
-                                                      //       );
-                                                      //     }
-                                                      //     return Container();
-                                                      //   }
-                                                      // );
+                                                // return StreamBuilder(
+                                                // stream: FirebaseFirestore.instance
+                                                //     .collection('shops').doc(_result).collection('users')
+                                                //     .where('email', isEqualTo: usersList[i].toString())
+                                                //     .limit(1)
+                                                //     .snapshots(),
+                                                // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                //     if(snapshot3.hasData) {
+                                                //       return Container(
+                                                //         height: 50,
+                                                //         child: Column(
+                                                //             mainAxisAlignment: MainAxisAlignment.center,
+                                                //             crossAxisAlignment: CrossAxisAlignment.center,
+                                                //             children: [
+                                                //               Container(
+                                                //                 height: 45,
+                                                //                 child: Row(
+                                                //                   mainAxisAlignment: MainAxisAlignment.center,
+                                                //                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                //                   children: [
+                                                //                     SizedBox(
+                                                //                       width: i == usersList.length-1? 15: 0,
+                                                //                     ),
+                                                //                     Column(
+                                                //                       children: [
+                                                //                         Text('Unknown user', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),),
+                                                //                         Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                //                       ],
+                                                //                     ),
+                                                //                     SizedBox(
+                                                //                       width: 15,
+                                                //                     ),
+                                                //                     Container(
+                                                //                       color: Colors.grey,
+                                                //                       height: 45,
+                                                //                       child: Padding(
+                                                //                         padding: const EdgeInsets.only(top: 2.0),
+                                                //                         child: IconButton(
+                                                //                             icon: Icon(
+                                                //                               Icons.remove_circle_rounded,
+                                                //                               size: 18,
+                                                //                               color: Colors.red,
+                                                //                             ),
+                                                //                             onPressed: () {
+                                                //                               showOkCancelAlertDialog(
+                                                //                                 context: context,
+                                                //                                 title: 'Confirmation alert',
+                                                //                                 message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                //                                 defaultType: OkCancelAlertDefaultType.cancel,
+                                                //                               ).then((result) async {
+                                                //                                 if(result == OkCancelResult.ok) {
+                                                //                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                //                                       {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                //                                   ).then((value) async {
+                                                //                                     debugPrint('users removed');
+                                                //                                   });
+                                                //                                 }
+                                                //                               }
+                                                //                               );
+                                                //                             }
+                                                //                         ),
+                                                //                       ),
+                                                //                     ),
+                                                //                   ],
+                                                //                 ),
+                                                //               )
+                                                //             ]
+                                                //         ),
+                                                //       );
+                                                //     }
+                                                //     return Container();
+                                                //   }
+                                                // );
 
-                                                      return StreamBuilder(
-                                                          stream: FirebaseFirestore.instance
-                                                              .collection('shops').doc(_result).collection('users')
-                                                              .where('email', isEqualTo: usersList[i].toString())
-                                                              .limit(1)
-                                                              .snapshots(),
-                                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                                            if(snapshot3.hasData) {
-                                                              Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
-                                                              String userDocId = snapshot3.data!.docs[0].id.toString();
-                                                              var role = dataUser['role'];
+                                                return StreamBuilder(
+                                                    stream: FirebaseFirestore.instance
+                                                        .collection('shops').doc(_result).collection('users')
+                                                        .where('email', isEqualTo: usersList[i].toString())
+                                                        .limit(1)
+                                                        .snapshots(),
+                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                      if(snapshot3.hasData) {
+                                                        Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
+                                                        String userDocId = snapshot3.data!.docs[0].id.toString();
+                                                        var role = dataUser['role'];
 
-                                                              debugPrint('roooo 6' + role.toString());
-                                                              return Container(
-                                                                height: 65,
-                                                                child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                        debugPrint('roooo 6' + role.toString());
+                                                        return Container(
+                                                          height: 65,
+                                                          child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  height: 60,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
+                                                                      SizedBox(
+                                                                        width: i == usersList.length-1? 15: 0,
+                                                                      ),
                                                                       Container(
-                                                                        height: 60,
-                                                                        child: Row(
+                                                                        // color: Colors.grey,
+                                                                        height: 45,
+                                                                        width: 30,
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 13.0),
+                                                                          child: IconButton(
+                                                                              icon: Icon(
+                                                                                Icons.remove_circle_rounded,
+                                                                                size: 20,
+                                                                                color: Colors.red,
+                                                                              ),
+                                                                              onPressed: () async {
+                                                                                try {
+                                                                                  final result = await InternetAddress.lookup('google.com');
+                                                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                    showOkCancelAlertDialog(
+                                                                                      context: context,
+                                                                                      title: 'Confirmation alert',
+                                                                                      message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                                                      defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                    ).then((result) async {
+                                                                                      if(result == OkCancelResult.ok) {
+                                                                                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                        CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                        CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
+
+
+
+                                                                                        users_ver
+                                                                                            .where('email', isEqualTo: auth.currentUser!.email)
+                                                                                            .limit(1)
+                                                                                            .get()
+                                                                                            .then((QuerySnapshot userVerSnap) {
+
+                                                                                          WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                                          batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
+                                                                                          batch.delete(users.doc(userDocId));
+                                                                                          if(userVerSnap.docs.length != 0) {
+                                                                                            batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                          }
+
+                                                                                          batch.commit().then((value) {
+                                                                                            smartKyatFlash('Selected user is removed successfully.', 's');
+                                                                                          });
+
+                                                                                          // shops.doc(_result).update(
+                                                                                          //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                          // ).then((value) async {
+                                                                                          //   users.doc(userDocId)
+                                                                                          //       .delete()
+                                                                                          //       .then((value) {
+                                                                                          //     debugPrint('users removed');
+                                                                                          //   }).catchError((error) {
+                                                                                          //     users_ver.doc(userVerSnap.docs[0].id)
+                                                                                          //         .delete()
+                                                                                          //         .then((value) {
+                                                                                          //       debugPrint('users ver removed');
+                                                                                          //     }).catchError((error) {
+                                                                                          //     });
+                                                                                          //   });
+                                                                                          // });
+                                                                                        });
+
+                                                                                      }
+                                                                                    });
+                                                                                  }
+                                                                                } on SocketException catch (_) {
+                                                                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                }
+                                                                              }
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 10,
+                                                                      ),
+                                                                      Expanded(
+                                                                        child: Column(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: [
-                                                                            SizedBox(
-                                                                              width: i == usersList.length-1? 15: 0,
+                                                                            SizedBox(height: 11,),
+                                                                            Text(
+                                                                              'Unknown',
+                                                                              style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
+                                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
                                                                             ),
-                                                                            Container(
-                                                                              // color: Colors.grey,
-                                                                              height: 45,
-                                                                              width: 30,
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 13.0),
-                                                                                child: IconButton(
-                                                                                    icon: Icon(
-                                                                                      Icons.remove_circle_rounded,
-                                                                                      size: 20,
-                                                                                      color: Colors.red,
-                                                                                    ),
-                                                                                    onPressed: () async {
-                                                                                      try {
-                                                                                        final result = await InternetAddress.lookup('google.com');
-                                                                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                          showOkCancelAlertDialog(
-                                                                                            context: context,
-                                                                                            title: 'Confirmation alert',
-                                                                                            message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
-                                                                                            defaultType: OkCancelAlertDefaultType.cancel,
-                                                                                          ).then((result) async {
-                                                                                            if(result == OkCancelResult.ok) {
-                                                                                              CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                                                              CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                                              CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
-
-
-
-                                                                                              users_ver
-                                                                                                  .where('email', isEqualTo: auth.currentUser!.email)
-                                                                                                  .limit(1)
-                                                                                                  .get()
-                                                                                                  .then((QuerySnapshot userVerSnap) {
-
-                                                                                                WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                                                                batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
-                                                                                                batch.delete(users.doc(userDocId));
-                                                                                                if(userVerSnap.docs.length != 0) {
-                                                                                                  batch.delete(users_ver.doc(userVerSnap.docs[0].id));
-                                                                                                }
-
-                                                                                                batch.commit().then((value) {
-                                                                                                  smartKyatFlash('Selected user is removed successfully.', 's');
-                                                                                                });
-
-                                                                                                // shops.doc(_result).update(
-                                                                                                //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                                // ).then((value) async {
-                                                                                                //   users.doc(userDocId)
-                                                                                                //       .delete()
-                                                                                                //       .then((value) {
-                                                                                                //     debugPrint('users removed');
-                                                                                                //   }).catchError((error) {
-                                                                                                //     users_ver.doc(userVerSnap.docs[0].id)
-                                                                                                //         .delete()
-                                                                                                //         .then((value) {
-                                                                                                //       debugPrint('users ver removed');
-                                                                                                //     }).catchError((error) {
-                                                                                                //     });
-                                                                                                //   });
-                                                                                                // });
-                                                                                              });
-
-                                                                                            }
-                                                                                          });
-                                                                                        }
-                                                                                      } on SocketException catch (_) {
-                                                                                        smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                                                                      }
-                                                                                    }
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 10,
-                                                                            ),
-                                                                            Expanded(
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  SizedBox(height: 11,),
-                                                                                  Text(
-                                                                                    'Unknown',
-                                                                                    style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
-                                                                                    strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
-                                                                                  ),
-                                                                                  Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                                                  SizedBox(height: 10,),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 5,
-                                                                            ),
-                                                                            Center(
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5),
-                                                                                child: Container(
-                                                                                  height: 25,
-                                                                                  width: 75,
-                                                                                  child: ButtonTheme(
-                                                                                    // minWidth: 30,
-                                                                                    splashColor: Colors.transparent,
-                                                                                    // height: 35,
-                                                                                    child: FlatButton(
-                                                                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                                      color: AppTheme.buttonColor2,
-                                                                                      shape: RoundedRectangleBorder(
-                                                                                        borderRadius:
-                                                                                        BorderRadius.circular(8.0),
-                                                                                        side: BorderSide(
-                                                                                          color: AppTheme.buttonColor2,
-                                                                                        ),
-                                                                                      ),
-                                                                                      onPressed: () async {
-                                                                                        try {
-                                                                                          final result = await InternetAddress.lookup('google.com');
-                                                                                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                            _openSimpleItemPicker(context, permissionList, userDocId, usersList[i].toString(), role, 'Unknown');
-                                                                                          }
-                                                                                        } on SocketException catch (_) {
-                                                                                          smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                                                                        }
-                                                                                      },
-                                                                                      child: Container(
-                                                                                        child: Text(
-                                                                                          role == 'admin'? 'Admin': 'Cashier',
-                                                                                          textAlign: TextAlign.center,
-                                                                                          style: TextStyle(
-                                                                                            fontSize: 13,
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 15,
-                                                                            ),
+                                                                            Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                            SizedBox(height: 10,),
                                                                           ],
                                                                         ),
-                                                                      )
-                                                                    ]
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container();
-                                                          }
-                                                      );
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 5,
+                                                                      ),
+                                                                      Center(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 2.5),
+                                                                          child: Container(
+                                                                            height: 25,
+                                                                            width: 75,
+                                                                            child: ButtonTheme(
+                                                                              // minWidth: 30,
+                                                                              splashColor: Colors.transparent,
+                                                                              // height: 35,
+                                                                              child: FlatButton(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                                color: AppTheme.buttonColor2,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(8.0),
+                                                                                  side: BorderSide(
+                                                                                    color: AppTheme.buttonColor2,
+                                                                                  ),
+                                                                                ),
+                                                                                onPressed: () async {
+                                                                                  try {
+                                                                                    final result = await InternetAddress.lookup('google.com');
+                                                                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                      _openSimpleItemPicker(context, permissionList, userDocId, usersList[i].toString(), role, 'Unknown');
+                                                                                    }
+                                                                                  } on SocketException catch (_) {
+                                                                                    smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                  }
+                                                                                },
+                                                                                child: Container(
+                                                                                  child: Text(
+                                                                                    role == 'admin'? 'Admin': 'Cashier',
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 15,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ]
+                                                          ),
+                                                        );
+                                                      }
+                                                      return Container();
                                                     }
-                                                    return StreamBuilder(
-                                                        stream: FirebaseFirestore.instance
-                                                            .collection('shops').doc(_result).collection('users')
-                                                            .where('email', isEqualTo: usersList[i].toString())
-                                                        //.where('email', isNotEqualTo: ownerEmail.toString())
-                                                            .limit(1)
-                                                            .snapshots(),
-                                                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                                          if(snapshot3.hasData) {
-                                                            Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
-                                                            String userDocId = snapshot3.data!.docs[0].id.toString();
-                                                            var role = dataUser['role'];
-                                                            debugPrint('roooo ' + role.toString());
-                                                            return Container(
-                                                              height: 65,
-                                                              child: Column(
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  children: snapshot2.data!.docs.map((DocumentSnapshot document) {
-                                                                    debugPrint('hasData' + snapshot2.data!.docs.length.toString());
-                                                                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                                    debugPrint('email found ' + data.toString());
+                                                );
+                                              }
+                                              return StreamBuilder(
+                                                  stream: FirebaseFirestore.instance
+                                                      .collection('shops').doc(_result).collection('users')
+                                                      .where('email', isEqualTo: usersList[i].toString())
+                                                  //.where('email', isNotEqualTo: ownerEmail.toString())
+                                                      .limit(1)
+                                                      .snapshots(),
+                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                    if(snapshot3.hasData) {
+                                                      Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
+                                                      String userDocId = snapshot3.data!.docs[0].id.toString();
+                                                      var role = dataUser['role'];
+                                                      debugPrint('roooo ' + role.toString());
+                                                      return Container(
+                                                        height: 65,
+                                                        child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: snapshot2.data!.docs.map((DocumentSnapshot document) {
+                                                              debugPrint('hasData' + snapshot2.data!.docs.length.toString());
+                                                              Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                              debugPrint('email found ' + data.toString());
 
-                                                                    var _selectedTest;
-                                                                    List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+                                                              var _selectedTest;
+                                                              List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 
-                                                                    _dropdownTestItems = buildDropdownTestItems(_testList);
+                                                              _dropdownTestItems = buildDropdownTestItems(_testList);
 
-                                                                    return Container(
-                                                                      height: 60,
-                                                                      child: Row(
+                                                              return Container(
+                                                                height: 60,
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width: i == usersList.length-1? 15: 0,
+                                                                    ),
+                                                                    Container(
+                                                                      // color: Colors.grey,
+                                                                      height: 45,
+                                                                      width: 30,
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 13.0),
+                                                                        child: IconButton(
+                                                                            icon: Icon(
+                                                                              Icons.remove_circle_rounded,
+                                                                              size: 20,
+                                                                              color: Colors.red,
+                                                                            ),
+                                                                            onPressed: () async {
+                                                                              try {
+                                                                                final result = await InternetAddress.lookup('google.com');
+                                                                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                  showOkCancelAlertDialog(
+                                                                                    context: context,
+                                                                                    title: 'Confirmation alert',
+                                                                                    message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
+                                                                                    defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                  ).then((result) async {
+                                                                                    if(result == OkCancelResult.ok) {
+                                                                                      CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                      CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                      CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
+
+
+                                                                                      debugPrint('emailling check ' + usersList[i].toString());
+                                                                                      users_ver
+                                                                                          .where('email', isEqualTo: usersList[i].toString())
+                                                                                          .limit(1)
+                                                                                          .get()
+                                                                                          .then((QuerySnapshot userVerSnap) {
+
+                                                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                                        batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
+                                                                                        batch.delete(users.doc(userDocId));
+                                                                                        if(userVerSnap.docs.length != 0) {
+                                                                                          batch.delete(users_ver.doc(userVerSnap.docs[0].id));
+                                                                                        }
+
+
+                                                                                        batch.commit().then((value) {
+                                                                                          smartKyatFlash('Selected user is removed successfully.', 's');
+                                                                                        });
+
+                                                                                        // shops.doc(_result).update(
+                                                                                        //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                        // ).then((value) async {
+                                                                                        //   users.doc(userDocId)
+                                                                                        //       .delete()
+                                                                                        //       .then((value) {
+                                                                                        //     debugPrint('users removed');
+                                                                                        //   }).catchError((error) {
+                                                                                        //     users_ver.doc(userVerSnap.docs[0].id)
+                                                                                        //         .delete()
+                                                                                        //         .then((value) {
+                                                                                        //       debugPrint('users ver removed');
+                                                                                        //     }).catchError((error) {
+                                                                                        //     });
+                                                                                        //   });
+                                                                                        // });
+                                                                                      });
+
+                                                                                    }
+                                                                                  }
+                                                                                  );
+                                                                                }
+                                                                              } on SocketException catch (_) {
+                                                                                smartKyatFMod( context, 'Internet connection is required to take this action.', 'w');
+                                                                              }
+
+                                                                            }
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Expanded(
+                                                                      child: Column(
                                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: [
-                                                                          SizedBox(
-                                                                            width: i == usersList.length-1? 15: 0,
+                                                                          SizedBox(height: 11,),
+                                                                          Text(
+                                                                            data['name'],
+                                                                            style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,
+                                                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
                                                                           ),
-                                                                          Container(
-                                                                            // color: Colors.grey,
-                                                                            height: 45,
-                                                                            width: 30,
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.only(top: 13.0),
-                                                                              child: IconButton(
-                                                                                  icon: Icon(
-                                                                                    Icons.remove_circle_rounded,
-                                                                                    size: 20,
-                                                                                    color: Colors.red,
-                                                                                  ),
-                                                                                  onPressed: () async {
-                                                                                    try {
-                                                                                      final result = await InternetAddress.lookup('google.com');
-                                                                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                        showOkCancelAlertDialog(
-                                                                                          context: context,
-                                                                                          title: 'Confirmation alert',
-                                                                                          message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
-                                                                                          defaultType: OkCancelAlertDefaultType.cancel,
-                                                                                        ).then((result) async {
-                                                                                          if(result == OkCancelResult.ok) {
-                                                                                            CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                                                            CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                                            CollectionReference users_ver = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver');
-
-
-                                                                                            debugPrint('emailling check ' + usersList[i].toString());
-                                                                                            users_ver
-                                                                                                .where('email', isEqualTo: usersList[i].toString())
-                                                                                                .limit(1)
-                                                                                                .get()
-                                                                                                .then((QuerySnapshot userVerSnap) {
-
-                                                                                              WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                                                              batch.update(shops.doc(_result), {'users': FieldValue.arrayRemove([usersList[i].toString()]),});
-                                                                                              batch.delete(users.doc(userDocId));
-                                                                                              if(userVerSnap.docs.length != 0) {
-                                                                                                batch.delete(users_ver.doc(userVerSnap.docs[0].id));
-                                                                                              }
-
-
-                                                                                              batch.commit().then((value) {
-                                                                                                smartKyatFlash('Selected user is removed successfully.', 's');
-                                                                                              });
-
-                                                                                              // shops.doc(_result).update(
-                                                                                              //     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                              // ).then((value) async {
-                                                                                              //   users.doc(userDocId)
-                                                                                              //       .delete()
-                                                                                              //       .then((value) {
-                                                                                              //     debugPrint('users removed');
-                                                                                              //   }).catchError((error) {
-                                                                                              //     users_ver.doc(userVerSnap.docs[0].id)
-                                                                                              //         .delete()
-                                                                                              //         .then((value) {
-                                                                                              //       debugPrint('users ver removed');
-                                                                                              //     }).catchError((error) {
-                                                                                              //     });
-                                                                                              //   });
-                                                                                              // });
-                                                                                            });
-
-                                                                                          }
-                                                                                        }
-                                                                                        );
-                                                                                      }
-                                                                                    } on SocketException catch (_) {
-                                                                                      smartKyatFMod( context, 'Internet connection is required to take this action.', 'w');
-                                                                                    }
-
-                                                                                  }
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 10,
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Column(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                SizedBox(height: 11,),
-                                                                                Text(
-                                                                                  data['name'],
-                                                                                  style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,
-                                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
-                                                                                ),
-                                                                                Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                                                SizedBox(height: 10,),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 5,
-                                                                          ),
-                                                                          Center(
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.only(top: 2.5),
-                                                                              child: Container(
-                                                                                height: 25,
-                                                                                width: 75,
-                                                                                child: ButtonTheme(
-                                                                                  // minWidth: 30,
-                                                                                  splashColor: Colors.transparent,
-                                                                                  // height: 35,
-                                                                                  child: FlatButton(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                                    color: AppTheme.buttonColor2,
-                                                                                    shape: RoundedRectangleBorder(
-                                                                                      borderRadius:
-                                                                                      BorderRadius.circular(8.0),
-                                                                                      side: BorderSide(
-                                                                                        color: AppTheme.buttonColor2,
-                                                                                      ),
-                                                                                    ),
-                                                                                    onPressed: () async {
-                                                                                      try {
-                                                                                        final result = await InternetAddress.lookup('google.com');
-                                                                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                                                          // if (role == 'admin' && auth.currentUser!.email.toString() == ownerEmail) {
-                                                                                          // if (role == 'admin') {
-                                                                                          //   await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
-                                                                                          // } else {
-                                                                                          //   smartKyatFlash('You don\'t have permission to change this staff\'s permission.', 'w');
-                                                                                          // }
-                                                                                          _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
-                                                                                        }
-                                                                                      } on SocketException catch (_) {
-                                                                                        smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                                                                      }
-
-                                                                                      // debugPrint('resultPicker ' + resultPicker.toString());
-
-                                                                                      // _selectTab(0);
-                                                                                      // await FirebaseAuth.instance.signOut();
-                                                                                      // setStoreId('');
-                                                                                      // Navigator.of(context).pushReplacement(
-                                                                                      //   FadeRoute(page: Welcome()),
-                                                                                      // );
-                                                                                    },
-                                                                                    child: Container(
-                                                                                      child: Text(
-                                                                                        role == 'admin'? 'Admin': 'Cashier',
-                                                                                        textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 13,
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          overflow: TextOverflow.ellipsis
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 15,
-                                                                          ),
+                                                                          Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                          SizedBox(height: 10,),
                                                                         ],
                                                                       ),
-                                                                    );
-                                                                  }).toList()
-                                                              ),
-                                                            );
-                                                          }
-                                                          return Container();
-                                                        }
-                                                    );
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    Center(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 2.5),
+                                                                        child: Container(
+                                                                          height: 25,
+                                                                          width: 75,
+                                                                          child: ButtonTheme(
+                                                                            // minWidth: 30,
+                                                                            splashColor: Colors.transparent,
+                                                                            // height: 35,
+                                                                            child: FlatButton(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                              color: AppTheme.buttonColor2,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(8.0),
+                                                                                side: BorderSide(
+                                                                                  color: AppTheme.buttonColor2,
+                                                                                ),
+                                                                              ),
+                                                                              onPressed: () async {
+                                                                                try {
+                                                                                  final result = await InternetAddress.lookup('google.com');
+                                                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                    // if (role == 'admin' && auth.currentUser!.email.toString() == ownerEmail) {
+                                                                                    // if (role == 'admin') {
+                                                                                    //   await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
+                                                                                    // } else {
+                                                                                    //   smartKyatFlash('You don\'t have permission to change this staff\'s permission.', 'w');
+                                                                                    // }
+                                                                                    _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
+                                                                                  }
+                                                                                } on SocketException catch (_) {
+                                                                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                }
 
+                                                                                // debugPrint('resultPicker ' + resultPicker.toString());
+
+                                                                                // _selectTab(0);
+                                                                                // await FirebaseAuth.instance.signOut();
+                                                                                // setStoreId('');
+                                                                                // Navigator.of(context).pushReplacement(
+                                                                                //   FadeRoute(page: Welcome()),
+                                                                                // );
+                                                                              },
+                                                                              child: Container(
+                                                                                child: Text(
+                                                                                  role == 'admin'? 'Admin': 'Cashier',
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    overflow: TextOverflow.ellipsis
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 15,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }).toList()
+                                                        ),
+                                                      );
+                                                    }
+                                                    return Container();
                                                   }
-                                                  return Container();
-                                                  // return Column(
-                                                  //     mainAxisAlignment: MainAxisAlignment.center,
-                                                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                                                  //     children: [
-                                                  //       Text('Pending...', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),)
-                                                  //     ]
-                                                  // );
-                                                }
-                                            ),
-                                          ),
-                                        ),
+                                              );
+
+                                            }
+                                            return Container();
+                                            // return Column(
+                                            //     mainAxisAlignment: MainAxisAlignment.center,
+                                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                                            //     children: [
+                                            //       Text('Pending...', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),)
+                                            //     ]
+                                            // );
+                                          }
                                       ),
-                                ],
-                              ),
-                            ):
-                            Container(
-                              height: 100,
-                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                  child: CupertinoActivityIndicator(radius: 15,)),
-                            )
+                                    ),
+                                  ),
+                                ),
                           ],
-                        );
-                      }
-                      return Center(
+                        ),
+                      ):
+                      Container(
+                        height: 100,
                         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                             child: CupertinoActivityIndicator(radius: 15,)),
+                      ),
                       );
-
                     }
-                ),
+                    return Center(
+                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 15,)),
+                    );
+
+                  }
               ),
 
             ]
