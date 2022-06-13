@@ -54,6 +54,8 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
     return prefs.getString('lang');
   }
 
+  bool isLoading = true;
+
   @override
   initState() {
 
@@ -75,6 +77,15 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
       });
 
     });
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        setState(() {
+          isLoading = false;
+        });
+      });
+    });
+
     super.initState();
   }
 
@@ -261,6 +272,15 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                    child: Text('CHANGE SHOP', style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,color: Colors.grey,
+                    ),
+                    ),
+                  ),
                   StreamBuilder(
                       stream: FirebaseFirestore.instance.collection('shops')
                           .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
@@ -281,227 +301,368 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                         debugPrint('Own shop count ' + ownShopsCount.toString());
                         var index = 0;
                         return Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                                child: Text('CHANGE SHOP', style: TextStyle(
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,color: Colors.grey,
-                                ),
-                                ),
-                              ),
-                              StreamBuilder(
-                                  stream: FirebaseFirestore.instance.collection('users')
-                                      .where('email', isEqualTo: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
-                                      .limit(1)
-                                      .snapshots(),
-                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUsers) {
-                                    if(snapshotUsers.hasData) {
-                                      Map<String, dynamic> userData = snapshotUsers.data!.docs[0].data()! as Map<String, dynamic>;
-                                      debugPrint('userdocument ' + userData['plan_type'].toString());
-                                      if(userData['plan_type'] == 'basic' && ownShopsCount >= 5) {
-                                        return Container();
-                                      } else if(userData['plan_type'] == 'medium' && ownShopsCount >= 10) {
-                                        return Container();
-                                      } else {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                                          child: ButtonTheme(
-                                            minWidth: MediaQuery.of(context).size.width,
-                                            splashColor: Colors.transparent,
-                                            height: 50,
-                                            child: FlatButton(
-                                              color: AppTheme.buttonColor2,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(10.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.buttonColor2,
+                          child: !isLoading  ? Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                StreamBuilder(
+                                    stream: FirebaseFirestore.instance.collection('users')
+                                        .where('email', isEqualTo: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
+                                        .limit(1)
+                                        .snapshots(),
+                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUsers) {
+                                      if(snapshotUsers.hasData) {
+                                        Map<String, dynamic> userData = snapshotUsers.data!.docs[0].data()! as Map<String, dynamic>;
+                                        debugPrint('userdocument ' + userData['plan_type'].toString());
+                                        if(userData['plan_type'] == 'basic' && ownShopsCount >= 5) {
+                                          return Container();
+                                        } else if(userData['plan_type'] == 'medium' && ownShopsCount >= 10) {
+                                          return Container();
+                                        } else {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                            child: ButtonTheme(
+                                              minWidth: MediaQuery.of(context).size.width,
+                                              splashColor: Colors.transparent,
+                                              height: 50,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.buttonColor2,
+                                                  ),
                                                 ),
-                                              ),
-                                              onPressed: () async {
-                                                try {
-                                                  final result = await InternetAddress.lookup('google.com');
-                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => AddShopFromSetting()),);
+                                                onPressed: () async {
+                                                  try {
+                                                    final result = await InternetAddress.lookup('google.com');
+                                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => AddShopFromSetting()),);
+                                                    }
+                                                  } on SocketException catch (_) {
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                   }
-                                                } on SocketException catch (_) {
-                                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                }
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5.0,
-                                                    right: 5.0,
-                                                    bottom: 2.0),
-                                                child: Container(
-                                                  child: Text(
-                                                    textSetAddShop,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w600,
-                                                        letterSpacing:-0.1
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5.0,
+                                                      right: 5.0,
+                                                      bottom: 2.0),
+                                                  child: Container(
+                                                    child: Text(
+                                                      textSetAddShop,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w600,
+                                                          letterSpacing:-0.1
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
+                                          );
+                                        }
+
+                                      }
+                                      return Container();
+
+                                  }
+                                ),
+                                SizedBox(height: 20,),
+                                 Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: ListView(
+                                      // physics: NeverScrollableScrollPhysics(),
+                                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                        index++;
+                                        if(index == 1 && firstTime) {
+                                          // _result = document.id.toString();
+                                          // _shop= data['shop_name'];
+                                        }
+                                        firstTime = false;
+                                        return  Container(
+                                          height: 54,
+                                          margin: EdgeInsets.only(bottom: 17),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
+                                            color: Colors.white,
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(10.0)),
                                           ),
-                                        );
-                                      }
-
-                                    }
-                                    return Container();
-
-                                }
-                              ),
-                              SizedBox(height: 20,),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: ListView(
-                                    // physics: NeverScrollableScrollPhysics(),
-                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                      index++;
-                                      if(index == 1 && firstTime) {
-                                        // _result = document.id.toString();
-                                        // _shop= data['shop_name'];
-                                      }
-                                      firstTime = false;
-                                      return  Container(
-                                        height: 54,
-                                        margin: EdgeInsets.only(bottom: 17),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
-                                          color: Colors.white,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        child: RadioListTile(
-                                            dense: true,
-                                            contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 5, right: 15),
-                                            // title: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
-                                            title: Container(
-                                              // color: Colors.blue,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 0.0),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(child: Transform.translate(
-                                                      offset: Offset(-12, -1.1),
-                                                      child: Container(
-                                                        child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, textScaleFactor: 1,
-                                                          style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1.5,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                          child: RadioListTile(
+                                              dense: true,
+                                              contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 5, right: 15),
+                                              // title: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                              title: Container(
+                                                // color: Colors.blue,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(child: Transform.translate(
+                                                        offset: Offset(-12, -1.1),
+                                                        child: Container(
+                                                          child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, textScaleFactor: 1,
+                                                            style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1.5,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                            // strutStyle: StrutStyle(
+                                                            //   fontSize: 17.0,
+                                                            //   height: 2.1,
+                                                            // ),
                                                           ),
-                                                          // strutStyle: StrutStyle(
-                                                          //   fontSize: 17.0,
-                                                          //   height: 2.1,
-                                                          // ),
                                                         ),
-                                                      ),
-                                                    ),),
-                                                    data['owner_id'] == (FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())?
-                                                    Container(
-                                                      height: 23,
-                                                      width: 55,
-                                                      alignment: Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.all(
-                                                            Radius.circular(6.0),
-                                                          ),
-                                                          color: AppTheme.badgeBgSuccess),
-                                                      child: Text('Owner', style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 12,
-                                                          color: Colors.white
                                                       ),),
-                                                    ):
-                                                    Container(
-                                                      height: 23,
-                                                      width: 55,
-                                                      alignment: Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.all(
-                                                            Radius.circular(6.0),
-                                                          ),
-                                                          color: AppTheme.badgeBgSecond),
-                                                      child: Text('Staff', style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 12,
-                                                          color: Colors.white
-                                                      ),),
-                                                    )
-                                                  ],
+                                                      data['owner_id'] == (FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())?
+                                                      Container(
+                                                        height: 23,
+                                                        width: 55,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(6.0),
+                                                            ),
+                                                            color: AppTheme.badgeBgSuccess),
+                                                        child: Text('Owner', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.white
+                                                        ),),
+                                                      ):
+                                                      Container(
+                                                        height: 23,
+                                                        width: 55,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.all(
+                                                              Radius.circular(6.0),
+                                                            ),
+                                                            color: AppTheme.badgeBgSecond),
+                                                        child: Text('Staff', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.white
+                                                        ),),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            activeColor: AppTheme.themeColor,
-                                            value: document.id.toString(),
-                                            groupValue: _result,
-                                            onChanged: (value) async {
-                                              try {
-                                                final result = await InternetAddress.lookup('google.com');
-                                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                                  showOkCancelAlertDialog(
-                                                    context: context,
-                                                    title: 'Are you sure you want to switch to \n" ' + data['shop_name'].toString() + ' " ?',
-                                                    message: 'This action will restart the application',
-                                                    defaultType: OkCancelAlertDefaultType.cancel,
-                                                  ).then((result) async {
-                                                    if(result == OkCancelResult.ok) {
-                                                      var _val = value;
-                                                      homePageLoadingOn();
-                                                      setState(() {
-                                                        _shop= data['shop_name'];
-                                                        debugPrint(_result);
-                                                      });
+                                              activeColor: AppTheme.themeColor,
+                                              value: document.id.toString(),
+                                              groupValue: _result,
+                                              onChanged: (value) async {
+                                                try {
+                                                  final result = await InternetAddress.lookup('google.com');
+                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                    showOkCancelAlertDialog(
+                                                      context: context,
+                                                      title: 'Are you sure you want to switch to \n" ' + data['shop_name'].toString() + ' " ?',
+                                                      message: 'This action will restart the application',
+                                                      defaultType: OkCancelAlertDefaultType.cancel,
+                                                    ).then((result) async {
+                                                      if(result == OkCancelResult.ok) {
+                                                        var _val = value;
+                                                        homePageLoadingOn();
+                                                        setState(() {
+                                                          _shop= data['shop_name'];
+                                                          debugPrint(_result);
+                                                        });
 
-                                                      if(_val != null) {
-                                                        await FirebaseFirestore.instance.collection('shops').doc(_val.toString())
-                                                        // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-                                                            .get().then((value2) async {
-                                                          debugPrint('got it 2');
-                                                          var isPro = value2.data()!['is_pro'];
-                                                          String shopName = value2.data()!['shop_name'];
-                                                          Timestamp isProStart = isPro['start'];
-                                                          Timestamp isProEnd = isPro['end'];
-                                                          String ownerId = value2.data()!['owner_id'];
+                                                        if(_val != null) {
+                                                          await FirebaseFirestore.instance.collection('shops').doc(_val.toString())
+                                                          // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                              .get().then((value2) async {
+                                                            debugPrint('got it 2');
+                                                            var isPro = value2.data()!['is_pro'];
+                                                            String shopName = value2.data()!['shop_name'];
+                                                            Timestamp isProStart = isPro['start'];
+                                                            Timestamp isProEnd = isPro['end'];
+                                                            String ownerId = value2.data()!['owner_id'];
 
-                                                          DateTime startDate = isProStart.toDate();
-                                                          DateTime endDate = isProEnd.toDate();
-                                                          DateTime nowCheck = DateTime.now();
+                                                            DateTime startDate = isProStart.toDate();
+                                                            DateTime endDate = isProEnd.toDate();
+                                                            DateTime nowCheck = DateTime.now();
 
-                                                          if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
-                                                            homePageLoadingOff();
-                                                            Future.delayed(const Duration(milliseconds: 500), () {
-                                                              smartKyatFlash('$shopName shop pro version ended', 'e');
-                                                              // setState(() {
-                                                              //   loadingState = false;
-                                                              // });
-                                                            });
-                                                          } else {
-                                                            setState(() {
-                                                              _result = _val.toString();
-                                                            });
-                                                            debugPrint('working here ');
-                                                            if(ownerId == FirebaseAuth.instance.currentUser!.uid) {
-                                                              await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
-                                                                'email': FirebaseAuth.instance.currentUser!.email,
-                                                                'role': 'owner'
-                                                              }).then((value4) async {
+                                                            if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                                              homePageLoadingOff();
+                                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                                smartKyatFlash('$shopName shop pro version ended', 'e');
+                                                                // setState(() {
+                                                                //   loadingState = false;
+                                                                // });
+                                                              });
+                                                            } else {
+                                                              setState(() {
+                                                                _result = _val.toString();
+                                                              });
+                                                              debugPrint('working here ');
+                                                              if(ownerId == FirebaseAuth.instance.currentUser!.uid) {
+                                                                await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(FirebaseAuth.instance.currentUser!.email).set({
+                                                                  'email': FirebaseAuth.instance.currentUser!.email,
+                                                                  'role': 'owner'
+                                                                }).then((value4) async {
+                                                                  FirebaseFirestore.instance
+                                                                      .collection('shops')
+                                                                      .doc(_result)
+                                                                      .collection('users')
+                                                                      .doc(FirebaseAuth.instance.currentUser!.email).get().then((userEmailSnap) async {
+                                                                    if(userEmailSnap.exists) {
+                                                                      if(userEmailSnap.exists) {
+                                                                        debugPrint('working here 1');
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
+                                                                          'email': FirebaseAuth.instance.currentUser!.email,
+                                                                          'role': userEmailSnap.data()!['role']
+                                                                        }).then((value4) async {
+                                                                          debugPrint('working here 2');
+                                                                          _getId().then((value1) async {
+                                                                            debugPrint('IDD ' + value1.toString());
+                                                                            WriteBatch batch = FirebaseFirestore.instance.batch();
+
+                                                                            batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
+                                                                              'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                                            });
+
+                                                                            batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(FirebaseAuth.instance.currentUser!.email), {
+                                                                              'device0': await _getId(),
+                                                                            });
+
+                                                                            try {
+                                                                              batch.commit();
+                                                                              debugPrint('whating? what ');
+                                                                              // FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl').doc('ordsCnt')
+                                                                              //     .get().then((value) async {
+                                                                              //
+                                                                              // });
+                                                                              List<String> cntColFetch = ['', '', '', '', ''];
+                                                                              int loop = 0;
+                                                                              FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl')
+                                                                                  .get()
+                                                                                  .then((QuerySnapshot cntQuery)  async {
+                                                                                debugPrint('count checking ' + cntQuery.toString());
+                                                                                cntQuery.docs.forEach((doc) {
+                                                                                  try{
+                                                                                    if(doc['count'] == null) {
+                                                                                      cntColFetch[loop] = 'null';
+                                                                                    } else {
+                                                                                      cntColFetch[loop] = doc['count'].toString();
+                                                                                    }
+                                                                                    debugPrint('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
+                                                                                  } catch(error) {
+                                                                                    cntColFetch[loop] = 'null';
+                                                                                    debugPrint('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
+                                                                                  }
+
+
+
+                                                                                  if(loop == 4) {
+                                                                                    debugPrint('cntColFetch 3 ' + cntColFetch.toString());
+                                                                                    debugPrint('checking cond ' + cntColFetch.contains('1').toString());
+                                                                                    if(cntColFetch.contains('') || cntColFetch.contains('null')) {
+                                                                                      smartKyatFlash('Something went wrong. Please try again later', 'e');
+                                                                                      // setState(() {
+                                                                                      //   loadingState = false;
+                                                                                      // });
+
+                                                                                    } else {
+                                                                                      setStoreId(_result);
+                                                                                      List devicesList = value2.data()!['devices'];
+                                                                                      int? deviceIdNum;
+                                                                                      for(int i = 0; i < devicesList.length; i++) {
+                                                                                        if(devicesList[i] == value1.toString()) {
+                                                                                          debugPrint('DV LIST 54' + devicesList[i].toString());
+                                                                                          setState(() {
+                                                                                            deviceIdNum = i;
+                                                                                            debugPrint('DV LIST 2 32' + deviceIdNum.toString());
+                                                                                          });
+                                                                                        }
+                                                                                      }
+                                                                                      debugPrint('vola');
+                                                                                      showOkAlertDialog(
+                                                                                          context: context,
+                                                                                          title: 'Restart required',
+                                                                                          message: 'Selected shop\'s been switched successfully and please restart the application to enter your shop.'
+                                                                                      ).then((result) async {
+                                                                                        if (Platform.isAndroid) {
+                                                                                          SystemNavigator.pop();
+                                                                                        } else if (Platform.isIOS) {
+                                                                                          exit(0);
+                                                                                        }
+                                                                                      });
+                                                                                    }
+                                                                                  }
+                                                                                  loop++;
+                                                                                });
+
+                                                                              });
+
+                                                                              debugPrint('cntColFetch ' + cntColFetch.toString());
+
+
+                                                                            } catch (error) {
+
+                                                                            }
+
+                                                                            // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                                            //   'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                                            // }).then((value3) async {
+                                                                            //   debugPrint('got it 1');
+                                                                            //
+                                                                            //   debugPrint('got it 3');
+                                                                            //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                            //       .where('email', isEqualTo: auth.currentUser!.email)
+                                                                            //       .get()
+                                                                            //       .then((QuerySnapshot querySnapshot) async {
+                                                                            //     debugPrint('got it 4');
+                                                                            //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
+                                                                            //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                                            //       // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                                            //       'device0': await _getId(),
+                                                                            //     }).then((value3) async {
+                                                                            //       debugPrint('whating? what ');
+                                                                            //
+                                                                            //
+                                                                            //       setStoreId(_result);
+                                                                            //       List devicesList = value2.data()!['devices'];
+                                                                            //       int? deviceIdNum;
+                                                                            //       for(int i = 0; i < devicesList.length; i++) {
+                                                                            //         if(devicesList[i] == value1.toString()) {
+                                                                            //           debugPrint('DV LIST ' + devicesList[i].toString());
+                                                                            //           setState(() {
+                                                                            //             deviceIdNum = i;
+                                                                            //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
+                                                                            //           });
+                                                                            //         }
+                                                                            //       }
+                                                                            //       setDeviceId(deviceIdNum.toString()).then((value) {
+                                                                            //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                                            //         _getId().then((val) {
+                                                                            //           String deviceId = val!;
+                                                                            //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                                            //         });
+                                                                            //       });
+                                                                            //     });
+                                                                            //   });
+                                                                            // });
+                                                                          });
+                                                                        });
+                                                                      }
+                                                                    }
+                                                                  });
+                                                                });
+                                                              } else {
                                                                 FirebaseFirestore.instance
                                                                     .collection('shops')
                                                                     .doc(_result)
@@ -510,7 +671,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                   if(userEmailSnap.exists) {
                                                                     if(userEmailSnap.exists) {
                                                                       debugPrint('working here 1');
-                                                                      await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
+                                                                      FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
                                                                         'email': FirebaseAuth.instance.currentUser!.email,
                                                                         'role': userEmailSnap.data()!['role']
                                                                       }).then((value4) async {
@@ -570,14 +731,14 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                                     int? deviceIdNum;
                                                                                     for(int i = 0; i < devicesList.length; i++) {
                                                                                       if(devicesList[i] == value1.toString()) {
-                                                                                        debugPrint('DV LIST 54' + devicesList[i].toString());
+                                                                                        debugPrint('DV LIST fewjail ' + devicesList[i].toString());
                                                                                         setState(() {
                                                                                           deviceIdNum = i;
-                                                                                          debugPrint('DV LIST 2 32' + deviceIdNum.toString());
+                                                                                          debugPrint('DV LIST 2 jfeia ' + deviceIdNum.toString());
                                                                                         });
                                                                                       }
                                                                                     }
-                                                                                    debugPrint('vola');
+                                                                                    debugPrint('vola 3');
                                                                                     showOkAlertDialog(
                                                                                         context: context,
                                                                                         title: 'Restart required',
@@ -649,289 +810,149 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                                     }
                                                                   }
                                                                 });
-                                                              });
-                                                            } else {
-                                                              FirebaseFirestore.instance
-                                                                  .collection('shops')
-                                                                  .doc(_result)
-                                                                  .collection('users')
-                                                                  .doc(FirebaseAuth.instance.currentUser!.email).get().then((userEmailSnap) async {
-                                                                if(userEmailSnap.exists) {
-                                                                  if(userEmailSnap.exists) {
-                                                                    debugPrint('working here 1');
-                                                                    FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(FirebaseAuth.instance.currentUser!.uid).set({
-                                                                      'email': FirebaseAuth.instance.currentUser!.email,
-                                                                      'role': userEmailSnap.data()!['role']
-                                                                    }).then((value4) async {
-                                                                      debugPrint('working here 2');
-                                                                      _getId().then((value1) async {
-                                                                        debugPrint('IDD ' + value1.toString());
-                                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                                                                        batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
-                                                                          'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                                        });
-
-                                                                        batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(FirebaseAuth.instance.currentUser!.email), {
-                                                                          'device0': await _getId(),
-                                                                        });
-
-                                                                        try {
-                                                                          batch.commit();
-                                                                          debugPrint('whating? what ');
-                                                                          // FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl').doc('ordsCnt')
-                                                                          //     .get().then((value) async {
-                                                                          //
-                                                                          // });
-                                                                          List<String> cntColFetch = ['', '', '', '', ''];
-                                                                          int loop = 0;
-                                                                          FirebaseFirestore.instance.collection('shops').doc(_result).collection('countColl')
-                                                                              .get()
-                                                                              .then((QuerySnapshot cntQuery)  async {
-                                                                            debugPrint('count checking ' + cntQuery.toString());
-                                                                            cntQuery.docs.forEach((doc) {
-                                                                              try{
-                                                                                if(doc['count'] == null) {
-                                                                                  cntColFetch[loop] = 'null';
-                                                                                } else {
-                                                                                  cntColFetch[loop] = doc['count'].toString();
-                                                                                }
-                                                                                debugPrint('count checking inn ' + doc.id.toString() + ' ' + doc['count'].toString());
-                                                                              } catch(error) {
-                                                                                cntColFetch[loop] = 'null';
-                                                                                debugPrint('count checking inn23 ' + doc.id.toString() + ' ' + 'null'.toString());
-                                                                              }
-
-
-
-                                                                              if(loop == 4) {
-                                                                                debugPrint('cntColFetch 3 ' + cntColFetch.toString());
-                                                                                debugPrint('checking cond ' + cntColFetch.contains('1').toString());
-                                                                                if(cntColFetch.contains('') || cntColFetch.contains('null')) {
-                                                                                  smartKyatFlash('Something went wrong. Please try again later', 'e');
-                                                                                  // setState(() {
-                                                                                  //   loadingState = false;
-                                                                                  // });
-
-                                                                                } else {
-                                                                                  setStoreId(_result);
-                                                                                  List devicesList = value2.data()!['devices'];
-                                                                                  int? deviceIdNum;
-                                                                                  for(int i = 0; i < devicesList.length; i++) {
-                                                                                    if(devicesList[i] == value1.toString()) {
-                                                                                      debugPrint('DV LIST fewjail ' + devicesList[i].toString());
-                                                                                      setState(() {
-                                                                                        deviceIdNum = i;
-                                                                                        debugPrint('DV LIST 2 jfeia ' + deviceIdNum.toString());
-                                                                                      });
-                                                                                    }
-                                                                                  }
-                                                                                  debugPrint('vola 3');
-                                                                                  showOkAlertDialog(
-                                                                                      context: context,
-                                                                                      title: 'Restart required',
-                                                                                      message: 'Selected shop\'s been switched successfully and please restart the application to enter your shop.'
-                                                                                  ).then((result) async {
-                                                                                    if (Platform.isAndroid) {
-                                                                                      SystemNavigator.pop();
-                                                                                    } else if (Platform.isIOS) {
-                                                                                      exit(0);
-                                                                                    }
-                                                                                  });
-                                                                                }
-                                                                              }
-                                                                              loop++;
-                                                                            });
-
-                                                                          });
-
-                                                                          debugPrint('cntColFetch ' + cntColFetch.toString());
+                                                              }
+                                                              // FirebaseFirestore.instance.runTransaction((transaction) async {
+                                                              //   DocumentSnapshot userEmailSnap = await transaction.get(userDocEmail);
+                                                              //   if(userEmailSnap.exists) {
+                                                              //     // userEmailSnap.data()['role']
+                                                              //     var role = userEmailSnap.data() != null? userEmailSnap.data()['role']: '';
+                                                              //     debugPrint('working here 1');
+                                                              //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
+                                                              //       'email': auth.currentUser!.email,
+                                                              //       'role':
+                                                              //     }).then((value4) async {
+                                                              //       debugPrint('working here 2');
+                                                              //       _getId().then((value1) async {
+                                                              //         debugPrint('IDD ' + value1.toString());
+                                                              //         WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                              //
+                                                              //         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
+                                                              //           'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                              //         });
+                                                              //
+                                                              //         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email), {
+                                                              //           'device0': await _getId(),
+                                                              //         });
+                                                              //
+                                                              //         batch.commit().then((value) {
+                                                              //           debugPrint('whating? what ');
+                                                              //
+                                                              //
+                                                              //           setStoreId(_result);
+                                                              //           List devicesList = value2.data()!['devices'];
+                                                              //           int? deviceIdNum;
+                                                              //           for(int i = 0; i < devicesList.length; i++) {
+                                                              //             if(devicesList[i] == value1.toString()) {
+                                                              //               debugPrint('DV LIST ' + devicesList[i].toString());
+                                                              //               setState(() {
+                                                              //                 deviceIdNum = i;
+                                                              //                 debugPrint('DV LIST 2 ' + deviceIdNum.toString());
+                                                              //               });
+                                                              //             }
+                                                              //           }
+                                                              //           setDeviceId(deviceIdNum.toString()).then((value) {
+                                                              //             // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                              //             _getId().then((val) {
+                                                              //               String deviceId = val!;
+                                                              //               Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                              //             });
+                                                              //           });
+                                                              //         });
+                                                              //
+                                                              //         // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                                              //         //   'devices': FieldValue.arrayUnion([value1.toString()]),
+                                                              //         // }).then((value3) async {
+                                                              //         //   debugPrint('got it 1');
+                                                              //         //
+                                                              //         //   debugPrint('got it 3');
+                                                              //         //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                              //         //       .where('email', isEqualTo: auth.currentUser!.email)
+                                                              //         //       .get()
+                                                              //         //       .then((QuerySnapshot querySnapshot) async {
+                                                              //         //     debugPrint('got it 4');
+                                                              //         //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
+                                                              //         //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
+                                                              //         //       // 'device0': FieldValue.arrayUnion([await _getId()]),
+                                                              //         //       'device0': await _getId(),
+                                                              //         //     }).then((value3) async {
+                                                              //         //       debugPrint('whating? what ');
+                                                              //         //
+                                                              //         //
+                                                              //         //       setStoreId(_result);
+                                                              //         //       List devicesList = value2.data()!['devices'];
+                                                              //         //       int? deviceIdNum;
+                                                              //         //       for(int i = 0; i < devicesList.length; i++) {
+                                                              //         //         if(devicesList[i] == value1.toString()) {
+                                                              //         //           debugPrint('DV LIST ' + devicesList[i].toString());
+                                                              //         //           setState(() {
+                                                              //         //             deviceIdNum = i;
+                                                              //         //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
+                                                              //         //           });
+                                                              //         //         }
+                                                              //         //       }
+                                                              //         //       setDeviceId(deviceIdNum.toString()).then((value) {
+                                                              //         //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                                              //         //         _getId().then((val) {
+                                                              //         //           String deviceId = val!;
+                                                              //         //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                                                              //         //         });
+                                                              //         //       });
+                                                              //         //     });
+                                                              //         //   });
+                                                              //         // });
+                                                              //       });
+                                                              //     });
+                                                              //   }
+                                                              // });
 
 
-                                                                        } catch (error) {
 
-                                                                        }
-
-                                                                        // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                                                                        //   'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                                        // }).then((value3) async {
-                                                                        //   debugPrint('got it 1');
-                                                                        //
-                                                                        //   debugPrint('got it 3');
-                                                                        //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                                        //       .where('email', isEqualTo: auth.currentUser!.email)
-                                                                        //       .get()
-                                                                        //       .then((QuerySnapshot querySnapshot) async {
-                                                                        //     debugPrint('got it 4');
-                                                                        //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
-                                                                        //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
-                                                                        //       // 'device0': FieldValue.arrayUnion([await _getId()]),
-                                                                        //       'device0': await _getId(),
-                                                                        //     }).then((value3) async {
-                                                                        //       debugPrint('whating? what ');
-                                                                        //
-                                                                        //
-                                                                        //       setStoreId(_result);
-                                                                        //       List devicesList = value2.data()!['devices'];
-                                                                        //       int? deviceIdNum;
-                                                                        //       for(int i = 0; i < devicesList.length; i++) {
-                                                                        //         if(devicesList[i] == value1.toString()) {
-                                                                        //           debugPrint('DV LIST ' + devicesList[i].toString());
-                                                                        //           setState(() {
-                                                                        //             deviceIdNum = i;
-                                                                        //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
-                                                                        //           });
-                                                                        //         }
-                                                                        //       }
-                                                                        //       setDeviceId(deviceIdNum.toString()).then((value) {
-                                                                        //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                                        //         _getId().then((val) {
-                                                                        //           String deviceId = val!;
-                                                                        //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                                                                        //         });
-                                                                        //       });
-                                                                        //     });
-                                                                        //   });
-                                                                        // });
-                                                                      });
-                                                                    });
-                                                                  }
-                                                                }
-                                                              });
+                                                              // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                              //     .where('email', isEqualTo: auth.currentUser!.email)
+                                                              //     .limit(1)
+                                                              //     .get()
+                                                              //     .then((QuerySnapshot userSnap) async {
+                                                              //
+                                                              // });
                                                             }
-                                                            // FirebaseFirestore.instance.runTransaction((transaction) async {
-                                                            //   DocumentSnapshot userEmailSnap = await transaction.get(userDocEmail);
-                                                            //   if(userEmailSnap.exists) {
-                                                            //     // userEmailSnap.data()['role']
-                                                            //     var role = userEmailSnap.data() != null? userEmailSnap.data()['role']: '';
-                                                            //     debugPrint('working here 1');
-                                                            //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users_ver').doc(auth.currentUser!.uid).set({
-                                                            //       'email': auth.currentUser!.email,
-                                                            //       'role':
-                                                            //     }).then((value4) async {
-                                                            //       debugPrint('working here 2');
-                                                            //       _getId().then((value1) async {
-                                                            //         debugPrint('IDD ' + value1.toString());
-                                                            //         WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                            //
-                                                            //         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result), {
-                                                            //           'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                            //         });
-                                                            //
-                                                            //         batch.update(FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(auth.currentUser!.email), {
-                                                            //           'device0': await _getId(),
-                                                            //         });
-                                                            //
-                                                            //         batch.commit().then((value) {
-                                                            //           debugPrint('whating? what ');
-                                                            //
-                                                            //
-                                                            //           setStoreId(_result);
-                                                            //           List devicesList = value2.data()!['devices'];
-                                                            //           int? deviceIdNum;
-                                                            //           for(int i = 0; i < devicesList.length; i++) {
-                                                            //             if(devicesList[i] == value1.toString()) {
-                                                            //               debugPrint('DV LIST ' + devicesList[i].toString());
-                                                            //               setState(() {
-                                                            //                 deviceIdNum = i;
-                                                            //                 debugPrint('DV LIST 2 ' + deviceIdNum.toString());
-                                                            //               });
-                                                            //             }
-                                                            //           }
-                                                            //           setDeviceId(deviceIdNum.toString()).then((value) {
-                                                            //             // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                            //             _getId().then((val) {
-                                                            //               String deviceId = val!;
-                                                            //               Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                                                            //             });
-                                                            //           });
-                                                            //         });
-                                                            //
-                                                            //         // await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                                                            //         //   'devices': FieldValue.arrayUnion([value1.toString()]),
-                                                            //         // }).then((value3) async {
-                                                            //         //   debugPrint('got it 1');
-                                                            //         //
-                                                            //         //   debugPrint('got it 3');
-                                                            //         //   await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                            //         //       .where('email', isEqualTo: auth.currentUser!.email)
-                                                            //         //       .get()
-                                                            //         //       .then((QuerySnapshot querySnapshot) async {
-                                                            //         //     debugPrint('got it 4');
-                                                            //         //     debugPrint('shit ' + querySnapshot.docs[0].id.toString());
-                                                            //         //     await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(querySnapshot.docs[0].id).update({
-                                                            //         //       // 'device0': FieldValue.arrayUnion([await _getId()]),
-                                                            //         //       'device0': await _getId(),
-                                                            //         //     }).then((value3) async {
-                                                            //         //       debugPrint('whating? what ');
-                                                            //         //
-                                                            //         //
-                                                            //         //       setStoreId(_result);
-                                                            //         //       List devicesList = value2.data()!['devices'];
-                                                            //         //       int? deviceIdNum;
-                                                            //         //       for(int i = 0; i < devicesList.length; i++) {
-                                                            //         //         if(devicesList[i] == value1.toString()) {
-                                                            //         //           debugPrint('DV LIST ' + devicesList[i].toString());
-                                                            //         //           setState(() {
-                                                            //         //             deviceIdNum = i;
-                                                            //         //             debugPrint('DV LIST 2 ' + deviceIdNum.toString());
-                                                            //         //           });
-                                                            //         //         }
-                                                            //         //       }
-                                                            //         //       setDeviceId(deviceIdNum.toString()).then((value) {
-                                                            //         //         // Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                                            //         //         _getId().then((val) {
-                                                            //         //           String deviceId = val!;
-                                                            //         //           Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                                                            //         //         });
-                                                            //         //       });
-                                                            //         //     });
-                                                            //         //   });
-                                                            //         // });
-                                                            //       });
-                                                            //     });
-                                                            //   }
-                                                            // });
-
-
-
-                                                            // FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                            //     .where('email', isEqualTo: auth.currentUser!.email)
-                                                            //     .limit(1)
-                                                            //     .get()
-                                                            //     .then((QuerySnapshot userSnap) async {
-                                                            //
-                                                            // });
-                                                          }
-                                                        });
+                                                          });
 
 
 
 
 
+                                                        }
                                                       }
                                                     }
+                                                    );
                                                   }
-                                                  );
+                                                } on SocketException catch (_) {
+                                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                 }
-                                              } on SocketException catch (_) {
-                                                smartKyatFlash('Internet connection is required to take this action.', 'w');
+
+
                                               }
-
-
-                                            }
-                                        ),
-                                      );
-                                    }
-                                    ).toList(),
+                                          ),
+                                        );
+                                      }
+                                      ).toList(),
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
+                          ) :
+                          Container(
+                            height: 100,
+                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 15,)),
                           ),
                         );
                       }
-                      return Container();
+                      return Center(
+                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 15,)),
+                      );
                   }),
 
                   // StreamBuilder(
