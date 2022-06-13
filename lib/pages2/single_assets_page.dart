@@ -106,15 +106,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   closeOverAllSubLoading() {
     Navigator.pop(dialogContext);
   }
-
   String _getRegexString() =>
-      r'[1-9.][0-9.]*';
+      r'[0-9]+[,.]{0,1}[0-9]*';
 
   String _getNum() =>
-      r'[1-9][0-9]*';
-
-  String _getNumSubQty() =>
-      r'[0-9][0-9]*';
+      r'[0-9]';
 
   String currencyUnit = 'MMK';
 
@@ -3144,7 +3140,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               controller: priceController,
               keyboardType: TextInputType.numberWithOptions(decimal: false),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getNumSubQty())),],
+                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
               // The validator receives the text that the user has entered.
               validator: (value) {
                 // if (value == null || value.isEmpty) {
