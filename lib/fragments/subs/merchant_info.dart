@@ -248,62 +248,78 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                 children: [
                                  Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
-                                    child: ButtonTheme(
-                                      minWidth: 133,
-                                      //minWidth: 50,
-                                      splashColor: Colors.transparent,
-                                      height: 100,
-                                      child: FlatButton(
-                                        color: AppTheme.buttonColor2,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              7.0),
-                                          side: BorderSide(
-                                            color: AppTheme.buttonColor2,
-                                          ),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius:
+                                            BorderRadius
+                                                .circular(
+                                                7.0),
+                                            child: Container(
+                                                height: 100,
+                                                width: 133,
+                                                // color: AppTheme.themeColor
+                                                color: Color(0xFFdca409)
+                                            )
+                                          // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
                                         ),
-                                        onPressed: () async {
-                                          await widget._callback(
-                                              widget.id.toString() + '^' +
-                                                  merchantName);
-                                          smartKyatFlash(merchantName.toString() +
-                                              ' has been successfully added to the buy cart.',
-                                              's');
-                                        },
-                                        child: Container(
-                                          width: 100,
+                                        ButtonTheme(
+                                          minWidth: 133,
+                                          //minWidth: 50,
+                                          splashColor: Colors.transparent,
                                           height: 100,
-                                          child: Stack(
-                                            children: [
-                                              Positioned(
-                                                top: 16.5,
-                                                left: 0.5,
-                                                child: Icon(
-                                                  SmartKyat_POS.merchant,
-                                                  size: 19,
-                                                ),
+                                          child: FlatButton(
+                                            color: Colors.white.withOpacity(0.78),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(7.0),
+                                              side: BorderSide(
+                                                color: Colors.white.withOpacity(0.78),
                                               ),
-                                              Positioned(
-                                                bottom: 15,
-                                                left: 0,
-                                                child: Text(
-                                                    textSetSaleCart,
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 16,
+                                            ),
+                                            onPressed: () async {
+                                              await widget._callback(
+                                                  widget.id.toString() + '^' +
+                                                      merchantName);
+                                              smartKyatFlash(merchantName.toString() +
+                                                  ' has been successfully added to the buy cart.',
+                                                  's');
+                                            },
+                                            child: Container(
+                                              width: 100,
+                                              height: 100,
+                                              child: Stack(
+                                                children: [
+                                                  Positioned(
+                                                    top: 16.5,
+                                                    left: 0.5,
+                                                    child: Icon(
+                                                      SmartKyat_POS.merchant,
+                                                      size: 19,
                                                     ),
-                                                    strutStyle: StrutStyle(
-                                                      height: widget.isEnglish
-                                                          ? 1.4
-                                                          : 1.6,
-                                                      forceStrutHeight: true,
-                                                    )
-                                                ),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: 15,
+                                                    left: 0,
+                                                    child: Text(
+                                                        textSetSaleCart,
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 16,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: widget.isEnglish
+                                                              ? 1.4
+                                                              : 1.6,
+                                                          forceStrutHeight: true,
+                                                        )
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
                                   //SizedBox(width: 10),

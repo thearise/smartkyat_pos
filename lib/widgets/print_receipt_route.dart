@@ -382,6 +382,12 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
+
+                                          setState((){
+                                            loadingState = true;
+                                            disableTouch = true;
+
+                                          });
                                           var mergedImage;
 
                                           final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -425,7 +431,13 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                           // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
                                           _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
 
-                                          smartKyatFMod(context, 'Image Saved successfully.', 'i');
+                                          Future.delayed(const Duration(milliseconds: 2000), () {
+                                            setState((){
+                                              loadingState = false;
+                                              disableTouch = false;
+                                            });
+                                            smartKyatFlash('Image Saved successfully.', 's');
+                                          });
                                         },
                                         child: Container(
                                           width: MediaQuery.of(context).size.width > 900 ?  ((MediaQuery.of(context).size.width * (2 / 3.5))  - 45) * (3/4) :  (MediaQuery.of(context).size.width - 45) * (3/4),
@@ -447,7 +459,10 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                 Expanded(
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                    child: Container(
+                                                    child: loadingState ?  Center(
+                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                          child: CupertinoActivityIndicator(radius: 15,)),
+                                                    ) : Container(
                                                         child: Text(
                                                           'Save as image',
                                                           textAlign: TextAlign.center,

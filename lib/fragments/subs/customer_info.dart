@@ -246,116 +246,132 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                           Padding(
                                            padding: const EdgeInsets.only(
                                                right: 10.0),
-                                           child: ButtonTheme(
-                                             minWidth: 133,
-                                             //minWidth: 50,
-                                             splashColor: Colors.transparent,
-                                             height: 100,
-                                             child: FlatButton(
-                                               color: AppTheme.buttonColor2,
-                                               shape: RoundedRectangleBorder(
-                                                 borderRadius: BorderRadius
-                                                     .circular(7.0),
-                                                 side: BorderSide(
-                                                   color: AppTheme.buttonColor2,
-                                                 ),
+                                           child: Stack(
+                                             children: [
+                                               ClipRRect(
+                                                   borderRadius:
+                                                   BorderRadius
+                                                       .circular(
+                                                       7.0),
+                                                   child: Container(
+                                                       height: 100,
+                                                       width: 133,
+                                                       // color: AppTheme.themeColor
+                                                       color: Color(0xFFdca409)
+                                                   )
+                                                 // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
                                                ),
-                                               onPressed: () async {
-                                                 await widget._callback(
-                                                     widget.id.toString() +
-                                                         '^' + customerName);
-                                                 smartKyatFlash(
-                                                     customerName.toString() +
-                                                         ' has been successfully added to the sale cart.',
-                                                     's');
-                                               },
-                                               child: Container(
-                                                 width: 100,
+                                               ButtonTheme(
+                                                 minWidth: 133,
+                                                 //minWidth: 50,
+                                                 splashColor: Colors.transparent,
                                                  height: 100,
-                                                 child: Stack(
-                                                   children: [
-                                                     Positioned(
-                                                       top: 15,
-                                                       left: 0,
-                                                       child: Stack(
-                                                         children: [
-                                                           Padding(
-                                                             padding: const EdgeInsets
-                                                                 .only(
-                                                                 top: 7.0),
-                                                             child: Icon(
-                                                               SmartKyat_POS
-                                                                   .customer1,
-                                                               size: 15,
-                                                             ),
-                                                           ),
-                                                           Padding(
-                                                             padding: const EdgeInsets
-                                                                 .only(
-                                                                 left: 13.0,
-                                                                 top: 11.0),
-                                                             child: Icon(
-                                                               SmartKyat_POS
-                                                                   .customer2,
-                                                               size: 8,
-                                                             ),
-                                                           ),
-                                                           Padding(
-                                                             padding: const EdgeInsets
-                                                                 .only(
-                                                                 left: 4.0,
-                                                                 top: 4),
-                                                             child: Container(
-                                                               width: 7.5,
-                                                               height: 7,
-                                                               decoration: BoxDecoration(
-                                                                   borderRadius: BorderRadius
-                                                                       .circular(
-                                                                       10.0),
-                                                                   color: Colors
-                                                                       .black),
-                                                             ),
-                                                           ),
-                                                           Padding(
-                                                             padding: const EdgeInsets
-                                                                 .only(left: 13,
-                                                                 top: 7.5),
-                                                             child: Container(
-                                                               width: 5,
-                                                               height: 4.5,
-                                                               decoration: BoxDecoration(
-                                                                   borderRadius: BorderRadius
-                                                                       .circular(
-                                                                       10.0),
-                                                                   color: Colors
-                                                                       .black),
-                                                             ),
-                                                           )
-                                                         ],
-                                                       ),
+                                                 child: FlatButton(
+                                                   color: Colors.white.withOpacity(0.78),
+                                                   shape: RoundedRectangleBorder(
+                                                     borderRadius: BorderRadius.circular(7.0),
+                                                     side: BorderSide(
+                                                       color: Colors.white.withOpacity(0.78),
                                                      ),
-                                                     Positioned(
-                                                       bottom: 15,
-                                                       left: 0,
-                                                       child: Text(
-                                                           textSetSaleCart,
-                                                           style: TextStyle(
-                                                             fontWeight: FontWeight
-                                                                 .w600,
-                                                             fontSize: 16,
+                                                   ),
+                                                   onPressed: () async {
+                                                     await widget._callback(
+                                                         widget.id.toString() +
+                                                             '^' + customerName);
+                                                     smartKyatFlash(
+                                                         customerName.toString() +
+                                                             ' has been successfully added to the sale cart.',
+                                                         's');
+                                                   },
+                                                   child: Container(
+                                                     width: 100,
+                                                     height: 100,
+                                                     child: Stack(
+                                                       children: [
+                                                         Positioned(
+                                                           top: 15,
+                                                           left: 0,
+                                                           child: Stack(
+                                                             children: [
+                                                               Padding(
+                                                                 padding: const EdgeInsets
+                                                                     .only(
+                                                                     top: 7.0),
+                                                                 child: Icon(
+                                                                   SmartKyat_POS
+                                                                       .customer1,
+                                                                   size: 15,
+                                                                 ),
+                                                               ),
+                                                               Padding(
+                                                                 padding: const EdgeInsets
+                                                                     .only(
+                                                                     left: 13.0,
+                                                                     top: 11.0),
+                                                                 child: Icon(
+                                                                   SmartKyat_POS
+                                                                       .customer2,
+                                                                   size: 8,
+                                                                 ),
+                                                               ),
+                                                               Padding(
+                                                                 padding: const EdgeInsets
+                                                                     .only(
+                                                                     left: 4.0,
+                                                                     top: 4),
+                                                                 child: Container(
+                                                                   width: 7.5,
+                                                                   height: 7,
+                                                                   decoration: BoxDecoration(
+                                                                       borderRadius: BorderRadius
+                                                                           .circular(
+                                                                           10.0),
+                                                                       color: Colors
+                                                                           .black),
+                                                                 ),
+                                                               ),
+                                                               Padding(
+                                                                 padding: const EdgeInsets
+                                                                     .only(left: 13,
+                                                                     top: 7.5),
+                                                                 child: Container(
+                                                                   width: 5,
+                                                                   height: 4.5,
+                                                                   decoration: BoxDecoration(
+                                                                       borderRadius: BorderRadius
+                                                                           .circular(
+                                                                           10.0),
+                                                                       color: Colors
+                                                                           .black),
+                                                                 ),
+                                                               )
+                                                             ],
                                                            ),
-                                                           strutStyle: StrutStyle(
-                                                             height: widget.isEnglish
-                                                                 ? 1.4
-                                                                 : 1.6,
-                                                             forceStrutHeight: true,
-                                                           )
-                                                       ),
+                                                         ),
+                                                         Positioned(
+                                                           bottom: 15,
+                                                           left: 0,
+                                                           child: Text(
+                                                               textSetSaleCart,
+                                                               style: TextStyle(
+                                                                 fontWeight: FontWeight
+                                                                     .w600,
+                                                                 fontSize: 16,
+                                                               ),
+                                                               strutStyle: StrutStyle(
+                                                                 height: widget.isEnglish
+                                                                     ? 1.4
+                                                                     : 1.6,
+                                                                 forceStrutHeight: true,
+                                                               )
+                                                           ),
+                                                         ),
+                                                       ],
                                                      ),
-                                                   ],
+                                                   ),
                                                  ),
                                                ),
-                                             ),
+                                             ],
                                            ),
                                          ),
                                           ButtonTheme(

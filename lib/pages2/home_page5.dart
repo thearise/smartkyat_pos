@@ -111,7 +111,11 @@ class HomePageState extends State<HomePage>
 
   bool disableTouch = false;
 
+  bool saveLoading = false;
+
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  int tabletOrders = 0;
 
   //String finalTotal = '';
 
@@ -1188,7 +1192,7 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                 ),
                                                                 SizedBox(height: 5),
-                                                                Text('10,000 Kyats /month', style: TextStyle(
+                                                                Text('15,000 Kyats /month', style: TextStyle(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 14,
                                                                     letterSpacing: -0.3
@@ -1236,7 +1240,7 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                 ),
                                                                 SizedBox(height: 5),
-                                                                Text('8,000 Kyats /month', style: TextStyle(
+                                                                Text('12,000 Kyats /month', style: TextStyle(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 14,
                                                                     letterSpacing: -0.3
@@ -1284,7 +1288,7 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                 ),
                                                                 SizedBox(height: 5),
-                                                                Text('7,000 Kyats /month', style: TextStyle(
+                                                                Text('10,500 Kyats /month', style: TextStyle(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 14,
                                                                     letterSpacing: -0.3
@@ -4307,6 +4311,10 @@ class HomePageState extends State<HomePage>
                                                                                                     debugPrint('lengthsss' + length.toString());
                                                                                                     length = length + 1;
 
+                                                                                                    setState(() {
+                                                                                                      tabletOrders = length;
+                                                                                                    });
+
                                                                                                     debugPrint('CHECK POINT 0' + deviceIdNum.toString());
                                                                                                     debugPrint('CHECK POINT 1');
 
@@ -5349,6 +5357,10 @@ class HomePageState extends State<HomePage>
                                                                                             children: [
                                                                                               GestureDetector(
                                                                                                 onTap: () async {
+                                                                                                  setState((){
+                                                                                                    saveLoading = true;
+                                                                                                    disableTouch = true;
+                                                                                                  });
                                                                                                   final doc = await PdfDocument.openFile(pdfFile!.path);
                                                                                                   final pages = doc.pageCount;
                                                                                                   List<imglib.Image> images = [];
@@ -5389,7 +5401,15 @@ class HomePageState extends State<HomePage>
                                                                                                   // Save to album.
                                                                                                   // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
                                                                                                   _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
-                                                                                                },
+                                                                                                  Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                                    setState((){
+                                                                                                      saveLoading = false;
+                                                                                                      disableTouch = false;
+                                                                                                    });
+                                                                                                    smartKyatFlash('Image Saved successfully.', 's');
+
+                                                                                                  });
+                                                                                                  },
                                                                                                 child: Container(
                                                                                                   width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
                                                                                                   height: 50,
@@ -5410,7 +5430,10 @@ class HomePageState extends State<HomePage>
                                                                                                         Expanded(
                                                                                                           child: Padding(
                                                                                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
+                                                                                                            child: saveLoading ?  Center(
+                                                                                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                                                  child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                                            ) : Container(
                                                                                                                 child: Text(
                                                                                                                   textSetSaveImage,
                                                                                                                   textAlign: TextAlign.center,
@@ -5606,6 +5629,8 @@ class HomePageState extends State<HomePage>
                                                                                                     customerId = 'name^name';
                                                                                                     disText = '';
                                                                                                     isDiscount = '';
+                                                                                                    productSale = [];
+                                                                                                    saleInfo = '';
                                                                                                     // });
                                                                                                   });
                                                                                                   // _controller.animateTo(0);
@@ -5835,7 +5860,7 @@ class HomePageState extends State<HomePage>
                                                                                                               (Set<MaterialState> states) {
                                                                                                             if (states.contains(
                                                                                                                 MaterialState.pressed)) {
-                                                                                                              return AppTheme.themeColor.withOpacity(0.5);
+                                                                                                              return AppTheme.themeColor.withOpacity(0.1);
                                                                                                             }
                                                                                                             return AppTheme.themeColor;
                                                                                                           },
@@ -5872,21 +5897,6 @@ class HomePageState extends State<HomePage>
                                                                                 ],
                                                                               ),
                                                                             ),
-                                                                            // child: _devices.isEmpty
-                                                                            //     ? Center(child: Text(_devicesMsg ?? ''))
-                                                                            //     : ListView.builder(
-                                                                            //   itemCount: _devices.length,
-                                                                            //   itemBuilder: (c, i) {
-                                                                            //     return ListTile(
-                                                                            //       leading: Icon(Icons.print),
-                                                                            //       title: Text(_devices[i].name.toString()),
-                                                                            //       subtitle: Text(_devices[i].address.toString()),
-                                                                            //       onTap: () {
-                                                                            //         // _startdebugPrint(_devices[i]);
-                                                                            //       },
-                                                                            //     );
-                                                                            //   },
-                                                                            // )
                                                                           ),
                                                                           Align(
                                                                             alignment: Alignment.bottomCenter,
@@ -5938,20 +5948,22 @@ class HomePageState extends State<HomePage>
                                                                                             children: [
                                                                                               GestureDetector(
                                                                                                 onTap: () async {
-                                                                                                  // setState(() {
-                                                                                                  //   prodList = [];
-                                                                                                  //   discount = 0.0;
-                                                                                                  //   discountAmount =0.0;
-                                                                                                  //   debt =0;
-                                                                                                  //   refund =0;
-                                                                                                  //   customerId = 'name^name';
-                                                                                                  //   disText = '';
-                                                                                                  //   isDiscount = '';
-                                                                                                  // });
-                                                                                                  // _controller.animateTo(0);
-                                                                                                  // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                                  setState(() {
+                                                                                                    // mystate(()  {
+                                                                                                    prodList = [];
+                                                                                                    discount = 0.0;
+                                                                                                    discountAmount =0.0;
+                                                                                                    debt =0;
+                                                                                                    refund =0;
+                                                                                                    customerId = 'name^name';
+                                                                                                    disText = '';
+                                                                                                    isDiscount = '';
+                                                                                                    productSale = [];
+                                                                                                    saleInfo = '';
+                                                                                                    // });
+                                                                                                  });
 
-                                                                                                  _textFieldController.clear();
+                                                                                                //  _textFieldController.clear();
                                                                                                   _textFieldControllerTablet.clear();
                                                                                                   _controllerTablet.animateTo(0);
 
@@ -6599,6 +6611,10 @@ class HomePageState extends State<HomePage>
   late final SlidableController slidableController;
   addProduct(data) async {
     _controllerTablet.animateTo(0);
+    setState(() {
+      productSale = [];
+      saleInfo = '';
+    });
     debugPrint('added producting ' + data);
     String prod_name = data.split('^')[5];
     String unit_name = data.split('^')[6];
@@ -6654,6 +6670,8 @@ class HomePageState extends State<HomePage>
     _controllerTablet.animateTo(0);
     setState(() {
       customerId = data.toString();
+      productSale = [];
+      saleInfo = '';
     });
   }
 
@@ -7436,138 +7454,93 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> _onPrintReceipt() async {
+      final ReceiptSectionText receiptText = ReceiptSectionText();
+      receiptText.addSpacer(count: 1);
+      receiptText.addText(
+        shopGloName.toString(),
+        size: ReceiptTextSizeType.small,
+        style: ReceiptTextStyleType.bold,
+      );
+      receiptText.addText(
+        shopGloAddress,
+        size: ReceiptTextSizeType.extraextraSmall,
+      );
+      receiptText.addText(
+        shopGloPhone,
+        size: ReceiptTextSizeType.extraextraSmall,
+      );
+      receiptText.addSpacer(useDashed: true);
+      receiptText.addLeftText(
+        'Receipt info: ' + deviceIdNum.toString() + '-' + tabletOrders.toString(),
+        size: ReceiptTextSizeType.extraextraSmall,
+        style: ReceiptTextStyleType.bold,
+      );
+      receiptText.addLeftText(
+        'Name: ' + saleInfo.split('^')[3].toString(),
+        size: ReceiptTextSizeType.extraextraSmall,
+      );
+      var dateNow = DateTime.now();
+      final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+      receiptText.addLeftText(
+        'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
+        size: ReceiptTextSizeType.extraextraSmall,
+      );
+      receiptText.addTableList([['Items', 'Total']], '1rem', '500');
 
-    // final ReceiptSectionText receiptText = ReceiptSectionText();
+      List<List<String>> tableList = [];
 
-    final doc = await PdfDocument.openFile(pdfFile!.path);
-    final pages = doc.pageCount;
-    List<imglib.Image> images = [];
-
-// get images from all the pages
-    for (int i = 1; i <= pages; i++) {
-      var page = await doc.getPage(i);
-      var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-      var img = await imgPDF.createImageDetached();
-      var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-      var libImage = imglib.decodeImage(imgBytes!.buffer
-          .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-      images.add(libImage!);
-    }
-
-// stitch images
-    int totalHeight = 0;
-    images.forEach((e) {
-      totalHeight += e.height;
-    });
-    int totalWidth = 0;
-    images.forEach((element) {
-      totalWidth = totalWidth < element.width ? element.width : totalWidth;
-    });
-    mergedImage = imglib.Image(totalWidth, totalHeight);
-    int mergedHeight = 0;
-    images.forEach((element) {
-      imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-      mergedHeight += element.height;
-    });
-
-    // mergedImage!.readAsBytes().then((value ) async {
-    //   List<int> bytesList = value;
-    //   // await _bluePrintPos.printReceiptImage(bytesList);
-    //   receiptText.addImage(
-    //     base64.encode(Uint8List.view(logoBytes.buffer)),
-    //     width: 450,
-    //   );
-    // });
-
-    // imglib.Image gg;
-
-    // debugPrint('type check ' + mergedImage.runtimeType.toString());
-    // receiptText.addImage(
-    //   base64.encode(imglib.encodeJpg(mergedImage, quality: 600)),
-    //   width: 500,
-    // );
-
-    // receiptText.addLeftRightText(
-    //   'ငှက်ပျောသီး',
-    //   '30.000 $currencyUnit',
-    //   leftStyle: ReceiptTextStyleType.normal,
-    //   leftSize: ReceiptTextSizeType.small,
-    //   rightSize: ReceiptTextSizeType.small,
-    //   rightStyle: ReceiptTextStyleType.bold,
-    // );
-
-    // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
-
-    getPaperId().then((value) async {
-      debugPrint('VVAALLUUEE ' + value.toString());
-      int width = 570;
-      if(value == 'Roll-57') {
-        width = 413;
-      } else if(value == 'Roll-80') {
-        width = 570;
+      double sTotal = 0;
+      for(int i = 0; i <  productSale.length ; i++) {
+        List<String> innerLRList = ['', ''];
+        innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
+            productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
+            productSale[i].split('^')[3].toString() + ')';
+        innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
+        tableList.add(innerLRList);
+        sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
       }
-      await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-    });
-    // receiptText.addText(
-    //   'MY Shop Name',
-    //   size: ReceiptTextSizeType.medium,
-    //   style: ReceiptTextStyleType.bold,
-    // );
-    // receiptText.addText(
-    //   'သစ်သီဆိုင်',
-    //   size: ReceiptTextSizeType.small,
-    // );
-    // receiptText.addSpacer(useDashed: true);
-    // receiptText.addLeftRightText('Time', '04/06/21, 10:00');
-    // receiptText.addSpacer(useDashed: true);
-    // receiptText.addLeftRightText(
-    //   'ငှက်ပျောသီး',
-    //   '30.000 $currencyUnit',
-    //   leftStyle: ReceiptTextStyleType.normal,
-    //   leftSize: ReceiptTextSizeType.small,
-    //   rightSize: ReceiptTextSizeType.small,
-    //   rightStyle: ReceiptTextStyleType.bold,
-    // );
-    // // receiptText.addSpacer(useDashed: true);
-    // // receiptText.addLeftRightText(
-    // //   'ပန်းသီး',
-    // //   '30.000 $currencyUnit',
-    // //   leftStyle: ReceiptTextStyleType.normal,
-    // //   rightStyle: ReceiptTextStyleType.bold,
-    // //   leftSize: ReceiptTextSizeType.small,
-    // //   rightSize: ReceiptTextSizeType.small,
-    // // );
-    // // receiptText.addSpacer(useDashed: true);
-    // // receiptText.addLeftRightText(
-    // //   'လိမ္မော်သီး',
-    // //   'Cash',
-    // //   leftStyle: ReceiptTextStyleType.bold,
-    // //   leftSize: ReceiptTextSizeType.small,
-    // //   rightStyle: ReceiptTextStyleType.normal,
-    // // );
-    // receiptText.addSpacer(count: 2);
-    //
-    // await _bluePrintPos.printReceiptText(receiptText,);
-    //
-    // List<int> bytesList = pdfFile!.readAsBytes();
+      double disAmt = 0.0;
+      if(saleInfo.split('^')[1].toString() == '-p') {
+        disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
+      } else {disAmt = double.parse(saleInfo.split('^')[0]);}
+      receiptText.addTableList(tableList, '1rem', 'normal');
+      // //  receiptText.addSpacer(count: 1);
+      receiptText.addSpacer(useDashed: true);
+      receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+      receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+      receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+      receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+      receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+      receiptText.addSpacer(emptyLine: true);
+      receiptText.addText(
+        'ကျေးဇူးတင်ပါသည်။',
+        size: ReceiptTextSizeType.small,
+        style: ReceiptTextStyleType.bold,
+      );
+      final ByteData logoBytes = await rootBundle.load(
+        'assets/system/poweredby.png',
+      );
+      receiptText.addImage(
+        base64.encode(Uint8List.view(logoBytes.buffer)),
+        width: 150,
+      );
 
+      receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
+      await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+      // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+      setState((){
+        productSale = [];
+        saleInfo = '';
+      });
 
-
-
-    // /// Example for print QR
-    // await _bluePrintPos.printQR('www.google.com', size: 250);
-
-    // /// Text after QR
-    // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
-    // receiptSecondText.addText('Powered by ayeee',
-    //     size: ReceiptTextSizeType.small);
-    // receiptSecondText.addSpacer();
-    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
-    // setState(() {
-    //   _selectedDevice = null;
-    // });
-    // _onDisconnectDevice();
-    // _onDisconnectDevice();
+     // Navigator.pop(context);
+      printClosed = true;
+      Future.delayed(const Duration(milliseconds: 30000), () {
+        if(printClosed) {
+          debugPrint('complete');
+          _onDisconnectDevice();
+        }
+      });
   }
 
   prodInCartTab(String prodListInd, int index) {
@@ -8080,36 +8053,36 @@ class HomePageState extends State<HomePage>
                   priInProgHome = true;
                 });
 
-                final doc = await PdfDocument.openFile(pdfFile!.path);
-                final pages = doc.pageCount;
-                List<imglib.Image> images = [];
-
-// get images from all the pages
-                for (int i = 1; i <= pages; i++) {
-                  var page = await doc.getPage(i);
-                  var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-                  var img = await imgPDF.createImageDetached();
-                  var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-                  var libImage = imglib.decodeImage(imgBytes!.buffer
-                      .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-                  images.add(libImage!);
-                }
-
-// stitch images
-                int totalHeight = 0;
-                images.forEach((e) {
-                  totalHeight += e.height;
-                });
-                int totalWidth = 0;
-                images.forEach((element) {
-                  totalWidth = totalWidth < element.width ? element.width : totalWidth;
-                });
-                mergedImage = imglib.Image(totalWidth, totalHeight);
-                int mergedHeight = 0;
-                images.forEach((element) {
-                  imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-                  mergedHeight += element.height;
-                });
+//                 final doc = await PdfDocument.openFile(pdfFile!.path);
+//                 final pages = doc.pageCount;
+//                 List<imglib.Image> images = [];
+//
+// // get images from all the pages
+//                 for (int i = 1; i <= pages; i++) {
+//                   var page = await doc.getPage(i);
+//                   var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+//                   var img = await imgPDF.createImageDetached();
+//                   var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+//                   var libImage = imglib.decodeImage(imgBytes!.buffer
+//                       .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+//                   images.add(libImage!);
+//                 }
+//
+// // stitch images
+//                 int totalHeight = 0;
+//                 images.forEach((e) {
+//                   totalHeight += e.height;
+//                 });
+//                 int totalWidth = 0;
+//                 images.forEach((element) {
+//                   totalWidth = totalWidth < element.width ? element.width : totalWidth;
+//                 });
+//                 mergedImage = imglib.Image(totalWidth, totalHeight);
+//                 int mergedHeight = 0;
+//                 images.forEach((element) {
+//                   imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+//                   mergedHeight += element.height;
+//                 });
 
                 // mergedImage!.readAsBytes().then((value ) async {
                 //   List<int> bytesList = value;
@@ -8139,15 +8112,15 @@ class HomePageState extends State<HomePage>
 
                 // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
 
-                debugPrint('Got Snapshot' + saleInfo.toString());
-                getPaperId().then((value) async {
-                  debugPrint('VVAALLUUEE ' + value.toString());
-                  int width = 570;
-                  if(value == 'Roll-57') {
-                    width = 413;
-                  } else if(value == 'Roll-80') {
-                    width = 570;
-                  }
+                // debugPrint('Got Snapshot' + saleInfo.toString());
+                // getPaperId().then((value) async {
+                  // debugPrint('VVAALLUUEE ' + value.toString());
+                  // int width = 570;
+                  // if(value == 'Roll-57') {
+                  //   width = 413;
+                  // } else if(value == 'Roll-80') {
+                  //   width = 570;
+                  // }
                   final ReceiptSectionText receiptText = ReceiptSectionText();
                   receiptText.addSpacer(count: 1);
                   receiptText.addText(
@@ -8278,7 +8251,7 @@ class HomePageState extends State<HomePage>
                       _onDisconnectDevice();
                     }
                   });
-                });
+                //});
 
 
 
@@ -10574,6 +10547,15 @@ class HomePageState extends State<HomePage>
                                                                 children: [
                                                                   GestureDetector(
                                                                     onTap: () async {
+                                                                      setState((){
+                                                                        mystate((){
+                                                                          saveLoading = true;
+                                                                          disableTouch = true;
+                                                                        });
+
+                                                                      });
+
+
                                                                       final doc = await PdfDocument.openFile(pdfFile!.path);
                                                                       final pages = doc.pageCount;
                                                                       List<imglib.Image> images = [];
@@ -10614,6 +10596,17 @@ class HomePageState extends State<HomePage>
                                                                       // Save to album.
                                                                       // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
                                                                       _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                                      Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                        setState((){
+                                                                          mystate((){
+                                                                            saveLoading = false;
+                                                                            disableTouch = false;
+                                                                          });
+
+                                                                        });
+                                                                        smartKyatFlash('Image Saved successfully.', 's');
+
+                                                                      });
                                                                     },
                                                                     child: Container(
                                                                       width: (MediaQuery.of(context).size.width - 45)* (3/4),
@@ -10635,7 +10628,10 @@ class HomePageState extends State<HomePage>
                                                                             Expanded(
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                child: Container(
+                                                                                child: saveLoading ?  Center(
+                                                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                ) : Container(
                                                                                     child: Text(
                                                                                       textSetSaveImage,
                                                                                       textAlign: TextAlign.center,
@@ -12654,34 +12650,6 @@ class HomePageState extends State<HomePage>
                 // smartKyatFlash('Print command received and working on it.', 'i');
                 // final ReceiptSectionText receiptText = ReceiptSectionText();
                 if(file != null) {
-                  final doc = await PdfDocument.openFile(file.path);
-                  final pages = doc.pageCount;
-                  List<imglib.Image> images = [];
-
-// get images from all the pages
-                  for (int i = 1; i <= pages; i++) {
-                    var page = await doc.getPage(i);
-                    var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-                    var img = await imgPDF.createImageDetached();
-                    var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-                    var libImage = imglib.decodeImage(imgBytes!.buffer
-                        .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-                    images.add(libImage!);
-                  }
-                  int totalHeight = 0;
-                  images.forEach((e) {
-                    totalHeight += e.height;
-                  });
-                  int totalWidth = 0;
-                  images.forEach((element) {
-                    totalWidth = totalWidth < element.width ? element.width : totalWidth;
-                  });
-                  mergedImage = imglib.Image(totalWidth, totalHeight);
-                  int mergedHeight = 0;
-                  images.forEach((element) {
-                    imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-                    mergedHeight += element.height;
-                  });
 
                   getPaperId().then((value) async {
                     debugPrint('VVAALLUUEE ' + value.toString());
