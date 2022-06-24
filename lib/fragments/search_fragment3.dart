@@ -207,18 +207,19 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(Duration(milliseconds: _debouncetime), () {
-      if (_searchController.text != "") {
-        ///here you perform your search
-        // setState(() {
-        gloSearchText = _searchController.text;
-        searchValue = _searchController.text.toLowerCase();
-        itemPerPage = 10;
-        // });
-        searchKeyChanged();
-        setState(() {
+      // setState(() {
+      gloSearchText = _searchController.text;
+      searchValue = _searchController.text.toLowerCase();
+      itemPerPage = 10;
+      // });
+      searchKeyChanged();
+      setState(() {
 
-        });
-      }
+      });
+      // if (_searchController.text != "") {
+      //   ///here you perform your search
+      //
+      // }
     });
 
 
