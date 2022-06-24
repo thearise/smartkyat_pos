@@ -1472,7 +1472,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 setState(() {
                                                   mystate((){
                                                     quantity2 = double.parse(myController.text) - 1;
-                                                    myController.text = quantity2.toString();
+                                                    myController.text = quantity2.round().toString();
                                                     debugPrint('qqq' + quantity2.toString());
                                                   });});
                                               },
@@ -1543,7 +1543,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 ),
                                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                                                 inputFormatters: <TextInputFormatter>[
-                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                  FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                                                 onChanged: (value) {
                                                   setState(() {
                                                     mystate(() {
@@ -1559,7 +1559,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 setState(() {
                                                   mystate((){
                                                     quantity2 = double.parse(myController.text) + 1;
-                                                    myController.text = quantity2.toString();
+                                                    myController.text = quantity2.round().toString();
                                                     debugPrint('qqq' + quantity2.toString());
                                                   }); });
                                               },
