@@ -902,7 +902,16 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                               batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', chgTotal, chgDebts);
                                               //
-                                              batch = await updateMonthlyData2(batch, now.year.toString() +  zeroToTen(now.month.toString()), now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
+
+                                              if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
+                                                batch = await updateMonthlyData2(batch,
+                                                    now.year.toString() +
+                                                        zeroToTen(now.month.toString()),
+                                                    now.year.toString() +
+                                                        zeroToTen(now.month.toString()) +
+                                                        zeroToTen(now.day.toString()) + 'refu_cust',
+                                                    chgTotal);
+                                              }
 
                                               batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', chgTotal, chgDebts);
 
@@ -1282,10 +1291,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateMonthlyData2(WriteBatch batch, id, field1, double price1) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
-    batch.set(documentReference, {
-      field1.toString() : FieldValue.increment(double.parse(price1.toString())),
-      // 'date': DateTime.now(),
-    },SetOptions(merge: true));
+      batch.set(documentReference, {
+        field1.toString(): FieldValue.increment(
+            double.parse(price1.toString())),
+        // 'date': DateTime.now(),
+      }, SetOptions(merge: true));
     return batch;
   }
 
