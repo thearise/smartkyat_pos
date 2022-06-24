@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -198,6 +199,31 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   var custsEvent;
   var mercsEvent;
+
+  Timer? _debounce;
+  String query = "";
+  int _debouncetime = 500;
+
+  _onSearchChanged() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(Duration(milliseconds: _debouncetime), () {
+      if (_searchController.text != "") {
+        ///here you perform your search
+        // setState(() {
+        gloSearchText = _searchController.text;
+        searchValue = _searchController.text.toLowerCase();
+        itemPerPage = 10;
+        // });
+        searchKeyChanged();
+        setState(() {
+
+        });
+      }
+    });
+
+
+
+  }
 
   @override
   initState() {
@@ -403,17 +429,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
     });
     getStoreId().then((value) => shopId = value);
-    _searchController.addListener((){
-      // setState(() {
-      gloSearchText = _searchController.text;
-      searchValue = _searchController.text.toLowerCase();
-      itemPerPage = 10;
-      // });
-      searchKeyChanged();
-      setState(() {
-
-      });
-    });
+    _searchController.addListener(_onSearchChanged);
     subTabController = TabController(length: 3, vsync: this);
     slidingSearchCont();
 
@@ -464,13 +480,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   }
 
-  focusSearch() {
-    FocusScope.of(context).requestFocus(nodeFirst);
-  }
-
   @override
   void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
     super.dispose();
+  }
+
+  focusSearch() {
+    FocusScope.of(context).requestFocus(nodeFirst);
   }
 
   addProduct3(data) {
