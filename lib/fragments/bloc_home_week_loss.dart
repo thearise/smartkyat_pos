@@ -578,11 +578,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                               ],
                                             ),
-                                            Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                child: Text('?')
-                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
                                             Text(textSetStockCosts,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
@@ -668,11 +668,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                               ],
                                             ),
-                                            Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                child: Text('?')
-                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
                                             Text(textSetUnpaid,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
@@ -759,11 +759,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                               ],
                                             ),
-                                            Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                child: Text('?')
-                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
                                             Text(textSetBuys,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
@@ -849,11 +849,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                               ],
                                             ),
-                                            Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                child: Text('?')
-                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
                                             Text(textSetLoss,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
@@ -938,11 +938,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                     ),
                                                   ],
                                                 ),
-                                                Positioned(
-                                                    right: 0,
-                                                    top: 0,
-                                                    child: Text('?')
-                                                ),
+                                                // Positioned(
+                                                //     right: 0,
+                                                //     top: 0,
+                                                //     child: Text('?')
+                                                // ),
                                                 Text(textSetEarn,
                                                   strutStyle: StrutStyle(
                                                       forceStrutHeight: true,
