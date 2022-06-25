@@ -1239,7 +1239,7 @@
 //   //                                                             child: item.split('^sps^')[2] != ""
 //   //                                                                 ? CachedNetworkImage(
 //   //                                                               imageUrl:
-//   //                                                               'https://riftplus.me/smartkyat_pos/api/uploads/' +
+//   //                                                               'https://htoomedia.info/smartkyat_pos/api/uploads/' +
 //   //                                                                   item.split('^sps^')[2],
 //   //                                                               width: 75,
 //   //                                                               height: 75,
@@ -1265,7 +1265,7 @@
 //   //                                                             )
 //   //                                                                 : CachedNetworkImage(
 //   //                                                               imageUrl:
-//   //                                                               'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
+//   //                                                               'https://htoomedia.info/smartkyat_pos/api/uploads/shark1.jpg',
 //   //                                                               width: 75,
 //   //                                                               height: 75,
 //   //                                                               // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -3071,7 +3071,7 @@
 //   //                         //                                 child: item.split('^sps^')[2] != ""
 //   //                         //                                     ? CachedNetworkImage(
 //   //                         //                                   imageUrl:
-//   //                         //                                   'https://riftplus.me/smartkyat_pos/api/uploads/' +
+//   //                         //                                   'https://htoomedia.info/smartkyat_pos/api/uploads/' +
 //   //                         //                                       item.split('^sps^')[2],
 //   //                         //                                   width: 75,
 //   //                         //                                   height: 75,
@@ -3097,7 +3097,7 @@
 //   //                         //                                 )
 //   //                         //                                     : CachedNetworkImage(
 //   //                         //                                   imageUrl:
-//   //                         //                                   'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
+//   //                         //                                   'https://htoomedia.info/smartkyat_pos/api/uploads/shark1.jpg',
 //   //                         //                                   width: 75,
 //   //                         //                                   height: 75,
 //   //                         //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
