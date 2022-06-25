@@ -1346,7 +1346,7 @@
 //                                                       child: item.split('^sps^')[2] != ""
 //                                                           ? CachedNetworkImage(
 //                                                         imageUrl:
-//                                                         'https://riftplus.me/smartkyat_pos/api/uploads/' +
+//                                                         'https://htoomedia.info/smartkyat_pos/api/uploads/' +
 //                                                             item.split('^sps^')[2],
 //                                                         width: 75,
 //                                                         height: 75,

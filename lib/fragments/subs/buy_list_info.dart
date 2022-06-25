@@ -896,7 +896,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           child: imgUrl != ""
                                                               ? CachedNetworkImage(
                                                             imageUrl:
-                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                            'https://htoomedia.info/smartkyat_pos/api/uploads/' +
                                                                 imgUrl,
                                                             width: 56.5,
                                                             height: 56.5,
@@ -1248,7 +1248,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                     ""
                                                                     ? CachedNetworkImage(
                                                                   imageUrl:
-                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                  'https://htoomedia.info/smartkyat_pos/api/uploads/' +
                                                                       imgUrl,
                                                                   width: 56.5,
                                                                   height: 56.5,
