@@ -36,6 +36,7 @@ class _AddShopState extends State<AddShop> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   bool loadingState = false;
+  bool disableTouch = false;
 
   String deviceId = '';
 
@@ -45,6 +46,23 @@ class _AddShopState extends State<AddShop> {
       deviceId = val!;
     });
     super.initState();
+  }
+  late BuildContext dialogContext;
+
+  openOverAllSubLoading() {
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.white.withOpacity(0.4),
+      context: context,
+      builder: (context) {
+        dialogContext = context;
+        return Container();
+      },
+    );
+  }
+
+  closeOverAllSubLoading() {
+    Navigator.pop(dialogContext);
   }
 
   void smartKyatFlash(String text, String type) {
@@ -205,454 +223,463 @@ class _AddShopState extends State<AddShop> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        bottom: true,
-        top: true,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    Container(
-                      height: 81,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1.0))),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Container(
-                                width: 37,
-                                height: 37,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.3)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 3.0),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
+      body: IgnorePointer(
+        ignoring: disableTouch,
+        child: SafeArea(
+          bottom: true,
+          top: true,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Container(
+                        height: 81,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    width: 1.0))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: Container(
+                                  width: 37,
+                                  height: 37,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
+                                      color: Colors.grey.withOpacity(0.3)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 3.0),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.arrow_back_ios_rounded,
+                                          size: 17,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        }),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Information',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.5
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.4,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Add new shop',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            height: 1.3
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.7,
+                                          // fontSize:,
+                                          forceStrutHeight: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Text('SHOP INFORMATION', style: TextStyle(
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,color: Colors.grey,
+                        ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Stack(
+                          children: [
+                            //SizedBox(height: 18,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 18.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
+//The validator receives the text that the user has entered.
+                                controller: _shopName,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+// errorText: 'Error message',
+                                  labelText: 'Shop name',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Information',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.4,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Add new shop',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          height: 1.3
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.7,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                  ],
+                            //SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 89.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
+//The validator receives the text that the user has entered.
+                                controller: _address,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  //prodFieldsValue.add(value);
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+// errorText: 'Error message',
+                                  labelText: 'Shop address',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
-                            )
+                            ),
+                            //SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 160.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+//The validator receives the text that the user has entered.
+                                controller: _phone,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  //prodFieldsValue.add(value);
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+// errorText: 'Error message',
+                                  labelText: 'Phone number',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // SizedBox(height: 30,),
                           ],
                         ),
                       ),
-                    ),
-                    SizedBox(height: 15,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Text('SHOP INFORMATION', style: TextStyle(
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,color: Colors.grey,
-                      ),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Stack(
-                        children: [
-                          //SizedBox(height: 18,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-//The validator receives the text that the user has entered.
-                              controller: _shopName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
-// errorText: 'Error message',
-                                labelText: 'Shop name',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
-//filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+                          child: ButtonTheme(
+                            minWidth: (MediaQuery.of(context).size.width),
+                            splashColor: Colors.transparent,
+                            height: 53,
+                            child: FlatButton(
+                              color: AppTheme.themeColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                  color: AppTheme.themeColor,
                                 ),
                               ),
-                            ),
-                          ),
-                          //SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 89.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-//The validator receives the text that the user has entered.
-                              controller: _address,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                //prodFieldsValue.add(value);
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
+                              onPressed: () async {
+                                try {
+                                  final result = await InternetAddress.lookup('google.com');
+                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                    shopFieldsValue = [];
+                                    CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                    final User? user = auth.currentUser;
+                                    final uid = user!.uid;
+                                    final email = user.email;
 
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
-// errorText: 'Error message',
-                                labelText: 'Shop address',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
-//filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                          //SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 160.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-//The validator receives the text that the user has entered.
-                              controller: _phone,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                //prodFieldsValue.add(value);
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
+                                    FocusScope.of(context).unfocus();
 
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
-// errorText: 'Error message',
-                                labelText: 'Phone number',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
-//filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // SizedBox(height: 30,),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
-                        child: ButtonTheme(
-                          minWidth: (MediaQuery.of(context).size.width),
-                          splashColor: Colors.transparent,
-                          height: 53,
-                          child: FlatButton(
-                            color: AppTheme.themeColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                color: AppTheme.themeColor,
-                              ),
-                            ),
-                            onPressed: () async {
-                              try {
-                                final result = await InternetAddress.lookup('google.com');
-                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                  shopFieldsValue = [];
-                                  CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                  final User? user = auth.currentUser;
-                                  final uid = user!.uid;
-                                  final email = user.email;
+                                    if (_formKey.currentState!.validate()) {
+                                      openOverAllSubLoading();
+                                        setState(() {
+                                          loadingState = true;
+                                          disableTouch = true;
+                                        });
 
-                                  FocusScope.of(context).unfocus();
+                                        WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                                  if (_formKey.currentState!.validate()) {
-
-                                      setState(() {
-                                        loadingState = true;
-                                      });
-
-                                      WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                                      await FirebaseFirestore.instance.collection('users')
-                                          .where('user_id' ,isEqualTo: user.uid)
-                                          .limit(1)
-                                          .get()
-                                          .then((QuerySnapshot querySnapshot) async {
-                                        Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
-                                        await FirebaseFirestore.instance.collection('shops')
-                                            .where('owner_id' ,isEqualTo: user.uid)
+                                        await FirebaseFirestore.instance.collection('users')
+                                            .where('user_id' ,isEqualTo: user.uid)
+                                            .limit(1)
                                             .get()
                                             .then((QuerySnapshot querySnapshot) async {
-                                          int shopCount = querySnapshot.docs.length;
-                                          if(userData['plan_type'] == 'basic' && shopCount >= 5) {
-                                            showOkAlertDialog(
-                                                context: context,
-                                                title: 'Maximum shops reached',
-                                                message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
-                                            ).then((result) async {
-                                            });
-                                            setState(() {
-                                              loadingState = false;
-                                            });
-                                          } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
-                                            showOkAlertDialog(
-                                                context: context,
-                                                title: 'Maximum shops reached',
-                                                message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
-                                            ).then((result) async {
-                                            });
-                                            setState(() {
-                                              loadingState = false;
-                                            });
-                                          }
-                                          else {
-                                            shops.add(
-                                                {
-                                                  'owner_id' : uid.toString(),
-                                                  'shop_name': shopFieldsValue[0],
-                                                  'shop_address' : shopFieldsValue[1],
-                                                  'plan_type' : 'basic',
-                                                  'shop_phone': shopFieldsValue[2],
-                                                  'users': FieldValue.arrayUnion([email.toString()]),
-                                                  'orders_length': 1000,
-                                                  'buyOrders_length': 1000,
-                                                  'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                                  'devices': [await _getId()],
+                                          Map<String, dynamic> userData = querySnapshot.docs[0].data()! as Map<String, dynamic>;
+                                          await FirebaseFirestore.instance.collection('shops')
+                                              .where('owner_id' ,isEqualTo: user.uid)
+                                              .get()
+                                              .then((QuerySnapshot querySnapshot) async {
+                                            int shopCount = querySnapshot.docs.length;
+                                            if(userData['plan_type'] == 'basic' && shopCount >= 5) {
+                                              showOkAlertDialog(
+                                                  context: context,
+                                                  title: 'Maximum shops reached',
+                                                  message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                              ).then((result) async {
+                                              });
+                                              setState(() {
+                                                loadingState = false;
+                                                disableTouch = false;
+                                              });
+                                              closeOverAllSubLoading();
+                                            } else if(userData['plan_type'] == 'medium' && shopCount >= 10) {
+                                              showOkAlertDialog(
+                                                  context: context,
+                                                  title: 'Maximum shops reached',
+                                                  message: 'Maximum number of shops has been created. Please contact to our customer service to upgrade your account.'
+                                              ).then((result) async {
+                                              });
+                                              setState(() {
+                                                loadingState = false;
+                                                disableTouch = false;
+                                              });
+                                              closeOverAllSubLoading();
+                                            }
+                                            else {
+                                              shops.add(
+                                                  {
+                                                    'owner_id' : uid.toString(),
+                                                    'shop_name': shopFieldsValue[0],
+                                                    'shop_address' : shopFieldsValue[1],
+                                                    'plan_type' : 'basic',
+                                                    'shop_phone': shopFieldsValue[2],
+                                                    'users': FieldValue.arrayUnion([email.toString()]),
+                                                    'orders_length': 1000,
+                                                    'buyOrders_length': 1000,
+                                                    'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                                    'devices': [await _getId()],
+                                                  }
+                                              ).then((value) async {
+                                                shops.doc(value.id).collection('users').doc(email).set({
+                                                  'email': email.toString(),
+                                                  'role' : 'owner',
+                                                  'device0': await _getId()
+                                                }).then((value) {
+
+                                                })
+                                                    .catchError((error) => debugPrint("Failed to update user: $error"));
+
+                                                shops.doc(value.id).collection('users_ver').doc(uid).set({
+                                                  'email': email.toString(),
+                                                  'role' : 'owner',
+                                                  'device0': await _getId()
+                                                }).then((value) {})
+                                                    .catchError((error) => debugPrint("Failed to update user: $error"));
+
+
+                                                addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
+
+                                                addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
+
+                                                addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
+
+                                                addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
+
+                                                addCountData(batch, value.id, 'prodsCnt', 0);
+
+                                                addCountData(batch, value.id, 'cusCnt', 0);
+
+                                                addCountData(batch, value.id, 'merCnt', 0);
+
+                                                addCountData(batch, value.id, 'ordsCnt', 1000);
+
+                                                addCountData(batch, value.id, 'buyOrdsCnt', 1000);
+
+                                                addNoCus(batch, value.id);
+
+                                                addNoMer(batch, value.id);
+
+
+                                                try {
+                                                  FocusScope.of(context).unfocus();
+                                                  await batch.commit();
+                                                  await setDeviceId('0');
+                                                  setStoreId(value.id.toString());
+                                                  debugPrint('shop added');
+                                                  Future.delayed(const Duration(milliseconds: 1000), () async {
+                                                    var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
+                                                  });
+
+
+
+                                                  //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+
+                                                } catch (error) {
+                                                  debugPrint('shop adding error');
+                                                  await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
+                                                  smartKyatFlash('Something went wrong while creating the shop', 'e');
+                                                  setState(() {
+                                                    loadingState = false;
+                                                    disableTouch = false;
+                                                  });
+                                                  closeOverAllSubLoading();
                                                 }
-                                            ).then((value) async {
-                                              shops.doc(value.id).collection('users').doc(email).set({
-                                                'email': email.toString(),
-                                                'role' : 'owner',
-                                                'device0': await _getId()
-                                              }).then((value) {
-
-                                              })
-                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
-
-                                              shops.doc(value.id).collection('users_ver').doc(uid).set({
-                                                'email': email.toString(),
-                                                'role' : 'owner',
-                                                'device0': await _getId()
-                                              }).then((value) {})
-                                                  .catchError((error) => debugPrint("Failed to update user: $error"));
-
-
-                                              addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
-
-                                              addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
-
-                                              addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
-
-                                              addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
-
-                                              addCountData(batch, value.id, 'prodsCnt', 0);
-
-                                              addCountData(batch, value.id, 'cusCnt', 0);
-
-                                              addCountData(batch, value.id, 'merCnt', 0);
-
-                                              addCountData(batch, value.id, 'ordsCnt', 1000);
-
-                                              addCountData(batch, value.id, 'buyOrdsCnt', 1000);
-
-                                              addNoCus(batch, value.id);
-
-                                              addNoMer(batch, value.id);
-
-
-                                              try {
-                                                FocusScope.of(context).unfocus();
-                                                await batch.commit();
-                                                await setDeviceId('0');
-                                                setStoreId(value.id.toString());
-                                                debugPrint('shop added');
-                                                Future.delayed(const Duration(milliseconds: 1000), () async {
-                                                  var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
-                                                });
-
-
-
-                                                //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-
-                                              } catch (error) {
-                                                debugPrint('shop adding error');
-                                                await FirebaseFirestore.instance.collection('shops').doc(value.id).delete();
-                                                smartKyatFlash('Something went wrong while creating the shop', 'e');
-                                                setState(() {
-                                                  loadingState = false;
-                                                });
-                                              }
-                                            });
-                                          }
+                                              });
+                                            }
+                                          });
                                         });
-                                      });
 
 
 
@@ -660,31 +687,32 @@ class _AddShopState extends State<AddShop> {
 
 
 
-                                    }
+                                      }
 
 
+                                  }
+                                } on SocketException catch (_) {
+                                  setState(() {
+                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                  });
                                 }
-                              } on SocketException catch (_) {
-                                setState(() {
-                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                });
-                              }
 
-                            },
-                            child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5.0,
-                                  right: 5.0,
-                                  bottom: 2.0),
-                              child: Container(
-                                child: Text(
-                                  'Create shop',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 17.5,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing:-0.1
+                              },
+                              child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5.0,
+                                    right: 5.0,
+                                    bottom: 2.0),
+                                child: Container(
+                                  child: Text(
+                                    'Create shop',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 17.5,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing:-0.1
+                                    ),
                                   ),
                                 ),
                               ),
@@ -692,41 +720,41 @@ class _AddShopState extends State<AddShop> {
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      // child: Text('Choose the text box to customize your account name, and can save it.'),
-                      child: RichText(
-                        strutStyle: StrutStyle(
-                          height: 1,
-                          // fontSize:,
-                          forceStrutHeight: true,
-                        ),
-                        text: new TextSpan(
-                          children: [
-                            new TextSpan(
-                              text: 'Set up some information about your shop later in shop settings.',
-                              style: new TextStyle(
-                                fontSize: 12.5,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                                height: 1.2,
+                      SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                        // child: Text('Choose the text box to customize your account name, and can save it.'),
+                        child: RichText(
+                          strutStyle: StrutStyle(
+                            height: 1,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
+                          text: new TextSpan(
+                            children: [
+                              new TextSpan(
+                                text: 'Set up some information about your shop later in shop settings.',
+                                style: new TextStyle(
+                                  fontSize: 12.5,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.2,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 15,),
-                  ],
+                      SizedBox(height: 15,),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
-              ),
-            ],
+                Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+                ),
+              ],
+            ),
           ),
         ),
       ),

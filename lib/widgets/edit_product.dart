@@ -969,12 +969,13 @@ class _EditProductState extends State<EditProduct> {
                                     ),
                                     onPressed: () async {
 
-                                      openOverAllSubLoading();
+
                                       if (_formKey.currentState!.validate()) {
                                         setState(() {
                                           prodAdding = true;
                                           disableTouch = true;
                                         });
+                                        openOverAllSubLoading();
                                         String subExistChange;
                                         String sub1Buy;
                                         String sub2Buy;
