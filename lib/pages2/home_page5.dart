@@ -6724,7 +6724,7 @@ class HomePageState extends State<HomePage>
   double price4 = 0;
   String sellprice5 = '0';
   String instock = '';
-  String loss5 = '5';
+  String loss5 = '0';
   String barcode5 = '';
   String name5 = '';
   String data = '';
@@ -6744,13 +6744,13 @@ class HomePageState extends State<HomePage>
           pName = result.split('^')[1];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
-              if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
+              if(_selectedTest.toString() == '{no: 3, keyword: ' + result.split('^')[11] + '}') {
                 stateful((){
-                  sellprice5 = result.split('^')[2];
-                  instock = result.split('^')[5];
-                  name5 = result.split('^')[9];
-                  data ='^unit_name^';
-                  pLink = '';
+                  sellprice5 = result.split('^')[4];
+                  instock = result.split('^')[7];
+                  name5 = result.split('^')[11];
+                  data ='^sub2_name^';
+                  pLink = result.split('^')[15];
                 });
                 debugPrint('selected test is true');
               } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
@@ -6761,15 +6761,15 @@ class HomePageState extends State<HomePage>
                   data ='^sub1_name^';
                   pLink = result.split('^')[14];
                 });
-
                 debugPrint('selected test is false');
               } else{
                 stateful((){
-                  sellprice5 = result.split('^')[4];
-                  instock = result.split('^')[7];
-                  name5 = result.split('^')[11];
-                  data ='^sub2_name^';
-                  pLink = result.split('^')[15];
+                  sellprice5 = result.split('^')[2];
+                  instock = result.split('^')[5];
+                  name5 = result.split('^')[9];
+                  data ='^unit_name^';
+                  pLink = '';
+                  buyPriceController.text = result.split('^')[2];
                 });
                 debugPrint('selected test is tf');}
 
@@ -6862,7 +6862,7 @@ class HomePageState extends State<HomePage>
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Text('$currencyUnit ' + result.split('^')[2], style: TextStyle(
+                                                    Text('$currencyUnit ' + sellprice5.toString(), style: TextStyle(
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey
                                                     ),
@@ -7137,7 +7137,7 @@ class HomePageState extends State<HomePage>
                                                       ),),
                                                       SizedBox(height: 15,),
                                                       Container(
-                                                        height: 220,
+                                                        height: 165,
                                                         decoration: BoxDecoration(
                                                           borderRadius: BorderRadius.circular(20.0),
                                                           color: AppTheme.lightBgColor,
@@ -7195,31 +7195,31 @@ class HomePageState extends State<HomePage>
                                                                   ],
                                                                 ),
                                                               ),
-                                                              Container(
-                                                                height: 55,
-                                                                decoration: BoxDecoration(
-                                                                    border: Border(
-                                                                        bottom: BorderSide(
-                                                                            color: Colors.grey
-                                                                                .withOpacity(0.2),
-                                                                            width: 1.0))),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Text(textSetLoss, style:
-                                                                    TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500
-                                                                    ),),
-                                                                    Spacer(),
-                                                                    Text(loss5.toString() + ' ' + name5, style:
-                                                                    TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey
-                                                                    ),),
-                                                                  ],
-                                                                ),
-                                                              ),
+                                                              // Container(
+                                                              //   height: 55,
+                                                              //   decoration: BoxDecoration(
+                                                              //       border: Border(
+                                                              //           bottom: BorderSide(
+                                                              //               color: Colors.grey
+                                                              //                   .withOpacity(0.2),
+                                                              //               width: 1.0))),
+                                                              //   child: Row(
+                                                              //     children: [
+                                                              //       Text(textSetLoss, style:
+                                                              //       TextStyle(
+                                                              //           fontSize: 15,
+                                                              //           fontWeight: FontWeight.w500
+                                                              //       ),),
+                                                              //       Spacer(),
+                                                              //       Text(loss5.toString() + ' ' + name5, style:
+                                                              //       TextStyle(
+                                                              //           fontSize: 15,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.grey
+                                                              //       ),),
+                                                              //     ],
+                                                              //   ),
+                                                              // ),
                                                               Container(
                                                                 height: 55,
                                                                 child: Row(
@@ -7294,7 +7294,10 @@ class HomePageState extends State<HomePage>
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
                                                       child: GestureDetector(
                                                         onTap: () async {
+                                                          _controllerTablet.animateTo(0);
                                                           setState(() {
+                                                            productSale = [];
+                                                            saleInfo = '';
                                                             addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage + '^' + instock + '^' + pLink  );
                                                           });
                                                           debugPrint('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
