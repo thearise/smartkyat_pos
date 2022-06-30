@@ -860,7 +860,7 @@ class _EditProductState extends State<EditProduct> {
                                 ) : Container(),
                               ]
                           ),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 || (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '') && subExist == 1 ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
                           (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == 2 ? Column(
                             children: [
                               createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
