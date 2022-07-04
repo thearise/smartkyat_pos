@@ -379,7 +379,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                           ),
                                                         ),
                                                         Text(
-                                                          textSetNewMerch,
+                                                          textSetNewMerch, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -438,7 +438,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          textSetAll,
+                                                          textSetAll, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -480,7 +480,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          textSetDebts,
+                                                          textSetDebts, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -547,7 +547,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                   .only(
                                                                   left: 0.0, right: 15) ,
                                                               title: Text(
-                                                                'No merchant',
+                                                                'No merchant', textScaleFactor: 1,
                                                                 maxLines: 1,
                                                                 style: TextStyle(
                                                                     fontSize: 18,
@@ -572,7 +572,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                       .start,
                                                                   children: [
                                                                     Text(
-                                                                      'Default buy orders',
+                                                                      'Default buy orders', textScaleFactor: 1,
                                                                       style: TextStyle(
                                                                           fontSize: 14,
                                                                           fontWeight: FontWeight
@@ -668,7 +668,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                 .only(
                                                                 left: 0.0, right: 15) ,
                                                             title: Text(
-                                                              'No merchant',
+                                                              'No merchant', textScaleFactor: 1,
                                                               maxLines: 1,
                                                               style: TextStyle(
                                                                   fontSize: 18,
@@ -693,7 +693,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                     .start,
                                                                 children: [
                                                                   Text(
-                                                                    'Default buy orders',
+                                                                    'Default buy orders', textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
                                                                         fontWeight: FontWeight
@@ -728,7 +728,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                     child: Padding(
                                                                       padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
                                                                       child: Text(userDocument['debts'].round().toString() + ' unpaid',
-                                                                        style: TextStyle(
+                                                                        textScaleFactor: 1, style: TextStyle(
                                                                             fontSize: 13,
                                                                             fontWeight: FontWeight.w500,
                                                                             color: Colors.white
@@ -820,7 +820,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         bottom: 18.0),
                                                     child: ListTile(
                                                       title: Text(
-                                                        prodVal['na'].toString(),
+                                                        prodVal['na'].toString(), textScaleFactor: 1,
                                                         maxLines: 1,
                                                         style: TextStyle(
                                                             fontSize: 18,
@@ -845,7 +845,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                               .start,
                                                           children: [
                                                             Text(
-                                                              prodVal['ad'],
+                                                              prodVal['ad'], textScaleFactor: 1,
                                                               style: TextStyle(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight
@@ -865,7 +865,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                             SizedBox(
                                                               height: 5,),
                                                             Text(
-                                                              prodVal['ph'].toString(),
+                                                              prodVal['ph'].toString(), textScaleFactor: 1,
                                                               style: TextStyle(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight
@@ -900,7 +900,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                               child: Padding(
                                                                 padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
                                                                 child: Text(prodVal['de'].round().toString() + ' unpaid',
-                                                                  style: TextStyle(
+                                                                  textScaleFactor: 1, style: TextStyle(
                                                                       fontSize: 13,
                                                                       fontWeight: FontWeight.w500,
                                                                       color: Colors.white
@@ -958,7 +958,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                       children: [
                                         Container(
                                             child: Text(
-                                              resProds.length == 0? '': 'End of results',
+                                              resProds.length == 0? '': 'End of results', textScaleFactor: 1,
                                               strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
                                         ),
                                       ],
@@ -1087,7 +1087,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        textSetSearch,
+                                        textSetSearch, textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

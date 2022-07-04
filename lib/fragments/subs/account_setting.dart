@@ -107,6 +107,7 @@ class _AccountSettingState extends State<AccountSetting> {
   bool disableTouch = false;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -164,14 +165,14 @@ class _AccountSettingState extends State<AccountSetting> {
                                   SizedBox(
                                     height: 15.5,
                                   ),
-                                  Text('Information',
+                                  Text('Information', textScaleFactor: 1,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5
                                       // color: Colors.grey,
                                     ),),
-                                  Text(textSetAccountSetting,
+                                  Text(textSetAccountSetting,  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -359,7 +360,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                                        child: Text('INFORMATION', style: TextStyle(
+                                        child: Text('INFORMATION',  textScaleFactor: 1, style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14, color: Colors.grey,
@@ -378,6 +379,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                           },
                                           style: TextStyle(
                                             height: 0.95,
+                                            fontSize: 15 / scaleFactor,
                                           ),
                                           decoration: InputDecoration(
                                             enabledBorder: const OutlineInputBorder(
@@ -403,13 +405,13 @@ class _AccountSettingState extends State<AccountSetting> {
                                             //suffixText: 'Required',
                                             suffixStyle: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 12,
+                                              fontSize: 12 / scaleFactor,
                                               fontFamily: 'capsulesans',
                                             ),
                                             // errorText: wrongPassword,
                                             errorStyle: TextStyle(
                                                 backgroundColor: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 12 / scaleFactor,
                                                 fontFamily: 'capsulesans',
                                                 height: 0.1
                                             ),
@@ -574,7 +576,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                                   bottom: 2.0),
                                               child: Container(
                                                 child: Text(
-                                                textSetSave,
+                                                textSetSave,  textScaleFactor: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       height: 1.3,
@@ -605,7 +607,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                       SizedBox(height: 15,),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                        child: Text('EMAIL ADDRESS', style: TextStyle(
+                                        child: Text('EMAIL ADDRESS',  textScaleFactor: 1, style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14, color: Colors.grey,
@@ -626,7 +628,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                           child: Padding(
                                             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                             child: Text(
-                                              widget.email.toString(), style: TextStyle(
+                                              widget.email.toString(),  textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16,
                                             ),
@@ -671,7 +673,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                       SizedBox(height: 15),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                        child: Text('PASSWORD', style: TextStyle(
+                                        child: Text('PASSWORD',  textScaleFactor: 1, style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14, color: Colors.grey,
@@ -1071,7 +1073,7 @@ class _AccountSettingState extends State<AccountSetting> {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0, bottom: 3),
-              child: Text(leftTxt,
+              child: Text(leftTxt,  textScaleFactor: 1,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
                   strutStyle: StrutStyle(
                     height: 2,
@@ -1087,7 +1089,7 @@ class _AccountSettingState extends State<AccountSetting> {
                   // color: Colors.yellow,
                   // width: MediaQuery.of(context).size.width/6,
                     child: Text(
-                        rightTxt,
+                        rightTxt,  textScaleFactor: 1,
                         textAlign: TextAlign.right,overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,),
                         strutStyle: StrutStyle(

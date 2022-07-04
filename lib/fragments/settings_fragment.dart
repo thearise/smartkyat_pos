@@ -257,7 +257,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0, bottom: 3),
-              child: Text(leftTxt,
+              child: Text(leftTxt, textScaleFactor: 1,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
                   strutStyle: StrutStyle(
                     height: 2,
@@ -273,7 +273,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                   // color: Colors.yellow,
                   // width: MediaQuery.of(context).size.width/6,
                     child: Text(
-                        rightTxt,
+                        rightTxt, textScaleFactor: 1,
                         textAlign: TextAlign.right,overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,),
                         strutStyle: StrutStyle(
@@ -315,7 +315,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                   padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
                   child: Row(
                     children: [
-                      Text(textSetTitle,
+                      Text(textSetTitle, textScaleFactor: 1,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w600,
@@ -337,7 +337,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                           child: Text(isPro == 'free'? 'Free version': 'Pro version', style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13
-                          ),),
+                          ),textScaleFactor: 1, ),
                         ),
                       ),
                     ],
@@ -353,7 +353,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text(textInfo, style: TextStyle(
+                          child: Text(textInfo, textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -423,7 +423,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         SizedBox(height: 15,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text(textDisplay, style: TextStyle(
+                          child: Text(textDisplay, textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14, color: Colors.grey,
@@ -528,7 +528,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         SizedBox(height: 15,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('OTHERS', style: TextStyle(
+                          child: Text('OTHERS', textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14, color: Colors.grey,
@@ -618,7 +618,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Information', textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -628,7 +628,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 ],
                               ),
                               Text(
-                                'Switch shop',
+                                'Switch shop', textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -653,7 +653,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
-                            child: Text('CURRENT SHOP', style: TextStyle(
+                            child: Text('CURRENT SHOP', textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -686,7 +686,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    'New shop',
+                                    'New shop', textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -781,7 +781,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense", textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,

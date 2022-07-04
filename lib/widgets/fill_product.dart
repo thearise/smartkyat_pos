@@ -129,6 +129,7 @@ class _FillProductState extends State<FillProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -183,7 +184,7 @@ class _FillProductState extends State<FillProduct> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                widget.prodName,
+                                widget.prodName, textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -201,6 +202,7 @@ class _FillProductState extends State<FillProduct> {
                                 padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                                 child: Text(
                                     textSetRefill,
+                                    textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -236,7 +238,7 @@ class _FillProductState extends State<FillProduct> {
                                   alignment: Alignment.topLeft,
                                   padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
                                   child: Text(
-                                      textSetMainQty,
+                                      textSetMainQty, textScaleFactor: 1,
                                       style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
@@ -279,7 +281,7 @@ class _FillProductState extends State<FillProduct> {
                                       return null;
                                     },
                                     style: TextStyle(
-                                      height: 0.95,
+                                      height: 0.95, fontSize: 15/scaleFactor,
                                     ),
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
@@ -305,13 +307,13 @@ class _FillProductState extends State<FillProduct> {
                                       suffixText: widget.unit,
                                       suffixStyle: TextStyle(
                                           color: Colors.grey,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.8
                                       ),
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -434,7 +436,7 @@ class _FillProductState extends State<FillProduct> {
                                 return null;
                               },
                               style: TextStyle(
-                                height: 0.95,
+                                height: 0.95, fontSize: 15/scaleFactor,
                               ),
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
@@ -460,12 +462,12 @@ class _FillProductState extends State<FillProduct> {
                                 suffixText: '$currencyUnit',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -599,6 +601,7 @@ class _FillProductState extends State<FillProduct> {
                             child: Container(
                               child: Text(
                                   textSetAddBuy,
+                                  textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 18,

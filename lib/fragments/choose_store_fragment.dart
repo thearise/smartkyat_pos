@@ -472,7 +472,7 @@ class chooseStoreState extends State<chooseStore> {
                               ),
                             ),
                             SizedBox(height: 26.5,),
-                            Text('REGISTERED SHOPS', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                            Text('REGISTERED SHOPS', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
                               color: Colors.grey,),),
                             SizedBox(height: 13,),
                             Expanded(
@@ -521,7 +521,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               Expanded(child: Transform.translate(
                                                                 offset: Offset(-12, 0),
                                                                 child: Container(
-                                                                  child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                                                  child: Text(data['shop_name'],textScaleFactor: 1, overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
                                                                 ),
                                                               ),),
                                                               data['owner_id'].toString() == auth.currentUser!.uid.toString()?
@@ -534,7 +534,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                       Radius.circular(6.0),
                                                                     ),
                                                                     color: AppTheme.badgeBgSuccess),
-                                                                child: Text('Owner', style: TextStyle(
+                                                                child: Text('Owner', textScaleFactor: 1, style: TextStyle(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 12,
                                                                     color: Colors.white
@@ -549,7 +549,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                       Radius.circular(6.0),
                                                                     ),
                                                                     color: AppTheme.badgeBgSecond),
-                                                                child: Text('Staff', style: TextStyle(
+                                                                child: Text('Staff', textScaleFactor : 1, style: TextStyle(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 12,
                                                                     color: Colors.white
@@ -574,7 +574,7 @@ class chooseStoreState extends State<chooseStore> {
                                               }
                                               ).toList(),
                                             ):
-                                            Center(child: Text('No shop found', style: TextStyle(fontSize: 15),))
+                                            Center(child: Text('No shop found', textScaleFactor: 1, style: TextStyle(fontSize: 15),))
                                             ,
                                           ),
                                           Column(
@@ -661,7 +661,7 @@ class chooseStoreState extends State<chooseStore> {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
-                                                              Text('Create new shop',
+                                                              Text('Create new shop', textScaleFactor: 1,
                                                                 style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
                                                                 strutStyle: StrutStyle(
                                                                   height: 1.2,
@@ -744,7 +744,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               bottom: 3.0),
                                                           child: Container(
                                                             child: Text(
-                                                              'Logout',
+                                                              'Logout', textScaleFactor: 1,
                                                               textAlign: TextAlign.center,
                                                               style: TextStyle(
                                                                   height: 1.3,
@@ -790,7 +790,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                 bottom: 3.0),
                                                             child: Container(
                                                               child: Text(
-                                                                'Logout',
+                                                                'Logout', textScaleFactor: 1,
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     height: 1.3,
@@ -1292,7 +1292,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                 bottom: 3.0),
                                                             child: Container(
                                                               child: Text(
-                                                                'Go to dashboard',
+                                                                'Go to dashboard', textScaleFactor: 1,
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     height: 1.3,
@@ -1410,7 +1410,7 @@ class chooseStoreState extends State<chooseStore> {
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            Text('Create new shop',
+                                                            Text('Create new shop', textScaleFactor: 1,
                                                               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
                                                               strutStyle: StrutStyle(
                                                                 height: 1.2,
@@ -1493,7 +1493,7 @@ class chooseStoreState extends State<chooseStore> {
                                                             bottom: 3.0),
                                                         child: Container(
                                                           child: Text(
-                                                            'Logout',
+                                                            'Logout', textScaleFactor: 1,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 height: 1.3,
@@ -1539,7 +1539,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               bottom: 3.0),
                                                           child: Container(
                                                             child: Text(
-                                                              'Logout',
+                                                              'Logout', textScaleFactor: 1,
                                                               textAlign: TextAlign.center,
                                                               style: TextStyle(
                                                                   height: 1.3,
@@ -1681,7 +1681,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               bottom: 3.0),
                                                           child: Container(
                                                             child: Text(
-                                                              'Go to dashboard',
+                                                              'Go to dashboard', textScaleFactor: 1,
                                                               textAlign: TextAlign.center,
                                                               style: TextStyle(
                                                                   height: 1.3,

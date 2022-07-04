@@ -263,7 +263,7 @@ bool loadingState = false;
 bool disableTouch = false;
 @override
 Widget build(BuildContext context) {
-
+  final double scaleFactor = MediaQuery.of(context).textScaleFactor;
   if(firstTime) {
     homeBotPadding = MediaQuery.of(context).padding.bottom;
     firstTime = false;
@@ -329,7 +329,7 @@ Widget build(BuildContext context) {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        'Information',
+                                        'Information',  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 13,
@@ -339,7 +339,7 @@ Widget build(BuildContext context) {
                                     ],
                                   ),
                                   Text(
-                                    'Account settings',
+                                    'Account settings',  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 20,
@@ -363,7 +363,7 @@ Widget build(BuildContext context) {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
-                                child: Text('CHANGE PASSWORD', style: TextStyle(
+                                child: Text('CHANGE PASSWORD',  textScaleFactor: 1, style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14, color: Colors.grey,
@@ -387,7 +387,8 @@ Widget build(BuildContext context) {
                                     return null;
                                   },
                                   style: TextStyle(
-                                      height: 0.95
+                                      height: 0.95,
+                                    fontSize: 15/scaleFactor,
                                   ),
                                   maxLines: 1,
                                   decoration: InputDecoration(
@@ -426,13 +427,13 @@ Widget build(BuildContext context) {
                                     ),
                                     suffixStyle: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                     ),
                                     errorText: current,
                                     errorStyle: TextStyle(
                                         backgroundColor: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                         height: 0.1
                                     ),
@@ -471,7 +472,8 @@ Widget build(BuildContext context) {
                                     return null;
                                   },
                                   style: TextStyle(
-                                      height: 0.95
+                                      height: 0.95,
+                                    fontSize: 15/scaleFactor,
                                   ),
                                   maxLines: 1,
                                   decoration: InputDecoration(
@@ -510,13 +512,13 @@ Widget build(BuildContext context) {
                                     ),
                                     suffixStyle: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                     ),
                                      errorText: weak,
                                     errorStyle: TextStyle(
                                         backgroundColor: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                         height: 0.1
                                     ),
@@ -553,7 +555,7 @@ Widget build(BuildContext context) {
                                     return null;
                                   },
                                   style: TextStyle(
-                                      height: 0.95
+                                      height: 0.95, fontSize: 15/scaleFactor,
                                   ),
                                   maxLines: 1,
                                   decoration: InputDecoration(
@@ -592,13 +594,13 @@ Widget build(BuildContext context) {
                                     ),
                                     suffixStyle: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                     ),
                                     // errorText: wrongEmail,
                                     errorStyle: TextStyle(
                                         backgroundColor: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                         height: 0.1
                                     ),
@@ -774,7 +776,7 @@ Widget build(BuildContext context) {
                                           bottom: 3.0),
                                       child: Container(
                                         child: Text(
-                                         textSetChangePassword,
+                                         textSetChangePassword,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               height: 1.3,

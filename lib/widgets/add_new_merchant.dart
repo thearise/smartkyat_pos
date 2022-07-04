@@ -102,6 +102,7 @@ class _AddMerchantState extends State<AddMerchant> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -156,7 +157,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(right: 15.0, left: 15.0,),
-                                        child: Text(textSetInformation, style: TextStyle(
+                                        child: Text(textSetInformation,textScaleFactor: 1, style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,color: Colors.grey,
@@ -182,6 +183,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             merchFieldsValue.add(value);
                                             return null;
                                           },
+                                          style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                           decoration: InputDecoration(
                                             enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -206,13 +208,13 @@ class _AddMerchantState extends State<AddMerchant> {
                                            // suffixText: 'Required',
                                             errorStyle: TextStyle(
                                                 backgroundColor: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 12/scaleFactor,
                                                 fontFamily: 'capsulesans',
                                                 height: 0.1
                                             ),
                                             suffixStyle: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 12,
+                                              fontSize: 12/scaleFactor,
                                               fontFamily: 'capsulesans',
                                             ),
                                             labelStyle: TextStyle(
@@ -244,6 +246,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             merchFieldsValue.add(value);
                                             return null;
                                           },
+                                          style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                           decoration: InputDecoration(
                                             enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -269,12 +272,12 @@ class _AddMerchantState extends State<AddMerchant> {
                                             suffixStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
-                                              fontSize: 12,
+                                              fontSize: 12/scaleFactor,
 //fontFamily: 'capsulesans',
                                             ),
                                             errorStyle: TextStyle(
                                                 backgroundColor: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 12/scaleFactor,
                                                 fontFamily: 'capsulesans',
                                                 height: 0.1
                                             ),
@@ -307,6 +310,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             merchFieldsValue.add(value);
                                             return null;
                                           },
+                                          style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                           decoration: InputDecoration(
                                             enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -331,13 +335,13 @@ class _AddMerchantState extends State<AddMerchant> {
                                            // suffixText: 'Required',
                                             errorStyle: TextStyle(
                                                 backgroundColor: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 12/scaleFactor,
                                                 fontFamily: 'capsulesans',
                                                 height: 0.1
                                             ),
                                             suffixStyle: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 12,
+                                              fontSize: 12/scaleFactor,
                                               fontFamily: 'capsulesans',
                                             ),
                                             labelStyle: TextStyle(
@@ -483,7 +487,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      textSetAdd,
+                                      textSetAdd, textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,

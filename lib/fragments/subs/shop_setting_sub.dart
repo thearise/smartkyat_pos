@@ -230,7 +230,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Information',
+                                'Information',  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -244,7 +244,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 ),
                               ),
                               Text(
-                                textSetShopSetting,
+                                textSetShopSetting,  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,
@@ -274,7 +274,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('INFORMATION', style: TextStyle(
+                          child: Text('INFORMATION',  textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -468,7 +468,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0, bottom: 3),
-              child: Text(leftTxt,
+              child: Text(leftTxt,  textScaleFactor: 1,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
                   strutStyle: StrutStyle(
                     height: 2,
@@ -484,7 +484,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                   // color: Colors.yellow,
                   // width: MediaQuery.of(context).size.width/6,
                     child: Text(
-                        rightTxt,
+                        rightTxt,  textScaleFactor: 1,
                         textAlign: TextAlign.right,overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,),
                         strutStyle: StrutStyle(

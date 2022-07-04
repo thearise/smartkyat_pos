@@ -112,7 +112,7 @@ class _LossProductState extends State<LossProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -169,7 +169,7 @@ class _LossProductState extends State<LossProduct> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                widget.prodID.split('^')[1].toString(),
+                                widget.prodID.split('^')[1].toString(), textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -184,7 +184,7 @@ class _LossProductState extends State<LossProduct> {
                                 ),
                               ),
                               Text(
-                                  textSetAddLoss,
+                                  textSetAddLoss, textScaleFactor: 1,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 20,
@@ -216,7 +216,7 @@ class _LossProductState extends State<LossProduct> {
                                   alignment: Alignment.topLeft,
                                   padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
                                   child: Text(
-                                      textSetLossInventory,
+                                      textSetLossInventory, textScaleFactor: 1,
                                       style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
@@ -258,20 +258,20 @@ class _LossProductState extends State<LossProduct> {
                                       return null;
                                     },
                                     style: TextStyle(
-                                      height: 0.95,
+                                      height: 0.95, fontSize: 15/scaleFactor,
                                     ),
                                     decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-
-                                          borderSide: BorderSide(
+                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
                                               color: AppTheme.skBorderColor,
                                               width: 2.0),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10.0))),
 
-                                      focusedBorder: OutlineInputBorder(
-
-                                          borderSide: BorderSide(
+                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
                                               color: AppTheme.themeColor,
                                               width: 2.0),
                                           borderRadius: BorderRadius.all(
@@ -281,16 +281,16 @@ class _LossProductState extends State<LossProduct> {
                                           right: 15.0,
                                           top: 20.0,
                                           bottom: 20.0),
-                                      suffixText: widget.prodID.split('^')[2].toString(),
+                                      // suffixText: 'Required',
                                       suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                          height: 0.8
+                                        color: Colors.grey,
+                                        fontSize: 12/scaleFactor,
+                                        fontFamily: 'capsulesans',
                                       ),
+                                      //errorText: wrongPassword,
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -345,7 +345,7 @@ class _LossProductState extends State<LossProduct> {
                                 return null;
                               },
                               style: TextStyle(
-                                height: 0.95,
+                                height: 0.95, fontSize: 15/scaleFactor,
                               ),
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
@@ -368,15 +368,16 @@ class _LossProductState extends State<LossProduct> {
                                     right: 15.0,
                                     top: 20.0,
                                     bottom: 20.0),
-                                suffixText: '$currencyUnit',
+                                // suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
+                                //errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -604,7 +605,7 @@ class _LossProductState extends State<LossProduct> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                  textSetSave,
+                                  textSetSave, textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 18,

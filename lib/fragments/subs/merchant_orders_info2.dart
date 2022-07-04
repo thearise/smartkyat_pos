@@ -159,7 +159,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetAll,
+                                              textSetAll,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -190,7 +190,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetTUnpaid,
+                                              textSetTUnpaid, textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -220,7 +220,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetTRefunds,
+                                              textSetTRefunds,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -275,7 +275,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                           child: Container(
                             // color: AppTheme.lightBgColor,
                             color: Colors.white,
-                            child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                            child: Center(child: Text('No data found', textScaleFactor: 1, style: TextStyle(fontSize: 15),)),
                           ),
                         )
                       ],
@@ -327,7 +327,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetAll,
+                                          textSetAll,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -358,7 +358,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetTUnpaid,
+                                          textSetTUnpaid,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -388,7 +388,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetTRefunds,
+                                          textSetTRefunds,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -441,7 +441,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                     ),),
                   footer: SliverToBoxAdapter(child: Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
-                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                    child: Center(child: Text('End of results',  textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                   ),),
                   bottomLoader: Padding(
                     padding: const EdgeInsets.only(bottom: 34.0),
@@ -487,7 +487,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              Text('#' + data['deviceId'] + data['orderId'],
+                                              Text('#' + data['deviceId'] + data['orderId'],  textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w500
@@ -501,14 +501,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               SizedBox(width: 4),
                                               Text(
                                                 covertToDayNum(data['date'].toDate().day.toString()) + '/' + zeroToTen(data['date'].toDate().month.toString()) + ' ',
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
                                                 ),
                                               ),
                                               Text(convertToHour(data['date'].toDate().hour.toString()) + ':' + convertToMinutes(data['date'].toDate().minute.toString()) + ' ' + convertToAMPM(data['date'].toDate().hour.toString()),
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
@@ -521,7 +521,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(widget.merchName, style: TextStyle(
+                                              Text(widget.merchName,  textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey,
@@ -549,7 +549,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                 child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
-                                                  strutStyle: StrutStyle(
+                                                  textScaleFactor: 1, strutStyle: StrutStyle(
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
@@ -576,7 +576,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                 child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
-                                                  strutStyle: StrutStyle(
+                                                  textScaleFactor: 1, strutStyle: StrutStyle(
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
@@ -602,7 +602,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                 child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
-                                                  strutStyle: StrutStyle(
+                                                  textScaleFactor: 1, strutStyle: StrutStyle(
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
@@ -628,7 +628,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                 child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
-                                                  strutStyle: StrutStyle(
+                                                  textScaleFactor: 1, strutStyle: StrutStyle(
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
@@ -655,7 +655,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                 child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                                  strutStyle: StrutStyle(
+                                                  textScaleFactor: 1, strutStyle: StrutStyle(
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
@@ -684,7 +684,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                  Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   )),
@@ -761,7 +761,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            widget.merchAddress,
+                            widget.merchAddress,  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 13,
@@ -776,7 +776,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             ),
                           ),
                           Text(
-                            widget.merchName,
+                            widget.merchName,  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 18,

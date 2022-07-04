@@ -142,7 +142,7 @@ class MethodListView extends StatelessWidget {
                 // addNewProd(context);
               },
               child: Text(
-                'Add image',
+                'Add image', textScaleFactor: 1,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1.3,

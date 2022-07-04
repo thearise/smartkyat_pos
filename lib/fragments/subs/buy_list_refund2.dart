@@ -308,6 +308,7 @@ class _BuyListRefundState extends State<BuyListRefund>
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -470,7 +471,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                     prodListView[i]
                                                                         .split(
                                                                         '^')[1],
-                                                                    maxLines: 1,
+                                                                    maxLines: 1,  textScaleFactor: 1,
                                                                     style:
                                                                     TextStyle(
                                                                       fontWeight: FontWeight
@@ -518,7 +519,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                                 prodListView[i]
                                                                                     .split(
                                                                                     '^')[2] +
-                                                                                ' ',
+                                                                                ' ',  textScaleFactor: 1,
                                                                             style: TextStyle(
                                                                                 fontSize: 12.5,
                                                                                 fontWeight: FontWeight
@@ -594,6 +595,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                           child: TextField(
                                                                             textAlign: TextAlign
                                                                                 .center,
+                                                                            style: TextStyle(
+                                                                              height: 0.95,
+                                                                              fontSize: 15 / scaleFactor,
+                                                                            ),
                                                                             decoration: InputDecoration(
                                                                               enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -800,7 +805,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                         .split(
                                                                         '^')[7]))
                                                                 .round()
-                                                                .toString(),
+                                                                .toString(),  textScaleFactor: 1,
                                                                 style: TextStyle(
                                                                   fontSize: 11,
                                                                   fontWeight: FontWeight
@@ -840,7 +845,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                         // ),
                                         ListTile(
                                           title: Text(
-                                            textSetTtlRefundAmount,
+                                            textSetTtlRefundAmount,  textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight:
@@ -848,15 +853,15 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     .w500),
                                           ),
                                           subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                              style: TextStyle(
+                                              textScaleFactor: 1,  style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )) : Text(totalItems().toString() + ' items',
-                                              style: TextStyle(
+                                              textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )),
                                           trailing: Text('$currencyUnit '+
                                               totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            style: TextStyle(
+                                            textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight:
                                                 FontWeight
@@ -1272,7 +1277,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   bottom: 2.0),
                                               child: Container(
                                                 child: Text(
-                                                  textSetRefundBtn,
+                                                  textSetRefundBtn,  textScaleFactor: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 18,
@@ -1378,7 +1383,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                         onPressed: () {},
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense",  textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,

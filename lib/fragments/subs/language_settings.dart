@@ -181,7 +181,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              textSetDisplay,
+                              textSetDisplay,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -196,7 +196,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                               ),
                             ),
                             Text(
-                              textSetLanguage,
+                              textSetLanguage,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -218,7 +218,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Text(textSetChgLang, style: TextStyle(
+                child: Text(textSetChgLang,  textScaleFactor: 1, style: TextStyle(
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,color: Colors.grey,
@@ -252,7 +252,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                                 offset: Offset(-12, -1.1),
                                 child: Container(
                                   child: Text('English', overflow: TextOverflow.ellipsis, textScaleFactor: 1,
-                                    style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
+                                     style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
                                     strutStyle: StrutStyle(
                                       height: 1.5,
                                       // fontSize:,

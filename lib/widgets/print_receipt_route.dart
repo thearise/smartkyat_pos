@@ -464,7 +464,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                           child: CupertinoActivityIndicator(radius: 15,)),
                                                     ) : Container(
                                                         child: Text(
-                                                          'Save as image',
+                                                          'Save as image', textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 17,
@@ -537,7 +537,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Text('RECEIPT VOUCHER',
+                            child: Text('RECEIPT VOUCHER', textScaleFactor: 1,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

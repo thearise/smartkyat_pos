@@ -284,7 +284,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                              child: Center(child: Text('End of results', textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                             )),
                             bottomLoader: Container(
                               child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
@@ -416,7 +416,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        textSetSearch,
+                                        textSetSearch, textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

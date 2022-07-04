@@ -95,7 +95,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + widget.data.split('^')[2].toString(),
+                                  Text('MMK ' + widget.data.split('^')[2].toString(), textScaleFactor: 1,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                     ),),
                                   Text('#' +
                                       widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
-                                    style: TextStyle(
+                                    textScaleFactor: 1, style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -159,7 +159,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                                   CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
-                                                      _blueDevices[index].name,
+                                                      _blueDevices[index].name, textScaleFactor: 1,
                                                       style: TextStyle(
                                                           color:
                                                           _selectedDevice?.address ==
@@ -172,7 +172,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      _blueDevices[index].address,
+                                                      _blueDevices[index].address, textScaleFactor: 1,
                                                       style: TextStyle(
                                                           color:
                                                           _selectedDevice?.address ==
@@ -265,11 +265,11 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
                           Text(
-                            'Scan bluetooth device',
+                            'Scan bluetooth device', textScaleFactor: 1,
                             style: TextStyle(fontSize: 24, color: Colors.blue),
                           ),
                           Text(
-                            'Press button scan',
+                            'Press button scan', textScaleFactor: 1,
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
                         ],

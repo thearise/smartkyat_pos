@@ -36,265 +36,270 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
         bottom: true,
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height - 30,
-                          child: Column(
-                            children: [
-
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
-                                child: Container(
-                                    child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 40),
-                                child: Container(
-                                    child: Image.asset('assets/system/retialshop.png',)
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 43),
-                                child: buttonPressed == 'N' ? Text(text, style: TextStyle(
-                                  color: Colors.black,
-                                ),) : buttonPressed == 'S' ? Text(text1, style: TextStyle(
-                                  color: Colors.green,
-                                ),) : Text(text2, style: TextStyle(
-                                  color: Colors.red,
-                                ),)
-                              ),
-                              Form(
-                                key: _formKey,
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
-                                    child: TextFormField(
-//The validator receives the text that the user has entered.
-                                      controller: _email,
-                                      keyboardType: TextInputType.emailAddress,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          // return '';
-                                          return ' This field is required ';
-                                        }
-                                        return null;
-                                      },
-                                      style: TextStyle(
-                                          height: 0.95
-                                      ),
-                                      maxLines: 1,
-                                      decoration: InputDecoration(
-                                        enabledBorder:  OutlineInputBorder(
-                                            borderSide:  BorderSide(
-                                                color: AppTheme.skBorderColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-
-                                        focusedBorder:  OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide:  BorderSide(
-                                                color: AppTheme.themeColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                                        // isDense: true,
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 15.0,
-                                            right: 15.0,
-                                            top: 20,
-                                            bottom: 20.0),
-                                        //suffixText: 'Required',
-                                        suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                        ),
-                                       // errorText: wrongEmail,
-                                        errorStyle: TextStyle(
-                                            backgroundColor: Colors.white,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                            height: 0.1
-                                        ),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-// errorText: 'Error message',
-                                        labelText: 'Type your Email address',
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-//filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
-                  child: buttonPressed == 'N' || buttonPressed == 'E' ?
-                         ButtonTheme(
-                        minWidth: MediaQuery.of(context).size.width,
-                        splashColor: Colors.transparent,
-                        height: 50,
-                        child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: () async {
-                                try {
-                                  final result = await InternetAddress.lookup('google.com');
-                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        loadingState = true;
-                                      });
-                                      resetPassword();
-                                    }
-                                  }
-                                } on SocketException catch (_) {
-                                  setState(() {
-                                    smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                  });
-                                }
-                              },
-                              child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5.0,
-                                    right: 5.0,
-                                    bottom: 3.0),
-                                child: Container(
-                                  child: Text(
-                                    'Reset Password',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing:-0.1
-                                    ),
-                                  ),
-                                ),
-                              ),
-                        ),
-                  ) :
-                         ButtonTheme(
-                        minWidth: MediaQuery.of(context).size.width,
-                        splashColor: Colors.transparent,
-                        height: 50,
-                        child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: () {
-                               Navigator.pop(context);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5.0,
-                                    right: 5.0,
-                                    bottom: 3.0),
-                                child: Container(
-                                  child: Text(
-                                    'Return to Login',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing:-0.1
-                                    ),
-                                  ),
-                                ),
-                              ),
-                        ),
-                  ),
-                ),
-                            ],
-                          ),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+        child: Padding(
+          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ListView(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 2.0),
-                          child: Text('Return to Login screen?',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.02
-                            ),),
-                        ),
-                        SizedBox(width: 15,),
-                        ButtonTheme(
-                          minWidth: 35,
-                          splashColor: Colors.transparent,
-                          height: 30,
-                          child: FlatButton(
-                            color: AppTheme.themeColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(50.0),
-                              side: BorderSide(
-                                color: AppTheme.themeColor,
-                              ),
-                            ),
-                            onPressed: ()  {
-                            Navigator.pop(context);
-                            },
-                            child: Container(
-                              child: Text(
-                                'Login',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
+                        Container(
+                          height: MediaQuery.of(context).size.height - 30,
+                            child: Column(
+                              children: [
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
+                                  child: Container(
+                                      child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
+                                  ),
                                 ),
-                              ),
-                            ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 40),
+                                  child: Container(
+                                      child: Image.asset('assets/system/retialshop.png',)
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 43),
+                                  child: buttonPressed == 'N' ? Text(text,  textScaleFactor: 1, style: TextStyle(
+                                    color: Colors.black,
+                                  ),) : buttonPressed == 'S' ? Text(text1,  textScaleFactor: 1, style: TextStyle(
+                                    color: Colors.green,
+                                  ),) : Text(text2,  textScaleFactor: 1, style: TextStyle(
+                                    color: Colors.red,
+                                  ),)
+                                ),
+                                Form(
+                                  key: _formKey,
+                                  child: Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
+                                      child: TextFormField(
+//The validator receives the text that the user has entered.
+                                        controller: _email,
+                                        keyboardType: TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            // return '';
+                                            return ' This field is required ';
+                                          }
+                                          return null;
+                                        },
+                                        style: TextStyle(
+                                            height: 0.95,
+                                          fontSize: 15/scaleFactor,
+                                        ),
+                                        maxLines: 1,
+                                        decoration: InputDecoration(
+                                          enabledBorder:  OutlineInputBorder(
+                                              borderSide:  BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder:  OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide:  BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                          // isDense: true,
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 20,
+                                              bottom: 20.0),
+                                          //suffixText: 'Required',
+                                          suffixStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12/scaleFactor,
+                                            fontFamily: 'capsulesans',
+                                          ),
+                                         // errorText: wrongEmail,
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12/scaleFactor,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+// errorText: 'Error message',
+                                          labelText: 'Type your Email address',
+                                          floatingLabelBehavior:
+                                          FloatingLabelBehavior.auto,
+//filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
+                    child: buttonPressed == 'N' || buttonPressed == 'E' ?
+                           ButtonTheme(
+                          minWidth: MediaQuery.of(context).size.width,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
+                                color: AppTheme.themeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: AppTheme.themeColor,
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  try {
+                                    final result = await InternetAddress.lookup('google.com');
+                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          loadingState = true;
+                                        });
+                                        resetPassword();
+                                      }
+                                    }
+                                  } on SocketException catch (_) {
+                                    setState(() {
+                                      smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                    });
+                                  }
+                                },
+                                child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      bottom: 3.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Reset Password',  textScaleFactor: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1
+                                      ),
+                                    ),
+                                  ),
+                                ),
                           ),
-                        )],
+                    ) :
+                           ButtonTheme(
+                          minWidth: MediaQuery.of(context).size.width,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
+                                color: AppTheme.themeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: AppTheme.themeColor,
+                                  ),
+                                ),
+                                onPressed: () {
+                                 Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      bottom: 3.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Return to Login',  textScaleFactor: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                          ),
                     ),
                   ),
-                )
-              ],
-            ),
-          ],
+                              ],
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2.0),
+                            child: Text('Return to Login screen?',  textScaleFactor: 1,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.02
+                              ),),
+                          ),
+                          SizedBox(width: 15,),
+                          ButtonTheme(
+                            minWidth: 35,
+                            splashColor: Colors.transparent,
+                            height: 30,
+                            child: FlatButton(
+                              color: AppTheme.themeColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                  color: AppTheme.themeColor,
+                                ),
+                              ),
+                              onPressed: ()  {
+                              Navigator.pop(context);
+                              },
+                              child: Container(
+                                child: Text(
+                                  'Login',  textScaleFactor: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

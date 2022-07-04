@@ -131,7 +131,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       items.add(
         DropdownMenuItem(
           value: i,
-          child: Text(i['keyword']),
+          child: Text(i['keyword'], textScaleFactor: 1,),
         ),
       );
     }
@@ -281,7 +281,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              'Others',
+                              'Others',  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -296,7 +296,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                               ),
                             ),
                             Text(
-                              textSetPrintSetting,
+                              textSetPrintSetting,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -325,7 +325,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text(textSetPaperSize, style: TextStyle(
+                          child: Text(textSetPaperSize,  textScaleFactor: 1,  style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -395,7 +395,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                          child: Text('BLUETOOTH', style: TextStyle(
+                          child: Text('BLUETOOTH',  textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -413,7 +413,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0),
                               child: ListTile(
-                                title: Text(textSetConnect,
+                                title: Text(textSetConnect,  textScaleFactor: 1,
                                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),
                                   strutStyle: StrutStyle(
                                     height: 2,
@@ -526,7 +526,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'Information',
+                                      'Information',  textScaleFactor: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
@@ -536,7 +536,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                   ],
                                 ),
                                 Text(
-                                  'Account settings',
+                                  'Account settings',  textScaleFactor: 1,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 20,
@@ -560,7 +560,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('INFORMATION', style: TextStyle(
+                            Text('INFORMATION',  textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -718,7 +718,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                       bottom: 2.0),
                                   child: Container(
                                     child: Text(
-                                      'Save and exit',
+                                      'Save and exit',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           height: 1.3,
@@ -809,7 +809,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Information',  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -819,7 +819,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                 ],
                               ),
                               Text(
-                                'Switch shop',
+                                'Switch shop',  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -844,7 +844,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
-                            child: Text('CURRENT SHOP', style: TextStyle(
+                            child: Text('CURRENT SHOP', textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -877,7 +877,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    'New shop',
+                                    'New shop', textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -987,7 +987,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
 
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense", textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,
