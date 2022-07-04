@@ -113,7 +113,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
       items.add(
         DropdownMenuItem(
           value: i,
-          child: Text(i['keyword']),
+          child: Text(i['keyword'], textScaleFactor: 1,),
         ),
       );
     }
@@ -276,7 +276,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              textSetDisplay,
+                              textSetDisplay,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -291,7 +291,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                               ),
                             ),
                             Text(
-                              textSetCurrency,
+                              textSetCurrency,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 18,
@@ -320,7 +320,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text(textSetChgCurrency, style: TextStyle(
+                          child: Text(textSetChgCurrency,   textScaleFactor: 1, style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,

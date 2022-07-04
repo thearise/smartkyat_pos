@@ -191,6 +191,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     },
                                     child: Text(
                                       'ENGLISH',
+                                      textScaleFactor: 1,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -213,6 +214,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                       },
                                       child: Text(
                                         'MYANMAR',
+                                        textScaleFactor: 1,
                                         style: TextStyle(
                                           color: isEnglish?Colors.black.withOpacity(0.3):Colors.black,
                                           fontSize: 14,
@@ -403,7 +405,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Cloud sync (offline support)': 'Cloud sync (offline support)', style: TextStyle(
+                                      child: Text(isEnglish? 'Cloud sync (offline support)': 'Cloud sync (offline support)', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3,
@@ -426,7 +428,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             child: Text(isEnglish?
                                             'Real-time and syncronized data across all over devices with automatically offline-data-restore supported.':
                                             'ဆိုင်ရှိ devices များမှ ရောင်းရသော အချက်အလက်များကို တစ်စုတစည်းတည်း အလိုအလျှောက် စစ်ဆေးကြည့်ရှူနိုင်သည်။ Offline ဖြစ်နေစဉ် မှတ်သားထားသော အချက်အလက်များကိုလည်း online ဖြစ်သည်နှင့် devices အားလုံးတွင် အလိုအလျှောက် update ဖြစ်စေရန် ဆောင်ရွက်ပေးထားသည်။'
-                                              , style: TextStyle(
+                                              , textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -464,7 +466,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Finance reports': 'ငွေစာရင်း reports', style: TextStyle(
+                                      child: Text(isEnglish? 'Finance reports': 'ငွေစာရင်း reports',textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -486,8 +488,8 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: Text(isEnglish?
                                             'Manage payments across all the staff\'s they sell and generate reports to review your finances including sales, stock costs and unpaid orders.':
-                                            'ဝန်ထမ်းများ ရောင်းချထားသော အရောင်းစာရင်းများ၏ ငွေပေးချေမှုများကို စီမံခန့်ခွဲနိုင်သည်။ အရောင်းစာရင်း၊ အဝယ်စာရင်း၊ အကြွေးစာရင်းများ အပါအဝင် ငွေကြးဆိုင်ရာ အချက်အလက်များကို ရက်၊လ၊နှစ်အလိုက် အစီအရင်ခံပေးထားသည်။'
-                                              , style: TextStyle(
+                                            'ဝန်ထမ်းများ ရောင်းချထားသော အရောင်းစာရင်းများ၏ ငွေပေးချေမှုများကို စီမံခန့်ခွဲနိုင်သည်။ အရောင်းစာရင်း၊ အဝယ်စာရင်း၊ အကြွေးစာရင်းများ အပါအဝင် ငွေကြေးဆိုင်ရာ အချက်အလက်များကို ရက်၊လ၊နှစ်အလိုက် အစီအရင်ခံပေးထားသည်။'
+                                              ,textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -525,7 +527,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Inventory status': 'ကုန်ပစ္စည်း အဝင်အထွက် စာရင်း', style: TextStyle(
+                                      child: Text(isEnglish? 'Inventory status': 'ကုန်ပစ္စည်း အဝင်အထွက် စာရင်း', textScaleFactor: 1,style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -547,7 +549,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: Text(isEnglish?
                                             'Use inventory states to track and share the status of your inventory as products are received, sold, or an order is fulfilled.':
-                                            'မှာယူမှု ပြီးဆုံးခြင်း သို့မဟုတ် ရောင်းချခြင်း နှင့် ထုတ်ကုန်များ လက်ခံရရှိခြင်း ကဲ့သို့သော အချက်အလက်များကို ခြေရာခံ ကြည့်ရှုနိုင်သည်။', style: TextStyle(
+                                            'မှာယူမှု ပြီးဆုံးခြင်း သို့မဟုတ် ရောင်းချခြင်း နှင့် ထုတ်ကုန်များ လက်ခံရရှိခြင်း ကဲ့သို့သော အချက်အလက်များကို ခြေရာခံ ကြည့်ရှုနိုင်သည်။', textScaleFactor: 1,style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -585,7 +587,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Unlimited products': 'အကန့်အသတ်မရှိ ကုန်ပစ္စည်းများ', style: TextStyle(
+                                      child: Text(isEnglish? 'Unlimited products': 'အကန့်အသတ်မရှိ ကုန်ပစ္စည်းများ', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -606,7 +608,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                           child: Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: Text(isEnglish? 'Add multiple sub-items of unlimited products such as dozens, items per package and assign their own price, SKU (Stock keeping units), units per package and inventory.':
-                                              'တစ်ထုပ်လျှင် ဒါဇင်၊ ခု အစရှိသော ကုန်ပစ္စည်းတစ်ခု ၏ ပစ္စည်းအခွဲ များထည့်ထားပြီး အခွဲများအလိုက် စျေးအမျိုးမျိုး၊ ယူနစ်အမျိုးမျိုး သတ်မှတ်နိုင်သည်။', style: TextStyle(
+                                              'တစ်ထုပ်လျှင် ဒါဇင်၊ ခု အစရှိသော ကုန်ပစ္စည်းတစ်ခု ၏ ပစ္စည်းအခွဲ များထည့်ထားပြီး အခွဲများအလိုက် စျေးအမျိုးမျိုး၊ ယူနစ်အမျိုးမျိုး သတ်မှတ်နိုင်သည်။', textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -644,7 +646,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Barcode scans (camera scanner)': 'Barcode scans (camera scanner)', style: TextStyle(
+                                      child: Text(isEnglish? 'Barcode scans (camera scanner)': 'Barcode scans (camera scanner)', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -667,7 +669,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             child: Text(isEnglish?
                                             'Assign barcodes to products to keeep track of inventory and speed up checkout.':
                                             'ရောင်းချမှု မြန်ဆန်စေရန် ကုန်ပစ္စည်းများကို Barcode အသုံးပြုပြီး ရောင်းချနိုင်သည်။'
-                                              , style: TextStyle(
+                                              , textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -705,7 +707,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Print an invoice (PNG receipt supported)': 'ဘောင်ချာထုတ် service (ပုံနှင့်ရော, printer ပါ)', style: TextStyle(
+                                      child: Text(isEnglish? 'Print an invoice (PNG receipt supported)': 'ဘောင်ချာထုတ် service (ပုံနှင့်ရော, printer ပါ)', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -727,7 +729,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: Text(isEnglish? 'Instant printing service after each sale or by selecting an order from order lists with minimized waiting time.':
                                                 'Printer စောင့်ဆိုင်းချိန် အနည်းဆုံးဖြင့် အရောင်းအဝယ် တခါပြီးတိုင်း အလွယ်တကူ တန်းထုတ်နိုင်သလို, ရောင်းပြီးသား စာရင်းများမှလည်း ဝင်ရောက်ထုတ်နိုင်ပါသည်။'
-                                              , style: TextStyle(
+                                              ,textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -765,7 +767,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'POS staff roles and permissions': 'POS ဝန်းထမ်း roles and permissions', style: TextStyle(
+                                      child: Text(isEnglish? 'POS staff roles and permissions': 'POS ဝန်းထမ်း roles and permissions', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -785,7 +787,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                         Container(
                                           child: Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text(isEnglish? 'Assign custom roles to store staff ensuring they have the correct permissions.': 'ဝန်ထမ်းများကို ရာထူးအလိုက် လုပ်ဆောင်နိုင်ခွင့်များ သတ်မှတ်ပေးနိုင်သည်။', style: TextStyle(
+                                            child: Text(isEnglish? 'Assign custom roles to store staff ensuring they have the correct permissions.': 'ဝန်ထမ်းများကို ရာထူးအလိုက် လုပ်ဆောင်နိုင်ခွင့်များ သတ်မှတ်ပေးနိုင်သည်။',textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -823,7 +825,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Order refunds, discounts and debts': 'ပစ္စည်းပြန်လဲခြင်း, စျေးလျော့ခြင်း နှင့် အကြွေးဝယ်ခြင်း', style: TextStyle(
+                                      child: Text(isEnglish? 'Order refunds, discounts and debts': 'ပစ္စည်းပြန်လဲခြင်း, စျေးလျော့ခြင်း နှင့် အကြွေးဝယ်ခြင်း', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -845,7 +847,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: Text(isEnglish?
                                               'Return items of past purchases from any devices, and apply discounts and debts to each order.':
-                                              'အရောင်းစာရင်း တစ်ခုခြင်းစီတွင် စိတ်ကြိုက် လျှော့စျေးများနှင့် အကြွေးပမာဏများ ထည့်သွင်းထားနိုင်သည်။  ရောင်းပြီး စာရင်း များမှ ကုန်ပစ္စည်းတစ်ခုချင်းစီ ကိုလဲ ပြန်ပေးစာရင်းများ ပြုလုပ်နိုင်သည်။', style: TextStyle(
+                                              'အရောင်းစာရင်း တစ်ခုခြင်းစီတွင် စိတ်ကြိုက် လျှော့စျေးများနှင့် အကြွေးပမာဏများ ထည့်သွင်းထားနိုင်သည်။  ရောင်းပြီး စာရင်း များမှ ကုန်ပစ္စည်းတစ်ခုချင်းစီ ကိုလဲ ပြန်ပေးစာရင်းများ ပြုလုပ်နိုင်သည်။',textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -883,7 +885,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(isEnglish? 'Rich customer profiles': 'Rich customer profiles', style: TextStyle(
+                                      child: Text(isEnglish? 'Rich customer profiles': 'Rich customer profiles',textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -906,7 +908,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                             child: Text(isEnglish?
                                             'Keep track of contact information, purchase history, lifetime spend, and debts of each customers.':
                                             'ဖောက်သည်များ၏ လိပ်စာ၊ ဝယ်ယူမှုမှတ်တမ်းများ နှင့် အကြွေးစာရင်းများကို ခြေရာခံ ကြည့်ရှုနိုင်သည်။'
-                                              , style: TextStyle(
+                                              , textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             ),
@@ -953,7 +955,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Text('INFORMATION', style: TextStyle(
+                        child: Text('INFORMATION', textScaleFactor: 1, style: TextStyle(
                           letterSpacing: 1.5,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,color: Colors.grey,
@@ -1076,7 +1078,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                     child: Container(
                                         child: Text(
-                                          isEnglish? 'Set as default': 'Default ထားမည််',
+                                          isEnglish? 'Set as default': 'Default ထားမည််',textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               height: 1.3,

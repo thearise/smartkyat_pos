@@ -455,7 +455,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: Container(
                                                               width: 80,
                                                               child: Text(
-                                                                  textSetRefBtn,
+                                                                  textSetRefBtn,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
                                                                         .w600,
@@ -524,7 +524,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: Container(
                                                               width: 80,
                                                               child: Text(
-                                                                  textSetPayCashBtn,
+                                                                  textSetPayCashBtn,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
                                                                         .w600,
@@ -610,7 +610,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: Container(
                                                               width: 80,
                                                               child: Text(
-                                                                  textSetPrint,
+                                                                  textSetPrint,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
                                                                         .w600,
@@ -671,7 +671,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             bottom: 15,
                                                             left: 0,
                                                             child: Text(
-                                                                textSetRefBtn,
+                                                                textSetRefBtn,  textScaleFactor: 1,
                                                                 maxLines: 2,
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
@@ -723,7 +723,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: Container(
                                                               width: 80,
                                                               child: Text(
-                                                                  textSetPayCashBtn,
+                                                                  textSetPayCashBtn,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
                                                                         .w600,
@@ -813,7 +813,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: Container(
                                                               width: 80,
                                                               child: Text(
-                                                                  textSetPrint,
+                                                                  textSetPrint,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
                                                                         .w600,
@@ -841,7 +841,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           SizedBox(height: 20,),
                                           (ttlQ - ttlR).round().toString() != '0' ? Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Text(textSetPurchase, style: TextStyle(
+                                            child: Text(textSetPurchase,  textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
                                               letterSpacing: 2,
@@ -849,7 +849,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             ),),
                                           ):  ((widget.data.split('^')[6]) != '0.0') || ((widget.data.split('^')[5]) != '0.0') ? Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Text(textSetFullyRef, style: TextStyle(
+                                            child: Text(textSetFullyRef,  textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
                                               letterSpacing: 2,
@@ -937,7 +937,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   prodListView[i]
                                                                       .split(
                                                                       '^')[1],
-                                                                  maxLines: 1,
+                                                                  maxLines: 1,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontWeight: FontWeight
@@ -983,8 +983,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                         prodListView[i]
                                                                             .split(
                                                                             '^')[2] +
-                                                                        ' ',
-                                                                        style: TextStyle(
+                                                                        ' ',  textScaleFactor: 1,
+                                                                        style:  TextStyle(
                                                                             fontSize: 12.5,
                                                                             fontWeight: FontWeight
                                                                                 .w500,
@@ -1015,7 +1015,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                         .replaceAllMapped(
                                                                         RegExp(
                                                                             r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
-                                                                        Match m) => '${m[1]},'),
+                                                                        Match m) => '${m[1]},'),  textScaleFactor: 1,
                                                                 style: TextStyle(
                                                                     fontSize: 16,
                                                                     fontWeight: FontWeight
@@ -1095,7 +1095,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                           .split(
                                                                           '^')[7]))
                                                                   .round()
-                                                                  .toString(),
+                                                                  .toString(),  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                       fontSize: 11,
                                                                       fontWeight: FontWeight
@@ -1132,22 +1132,22 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 1.0),
                                                 child: ListTile(
-                                                  title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                  subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
+                                                  title: Text('Discount',  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)',  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                   )),
-                                                  trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(),  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                   // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('^')[4]) * (int.parse(prodListView[i].split('^')[3]) - int.parse(prodListView[i].split('^')[7]))).toString()),
                                                   //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                 ),
                                               ) :  Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 1.0),
                                                 child: ListTile (
-                                                  title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                  subtitle: Text(textSetAmount, style: TextStyle(
+                                                  title: Text(textSetDiscount,  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  subtitle: Text(textSetAmount,   textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                   )),
-                                                  trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                 ),
                                               ),
                                             ) else Container(),
@@ -1171,9 +1171,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         padding: const EdgeInsets.only(top: 8.0, bottom: 11.0),
                                                         child: ListTile(
                                                           contentPadding: EdgeInsets.only(left: 0.0, right: 15),
-                                                          title: Text(textSetDebt, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                          title: Text(textSetDebt,  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                                          trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                          trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(),  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                         ),
                                                       ),
@@ -1198,7 +1198,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             )) : BoxDecoration(),
                                         child: Padding(
                                           padding: (ttlQ - ttlR).round().toString() != '0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0): EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0),
-                                          child: Text(textSetRefund, style: TextStyle(
+                                          child: Text(textSetRefund,  textScaleFactor: 1, style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
                                             letterSpacing: 2,
@@ -1290,7 +1290,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               prodListView[i]
                                                   .split(
                                                   '^')[1],
-                                              maxLines: 1,
+                                              maxLines: 1,  textScaleFactor: 1,
                                               style:
                                               TextStyle(
                                                 fontWeight: FontWeight
@@ -1337,7 +1337,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     prodListView[i]
                                                         .split(
                                                         '^')[2] +
-                                                    ' ',
+                                                    ' ',  textScaleFactor: 1,
                                                     style: TextStyle(
                                                         fontSize: 12.5,
                                                         fontWeight: FontWeight
@@ -1444,7 +1444,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   .split(
                                                   '^')[7])
                                               .round()
-                                              .toString(),
+                                              .toString(),  textScaleFactor: 1,
                                           style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight
@@ -1551,7 +1551,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         onPressed: () {},
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense",  textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,
@@ -1957,18 +1957,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     if(str != '0.0') {
       return widget.data.split('^')[6].split('-')[1] == 'p' ?
       Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-        style: TextStyle(
+        textScaleFactor: 1, style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),) :
       Text('$currencyUnit ' +((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) - ((double.parse(prodList.split('^')[4]) * (double.parse(prodList.split('^')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-        style: TextStyle(
+        textScaleFactor: 1, style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),);
     } else {
       return Text('$currencyUnit ' +(double.parse(prodList.split('^')[4]) * double.parse(prodList.split('^')[7])).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-        style: TextStyle(
+        textScaleFactor: 1, style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),);

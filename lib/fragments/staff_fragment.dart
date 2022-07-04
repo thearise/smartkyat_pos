@@ -45,7 +45,7 @@ class _StaffFragmentState extends State<StaffFragment>  with TickerProviderState
                       children: [
                         Container(
                           alignment: Alignment.topLeft,
-                          child: Text('Staffs',
+                          child: Text('Staffs', textScaleFactor: 1,
                             style: TextStyle(fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
@@ -82,7 +82,7 @@ class _StaffFragmentState extends State<StaffFragment>  with TickerProviderState
                               padding: const EdgeInsets.only(left:8.0, right: 8.0),
                               child: Container(child:
                               Text(
-                                'Search',
+                                'Search', textScaleFactor: 1,
                                 style: TextStyle(
                                     fontSize: 16.5,
                                     fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class _StaffFragmentState extends State<StaffFragment>  with TickerProviderState
 
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense", textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,

@@ -552,7 +552,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 5.0),
                                                 child: Text(
-                                                  currencyUnit + ' ' +mainPrice.toString(),
+                                                  currencyUnit + ' ' +mainPrice.toString(), textScaleFactor: 1,
                                                   maxLines: 1,
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
@@ -571,7 +571,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                                                 child: Text(
-                                                  prodName,
+                                                  prodName, textScaleFactor: 1,
                                                   maxLines: 1,
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
@@ -720,7 +720,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     left: 0,
                                                                     bottom: 15,
                                                                     child: Text(
-                                                                        textSetAddtoCart, overflow: TextOverflow.ellipsis,
+                                                                        textSetAddtoCart, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                                         style: TextStyle(
                                                                           fontWeight: FontWeight.w600,
                                                                           fontSize: 16,
@@ -847,7 +847,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               bottom: 15,
                                                               left: 0,
                                                               child: Text(
-                                                                  textSetRefill,overflow: TextOverflow.ellipsis,
+                                                                  textSetRefill, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight.w600,
                                                                     fontSize: 16,
@@ -954,7 +954,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 bottom: 15,
                                                                 left: 0,
                                                                 child: Text(
-                                                                    textSetAddLoss,overflow: TextOverflow.ellipsis,
+                                                                    textSetAddLoss, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight.w600,
                                                                       fontSize: 16,
@@ -1050,7 +1050,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   ),
                                                                 ),
                                                                 Text(
-                                                                  'Edit item',
+                                                                  'Edit item', textScaleFactor: 1,
                                                                   textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                       fontSize: 14,
@@ -1093,7 +1093,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   Icon(SmartKyat_POS.prodm, size: 20, color: Colors.grey),
                                                                   SizedBox(width: 4),
                                                                   Text(
-                                                                    mainName,
+                                                                    mainName, textScaleFactor: 1,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -1124,7 +1124,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   Icon(SmartKyat_POS.prods1, size: 20, color: Colors.grey),
                                                                   SizedBox(width: 4),
                                                                   Text(
-                                                                    sub1Name,
+                                                                    sub1Name, textScaleFactor: 1,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -1155,7 +1155,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   Icon(SmartKyat_POS.prods2, size: 20, color: Colors.grey),
                                                                   SizedBox(width: 4),
                                                                   Text(
-                                                                    sub2Name,
+                                                                    sub2Name, textScaleFactor: 1,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -1193,7 +1193,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            textSetMainUnit,
+                                                            textSetMainUnit, textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight.bold,
                                                               fontSize: 14,
@@ -1221,13 +1221,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetBuyPrice, style:
+                                                                        Text(textSetBuyPrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice1.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + buyPrice1.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1244,13 +1244,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetSalePrice, style:
+                                                                        Text(textSetSalePrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + mainPrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + mainPrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1269,13 +1269,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                 width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetInStock, style:
+                                                                        Text(textSetInStock, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(mainQty.round().toString() + ' ' + mainName, style:
+                                                                        Text(mainQty.round().toString() + ' ' + mainName, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1294,13 +1294,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                 width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetLoss, style:
+                                                                        Text(textSetLoss, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(mainLoss.round().toString() + ' ' + mainName, style:
+                                                                        Text(mainLoss.round().toString() + ' ' + mainName, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1314,13 +1314,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     height: 55,
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetBarcode, style:
+                                                                        Text(textSetBarcode, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(barcode, style:
+                                                                        Text(barcode, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1469,7 +1469,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            textSetSub1,
+                                                            textSetSub1, textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight.bold,
                                                               fontSize: 14,
@@ -1497,13 +1497,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetBuyPrice, style:
+                                                                        Text(textSetBuyPrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + buyPrice2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1520,13 +1520,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetSalePrice, style:
+                                                                        Text(textSetSalePrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + sub1Price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + sub1Price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1545,13 +1545,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                 width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetInStock, style:
+                                                                        Text(textSetInStock, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text( sub1Qty.round().toString() + ' ' + sub1Name, style:
+                                                                        Text( sub1Qty.round().toString() + ' ' + sub1Name, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1570,13 +1570,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                 width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetLoss, style:
+                                                                        Text(textSetLoss,textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(sub1Loss.round().toString() + ' ' + sub1Name, style:
+                                                                        Text(sub1Loss.round().toString() + ' ' + sub1Name, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1590,13 +1590,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     child: Row(
                                                                       children: [
                                                                         Text(
-                                                                          textSetLink1, style:
+                                                                          textSetLink1, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(sub1Unit.toString() + ' ' + sub1Name.toString(), style:
+                                                                        Text(sub1Unit.toString() + ' ' + sub1Name.toString(),textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1745,7 +1745,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            textSetSub2,
+                                                            textSetSub2, textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight.bold,
                                                               fontSize: 14,
@@ -1773,13 +1773,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetBuyPrice, style:
+                                                                        Text(textSetBuyPrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice3.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + buyPrice3.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1796,13 +1796,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetSalePrice, style:
+                                                                        Text(textSetSalePrice, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + sub2Price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                        Text('$currencyUnit ' + sub2Price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1821,13 +1821,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                 width: 1.0))),
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetInStock, style:
+                                                                        Text(textSetInStock, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(sub2Qty.round().toString() + ' ' + sub2Name, style:
+                                                                        Text(sub2Qty.round().toString() + ' ' + sub2Name, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1845,10 +1845,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                                     .withOpacity(0.2),
                                                                                 width: 1.0))),
                                                                     child: Row(
-                                                                      children: [Text(textSetLoss,
+                                                                      children: [Text(textSetLoss, textScaleFactor: 1,
                                                                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500,),),
                                                                         Spacer(),
-                                                                        Text(sub2Loss.round().toString() + ' ' + sub2Name, style:
+                                                                        Text(sub2Loss.round().toString() + ' ' + sub2Name, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1861,13 +1861,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     height: 55,
                                                                     child: Row(
                                                                       children: [
-                                                                        Text(textSetLink2, style:
+                                                                        Text(textSetLink2, textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text(sub2Unit.toString() + ' ' +sub2Name.toString(), style:
+                                                                        Text(sub2Unit.toString() + ' ' +sub2Name.toString(), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -2029,7 +2029,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                             Padding(
                                               padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                               child: Text(
-                                                textSetArchive,
+                                                textSetArchive, textScaleFactor: 1,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 14,
@@ -2067,7 +2067,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       ),
                                                       subtitle: Padding(
                                                         padding: const EdgeInsets.only(bottom: 8.0),
-                                                        child: Text(textSetWarning, style: TextStyle(height: 1.2)),
+                                                        child: Text(textSetWarning, textScaleFactor: 1, style: TextStyle(height: 1.2)),
                                                       ),
                                                       trailing: Container(
                                                         height: 33,
@@ -2136,7 +2136,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             });
                                                           },
                                                           child: Text(
-                                                            textSetRemove,
+                                                            textSetRemove, textScaleFactor: 1,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -2239,7 +2239,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                         Padding(
                           padding: const EdgeInsets.only(left: 5.0),
                           child: Text(
-                            '$currencyUnit ' + widget.mainSell.toString(),
+                            '$currencyUnit ' + widget.mainSell.toString(), textScaleFactor: 1,
                             maxLines: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -2258,7 +2258,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                           child: Text(
-                            widget.prodName,
+                            widget.prodName, textScaleFactor: 1,
                             maxLines: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -2561,7 +2561,7 @@ class _productDetails extends StatelessWidget {
       children: [
         Container(
           child: Text(
-            title_text,
+            title_text, textScaleFactor: 1,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 15,
@@ -2573,7 +2573,7 @@ class _productDetails extends StatelessWidget {
         Container(
           alignment: Alignment.topLeft,
           child: Text(
-            quantity_price,
+            quantity_price, textScaleFactor: 1,
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 15,

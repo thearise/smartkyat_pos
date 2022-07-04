@@ -407,7 +407,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        textSetTotalSales,
+                                        textSetTotalSales, textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
@@ -434,7 +434,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                   child: Row(
                                     children: [
                                       Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        textAlign: TextAlign.left,
+                                        textScaleFactor: 1, textAlign: TextAlign.left,
                                         style: GoogleFonts.lato(
                                             textStyle: TextStyle(
                                                 letterSpacing: 1,
@@ -446,7 +446,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 12.0),
-                                        child: Text(' $currencyUnit',
+                                        child: Text(' $currencyUnit', textScaleFactor: 1,
                                           textAlign: TextAlign.left,
                                           style: GoogleFonts.roboto(
                                               textStyle: TextStyle(
@@ -474,14 +474,14 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           height: 25,
                                           child: Center(
                                             child:  growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Text(' -%   ',
-                                              textAlign: TextAlign.center,
+                                              textScaleFactor: 1, textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
                                                   color: Colors.white),
                                             ) :
                                             Text(' ' +  growthRateSale(lastYearSale, thisYearOrdersChart).toString() + '%  ',
-                                              textAlign: TextAlign.center,
+                                              textScaleFactor: 1, textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -587,7 +587,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -605,7 +605,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetStockCosts,
+                                            Text(textSetStockCosts, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -619,7 +619,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateCost(lastYearCost, yearCostsTotal2).toString() == '1000' ? '-%' : growthRateCost(lastYearCost, yearCostsTotal2).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue : growthRateCost(lastYearCost, yearCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
@@ -629,7 +629,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -676,7 +676,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -694,7 +694,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetUnpaid,
+                                            Text(textSetUnpaid, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -709,7 +709,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() == '1000' ? '-%' : growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue:  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger :  Colors.green,
@@ -719,7 +719,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -765,7 +765,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalRefundBySlide().toString(),
+                                                  child: Text(totalRefundBySlide().toString(), textScaleFactor: 1,
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -784,7 +784,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetBuys,
+                                            Text(textSetBuys, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -799,7 +799,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateRefund(lastYearRefund, yearRefundTotal).toString() == '1000' ? '-%' : growthRateRefund(lastYearRefund, yearRefundTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color:  growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue : growthRateRefund(lastYearRefund, yearRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
@@ -809,7 +809,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -854,7 +854,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(yearLossTotal.toString(),
+                                                  child: Text(yearLossTotal.toString(),textScaleFactor: 1,
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -873,7 +873,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetLoss,
+                                            Text(textSetLoss,textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -902,7 +902,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateLoss(lastYearLoss, yearLossTotal).toString() == '1000' ? '-%' : growthRateLoss(lastYearLoss, yearLossTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateLoss(lastYearLoss, yearLossTotal) == 1000? Colors.blue : growthRateLoss(lastYearLoss, yearLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
@@ -912,7 +912,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -963,7 +963,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      'Total sales',
+                                      'Total sales', textScaleFactor: 1,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,color: Colors.grey,
@@ -1204,7 +1204,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                         Padding(
                           padding: const EdgeInsets.only(top: 0.5),
                           child: Text(
-                            selectDaysCast(),
+                            selectDaysCast(), textScaleFactor: 1,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 14,
@@ -1254,7 +1254,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                       },
                       child: Container(
                         child: Text(
-                          textSetToday,
+                          textSetToday, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1286,7 +1286,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastWeek,
+                          textSetLastWeek, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1318,7 +1318,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastMonth,
+                          textSetLastMonth, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1350,7 +1350,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastYear,
+                          textSetLastYear, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1398,7 +1398,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+        confirm: Text('Done',textScaleFactor: 1, style: TextStyle(color: Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),
@@ -2199,6 +2199,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   }
 
   LineChartData yearlyData(DateTime today) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     List<int> roundYear = [];
     String subMonths = today.month.toString();
     for(double dbl in thisYearOrdersChart) {
@@ -2232,7 +2233,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           reservedSize: 22,
           interval: 1,
           getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/scaleFactor),
           getTitles: (value) {
             switch (value.toInt()) {
             // case 0:
@@ -2281,10 +2282,10 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         leftTitles: SideTitles(
           showTitles: true,
           interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
+          getTextStyles: (context, value) => TextStyle(
             color: Color(0xff67727d),
             fontWeight: FontWeight.w600,
-            fontSize: 13,
+            fontSize: 13/scaleFactor,
           ),
           getTitles: (value) {
 

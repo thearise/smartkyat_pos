@@ -48,6 +48,7 @@ class Top80AppBar extends StatelessWidget {
                     children: [
                       SizedBox(height: 15.8,),
                       Text(subtitle,
+                        textScaleFactor: 1,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -60,6 +61,7 @@ class Top80AppBar extends StatelessWidget {
                         ),
                       ),
                       Text(title,
+                        textScaleFactor: 1,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,

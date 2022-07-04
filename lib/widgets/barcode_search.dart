@@ -185,7 +185,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                 child: Row(
                   children: [
                     Text(
-                      'Point camera at barcode',
+                      'Point camera at barcode', textScaleFactor: 1,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 15,
@@ -196,7 +196,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                     ),
                     Expanded(
                       child: Text(
-                        '',
+                        '', textScaleFactor: 1,
                         textAlign: TextAlign.right,
                         style: TextStyle(
                             fontSize: 15,
@@ -283,7 +283,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                                   left: 13,
                                   bottom: 1.5),
                               child: Text(
-                                'Search',
+                                'Search', textScaleFactor: 1,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,

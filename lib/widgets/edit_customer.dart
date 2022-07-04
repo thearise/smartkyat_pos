@@ -82,7 +82,7 @@ class _EditCustomerState extends State<EditCustomer> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -139,7 +139,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              widget.cusName,
+                              widget.cusName, textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -148,7 +148,7 @@ class _EditCustomerState extends State<EditCustomer> {
                             ),
                             Text(
                               widget.isEnglish ? 'Edit Customer' : 'ဖောက်သည် ပြင်ဆင်ရန်',
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.right, textScaleFactor: 1,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -171,7 +171,7 @@ class _EditCustomerState extends State<EditCustomer> {
                             Padding(
                               padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                               child: Text(
-                                'CUSTOMER INFORMATION',
+                                'CUSTOMER INFORMATION', textScaleFactor: 1,
                                 style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
@@ -196,7 +196,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                   return null;
                                 },
                                 style: TextStyle(
-                                  height: 0.95,
+                                  height: 0.95, fontSize: 15/scaleFactor,
                                 ),
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -222,13 +222,13 @@ class _EditCustomerState extends State<EditCustomer> {
                                   //suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   // errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -259,7 +259,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                   return null;
                                 },
                                 style: TextStyle(
-                                  height: 0.95,
+                                  height: 0.95, fontSize: 15/scaleFactor,
                                 ),
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -285,13 +285,13 @@ class _EditCustomerState extends State<EditCustomer> {
                                   //suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   // errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -322,7 +322,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                   return null;
                                 },
                                 style: TextStyle(
-                                  height: 0.95,
+                                  height: 0.95, fontSize: 15/scaleFactor,
                                 ),
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -348,13 +348,13 @@ class _EditCustomerState extends State<EditCustomer> {
                                   //suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   // errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -517,7 +517,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                widget.isEnglish ? 'Save' : 'သိမ်းဆည်းမည်',
+                                widget.isEnglish ? 'Save' : 'သိမ်းဆည်းမည်', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     height: 1.3,

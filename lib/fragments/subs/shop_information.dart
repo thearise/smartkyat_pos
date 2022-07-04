@@ -7,6 +7,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/constants/screens.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../../app_theme.dart';
@@ -302,6 +303,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
   bool disableTouch = false;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -369,7 +371,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            textSetEdit,
+                                            textSetEdit,  textScaleFactor: 1,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                               fontSize: 13,
@@ -383,7 +385,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                             ),
                                           ),
                                           Text(
-                                            textSetShopInfo,
+                                            textSetShopInfo,  textScaleFactor: 1,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                               fontSize: 18,
@@ -407,7 +409,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                           SizedBox(height: 15,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Text(textSetInformation, style: TextStyle(
+                            child: Text(textSetInformation,  textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -429,6 +431,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                       },
                                       style: TextStyle(
                                         height: 0.95,
+                                        fontSize: 15/scaleFactor,
                                       ),
                                       decoration: InputDecoration(
                                         enabledBorder: const OutlineInputBorder(
@@ -454,13 +457,13 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                         //suffixText: 'Required' ,
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                         ),
                                         // errorText: wrongPassword,
                                         errorStyle: TextStyle(
                                             backgroundColor: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 12/scaleFactor,
                                             fontFamily: 'capsulesans',
                                             height: 0.1
                                         ),
@@ -493,6 +496,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                   },
                                   style: TextStyle(
                                     height: 0.95,
+                                    fontSize: 15/scaleFactor,
                                   ),
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
@@ -518,13 +522,13 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                    // suffixText: 'Required' ,
                                     suffixStyle: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                     ),
                                     //errorText: wrongPassword,
                                     errorStyle: TextStyle(
                                         backgroundColor: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                         height: 0.1
                                     ),
@@ -558,6 +562,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                 },
                                 style: TextStyle(
                                 height: 0.95,
+                                  fontSize: 15/scaleFactor,
                                 ),
                                 decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
@@ -583,13 +588,13 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                 //suffixText: 'Required' ,
                                 suffixStyle: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 12,
+                                fontSize: 12/scaleFactor,
                                 fontFamily: 'capsulesans',
                                 ),
                                 //errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                 backgroundColor: Colors.white,
-                                fontSize: 12,
+                                fontSize: 12/scaleFactor,
                                 fontFamily: 'capsulesans',
                                 height: 0.1
                                 ),
@@ -675,7 +680,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                             bottom: 2.0),
                                         child: Container(
                                           child: Text(
-                                            textSetSave,
+                                            textSetSave,  textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 height: 1.3,

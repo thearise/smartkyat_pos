@@ -231,6 +231,7 @@ class _WelcomeState extends State<Welcome>
 
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -287,7 +288,7 @@ class _WelcomeState extends State<Welcome>
                                                         onTap: () {
                                                           Navigator.pop(context);
                                                         },
-                                                        child: Text('All-in-one ',
+                                                        child: Text('All-in-one ', textScaleFactor: 1,
                                                           style: TextStyle(
                                                               fontSize: 22,
                                                               fontWeight: FontWeight.w700,
@@ -295,14 +296,14 @@ class _WelcomeState extends State<Welcome>
                                                           ),),
                                                       ),
                                                       SizedBox(height: 8),
-                                                      Text('POS system mobile ',
+                                                      Text('POS system mobile ', textScaleFactor: 1,
                                                         style: TextStyle(
                                                             fontSize: 22,
                                                             fontWeight: FontWeight.w700,
                                                             letterSpacing: 0.02
                                                         ),),
                                                       SizedBox(height: 8),
-                                                      Text('in your hands',
+                                                      Text('in your hands', textScaleFactor: 1,
                                                         style: TextStyle(
                                                             fontSize: 22,
                                                             fontWeight: FontWeight.w700,
@@ -334,7 +335,7 @@ class _WelcomeState extends State<Welcome>
                                                             child: Container(
                                                               child: Text(
                                                                 isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
-                                                                textAlign: TextAlign.center,
+                                                                textScaleFactor: 1, textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     height: 1.3,
                                                                     fontSize: 17.5,
@@ -465,7 +466,8 @@ class _WelcomeState extends State<Welcome>
                                                                   return null;
                                                                 },
                                                                 style: TextStyle(
-                                                                    height: 0.95
+                                                                    height: 0.95,
+                                                                    fontSize: 15/scaleFactor
                                                                 ),
                                                                 // strutStyle: StrutStyle(
                                                                 //   height: 1,
@@ -499,13 +501,13 @@ class _WelcomeState extends State<Welcome>
                                                                   //suffixText: 'Required',
                                                                   suffixStyle: TextStyle(
                                                                     color: Colors.grey,
-                                                                    fontSize: 12,
+                                                                    fontSize: 12/scaleFactor,
                                                                     fontFamily: 'capsulesans',
                                                                   ),
                                                                   errorText: wrongEmail,
                                                                   errorStyle: TextStyle(
                                                                       backgroundColor: Colors.white,
-                                                                      fontSize: 12,
+                                                                      fontSize: 12/scaleFactor,
                                                                       fontFamily: 'capsulesans',
                                                                       height: 0.1
                                                                   ),
@@ -548,6 +550,7 @@ class _WelcomeState extends State<Welcome>
                                                               },
                                                               style: TextStyle(
                                                                 height: 0.95,
+                                                                  fontSize : 15/scaleFactor
                                                               ),
                                                               decoration: InputDecoration(
                                                                 enabledBorder: const OutlineInputBorder(
@@ -590,7 +593,7 @@ class _WelcomeState extends State<Welcome>
                                                                 errorText: wrongPassword,
                                                                 errorStyle: TextStyle(
                                                                     backgroundColor: Colors.white,
-                                                                    fontSize: 12,
+                                                                    fontSize: 12/scaleFactor,
                                                                     fontFamily: 'capsulesans',
                                                                     height: 0.1
                                                                 ),
@@ -642,7 +645,7 @@ class _WelcomeState extends State<Welcome>
                                                                             child: Text(
                                                                               isEnglish? 'Forgot?': 'မေ့နေလား?',
                                                                               textAlign: TextAlign.center,
-                                                                              style: TextStyle(
+                                                                              textScaleFactor: 1, style: TextStyle(
                                                                                   height: 1.3,
                                                                                   fontSize: 17.5,
                                                                                   fontWeight: FontWeight.w600,
@@ -773,7 +776,7 @@ class _WelcomeState extends State<Welcome>
                                                                             child: Container(
                                                                               child: Text(
                                                                                 isEnglish? 'Login': 'လော့ဂ်အင်',
-                                                                                textAlign: TextAlign.center,
+                                                                                textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                 style: TextStyle(
                                                                                     height: 1.3,
                                                                                     fontSize: 17.5,
@@ -1384,7 +1387,7 @@ class _WelcomeState extends State<Welcome>
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                            child: Text('REGISTRATION', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
                                               color: Colors.grey,),),
                                           ),
                                           SizedBox(height: 8),
@@ -1405,7 +1408,7 @@ class _WelcomeState extends State<Welcome>
                                                       return null;
                                                     },
                                                     style: TextStyle(
-                                                        height: 0.95
+                                                        height: 0.95, fontSize: 15/scaleFactor
                                                     ),
                                                     decoration: InputDecoration(
                                                       enabledBorder: const OutlineInputBorder(
@@ -1431,13 +1434,13 @@ class _WelcomeState extends State<Welcome>
                                                       // suffixText: 'Required',
                                                       suffixStyle: TextStyle(
                                                         color: Colors.grey,
-                                                        fontSize: 12,
+                                                        fontSize: 12/scaleFactor,
                                                         fontFamily: 'capsulesans',
                                                       ),
                                                       //errorText: wrongPassword,
                                                       errorStyle: TextStyle(
                                                           backgroundColor: Colors.white,
-                                                          fontSize: 12,
+                                                          fontSize: 12/scaleFactor,
                                                           fontFamily: 'capsulesans',
                                                           height: 0.1
                                                       ),
@@ -1474,7 +1477,7 @@ class _WelcomeState extends State<Welcome>
                                                     return null;
                                                   },
                                                   style: TextStyle(
-                                                      height: 0.95
+                                                      height: 0.95, fontSize : 15/scaleFactor,
                                                   ),
                                                   decoration: InputDecoration(
                                                     enabledBorder: const OutlineInputBorder(
@@ -1501,13 +1504,13 @@ class _WelcomeState extends State<Welcome>
                                                     //tooltip: 'Increase volume by 10',
                                                     suffixStyle: TextStyle(
                                                       color: Colors.grey,
-                                                      fontSize: 12,
+                                                      fontSize: 12/scaleFactor,
                                                       fontFamily: 'capsulesans',
                                                     ),
                                                     errorText: emailExist,
                                                     errorStyle: TextStyle(
                                                         backgroundColor: Colors.white,
-                                                        fontSize: 12,
+                                                        fontSize: 12/scaleFactor,
                                                         fontFamily: 'capsulesans',
                                                         height: 0.1
                                                     ),
@@ -1536,7 +1539,7 @@ class _WelcomeState extends State<Welcome>
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(top: 165.0, left: 15.0, right: 15.0),
-                                                child: Text('AUTHENTICATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                                child: Text('AUTHENTICATION', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
                                                   color: Colors.grey,)),
                                               ),
                                               Padding(
@@ -1557,7 +1560,7 @@ class _WelcomeState extends State<Welcome>
                                                       return null;
                                                     },
                                                     style: TextStyle(
-                                                        height: 0.95
+                                                        height: 0.95, fontSize: 15/scaleFactor
                                                     ),
                                                     decoration: InputDecoration(
                                                       enabledBorder: const OutlineInputBorder(
@@ -1600,7 +1603,7 @@ class _WelcomeState extends State<Welcome>
                                                       errorText: weakPassword,
                                                       errorStyle: TextStyle(
                                                           backgroundColor: Colors.white,
-                                                          fontSize: 12,
+                                                          fontSize: 12/scaleFactor,
                                                           fontFamily: 'capsulesans',
                                                           height: 0.1
                                                       ),
@@ -1637,7 +1640,7 @@ class _WelcomeState extends State<Welcome>
                                                     return null;
                                                   },
                                                   style: TextStyle(
-                                                      height: 0.95
+                                                      height: 0.95, fontSize: 15/scaleFactor
                                                   ),
                                                   decoration: InputDecoration(
                                                     enabledBorder: const OutlineInputBorder(
@@ -1680,7 +1683,7 @@ class _WelcomeState extends State<Welcome>
                                                     //errorText: weakPassword,
                                                     errorStyle: TextStyle(
                                                         backgroundColor: Colors.white,
-                                                        fontSize: 12,
+                                                        fontSize: 12/scaleFactor,
                                                         fontFamily: 'capsulesans',
                                                         height: 0.1
                                                     ),
@@ -1822,7 +1825,7 @@ class _WelcomeState extends State<Welcome>
                                                               bottom: 2.0),
                                                           child: Container(
                                                             child: Text(
-                                                              isEnglish? 'Sign up': 'ဆိုင်းအပ်',
+                                                              isEnglish? 'Sign up': 'ဆိုင်းအပ်', textScaleFactor: 1,
                                                               textAlign: TextAlign.center,
                                                               style: TextStyle(
                                                                   height: 1.3,
@@ -1960,7 +1963,7 @@ class _WelcomeState extends State<Welcome>
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.02
@@ -1992,7 +1995,7 @@ class _WelcomeState extends State<Welcome>
                                         },
                                         child: Container(
                                           child: Text(
-                                            isEnglish? 'Sign up': 'ဆိုင်းအပ်',
+                                            isEnglish? 'Sign up': 'ဆိုင်းအပ်', textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontSize: 13,
@@ -2019,7 +2022,7 @@ class _WelcomeState extends State<Welcome>
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.02
@@ -2061,7 +2064,7 @@ class _WelcomeState extends State<Welcome>
                                         child: Container(
                                           child: Text(
                                             isEnglish? 'Login': 'လော့ဂ်အင်',
-                                            textAlign: TextAlign.center,
+                                            textAlign: TextAlign.center, textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -2085,7 +2088,7 @@ class _WelcomeState extends State<Welcome>
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.02
@@ -2118,7 +2121,7 @@ class _WelcomeState extends State<Welcome>
                                         child: Container(
                                           child: Text(
                                             isEnglish? 'Sign up': 'ဆိုင်းအပ်',
-                                            textAlign: TextAlign.center,
+                                            textAlign: TextAlign.center, textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -2143,7 +2146,7 @@ class _WelcomeState extends State<Welcome>
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.02
@@ -2177,7 +2180,7 @@ class _WelcomeState extends State<Welcome>
                                         child: Container(
                                           child: Text(
                                             isEnglish? 'Login': 'လော့ဂ်အင်',
-                                            textAlign: TextAlign.center,
+                                            textAlign: TextAlign.center, textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,

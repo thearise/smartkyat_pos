@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/constants/screens.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 
 import '../app_theme.dart';
@@ -215,7 +216,7 @@ class _AddShopState extends State<AddShop> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -280,7 +281,7 @@ class _AddShopState extends State<AddShop> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        'Information',
+                                        'Information',  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 13,
@@ -294,7 +295,7 @@ class _AddShopState extends State<AddShop> {
                                         ),
                                       ),
                                       Text(
-                                        'Add new shop',
+                                        'Add new shop', textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 18,
@@ -318,7 +319,7 @@ class _AddShopState extends State<AddShop> {
                       SizedBox(height: 15,),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Text('SHOP INFORMATION', style: TextStyle(
+                        child: Text('SHOP INFORMATION', textScaleFactor: 1, style: TextStyle(
                           letterSpacing: 1.5,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,color: Colors.grey,
@@ -342,6 +343,10 @@ class _AddShopState extends State<AddShop> {
                                   shopFieldsValue.add(value);
                                   return null;
                                 },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15/scaleFactor,
+                                ),
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -366,13 +371,13 @@ class _AddShopState extends State<AddShop> {
                                   // suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   //errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -406,6 +411,9 @@ class _AddShopState extends State<AddShop> {
                                   //prodFieldsValue.add(value);
                                   return null;
                                 },
+                                style: TextStyle(
+                                  height: 0.95, fontSize: 15/scaleFactor,
+                                ),
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -430,13 +438,13 @@ class _AddShopState extends State<AddShop> {
                                   // suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   //errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -470,6 +478,9 @@ class _AddShopState extends State<AddShop> {
                                   //prodFieldsValue.add(value);
                                   return null;
                                 },
+                                style: TextStyle(
+                                  height: 0.95, fontSize: 15/scaleFactor,
+                                ),
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -494,13 +505,13 @@ class _AddShopState extends State<AddShop> {
                                   // suffixText: 'Required',
                                   suffixStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                   ),
                                   //errorText: wrongPassword,
                                   errorStyle: TextStyle(
                                       backgroundColor: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12/scaleFactor,
                                       fontFamily: 'capsulesans',
                                       height: 0.1
                                   ),
@@ -706,7 +717,7 @@ class _AddShopState extends State<AddShop> {
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    'Create shop',
+                                    'Create shop', textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 17.5,

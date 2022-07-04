@@ -379,7 +379,7 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+        confirm: Text('Done', textScaleFactor: 1, style: TextStyle(color: Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),

@@ -224,7 +224,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                   SizedBox(height: 40),
                                                   Center(
                                                     child: Text(
-                                                      'Your pro version has ended', style: TextStyle(
+                                                      'Your pro version has ended',textScaleFactor: 1, style: TextStyle(
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 26,
                                                         letterSpacing: -0.4
@@ -239,7 +239,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                   Padding(
                                                     padding: const EdgeInsets.only(top: 20.0),
                                                     child: Text('Your last updated (at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') plan ended at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.',
-                                                      style: TextStyle( fontSize: 14),
+                                                      textScaleFactor: 1, style: TextStyle( fontSize: 14),
                                                       strutStyle: StrutStyle(
                                                         height: 1.2,
                                                         // fontSize:,
@@ -271,7 +271,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       SizedBox(height: 18),
-                                                      Text('1 month pro version', style: TextStyle(
+                                                      Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
@@ -283,7 +283,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                         ),
                                                       ),
                                                       SizedBox(height: 5),
-                                                      Text('10,000 Kyats /month', style: TextStyle(
+                                                      Text('15,000 Kyats /month', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                           letterSpacing: -0.3
@@ -319,7 +319,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       SizedBox(height: 18),
-                                                      Text('3 month pro version (save 20%)', style: TextStyle(
+                                                      Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
@@ -331,7 +331,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                         ),
                                                       ),
                                                       SizedBox(height: 5),
-                                                      Text('8,000 Kyats /month', style: TextStyle(
+                                                      Text('12,000 Kyats /month', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                           letterSpacing: -0.3
@@ -367,7 +367,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       SizedBox(height: 18),
-                                                      Text('5 month pro version (save 30%)', style: TextStyle(
+                                                      Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
@@ -379,7 +379,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                         ),
                                                       ),
                                                       SizedBox(height: 5),
-                                                      Text('7,000 Kyats /month', style: TextStyle(
+                                                      Text('10,500 Kyats /month', textScaleFactor: 1, style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: 14,
                                                           letterSpacing: -0.3
@@ -426,7 +426,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                         ),
                                         title: Padding(
                                           padding: const EdgeInsets.only(top: 10.0),
-                                          child: Text('Contact us via phone', style: TextStyle(
+                                          child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18,
                                               letterSpacing: -0.3
@@ -455,7 +455,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                 child: Text('You can contact us now to purchase above plans.', style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15, color: Colors.black,
-                                                ),
+                                                ), textScaleFactor: 1,
                                                   strutStyle: StrutStyle(
                                                     height: 1.35,
                                                     // fontSize:,
@@ -468,7 +468,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                             Text('Call now', style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 17, color: Colors.blue,
-                                            ),
+                                            ), textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                 height: 1.3,
                                                 // fontSize:,
@@ -503,7 +503,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18,
                                               letterSpacing: -0.3
-                                          ),
+                                          ), textScaleFactor: 1,
                                             strutStyle: StrutStyle(
                                               height: 1.5,
                                               // fontSize:,
@@ -528,7 +528,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                 child: Text('You can contact us now to purchase above plans (delay response).', style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15, color: Colors.black,
-                                                ),
+                                                ), textScaleFactor: 1,
                                                   strutStyle: StrutStyle(
                                                     height: 1.35,
                                                     // fontSize:,
@@ -541,7 +541,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                             Text('Messenger', style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 17, color: Colors.blue,
-                                            ),
+                                            ), textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                 height: 1.3,
                                                 // fontSize:,
@@ -587,7 +587,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                     height: 1.2,
                                     // fontSize:,
                                     forceStrutHeight: true,
-                                  ),
+                                  ), textScaleFactor: 1,
                                 ),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,

@@ -236,7 +236,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Information',  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -250,7 +250,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                     ),
                                   ),
                                   Text(
-                                    'Switch shop',
+                                    'Switch shop',  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 18,
@@ -274,7 +274,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                    child: Text('CHANGE SHOP', style: TextStyle(
+                    child: Text('CHANGE SHOP',  textScaleFactor: 1, style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,color: Colors.grey,
@@ -355,7 +355,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                       bottom: 2.0),
                                                   child: Container(
                                                     child: Text(
-                                                      textSetAddShop,
+                                                      textSetAddShop,  textScaleFactor: 1,
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 18,
@@ -411,7 +411,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                       Expanded(child: Transform.translate(
                                                         offset: Offset(-12, -1.1),
                                                         child: Container(
-                                                          child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, textScaleFactor: 1,
+                                                          child: Text(data['shop_name'],  overflow: TextOverflow.ellipsis, textScaleFactor: 1,
                                                             style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
                                                             strutStyle: StrutStyle(
                                                               height: 1.5,
@@ -435,7 +435,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                               Radius.circular(6.0),
                                                             ),
                                                             color: AppTheme.badgeBgSuccess),
-                                                        child: Text('Owner', style: TextStyle(
+                                                        child: Text('Owner',  textScaleFactor: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             fontSize: 12,
                                                             color: Colors.white
@@ -450,7 +450,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                               Radius.circular(6.0),
                                                             ),
                                                             color: AppTheme.badgeBgSecond),
-                                                        child: Text('Staff', style: TextStyle(
+                                                        child: Text('Staff',  textScaleFactor: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             fontSize: 12,
                                                             color: Colors.white
@@ -1238,7 +1238,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  'Information',
+                                  'Information',  textScaleFactor: 1,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 13,
@@ -1247,7 +1247,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                   ),
                                 ),
                                 Text(
-                                  'Account settings',
+                                  'Account settings',  textScaleFactor: 1,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 18,
@@ -1272,7 +1272,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('INFORMATION', style: TextStyle(
+                            Text('INFORMATION',  textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -1430,7 +1430,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                       bottom: 2.0),
                                   child: Container(
                                     child: Text(
-                                      'Save and exit',
+                                      'Save and exit',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -1515,7 +1515,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Information',  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -1525,7 +1525,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                 ],
                               ),
                               Text(
-                                'Switch shop',
+                                'Switch shop',  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -1550,7 +1550,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
-                            child: Text('CURRENT SHOP', style: TextStyle(
+                            child: Text('CURRENT SHOP', textScaleFactor: 1, style: TextStyle(
                               letterSpacing: 1.5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
@@ -1583,7 +1583,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    'New shop',
+                                    'New shop', textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -1677,7 +1677,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense", textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,

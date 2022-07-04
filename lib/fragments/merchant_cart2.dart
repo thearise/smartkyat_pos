@@ -146,7 +146,7 @@ class MerchantCartState extends State<MerchantCart>
         setState(() {
           textSetMerchOrders = 'အ၀ယ်စာရင်း';
           textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
-          textSetDiscount = 'လျော့ဈေး';
+          textSetDiscount = 'လျှော့ငွေ';
           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
           textSetCheckout = 'ဝယ်မည်';
@@ -290,7 +290,7 @@ class MerchantCartState extends State<MerchantCart>
                       // preferOri: PreferOrientation.up,
                       // isShow: false,
                       child: Text(
-                        widget.prodList2[index].split('^')[7],
+                        widget.prodList2[index].split('^')[7], textScaleFactor: 1,
                         maxLines: 1,
                         style:
                         TextStyle(
@@ -304,7 +304,7 @@ class MerchantCartState extends State<MerchantCart>
                           if (widget.prodList2[index].split('^')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                           else if(widget.prodList2[index].split('^')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                           else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                          Text(' ' + widget.prodList2[index].split('^')[8] + ' ', style: TextStyle(
+                          Text(' ' + widget.prodList2[index].split('^')[8] + ' ', textScaleFactor: 1, style: TextStyle(
                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                           )),
                         ],
@@ -316,7 +316,7 @@ class MerchantCartState extends State<MerchantCart>
                         double.parse( prodListInd.split('^')[
                         4]))
                         .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                      style: TextStyle(
+                      textScaleFactor: 1, style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500
                       ),),
@@ -351,7 +351,7 @@ class MerchantCartState extends State<MerchantCart>
                     )),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                  child: Text(double.parse(prodListInd.split('^')[4]).round().toString(), style: TextStyle(
+                  child: Text(double.parse(prodListInd.split('^')[4]).round().toString(),textScaleFactor: 1, style: TextStyle(
                       fontSize: 11, fontWeight: FontWeight.w500
                   )),
                 ),
@@ -396,6 +396,7 @@ class MerchantCartState extends State<MerchantCart>
 
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -418,7 +419,7 @@ class MerchantCartState extends State<MerchantCart>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(merchId == 'name' ? 'No merchant' : merchId,
+                              Text(merchId == 'name' ? 'No merchant' : merchId, textScaleFactor: 1,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -430,7 +431,7 @@ class MerchantCartState extends State<MerchantCart>
                                   forceStrutHeight: true,
                                 ),
                               ),
-                              Text(textSetMerchOrders,
+                              Text(textSetMerchOrders, textScaleFactor: 1,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -545,7 +546,7 @@ class MerchantCartState extends State<MerchantCart>
                                               3.0),
                                           child: Container(
                                               child: Text(
-                                                textSetClearCart,
+                                                textSetClearCart, textScaleFactor: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   // height: 1.3,
@@ -825,7 +826,7 @@ class MerchantCartState extends State<MerchantCart>
                                               3.0),
                                           child: Container(
                                               child: Text(
-                                                textSetDiscount,
+                                                textSetDiscount,textScaleFactor: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   // height: 1.3,
@@ -888,7 +889,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text(merchId == 'name' ? 'No merchant' : merchId , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                  Text(merchId == 'name' ? 'No merchant' : merchId ,textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                                   // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
                                                   //     style: TextStyle(
                                                   //       fontSize: 14,
@@ -968,18 +969,18 @@ class MerchantCartState extends State<MerchantCart>
                                     discount2 != 0.0 ? Container(
                                       child: isDiscount2 == 'percent' ?
                                       ListTile(
-                                        title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                        subtitle: Text('$textSetPercent (' +  discountAmount2.toString() + '%)', style: TextStyle(
+                                        title: Text(textSetDiscount, textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        subtitle: Text('$textSetPercent (' +  discountAmount2.toString() + '%)',textScaleFactor: 1, style: TextStyle(
                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                         )),
-                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit2()) - double.parse(TtlProdListPrice2())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit2()) - double.parse(TtlProdListPrice2())).toString(), textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                       ) :  ListTile (
-                                        title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                        subtitle: Text(textSetAmountApplied, style: TextStyle(
+                                        title: Text(textSetDiscount, textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        subtitle: Text(textSetAmountApplied, textScaleFactor: 1, style: TextStyle(
                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                         )),
-                                        trailing: Text('- $currencyUnit ' + discount2.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        trailing: Text('- $currencyUnit ' + discount2.toString(),textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       ),
                                     ) : Container(),
                                   ],
@@ -1014,7 +1015,6 @@ class MerchantCartState extends State<MerchantCart>
                           ],
                         ),
                       );
-
                     }
                     return Container();
                   }
@@ -1040,23 +1040,23 @@ class MerchantCartState extends State<MerchantCart>
                     children: [
                       ListTile(
                         title: Text(
-                          textSetTotalSale,
+                          textSetTotalSale, textScaleFactor: 1,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight:
                               FontWeight
                                   .w500),
                         ),
-                        subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set',
+                        subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set', textScaleFactor: 1,
                             style: TextStyle(
                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                            )) : Text(totalItems2() + ' item sets',
+                            )) : Text(totalItems2() + ' item sets', textScaleFactor: 1,
                             style: TextStyle(
                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                             )),
                         trailing: Text('$currencyUnit '+
                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                          style: TextStyle(
+                          textScaleFactor: 1, style: TextStyle(
                               fontSize: 17,
                               fontWeight:
                               FontWeight
@@ -1103,7 +1103,7 @@ class MerchantCartState extends State<MerchantCart>
                                         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                         child: Container(
                                             child: Text(
-                                              textSetCheckout,
+                                              textSetCheckout, textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                  // height: 1.3,
@@ -1154,7 +1154,7 @@ class MerchantCartState extends State<MerchantCart>
                                         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                         child: Container(
                                             child: Text(
-                                              textSetCheckout,
+                                              textSetCheckout, textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 // height: 1.3,
@@ -1320,6 +1320,7 @@ class MerchantCartState extends State<MerchantCart>
     totalFixAmount = double.parse(myController.text) * double.parse(buyPriceController.text);
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
+          final double scaleFactor = MediaQuery.of(context).textScaleFactor;
           myController.addListener((){
             setState(() {
               mystate((){
@@ -1385,7 +1386,7 @@ class MerchantCartState extends State<MerchantCart>
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
+                                      Text('$currencyUnit '+ titlePrice.toString(), textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 13,
                                           height: 1.5
@@ -1406,7 +1407,7 @@ class MerchantCartState extends State<MerchantCart>
                                         else Icon( Icons.check, size: 15, color: Colors.grey,),
                                     ],
                                   ),
-                                  Text(productName,
+                                  Text(productName, textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -1458,7 +1459,7 @@ class MerchantCartState extends State<MerchantCart>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('QUANTITY', style: TextStyle(
+                                        Text('QUANTITY', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -1512,8 +1513,10 @@ class MerchantCartState extends State<MerchantCart>
                                               child: TextField(
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    height: 0.95
+                                                    height: 0.95,
+                                                  fontSize: 15/scaleFactor,
                                                 ),
+
                                                 decoration: InputDecoration(
                                                   enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1597,7 +1600,7 @@ class MerchantCartState extends State<MerchantCart>
                                           ],
                                         ),
                                         SizedBox(height: 15,),
-                                        Text('COST PER UNIT', style: TextStyle(
+                                        Text('COST PER UNIT', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -1618,7 +1621,7 @@ class MerchantCartState extends State<MerchantCart>
                                             return null;
                                           },
                                           style: TextStyle(
-                                              height: 0.95
+                                              height: 0.95, fontSize : 15/scaleFactor,
                                           ),
                                           maxLines: 1,
                                           decoration: InputDecoration(
@@ -1672,7 +1675,7 @@ class MerchantCartState extends State<MerchantCart>
                                           ),
                                         ),
                                         SizedBox(height: 15,),
-                                        Text('UNIT PRICING', style: TextStyle(
+                                        Text('UNIT PRICING', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -1698,59 +1701,24 @@ class MerchantCartState extends State<MerchantCart>
                                                       width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text('Sell price', style:
+                                                      Text('Sell price', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                       ),),
                                                       Spacer(),
-                                                      eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['sm']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                      eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['sm']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey,
                                                       ),) :
-                                                      eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['s1']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                      eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  (output2?['prods'][productId]['s1']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey,
-                                                      ),) :  Text('$currencyUnit ' +  (output2?['prods'][productId]['s2']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                      TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey,
-                                                      ),),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 55,
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.2),
-                                                              width: 1.0))),
-                                                  child: Row(
-                                                    children: [
-                                                      Text('In stock', style:
-                                                      TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),),
-                                                      Spacer(),
-                                                      eachProd.split('^')[3]== 'unit_name' ? Text( (output2?['prods'][productId]['im']).round().toString() + ' ' + (output2?['prods'][productId]['nm']).toString(), style:
-                                                      TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey,
-                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text( (output2?['prods'][productId]['i1']).round().toString() + ' ' + (output2?['prods'][productId]['n1']).toString(), style:
-                                                      TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey,
-                                                      ),) : Text((output2?['prods'][productId]['i2']).round().toString() + ' ' + (output2?['prods'][productId]['n2']).toString(), style:
+                                                      ),) :  Text('$currencyUnit ' +  (output2?['prods'][productId]['s2']).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1769,23 +1737,58 @@ class MerchantCartState extends State<MerchantCart>
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text('Loss', style:
+                                                      Text('In stock', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                       ),),
                                                       Spacer(),
-                                                      eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['lm']).round().toString() + ' ' +(output2?['prods'][productId]['nm']).toString(), style:
+                                                      eachProd.split('^')[3]== 'unit_name' ? Text( (output2?['prods'][productId]['im']).round().toString() + ' ' + (output2?['prods'][productId]['nm']).toString(),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey,
-                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['l1']).round().toString() + ' ' + (output2?['prods'][productId]['n1']).toString(), style:
+                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text( (output2?['prods'][productId]['i1']).round().toString() + ' ' + (output2?['prods'][productId]['n1']).toString(),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey,
-                                                      ),) : Text((output2?['prods'][productId]['l2']).round().toString() + ' ' +(output2?['prods'][productId]['n2']).toString(), style:
+                                                      ),) : Text((output2?['prods'][productId]['i2']).round().toString() + ' ' + (output2?['prods'][productId]['n2']).toString(), textScaleFactor: 1,style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.grey,
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.2),
+                                                              width: 1.0))),
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Loss', textScaleFactor: 1, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),),
+                                                      Spacer(),
+                                                      eachProd.split('^')[3]== 'unit_name' ? Text((output2?['prods'][productId]['lm']).round().toString() + ' ' +(output2?['prods'][productId]['nm']).toString(), textScaleFactor: 1, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.grey,
+                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text((output2?['prods'][productId]['l1']).round().toString() + ' ' + (output2?['prods'][productId]['n1']).toString(),textScaleFactor: 1, style:
+                                                      TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.grey,
+                                                      ),) : Text((output2?['prods'][productId]['l2']).round().toString() + ' ' +(output2?['prods'][productId]['n2']).toString(),textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1798,13 +1801,13 @@ class MerchantCartState extends State<MerchantCart>
                                                   height: 55,
                                                   child: Row(
                                                     children: [
-                                                      Text('Barcode', style:
+                                                      Text('Barcode', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text((output2?['prods'][productId]['co']).toString(), style:
+                                                      Text((output2?['prods'][productId]['co']).toString(), textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1890,7 +1893,7 @@ class MerchantCartState extends State<MerchantCart>
                             child: Center(
                               child: ListTile(
                                 title: Text(
-                                  'Total',
+                                  'Total', textScaleFactor: 1,
                                   style: TextStyle(
                                       fontSize: 17,
                                       fontWeight:
@@ -1899,7 +1902,7 @@ class MerchantCartState extends State<MerchantCart>
                                 ),
                                 trailing: Text('$currencyUnit '+
                                     (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                  style: TextStyle(
+                                  textScaleFactor: 1, style: TextStyle(
                                       fontSize: 17,
                                       fontWeight:
                                       FontWeight
@@ -1948,8 +1951,7 @@ class MerchantCartState extends State<MerchantCart>
                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                             child: Container(
                                                 child: Text(
-                                                  'Save',
-                                                  textScaleFactor: 1,
+                                                  'Save', textScaleFactor: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 18,
@@ -2165,6 +2167,7 @@ class MerchantCartState extends State<MerchantCart>
 
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
+          final double scaleFactor = MediaQuery.of(context).textScaleFactor;
           _textFieldController2.addListener((){
             debugPrint("value: ${_textFieldController2.text}");
             setState(() {
@@ -2230,7 +2233,7 @@ class MerchantCartState extends State<MerchantCart>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(merchId == 'name' ? 'No merchant' : merchId,
+                                    Text(merchId == 'name' ? 'No merchant' : merchId, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
@@ -2241,7 +2244,7 @@ class MerchantCartState extends State<MerchantCart>
                                         forceStrutHeight: true,
                                       ),
                                     ),
-                                    Text(textSetCashAccept,
+                                    Text(textSetCashAccept, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
@@ -2294,7 +2297,7 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('$textSetTSale - $currencyUnit',
+                                          Text('$textSetTSale - $currencyUnit', textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 20,
@@ -2303,7 +2306,7 @@ class MerchantCartState extends State<MerchantCart>
                                               )),
                                           SizedBox(height: 8),
                                           Text(TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                              textAlign: TextAlign.center,
+                                              textScaleFactor: 1, textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 23, fontWeight: FontWeight.w500,
                                               )),
@@ -2336,13 +2339,17 @@ class MerchantCartState extends State<MerchantCart>
                                   //       ],
                                   //     )),
                                   SizedBox(height: 15),
-                                  Text(textSetCashRev,style: TextStyle(
+                                  Text(textSetCashRev, textScaleFactor: 1, style: TextStyle(
                                       letterSpacing: 2,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,color: Colors.grey
                                   ),),
                                   SizedBox(height: 15),
                                   TextField(
+                                    style: TextStyle(
+                                      height: 0.95,
+                                      fontSize: 15/scaleFactor,
+                                    ),
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         // width: 0.0 produces a thin "hairline" border
@@ -2360,7 +2367,7 @@ class MerchantCartState extends State<MerchantCart>
                                       suffixText: '$currencyUnit',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                       ),
                                       labelStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -2446,7 +2453,7 @@ class MerchantCartState extends State<MerchantCart>
                                       child: Container(
                                         child: Text( '$currencyUnit ' +
                                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                          style: TextStyle(
+                                          textScaleFactor: 1, style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
                                           ),
@@ -2485,7 +2492,7 @@ class MerchantCartState extends State<MerchantCart>
                                 child: Center(
                                   child: debt2!= 0 ? ListTile(
                                     title: Text(
-                                      textSetDebt,
+                                      textSetDebt, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontSize: 17,
                                           fontWeight:
@@ -2494,7 +2501,7 @@ class MerchantCartState extends State<MerchantCart>
                                     ),
                                     trailing: Text('- $currencyUnit '+
                                         debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                      style: TextStyle(
+                                      textScaleFactor: 1, style: TextStyle(
                                           fontSize: 17,
                                           fontWeight:
                                           FontWeight
@@ -2502,7 +2509,7 @@ class MerchantCartState extends State<MerchantCart>
                                     ),
                                   ) : ListTile(
                                     title: Text(
-                                      textSetRefund,
+                                      textSetRefund, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontSize: 17,
                                           fontWeight:
@@ -2511,7 +2518,7 @@ class MerchantCartState extends State<MerchantCart>
                                     ),
                                     trailing: Text('$currencyUnit '+
                                         refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                      style: TextStyle(
+                                      textScaleFactor: 1, style: TextStyle(
                                           fontSize: 17,
                                           fontWeight:
                                           FontWeight
@@ -2821,7 +2828,7 @@ class MerchantCartState extends State<MerchantCart>
                                         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                         child: Container(
                                           child: Text(
-                                            textSetDone,
+                                            textSetDone, textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               // height: 1.3,
