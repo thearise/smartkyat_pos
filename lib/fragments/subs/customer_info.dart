@@ -194,7 +194,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                  children: [
                                    SizedBox(height: 15.5),
                                    Text(
-                                     address,
+                                     address,  textScaleFactor: 1,
                                      textAlign: TextAlign.right,
                                      style: TextStyle(
                                        fontSize: 13,
@@ -208,7 +208,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                      ),
                                    ),
                                    Text(
-                                     customerName,
+                                     customerName,  textScaleFactor: 1,
                                      textAlign: TextAlign.right,
                                      style: TextStyle(
                                          fontSize: 18,
@@ -352,7 +352,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                            bottom: 15,
                                                            left: 0,
                                                            child: Text(
-                                                               textSetSaleCart,
+                                                               textSetSaleCart,  textScaleFactor: 1,
                                                                style: TextStyle(
                                                                  fontWeight: FontWeight
                                                                      .w600,
@@ -426,7 +426,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      bottom: 15,
                                                      left: 0,
                                                      child: Text(
-                                                         textSetPurchasedOrders,
+                                                         textSetPurchasedOrders,  textScaleFactor: 1,
                                                          style: TextStyle(
                                                            fontWeight: FontWeight
                                                                .w600,
@@ -516,7 +516,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          ),
                                                        ),
                                                        Text(
-                                                         textSetEdit,
+                                                         textSetEdit,  textScaleFactor: 1,
                                                          textAlign: TextAlign
                                                              .center,
                                                          style: TextStyle(
@@ -565,7 +565,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                  },
                                                  child: Container(
                                                    child: Text(
-                                                     textSetSaleInfo,
+                                                     textSetSaleInfo,  textScaleFactor: 1,
                                                      textAlign: TextAlign
                                                          .center,
                                                      style: TextStyle(
@@ -597,7 +597,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                  },
                                                  child: Container(
                                                    child: Text(
-                                                     textSetContactInfo,
+                                                     textSetContactInfo,  textScaleFactor: 1,
                                                      textAlign: TextAlign
                                                          .center,
                                                      style: TextStyle(
@@ -637,7 +637,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                  .start,
                                              children: [
                                                Text(
-                                                 textSetSaleTitle,
+                                                 textSetSaleTitle,  textScaleFactor: 1,
                                                  style: TextStyle(
                                                    fontWeight: FontWeight.bold,
                                                    fontSize: 14,
@@ -674,7 +674,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          child: Row(
                                                            children: [
                                                              Text(
-                                                               textSetTtlOrders,
+                                                               textSetTtlOrders,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -684,7 +684,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                              Spacer(),
                                                              Text(totalOrders
                                                                  .round()
-                                                                 .toString(),
+                                                                 .toString(),  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -708,7 +708,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      width: 1.0))),
                                                          child: Row(
                                                            children: [
-                                                             Text(textSetDebts,
+                                                             Text(textSetDebts,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -717,7 +717,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                ),),
                                                              Spacer(),
                                                              Text(debts.round()
-                                                                 .toString(),
+                                                                 .toString(),  textScaleFactor: 1,
                                                                style: TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
@@ -741,7 +741,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          child: Row(
                                                            children: [
                                                              Text(
-                                                               textSetDebtAmount,
+                                                               textSetDebtAmount,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -756,7 +756,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      RegExp(
                                                                          r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
                                                                      Match m) => '${m[1]},'),
-                                                               style:
+                                                               textScaleFactor: 1, style:
                                                                TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
@@ -781,7 +781,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          child: Row(
                                                            children: [
                                                              Text(
-                                                               textSetRefunds,
+                                                               textSetRefunds,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -791,7 +791,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                              Spacer(),
                                                              Text(totalRefunds
                                                                  .round()
-                                                                 .toString(),
+                                                                 .toString(),  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -839,7 +839,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                  .start,
                                              children: [
                                                Text(
-                                                 textSetInfo,
+                                                 textSetInfo,  textScaleFactor: 1,
                                                  style: TextStyle(
                                                    fontWeight: FontWeight.bold,
                                                    fontSize: 14,
@@ -875,7 +875,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      width: 1.0))),
                                                          child: Row(
                                                            children: [
-                                                             Text(textSetName,
+                                                             Text(textSetName,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -883,7 +883,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      .w500,
                                                                ),),
                                                              Spacer(),
-                                                             Text(customerName,
+                                                             Text(customerName,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -907,7 +907,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      width: 1.0))),
                                                          child: Row(
                                                            children: [
-                                                             Text(textSetPhone,
+                                                             Text(textSetPhone,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -915,7 +915,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                      .w500,
                                                                ),),
                                                              Spacer(),
-                                                             Text(phone,
+                                                             Text(phone,  textScaleFactor: 1,
                                                                style: TextStyle(
                                                                  fontSize: 15,
                                                                  fontWeight: FontWeight
@@ -937,7 +937,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                          child: Row(
                                                            children: [
                                                              Text(
-                                                               textSetAddress,
+                                                               textSetAddress,  textScaleFactor: 1,
                                                                style:
                                                                TextStyle(
                                                                  fontSize: 15,
@@ -946,7 +946,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                ),),
                                                              Spacer(),
                                                              Text(
-                                                               address, style:
+                                                               address,   textScaleFactor: 1, style:
                                                              TextStyle(
                                                                fontSize: 15,
                                                                fontWeight: FontWeight
@@ -1009,7 +1009,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                        padding: const EdgeInsets.only(
                                            left: 15.0, right: 15.0),
                                        child: Text(
-                                         'ARCHIVE CUSTOMER',
+                                         'ARCHIVE CUSTOMER',  textScaleFactor: 1,
                                          style: TextStyle(
                                            fontWeight: FontWeight.bold,
                                            fontSize: 14,
@@ -1046,8 +1046,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                    padding: const EdgeInsets
                                                        .only(bottom: 8.0),
                                                    child: Text(
-                                                       'Remove this customer',
-                                                       textScaleFactor: 1,
+                                                       'Remove this customer',  textScaleFactor: 1,
                                                        overflow: TextOverflow
                                                            .visible,
                                                        style: TextStyle(
@@ -1062,7 +1061,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      bottom: 8.0),
                                                  child: Text(
                                                      'Once you remove it, there is no going back.',
-                                                     style: TextStyle(
+                                                     textScaleFactor: 1, style: TextStyle(
                                                          height: 1.2)),
                                                ),
                                                trailing: Container(
@@ -1109,7 +1108,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      });
                                                    },
                                                    child: Text(
-                                                     'Remove',
+                                                     'Remove',  textScaleFactor: 1,
                                                      textAlign: TextAlign
                                                          .center,
                                                      style: TextStyle(
@@ -1206,7 +1205,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                     children: [
                                       SizedBox(height: 15.5),
                                       Text(
-                                        address,
+                                        address,  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 13,
@@ -1220,7 +1219,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                         ),
                                       ),
                                       Text(
-                                        customerName,
+                                        customerName,  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 18,
@@ -1422,7 +1421,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                         bottom: 15,
                                                         left: 0,
                                                         child: Text(
-                                                            textSetPurchasedOrders,
+                                                            textSetPurchasedOrders,  textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight
                                                                   .w500,
@@ -1559,7 +1558,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     },
                                                     child: Container(
                                                       child: Text(
-                                                        textSetSaleInfo,
+                                                        textSetSaleInfo,  textScaleFactor: 1,
                                                         textAlign: TextAlign
                                                             .center,
                                                         style: TextStyle(
@@ -1591,7 +1590,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     },
                                                     child: Container(
                                                       child: Text(
-                                                        textSetContactInfo,
+                                                        textSetContactInfo,  textScaleFactor: 1,
                                                         textAlign: TextAlign
                                                             .center,
                                                         style: TextStyle(
@@ -1631,7 +1630,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     .start,
                                                 children: [
                                                   Text(
-                                                    textSetSaleTitle,
+                                                    textSetSaleTitle,  textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 14,
@@ -1668,7 +1667,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetTtlOrders,
+                                                                  textSetTtlOrders,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1678,7 +1677,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                 Spacer(),
                                                                 Text(totalOrders
                                                                     .round()
-                                                                    .toString(),
+                                                                    .toString(),  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1702,7 +1701,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetDebts,
+                                                                Text(textSetDebts,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1711,7 +1710,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   ),),
                                                                 Spacer(),
                                                                 Text(debts.round()
-                                                                    .toString(),
+                                                                    .toString(),  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
@@ -1735,7 +1734,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetDebtAmount,
+                                                                  textSetDebtAmount,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1750,7 +1749,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         RegExp(
                                                                             r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
                                                                         Match m) => '${m[1]},'),
-                                                                  style:
+                                                                  textScaleFactor: 1, style:
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
@@ -1775,7 +1774,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetRefunds,
+                                                                  textSetRefunds,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1785,7 +1784,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                 Spacer(),
                                                                 Text(totalRefunds
                                                                     .round()
-                                                                    .toString(),
+                                                                    .toString(),  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1833,7 +1832,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     .start,
                                                 children: [
                                                   Text(
-                                                    textSetInfo,
+                                                    textSetInfo,  textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 14,
@@ -1869,7 +1868,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetName,
+                                                                Text(textSetName,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1877,7 +1876,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         .w500,
                                                                   ),),
                                                                 Spacer(),
-                                                                Text(customerName,
+                                                                Text(customerName,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1901,7 +1900,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetPhone,
+                                                                Text(textSetPhone,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1909,7 +1908,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         .w500,
                                                                   ),),
                                                                 Spacer(),
-                                                                Text(phone,
+                                                                Text(phone,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
@@ -1933,7 +1932,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetAddress,
+                                                                  textSetAddress,  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -1942,7 +1941,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   ),),
                                                                 Spacer(),
                                                                 Text(
-                                                                  address, style:
+                                                                  address,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -2189,7 +2188,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                       children: [
                         SizedBox(height: 15.5),
                         Text(
-                          widget.custAddress,
+                          widget.custAddress,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 13,
@@ -2204,7 +2203,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                           ),
                         ),
                         Text(
-                          widget.custName,
+                          widget.custName,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 18,

@@ -227,6 +227,7 @@ class _AddNewShopState extends State<AddNewShop> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
@@ -261,7 +262,7 @@ class _AddNewShopState extends State<AddNewShop> {
 
                       Container(
                         alignment: Alignment.topLeft,
-                        child: Text('SHOP REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 15, letterSpacing: 2,
+                        child: Text('SHOP REGISTRATION',  textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 15, letterSpacing: 2,
                           color: Colors.grey,),),
                       ),
                       Stack(
@@ -280,6 +281,10 @@ class _AddNewShopState extends State<AddNewShop> {
                                 shopFieldsValue.add(value);
                                 return null;
                               },
+                              style: TextStyle(
+                                height: 0.95,
+                                fontSize: 15/scaleFactor,
+                              ),
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -304,13 +309,13 @@ class _AddNewShopState extends State<AddNewShop> {
                                 // suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 //errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -344,6 +349,10 @@ class _AddNewShopState extends State<AddNewShop> {
                                 //prodFieldsValue.add(value);
                                 return null;
                               },
+                              style: TextStyle(
+                                height: 0.95,
+                                fontSize: 15/scaleFactor,
+                              ),
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -368,13 +377,13 @@ class _AddNewShopState extends State<AddNewShop> {
                                 // suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 //errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -408,6 +417,10 @@ class _AddNewShopState extends State<AddNewShop> {
                                 //prodFieldsValue.add(value);
                                 return null;
                               },
+                              style: TextStyle(
+                                height: 0.95,
+                                fontSize: 15/scaleFactor,
+                              ),
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -432,13 +445,13 @@ class _AddNewShopState extends State<AddNewShop> {
                                 // suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 //errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -654,7 +667,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    'Create shop',
+                                    'Create shop',  textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 18,

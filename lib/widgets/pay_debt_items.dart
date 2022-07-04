@@ -127,6 +127,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -170,7 +171,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('$textSetDebt - $currencyUnit',
+                                          Text('$textSetDebt - $currencyUnit', textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontSize: 20,
@@ -180,7 +181,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                           ),
                                           SizedBox(height: 8),
                                           Text( debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textAlign: TextAlign.center,
+                                              textScaleFactor: 1, textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontSize: 23, fontWeight: FontWeight.w500,
                                             )
@@ -188,7 +189,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                         ],
                                       )),
                                   SizedBox(height: 15),
-                                  Text(textSetCashRec, style: TextStyle(
+                                  Text(textSetCashRec, textScaleFactor: 1, style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     letterSpacing: 2,
@@ -203,6 +204,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       // prodFieldsValue.add(value);
                                       return null;
                                     },
+                                    style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         // width: 0.0 produces a thin "hairline" border
@@ -220,12 +222,12 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       suffixText: '$currencyUnit',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                       ),
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -287,7 +289,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       child: Container(
                                         child: Text( '$currencyUnit ' +
                                             widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                          style: TextStyle(
+                                          textScaleFactor: 1, style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
                                           ),
@@ -514,7 +516,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     bottom: 2.0),
                                 child: Container(
                                   child: Text(
-                                    textSetDone,
+                                    textSetDone, textScaleFactor: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,

@@ -164,7 +164,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetAll,
+                                              textSetAll,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -195,7 +195,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetTUnpaid,
+                                              textSetTUnpaid,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -225,7 +225,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetTRefunds,
+                                              textSetTRefunds,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -280,7 +280,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                           child: Container(
                             // color: AppTheme.lightBgColor,
                             color: Colors.white,
-                            child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                            child: Center(child: Text('No data found',  textScaleFactor: 1,  style: TextStyle(fontSize: 15),)),
                           ),
                         )
                       ],
@@ -332,7 +332,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetAll,
+                                          textSetAll,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -363,7 +363,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetTUnpaid,
+                                          textSetTUnpaid,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -393,7 +393,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                       },
                                       child: Container(
                                         child: Text(
-                                          textSetTRefunds,
+                                          textSetTRefunds,  textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -446,7 +446,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                     ),),
                   footer: SliverToBoxAdapter(child: Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
-                    child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                    child: Center(child: Text('End of results',  textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                   ),),
                   bottomLoader: Padding(
                     padding: const EdgeInsets.only(bottom: 34.0),
@@ -502,7 +502,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              Text('#' + data['deviceId'] + data['orderId'],
+                                              Text('#' + data['deviceId'] + data['orderId'],  textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w500
@@ -516,14 +516,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               SizedBox(width: 4),
                                               Text(
                                                 covertToDayNum(data['date'].toDate().day.toString()) + '/' + zeroToTen(data['date'].toDate().month.toString()) + ' ',
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
                                                 ),
                                               ),
                                               Text(convertToHour(data['date'].toDate().hour.toString()) + ':' + convertToMinutes(data['date'].toDate().minute.toString()) + ' ' + convertToAMPM(data['date'].toDate().hour.toString()),
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
@@ -536,7 +536,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(widget.custName, style: TextStyle(
+                                              Text(widget.custName,  textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey,
@@ -568,7 +568,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
-                                                  ),
+                                                  ), textScaleFactor: 1,
                                                   style: TextStyle(
                                                       fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
@@ -595,7 +595,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
-                                                  ),
+                                                  ),  textScaleFactor: 1,
                                                   style: TextStyle(
                                                       fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
@@ -621,7 +621,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
-                                                  ),
+                                                  ),  textScaleFactor: 1,
                                                   style: TextStyle(
                                                       fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
@@ -647,7 +647,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
-                                                  ),
+                                                  ),  textScaleFactor: 1,
                                                   style: TextStyle(
                                                       fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
@@ -674,7 +674,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                     height: 1.25,
                                                     // fontSize:,
                                                     forceStrutHeight: true,
-                                                  ),
+                                                  ),  textScaleFactor: 1,
                                                   style: TextStyle(
                                                       fontSize: widget.isEnglish? 13: 12,
                                                       fontWeight: FontWeight.w500,
@@ -699,7 +699,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                  Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   )),
@@ -776,7 +776,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            widget.custAddress,
+                            widget.custAddress,  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 13,
@@ -791,7 +791,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             ),
                           ),
                           Text(
-                            widget.custName,
+                            widget.custName, textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 18,

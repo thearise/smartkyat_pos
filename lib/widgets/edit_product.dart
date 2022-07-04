@@ -100,6 +100,8 @@ class _EditProductState extends State<EditProduct> {
 
   bool priceWarning = false;
 
+
+
   String _getRegexString() =>
       r'[0-9]+[,.]{0,1}[0-9]*';
 
@@ -271,6 +273,7 @@ class _EditProductState extends State<EditProduct> {
   Widget build(BuildContext context) {
     // homeBotPadding = MediaQuery.of(context).padding.bottom;
     debugPrint('homebotpad ' + homeBotPadding.toString());
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -326,7 +329,7 @@ class _EditProductState extends State<EditProduct> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              widget.prodName,
+                              widget.prodName, textScaleFactor: 1,
                               maxLines: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
@@ -342,7 +345,7 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                             Text(
-                                textSetEdit,
+                                textSetEdit, textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -371,7 +374,7 @@ class _EditProductState extends State<EditProduct> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: Text(
-                                textSetProductInfo,
+                                textSetProductInfo, textScaleFactor: 1,
                                 style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
@@ -430,6 +433,7 @@ class _EditProductState extends State<EditProduct> {
                               },
                               style: TextStyle(
                                 height: 0.95,
+                                fontSize: 15 / scaleFactor,
                               ),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -455,13 +459,13 @@ class _EditProductState extends State<EditProduct> {
                                 //suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 // errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -490,6 +494,7 @@ class _EditProductState extends State<EditProduct> {
                               },
                               style: TextStyle(
                                 height: 0.95,
+                                fontSize: 15 / scaleFactor,
                               ),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -528,13 +533,13 @@ class _EditProductState extends State<EditProduct> {
                                 ),
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 // errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -557,7 +562,7 @@ class _EditProductState extends State<EditProduct> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                      textSetMainUnitQty,
+                                      textSetMainUnitQty, textScaleFactor: 1,
                                       style: TextStyle(
                                         letterSpacing: 1.5,
                                         fontWeight: FontWeight.bold,
@@ -594,6 +599,7 @@ class _EditProductState extends State<EditProduct> {
                                     },
                                     style: TextStyle(
                                       height: 0.95,
+                                      fontSize: 15 / scaleFactor,
                                     ),
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
@@ -619,13 +625,13 @@ class _EditProductState extends State<EditProduct> {
                                       //suffixText: 'Required',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                       ),
                                       // errorText: wrongPassword,
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -662,6 +668,7 @@ class _EditProductState extends State<EditProduct> {
                                     },
                                     style: TextStyle(
                                       height: 0.95,
+                                      fontSize: 15 / scaleFactor,
                                     ),
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
@@ -687,13 +694,13 @@ class _EditProductState extends State<EditProduct> {
                                       //suffixText: 'Required',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                       ),
                                       // errorText: wrongPassword,
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -730,6 +737,7 @@ class _EditProductState extends State<EditProduct> {
                               },
                               style: TextStyle(
                                 height: 0.95,
+                                fontSize: 15 / scaleFactor,
                               ),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -755,13 +763,13 @@ class _EditProductState extends State<EditProduct> {
                                 suffixText: '$currencyUnit',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                 ),
                                 // errorText: wrongPassword,
                                 errorStyle: TextStyle(
                                     backgroundColor: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
                                     height: 0.1
                                 ),
@@ -797,6 +805,7 @@ class _EditProductState extends State<EditProduct> {
                                     },
                                     style: TextStyle(
                                       height: 0.95,
+                                      fontSize: 15 / scaleFactor,
                                     ),
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
@@ -822,13 +831,13 @@ class _EditProductState extends State<EditProduct> {
                                       suffixText: '$currencyUnit',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 12,
+                                        fontSize: 12/scaleFactor,
                                         fontFamily: 'capsulesans',
                                       ),
                                       // errorText: wrongPassword,
                                       errorStyle: TextStyle(
                                           backgroundColor: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
                                           height: 0.1
                                       ),
@@ -852,7 +861,7 @@ class _EditProductState extends State<EditProduct> {
                                   child: Container(
                                     color: Colors.white,
                                     //height: 20,
-                                    child: Text(' Price warning ',
+                                    child: Text(' Price warning ', textScaleFactor: 1,
                                       style: TextStyle(
                                         color: Colors.amber, fontSize: 12, fontWeight: FontWeight.w500,
                                       ),),
@@ -932,7 +941,7 @@ class _EditProductState extends State<EditProduct> {
                                             bottom: 3.0),
                                         child: Container(
                                           child: Text(
-                                              textSetMoreUnit,
+                                              textSetMoreUnit, textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,
@@ -1472,7 +1481,7 @@ class _EditProductState extends State<EditProduct> {
                                           bottom: 2.0),
                                       child: Container(
                                         child: Text(
-                                            textSetSaveProd,
+                                            textSetSaveProd, textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 height: 1.3,
@@ -1602,6 +1611,7 @@ class _EditProductState extends State<EditProduct> {
 //   }
 
   createCard(length, unit, controller1, controller2, controller3, controller4, warning) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
@@ -1613,7 +1623,7 @@ class _EditProductState extends State<EditProduct> {
                 child: Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "#$length SUB UNIT QUANTITY",
+                    "#$length SUB UNIT QUANTITY", textScaleFactor: 1,
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontWeight: FontWeight.bold,
@@ -1683,7 +1693,7 @@ class _EditProductState extends State<EditProduct> {
                       }}
                   },
                   child: Text(
-                      textSetRemove,
+                      textSetRemove, textScaleFactor: 1,
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontWeight: FontWeight.bold,
@@ -1726,6 +1736,10 @@ class _EditProductState extends State<EditProduct> {
                     // prodFieldsValue.add(value);
                     return null;
                   },
+                  style: TextStyle(
+                    height: 0.95,
+                    fontSize: 15 / scaleFactor,
+                  ),
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
                       // width: 0.0 produces a thin "hairline" border
@@ -1743,12 +1757,12 @@ class _EditProductState extends State<EditProduct> {
                     //suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12,
+                      fontSize: 12/scaleFactor,
                       fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12/scaleFactor,
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
@@ -1785,6 +1799,10 @@ class _EditProductState extends State<EditProduct> {
                     // prodFieldsValue.add(value);
                     return null;
                   },
+                  style: TextStyle(
+                    height: 0.95,
+                    fontSize: 15 / scaleFactor,
+                  ),
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
                       // width: 0.0 produces a thin "hairline" border
@@ -1802,12 +1820,12 @@ class _EditProductState extends State<EditProduct> {
                     //suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12,
+                      fontSize: 12/scaleFactor,
                       fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12/scaleFactor,
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
@@ -1868,6 +1886,10 @@ class _EditProductState extends State<EditProduct> {
                 // prodFieldsValue.add(value);
                 return null;
               },
+              style: TextStyle(
+                height: 0.95,
+                fontSize: 15 / scaleFactor,
+              ),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -1895,7 +1917,7 @@ class _EditProductState extends State<EditProduct> {
                 ),
                 errorStyle: TextStyle(
                     backgroundColor: Colors.white,
-                    fontSize: 12,
+                    fontSize: 12/scaleFactor,
                     fontFamily: 'capsulesans',
                     height: 0.1
                 ),
@@ -1928,6 +1950,10 @@ class _EditProductState extends State<EditProduct> {
                 // prodFieldsValue.add(value);
                 return null;
               },
+              style: TextStyle(
+                height: 0.95,
+                fontSize: 15 / scaleFactor,
+              ),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -1946,12 +1972,12 @@ class _EditProductState extends State<EditProduct> {
                 suffixStyle: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 12/scaleFactor,
                   //fontFamily: 'capsulesans',
                 ),
                 errorStyle: TextStyle(
                     backgroundColor: Colors.white,
-                    fontSize: 12,
+                    fontSize: 12/scaleFactor,
                     fontFamily: 'capsulesans',
                     height: 0.1
                 ),

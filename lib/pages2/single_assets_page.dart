@@ -225,7 +225,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -879,7 +879,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                     child: Text(
-                                      textSetProductInfo,
+                                      textSetProductInfo, textScaleFactor: 1,
                                       style: TextStyle(
                                         letterSpacing: 1.5,
                                         fontWeight: FontWeight.bold,
@@ -950,6 +950,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 prodFieldsValue.add(value);
                                                 return null;
                                               },
+                                                style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                               decoration: InputDecoration(
                                                 enabledBorder: const OutlineInputBorder(
 
@@ -974,13 +975,13 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 //suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
-                                                    fontSize: 12,
+                                                    fontSize: 12/scaleFactor,
                                                     fontFamily: 'capsulesans',
                                                     height: 0.1
                                                 ),
                                                 suffixStyle: TextStyle(
                                                   color: Colors.grey,
-                                                  fontSize: 12,
+                                                  fontSize: 12/scaleFactor,
                                                   fontFamily: 'capsulesans',
                                                 ),
                                                 labelStyle: TextStyle(
@@ -1023,6 +1024,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 }
                                                 return null;
                                               },
+                                              style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                               decoration: InputDecoration(
                                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1065,12 +1067,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 // suffixText: 'Optional',
                                                 suffixStyle: TextStyle(
                                                   color: Colors.grey,
-                                                  fontSize: 12,
+                                                  fontSize: 12/scaleFactor,
                                                   fontFamily: 'capsulesans',
                                                 ),
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
-                                                    fontSize: 12,
+                                                    fontSize: 12/scaleFactor,
                                                     fontFamily: 'capsulesans',
                                                     height: 0.1
                                                 ),
@@ -1127,7 +1129,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: Row(
                                               children: [
                                                 Expanded(
-                                                  child: Text(textSetMainUnitQty, style: TextStyle(
+                                                  child: Text(textSetMainUnitQty, textScaleFactor: 1, style: TextStyle(
                                                     letterSpacing: 1.5,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14,color: Colors.grey,
@@ -1168,6 +1170,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       prodFieldsValue.add(value);
                                                       return null;
                                                     },
+                                                    style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                                     decoration: InputDecoration(
                                                       enabledBorder:
                                                       const OutlineInputBorder(
@@ -1198,12 +1201,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       //suffixText: 'Required',
                                                       suffixStyle: TextStyle(
                                                         color: Colors.grey,
-                                                        fontSize: 12,
+                                                        fontSize: 12/scaleFactor,
                                                         fontFamily: 'capsulesans',
                                                       ),
                                                       errorStyle: TextStyle(
                                                           backgroundColor: Colors.white,
-                                                          fontSize: 12,
+                                                          fontSize: 12/scaleFactor,
                                                           fontFamily: 'capsulesans',
                                                           height: 0.1
                                                       ),
@@ -1241,6 +1244,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       prodFieldsValue.add(value);
                                                       return null;
                                                     },
+                                                    style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                                     decoration: InputDecoration(
                                                       enabledBorder:
                                                       const OutlineInputBorder(
@@ -1271,12 +1275,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       // suffixText: 'Required',
                                                       suffixStyle: TextStyle(
                                                         color: Colors.grey,
-                                                        fontSize: 12,
+                                                        fontSize: 12/scaleFactor,
                                                         fontFamily: 'capsulesans',
                                                       ),
                                                       errorStyle: TextStyle(
                                                           backgroundColor: Colors.white,
-                                                          fontSize: 12,
+                                                          fontSize: 12/scaleFactor,
                                                           fontFamily: 'capsulesans',
                                                           height: 0.1
                                                       ),
@@ -1315,6 +1319,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 prodFieldsValue.add(value);
                                                 return null;
                                               },
+                                                style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                               decoration: InputDecoration(
                                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1340,12 +1345,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 suffixStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
-                                                  fontSize: 12,
+                                                  fontSize: 12/scaleFactor,
 //fontFamily: 'capsulesans',
                                                 ),
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
-                                                    fontSize: 12,
+                                                    fontSize: 12/scaleFactor,
                                                     fontFamily: 'capsulesans',
                                                     height: 0.1
                                                 ),
@@ -1380,6 +1385,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 prodFieldsValue.add(value);
                                                 return null;
                                               },
+                                             style: TextStyle(height: 0.395, fontSize: 15/scaleFactor),
                                               decoration: InputDecoration(
                                                 enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1405,12 +1411,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 suffixStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
-                                                  fontSize: 12,
+                                                  fontSize: 12/scaleFactor,
 //fontFamily: 'capsulesans',
                                                 ),
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
-                                                    fontSize: 12,
+                                                    fontSize: 12/scaleFactor,
                                                     fontFamily: 'capsulesans',
                                                     height: 0.1
                                                 ),
@@ -1435,7 +1441,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: Container(
                                               color: Colors.white,
                                               //height: 20,
-                                              child: Text(' Price warning ',
+                                              child: Text(' Price warning ', textScaleFactor: 1,
                                                 style: TextStyle(
                                                   color: Colors.amber, fontSize: 12, fontWeight: FontWeight.w500,
                                                 ),),
@@ -1528,7 +1534,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             bottom: 3.0),
                                         child: Container(
                                           child: Text(
-                                              textSetMoreUnit,
+                                              textSetMoreUnit, textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,
@@ -2298,7 +2304,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             bottom: 3.0),
                                         child: Container(
                                             child: Text(
-                                                textSetSaveProd,
+                                                textSetSaveProd, textScaleFactor: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 18,
@@ -2896,6 +2902,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   }
 
   Padding createCard(unit) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     var nameController = TextEditingController();
     var ageController = TextEditingController();
     var jobController = TextEditingController();
@@ -2928,6 +2935,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   padding: EdgeInsets.only(top: 0),
                   child: Text(
                     "#${cards.length + 1} SUB UNIT QUANTITY",
+                    textScaleFactor: 1,
                     style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
@@ -2949,7 +2957,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     });
                   },
                   child: Text(
-                    textSetRemove,
+                    textSetRemove, textScaleFactor: 1,
                     style: TextStyle(
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,
@@ -3006,6 +3014,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     // prodFieldsValue.add(value);
                     return null;
                   },
+                  style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
                       // width: 0.0 produces a thin "hairline" border
@@ -3023,12 +3032,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     // suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12,
+                      fontSize: 12/scaleFactor,
                       fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12/scaleFactor,
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
@@ -3065,6 +3074,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     // prodFieldsValue.add(value);
                     return null;
                   },
+                  style: TextStyle(height: 0.95, fontSize: 15/scaleFactor ),
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
                       // width: 0.0 produces a thin "hairline" border
@@ -3082,12 +3092,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     // suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12,
+                      fontSize: 12/scaleFactor,
                       fontFamily: 'capsulesans',
                     ),
                     errorStyle: TextStyle(
                         backgroundColor: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12/scaleFactor,
                         fontFamily: 'capsulesans',
                         height: 0.1
                     ),
@@ -3149,6 +3159,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 // prodFieldsValue.add(value);
                 return null;
               },
+              style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -3176,7 +3187,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 ),
                 errorStyle: TextStyle(
                     backgroundColor: Colors.white,
-                    fontSize: 12,
+                    fontSize: 12/scaleFactor,
                     fontFamily: 'capsulesans',
                     height: 0.1
                 ),
@@ -3208,6 +3219,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 // prodFieldsValue.add(value);
                 return null;
               },
+              style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -3226,12 +3238,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 suffixStyle: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 12/scaleFactor,
                   //fontFamily: 'capsulesans',
                 ),
                 errorStyle: TextStyle(
                     backgroundColor: Colors.white,
-                    fontSize: 12,
+                    fontSize: 12/scaleFactor,
                     fontFamily: 'capsulesans',
                     height: 0.1
                 ),
@@ -3328,7 +3340,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             ),
                           ),
                           Text(
-                            textSetSaveProd,
+                            textSetSaveProd, textScaleFactor: 1,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,

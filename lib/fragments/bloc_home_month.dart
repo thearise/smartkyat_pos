@@ -411,6 +411,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     Expanded(
                                       child: Text(
                                         textSetTotalSales,
+                                        textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
@@ -436,7 +437,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                 child: Container(
                                   child: Row(
                                     children: [
-                                      Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
                                         textAlign: TextAlign.left,
                                         style: GoogleFonts.lato(
                                             textStyle: TextStyle(
@@ -450,7 +451,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       Padding(
                                         padding: const EdgeInsets.only(top: 12.0),
                                         child: Text(' $currencyUnit',
-                                          textAlign: TextAlign.left,
+                                          textAlign: TextAlign.left, textScaleFactor: 1,
                                           style: GoogleFonts.roboto(
                                               textStyle: TextStyle(
                                                   letterSpacing: 1,
@@ -477,14 +478,14 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           height: 25,
                                           child: Center(
                                             child: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ?
-                                            Text(' -%   ',
+                                            Text(' -%   ', textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
                                                   color: Colors.white),
                                             ) :  Text(' ' +  growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() + '%  ',
-                                              textAlign: TextAlign.center,
+                                              textAlign: TextAlign.center, textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -590,7 +591,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1,  textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -608,7 +609,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetStockCosts,
+                                            Text(textSetStockCosts, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -622,7 +623,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateCost(lastMonthCost, monthCostsTotal2).toString() == '1000' ? '-%' : growthRateCost(lastMonthCost, monthCostsTotal2).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1,  style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color:  growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Colors.blue : growthRateCost(lastMonthCost, monthCostsTotal2) < 0? AppTheme.badgeFgDanger : Colors.green,
@@ -632,7 +633,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -679,7 +680,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -697,7 +698,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetUnpaid,
+                                            Text(textSetUnpaid, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -712,7 +713,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() == '1000' ? '-%' : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000? Colors.blue : growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
@@ -723,7 +724,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                               left: 0,
                                               bottom: 2,
                                               child: Text(currencyUnit,
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black.withOpacity(0.6)),
@@ -769,7 +770,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(totalRefundBySlide().toString(),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -787,7 +788,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetBuys,
+                                            Text(textSetBuys, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -802,7 +803,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateRefund(lastMonthRefund, monthRefundTotal).toString() == '1000' ? '-%' : growthRateRefund(lastMonthRefund, monthRefundTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000? Colors.blue: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
@@ -812,7 +813,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -858,7 +859,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
                                                   child: Text(monthLossTotal.toString(),
-                                                    textAlign: TextAlign.left,
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
@@ -876,7 +877,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text(textSetLoss,
+                                            Text(textSetLoss, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -890,7 +891,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 right: 0,
                                                 bottom: 2,
                                                 child: Text(growthRateLoss(lastMonthLoss, monthLossTotal).toString() == '1000' ? '-%' : growthRateLoss(lastMonthLoss, monthLossTotal).toString() + '%',
-                                                  style: TextStyle(
+                                                  textScaleFactor: 1,  style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: growthRateLoss(lastMonthLoss, monthLossTotal) == 1000? Colors.blue : growthRateLoss(lastMonthLoss, monthLossTotal) < 0? AppTheme.badgeFgDanger : Colors.green,
@@ -900,7 +901,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
-                                              child: Text(currencyUnit,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
@@ -951,7 +952,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      'Total sales',
+                                      'Total sales', textScaleFactor: 1,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,color: Colors.grey,
@@ -1188,7 +1189,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                           ),
                         ),
                         Text(
-                          selectDaysCast(),
+                          selectDaysCast(), textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1237,7 +1238,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                       },
                       child: Container(
                         child: Text(
-                          textSetToday,
+                          textSetToday, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1269,7 +1270,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastWeek,
+                          textSetLastWeek, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1301,7 +1302,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastMonth,
+                          textSetLastMonth, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1333,7 +1334,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                       },
                       child: Container(
                         child: Text(
-                          textSetLastYear,
+                          textSetLastYear, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1381,7 +1382,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+        confirm: Text('Done', textScaleFactor: 1, style: TextStyle(color: Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),
@@ -1717,7 +1718,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           reservedSize: 22,
           interval: 1,
           getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:
@@ -1858,6 +1859,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
   LineChartData monthlyData(DateTime today) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     List<int> roundMonth = [];
     for(double dbl in thisMonthOrdersChart) {
       roundMonth.add(dbl.round());
@@ -1890,7 +1892,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           reservedSize: 22,
           interval: 1,
           getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/ scaleFactor),
           getTitles: (value) {
             // DateTime day = DateTime.now().add(Duration(days: 1));
             // for(int i = 0; i<7; i++) {
@@ -1951,10 +1953,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         leftTitles: SideTitles(
           showTitles: true,
           interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
+          getTextStyles: (context, value) =>  TextStyle(
             color: Color(0xff67727d),
             fontWeight: FontWeight.w600,
-            fontSize: 13,
+              fontSize: 13/ scaleFactor
           ),
           getTitles: (value) {
             // switch (value.toInt()) {

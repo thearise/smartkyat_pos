@@ -197,7 +197,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                           children: [
                             SizedBox(height: 15.5),
                             Text(
-                              address,
+                              address,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
@@ -211,7 +211,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                               ),
                             ),
                             Text(
-                              merchantName,
+                              merchantName,  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   fontSize: 18,
@@ -301,7 +301,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     bottom: 15,
                                                     left: 0,
                                                     child: Text(
-                                                        textSetSaleCart,
+                                                        textSetSaleCart,  textScaleFactor: 1,
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 16,
@@ -375,7 +375,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               bottom: 15,
                                               left: 0,
                                               child: Text(
-                                                  textSetPurchasedOrders,
+                                                  textSetPurchasedOrders,  textScaleFactor: 1,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16,
@@ -456,7 +456,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   ),
                                                 ),
                                                 Text(
-                                                  textSetEdit,
+                                                  textSetEdit,  textScaleFactor: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -499,7 +499,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetSaleInfo,
+                                              textSetSaleInfo,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -527,7 +527,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           },
                                           child: Container(
                                             child: Text(
-                                              textSetContactInfo,
+                                              textSetContactInfo,  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -565,7 +565,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           .start,
                                       children: [
                                         Text(
-                                          textSetSaleTitle,
+                                          textSetSaleTitle,  textScaleFactor: 1,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -600,7 +600,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        textSetTtlOrders, style:
+                                                        textSetTtlOrders,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -608,7 +608,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       ),),
                                                       Spacer(),
                                                       Text(totalOrders.round()
-                                                          .toString(), style:
+                                                          .toString(),  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -629,7 +629,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text(textSetDebts, style:
+                                                      Text(textSetDebts,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -637,7 +637,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       ),),
                                                       Spacer(),
                                                       Text(
-                                                        debts.round().toString(),
+                                                        debts.round().toString(),  textScaleFactor: 1,
                                                         style: TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight
@@ -659,7 +659,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        textSetDebtAmount, style:
+                                                        textSetDebtAmount,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -672,7 +672,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               RegExp(
                                                                   r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
                                                               Match m) => '${m[1]},'),
-                                                        style:
+                                                        textScaleFactor: 1, style:
                                                         TextStyle(
                                                           fontSize: 15,
                                                           fontWeight: FontWeight
@@ -695,7 +695,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text(textSetRefunds, style:
+                                                      Text(textSetRefunds,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -703,7 +703,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       ),),
                                                       Spacer(),
                                                       Text(totalRefunds.round()
-                                                          .toString(), style:
+                                                          .toString(),  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -749,7 +749,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           .start,
                                       children: [
                                         Text(
-                                          textSetInfo,
+                                          textSetInfo,  textScaleFactor: 1,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -783,14 +783,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text(textSetName, style:
+                                                      Text(textSetName,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
                                                             .w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text(merchantName, style:
+                                                      Text(merchantName,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -811,7 +811,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text(textSetPhone, style:
+                                                      Text(textSetPhone,   textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -819,7 +819,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       ),),
                                                       Spacer(),
                                                       Text(
-                                                        phone, style: TextStyle(
+                                                        phone,  textScaleFactor: 1, style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
                                                             .w500,
@@ -839,14 +839,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text(textSetAddress, style:
+                                                      Text(textSetAddress,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
                                                             .w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text(address, style:
+                                                      Text(address,  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -907,7 +907,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                 padding: const EdgeInsets.only(
                                     left: 15.0, right: 15.0),
                                 child: Text(
-                                  'ARCHIVE MERCHANT',
+                                  'ARCHIVE MERCHANT',  textScaleFactor: 1,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
@@ -955,7 +955,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           padding: const EdgeInsets.only(
                                               bottom: 8.0),
                                           child: Text(
-                                              'Once you remove it, there is no going back.',
+                                              'Once you remove it, there is no going back.',  textScaleFactor: 1,
                                               style: TextStyle(height: 1.2)),
                                         ),
                                         trailing: Container(
@@ -998,7 +998,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               });
                                             },
                                             child: Text(
-                                              'Remove',
+                                              'Remove',  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -1091,7 +1091,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     children: [
                                       SizedBox(height: 15.5),
                                       Text(
-                                        address,
+                                        address,  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 13,
@@ -1105,7 +1105,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                         ),
                                       ),
                                       Text(
-                                        merchantName,
+                                        merchantName,  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 18,
@@ -1253,7 +1253,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         bottom: 15,
                                                         left: 0,
                                                         child: Text(
-                                                            textSetPurchasedOrders,
+                                                            textSetPurchasedOrders,  textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight.w500,
                                                               fontSize: 16,
@@ -1375,7 +1375,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     },
                                                     child: Container(
                                                       child: Text(
-                                                        textSetSaleInfo,
+                                                        textSetSaleInfo,  textScaleFactor: 1,
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 14,
@@ -1403,7 +1403,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     },
                                                     child: Container(
                                                       child: Text(
-                                                        textSetContactInfo,
+                                                        textSetContactInfo,  textScaleFactor: 1,
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 14,
@@ -1441,7 +1441,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     .start,
                                                 children: [
                                                   Text(
-                                                    textSetSaleTitle,
+                                                    textSetSaleTitle,  textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 14,
@@ -1476,7 +1476,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetTtlOrders, style:
+                                                                  textSetTtlOrders,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1484,7 +1484,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(totalOrders.round()
-                                                                    .toString(), style:
+                                                                    .toString(),  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1505,7 +1505,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetDebts, style:
+                                                                Text(textSetDebts, textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1513,7 +1513,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(
-                                                                  debts.round().toString(),
+                                                                  debts.round().toString(),  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
@@ -1535,7 +1535,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  textSetDebtAmount, style:
+                                                                  textSetDebtAmount,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1548,7 +1548,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         RegExp(
                                                                             r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
                                                                         Match m) => '${m[1]},'),
-                                                                  style:
+                                                                  textScaleFactor: 1, style:
                                                                   TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight
@@ -1571,7 +1571,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetRefunds, style:
+                                                                Text(textSetRefunds,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1579,7 +1579,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(totalRefunds.round()
-                                                                    .toString(), style:
+                                                                    .toString(),  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1625,7 +1625,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     .start,
                                                 children: [
                                                   Text(
-                                                    textSetInfo,
+                                                    textSetInfo,  textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 14,
@@ -1659,14 +1659,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetName, style:
+                                                                Text(textSetName,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
                                                                       .w500,
                                                                 ),),
                                                                 Spacer(),
-                                                                Text(merchantName, style:
+                                                                Text(merchantName,   textScaleFactor: 1,style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1687,7 +1687,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetPhone, style:
+                                                                Text(textSetPhone,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1695,7 +1695,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                 ),),
                                                                 Spacer(),
                                                                 Text(
-                                                                  phone, style: TextStyle(
+                                                                  phone,  textScaleFactor: 1, style: TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
                                                                       .w500,
@@ -1715,14 +1715,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
-                                                                Text(textSetAddress, style:
+                                                                Text(textSetAddress,   textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
                                                                       .w500,
                                                                 ),),
                                                                 Spacer(),
-                                                                Text(address, style:
+                                                                Text(address,  textScaleFactor: 1, style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1952,7 +1952,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                       children: [
                         SizedBox(height: 15.5),
                         Text(
-                          widget.mercAddress,
+                          widget.mercAddress,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 13,
@@ -1966,7 +1966,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                           ),
                         ),
                         Text(
-                          widget.mercName,
+                          widget.mercName,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 18,

@@ -316,6 +316,8 @@ class _AddStaffSubState extends State<AddStaffSub> {
   @override
   Widget build(BuildContext context) {
 
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
+
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -382,7 +384,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        textSetInfo,
+                                        textSetInfo,  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 13,
@@ -398,7 +400,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                     ],
                                   ),
                                   Text(
-                                    textSetStaff,
+                                    textSetStaff,  textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 20,
@@ -419,7 +421,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                        child: Text('INFORMATION', style: TextStyle(
+                        child: Text('INFORMATION',  textScaleFactor: 1, style: TextStyle(
                           letterSpacing: 1.5,
                           fontWeight: FontWeight.bold,
                           fontSize: 14, color: Colors.grey,
@@ -443,6 +445,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                             },
                             style: TextStyle(
                               height: 0.95,
+                              fontSize: 15 / scaleFactor,
                             ),
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -468,13 +471,13 @@ class _AddStaffSubState extends State<AddStaffSub> {
                               //suffixText: 'Required',
                               suffixStyle: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 12,
+                                fontSize: 12/scaleFactor,
                                 fontFamily: 'capsulesans',
                               ),
                               // errorText: wrongPassword,
                               errorStyle: TextStyle(
                                   backgroundColor: Colors.white,
-                                  fontSize: 12,
+                                  fontSize: 12/scaleFactor,
                                   fontFamily: 'capsulesans',
                                   height: 0.1
                               ),
@@ -680,7 +683,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                   bottom: 2.0),
                               child: Container(
                                 child: Text(
-                                  textSetAdd,
+                                  textSetAdd,  textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       height: 1.3,

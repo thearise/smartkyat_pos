@@ -299,7 +299,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                             key: valueKeyTog(),
                             footer: SliverToBoxAdapter(child: Padding(
                               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                              child: Center(child: Text('End of results', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+                              child: Center(child: Text('End of results', textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
                             )),
                             bottomLoader: Container(
                               child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
@@ -310,7 +310,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                               String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
                               return Container(child: Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Text('items ' + item.toString()),
+                                child: Text('items ' + item.toString(), textScaleFactor: 1,),
                               ));
                             },
                             itemBuilderType:
@@ -431,7 +431,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        textSetSearch,
+                                        textSetSearch, textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
@@ -1269,7 +1269,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         // "TODAY",
                         // checkTest(section.header),
                         covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        style: TextStyle(
+                        textScaleFactor: 1, style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1283,7 +1283,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           padding: const EdgeInsets.only(right: 15.0),
                           child: Text(
                             // "#30",
-                            '#' + sectionList3[sectionIndex].items.length.toString(),
+                            '#' + sectionList3[sectionIndex].items.length.toString(), textScaleFactor: 1,
                             // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                             style: TextStyle(
                               height: 0.8,
@@ -1414,7 +1414,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         onPressed: () {},
                                       ),
                                       Text(
-                                        "New Expense",
+                                        "New Expense", textScaleFactor: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,
@@ -1469,7 +1469,7 @@ class OrdersFragmentState extends State<OrdersFragment>
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+        confirm: Text('Done', textScaleFactor: 1, style: TextStyle(color: Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),

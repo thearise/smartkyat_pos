@@ -542,7 +542,7 @@ class ProductsFragmentState extends State<ProductsFragment>
         // '0',
         // '#' + sectionList[sectionIndex].items.length.toString(),
         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-        style: TextStyle(
+        textScaleFactor: 1, style: TextStyle(
           height: 0.8,
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -553,7 +553,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       );
     } else {
       return header != '' ? Text(
-        header.split('^')[1],
+        header.split('^')[1], textScaleFactor: 1,
         // '0',
         // '#' + sectionList[sectionIndex].items.length.toString(),
         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
@@ -763,7 +763,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                   ),
                                                                 ),
                                                                 Text(
-                                                                  textSetNewItem,
+                                                                  textSetNewItem, textScaleFactor: 1,
                                                                   textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                       fontSize: 14,
@@ -822,7 +822,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               },
                                                               child: Container(
                                                                 child: Text(
-                                                                  textSetAll,
+                                                                  textSetAll, textScaleFactor: 1,
                                                                   textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                       fontSize: 14,
@@ -864,7 +864,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               },
                                                               child: Container(
                                                                 child: Text(
-                                                                  textSetLowStocks,
+                                                                  textSetLowStocks, textScaleFactor: 1,
                                                                   textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                       fontSize: 14,
@@ -887,7 +887,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             ),),
                                           resProds.length == 0? SliverFillRemaining(
                                             child: Center(
-                                              child: Text('No item found', style: TextStyle(fontSize: 15),),
+                                              child: Text('No item found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
                                             ),
                                           ):
                                           SliverList(
@@ -1021,7 +1021,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                       Container(
                                                                         // color: Colors.yellow,
                                                                         child: Text(
-                                                                          prodVal['na'],
+                                                                          prodVal['na'], textScaleFactor: 1,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
                                                                               fontWeight:
@@ -1042,7 +1042,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                         children: [
                                                                           Flexible(
                                                                             child: Text(
-                                                                              '$currencyUnit ' + prodVal['sm'].toString(),
+                                                                              '$currencyUnit ' + prodVal['sm'].toString(), textScaleFactor: 1,
                                                                               style: TextStyle(
                                                                                   height: 1.3,
                                                                                   fontSize: 15,
@@ -1054,7 +1054,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                           ),
                                                                           Text(
                                                                             // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
-                                                                            prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
+                                                                            prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '', textScaleFactor: 1,
                                                                             style: TextStyle(
                                                                                 height: 1.3,
                                                                                 fontSize: 15,
@@ -1152,7 +1152,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                 Container(
                                                     child: Text(
                                                       resProds.length == 0? '': 'End of results',
-                                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
                                                 ),
                                               ],
                                             ),
@@ -1427,7 +1427,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        textSetSearch,
+                                        textSetSearch, textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

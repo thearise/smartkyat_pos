@@ -95,7 +95,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
                         child: Text(
-                          'Waiting your verification...',
+                          'Waiting your verification...',textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
@@ -108,7 +108,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         padding: const EdgeInsets.only(left: 15, right: 15, top: 70.0, bottom: 90.0),
                         child: Text(
                           'We have sent an email to ' + auth.currentUser!.email.toString() + ' so that you can activate your account.',
-                          textAlign: TextAlign.center,
+                          textScaleFactor: 1, textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,

@@ -335,7 +335,7 @@ class HomeFragmentState extends State<HomeFragment>
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.Colors.blue)),
+        confirm: Text('Done', textScaleFactor: 1, style: TextStyle(color: Colors.Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),
@@ -1999,7 +1999,7 @@ class HomeFragmentState extends State<HomeFragment>
                                             left: 13,
                                             bottom: 1.5),
                                         child: Text(
-                                          textSetSearch,
+                                          textSetSearch,textScaleFactor: 1,
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w500,
@@ -2244,7 +2244,7 @@ class HomeFragmentState extends State<HomeFragment>
                     children: [
                       Text(
                         // "BUY ORDERS",
-                        'PRODUCTS',
+                        'PRODUCTS', textScaleFactor: 1,
                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         style: TextStyle(
                             height: 0.8,
@@ -2260,7 +2260,7 @@ class HomeFragmentState extends State<HomeFragment>
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0),
                         child: section.header != '' ? Text(
-                          section.header.split('^')[1],
+                          section.header.split('^')[1], textScaleFactor: 1,
                           // '0',
                           // '#' + sectionList[sectionIndex].items.length.toString(),
                           // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),

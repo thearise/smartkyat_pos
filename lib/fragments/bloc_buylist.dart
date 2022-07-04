@@ -200,7 +200,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                     child: Container(
                       // color: AppTheme.lightBgColor,
                       color: Colors.white,
-                      child: Center(child: Text('No data found for selected month', style: TextStyle(fontSize: 15),)),
+                      child: Center(child: Text('No data found for selected month', textScaleFactor: 1, style: TextStyle(fontSize: 15),)),
                     ),
                   )
                 ],
@@ -735,7 +735,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          Text('#' + item.split('^')[1],
+                                          Text('#' + item.split('^')[1],  textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500
@@ -750,7 +750,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                           Padding(
                                             padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
                                             child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                              style: TextStyle(
+                                              textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey,
@@ -771,7 +771,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                         child: Row(
                                           children: [
                                             Expanded(
-                                              child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                              child: Text(item.split('^')[3].split('&')[0],  textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
@@ -789,7 +789,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
 
                                             Padding(
                                               padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                              child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2),  textScaleFactor: 1,style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                               )),
@@ -822,7 +822,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                                 height: 1.25,
                                                 // fontSize:,
                                                 forceStrutHeight: true,
-                                              ),
+                                              ),  textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: widget.isEnglish? 13: 12,
                                                   fontWeight: FontWeight.w500,
@@ -849,7 +849,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                                 height: 1.25,
                                                 // fontSize:,
                                                 forceStrutHeight: true,
-                                              ),
+                                              ),  textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: widget.isEnglish? 13: 12,
                                                   fontWeight: FontWeight.w500,
@@ -875,7 +875,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                                 height: 1.25,
                                                 // fontSize:,
                                                 forceStrutHeight: true,
-                                              ),
+                                              ),  textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: widget.isEnglish? 13: 12,
                                                   fontWeight: FontWeight.w500,
@@ -901,7 +901,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                                 height: 1.25,
                                                 // fontSize:,
                                                 forceStrutHeight: true,
-                                              ),
+                                              ), textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: widget.isEnglish? 13: 12,
                                                   fontWeight: FontWeight.w500,
@@ -924,7 +924,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                           child: Padding(
                                             padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
                                             child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                              strutStyle: StrutStyle(
+                                              textScaleFactor: 1, strutStyle: StrutStyle(
                                                 height: 1.25,
                                                 // fontSize:,
                                                 forceStrutHeight: true,
@@ -1013,7 +1013,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Text('#' + item.split('^')[1],
+                                            Text('#' + item.split('^')[1],  textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500
@@ -1028,7 +1028,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             Padding(
                                               padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
                                               child: Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                style: TextStyle(
+                                                textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
@@ -1045,7 +1045,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                child: Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                child: Text(item.split('^')[3].split('&')[0], textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
@@ -1063,7 +1063,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
 
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 8.0),
-                                                child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                child: Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                 )),
@@ -1092,7 +1092,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                               child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
-                                                strutStyle: StrutStyle(
+                                                textScaleFactor: 1, strutStyle: StrutStyle(
                                                   height: 1.25,
                                                   // fontSize:,
                                                   forceStrutHeight: true,
@@ -1119,7 +1119,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                               child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
-                                                strutStyle: StrutStyle(
+                                                textScaleFactor: 1, strutStyle: StrutStyle(
                                                   height: 1.25,
                                                   // fontSize:,
                                                   forceStrutHeight: true,
@@ -1145,7 +1145,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                               child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
-                                                strutStyle: StrutStyle(
+                                                textScaleFactor: 1, strutStyle: StrutStyle(
                                                   height: 1.25,
                                                   // fontSize:,
                                                   forceStrutHeight: true,
@@ -1171,7 +1171,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                               child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
-                                                strutStyle: StrutStyle(
+                                                textScaleFactor: 1, strutStyle: StrutStyle(
                                                   height: 1.25,
                                                   // fontSize:,
                                                   forceStrutHeight: true,
@@ -1198,7 +1198,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                               child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                                strutStyle: StrutStyle(
+                                                textScaleFactor: 1, strutStyle: StrutStyle(
                                                   height: 1.25,
                                                   // fontSize:,
                                                   forceStrutHeight: true,
@@ -1323,7 +1323,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                         // "TODAY",
                         // checkTest(section.header),
                         covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        style: TextStyle(
+                        textScaleFactor: 1, style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1340,7 +1340,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                             // '(' + sectionList3[sectionIndex].items.length.toString() + ')',
                             '(' + countMap[section.header.substring(0,8)] + ')',
                             // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                            style: TextStyle(
+                            textScaleFactor: 1, style: TextStyle(
                               height: 0.8,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -1667,7 +1667,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
       onMonthChangeStartWithFirstDate: true,
       pickerTheme: DateTimePickerTheme(
         showTitle: false,
-        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+        confirm: Text('Done', textScaleFactor: 1, style: TextStyle(color: Colors.blue)),
       ),
       minDateTime: DateTime.parse('2010-05-12'),
       // maxDateTime: DateTime.parse('2021-11-25'),
@@ -1818,7 +1818,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                           ),
                         ),
                         Text(
-                          selectMonthCast(),
+                          selectMonthCast(),  textScaleFactor: 1,
                           // '(7D)',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -1872,7 +1872,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                       },
                       child: Container(
                         child: Text(
-                          textSetAll,
+                          textSetAll,  textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1906,7 +1906,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                       },
                       child: Container(
                         child: Text(
-                          textSetTUnpaid,
+                          textSetTUnpaid,  textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1940,7 +1940,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                       },
                       child: Container(
                         child: Text(
-                          textSetTRefunds,
+                          textSetTRefunds, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -1974,7 +1974,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
                       },
                       child: Container(
                         child: Text(
-                          textSetTPaid,
+                          textSetTPaid, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -2001,7 +2001,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
     if(noFind) {
       return SliverToBoxAdapter(child: Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
-        child: Center(child: Text('No filter found', strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+        child: Center(child: Text('No filter found',  textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
       ));
     } else if (endOfResult) {
       return SliverToBoxAdapter(child: Padding(

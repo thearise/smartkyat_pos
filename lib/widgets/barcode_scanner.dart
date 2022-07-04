@@ -279,7 +279,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                   child: Row(
                     children: [
                       Text(
-                        'Point camera at barcode',
+                        'Point camera at barcode', textScaleFactor: 1,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -290,7 +290,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       ),
                       Expanded(
                         child: Text(
-                          '',
+                          '', textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 15,
@@ -340,7 +340,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                               bottom: 3.0),
                           child: Container(
                             child: Text(
-                              'Close camera',
+                              'Close camera', textScaleFactor: 1,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 18,

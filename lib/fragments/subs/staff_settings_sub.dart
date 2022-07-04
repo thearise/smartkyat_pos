@@ -36,8 +36,8 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   var _chosenValue;
 
   final permissionList = [
-    Text("Cashier", style: TextStyle(fontSize: 16, height: 1.7),),
-    Text("Admin", style: TextStyle(fontSize: 16, height: 1.7),),
+    Text("Cashier",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 1.7),),
+    Text("Admin",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 1.7),),
   ];
 
   bool isLoading = true;
@@ -419,7 +419,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                textSetInfo,
+                                textSetInfo,  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -433,7 +433,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 ),
                               ),
                               Text(
-                               textSetStaff,
+                               textSetStaff,  textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,
@@ -456,7 +456,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Text(textSetList, style: TextStyle(
+                child: Text(textSetList,  textScaleFactor: 1, style: TextStyle(
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,color: Colors.grey,
@@ -700,11 +700,11 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                           children: [
                                                                             SizedBox(height: 11,),
                                                                             Text(
-                                                                              'Unknown',
+                                                                              'Unknown',  textScaleFactor: 1,
                                                                               style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,
                                                                               strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
                                                                             ),
-                                                                            Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                            Expanded(child: Text(usersList[i].toString(),  textScaleFactor: 1, textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
                                                                             SizedBox(height: 10,),
                                                                           ],
                                                                         ),
@@ -745,7 +745,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                 child: Container(
                                                                                   child: Text(
                                                                                     role == 'admin'? 'Admin': 'Cashier',
-                                                                                    textAlign: TextAlign.center,
+                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                     style: TextStyle(
                                                                                       fontSize: 13,
                                                                                       fontWeight: FontWeight.w500,
@@ -895,11 +895,11 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                         children: [
                                                                           SizedBox(height: 11,),
                                                                           Text(
-                                                                            data['name'],
+                                                                            data['name'],  textScaleFactor: 1,
                                                                             style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,
                                                                             strutStyle: StrutStyle(forceStrutHeight: true, height: 1.4),
                                                                           ),
-                                                                          Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                          Expanded(child: Text(usersList[i].toString(),  textScaleFactor: 1, textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
                                                                           SizedBox(height: 10,),
                                                                         ],
                                                                       ),
@@ -955,7 +955,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                               child: Container(
                                                                                 child: Text(
                                                                                   role == 'admin'? 'Admin': 'Cashier',
-                                                                                  textAlign: TextAlign.center,
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                   style: TextStyle(
                                                                                     fontSize: 13,
                                                                                     fontWeight: FontWeight.w500,
@@ -1330,7 +1330,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     bottom: 2.0),
                 child: Container(
                   child: Text(
-                   textSetAdd,
+                   textSetAdd,  textScaleFactor: 1,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         height: 1.3,
@@ -1390,7 +1390,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     bottom: 2.0),
                 child: Container(
                   child: Text(
-                    textSetAdd,
+                    textSetAdd,  textScaleFactor: 1,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         height: 1.3,

@@ -190,7 +190,7 @@ class _QREditExampleState extends State<QREditExample> {
                   child: Row(
                     children: [
                       Text(
-                        'Point camera at barcode',
+                        'Point camera at barcode', textScaleFactor: 1,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -201,7 +201,7 @@ class _QREditExampleState extends State<QREditExample> {
                       ),
                       Expanded(
                         child: Text(
-                          '',
+                          '', textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 15,
@@ -271,7 +271,7 @@ class _QREditExampleState extends State<QREditExample> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    widget.prodName,
+                                    widget.prodName, textScaleFactor: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                         fontSize: 13,
@@ -288,7 +288,7 @@ class _QREditExampleState extends State<QREditExample> {
                                 ],
                               ),
                               Text(
-                                widget.isEnglish? 'Edit product': 'ပစ္စည်း ပြင်ဆင်ခြင်း',
+                                widget.isEnglish? 'Edit product': 'ပစ္စည်း ပြင်ဆင်ခြင်း', textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 20,

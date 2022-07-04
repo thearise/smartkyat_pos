@@ -3054,7 +3054,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Text(
                     '${data!['postId']} isFromCache: ${doc.metadata.isFromCache}',
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.center, textScaleFactor: 1,
                   ),
                 );
               }).toList(),
@@ -3256,7 +3256,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
     if(header.contains('GG')) {
       return Text(
-        '0',
+        '0', textScaleFactor: 1,
         // '0',
         // '#' + sectionList[sectionIndex].items.length.toString(),
         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
@@ -3271,7 +3271,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       );
     } else {
       return header != '' ? Text(
-        header.split('^')[1],
+        header.split('^')[1], textScaleFactor: 1,
         // '0',
         // '#' + sectionList[sectionIndex].items.length.toString(),
         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
@@ -3307,6 +3307,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
@@ -3390,7 +3391,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                             //     color: Colors.black
                                             // ),
                                             style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 18/scaleFactor,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             ),
@@ -3423,10 +3424,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               ),
                                               hintStyle: widget.isEnglish ?
                                               TextStyle(
-                                                  color: Colors.black.withOpacity(0.55)
+                                                  color: Colors.black.withOpacity(0.55), fontSize: 18/scaleFactor,
                                               ):
                                               TextStyle(
-                                                  color: Colors.black.withOpacity(0.55),
+                                                  color: Colors.black.withOpacity(0.55), fontSize: 18/scaleFactor,
                                                   height: 1.38
                                               )
                                               ,
@@ -3838,7 +3839,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                widget.isEnglish? 'Products': 'ကုန်ပစ္စည်း',
+                                widget.isEnglish? 'Products': 'ကုန်ပစ္စည်း', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3881,7 +3882,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                widget.isEnglish? 'Customers': 'ဖောက်သည်',
+                                widget.isEnglish? 'Customers': 'ဖောက်သည်', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3923,7 +3924,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                widget.isEnglish? 'Merchants': 'ကုန်သည်',
+                                widget.isEnglish? 'Merchants': 'ကုန်သည်', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3953,7 +3954,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                widget.isEnglish? 'Sale orders': 'အရောင်းစာရင်း',
+                                widget.isEnglish? 'Sale orders': 'အရောင်းစာရင်း', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -3983,7 +3984,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             },
                             child: Container(
                               child: Text(
-                                widget.isEnglish? 'Buy orders': 'အဝယ်စာရင်း',
+                                widget.isEnglish? 'Buy orders': 'အဝယ်စာရင်း', textScaleFactor: 1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -4170,7 +4171,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     Container(
                                       // color: Colors.yellow,
                                       child: Text(
-                                        prodVal['na'],
+                                        prodVal['na'], textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight:
@@ -4191,7 +4192,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       children: [
                                         Flexible(
                                           child: Text(
-                                            '$currencyUnit ' + prodVal['sm'].toString(),
+                                            '$currencyUnit ' + prodVal['sm'].toString(), textScaleFactor: 1,
                                             style: TextStyle(
                                                 height: 1.3,
                                                 fontSize: 15,
@@ -4204,7 +4205,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                         Text(
                                           // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
                                           prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
-                                          style: TextStyle(
+                                          textScaleFactor: 1, style: TextStyle(
                                               height: 1.3,
                                               fontSize: 15,
                                               fontWeight:
@@ -4336,7 +4337,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           child: ListTile(
                             title: Text(
                               prodVal['na'].toString(),
-                              maxLines: 1,
+                              maxLines: 1, textScaleFactor: 1,
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight:
@@ -4360,7 +4361,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     .start,
                                 children: [
                                   Text(
-                                    prodVal['ad'].toString(),
+                                    prodVal['ad'].toString(), textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight
@@ -4380,7 +4381,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   SizedBox(
                                     height: 5,),
                                   Text(
-                                    prodVal['ph'].toString(),
+                                    prodVal['ph'].toString(), textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight
@@ -4415,7 +4416,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
                                       child: Text(prodVal['de'].round().toString() + ' unpaid',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white
@@ -4564,7 +4565,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                               bottom: 18.0),
                           child: ListTile(
                             title: Text(
-                              prodVal['na'].toString(),
+                              prodVal['na'].toString(), textScaleFactor: 1,
                               maxLines: 1,
                               style: TextStyle(
                                   fontSize: 18,
@@ -4589,7 +4590,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     .start,
                                 children: [
                                   Text(
-                                    prodVal['ad'],
+                                    prodVal['ad'], textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight
@@ -4609,7 +4610,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   SizedBox(
                                     height: 5,),
                                   Text(
-                                    prodVal['ph'].toString(),
+                                    prodVal['ph'].toString(), textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight
@@ -4644,7 +4645,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
                                       child: Text(prodVal['de'].round().toString() + ' unpaid',
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white
@@ -4771,7 +4772,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
                                     child: Text(
-                                      'No result found',
+                                      'No result found', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -4785,7 +4786,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      'End of results',
+                                      'End of results', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -4799,7 +4800,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
                                     child: Text(
-                                      'Search order (eg. 1001)',
+                                      'Search order (eg. 1001)', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -4847,7 +4848,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   Text(
                                                     // '#',
                                                     '#' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'],
-                                                    style: TextStyle(
+                                                    textScaleFactor: 1, style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w500
                                                     ),
@@ -4861,7 +4862,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   Text(
                                                     // '',
                                                     covertToDayNum(snapshot1.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot1.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot1.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot1.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot1.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
-                                                    style: TextStyle(
+                                                    textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.grey,
@@ -4888,7 +4889,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.grey,
-                                                    ),
+                                                    ), textScaleFactor: 1,
                                                     strutStyle: StrutStyle(
                                                       height: 1.3,
                                                       // fontSize:,
@@ -4923,6 +4924,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                         // fontSize:,
                                                         forceStrutHeight: true,
                                                       ),
+                                                      textScaleFactor: 1,
                                                       style: TextStyle(
                                                           fontSize: widget.isEnglish? 13: 12,
                                                           fontWeight: FontWeight.w500,
@@ -4945,6 +4947,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                                                      textScaleFactor: 1,
                                                       strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
@@ -4971,6 +4974,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                                                      textScaleFactor: 1,
                                                       strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
@@ -4997,6 +5001,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                                                      textScaleFactor: 1,
                                                       strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
@@ -5024,6 +5029,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 13.0, right: 13.0),
                                                     child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                                                      textScaleFactor: 1,
                                                       strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
@@ -5069,6 +5075,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     Text(
                                       // 'MMK ',
                                         'MMK ' + double.parse(snapshot1.data!.docs[index]['total'],).toStringAsFixed(2),
+                                        textScaleFactor: 1,
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
@@ -5106,7 +5113,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Text(
-                          'Order has no data',
+                          'Order has no data', textScaleFactor: 1,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                       )
                   ),
@@ -5143,7 +5150,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
                                     child: Text(
-                                      'No result found',
+                                      'No result found', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -5157,7 +5164,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
                                     child: Text(
-                                      'End of results',
+                                      'End of results', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -5171,7 +5178,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
                                     child: Text(
-                                      'Search order (eg. 1001)',
+                                      'Search order (eg. 1001)', textScaleFactor: 1,
                                       strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                                   )
                               ),
@@ -5219,7 +5226,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   Text(
                                                     // '#',
                                                     '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
-                                                    style: TextStyle(
+                                                    textScaleFactor: 1, style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w500
                                                     ),
@@ -5233,7 +5240,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   Text(
                                                     // '',
                                                     covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
-                                                    style: TextStyle(
+                                                    textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.grey,
@@ -5255,7 +5262,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 children: [
                                                   Text(
                                                     // '',
-                                                    snapshot2.data!.docs[index]['merName'],
+                                                    snapshot2.data!.docs[index]['merName'], textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.w500,
@@ -5290,7 +5297,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
-                                                      strutStyle: StrutStyle(
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
                                                         forceStrutHeight: true,
@@ -5317,7 +5324,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
-                                                      strutStyle: StrutStyle(
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
                                                         forceStrutHeight: true,
@@ -5343,7 +5350,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
-                                                      strutStyle: StrutStyle(
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
                                                         forceStrutHeight: true,
@@ -5369,7 +5376,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
-                                                      strutStyle: StrutStyle(
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
                                                         forceStrutHeight: true,
@@ -5396,7 +5403,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
                                                     child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                                      strutStyle: StrutStyle(
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(
                                                         height: 1.25,
                                                         // fontSize:,
                                                         forceStrutHeight: true,
@@ -5441,7 +5448,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     Text(
                                       // 'MMK ',
                                         'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
-                                        style: TextStyle(
+                                        textScaleFactor: 1, style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
                                         )),
@@ -5478,7 +5485,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Text(
-                          'Order has no data',
+                          'Order has no data', textScaleFactor: 1,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
                       )
                   ),
@@ -5508,7 +5515,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               child: Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Text(
-                  'Search something',
+                  'Search something', textScaleFactor: 1,
                   strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
               )
           ),
@@ -5520,7 +5527,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               child: Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Text(
-                  'No result found',
+                  'No result found', textScaleFactor: 1,
                   strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),),
               )
           ),
@@ -5535,7 +5542,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           Container(
               child: Text(
                 // searchProds.length == 0? 'sps': 'End of results',
-                'End of results',
+                'End of results', textScaleFactor: 1,
                 strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
           ),
         ],

@@ -17,7 +17,7 @@ class _ApplyDiscountState extends State<ApplyDiscount> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('Apply discount to cart', style: TextStyle(
+          child: Text('Apply discount to cart',textScaleFactor: 1, style: TextStyle(
             color: Colors.black,
             fontSize: 18,
           ),),
@@ -40,7 +40,7 @@ class _ApplyDiscountState extends State<ApplyDiscount> {
             Container(
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
-                  "DISCOUNT",
+                  "DISCOUNT", textScaleFactor: 1,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
@@ -53,7 +53,7 @@ class _ApplyDiscountState extends State<ApplyDiscount> {
               margin: EdgeInsets.only(right: 10),
               child: TextButton(
                 onPressed: () {},
-                child: Text('Clear discount', style: TextStyle(
+                child: Text('Clear discount', textScaleFactor: 1, style: TextStyle(
                   fontSize: 13,
                 ),),
               ),
