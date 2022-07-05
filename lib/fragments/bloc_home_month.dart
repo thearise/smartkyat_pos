@@ -858,7 +858,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(monthLossTotal.toString(),
+                                                  child: Text(monthLossTotal.round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                     textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(

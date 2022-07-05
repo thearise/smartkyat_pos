@@ -1227,7 +1227,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice1.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
+                                                                        Text('$currencyUnit ' + buyPrice1.round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1503,7 +1503,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
+                                                                        Text('$currencyUnit ' + buyPrice2.round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
@@ -1779,7 +1779,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('$currencyUnit ' + buyPrice3.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
+                                                                        Text('$currencyUnit ' + buyPrice3.round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style:
                                                                         TextStyle(
                                                                           fontSize: 15,
                                                                           fontWeight: FontWeight.w500,
