@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -446,153 +447,29 @@ class _LossProductState extends State<LossProduct> {
                                   if (widget.prodID.split('^')[3] == 'unit_name') {
                                     batch  = await decStockFromInv(batch, widget.prodID.split('^')[0], 'im', lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'lm', lossAmount.text.toString());
-
-                                    // lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                    //   'date': now,
-                                    //   'prod_id' : widget.prodID.split('-')[0],
-                                    //   'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                    //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                    //   'type': 'loss1',
-                                    // }).then((value) =>
-                                    //     debugPrint("User Updated"))
-                                    //     .catchError((error) =>
-                                    //     debugPrint(
-                                    //         "Failed to update datenotexist: $error"));
-                                    // unit = 'loss1';
-                                    // buyPriceUnit = 'buyPrice1';
                                   }
                                   else if (widget.prodID.split('^')[3] == 'sub1_name') {
                                     batch = await sub1Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l1', lossAmount.text.toString());
-                                    // unit = 'loss2';
-                                    // buyPriceUnit = 'buyPrice2';
-                                    // lossProduct.add({
-                                    //   //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                    //   'date': now,
-                                    //   'prod_id' : widget.prodID.split('-')[0],
-                                    //   'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                    //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                    //   'type': 'loss2',
-                                    // }).then((value) =>
-                                    //     debugPrint("User Updated"))
-                                    //     .catchError((error) =>
-                                    //     debugPrint(
-                                    //         "Failed to update datenotexist: $error"));
                                   }
                                   else if (widget.prodID.split('^')[3] == 'sub2_name') {
                                     batch = await sub2Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l2', lossAmount.text.toString());
-                                    // lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                    //   'date': now,
-                                    //   'prod_id' : widget.prodID.split('-')[0],
-                                    //   'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                    //   'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                    //   'type': 'loss3',
-                                    // }).then((value) =>
-                                    //     debugPrint("User Updated"))
-                                    //     .catchError((error) =>
-                                    //     debugPrint(
-                                    //         "Failed to update datenotexist: $error"));
-
-                                    // unit = 'loss3';
-                                    // buyPriceUnit = 'buyPrice3';
                                   }
+
+                                  DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                   double ttlLossAmount = 0.0;
                                   ttlLossAmount = double.parse(lossAmount.text.toString()) * double.parse(priceAmount.text.toString());
-                                  CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
-
-                                  monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
-                                      .get()
-                                      .then((QuerySnapshot querySnapshot)  async {
-                                    querySnapshot.docs.forEach((doc) {
-                                      monthExist = true;
-                                      monthId = doc.id;
-                                    });
-                                    if (monthExist) {
-                                      batch = await updateLossMonthly(batch, monthId,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'loss_cust', ttlLossAmount.toString());
-
-                                      // monthlyData.doc(monthId).update({
-                                      //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                      //   now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                      //
-                                      // }).then((value) => debugPrint("data Updated"))
-                                      //     .catchError((error) => debugPrint("Failed to update user: $error"));
-
-                                    }
-                                    else {
-                                      monthlyData.add({
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                        for(int j = 1; j<= 31; j++)
-                                          now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                        'date': now,
-
-                                      }).then((value) async {
-                                        debugPrint('valueid' + value.id.toString());
-
-                                        batch = await updateLossMonthly(batch, value.id,  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'loss_cust', ttlLossAmount.toString());
-
-                                      }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                    }
-
-                                    CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
-
-                                    yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
-                                        .get()
-                                        .then((QuerySnapshot querySnapshot)  async {
-                                      querySnapshot.docs.forEach((doc) {
-                                        yearExist = true;
-                                        yearId = doc.id;
-                                      });
-
-                                      if (yearExist) {
-                                        batch = await updateLossYearly(batch, yearId,  now.year.toString() +  zeroToTen(now.month.toString())  + 'loss_cust',  ttlLossAmount.toString());
-                                      }
-                                      else {
-                                        yearlyData.add({
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                          for(int j = 1; j<= 12; j++)
-                                            now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-
-                                          'date': now,
-
-                                        }).then((value5) async {
-                                          batch = await updateLossYearly(batch, value5.id,  now.year.toString() +  zeroToTen(now.month.toString())  + 'loss_cust', ttlLossAmount.toString());
-
-                                          // yearlyData.doc(value.id).update({
-                                          //   now.year.toString() +  zeroToTen(now.month.toString()) + 'cash_cust' : FieldValue.increment(double.parse(TtlProdListPrice())),
-                                          //   now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust' : FieldValue.increment(debtAmounts)
-                                          // }).then((value) => debugPrint("Data Updated"))
-                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                      }
-                                      batch.commit();
-                                    }); });
-                                  Navigator.pop(context);
+                                  batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'loss_cust', ttlLossAmount.toString(), ordCntDate);
+                                  batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'loss_cust',  ttlLossAmount.toString(), ordCntDate);
+                                  try {
+                                    batch.commit();
+                                    Navigator.pop(context);
+                                    smartKyatFlash('Success', 's');
+                                  } catch(error) {
+                                    Navigator.pop(context);
+                                    smartKyatFlash('Unknown error! Please try again later.', 'e');
+                                  }
                                 }
                               });
 
@@ -650,6 +527,186 @@ class _LossProductState extends State<LossProduct> {
     }
   }
 
+  void smartKyatFlash(String text, String type) {
+    Widget widgetCon = Container();
+    Color bdColor = Color(0xffffffff);
+    Color bgColor = Color(0xffffffff);
+    if(type == 's') {
+      bdColor = Color(0xffB1D3B1);
+      bgColor = Color(0xffCFEEE0);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff419373)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 1.0),
+          child: Icon(
+            Icons.check_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'w') {
+      bdColor = Color(0xffF2E0BC);
+      bgColor = Color(0xffFCF4E2);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffF5C04A)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    } else if(type == 'e') {
+      bdColor = Color(0xffEAD2C8);
+      bgColor = Color(0xffFAEEEC);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffE9625E)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Icon(
+            Icons.close_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'i') {
+      bdColor = Color(0xffBCCEEA);
+      bgColor = Color(0xffE8EEF9);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff4788E2)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
+          child: Text('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    }
+    showFlash(
+      context: context,
+      duration: const Duration(milliseconds: 2500),
+      persistent: true,
+      transitionDuration: Duration(milliseconds: 300),
+      builder: (_, controller) {
+        return Flash(
+          controller: controller,
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          // boxShadows: [BoxShadow(blurRadius: 4)],
+          // barrierBlur: 3.0,
+          // barrierColor: Colors.black38,
+          barrierDismissible: true,
+          behavior: FlashBehavior.floating,
+          position: FlashPosition.top,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 93.0, left: 15, right: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                color: bgColor,
+                border: Border.all(
+                    color: bdColor,
+                    width: 1.0
+                ),
+              ),
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: widgetCon,
+                ),
+                minLeadingWidth: 15,
+                horizontalTitleGap: 10,
+                minVerticalPadding: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                  child: Container(
+                    child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                  ),
+                ),
+                // subtitle: Text('shit2'),
+                // trailing: Text('GGG',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),),
+              ),
+            ),
+          ),
+          // child: Padding(
+          //   padding: const EdgeInsets.only(
+          //       top: 93.0, left: 15, right: 15),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(10.0),
+          //       ),
+          //       color: bgColor,
+          //       border: Border.all(
+          //           color: bdColor,
+          //           width: 1.0
+          //       ),
+          //     ),
+          //     child: Padding(
+          //         padding: const EdgeInsets.only(
+          //             top: 15.0, left: 10, right: 10, bottom: 15),
+          //         child: Row(
+          //           children: [
+          //             SizedBox(width: 5),
+          //             widgetCon,
+          //             SizedBox(width: 10),
+          //             Padding(
+          //               padding: const EdgeInsets.only(bottom: 2.5),
+          //               child: Container(
+          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
+          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
+          //               ),
+          //             )
+          //           ],
+          //         )
+          //     ),
+          //   ),
+          // ),
+        );
+      },
+    );
+  }
+
   updateLossMonthly(WriteBatch batch, id, field, price) {
 
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
@@ -658,6 +715,29 @@ class _LossProductState extends State<LossProduct> {
       field : FieldValue.increment(double.parse(price.toString())),
 
     });
+    return batch;
+  }
+
+  updateMonthlyData(WriteBatch batch, id, field1, price1, now) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
+    // batch.update(documentReference, {
+    //   field1 : FieldValue.increment(double.parse(price1.toString())),
+    //   field2 : FieldValue.increment(double.parse(price2.toString())),
+    //
+    // });
+    batch.set(documentReference, {
+      field1.toString() : FieldValue.increment(double.parse(price1.toString())),
+      'date': now,
+    },SetOptions(merge: true));
+    return batch;
+  }
+
+  updateYearlyData(WriteBatch batch, id, field1, price1, now) {
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
+    batch.set(documentReference, {
+      field1.toString() : FieldValue.increment(double.parse(price1.toString())),
+      'date': now,
+    },SetOptions(merge: true));
     return batch;
   }
 
