@@ -835,7 +835,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalLossBySlide(), textScaleFactor: 1,
+                                                  child: Text(totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -1572,17 +1572,17 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
   String totalRefundBySlide() {
     if(_sliding == 0) {
-      return todayRefundTotal.toString();
+      return todayRefundTotal.round().toString();
     } else {
-      return weekRefundTotal.toString();
+      return weekRefundTotal.round().toString();
     }
   }
 
   String totalLossBySlide() {
     if(_sliding == 0) {
-      return todayLossTotal.toString();
+      return todayLossTotal.round().toString();
     } else  {
-      return weekLossTotal.toString();
+      return weekLossTotal.round().toString();
     }
   }
 
