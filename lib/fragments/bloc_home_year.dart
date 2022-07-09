@@ -926,6 +926,81 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     SizedBox(
                                       width: 15,
                                     ),
+                                    Container(
+                                      // width: 100,
+                                      height: 100,
+                                      constraints: BoxConstraints(
+                                          maxWidth: double.infinity, minWidth: 120),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border(
+                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                          ),
+                                          color: AppTheme.lightBgColor
+                                      ),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                    height:26
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:30.0),
+                                                  child: Text(profitByYear().round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1,
+                                                    textAlign: TextAlign.left,
+                                                    style: GoogleFonts.lato(
+                                                        textStyle: TextStyle(
+                                                            letterSpacing: 1,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.black
+                                                        )
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
+                                            Text('Profit',textScaleFactor: 1,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black.withOpacity(0.6)),
+                                            ),
+                                            Positioned(
+                                              left: 0,
+                                              bottom: 2,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2418,6 +2493,12 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     }
   }
 
+  profitByYear() {
+    double profit = 0.0;
+      profit = yearSale - (yearCapital + yearLossTotal);
+    return profit;
+  }
+
   double funChange(max) {
     // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
@@ -2459,11 +2540,15 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   double yearCostsTotalR = 0;
   double yearLossTotal = 0;
 
+  double yearCapital = 0;
+  double yearSale = 0;
+
   double lastYearSale = 0;
   double lastYearCost = 0;
   double lastYearUnpaid = 0;
   double lastYearRefund = 0;
   double lastYearLoss = 0;
+
 
   fetchOrdersYY(snapshot0) async {
 
@@ -2480,6 +2565,9 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     yearRefundTotal = 0;
     yearLossTotal = 0;
 
+    yearSale = 0;
+    yearCapital = 0;
+
     lastYearSale = 0;
     lastYearCost = 0;
     lastYearUnpaid = 0;
@@ -2495,14 +2583,26 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
 
       for(int i = 1; i<= 12; i++) {
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
-          thisYearOrdersChart[i] += thisYearOrdersChart[i] + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
+          thisYearOrdersChart[i] += data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
           debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'].toString());
         }
       }
 
       for(int i = 1; i<= 12; i++) {
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+          yearSale += data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
+        }
+      }
+
+      for(int i = 1; i<= 12; i++) {
+        if(data[today.year.toString() + zeroToTen(i.toString()) + 'capital'] != null) {
+          yearCapital += data[today.year.toString() + zeroToTen(i.toString()) + 'capital'];
+        }
+      }
+
+      for(int i = 1; i<= 12; i++) {
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'cash_cust'] != null) {
-          lastYearSale += data[today.year.toString() + zeroToTen(i.toString()) + 'cash_cust'];
+          lastYearSale += data[(today.year-1).toString() + zeroToTen(i.toString()) + 'cash_cust'];
         }
       }
 
@@ -2519,7 +2619,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         if (data[(today.year - 1).toString() + zeroToTen(i.toString()) +
             'cash_merc'] != null) {
           lastYearCost +=
-          data[today.year.toString() + zeroToTen(i.toString()) + 'cash_merc'];
+          data[(today.year-1).toString() + zeroToTen(i.toString()) + 'cash_merc'];
         }
       }
 
@@ -2534,7 +2634,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       for(int i = 1; i<= 12; i++) {
         debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'debt_cust'] != null) {
-          lastYearUnpaid +=  data[today.year.toString() + zeroToTen(i.toString()) + 'debt_cust'];
+          lastYearUnpaid +=  data[(today.year-1).toString() + zeroToTen(i.toString()) + 'debt_cust'];
         }
       }
 
@@ -2549,7 +2649,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       for(int i = 1; i<= 12; i++) {
         debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
-          lastYearRefund +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
+          lastYearRefund +=  data[(today.year-1).toString() + zeroToTen(i.toString()) + 'refu_cust'];
         }
       }
 
@@ -2564,7 +2664,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       for(int i = 1; i<= 12; i++) {
         debugPrint('looping');
         if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'loss_cust'] != null) {
-          lastYearLoss +=  data[today.year.toString() + zeroToTen(i.toString()) + 'loss_cust'];
+          lastYearLoss +=  data[(today.year-1).toString() + zeroToTen(i.toString()) + 'loss_cust'];
           debugPrint('LossTwo ' + lastYearLoss.toString());
         }
       }

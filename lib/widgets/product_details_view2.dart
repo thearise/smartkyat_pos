@@ -661,8 +661,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             ),
                                                             onPressed: () async {
                                                               if (subExist == 0) {
-                                                                widget._callback( widget.idString + '^' + '^' + mainPrice.toString() +
+                                                                widget._callback( widget.idString + '^' + buyPrice1.toString() + '^' + mainPrice.toString() +
                                                                     '^unit_name^1^' + prodName + '^' + mainName + '^' + image +  '^' + '^',);
+                                                                debugPrint('result text ' + buyPrice1.toString());
                                                               } else {
                                                                 final result =
                                                                 await showModalActionSheet<String>(
@@ -673,7 +674,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       icon: SmartKyat_POS.prodm,
                                                                       label: '1 ' + mainName,
                                                                       key: widget.idString +
-                                                                          '^' +
+                                                                          '^' + buyPrice1.toString() +
                                                                           '^' +
                                                                           mainPrice.toString() +
                                                                           '^unit_name^1^' + prodName + '^' +  mainName  + '^' + image +  '^' + '^',
@@ -683,7 +684,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         icon: SmartKyat_POS.prods1,
                                                                         label: '1 ' + sub1Name,
                                                                         key: widget.idString +
-                                                                            '^' + sub1Unit.toString() +
+                                                                            '^' + buyPrice2.toString() +
                                                                             '^' +
                                                                             sub1Price.toString() +
                                                                             '^sub1_name^1^' + prodName + '^' + sub1Name.toString()  + '^' + image + '^' +  sub1Qty.toString()  + '^' + sub1Unit.toString(),
@@ -693,7 +694,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         icon: SmartKyat_POS.prods2,
                                                                         label: '1 ' + sub2Name,
                                                                         key: widget.idString +
-                                                                            '^' + sub2Unit.toString() +
+                                                                            '^' + buyPrice3.toString() +
                                                                             '^' +
                                                                             sub2Price.toString() +
                                                                             '^sub2_name^1^' + prodName + '^' + sub2Name.toString()  + '^' + image + '^' +  sub2Qty.toString()  + '^' + sub2Unit.toString(),
@@ -701,6 +702,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   ],
                                                                 );
                                                                 widget._callback(result.toString());
+                                                                debugPrint('resut text ' + result.toString());
                                                               }
                                                               if(mainQty - 1 <= 0) {smartKyatFMod(context, 'Low Stock', 'w');}
                                                             },
@@ -764,7 +766,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     idString: widget.idString,
                                                                     toggleCoinCallback: addProduct2,
                                                                     toggleCoinCallback3: addProduct3,
-                                                                    unitName: 'unit_name', shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
+                                                                    unitName: 'unit_name', shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(), qty: mainQty.toString(),
                                                                   )));
                                                           widget._openCartBtn();
                                                         } else {
@@ -800,7 +802,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice2.toString(), prodName: prodName, image: image, unit: sub1Name, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice2.toString(), prodName: prodName, image: image, unit: sub1Name, stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),qty: sub1Qty.toString(),
                                                                       )));
                                                             } else if (result == 'sub2_name') {
                                                               await Navigator.push(
@@ -811,7 +813,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice3.toString(), prodName: prodName, image: image, unit: sub2Name,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice3.toString(), prodName: prodName, image: image, unit: sub2Name,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(), qty: sub1Qty.toString(),
                                                                       )));
                                                             } else {
                                                               await Navigator.push(
@@ -822,7 +824,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         idString: widget.idString,
                                                                         toggleCoinCallback: addProduct2,
                                                                         toggleCoinCallback3: addProduct3,
-                                                                        unitName: result, shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(),
+                                                                        unitName: result, shopId: widget.shopId, price: buyPrice1.toString(), prodName: prodName, image: image, unit: mainName,stock: sub1Unit.toString(), link: sub2Unit.toString(), subExist : subExist.toString(), qty: mainQty.toString(),
                                                                       )));
                                                             }
                                                             widget._openCartBtn();

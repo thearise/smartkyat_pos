@@ -915,6 +915,81 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     SizedBox(
                                       width: 15,
                                     ),
+                                    Container(
+                                      // width: 100,
+                                      height: 100,
+                                      constraints: BoxConstraints(
+                                          maxWidth: double.infinity, minWidth: 120),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border(
+                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                          ),
+                                          color: AppTheme.lightBgColor
+                                      ),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                    height:26
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:30.0),
+                                                  child: Text(profitByMonth().round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                    textScaleFactor: 1, textAlign: TextAlign.left,
+                                                    style: GoogleFonts.lato(
+                                                        textStyle: TextStyle(
+                                                            letterSpacing: 1,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.black
+                                                        )
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
+                                            Text('Profit', textScaleFactor: 1,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black.withOpacity(0.6)),
+                                            ),
+                                            Positioned(
+                                              left: 0,
+                                              bottom: 2,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2561,6 +2636,14 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   double lastMonthCost = 0;
   double lastMonthLoss = 0;
 
+  double monthCapital = 0;
+  double monthSale = 0;
+
+  profitByMonth() {
+    double profit = 0.0;
+    profit = monthSale - (monthCapital + monthLossTotal);
+    return profit;
+  }
 
 
   fetchOrdersMY(snapshot0) async {
@@ -2582,6 +2665,8 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     lastMonthRefund = 0;
     lastMonthCost = 0;
     lastMonthLoss = 0;
+    monthSale = 0;
+    monthCapital = 0;
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
@@ -2596,10 +2681,21 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       }
 
       for(int i = 1; i< 32; i++) {
+        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+          monthSale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'];
+        }
+      }
+
+      for(int i = 1; i< 32; i++) {
+        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'capital'] != null) {
+          monthCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'capital'];
+        }
+      }
+
+      for(int i = 1; i< 32; i++) {
         if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           lastMonthSale += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'];
         }
-
       }
 
       for(int i = 1; i< 32; i++) {
