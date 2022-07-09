@@ -15,7 +15,7 @@ class FillProduct extends StatefulWidget {
   final _callback;
   final _callback3;
   const FillProduct(
-      {Key? key, required this.isEnglish,
+      {Key? key, required this.isEnglish, required this.qty,
         required this.idString, required this.unitName, required this.fromSearch, required this.shopId, required this.price,
         required void toggleCoinCallback(String str), required this.unit,
         required void toggleCoinCallback3(String str), required this.prodName, required this.image, required this.stock, required this.link, required this.subExist,
@@ -33,6 +33,7 @@ class FillProduct extends StatefulWidget {
   final String subExist;
   final bool fromSearch;
   final bool isEnglish;
+  final String qty;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -579,7 +580,7 @@ class _FillProductState extends State<FillProduct> {
                                   '^' +
                                   munitCtrl.text +
                                   '^' +
-                                  'Phyo' +
+                                  widget.qty +
 
                                   '^'+ widget.unitName + '^' + '1' + '^' + widget.prodName + '^' + widget.unit + '^' + widget.image + '^'+ widget.stock + '^' + widget.link + '^' + widget.subExist);
                               debugPrint(widget.idString +
@@ -588,7 +589,7 @@ class _FillProductState extends State<FillProduct> {
                                   '^' +
                                   munitCtrl.text +
                                   '^' +
-                                  'Phyo' +
+                                  widget.qty +
 
                                   '^'+ widget.unitName + '^' + '1'.toString());
                               Navigator.pop(context);

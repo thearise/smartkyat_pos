@@ -56,53 +56,6 @@ class _BuyListInfoState extends State<BuyListInfo>
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   bool firstBuild = true;
 
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      debugPrint(e.toString());
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        try {
-          final result = await InternetAddress.lookup('google.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            debugPrint('connected');
-            setState(() {
-              _connectionStatus = true;
-            });
-          }
-        } on SocketException catch (_) {
-          setState(() {
-            _connectionStatus = false;
-          });
-        }
-        break;
-      default:
-        setState(() {
-          // _connectionStatus = 'Failed to get connectivity.')
-          _connectionStatus = false;
-        });
-        break;
-    }
-  }
-
   void printFromOrdersFun(File file, var prodListPR) {
     widget._printFromOrders(file, prodListPR);
   }
@@ -177,11 +130,6 @@ class _BuyListInfoState extends State<BuyListInfo>
         });
       }
     });
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    // debugPrint('WIDGET-' + widget.data);
-    // debugPrint('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -356,13 +304,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          _connectionStatus ? Container(
+                                          Container(
                                             height: 100,
                                             child: ListView(
                                               scrollDirection: Axis.horizontal,
                                               children: [
                                                 SizedBox(width: 15),
-                                                ButtonTheme(
+                                                widget.data.split('^')[4] != 'T' ? ButtonTheme(
                                                   minWidth: 133,
                                                   child: FlatButton(
                                                     color: AppTheme.buttonColor2,
@@ -473,8 +421,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(width: 12),
+                                                ) : Container(),
+                                                widget.data.split('^')[4] != 'T' ? SizedBox(width: 12) : Container(),
                                                 debt.toString() != '0.0' ? ButtonTheme(
                                                   minWidth: 133,
                                                   child: FlatButton(
@@ -631,216 +579,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     ),
                                                   ),
                                                 ) ,
-                                                SizedBox(width: 15),
-                                              ],
-                                            ),
-                                          ):
-                                          Container(
-                                            height: 100,
-                                            child: ListView(
-                                              scrollDirection: Axis.horizontal,
-                                              children: [
-                                                SizedBox(width: 15),
-                                                ButtonTheme(
-                                                  minWidth: 133,
-                                                  child: FlatButton(
-                                                    color: AppTheme.buttonColor2,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(7.0),
-                                                      side: BorderSide(
-                                                        color: Colors.white.withOpacity(0.85),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                                     // smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                    },
-                                                    child: Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      child: Stack(
-                                                        children: [
-                                                          Positioned(
-                                                            top: 15,
-                                                            left: 0,
-                                                            child: Icon(
-                                                              SmartKyat_POS.product,
-                                                              size: 18,
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            bottom: 15,
-                                                            left: 0,
-                                                            child: Container(
-                                                              width: 80,
-                                                              child: Text(
-                                                                  textSetRefBtn,  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight
-                                                                        .w600,
-                                                                    fontSize: 16,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: widget.isEnglish
-                                                                        ? 1.4
-                                                                        : 1.6,
-                                                                    forceStrutHeight: true,
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                debt.toString() != '0.0' ? ButtonTheme(
-                                                  minWidth: 133,
-                                                  child: FlatButton(
-                                                    color: AppTheme.buttonColor2,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(7.0),
-                                                      side: BorderSide(
-                                                        color: Colors.white.withOpacity(0.85),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      smartKyatFMod(context, 'Check your internet connection and try again.', 'w');
-                                                      // smartKyatFlash('Check your internet connection and try again.', 'w');
-                                                    },
-                                                    child: Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      child: Stack(
-                                                        children: [
-                                                          Positioned(
-                                                            top: 15,
-                                                            left: 0,
-                                                            child: Icon(
-                                                              SmartKyat_POS.pay,
-                                                              size: 22,
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            bottom: 15,
-                                                            left: 0,
-                                                            child: Container(
-                                                              width: 80,
-                                                              child: Text(
-                                                                  textSetPayCashBtn,  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight
-                                                                        .w600,
-                                                                    fontSize: 16,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: widget.isEnglish
-                                                                        ? 1.4
-                                                                        : 1.6,
-                                                                    forceStrutHeight: true,
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ) : Container(),
-                                                debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
-                                                ButtonTheme(
-                                                  minWidth: 133,
-                                                  child: FlatButton(
-                                                    color: AppTheme.buttonColor2,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(7.0),
-                                                      side: BorderSide(
-                                                        color: Colors.white.withOpacity(0.85),
-                                                      ),
-                                                    ),
-                                                    onPressed: () async {
-                                                      // await Future.delayed(const Duration(milliseconds: 3000), () {
-                                                      //
-                                                      // });
-
-
-                                                      result = widget.data
-                                                          .split('^')[0] +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[1] +
-                                                          '^' +
-                                                          totalPrice
-                                                              .toString() +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[3] +
-                                                          '^' +
-                                                          widget.data
-                                                              .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                          .split('^')[6];
-
-                                                      debugPrint('prodList ' +  prodListView.length.toString() + prodListPrintMod.length.toString());
-                                                      if( prodListView.length > 2) {
-                                                        if(prodListView.length == prodListPrintMod.length) {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
-                                                          ); } else {
-                                                          smartKyatFMod(context, 'Try again in few seconds...', 'w');
-                                                          // smartKyatFMod(
-                                                          //     'Try again in few seconds...',
-                                                          //     'w');
-                                                        } } else Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      child: Stack(
-                                                        children: [
-                                                          Positioned(
-                                                            top: 15,
-                                                            left: 0,
-                                                            child: Icon(
-                                                              Icons.print_rounded,
-                                                              size: 23,
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            bottom: 15,
-                                                            left: 0,
-                                                            child: Container(
-                                                              width: 80,
-                                                              child: Text(
-                                                                  textSetPrint,  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight
-                                                                        .w600,
-                                                                    fontSize: 16,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: widget.isEnglish
-                                                                        ? 1.4
-                                                                        : 1.6,
-                                                                    forceStrutHeight: true,
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
                                                 SizedBox(width: 15),
                                               ],
                                             ),

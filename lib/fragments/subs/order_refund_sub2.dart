@@ -729,6 +729,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               });
                                               openOverAllSubLoading();
                                               double total = 0;
+                                              double total2 = 0;
                                               bool refund = false;
                                               var monthId = '';
                                               bool monthExist = false;
@@ -749,6 +750,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     .split('^')[3]) -
                                                     refundItems[i]) *
                                                     double.parse(prodListView[i].split('^')[4]);
+
+                                                total2 += (refundItems[i]) * double.parse(prodListView[i].split('^')[6]);
 
                                                 if (refundItems[i] > 0) {
                                                   refund = true;
@@ -868,6 +871,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               double chgDebts = 0;
                                               int ttlDebts = 0;
                                               double chgTotal = 0;
+                                              double chgCapital = 0;
 
                                               debugPrint('leesin ' +widget.data.split('^')[4].toString());
 
@@ -899,13 +903,15 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                               if (double.parse(widget.data.split('^')[2]) != total) {
                                                 chgTotal = double.parse(widget.data.split('^')[2]) - total;
+                                                chgCapital =  total2;
                                               } else {
                                                 chgTotal = 0;
+                                                chgCapital = 0;
                                               }
 
 
                                               //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-                                              batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', chgTotal, chgDebts);
+                                              batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
                                               //
 
                                               if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
@@ -918,7 +924,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     chgTotal);
                                               }
 
-                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust', chgTotal, chgDebts);
+                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
 
                                               batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
 
@@ -1284,11 +1290,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     return batch;
   }
 
-  updateMonthlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+  updateMonthlyData1(WriteBatch batch, id, field1, field2, field3, double price1, double price2, double price3) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
     batch.set(documentReference, {
       field1.toString() : FieldValue.increment(double.parse((0 - price1).toString())),
       field2.toString() : FieldValue.increment(double.parse((0 - price2).toString())),
+      field3.toString() : FieldValue.increment(double.parse((0 - price3).toString())),
     },SetOptions(merge: true));
 
     return batch;
@@ -1304,11 +1311,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     return batch;
   }
 
-  updateYearlyData1(WriteBatch batch, id, field1, field2, double price1, double price2) {
+  updateYearlyData1(WriteBatch batch, id, field1, field2, field3,double price1, double price2, double price3) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly').doc(id);
     batch.set(documentReference, {
       field1.toString() : FieldValue.increment(double.parse((0 - price1).toString())),
       field2.toString() : FieldValue.increment(double.parse((0 - price2).toString())),
+      field3.toString() : FieldValue.increment(double.parse((0 - price3).toString())),
     },SetOptions(merge: true));
     return batch;
   }
