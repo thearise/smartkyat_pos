@@ -805,7 +805,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     SizedBox(
                                       width: 15,
                                     ),
-
                                     Container(
                                       // width: 100,
                                       height: 100,
@@ -893,7 +892,95 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     SizedBox(
                                       width: 15,
                                     ),
-                                    _sliding == 0 ? Column(
+                                    Container(
+                                      // width: 100,
+                                      height: 100,
+                                      constraints: BoxConstraints(
+                                          maxWidth: double.infinity, minWidth: 120),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border(
+                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                          ),
+                                          color: AppTheme.lightBgColor
+                                      ),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                    height:26
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:30.0),
+                                                  child: Text(profitBySlide().round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
+                                                    textAlign: TextAlign.left,
+                                                    style: GoogleFonts.lato(
+                                                        textStyle: TextStyle(
+                                                            letterSpacing: 1,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.black
+                                                        )
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     top: 0,
+                                            //     child: Text('?')
+                                            // ),
+                                            Text('Profit', textScaleFactor: 1,
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black.withOpacity(0.6)),
+                                            ),
+                                            // Positioned(
+                                            //     right: 0,
+                                            //     bottom: 2,
+                                            //     child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '-%' : percentByLoss().toString() + '%',
+                                            //       textScaleFactor: 1, style: TextStyle(
+                                            //         fontSize: 13,
+                                            //         fontWeight: FontWeight.w500,
+                                            //         color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
+                                            //         // color: Colors.blue
+                                            //       ),
+                                            //     )
+                                            // ),
+                                            Positioned(
+                                              left: 0,
+                                              bottom: 2,
+                                              child: Text(currencyUnit, textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    _sliding == 0 ?
+                                    Column(
                                       children: [
                                         Container(
                                           // width: 100,
@@ -2155,6 +2242,24 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double weekEarnTotal = 0;
   double lastWeekEarn = 0;
 
+  double todayCapital = 0 ;
+  double todaySale = 0 ;
+  double weekCapital = 0;
+
+
+  profitBySlide() {
+    double profit = 0.0;
+    double weeklyTotal=0.0;
+    for (int i = 0; i < thisWeekOrdersChart.length; i++){
+      weeklyTotal += thisWeekOrdersChart[i];
+    }
+    if(_sliding == 0) {
+      profit = todaySale - (todayCapital + todayLossTotal);
+    } else {
+      profit = weeklyTotal - (weekCapital + weekLossTotal);
+    }
+    return profit;
+  }
 
   fetchOrders(snapshot0, snapshot1) async {
     DateTime sevenDaysAgo = today.subtract(const Duration(days: 7));
@@ -2367,6 +2472,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     lastWeekLoss = 0;
     weekEarnTotal = 0;
     lastWeekEarn = 0;
+    todayCapital = 0;
+    todaySale = 0;
+    weekCapital = 0;
 
 
 
@@ -2391,6 +2499,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
       if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'] != null) {
         ystLossTotal += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'loss_cust'];
+      }
+
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'] != null) {
+        todayCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
+      }
+
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
+        todaySale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
       }
 
       if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'paid_cust'] != null) {
@@ -2418,6 +2534,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       for(int i = 0; i < 7; i++) {
         if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'loss_cust'] != null) {
           weekLossTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'loss_cust'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
+        if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'capital'] != null) {
+          weekCapital +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'capital'];
         }
       }
 

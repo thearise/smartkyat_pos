@@ -221,7 +221,7 @@ class MerchantCartState extends State<MerchantCart>
 
     debugPrint('prodincart ' + widget.prodList2.toString());
     String image = widget.prodList2[index].split('^')[9];
-    prodListInd = prodListInd.split('^')[0] + '^' + widget.prodList2[index].split('^')[6] + '^' +
+    prodListInd = prodListInd.split('^')[0] + '^' + widget.prodList2[index].split('^')[3] + '^' +
         prodListInd.split('^')[1] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[2] + '^' + prodListInd.split('^')[6];
     return GestureDetector(
       onTap: (){

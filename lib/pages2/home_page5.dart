@@ -3782,6 +3782,8 @@ class HomePageState extends State<HomePage>
                                                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                                                       child: GestureDetector(
                                                                                         onTap: () async {
+
+                                                                                          debugPrint('prouct list ch' + prodList.toString());
                                                                                           //String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                           setState(() {
                                                                                             totalAmount = double.parse(TtlProdListPrice().toString());
@@ -4327,7 +4329,7 @@ class HomePageState extends State<HomePage>
                                                                                                     for (int k=0; k< prodList.length;  k++) {
                                                                                                       //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                                      subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
+                                                                                                      subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
 
                                                                                                       // productsFire.doc(prodList[k].split('^')[0])
                                                                                                       //     .get().then((val22) async {
@@ -4398,8 +4400,8 @@ class HomePageState extends State<HomePage>
                                                                                                     batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                                                     DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                                                    batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
-                                                                                                    batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
+                                                                                                    batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                                                    batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
 
                                                                                                     batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
@@ -6647,7 +6649,8 @@ class HomePageState extends State<HomePage>
     if (data != 'null') {
       data = data.split('^')[0] + '^' + data.split('^')[1] + '^' + data.split('^')[2] + '^' + data.split('^')[3] + '^' +
           data.split('^')[4] + '^' + '0' + '^' + data.split('^')[5] + '^' + data.split('^')[6] + '^' + data.split('^')[7]  +  '^' + data.split('^')[8] +  '^' + data.split('^')[9];
-      setState((){prodList.add(data);});
+      setState((){
+        prodList.add(data);});
     }
 
     debugPrint('prod list check 1 ' + prodList.toString());
@@ -7557,12 +7560,12 @@ class HomePageState extends State<HomePage>
 
   prodInCartTab(String prodListInd, int index) {
 
-    prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
+    prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[1] + '^' +
         prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5] + '^' + prodList[index].split('^')[6] + '^' + prodList[index].split('^')[7] + '^' + prodList[index].split('^')[8] +'^' + prodList[index].split('^')[9]+'^' + prodList[index].split('^')[10];
 
     debugPrint('prodincart ' + customerId.split('^')[0].toString());
     String image = prodList[index].split('^')[8];
-    prodListInd = prodListInd.split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
+    prodListInd = prodListInd.split('^')[0] + '^' + prodList[index].split('^')[1] + '^' +
         prodListInd.split('^')[2] + '^' + prodListInd.split('^')[3] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[5];
     return GestureDetector(
       onTap: (){
@@ -7792,12 +7795,12 @@ class HomePageState extends State<HomePage>
             builder: (BuildContext context, StateSetter mystate) {
 
               prodInCart(String prodListInd, int index) {
-                prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
+                prodList[index] = prodList[index].split('^')[0] + '^' + prodList[index].split('^')[1] + '^' +
                     prodList[index].split('^')[2] + '^' + prodList[index].split('^')[3] + '^' + prodList[index].split('^')[4] + '^' + prodList[index].split('^')[5] + '^' + prodList[index].split('^')[6] + '^' + prodList[index].split('^')[7] + '^' + prodList[index].split('^')[8] +'^' + prodList[index].split('^')[9]+'^' + prodList[index].split('^')[10];
 
                 debugPrint('prodincart ' + customerId.split('^')[0].toString());
                 String image = prodList[index].split('^')[8];
-                prodListInd = prodListInd.split('^')[0] + '^' + prodList[index].split('^')[5] + '^' +
+                prodListInd = prodListInd.split('^')[0] + '^' + prodList[index].split('^')[1] + '^' +
                     prodListInd.split('^')[2] + '^' + prodListInd.split('^')[3] + '^' + prodListInd.split('^')[4] + '^' + prodListInd.split('^')[5];
                 return GestureDetector(
                   onTap: (){
@@ -9504,7 +9507,7 @@ class HomePageState extends State<HomePage>
                                                                           for (int k=0; k< prodList.length;  k++) {
                                                                             //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                            subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[4] + '^0^' + prodList[k].split('^')[8]);
+                                                                            subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
 
                                                                             // productsFire.doc(prodList[k].split('^')[0])
                                                                             //     .get().then((val22) async {
@@ -9575,8 +9578,8 @@ class HomePageState extends State<HomePage>
                                                                           batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                           DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
-                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', TtlProdListPrice().toString(), debtAmounts, ordCntDate);
+                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
 
                                                                           batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
@@ -11514,6 +11517,15 @@ class HomePageState extends State<HomePage>
     // });
   }
 
+  TtlProdListBuyPrice() {
+    double total = 0;
+    debugPrint('buyprint '+prodList.toString());
+    for (String str in prodList) {
+      total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[4]);
+    }
+    return total.toString();
+  }
+
   TtlProdListPriceInit()  {
     double total = 0;
     debugPrint(prodList.toString());
@@ -11612,6 +11624,8 @@ class HomePageState extends State<HomePage>
     // });
     return total.toString();
   }
+
+
 
   totalItems2() {
     int total = 0;
@@ -12028,7 +12042,7 @@ class HomePageState extends State<HomePage>
     return batch;
   }
 
-  updateMonthlyData(WriteBatch batch, id, field1, field2, price1, price2, now) {
+  updateMonthlyData(WriteBatch batch, id, field1, field2, field3,price1, price2, price3,now) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly').doc(id);
     // batch.update(documentReference, {
     //   field1 : FieldValue.increment(double.parse(price1.toString())),
@@ -12038,16 +12052,18 @@ class HomePageState extends State<HomePage>
     batch.set(documentReference, {
       field1.toString() : FieldValue.increment(double.parse(price1.toString())),
       field2.toString() : FieldValue.increment(double.parse(price2.toString())),
+      field3.toString() : FieldValue.increment(double.parse(price3.toString())),
       'date': now,
     },SetOptions(merge: true));
     return batch;
   }
 
-  updateYearlyData(WriteBatch batch, id, field1, field2, price1, price2, now) {
+  updateYearlyData(WriteBatch batch, id, field1, field2, field3, price1, price2, price3, now) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly').doc(id);
     batch.set(documentReference, {
       field1.toString() : FieldValue.increment(double.parse(price1.toString())),
       field2.toString() : FieldValue.increment(double.parse(price2.toString())),
+      field3.toString() : FieldValue.increment(double.parse(price3.toString())),
       'date': now,
     },SetOptions(merge: true));
     return batch;

@@ -224,6 +224,7 @@ class _AddNewShopState extends State<AddNewShop> {
   }
 
   bool firstTime = true;
+  bool disableTouch = false;
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
@@ -236,442 +237,451 @@ class _AddNewShopState extends State<AddNewShop> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        bottom: true,
-        top: true,
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
-                              child: Container(
-                                child: Image.asset('assets/system/smartkyat.png', height: 68, width: 68,),
+      body: IgnorePointer(
+        ignoring: disableTouch,
+        child: SafeArea(
+          bottom: true,
+          top: true,
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? MediaQuery.of(context).size.width/4:0.0),
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
+                                child: Container(
+                                  child: Image.asset('assets/system/smartkyat.png', height: 68, width: 68,),
+                                ),
                               ),
                             ),
-                          ),
 
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text('SHOP REGISTRATION',  textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 15, letterSpacing: 2,
-                          color: Colors.grey,),),
-                      ),
-                      Stack(
-                        children: [
-                          //SizedBox(height: 18,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text('SHOP REGISTRATION',  textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.bold , fontSize: 15, letterSpacing: 2,
+                            color: Colors.grey,),),
+                        ),
+                        Stack(
+                          children: [
+                            //SizedBox(height: 18,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 18.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
-                              controller: _shopName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15/scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
+                                controller: _shopName,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15/scaleFactor,
                                 ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 // errorText: 'Error message',
-                                labelText: 'Shop name',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                  labelText: 'Shop name',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          //SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 89.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
+                            //SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 89.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
-                              controller: _address,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                //prodFieldsValue.add(value);
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15/scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
+                                controller: _address,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  //prodFieldsValue.add(value);
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15/scaleFactor,
                                 ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 // errorText: 'Error message',
-                                labelText: 'Shop address',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                  labelText: 'Shop address',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          //SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 160.0, ),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
+                            //SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 160.0, ),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
 //The validator receives the text that the user has entered.
-                              controller: _phone,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                shopFieldsValue.add(value);
-                                //prodFieldsValue.add(value);
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15/scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: const BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                // suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
+                                controller: _phone,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  shopFieldsValue.add(value);
+                                  //prodFieldsValue.add(value);
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15/scaleFactor,
                                 ),
-                                //errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  // suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 // errorText: 'Error message',
-                                labelText: 'Phone number',
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                  labelText: 'Phone number',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          // SizedBox(height: 30,),
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: ButtonTheme(
-                            minWidth: (MediaQuery.of(context).size.width),
-                            splashColor: Colors.transparent,
-                            height: 53,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
+                            // SizedBox(height: 30,),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: ButtonTheme(
+                              minWidth: (MediaQuery.of(context).size.width),
+                              splashColor: Colors.transparent,
+                              height: 53,
+                              child: FlatButton(
+                                color: AppTheme.themeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: AppTheme.themeColor,
+                                  ),
                                 ),
-                              ),
-                              onPressed: () async {
-                                try {
-                                  final result = await InternetAddress.lookup('google.com');
-                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                    shopFieldsValue = [];
-                                    User? user = auth.currentUser;
-                                    var uid = user!.uid;
-                                    var email = user.email;
-                                    if (_formKey.currentState!.validate()) {
-                                      WriteBatch batch = FirebaseFirestore.instance.batch();
-                                      setState(() {
-                                        loadingState = true;
-                                      });
-                                      CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                      shops.add(
-                                          {
-                                            'owner_id' : uid.toString(),
-                                            'shop_name': shopFieldsValue[0],
-                                            'shop_address' : shopFieldsValue[1],
-                                            'plan_type' : 'basic',
-                                            'shop_phone': shopFieldsValue[2],
-                                            'users': FieldValue.arrayUnion([email.toString()]),
-                                            'orders_length': 1000,
-                                            'buyOrders_length': 1000,
-                                            'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                            'devices': [await _getId()],
+                                onPressed: () async {
+                                  try {
+                                    final result = await InternetAddress.lookup('google.com');
+                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                      shopFieldsValue = [];
+                                      User? user = auth.currentUser;
+                                      var uid = user!.uid;
+                                      var email = user.email;
+                                      if (_formKey.currentState!.validate()) {
+                                        WriteBatch batch = FirebaseFirestore.instance.batch();
+                                        setState(() {
+                                          loadingState = true;
+                                          disableTouch = true;
+                                        });
+                                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                        shops.add(
+                                            {
+                                              'owner_id' : uid.toString(),
+                                              'shop_name': shopFieldsValue[0],
+                                              'shop_address' : shopFieldsValue[1],
+                                              'plan_type' : 'basic',
+                                              'shop_phone': shopFieldsValue[2],
+                                              'users': FieldValue.arrayUnion([email.toString()]),
+                                              'orders_length': 1000,
+                                              'buyOrders_length': 1000,
+                                              'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                              'devices': [await _getId()],
 
+                                            }
+                                        ).then((value) async {
+                                          await user.reload();
+                                          debugPrint('wworked here 0');
+                                          shops.doc(value.id).collection('users').doc(email).set({
+                                            'email': email.toString(),
+                                            'role' : 'owner',
+                                            'device0': await _getId()
+                                          }).catchError((error) => debugPrint("Failed to update user1: $error"));
+                                          debugPrint('wworked here 1');
+                                          shops.doc(value.id).collection('users_ver').doc(uid).set({
+                                            'email': email.toString(),
+                                            'role' : 'owner',
+                                            'device0': await _getId()
+                                          }).catchError((error) => debugPrint("Failed to update user2: $error"));
+                                         // setStoreId(value.id.toString());
+                                          debugPrint('wworked here 2');
+                                          addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
+
+                                          addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
+
+                                          addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
+
+                                          addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
+
+                                          addCountData(batch, value.id, 'prodsCnt', 0);
+
+                                          addCountData(batch, value.id, 'cusCnt', 0);
+
+                                          addCountData(batch, value.id, 'merCnt', 0);
+
+                                          addCountData(batch, value.id, 'ordsCnt', 1000);
+
+                                          addCountData(batch, value.id, 'buyOrdsCnt', 1000);
+
+                                          addNoCus(batch, value.id);
+
+                                          addNoMer(batch, value.id);
+                                          debugPrint('wworked here 3');
+
+                                          try {
+                                            FocusScope.of(context).unfocus();
+                                            await batch.commit();
+                                            setStoreId(value.id.toString());
+                                            debugPrint('shop added');
+                                            Future.delayed(const Duration(milliseconds: 2000), () async {
+                                              setState(() {
+                                                loadingState = false;
+                                                disableTouch = false;
+                                              });
+                                              var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
+                                            });
+
+                                            //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+
+                                          } catch (error) {
+                                            debugPrint('shop adding error');
+                                            setState(() {
+                                              loadingState = false;
+                                              disableTouch = false;
+                                            });
                                           }
-                                      ).then((value) async {
-                                        await user.reload();
-                                        debugPrint('wworked here 0');
-                                        shops.doc(value.id).collection('users').doc(email).set({
-                                          'email': email.toString(),
-                                          'role' : 'owner',
-                                          'device0': await _getId()
-                                        }).catchError((error) => debugPrint("Failed to update user1: $error"));
-                                        debugPrint('wworked here 1');
-                                        shops.doc(value.id).collection('users_ver').doc(uid).set({
-                                          'email': email.toString(),
-                                          'role' : 'owner',
-                                          'device0': await _getId()
-                                        }).catchError((error) => debugPrint("Failed to update user2: $error"));
-                                       // setStoreId(value.id.toString());
-                                        debugPrint('wworked here 2');
-                                        addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
-                                        addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
+                                          // CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('imgArr');
+                                          // imageArr.doc('prodsArr').set({
+                                          //   'prods' : {}
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
+                                          // collectionArr.doc('cusArr').set({
+                                          //   'cus' : {}
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // collectionArr.doc('merArr').set({
+                                          //   'mer' : {}
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // collectionArr.doc('prodsArr').set({
+                                          //   'prods' : {}
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('countColl');
+                                          // countColl.doc('prodsCnt').set({
+                                          //   'count' : 0
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // countColl.doc('cusCnt').set({
+                                          //   'count' : 0
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // countColl.doc('merCnt').set({
+                                          //   'count' : 0
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // countColl.doc('ordsCnt').set({
+                                          //   'count' : 1000
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // countColl.doc('buyOrdsCnt').set({
+                                          //   'count' : 1000
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                          // cusName.doc('name').set({
+                                          //   'customer_name': 'No customer',
+                                          //   'customer_address': 'unknown',
+                                          //   'customer_phone': '',
+                                          //   'total_orders' : 0,
+                                          //   'debts' : 0,
+                                          //   'debtAmount' : 0,
+                                          //   'total_refunds' : 0,
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                          //
+                                          // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                          // merchName.doc('name').set({
+                                          //   'merchant_name': 'No merchant',
+                                          //   'merchant_address': 'unknown',
+                                          //   'merchant_phone': '',
+                                          //   'total_orders' : 0,
+                                          //   'debts' : 0,
+                                          //   'debtAmount' : 0,
+                                          //   'total_refunds' : 0,
+                                          // }).then((value) {})
+                                          //     .catchError((error) => debugPrint("Failed to update user: $error"));
 
-                                        addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
-
-                                        addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
-
-                                        addCountData(batch, value.id, 'prodsCnt', 0);
-
-                                        addCountData(batch, value.id, 'cusCnt', 0);
-
-                                        addCountData(batch, value.id, 'merCnt', 0);
-
-                                        addCountData(batch, value.id, 'ordsCnt', 1000);
-
-                                        addCountData(batch, value.id, 'buyOrdsCnt', 1000);
-
-                                        addNoCus(batch, value.id);
-
-                                        addNoMer(batch, value.id);
-                                        debugPrint('wworked here 3');
-
-                                        try {
-                                          FocusScope.of(context).unfocus();
-                                          await batch.commit();
-                                          setStoreId(value.id.toString());
-                                          debugPrint('shop added');
-                                          Future.delayed(const Duration(milliseconds: 2000), () async {
-                                            var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
-                                          });
 
                                           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-
-                                        } catch (error) {
-                                          debugPrint('shop adding error');
-                                          setState(() {
-                                            loadingState = false;
-                                          });
-                                        }
-
-                                        // CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('imgArr');
-                                        // imageArr.doc('prodsArr').set({
-                                        //   'prods' : {}
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
-                                        // collectionArr.doc('cusArr').set({
-                                        //   'cus' : {}
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // collectionArr.doc('merArr').set({
-                                        //   'mer' : {}
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // collectionArr.doc('prodsArr').set({
-                                        //   'prods' : {}
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('countColl');
-                                        // countColl.doc('prodsCnt').set({
-                                        //   'count' : 0
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // countColl.doc('cusCnt').set({
-                                        //   'count' : 0
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // countColl.doc('merCnt').set({
-                                        //   'count' : 0
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // countColl.doc('ordsCnt').set({
-                                        //   'count' : 1000
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // countColl.doc('buyOrdsCnt').set({
-                                        //   'count' : 1000
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
-                                        // cusName.doc('name').set({
-                                        //   'customer_name': 'No customer',
-                                        //   'customer_address': 'unknown',
-                                        //   'customer_phone': '',
-                                        //   'total_orders' : 0,
-                                        //   'debts' : 0,
-                                        //   'debtAmount' : 0,
-                                        //   'total_refunds' : 0,
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                        //
-                                        // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
-                                        // merchName.doc('name').set({
-                                        //   'merchant_name': 'No merchant',
-                                        //   'merchant_address': 'unknown',
-                                        //   'merchant_phone': '',
-                                        //   'total_orders' : 0,
-                                        //   'debts' : 0,
-                                        //   'debtAmount' : 0,
-                                        //   'total_refunds' : 0,
-                                        // }).then((value) {})
-                                        //     .catchError((error) => debugPrint("Failed to update user: $error"));
-
-
-                                        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                       // debugPrint('shop added');
-                                      });
+                                         // debugPrint('shop added');
+                                        });
+                                      }
                                     }
+                                  } on SocketException catch (_) {
+                                    setState(() {
+                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                    });
                                   }
-                                } on SocketException catch (_) {
-                                  setState(() {
-                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                  });
-                                }
-                              },
-                              child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5.0,
-                                    right: 5.0,
-                                    bottom: 2.0),
-                                child: Container(
-                                  child: Text(
-                                    'Create shop',  textScaleFactor: 1,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                },
+                                child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      bottom: 2.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Create shop',  textScaleFactor: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -679,37 +689,37 @@ class _AddNewShopState extends State<AddNewShop> {
                             ),
                           ),
                         ),
-                      ),
-                          SizedBox(height: 20,),
-                          RichText(
-                            strutStyle: StrutStyle(
-                              height: 1,
-                              // fontSize:,
-                              forceStrutHeight: true,
-                            ),
-                            text: new TextSpan(
-                              children: [
-                                new TextSpan(
-                                  text: 'Set up some information about your shop later in shop settings.',
-                                  style: new TextStyle(
-                                    fontSize: 12.5,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.2,
+                            SizedBox(height: 20,),
+                            RichText(
+                              strutStyle: StrutStyle(
+                                height: 1,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
+                              text: new TextSpan(
+                                children: [
+                                  new TextSpan(
+                                    text: 'Set up some information about your shop later in shop settings.',
+                                    style: new TextStyle(
+                                      fontSize: 12.5,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.2,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 15,),
-                        ],
+                            SizedBox(height: 15,),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
-                    ),
-                  ],
+                      Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
