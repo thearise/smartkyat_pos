@@ -170,6 +170,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';
   String textSetSearch = 'Search';
+  String textSetProfit = 'Average profit';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit, PaginationState>(
@@ -245,7 +246,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           textSetLast28D = 'LAST 28 DAYS';
           textSetLast12M = 'LAST 12 MONTHS';
           textSetSearch = 'Search';
-
+          textSetProfit = 'Average profit';
         });
       } else {
         setState(() {
@@ -263,6 +264,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           textSetLast28D = '၂၈ရက်အတွင်း';
           textSetLast12M = '၁၂လအတွင်း';
           textSetSearch = 'ရှာဖွေရန်';
+          textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
         });
       }
 
@@ -974,7 +976,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text('Profit',textScaleFactor: 1,
+                                            Text(textSetProfit,textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2

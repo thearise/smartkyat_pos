@@ -146,6 +146,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String textSetLast12M = 'LAST 12 MONTHS';
   String textSetSearch = 'Search';
   String textSetEarn = 'Debt-to-income';
+  String textSetProfit = 'Average profit';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit, PaginationState>(
@@ -238,6 +239,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           textSetLast12M = 'LAST 12 MONTHS';
           textSetSearch = 'Search';
           textSetEarn = 'Debt-to-income';
+          textSetProfit = 'Average profit';
 
         });
       } else {
@@ -257,6 +259,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           textSetLast12M = '၁၂လအတွင်း';
           textSetSearch = 'ရှာဖွေရန်';
           textSetEarn = 'အကြွေးရငွေ';
+          textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
         });
       }
 
@@ -458,7 +461,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           // width: 50,
                                           height: 25,
                                           child: Center(
-                                            child: Text(' ' + perTSalText(percentBySale()) + ' ',
+                                            child: Text(' ' + perTSalText(percentBySale()).toString() + ' ',
                                               textScaleFactor: 1, textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -940,7 +943,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             //     top: 0,
                                             //     child: Text('?')
                                             // ),
-                                            Text('Profit', textScaleFactor: 1,
+                                            Text(textSetProfit, textScaleFactor: 1,
                                               strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
@@ -950,18 +953,18 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     bottom: 2,
-                                            //     child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '-%' : percentByLoss().toString() + '%',
-                                            //       textScaleFactor: 1, style: TextStyle(
-                                            //         fontSize: 13,
-                                            //         fontWeight: FontWeight.w500,
-                                            //         color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
-                                            //         // color: Colors.blue
-                                            //       ),
-                                            //     )
-                                            // ),
+                                            Positioned(
+                                                right: 0,
+                                                bottom: 2,
+                                                child: Text(growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString() == '1001' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  == '1000' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  + '%',
+                                                  textScaleFactor: 1, style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateDayProfit(lastProfitBySlide(), profitBySlide())  == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
+                                                  ),
+                                                )
+                                            ),
                                             Positioned(
                                               left: 0,
                                               bottom: 2,
@@ -980,7 +983,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       width: 15,
                                     ),
                                     _sliding == 0 ?
-                                    Column(
+                                    Row(
                                       children: [
                                         Container(
                                           // width: 100,
@@ -1732,8 +1735,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   percentByEarn() {
     var percent = 0;
     if(_sliding == 0) {
-      percent = growthRateDayLoss(ystEarnTotal, todayEarnTotal);
-    } else percent = growthRateWeekCost(lastWeekEarn, weekEarnTotal);
+      percent = growthRateDayEarn(ystEarnTotal, todayEarnTotal);
+    } else percent = growthRateWeekEarn(lastWeekEarn, weekEarnTotal);
     return percent;
   }
 
@@ -2243,20 +2246,35 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   double lastWeekEarn = 0;
 
   double todayCapital = 0 ;
-  double todaySale = 0 ;
   double weekCapital = 0;
+  double ystCapital = 0 ;
+  double lastWeekCapital = 0;
 
 
   profitBySlide() {
     double profit = 0.0;
     double weeklyTotal=0.0;
-    for (int i = 0; i < thisWeekOrdersChart.length; i++){
-      weeklyTotal += thisWeekOrdersChart[i];
-    }
+    double todayTotal = 0.0;
     if(_sliding == 0) {
-      profit = todaySale - (todayCapital + todayLossTotal);
+      for (int i = 0; i < todayOrdersChart.length; i++){
+        todayTotal += todayOrdersChart[i];
+      }
+      profit = todayTotal - (todayCapital + todayLossTotal);
     } else {
+      for (int i = 0; i < thisWeekOrdersChart.length; i++){
+        weeklyTotal += thisWeekOrdersChart[i];
+      }
       profit = weeklyTotal - (weekCapital + weekLossTotal);
+    }
+    return profit;
+  }
+
+  lastProfitBySlide() {
+    double profit = 0.0;
+    if(_sliding == 0) {
+      profit = yestOrdersChart - (ystCapital + ystLossTotal);
+    } else {
+      profit = lastWeekOrderChart - (lastWeekCapital + lastWeekLoss);
     }
     return profit;
   }
@@ -2473,7 +2491,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     weekEarnTotal = 0;
     lastWeekEarn = 0;
     todayCapital = 0;
-    todaySale = 0;
+    ystCapital = 0;
+    lastWeekCapital = 0;
     weekCapital = 0;
 
 
@@ -2505,8 +2524,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         todayCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
       }
 
-      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
-        todaySale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
+      if(data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'capital'] != null) {
+        ystCapital += data[today.subtract(Duration(days: 1)).year.toString() + zeroToTen(today.subtract(Duration(days: 1)).month.toString()) + zeroToTen(today.subtract(Duration(days: 1)).day.toString()) + 'capital'];
       }
 
       if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'paid_cust'] != null) {
@@ -2544,6 +2563,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       }
 
       for(int i = 0; i < 7; i++) {
+        if(data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'capital'] != null) {
+          lastWeekCapital +=  data[sevenDayAgo.subtract(Duration(days: i)).year.toString() + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).month.toString()) + zeroToTen(sevenDayAgo.subtract(Duration(days: i)).day.toString()) + 'capital'];
+        }
+      }
+
+      for(int i = 0; i < 7; i++) {
         if(data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'paid_cust'] != null) {
           weekEarnTotal +=  data[today.subtract(Duration(days: i)).year.toString() + zeroToTen(today.subtract(Duration(days: i)).month.toString()) + zeroToTen(today.subtract(Duration(days: i)).day.toString()) + 'paid_cust'];
         }
@@ -2565,7 +2590,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     }
   }
-
 
   growthRateDaySale(double yestOrdersChart, List<double> todayOrdersChart) {
     double growthRate = 0;
@@ -2726,6 +2750,22 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double todayTotal = totalEarn;
 
     growthRate = (todayTotal - lastDayEarn) / lastDayEarn * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayProfit(double lastDayProfit, double totalProfit) {
+    double growthRate = 0;
+    double todayTotal = totalProfit;
+
+    growthRate = (todayTotal - lastDayProfit) / lastDayProfit * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {
