@@ -3177,17 +3177,17 @@ class HomePageState extends State<HomePage>
                                                                                   var address = output3?['customer_address'];
                                                                                   return Padding(
                                                                                     padding: const EdgeInsets.only(
-                                                                                      top: 67.0,
-                                                                                      left: 0.0,
-                                                                                      right: 0.0,
-                                                                                      bottom: 138),
+                                                                                        top: 67.0,
+                                                                                        left: 0.0,
+                                                                                        right: 0.0,
+                                                                                        bottom: 138),
                                                                                     child: Container(
-                                                                                      child: ListView(
-                                                                                        padding: const EdgeInsets.only(
-                                                                                            top: 0.0,
-                                                                                            left: 0.0,
-                                                                                            right: 0.0,
-                                                                                            bottom: 0),
+                                                                                        child: ListView(
+                                                                                          padding: const EdgeInsets.only(
+                                                                                              top: 0.0,
+                                                                                              left: 0.0,
+                                                                                              right: 0.0,
+                                                                                              bottom: 0),
                                                                                           children: [
                                                                                             Stack(
                                                                                               children: [
@@ -3961,7 +3961,7 @@ class HomePageState extends State<HomePage>
                                                                                               SizedBox(height: 13),
                                                                                               TextField(
                                                                                                 style: TextStyle(
-                                                                                                    height: 0.95, fontSize: 15/scaleFactor,
+                                                                                                  height: 0.95, fontSize: 15/scaleFactor,
                                                                                                 ),
                                                                                                 decoration: InputDecoration(
                                                                                                   enabledBorder: const OutlineInputBorder(
@@ -4748,7 +4748,7 @@ class HomePageState extends State<HomePage>
                                                                                                       ],
                                                                                                       textAlign: TextAlign.center,
                                                                                                       style: TextStyle(
-                                                                                                          height: 0.95, fontSize : 15/scaleFactor,
+                                                                                                        height: 0.95, fontSize : 15/scaleFactor,
                                                                                                       ),
                                                                                                       decoration: InputDecoration(
                                                                                                         enabledBorder: const OutlineInputBorder(
@@ -4854,7 +4854,7 @@ class HomePageState extends State<HomePage>
                                                                                                   return null;
                                                                                                 },
                                                                                                 style: TextStyle(
-                                                                                                    height: 0.95, fontSize: 15/scaleFactor,
+                                                                                                  height: 0.95, fontSize: 15/scaleFactor,
                                                                                                 ),
                                                                                                 maxLines: 1,
                                                                                                 decoration: InputDecoration(
@@ -5414,7 +5414,7 @@ class HomePageState extends State<HomePage>
                                                                                                     smartKyatFlash('Image Saved successfully.', 's');
 
                                                                                                   });
-                                                                                                  },
+                                                                                                },
                                                                                                 child: Container(
                                                                                                   width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
                                                                                                   height: 50,
@@ -5968,7 +5968,7 @@ class HomePageState extends State<HomePage>
                                                                                                     // });
                                                                                                   });
 
-                                                                                                //  _textFieldController.clear();
+                                                                                                  //  _textFieldController.clear();
                                                                                                   _textFieldControllerTablet.clear();
                                                                                                   _controllerTablet.animateTo(0);
 
@@ -6387,12 +6387,19 @@ class HomePageState extends State<HomePage>
                                                                   //SizedBox(width:15),
                                                                   GestureDetector(
                                                                     onTap: () async {
-                                                                      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
-                                                                          .where('email', isEqualTo: auth.currentUser!.email)
-                                                                          .get()
-                                                                          .then((QuerySnapshot querySnapshot) {
-                                                                        debugPrint('shit ' + querySnapshot.docs[0]['devices'].toString());
-                                                                      });
+                                                                      // await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
+                                                                      //     .where('email', isEqualTo: auth.currentUser!.email)
+                                                                      //     .get()
+                                                                      //     .then((QuerySnapshot querySnapshot) {
+                                                                      //   debugPrint('shit ' + querySnapshot.docs[0]['devices'].toString());
+                                                                      // });
+                                                                      DateTime dateTimeLocal = DateTime.now();
+                                                                      // print(dateTimeLocal.timeZoneName);
+                                                                      // print(dateTimeLocal.timeZoneOffset);
+                                                                      DateTime dateTimeLocal2 = dateTimeLocal.subtract(Duration(minutes: calHourFromTZ(dateTimeLocal)));
+
+                                                                      debugPrint('timestamp ' + dateTimeLocal.millisecondsSinceEpoch.toString() + ' | timezonename ' + dateTimeLocal.timeZoneName + ' | timezoneoffset ' + dateTimeLocal.timeZoneOffset.inMinutes.toString());
+                                                                      debugPrint('datecheck ' + dateTimeLocal.toString() + ' | ' + dateTimeLocal2.toString());
                                                                     },
                                                                     child: Padding(
                                                                         padding: const EdgeInsets.only(
@@ -7087,7 +7094,7 @@ class HomePageState extends State<HomePage>
                                                           return null;
                                                         },
                                                         style: TextStyle(
-                                                            height: 0.95, fontSize: 15/scaleFactor,
+                                                          height: 0.95, fontSize: 15/scaleFactor,
                                                         ),
                                                         maxLines: 1,
                                                         decoration: InputDecoration(
@@ -7469,93 +7476,93 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> _onPrintReceipt() async {
-      final ReceiptSectionText receiptText = ReceiptSectionText();
-      receiptText.addSpacer(count: 1);
-      receiptText.addText(
-        shopGloName.toString(),
-        size: ReceiptTextSizeType.small,
-        style: ReceiptTextStyleType.bold,
-      );
-      receiptText.addText(
-        shopGloAddress,
-        size: ReceiptTextSizeType.extraextraSmall,
-      );
-      receiptText.addText(
-        shopGloPhone,
-        size: ReceiptTextSizeType.extraextraSmall,
-      );
-      receiptText.addSpacer(useDashed: true);
-      receiptText.addLeftText(
-        'Receipt info: ' + deviceIdNum.toString() + '-' + tabletOrders.toString(),
-        size: ReceiptTextSizeType.extraextraSmall,
-        style: ReceiptTextStyleType.bold,
-      );
-      receiptText.addLeftText(
-        'Name: ' + saleInfo.split('^')[3].toString(),
-        size: ReceiptTextSizeType.extraextraSmall,
-      );
-      var dateNow = DateTime.now();
-      final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
-      receiptText.addLeftText(
-        'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
-        size: ReceiptTextSizeType.extraextraSmall,
-      );
-      receiptText.addTableList([['Items', 'Total']], '1rem', '500');
+    final ReceiptSectionText receiptText = ReceiptSectionText();
+    receiptText.addSpacer(count: 1);
+    receiptText.addText(
+      shopGloName.toString(),
+      size: ReceiptTextSizeType.small,
+      style: ReceiptTextStyleType.bold,
+    );
+    receiptText.addText(
+      shopGloAddress,
+      size: ReceiptTextSizeType.extraextraSmall,
+    );
+    receiptText.addText(
+      shopGloPhone,
+      size: ReceiptTextSizeType.extraextraSmall,
+    );
+    receiptText.addSpacer(useDashed: true);
+    receiptText.addLeftText(
+      'Receipt info: ' + deviceIdNum.toString() + '-' + tabletOrders.toString(),
+      size: ReceiptTextSizeType.extraextraSmall,
+      style: ReceiptTextStyleType.bold,
+    );
+    receiptText.addLeftText(
+      'Name: ' + saleInfo.split('^')[3].toString(),
+      size: ReceiptTextSizeType.extraextraSmall,
+    );
+    var dateNow = DateTime.now();
+    final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+    receiptText.addLeftText(
+      'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
+      size: ReceiptTextSizeType.extraextraSmall,
+    );
+    receiptText.addTableList([['Items', 'Total']], '1rem', '500');
 
-      List<List<String>> tableList = [];
+    List<List<String>> tableList = [];
 
-      double sTotal = 0;
-      for(int i = 0; i <  productSale.length ; i++) {
-        List<String> innerLRList = ['', ''];
-        innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
-            productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
-            productSale[i].split('^')[3].toString() + ')';
-        innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
-        tableList.add(innerLRList);
-        sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
+    double sTotal = 0;
+    for(int i = 0; i <  productSale.length ; i++) {
+      List<String> innerLRList = ['', ''];
+      innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
+          productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
+          productSale[i].split('^')[3].toString() + ')';
+      innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
+      tableList.add(innerLRList);
+      sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
+    }
+    double disAmt = 0.0;
+    if(saleInfo.split('^')[1].toString() == '-p') {
+      disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
+    } else {disAmt = double.parse(saleInfo.split('^')[0]);}
+    receiptText.addTableList(tableList, '1rem', 'normal');
+    // //  receiptText.addSpacer(count: 1);
+    receiptText.addSpacer(useDashed: true);
+    receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+    receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+    receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+    receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+    receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+    receiptText.addSpacer(emptyLine: true);
+    receiptText.addText(
+      'ကျေးဇူးတင်ပါသည်။',
+      size: ReceiptTextSizeType.small,
+      style: ReceiptTextStyleType.bold,
+    );
+    final ByteData logoBytes = await rootBundle.load(
+      'assets/system/poweredby.png',
+    );
+    receiptText.addImage(
+      base64.encode(Uint8List.view(logoBytes.buffer)),
+      width: 150,
+    );
+
+    receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
+    await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+    // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+    setState((){
+      productSale = [];
+      saleInfo = '';
+    });
+
+    // Navigator.pop(context);
+    printClosed = true;
+    Future.delayed(const Duration(milliseconds: 30000), () {
+      if(printClosed) {
+        debugPrint('complete');
+        _onDisconnectDevice();
       }
-      double disAmt = 0.0;
-      if(saleInfo.split('^')[1].toString() == '-p') {
-        disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
-      } else {disAmt = double.parse(saleInfo.split('^')[0]);}
-      receiptText.addTableList(tableList, '1rem', 'normal');
-      // //  receiptText.addSpacer(count: 1);
-      receiptText.addSpacer(useDashed: true);
-      receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-      receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-      receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-      receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-      receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-      receiptText.addSpacer(emptyLine: true);
-      receiptText.addText(
-        'ကျေးဇူးတင်ပါသည်။',
-        size: ReceiptTextSizeType.small,
-        style: ReceiptTextStyleType.bold,
-      );
-      final ByteData logoBytes = await rootBundle.load(
-        'assets/system/poweredby.png',
-      );
-      receiptText.addImage(
-        base64.encode(Uint8List.view(logoBytes.buffer)),
-        width: 150,
-      );
-
-      receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
-      await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-      // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-      setState((){
-        productSale = [];
-        saleInfo = '';
-      });
-
-     // Navigator.pop(context);
-      printClosed = true;
-      Future.delayed(const Duration(milliseconds: 30000), () {
-        if(printClosed) {
-          debugPrint('complete');
-          _onDisconnectDevice();
-        }
-      });
+    });
   }
 
   prodInCartTab(String prodListInd, int index) {
@@ -8130,143 +8137,143 @@ class HomePageState extends State<HomePage>
 
                 // debugPrint('Got Snapshot' + saleInfo.toString());
                 // getPaperId().then((value) async {
-                  // debugPrint('VVAALLUUEE ' + value.toString());
-                  // int width = 570;
-                  // if(value == 'Roll-57') {
-                  //   width = 413;
-                  // } else if(value == 'Roll-80') {
-                  //   width = 570;
-                  // }
-                  final ReceiptSectionText receiptText = ReceiptSectionText();
-                  receiptText.addSpacer(count: 1);
-                  receiptText.addText(
-                    shopGloName.toString(),
-                    size: ReceiptTextSizeType.small,
-                    style: ReceiptTextStyleType.bold,
-                  );
-                  receiptText.addText(
-                    shopGloAddress,
-                    size: ReceiptTextSizeType.extraextraSmall,
-                  );
-                  receiptText.addText(
-                    shopGloPhone,
-                    size: ReceiptTextSizeType.extraextraSmall,
-                  );
-                  receiptText.addSpacer(useDashed: true);
-                  receiptText.addLeftText(
-                    'Receipt info: ' + deviceIdNum.toString() + '-' +orderLength.toString(),
-                    size: ReceiptTextSizeType.extraextraSmall,
-                    style: ReceiptTextStyleType.bold,
-                  );
-                  receiptText.addLeftText(
-                    'Name: ' + saleInfo.split('^')[3].toString(),
-                    size: ReceiptTextSizeType.extraextraSmall,
-                  );
-                  var dateNow = DateTime.now();
-                  final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
-                  receiptText.addLeftText(
-                    'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
-                    size: ReceiptTextSizeType.extraextraSmall,
-                  );
-                  receiptText.addTableList([['Items', 'Total']], '1rem', '500');
-                  //receiptText.addSpacer(count: 1);
-                  List<List<String>> tableList = [];
+                // debugPrint('VVAALLUUEE ' + value.toString());
+                // int width = 570;
+                // if(value == 'Roll-57') {
+                //   width = 413;
+                // } else if(value == 'Roll-80') {
+                //   width = 570;
+                // }
+                final ReceiptSectionText receiptText = ReceiptSectionText();
+                receiptText.addSpacer(count: 1);
+                receiptText.addText(
+                  shopGloName.toString(),
+                  size: ReceiptTextSizeType.small,
+                  style: ReceiptTextStyleType.bold,
+                );
+                receiptText.addText(
+                  shopGloAddress,
+                  size: ReceiptTextSizeType.extraextraSmall,
+                );
+                receiptText.addText(
+                  shopGloPhone,
+                  size: ReceiptTextSizeType.extraextraSmall,
+                );
+                receiptText.addSpacer(useDashed: true);
+                receiptText.addLeftText(
+                  'Receipt info: ' + deviceIdNum.toString() + '-' +orderLength.toString(),
+                  size: ReceiptTextSizeType.extraextraSmall,
+                  style: ReceiptTextStyleType.bold,
+                );
+                receiptText.addLeftText(
+                  'Name: ' + saleInfo.split('^')[3].toString(),
+                  size: ReceiptTextSizeType.extraextraSmall,
+                );
+                var dateNow = DateTime.now();
+                final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+                receiptText.addLeftText(
+                  'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
+                  size: ReceiptTextSizeType.extraextraSmall,
+                );
+                receiptText.addTableList([['Items', 'Total']], '1rem', '500');
+                //receiptText.addSpacer(count: 1);
+                List<List<String>> tableList = [];
 
-                  double sTotal = 0;
-                  for(int i = 0; i <  productSale.length ; i++) {
-                    List<String> innerLRList = ['', ''];
-                    innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
-                        productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
-                        productSale[i].split('^')[3].toString() + ')';
-                    innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
-                    tableList.add(innerLRList);
-                    sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
+                double sTotal = 0;
+                for(int i = 0; i <  productSale.length ; i++) {
+                  List<String> innerLRList = ['', ''];
+                  innerLRList[0] =  productSale[i].split('^')[0].toString() + ' (' +
+                      productSale[i].split('^')[1].toString() + ' - ' +  productSale[i].split('^')[2].toString() + ' x ' +
+                      productSale[i].split('^')[3].toString() + ')';
+                  innerLRList[1] = (double.parse(productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3])).toStringAsFixed(1) + ' $currencyUnit' ;
+                  tableList.add(innerLRList);
+                  sTotal += double.parse( productSale[i].split('^')[2]) * double.parse( productSale[i].split('^')[3]);
+                }
+                double disAmt = 0.0;
+                if(saleInfo.split('^')[1].toString() == '-p') {
+                  disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
+                } else {disAmt = double.parse(saleInfo.split('^')[0]);}
+                receiptText.addTableList(tableList, '1rem', 'normal');
+                // //  receiptText.addSpacer(count: 1);
+                receiptText.addSpacer(useDashed: true);
+                receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
+                receiptText.addSpacer(emptyLine: true);
+                receiptText.addText(
+                  'ကျေးဇူးတင်ပါသည်။',
+                  size: ReceiptTextSizeType.small,
+                  style: ReceiptTextStyleType.bold,
+                );
+                final ByteData logoBytes = await rootBundle.load(
+                  'assets/system/poweredby.png',
+                );
+                receiptText.addImage(
+                  base64.encode(Uint8List.view(logoBytes.buffer)),
+                  width: 150,
+                );
+                // receiptText.addLeftRightText(
+                //   subVTotal,
+                //   subTotal.toStringAsFixed(1) + ' $currencyUnit',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                //   rightStyle: ReceiptTextStyleType.normal,
+                //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                // );
+                // receiptText.addSpacer(count: 2);
+                // receiptText.addLeftRightText(
+                //   VDiscount,
+                //   'Cash',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                //   rightStyle: ReceiptTextStyleType.normal,
+                //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                // );
+                // receiptText.addSpacer(count: 2);
+                // receiptText.addLeftRightText(
+                //   totalVPrice,
+                //   'Cash',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                //   rightStyle: ReceiptTextStyleType.normal,
+                //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                // );
+                // receiptText.addSpacer(count: 2);
+                // receiptText.addLeftRightText(
+                //   VPaid,
+                //   'Cash',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                //   rightStyle: ReceiptTextStyleType.normal,
+                //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                // );
+                // receiptText.addSpacer(count: 2);
+                // receiptText.addLeftRightText(
+                //   VDebt,
+                //   'Cash',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.extraextraSmall,
+                //   rightStyle: ReceiptTextStyleType.normal,
+                //   rightSize: ReceiptTextSizeType.extraextraSmall,
+                // );
+                receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
+                await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+                // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                mystate(() {
+                  priInProgHome = false;
+                });
+                productSale = [];
+                saleInfo = '';
+                Navigator.pop(context);
+                printClosed = true;
+                Future.delayed(const Duration(milliseconds: 30000), () {
+                  if(printClosed) {
+                    debugPrint('complete');
+                    _onDisconnectDevice();
                   }
-                  double disAmt = 0.0;
-                  if(saleInfo.split('^')[1].toString() == '-p') {
-                    disAmt = sTotal * (double.parse(saleInfo.split('^')[0])/100);
-                  } else {disAmt = double.parse(saleInfo.split('^')[0]);}
-                  receiptText.addTableList(tableList, '1rem', 'normal');
-                  // //  receiptText.addSpacer(count: 1);
-                  receiptText.addSpacer(useDashed: true);
-                  receiptText.addTableList([[subVTotal, sTotal.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VDiscount, disAmt.toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[totalVPrice, (sTotal - disAmt).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VPaid, ((sTotal - disAmt) - double.parse(saleInfo.split('^')[2])).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addTableList([[VDebt, double.parse(saleInfo.split('^')[2]).toStringAsFixed(1) + ' $currencyUnit']], '1rem', '500');
-                  receiptText.addSpacer(emptyLine: true);
-                  receiptText.addText(
-                    'ကျေးဇူးတင်ပါသည်။',
-                    size: ReceiptTextSizeType.small,
-                    style: ReceiptTextStyleType.bold,
-                  );
-                  final ByteData logoBytes = await rootBundle.load(
-                    'assets/system/poweredby.png',
-                  );
-                  receiptText.addImage(
-                    base64.encode(Uint8List.view(logoBytes.buffer)),
-                    width: 150,
-                  );
-                  // receiptText.addLeftRightText(
-                  //   subVTotal,
-                  //   subTotal.toStringAsFixed(1) + ' $currencyUnit',
-                  //   leftStyle: ReceiptTextStyleType.normal,
-                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
-                  //   rightStyle: ReceiptTextStyleType.normal,
-                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
-                  // );
-                  // receiptText.addSpacer(count: 2);
-                  // receiptText.addLeftRightText(
-                  //   VDiscount,
-                  //   'Cash',
-                  //   leftStyle: ReceiptTextStyleType.normal,
-                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
-                  //   rightStyle: ReceiptTextStyleType.normal,
-                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
-                  // );
-                  // receiptText.addSpacer(count: 2);
-                  // receiptText.addLeftRightText(
-                  //   totalVPrice,
-                  //   'Cash',
-                  //   leftStyle: ReceiptTextStyleType.normal,
-                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
-                  //   rightStyle: ReceiptTextStyleType.normal,
-                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
-                  // );
-                  // receiptText.addSpacer(count: 2);
-                  // receiptText.addLeftRightText(
-                  //   VPaid,
-                  //   'Cash',
-                  //   leftStyle: ReceiptTextStyleType.normal,
-                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
-                  //   rightStyle: ReceiptTextStyleType.normal,
-                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
-                  // );
-                  // receiptText.addSpacer(count: 2);
-                  // receiptText.addLeftRightText(
-                  //   VDebt,
-                  //   'Cash',
-                  //   leftStyle: ReceiptTextStyleType.normal,
-                  //   leftSize: ReceiptTextSizeType.extraextraSmall,
-                  //   rightStyle: ReceiptTextStyleType.normal,
-                  //   rightSize: ReceiptTextSizeType.extraextraSmall,
-                  // );
-                  receiptText.addSpacer(count: 1, useDashed: false, emptyLine: false);
-                  await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-                  // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                  mystate(() {
-                    priInProgHome = false;
-                  });
-                  productSale = [];
-                  saleInfo = '';
-                  Navigator.pop(context);
-                  printClosed = true;
-                  Future.delayed(const Duration(milliseconds: 30000), () {
-                    if(printClosed) {
-                      debugPrint('complete');
-                      _onDisconnectDevice();
-                    }
-                  });
+                });
                 //});
 
 
@@ -9205,7 +9212,7 @@ class HomePageState extends State<HomePage>
                                                                     SizedBox(height: 15),
                                                                     TextField(
                                                                       style: TextStyle(
-                                                                          height: 0.95, fontSize: 15/scaleFactor,
+                                                                        height: 0.95, fontSize: 15/scaleFactor,
                                                                       ),
                                                                       decoration: InputDecoration(
                                                                         enabledBorder: const OutlineInputBorder(
@@ -9465,6 +9472,7 @@ class HomePageState extends State<HomePage>
                                                                         discountAmount = discount;
                                                                         subList = [];
                                                                         DateTime now = DateTime.now();
+                                                                        now = now.subtract(Duration(minutes: calHourFromTZ(now)));
                                                                         int length = 0;
                                                                         int totalOrders = 0;
                                                                         int debts = 0;
@@ -9950,7 +9958,7 @@ class HomePageState extends State<HomePage>
                                                                               ],
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
-                                                                                  height: 0.95, fontSize : 15/scaleFactor,
+                                                                                height: 0.95, fontSize : 15/scaleFactor,
                                                                               ),
                                                                               decoration: InputDecoration(
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -10056,7 +10064,7 @@ class HomePageState extends State<HomePage>
                                                                           return null;
                                                                         },
                                                                         style: TextStyle(
-                                                                            height: 0.95, fontSize: 15/scaleFactor,
+                                                                          height: 0.95, fontSize: 15/scaleFactor,
                                                                         ),
                                                                         maxLines: 1,
                                                                         decoration: InputDecoration(
@@ -11747,9 +11755,9 @@ class HomePageState extends State<HomePage>
                       height: isEnglish? 1.3: 1.2
                   ),
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
                   ),
                 ),
               )
@@ -12138,7 +12146,8 @@ class HomePageState extends State<HomePage>
     // String ttlProdListPriceFut = await TtlProdListPriceFut();
     daily.doc(customId).set({
       'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
-      'date' : date
+      // 'date' : date
+      'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
     },SetOptions(merge: true)).then((value) {
       debugPrint('date Exist added');
     }).catchError((error) => debugPrint("Failed to update user: $error"));
@@ -13365,6 +13374,11 @@ class HomePageState extends State<HomePage>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // return(prefs.getString('store'));
     prefs.setString('device', id);
+  }
+
+  calHourFromTZ(DateTime dateTime) {
+
+    return dateTime.timeZoneOffset.inMinutes;
   }
 }
 

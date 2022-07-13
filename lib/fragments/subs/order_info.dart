@@ -56,7 +56,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   String image = '';
   bool _connectionStatus = false;
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   bool firstBuild = true;
 
   void printFromOrdersFun(File file, var prodListPR) {
@@ -145,6 +144,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         widget.data
             .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
         .split('^')[6];
+    debugPrint('result date test ' + result.toString());
 
     docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
 
@@ -154,7 +154,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
     super.dispose();
   }
 
@@ -207,6 +206,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
+                          var dateOrg = output1?['dateTime'];
                           prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
@@ -250,8 +250,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
                           debugPrint('view ' + prodListView.toString());
 
-                          result = widget.data
-                              .split('^')[0] +
+                          result = dateOrg.toString() +
                               '^' +
                               widget.data
                                   .split('^')[1] +
@@ -263,7 +262,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                   .split('^')[3] +
                               '^' +
                               widget.data
-                                  .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
+                                  .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                               .split('^')[6];
                           for (int i = 0; i < prodListView.length; i++) {
                             ttlR += double.parse(prodListView[i].split('^')[7]);
@@ -328,24 +327,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         final resultInt = await InternetAddress.lookup('google.com');
                                                         if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
                                                           widget._closeCartBtn();
-                                                          String isRef = 'p';
-                                                          double debt = double.parse(widget.data.split('^')[5]);
-                                                          debugPrint('result__1 ' + result.toString());
-                                                          for (int i = 0; i < prodListView.length; i++) {
-                                                            if (prodListView[i].split('^')[7] != '0' && prodListView[i].split('^')[7] == prodListView[i].split('^')[3]) {
-                                                              isRef = 'r';
-                                                            }
-                                                            if (prodListView[i].split('^')[7] != '0' && prodListView[i].split('^')[7] != prodListView[i].split('^')[3]) {
-                                                              isRef = 's';
-                                                            }
-                                                          }
 
-                                                          if(totalPrice <= double.parse(widget.data.split('^')[5])) {
-                                                            debt = totalPrice;
-                                                          }
-
-                                                          result = widget.data
-                                                              .split('^')[0] +
+                                                          result = dateOrg.toString() +
                                                               '^' +
                                                               widget.data
                                                                   .split('^')[1] +
@@ -440,10 +423,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         final resultInt = await InternetAddress.lookup('google.com');
                                                         if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
                                                           widget._closeCartBtn();
+
+                                                          result = dateOrg.toString() +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[1] +
+                                                              '^' +
+                                                              totalPrice
+                                                                  .toString() +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[3] +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                              .split('^')[6];
+
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtItems(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtItems(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: result, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }
@@ -508,7 +507,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       // await Future.delayed(const Duration(milliseconds: 3000), () {
                                                       //
                                                       // });
-                                                      result = widget.data
+                                                      result =  widget.data
                                                           .split('^')[0] +
                                                           '^' +
                                                           widget.data

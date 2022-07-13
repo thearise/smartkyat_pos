@@ -2569,6 +2569,8 @@ class MerchantCartState extends State<MerchantCart>
                                       //buyOrderLengthIncrease();
                                       batch = await updateOrderLength(batch);
 
+                                      String sub1Buy = '0';
+                                      String sub2Buy = '0';
                                       for (String str in widget.prodList2) {
                                         subList2.add(
                                             str.split('^')[0] + '^' +  str.split('^')[7] +
@@ -2578,23 +2580,22 @@ class MerchantCartState extends State<MerchantCart>
                                                 str.split('^')[4] + '^' +
                                                 str.split('^')[2] + '^0^' +
                                                 str.split('^')[9]);
-                                        debugPrint('subList2 init ' + subList2.toString());
+                                        debugPrint('subList2 init ' + str.split('^')[12].toString());
 
-                                        String sub1Buy = '0';
-                                        String sub2Buy = '0';
+
 
 
                                         if (str.split('^')[4] == 'unit_name') {
 
-                                          if(str.split('^')[12].toString() == '1') {
-                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])).toString();
-                                            sub2Buy = '';
-                                          } else if(str.split('^')[12].toString() == '2') {
+                                          if(double.parse(str.split('^')[12].toString()) == 1) {
+                                              sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])).toString();
+                                              sub2Buy = '0';
+                                          } else if(double.parse(str.split('^')[12].toString()) == 2) {
                                             sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])).toString();
                                             sub2Buy = ((double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])) / double.parse(str.split('^')[11])).toString();
                                           } else {
-                                            sub1Buy = '';
-                                            sub2Buy = '';
+                                            sub1Buy = '0';
+                                            sub2Buy = '0';
                                           }
                                           batch = await updateProduct1(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy, sub2Buy);
 
@@ -2602,10 +2603,10 @@ class MerchantCartState extends State<MerchantCart>
                                         else
                                         if (str.split('^')[4] == 'sub1_name') {
 
-                                          if(str.split('^')[12].toString() == '2') {
+                                          if(double.parse(str.split('^')[12].toString()) == 2) {
                                             sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[11])).toString();
                                           } else {
-                                            sub1Buy = '';
+                                            sub1Buy = '0';
                                           }
 
                                           batch = await updateProduct2(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy);
@@ -2615,6 +2616,8 @@ class MerchantCartState extends State<MerchantCart>
                                           batch = await updateProduct3(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1]);
 
                                         }
+
+                                        print('buy price text4 ' + sub1Buy + ', ' + sub2Buy);
                                       }
 
                                       if(debt2.toString() != '0.0') {
@@ -2884,9 +2887,9 @@ class MerchantCartState extends State<MerchantCart>
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.im' : FieldValue.increment(double.parse(amount.toString())),
-      'prods.$id.bm' : price.toString(),
-      'prods.$id.b1': price2.toString(),
-      'prods.$id.b2': price3.toString(),
+      'prods.$id.bm' : double.parse(price.toString()),
+      'prods.$id.b1': double.parse(price2.toString()),
+      'prods.$id.b2': double.parse(price3.toString()),
     });
     return batch;
   }
@@ -2895,8 +2898,8 @@ class MerchantCartState extends State<MerchantCart>
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.i1' : FieldValue.increment(double.parse(amount.toString())),
-      'prods.$id.b1': price.toString(),
-      'prods.$id.b2': price2.toString(),
+      'prods.$id.b1': double.parse(price.toString()),
+      'prods.$id.b2': double.parse(price2.toString()),
     });
     return batch;
   }
@@ -2905,7 +2908,7 @@ class MerchantCartState extends State<MerchantCart>
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.i2' : FieldValue.increment(double.parse(amount.toString())),
-      'prods.$id.b2': price.toString(),
+      'prods.$id.b2': double.parse(price.toString()),
     });
     return batch;
   }
