@@ -1686,8 +1686,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
   percentBySale() {
     var percent = 0;
+    double todayTotal = 0;
     if(_sliding == 0) {
-      percent = growthRateDaySale(yestOrdersChart, todayOrdersChart);
+      for (int i = 0; i < todayOrdersChart.length; i++){
+        todayTotal += todayOrdersChart[i];
+      }
+      percent = growthRateDaySale(yestOrdersChart, todayTotal);
     } else percent = growthRateWeekSale(lastWeekOrderChart, thisWeekOrdersChart);
     return percent;
   }
@@ -2591,18 +2595,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
   }
 
-  growthRateDaySale(double yestOrdersChart, List<double> todayOrdersChart) {
+  growthRateDaySale(double yestOrdersChart, double todayOrders) {
     double growthRate = 0;
-    double todayTotal = 0;
-    for (int i = 0; i < todayOrdersChart.length; i++){
-      todayTotal += todayOrdersChart[i];
-    }
 
-    if(yestOrdersChart == 0 || todayTotal == 0) {
+    if(yestOrdersChart == 0 && todayOrders == 0) {
       return 1001;
     }
 
-    growthRate = (todayTotal - yestOrdersChart) / yestOrdersChart * 100;
+    growthRate = (todayOrders - yestOrdersChart) / yestOrdersChart * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {
@@ -2619,7 +2619,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = todayTotalCost;
 
-    if(yestOrdersChart == 0 || todayTotalCost == 0) {
+    if(yestOrdersChart == 0 && todayTotalCost == 0) {
       return 1001;
     }
 
@@ -2640,7 +2640,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = todayTotalCost;
 
-    if(yestOrdersChart == 0 || todayTotalCost == 0) {
+    if(yestOrdersChart == 0 && todayTotalCost == 0) {
       return 1001;
     }
 
@@ -2663,7 +2663,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       todayTotal += weekOrdersChart[i];
     }
 
-    if(lastWeekOrdersChart == 0 || todayTotal == 0) {
+    if(lastWeekOrdersChart == 0 && todayTotal == 0) {
       return 1001;
     }
 
@@ -2684,6 +2684,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = weekTotalUnpaid;
 
+    if(lastWeekUnpaid == 0 && todayTotal == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - lastWeekUnpaid) / lastWeekUnpaid * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2701,6 +2705,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = weekTotalCost;
 
+    if(lastWeekCostTotal == 0 && todayTotal == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - lastWeekCostTotal) / lastWeekCostTotal * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2716,6 +2724,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   growthRateDayRefund(double lastDayRefund, double totalRefund) {
     double growthRate = 0;
     double todayTotal = totalRefund;
+
+    if(lastDayRefund == 0 && todayTotal == 0) {
+      return 1001;
+    }
 
     growthRate = (todayTotal - lastDayRefund) / lastDayRefund * 100;
     if(growthRate >= 999) {
@@ -2733,6 +2745,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = totalLoss;
 
+    if(lastDayLoss == 0 && todayTotal == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - lastDayLoss) / lastDayLoss * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2748,6 +2764,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   growthRateDayEarn(double lastDayEarn, double totalEarn) {
     double growthRate = 0;
     double todayTotal = totalEarn;
+
+    if(lastDayEarn == 0 && todayTotal == 0) {
+      return 1001;
+    }
 
     growthRate = (todayTotal - lastDayEarn) / lastDayEarn * 100;
     if(growthRate >= 999) {
@@ -2765,6 +2785,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = totalProfit;
 
+    if(lastDayProfit == 0 && todayTotal == 0) {
+      return 1001;
+    }
     growthRate = (todayTotal - lastDayProfit) / lastDayProfit * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2780,6 +2803,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   growthRateWeekRefund(double lastWeekRef, double weekTotalRef) {
     double growthRate = 0;
     double todayTotal = weekTotalRef;
+
+    if(lastWeekRef == 0 && todayTotal == 0) {
+      return 1001;
+    }
 
     growthRate = (todayTotal - lastWeekRef) / lastWeekRef * 100;
     if(growthRate >= 999) {
@@ -2797,6 +2824,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     double growthRate = 0;
     double todayTotal = weekTotalLoss;
 
+    if(lastWeekLoss == 0 && todayTotal == 0) {
+      return 1001;
+    }
+
     growthRate = (todayTotal - lastWeekLoss) / lastWeekLoss * 100;
     if(growthRate >= 999) {
       growthRate = 999;
@@ -2812,6 +2843,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   growthRateWeekEarn(double lastWeekEar, double weekTotalEarn) {
     double growthRate = 0;
     double todayTotal = weekTotalEarn;
+
+    if(lastWeekEar == 0 && todayTotal == 0) {
+      return 1001;
+    }
 
     growthRate = (todayTotal - lastWeekEar) / lastWeekEar * 100;
     if(growthRate >= 999) {

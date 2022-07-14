@@ -117,6 +117,8 @@ class HomePageState extends State<HomePage>
 
   int tabletOrders = 0;
 
+  String tabletPrice = '0';
+
   //String finalTotal = '';
 
   homePageLoadingOn() {
@@ -4407,6 +4409,8 @@ class HomePageState extends State<HomePage>
                                                                                                     batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
                                                                                                     DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
 
+                                                                                                    tabletPrice = TtlProdListPrice().toString();
+
                                                                                                     debugPrint('prodList--' + prodList.toString());
                                                                                                     try {
                                                                                                       batch.commit();
@@ -4435,7 +4439,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 paymentInfo: '',
                                                                                                               ),
                                                                                                               customer: Customer(
-                                                                                                                name: customerId.split('^')[1],
+                                                                                                                name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
                                                                                                                 address: '',
                                                                                                               ),
                                                                                                               info: InvoiceInfo(
@@ -5609,7 +5613,7 @@ class HomePageState extends State<HomePage>
                                                                                         ),
                                                                                       ),
                                                                                       trailing: Text('$currencyUnit '+
-                                                                                          TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                          tabletPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                         textScaleFactor: 1, style: TextStyle(
                                                                                             fontSize: 17,
                                                                                             fontWeight:
@@ -5636,6 +5640,7 @@ class HomePageState extends State<HomePage>
                                                                                                     isDiscount = '';
                                                                                                     productSale = [];
                                                                                                     saleInfo = '';
+                                                                                                    tabletPrice = '0';
                                                                                                     // });
                                                                                                   });
                                                                                                   // _controller.animateTo(0);
@@ -5965,6 +5970,7 @@ class HomePageState extends State<HomePage>
                                                                                                     isDiscount = '';
                                                                                                     productSale = [];
                                                                                                     saleInfo = '';
+                                                                                                    tabletPrice = '0';
                                                                                                     // });
                                                                                                   });
 
@@ -6626,6 +6632,7 @@ class HomePageState extends State<HomePage>
     setState(() {
       productSale = [];
       saleInfo = '';
+      tabletPrice = '0';
     });
     debugPrint('added producting ' + data);
     String prod_name = data.split('^')[5];
@@ -9636,7 +9643,7 @@ class HomePageState extends State<HomePage>
                                                                                       paymentInfo: '',
                                                                                     ),
                                                                                     customer: Customer(
-                                                                                      name: customerId.split('^')[1],
+                                                                                      name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
                                                                                       address: '',
                                                                                     ),
                                                                                     info: InvoiceInfo(

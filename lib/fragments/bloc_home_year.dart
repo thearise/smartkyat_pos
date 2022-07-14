@@ -987,6 +987,18 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
                                             Positioned(
+                                                right: 0,
+                                                bottom: 2,
+                                                child: Text(growthRateDayProfit(profitByLastYear(), profitByYear()).toString() == '1001' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  == '1000' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  + '%',
+                                                  textScaleFactor: 1, style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateDayProfit(profitByLastYear(), profitByYear())  == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
+                                                  ),
+                                                )
+                                            ),
+                                            Positioned(
                                               left: 0,
                                               bottom: 2,
                                               child: Text(currencyUnit, textScaleFactor: 1,
@@ -2501,6 +2513,12 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     return profit;
   }
 
+  profitByLastYear() {
+    double profit = 0.0;
+    profit = lastYearSale - (lastYearCapital + lastYearLoss);
+    return profit;
+  }
+
   double funChange(max) {
     // debugPrint(findMax(roundWeek));
     max = max/chgDeci3Place(max);
@@ -2550,6 +2568,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   double lastYearUnpaid = 0;
   double lastYearRefund = 0;
   double lastYearLoss = 0;
+  double lastYearCapital = 0;
 
 
   fetchOrdersYY(snapshot0) async {
@@ -2575,6 +2594,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     lastYearUnpaid = 0;
     lastYearRefund = 0;
     lastYearLoss = 0;
+    lastYearCapital = 0;
 
     debugPrint('docs3 ' + snapshot0.length.toString());
 
@@ -2599,6 +2619,12 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       for(int i = 1; i<= 12; i++) {
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'capital'] != null) {
           yearCapital += data[today.year.toString() + zeroToTen(i.toString()) + 'capital'];
+        }
+      }
+
+      for(int i = 1; i<= 12; i++) {
+        if(data[(today.year - 1).toString() + zeroToTen(i.toString()) + 'capital'] != null) {
+          lastYearCapital += data[(today.year-1).toString() + zeroToTen(i.toString()) + 'capital'];
         }
       }
 
@@ -2734,6 +2760,25 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     double todayTotal = currentYear;
 
     growthRate = (todayTotal - lastYear) / lastYear * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
+  }
+
+  growthRateDayProfit(double lastDayProfit, double totalProfit) {
+    double growthRate = 0;
+    double todayTotal = totalProfit;
+
+    if(lastDayProfit == 0 && todayTotal == 0) {
+      return 1001;
+    }
+    growthRate = (todayTotal - lastDayProfit) / lastDayProfit * 100;
     if(growthRate >= 999) {
       growthRate = 999;
     } else if(growthRate < -999) {
