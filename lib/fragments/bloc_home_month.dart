@@ -976,6 +976,18 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   color: Colors.black.withOpacity(0.6)),
                                             ),
                                             Positioned(
+                                                right: 0,
+                                                bottom: 2,
+                                                child: Text(growthRateDayProfit(profitByLastMonth(), profitByMonth()).toString() == '1001' ? '-%' : growthRateDayProfit(profitByLastMonth(), profitByMonth()).toString()  == '1000' ? '-%' : growthRateDayProfit(profitByLastMonth(), profitByMonth()).toString()  + '%',
+                                                  textScaleFactor: 1, style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: growthRateDayProfit(profitByLastMonth(), profitByMonth())  == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0? Colors.green: AppTheme.badgeFgDanger,
+                                                    // color: Colors.blue
+                                                  ),
+                                                )
+                                            ),
+                                            Positioned(
                                               left: 0,
                                               bottom: 2,
                                               child: Text(currencyUnit, textScaleFactor: 1,
@@ -1657,6 +1669,25 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     } else {
       return yearlyTotal.toStringAsFixed(2);
     }
+  }
+
+  growthRateDayProfit(double lastDayProfit, double totalProfit) {
+    double growthRate = 0;
+    double todayTotal = totalProfit;
+
+    if(lastDayProfit == 0 && todayTotal == 0) {
+      return 1001;
+    }
+    growthRate = (todayTotal - lastDayProfit) / lastDayProfit * 100;
+    if(growthRate >= 999) {
+      growthRate = 999;
+    } else if(growthRate < -999) {
+      growthRate = -999;
+    }
+    if(growthRate.isNaN) {
+      return 1000;
+    }
+    return growthRate.toInt();
   }
 
   growthRateSale(double lastMonth, List<double> currentMonth) {
@@ -2640,10 +2671,17 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
   double monthCapital = 0;
   double monthSale = 0;
+  double lastMonthCapital = 0;
 
   profitByMonth() {
     double profit = 0.0;
     profit = monthSale - (monthCapital + monthLossTotal);
+    return profit;
+  }
+
+  profitByLastMonth() {
+    double profit = 0.0;
+    profit = lastMonthSale - (lastMonthCapital + lastMonthLoss);
     return profit;
   }
 
@@ -2669,6 +2707,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     lastMonthLoss = 0;
     monthSale = 0;
     monthCapital = 0;
+    lastMonthCapital = 0;
 
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
@@ -2697,6 +2736,12 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       for(int i = 1; i< 32; i++) {
         if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
           lastMonthSale += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'];
+        }
+      }
+
+      for(int i = 1; i< 32; i++) {
+        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'capital'] != null) {
+          lastMonthCapital += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'capital'];
         }
       }
 
