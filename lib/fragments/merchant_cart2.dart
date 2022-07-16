@@ -61,6 +61,11 @@ class MerchantCartState extends State<MerchantCart>
     return prefs.getString('currency');
   }
 
+  calHourFromTZ(DateTime dateTime) {
+
+    return dateTime.timeZoneOffset.inMinutes;
+  }
+
   String _getRegexString() =>
       r'[0-9]+[,.]{0,1}[0-9]*';
 
@@ -2535,8 +2540,7 @@ class MerchantCartState extends State<MerchantCart>
                                     discountAmount2 = discount2;
                                     subList2 = [];
                                     DateTime now = DateTime.now();
-                                    CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
-                                        shopId).collection('products');
+                                    now = now.subtract(Duration(minutes: calHourFromTZ(now)));
                                     int length = 0;
                                     int totalOrders = 0;
                                     int debts = 0;

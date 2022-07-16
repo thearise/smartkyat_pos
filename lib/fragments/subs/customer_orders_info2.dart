@@ -457,11 +457,15 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
                     String item = '';
+                    DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(data['dateTime'].substring(0,4) + '-' +data['dateTime'].substring(4,6)  + '-' +data['dateTime'].substring(6,8) + ' ' +data['dateTime'].substring(8,10)  + ':' +data['dateTime'].substring(10,12));
+                    debugPrint('chgDate' + chgDate.toString());
+                    chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                    String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
                     if(data['dateTime'] == null) {
-                      item = data['date'].toDate().year.toString() +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      item = modDateTime +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                       debugPrint('tmNow ' + data['date'].toDate().toString());
                     } else {
-                      item = data['dateTime'].substring(0,4) + data['dateTime'].substring(4,6) +  data['dateTime'].substring(6,8) +  data['dateTime'].substring(8,10) +  data['dateTime'].substring(10,12)  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      item = modDateTime  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                       debugPrint('date wrong ' + data['dateTime'].toString());
                     }
                     //DateTime.fromMicrosecondsSinceEpoch(data['date'], isUtc: true);
@@ -515,14 +519,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                covertToDayNum(data['date'].toDate().day.toString()) + '/' + zeroToTen(data['date'].toDate().month.toString()) + ' ',
+                                                covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ',
                                                 textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
                                                 ),
                                               ),
-                                              Text(convertToHour(data['date'].toDate().hour.toString()) + ':' + convertToMinutes(data['date'].toDate().minute.toString()) + ' ' + convertToAMPM(data['date'].toDate().hour.toString()),
+                                              Text(convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                 textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
@@ -829,34 +833,34 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
   convertToAMPM(String input){
     switch (input) {
-      case '0':
+      case '00':
         return 'AM';
         break;
-      case '1':
+      case '01':
         return 'AM';
         break;
-      case '2':
+      case '02':
         return 'AM';
         break;
-      case '3':
+      case '03':
         return 'AM';
         break;
-      case '4':
+      case '04':
         return 'AM';
         break;
-      case '5':
+      case '05':
         return 'AM';
         break;
-      case '6':
+      case '06':
         return 'AM';
         break;
-      case '7':
+      case '07':
         return 'AM';
         break;
-      case '8':
+      case '08':
         return 'AM';
         break;
-      case '9':
+      case '09':
         return 'AM';
         break;
       case '10':
@@ -944,34 +948,34 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
   convertToHour(String input){
     switch (input) {
-      case '0':
+      case '00':
         return '00';
         break;
-      case '1':
+      case '01':
         return '01';
         break;
-      case '2':
+      case '02':
         return '02';
         break;
-      case '3':
+      case '03':
         return '03';
         break;
-      case '4':
+      case '04':
         return '04';
         break;
-      case '5':
+      case '05':
         return '05';
         break;
-      case '6':
+      case '06':
         return '06';
         break;
-      case '7':
+      case '07':
         return '07';
         break;
-      case '8':
+      case '08':
         return '08';
         break;
-      case '9':
+      case '09':
         return '09';
         break;
       case '10':
@@ -1052,6 +1056,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
       togIndOne = !togIndOne;
     });
   }
+
+  calHourFromTZ(DateTime dateTime) {
+    return dateTime.timeZoneOffset.inMinutes;
+  }
+
 
 // bool togIndOne = true;
 //
