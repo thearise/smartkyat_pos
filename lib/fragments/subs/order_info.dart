@@ -504,9 +504,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      // await Future.delayed(const Duration(milliseconds: 3000), () {
-                                                      //
-                                                      // });
                                                       result =  widget.data
                                                           .split('^')[0] +
                                                           '^' +

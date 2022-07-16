@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 // import 'package:paginate_firestore/paginate_firestore.dart';
 // import 'package:paginate_firestore/paginate_firestore.dart';
@@ -3090,34 +3091,34 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   convertToAMPM(String input){
     switch (input) {
-      case '0':
+      case '00':
         return 'AM';
         break;
-      case '1':
+      case '01':
         return 'AM';
         break;
-      case '2':
+      case '02':
         return 'AM';
         break;
-      case '3':
+      case '03':
         return 'AM';
         break;
-      case '4':
+      case '04':
         return 'AM';
         break;
-      case '5':
+      case '05':
         return 'AM';
         break;
-      case '6':
+      case '06':
         return 'AM';
         break;
-      case '7':
+      case '07':
         return 'AM';
         break;
-      case '8':
+      case '08':
         return 'AM';
         break;
-      case '9':
+      case '09':
         return 'AM';
         break;
       case '10':
@@ -3167,34 +3168,34 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   convertToHour(String input){
     switch (input) {
-      case '0':
+      case '00':
         return '00';
         break;
-      case '1':
+      case '01':
         return '01';
         break;
-      case '2':
+      case '02':
         return '02';
         break;
-      case '3':
+      case '03':
         return '03';
         break;
-      case '4':
+      case '04':
         return '04';
         break;
-      case '5':
+      case '05':
         return '05';
         break;
-      case '6':
+      case '06':
         return '06';
         break;
-      case '7':
+      case '07':
         return '07';
         break;
-      case '8':
+      case '08':
         return '08';
         break;
-      case '9':
+      case '09':
         return '09';
         break;
       case '10':
@@ -4809,6 +4810,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         }
 
                       }
+                      DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot1.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot1.data!.docs[index]['dateTime'].substring(4,6)  + '-' + snapshot1.data!.docs[index]['dateTime'].substring(6,8) + ' ' + snapshot1.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot1.data!.docs[index]['dateTime'].substring(10,12));
+                      debugPrint('chgDate' + chgDate.toString());
+                      chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                      String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
+                      debugPrint('modDateTime' + modDateTime.toString());
                       return GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).unfocus();
@@ -4817,7 +4823,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => OrderInfoSub(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => OrderInfoSub(isEnglish : widget.isEnglish, fromSearch: true, data: modDateTime + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});
@@ -4861,7 +4867,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   SizedBox(width: 4),
                                                   Text(
                                                     // '',
-                                                    covertToDayNum(snapshot1.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot1.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot1.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot1.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot1.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
+                                                    covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ' + convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
@@ -5130,6 +5136,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
               String info = 'sm';
               if(snapshot2.hasData) {
+
                 debugPrint('snapping ' + snapshot2.data!.docs.toString());
                 if(snapshot2.data!.docs.length == 0 && searchValue != ''){
                   info = 'no';
@@ -5171,6 +5178,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             ],
                           );
                         } else {
+
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -5187,6 +5195,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         }
 
                       }
+                      DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot2.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot2.data!.docs[index]['dateTime'].substring(4,6)  + '-' +snapshot2.data!.docs[index]['dateTime'].substring(6,8) + ' ' +snapshot2.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot2.data!.docs[index]['dateTime'].substring(10,12));
+                      debugPrint('chgDate' + chgDate.toString());
+                      chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                      String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
+                      debugPrint('modDateTime' + modDateTime.toString());
                       return GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).unfocus();
@@ -5195,7 +5208,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: true, data: modDateTime + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});
@@ -5239,7 +5252,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   SizedBox(width: 4),
                                                   Text(
                                                     // '',
-                                                    covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + zeroToTen(snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ',
+                                                    covertToDayNum(modDateTime.substring(6,8)) + '/' + modDateTime.substring(4,6) + '/' + modDateTime.substring(0,4) + ' ' + convertToHour(modDateTime.substring(8,10)) + ':' + (modDateTime.substring(10,12)) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
@@ -5574,6 +5587,10 @@ setStoreId(String id) async {
   // return(prefs.getString('store'));
 
   prefs.setString('store', id);
+}
+
+calHourFromTZ(DateTime dateTime) {
+  return dateTime.timeZoneOffset.inMinutes;
 }
 
 zeroToTen(String string) {
