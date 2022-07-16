@@ -51,9 +51,6 @@ class _BuyListInfoState extends State<BuyListInfo>
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
-  bool _connectionStatus = false;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   bool firstBuild = true;
 
   void printFromOrdersFun(File file, var prodListPR) {
@@ -153,7 +150,6 @@ class _BuyListInfoState extends State<BuyListInfo>
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
     super.dispose();
   }
 
@@ -205,6 +201,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
+                          var dateOrg = output1?['dateTime'];
                           prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
@@ -248,8 +245,7 @@ class _BuyListInfoState extends State<BuyListInfo>
 
                           debugPrint('view ' + prodListView.toString());
 
-                          result = widget.data
-                              .split('^')[0] +
+                          result = dateOrg +
                               '^' +
                               widget.data
                                   .split('^')[1] +
@@ -342,8 +338,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             debt = totalPrice;
                                                           }
 
-                                                          result = widget.data
-                                                              .split('^')[0] +
+                                                          result = dateOrg +
                                                               '^' +
                                                               widget.data
                                                                   .split('^')[1] +
@@ -438,11 +433,27 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       try {
                                                         final resultInt = await InternetAddress.lookup('google.com');
                                                         if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
+                                                          result = dateOrg.toString() +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[1] +
+                                                              '^' +
+                                                              totalPrice
+                                                                  .toString() +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[3] +
+                                                              '^' +
+                                                              widget.data
+                                                                  .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                              .split('^')[6];
+
                                                           widget._closeCartBtn();
+
                                                           await Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PayDebtBuyList(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                                  builder: (context) => PayDebtBuyList(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: result.toString(), docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                           );
                                                           widget._openCartBtn();
                                                         }
