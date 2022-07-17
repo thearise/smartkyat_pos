@@ -414,7 +414,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 if(snapshot.hasData) {
                                   var output = snapshot.data!.data();
                                   var shopName = output?['shop_name'];
-                                  return eachTile(textSetShopSetting, shopName);
+                                  return eachTile(textSetShopSetting, shopName== null? '':shopName);
                                 }
                                 return eachTile(textSetShopSetting, '...');
                               }
