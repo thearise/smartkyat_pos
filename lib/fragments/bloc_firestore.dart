@@ -336,7 +336,6 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       dailyOrdPrep.add([]);
     }
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-      Map<dynamic, dynamic> temp = {};
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
       List<dynamic> dailyOrdTemp = data['daily_order'];
       for(int ii = dailyOrdTemp.length-1; ii >= 0; ii--) {
