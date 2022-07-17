@@ -1021,7 +1021,10 @@ class MerchantCartState extends State<MerchantCart>
                         ),
                       );
                     }
-                    return Container();
+                    return Center(
+                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 15,)),
+                    );
                   }
               ),
               Align(

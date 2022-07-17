@@ -3363,7 +3363,10 @@ class HomePageState extends State<HomePage>
                                                                                     ),
                                                                                   );
                                                                                 }
-                                                                                return Container();
+                                                                                return Center(
+                                                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                );
                                                                               }
                                                                           ),
                                                                           Container(
@@ -8934,7 +8937,10 @@ class HomePageState extends State<HomePage>
                                                             )),
                                                       );
                                                     }
-                                                    return Container();
+                                                    return Center(
+                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                            child: CupertinoActivityIndicator(radius: 15,)),
+                                                    );
                                                   }),
                                               Align(
                                                 alignment: Alignment.bottomCenter,
