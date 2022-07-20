@@ -253,23 +253,23 @@ class _BlocBuyListState extends State<BlocBuyList> {
       }
     });
 
-      if(widget.isEnglish == true) {
-        setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpaids';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
-        });
-      }
-      else {
-        setState(() {
-          textSetAll = 'အားလုံး';
-          textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်ပေး';
-          textSetTPaid = 'ရှင်းပြီး';
-        });
+    if(widget.isEnglish == true) {
+      setState(() {
+        textSetAll = 'All';
+        textSetTUnpaid = 'Unpaids';
+        textSetTRefunds = 'Refunds';
+        textSetTPaid = 'Paids';
+      });
+    }
+    else {
+      setState(() {
+        textSetAll = 'အားလုံး';
+        textSetTUnpaid = 'မရှင်းသေး';
+        textSetTRefunds = 'ပြန်ပေး';
+        textSetTPaid = 'ရှင်းပြီး';
+      });
 
-      }
+    }
 
     if (widget.listeners != null) {
       for (var listener in widget.listeners!) {
@@ -1403,12 +1403,12 @@ class _BlocBuyListState extends State<BlocBuyList> {
                         // checkTest(section.header),
                         covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         textScaleFactor: 1, style: TextStyle(
-                            height: 0.8,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            color: Colors.black
-                        ),
+                          height: 0.8,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                          color: Colors.black
+                      ),
                       ),
 
                       Expanded(
@@ -1420,12 +1420,12 @@ class _BlocBuyListState extends State<BlocBuyList> {
                             '(' + countMap[section.header.substring(0,8)] + ')',
                             // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                             textScaleFactor: 1, style: TextStyle(
-                              height: 0.8,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.2,
-                              color: Colors.black,
-                            ),
+                            height: 0.8,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
                             textAlign: TextAlign.right,
                           ),
                         ),

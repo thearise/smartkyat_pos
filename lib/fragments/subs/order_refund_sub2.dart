@@ -747,7 +747,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     refundItems[i]) *
                                                     double.parse(prodListView[i].split('^')[4]);
 
-                                                total2 += (refundItems[i]) * double.parse(prodListView[i].split('^')[6]);
+                                                total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
 
                                                 if (refundItems[i] > 0) {
                                                   refund = true;
@@ -817,7 +817,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr')
                                                       .get()
                                                       .then((DocumentSnapshot documentSnapshot) async {
                                                     if (documentSnapshot.exists) {
@@ -913,10 +913,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 chgCapital = 0;
                                               }
 
-
-                                              //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                               batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
-                                              //
+                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
+
 
                                               if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
                                                 batch = await updateMonthlyData2(batch,
@@ -926,12 +925,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                         zeroToTen(now.month.toString()) +
                                                         zeroToTen(now.day.toString()) + 'refu_cust',
                                                     chgTotal);
+                                                batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+
                                               }
-
-                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
-
-                                              batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
-
 
                                               String data = widget.data;
 
@@ -966,7 +962,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                               //
 
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr')
                                                   .get()
                                                   .then((DocumentSnapshot documentSnapshot) async {
                                                 if (documentSnapshot.exists) {
@@ -1305,7 +1301,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   }
 
   updateProduct(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.' + changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString())),});
 
@@ -1361,6 +1357,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
     });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
     return batch;
   }
 
@@ -1380,7 +1381,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
-    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
+    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'cus.' + id +'.re': FieldValue.increment(double.parse(totalRefs.toString())),

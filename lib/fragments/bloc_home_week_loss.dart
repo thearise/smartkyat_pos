@@ -222,47 +222,47 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       }
     });
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetTotalSales = 'TOTAL SALES';
-          textSetTodaySoFar = 'TODAY SO FAR';
-          textSetStockCosts = 'Stock costs';
-          textSetUnpaid = 'Unpaid';
-          textSetBuys = 'Refunds';
-          textSetLoss = 'Loss';
-          textSetToday = 'Day';
-          textSetLastWeek = 'Last week';
-          textSetLastMonth = 'This month';
-          textSetLastYear = 'This year';
-          textSetLast7Days = 'Last 7 Days';
-          textSetLast28D = 'LAST 28 DAYS';
-          textSetLast12M = 'LAST 12 MONTHS';
-          textSetSearch = 'Search';
-          textSetEarn = 'Debt-to-income';
-          textSetProfit = 'Average profit';
+      setState(() {
+        textSetTotalSales = 'TOTAL SALES';
+        textSetTodaySoFar = 'TODAY SO FAR';
+        textSetStockCosts = 'Stock costs';
+        textSetUnpaid = 'Unpaid';
+        textSetBuys = 'Refunds';
+        textSetLoss = 'Loss';
+        textSetToday = 'Day';
+        textSetLastWeek = 'Last week';
+        textSetLastMonth = 'This month';
+        textSetLastYear = 'This year';
+        textSetLast7Days = 'Last 7 Days';
+        textSetLast28D = 'LAST 28 DAYS';
+        textSetLast12M = 'LAST 12 MONTHS';
+        textSetSearch = 'Search';
+        textSetEarn = 'Debt-to-income';
+        textSetProfit = 'Average profit';
 
-        });
-      } else {
-        setState(() {
-          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-          textSetStockCosts = 'ဝယ်ယူစရိတ်';
-          textSetUnpaid = 'အကြွေးကျန်ငွေ';
-          textSetBuys = 'ပြန်ပေးငွေ';
-          textSetLoss = 'ဆုံးရှုံး';
-          textSetToday = 'နေ့စဉ်';
-          textSetLastWeek = 'အပတ်စဉ်';
-          textSetLastMonth = 'လစဉ်';
-          textSetLastYear = 'နှစ်စဉ်';
-          textSetLast7Days = '၇ရက်အတွင်း';
-          textSetLast28D = '၂၈ရက်အတွင်း';
-          textSetLast12M = '၁၂လအတွင်း';
-          textSetSearch = 'ရှာဖွေရန်';
-          textSetEarn = 'အကြွေးရငွေ';
-          textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
-        });
-      }
+      });
+    } else {
+      setState(() {
+        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+        textSetStockCosts = 'ဝယ်ယူစရိတ်';
+        textSetUnpaid = 'အကြွေးကျန်ငွေ';
+        textSetBuys = 'ပြန်ပေးငွေ';
+        textSetLoss = 'ဆုံးရှုံး';
+        textSetToday = 'နေ့စဉ်';
+        textSetLastWeek = 'အပတ်စဉ်';
+        textSetLastMonth = 'လစဉ်';
+        textSetLastYear = 'နှစ်စဉ်';
+        textSetLast7Days = '၇ရက်အတွင်း';
+        textSetLast28D = '၂၈ရက်အတွင်း';
+        textSetLast12M = '၁၂လအတွင်း';
+        textSetSearch = 'ရှာဖွေရန်';
+        textSetEarn = 'အကြွေးရငွေ';
+        textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
+      });
+    }
 
     if (widget.listeners != null) {
       for (var listener in widget.listeners!) {
@@ -1070,9 +1070,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             ),
                                           ),
                                         ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
                                       ],
                                     ) : Container(),
                                   ],
@@ -1805,7 +1805,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           reservedSize: 22,
           interval: 1,
           getTextStyles: (context, value) =>
-           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/scaleFactor),
+              TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/scaleFactor),
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:
@@ -1814,8 +1814,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                 return '5 AM';
               case 10:
                 return '10 AM';
-              // case 12:
-              //   return '1 PM';
+            // case 12:
+            //   return '1 PM';
               case 15:
                 return '3 PM';
               case 20:
@@ -1989,7 +1989,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           reservedSize: 22,
           interval: 1,
           getTextStyles: (context, value) =>
-           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/scaleFactor),
+              TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12/scaleFactor),
           getTitles: (value) {
             // DateTime day = DateTime.now().add(Duration(days: 1));
             // for(int i = 0; i<7; i++) {
@@ -2335,7 +2335,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         debugPrint('sevDateMidnight ' + sevDateMid.toString());
         debugPrint('situat ion2 ' + sevDateMid.difference(modDate).inDays.toString() + '  --- ' + modDate.toString());
         if(sevDateMid.difference(modDate).inDays <= 0 && curDateMid.difference(modDate).isNegative == false) {
-        // if(true) {
+          // if(true) {
           // debugPrint('wtf happening ' + modDate.day.toString());
           if(modDate.day == 17) {
             debugPrint('wtf happening ' + modDate.day.toString());

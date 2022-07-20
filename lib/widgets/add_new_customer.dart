@@ -418,7 +418,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                         });
                                         openOverAllSubLoading();
 
-                                        //DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
+                                        //DocumentReference cusArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('cusArr');
 
 
                                         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('cusCnt')
@@ -717,9 +717,8 @@ class _AddCustomerState extends State<AddCustomer> {
   }
 
   addCustomer(WriteBatch batch, id) {
-    debugPrint('Double Check Sub1' + '$id.im');
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
 
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('cusArr');
     batch.update(documentReference, {
       'cus.$id.na': merchFieldsValue[0],
       'cus.$id.ad': merchFieldsValue[1],
@@ -730,6 +729,11 @@ class _AddCustomerState extends State<AddCustomer> {
       'cus.$id.re': 0,
       'cus.$id.ar': false,
 
+    });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
     });
 
     return batch;
