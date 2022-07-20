@@ -1808,10 +1808,16 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       },SetOptions(merge: true)
                                                   );
 
-                                                  batch.update(
+                                                   batch.update(
                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
                                                       {'count': FieldValue.increment(1)}
                                                   );
+
+                                                  DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+                                                  batch.set(nonceRef, {
+                                                    'time': FieldValue.serverTimestamp(),
+                                                  });
+
                                                   try {
                                                     batch.commit();
                                                     Future.delayed(
@@ -2144,6 +2150,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                 }
                                                               },SetOptions(merge: true)
                                                           );
+
+                                                          DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+                                                          batch.set(nonceRef, {
+                                                            'time': FieldValue.serverTimestamp(),
+                                                          });
 
                                                           try {
                                                             batch.commit();

@@ -89,22 +89,22 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
     });
 
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpaids';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
-        });
-      } else  {
-        setState(() {
-          textSetAll = 'အားလုံး';
-          textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်အမ်း';
-          textSetTPaid = 'ရှင်းပြီး';
-        });
-      }
+      setState(() {
+        textSetAll = 'All';
+        textSetTUnpaid = 'Unpaids';
+        textSetTRefunds = 'Refunds';
+        textSetTPaid = 'Paids';
+      });
+    } else  {
+      setState(() {
+        textSetAll = 'အားလုံး';
+        textSetTUnpaid = 'မရှင်းသေး';
+        textSetTRefunds = 'ပြန်အမ်း';
+        textSetTPaid = 'ရှင်းပြီး';
+      });
+    }
 
     super.initState();
   }
@@ -475,7 +475,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                       onTap: () {
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => OrderInfoSub(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, isEnglish: widget.isEnglish,),),
+                          builder: (context) => OrderInfoSub(fromSearch: widget.fromSearch, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, isEnglish: widget.isEnglish,),),
                         );
                       },
                       child: Stack(
@@ -521,10 +521,10 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               Text(
                                                 covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ',
                                                 textScaleFactor: 1, style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
-                                                ),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              ),
                                               ),
                                               Text(convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                 textScaleFactor: 1, style: TextStyle(

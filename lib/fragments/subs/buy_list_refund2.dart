@@ -799,11 +799,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                 .parse(
                                                                 prodListView[i]
                                                                     .split(
-                                                                    '^')[3]) -
-                                                                double.parse(
-                                                                    prodListView[i]
-                                                                        .split(
-                                                                        '^')[7]))
+                                                                    '^')[3]))
                                                                 .round()
                                                                 .toString(),  textScaleFactor: 1,
                                                                 style: TextStyle(
@@ -819,30 +815,30 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 } return Container();
                                               }
                                           ),
-                                        // ListTile(
-                                        //   title: Text(
-                                        //     textSetTtlRefund,
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight: FontWeight.w500
-                                        //     ),
-                                        //   ),
-                                        //   subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )) : Text(totalItems().toString() + ' items',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )),
-                                        //   trailing: Text('$currencyUnit '+
-                                        //       totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight:
-                                        //         FontWeight
-                                        //             .w500),
-                                        //   ),
-                                        // ),
+                                        ListTile(
+                                          title: Text(
+                                            textSetTtlRefund,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )) : Text(totalItems().toString() + ' items',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )),
+                                          trailing: Text('$currencyUnit '+
+                                              totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500),
+                                          ),
+                                        ),
                                         ListTile(
                                           title: Text(
                                             textSetTtlRefundAmount,  textScaleFactor: 1,
@@ -1013,8 +1009,16 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               String refundAmount = 'F';
                                               bool reFilter = false;
                                               bool deFilter = false;
+                                              double paidAmount = 0 ;
+                                              paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
 
-                                              if(total <= double.parse(widget.data.split('^')[5])) {
+                                              if(paidAmount != 0 && total !=0 && total > paidAmount) {
+                                               debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
+                                              print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
+                                              } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
+                                                debt = 0 ;
+                                              }
+                                              else {
                                                 debt = total;
                                               }
 
@@ -1073,10 +1077,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 chgTotal = 0;
                                               }
 
-                                              var refundId = '';
-
-
-                                                 batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
+                                              batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
+                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
 
                                               if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())) {
                                                 batch = await updateMonthlyData2(batch,
@@ -1084,121 +1086,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                         zeroToTen(now.month.toString()),
                                                     now.year.toString() +
                                                         zeroToTen(now.month.toString()) +
-                                                        zeroToTen(now.day.toString()) + 'refu_cust',
+                                                        zeroToTen(now.day.toString()) + 'refu_merc',
                                                     chgTotal);
+                                                batch = await updateYearlyData2(batch,  now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
                                               }
-
-                                                batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
-
-                                               batch = await updateYearlyData2(batch,  now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-
-
-                                                //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-
-                                              // CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
-                                              //
-                                              // monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
-                                              //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) +  '-' +  widget.data.split('^')[0].substring(4,6) +  '-' + '31' + ' 23:59:59'))
-                                              //     .get()
-                                              //     .then((QuerySnapshot querySnapshot)  async {
-                                              //   querySnapshot.docs.forEach((doc) {
-                                              //     refundId = doc.id;
-                                              //   });
-                                              //   batch = await updateMonthlyData1(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
-                                              //
-                                              //
-                                              //
-                                              //
-                                              //   monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) +  '-' + '01' + ' 00:00:00'))
-                                              //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + zeroToTen(now.month.toString()) +  '-' + '31' + ' 23:59:59'))
-                                              //       .get()
-                                              //       .then((QuerySnapshot querySnapshot)  async {
-                                              //     querySnapshot.docs.forEach((doc) {
-                                              //       monthExist = true;
-                                              //       monthId = doc.id;
-                                              //     });
-                                              //     debugPrint('month ' + monthExist.toString());
-                                              //     if (monthExist) {
-                                              //       batch = await updateMonthlyData2(batch, monthId, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
-                                              //     }
-                                              //     else {
-                                              //       monthlyData.add({
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                              //
-                                              //         'date': now,
-                                              //
-                                              //       }).then((value) async {
-                                              //         debugPrint('valueid' + value.id.toString());
-                                              //         batch = await updateMonthlyData2(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc', chgTotal);
-                                              //       }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                              //     }
-                                              //
-                                              //
-                                              //
-                                              //     CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
-                                              //     var refundYearId = '';
-                                              //
-                                              //     yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) +  '-' + '01' +  '-' + '01' + ' 00:00:00'))
-                                              //         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) +  '-' + '12' +  '-' + '31' + ' 23:59:59'))
-                                              //         .get()
-                                              //         .then((QuerySnapshot querySnapshot)  async {
-                                              //       querySnapshot.docs.forEach((doc) {
-                                              //         refundYearId = doc.id;
-                                              //       });
-                                              //       batch = await updateYearlyData1(batch, refundYearId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
-                                              //
-                                              //       yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                              //           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + '12' +  '-'+ '31' + ' 23:59:59'))
-                                              //           .get()
-                                              //           .then((QuerySnapshot querySnapshot)  async {
-                                              //         querySnapshot.docs.forEach((doc) {
-                                              //           yearExist = true;
-                                              //           yearId = doc.id;
-                                              //         });
-                                              //         debugPrint('year ' + yearExist.toString());
-                                              //         if (yearExist) {
-                                              //           batch = await updateYearlyData2(batch, yearId, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-                                              //         }
-                                              //         else {
-                                              //           yearlyData.add({
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                              //
-                                              //             'date': now,
-                                              //
-                                              //           }).then((value12) async {
-                                              //
-                                              //             batch = await updateYearlyData2(batch, value12.id, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-                                              //
-                                              //           }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                              //         }
-
-
                                                       String data = widget.data;
 
                                                       String noCustomer = '';
@@ -1446,12 +1337,30 @@ class _BuyListRefundState extends State<BuyListRefund>
     double totalM = 0.0;
     double debtM = 0.0;
     double refundAmount = 0.0;
-    totalM = double.parse(widget.data.split('^')[2]) - totalPriceView();
+    totalM = double.parse(widget.data.split('^')[2]) - totalPriceView2();
     debtM = double.parse(widget.data.split('^')[2]) -  double.parse(widget.data.split('^')[5]);
     if(debtM > totalM) {
       refundAmount = debtM - totalM;
     } else refundAmount = 0.0;
     return refundAmount;
+  }
+
+  totalPriceView2() {
+    double totalPrice = 0.0;
+    for(int i=0; i<refundItems.length; i++) {
+      totalPrice += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
+    }
+
+    // widget.data.split('^')[6].split('-')[1] == 'p' ?
+    if(widget.data.split('^')[6] != '0.0') {
+      if(widget.data.split('^')[6].split('-')[1] == 'p') {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+      } else {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+      }
+    }
+
+    return totalPrice;
   }
 
   totalPriceView() {
@@ -1539,6 +1448,11 @@ class _BuyListRefundState extends State<BuyListRefund>
 
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
+    });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
     });
     return batch;
   }

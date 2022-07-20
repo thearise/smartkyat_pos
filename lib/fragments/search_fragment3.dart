@@ -462,15 +462,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
     });
 
-      if(widget.isEnglish == true) {
-        setState(() {
-          textSetSearch = 'Search';
-        });
-      } else {
-        setState(() {
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      }
+    if(widget.isEnglish == true) {
+      setState(() {
+        textSetSearch = 'Search';
+      });
+    } else {
+      setState(() {
+        textSetSearch = 'ရှာဖွေရန်';
+      });
+    }
 
     super.initState();
     WidgetsBinding.instance!
@@ -3425,7 +3425,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               ),
                                               hintStyle: widget.isEnglish ?
                                               TextStyle(
-                                                  color: Colors.black.withOpacity(0.55), fontSize: 18/scaleFactor,
+                                                color: Colors.black.withOpacity(0.55), fontSize: 18/scaleFactor,
                                               ):
                                               TextStyle(
                                                   color: Colors.black.withOpacity(0.55), fontSize: 18/scaleFactor,
@@ -4073,15 +4073,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     MaterialPageRoute(
                         maintainState: false,
                         builder: (context) => ProductDetailsView2(isEnglish : widget.isEnglish, idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
-                            mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
-                            sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
-                            sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
-                            sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
-                            subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
-                            mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
-                            sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
-                            buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
-                            toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: true,)),);
+                          mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
+                          sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
+                          sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
+                          sub1Unit:  double.parse(prodVal['c1'].toString()), sub2Unit:  double.parse(prodVal['c2'].toString()),
+                          subExist: prodVal['se'], mainLoss:  double.parse(prodVal['lm'].toString()), sub1Loss: double.parse(prodVal['l1'].toString()), sub2Loss:  double.parse(prodVal['l2'].toString()),
+                          mainQty: prodVal['im'], sub1Qty: prodVal['i1'],
+                          sub2Qty: prodVal['i2'], buyPrice1:  double.parse(prodVal['bm'].toString()),
+                          buyPrice2: double.parse(buyPrice1), buyPrice3:  double.parse(buyPrice2),
+                          toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, imgUrl: imgUrl, fromSearch: true,)),);
                   openDrawerFrom();
                   debugPrint('working here5');
 
@@ -4207,12 +4207,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           // 'lafsjfel jaljfli jalejf liajelfjeajl jfliaj jfelsaijf lajl jf',
                                           prodVal['n1'] != '' && prodVal['n2'] == '' ? ' - ' + prodVal['s1'].toString() : prodVal['n1'] != '' && prodVal['n2'] != '' ? ' - ' + prodVal['s2'].toString() : '',
                                           textScaleFactor: 1, style: TextStyle(
-                                              height: 1.3,
-                                              fontSize: 15,
-                                              fontWeight:
-                                              FontWeight.w500,
-                                              overflow: TextOverflow.ellipsis
-                                          ),
+                                            height: 1.3,
+                                            fontSize: 15,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            overflow: TextOverflow.ellipsis
+                                        ),
                                         ),
                                       ],
                                     ),
@@ -4855,9 +4855,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     // '#',
                                                     '#' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'],
                                                     textScaleFactor: 1, style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500
+                                                  ),
                                                   ),
                                                   SizedBox(width: 8),
                                                   Padding(
@@ -4869,10 +4869,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     // '',
                                                     covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ' + convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
-                                                    ),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                   ),
                                                   // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
                                                   //   style: TextStyle(
@@ -5240,9 +5240,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     // '#',
                                                     '#' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'],
                                                     textScaleFactor: 1, style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500
+                                                  ),
                                                   ),
                                                   SizedBox(width: 8),
                                                   Padding(
@@ -5254,10 +5254,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     // '',
                                                     covertToDayNum(modDateTime.substring(6,8)) + '/' + modDateTime.substring(4,6) + '/' + modDateTime.substring(0,4) + ' ' + convertToHour(modDateTime.substring(8,10)) + ':' + (modDateTime.substring(10,12)) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
-                                                    ),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                   ),
                                                   // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
                                                   //   style: TextStyle(
@@ -5462,9 +5462,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       // 'MMK ',
                                         'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
                                         textScaleFactor: 1, style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        )),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    )),
                                     SizedBox(width: 10),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),

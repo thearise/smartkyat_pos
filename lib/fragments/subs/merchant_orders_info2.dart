@@ -85,22 +85,22 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
       }
     });
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
-        });
-      } else {
-        setState(() {
-          textSetAll = 'အားလုံး';
-          textSetTUnpaid = 'မရှင်းသေး';
-          textSetTRefunds = 'ပြန်အမ်း';
-          textSetTPaid = 'ရှင်းပြီး';
-        });
-      }
+      setState(() {
+        textSetAll = 'All';
+        textSetTUnpaid = 'Unpadis';
+        textSetTRefunds = 'Refunds';
+        textSetTPaid = 'Paids';
+      });
+    } else {
+      setState(() {
+        textSetAll = 'အားလုံး';
+        textSetTUnpaid = 'မရှင်းသေး';
+        textSetTRefunds = 'ပြန်အမ်း';
+        textSetTPaid = 'ရှင်းပြီး';
+      });
+    }
 
     super.initState();
   }

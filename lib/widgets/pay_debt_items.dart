@@ -768,6 +768,11 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
     });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
     return batch;
   }
 

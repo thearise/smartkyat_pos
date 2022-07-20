@@ -625,15 +625,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                       .white,
                                                                   width: 2,
                                                                 )),
-                                                            child: Text((double
+                                                            child: Text(double
                                                                 .parse(
                                                                 prodListView[i]
                                                                     .split(
-                                                                    '^')[3]) -
-                                                                double.parse(
-                                                                    prodListView[i]
-                                                                        .split(
-                                                                        '^')[7]))
+                                                                    '^')[3])
                                                                 .round()
                                                                 .toString(),  textScaleFactor: 1,
                                                                 style: TextStyle(
@@ -649,30 +645,30 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 } return Container();
                                               }
                                           ),
-                                        // ListTile(
-                                        //   title: Text(
-                                        //     textSetTtlRefund,
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight: FontWeight.w500
-                                        //     ),
-                                        //   ),
-                                        //   subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )) : Text(totalItems().toString() + ' items',
-                                        //       style: TextStyle(
-                                        //         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                        //       )),
-                                        //   trailing: Text('$currencyUnit '+
-                                        //       totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        //     style: TextStyle(
-                                        //         fontSize: 17,
-                                        //         fontWeight:
-                                        //         FontWeight
-                                        //             .w500),
-                                        //   ),
-                                        // ),
+                                        ListTile(
+                                          title: Text(
+                                            textSetTtlRefund,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )) : Text(totalItems().toString() + ' items',
+                                              style: TextStyle(
+                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              )),
+                                          trailing: Text('$currencyUnit '+
+                                              totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500),
+                                          ),
+                                        ),
                                         ListTile(
                                           title: Text(
                                             textSetTtlRefundAmount,  textScaleFactor: 1,
@@ -751,7 +747,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     refundItems[i]) *
                                                     double.parse(prodListView[i].split('^')[4]);
 
-                                                total2 += (refundItems[i]) * double.parse(prodListView[i].split('^')[6]);
+                                                total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
 
                                                 if (refundItems[i] > 0) {
                                                   refund = true;
@@ -846,8 +842,16 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               String refundAmount = 'F';
                                               bool reFilter = false;
                                               bool deFilter = false;
+                                              double paidAmount = 0 ;
+                                              paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
 
-                                              if(total <= double.parse(widget.data.split('^')[5])) {
+                                              if(paidAmount != 0 && total !=0 && total > paidAmount) {
+                                                debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
+                                                print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
+                                              } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
+                                                debt = 0 ;
+                                              }
+                                              else {
                                                 debt = total;
                                               }
 
@@ -909,10 +913,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 chgCapital = 0;
                                               }
 
-
-                                              //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                               batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
-                                              //
+                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
+
 
                                               if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
                                                 batch = await updateMonthlyData2(batch,
@@ -922,12 +925,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                         zeroToTen(now.month.toString()) +
                                                         zeroToTen(now.day.toString()) + 'refu_cust',
                                                     chgTotal);
+                                                batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+
                                               }
-
-                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
-
-                                              batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
-
 
                                               String data = widget.data;
 
@@ -1247,7 +1247,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     double totalM = 0.0;
     double debtM = 0.0;
     double refundAmount = 0.0;
-    totalM = double.parse(widget.data.split('^')[2]) - totalPriceView();
+    totalM = double.parse(widget.data.split('^')[2]) - totalPriceView2();
     debtM = double.parse(widget.data.split('^')[2]) -  double.parse(widget.data.split('^')[5]);
     if(debtM > totalM) {
       refundAmount = debtM - totalM;
@@ -1259,6 +1259,24 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     double totalPrice = 0.0;
     for(int i=0; i<refundItems.length; i++) {
       totalPrice += refundItems[i] * double.parse(prodListView[i].split('^')[4]);
+    }
+
+    // widget.data.split('^')[6].split('-')[1] == 'p' ?
+    if(widget.data.split('^')[6] != '0.0') {
+      if(widget.data.split('^')[6].split('-')[1] == 'p') {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+      } else {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+      }
+    }
+
+    return totalPrice;
+  }
+
+  totalPriceView2() {
+    double totalPrice = 0.0;
+    for(int i=0; i<refundItems.length; i++) {
+      totalPrice += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
     }
 
     // widget.data.split('^')[6].split('-')[1] == 'p' ?
@@ -1338,6 +1356,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
+    });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
     });
     return batch;
   }
