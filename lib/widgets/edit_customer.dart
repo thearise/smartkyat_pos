@@ -470,7 +470,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           onPressed: () async {
                             DocumentReference customerLocate = await FirebaseFirestore.instance.collection('shops')
                                 .doc(widget.shopId)
-                                .collection('collArr').doc('cusArr');
+                                .collection('collArr2').doc('cusArr');
                             if (_formKey.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
                               setState(() {

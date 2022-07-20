@@ -460,7 +460,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                                   batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
                                   double paidCus = paidAmount;
-                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr')
                                       .get()
                                       .then((DocumentSnapshot documentSnapshot) async {
                                     if (documentSnapshot.exists) {
@@ -782,7 +782,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   updateRefund(WriteBatch batch, id, totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'cus.' + id +'.de': FieldValue.increment(0 - double.parse(totalDes.toString())),

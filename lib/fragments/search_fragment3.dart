@@ -229,7 +229,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   @override
   initState() {
-    final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+    final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
     docRef.snapshots().listen(
           (event) {
         debugPrint("current data: ${event.data()}");
@@ -256,7 +256,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       onError: (error) => debugPrint("Listen failed: $error"),
     );
 
-    final custsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
+    final custsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
     custsRef.snapshots().listen(
           (event) {
         debugPrint("current data cus: ${event.data()}");
@@ -269,7 +269,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       onError: (error) => debugPrint("Listen failed: $error"),
     );
 
-    final mercsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
+    final mercsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr');
     mercsRef.snapshots().listen(
           (event) {
         debugPrint("current data mer: ${event.data()}");
@@ -284,7 +284,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
     debugPrint("inittttt2");
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
@@ -298,11 +298,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
     });
 
-    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
-    customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
-    merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
+    customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr').snapshots();
+    merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr').snapshots();
 
 
 

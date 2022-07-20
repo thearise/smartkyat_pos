@@ -1731,7 +1731,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
 
-                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
                                                 .get()
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
@@ -1766,7 +1766,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               }
                                               else {
                                                 debugPrint('adding nmow');
-                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
                                                 FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                     .get()
@@ -1928,7 +1928,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                           }
                                           else {
-                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
                                                 .get()
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
@@ -2088,7 +2088,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
 
-                                                        DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+                                                        DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
                                                         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                             .get()

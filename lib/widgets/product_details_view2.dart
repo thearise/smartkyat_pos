@@ -2080,7 +2080,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             borderRadius: BorderRadius.circular(10.0),
                                                           ),
                                                           onPressed: () async {
-                                                            DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+                                                            DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
                                                             DocumentReference productImg = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr');
 
                                                             showOkCancelAlertDialog(

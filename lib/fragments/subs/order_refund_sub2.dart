@@ -821,7 +821,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr')
                                                       .get()
                                                       .then((DocumentSnapshot documentSnapshot) async {
                                                     if (documentSnapshot.exists) {
@@ -962,7 +962,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                               //
 
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr')
                                                   .get()
                                                   .then((DocumentSnapshot documentSnapshot) async {
                                                 if (documentSnapshot.exists) {
@@ -1283,7 +1283,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   }
 
   updateProduct(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.' + changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString())),});
 
@@ -1358,7 +1358,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
-    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
+    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'cus.' + id +'.re': FieldValue.increment(double.parse(totalRefs.toString())),

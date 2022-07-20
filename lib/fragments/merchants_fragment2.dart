@@ -137,7 +137,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   @override
   initState() {
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr').snapshots();
 
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
@@ -307,7 +307,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                   FirebaseFirestore.instance
                                       .collection('shops')
                                       .doc(widget.shopId)
-                                      .collection('collArr')
+                                      .collection('collArr2')
                                       .doc('merArr')
                                       .update(
                                     {

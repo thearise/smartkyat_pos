@@ -4299,6 +4299,7 @@ class HomePageState extends State<HomePage>
                                                                                                   discountAmount = discount;
                                                                                                   subList = [];
                                                                                                   DateTime now = DateTime.now();
+                                                                                                  now = now.subtract(Duration(minutes: calHourFromTZ(now)));
                                                                                                   //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                                                   int length = 0;
                                                                                                   int totalOrders = 0;
@@ -4407,7 +4408,7 @@ class HomePageState extends State<HomePage>
 
 
                                                                                                     batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                                                    DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                                                    batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
 
                                                                                                     tabletPrice = TtlProdListPrice().toString();
 
@@ -4669,7 +4670,7 @@ class HomePageState extends State<HomePage>
                                                                               stream: FirebaseFirestore.instance
                                                                                   .collection('shops')
                                                                                   .doc(shopId)
-                                                                                  .collection('collArr')
+                                                                                  .collection('collArr2')
                                                                                   .doc('prodsArr')
                                                                                   .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
                                                                               if (snapshot2.hasData) {
@@ -6393,19 +6394,47 @@ class HomePageState extends State<HomePage>
                                                                   //SizedBox(width:15),
                                                                   GestureDetector(
                                                                     onTap: () async {
-                                                                      // await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
-                                                                      //     .where('email', isEqualTo: auth.currentUser!.email)
+                                                                      // DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
+                                                                      //
+                                                                      // FirebaseFirestore.instance.collection('shops').doc('CSvwPYk2ayFDo9Ou5VXg').collection('collArr2').doc('prodsArr')
                                                                       //     .get()
-                                                                      //     .then((QuerySnapshot querySnapshot) {
-                                                                      //   debugPrint('shit ' + querySnapshot.docs[0]['devices'].toString());
-                                                                      // });
-                                                                      DateTime dateTimeLocal = DateTime.now();
-                                                                      // print(dateTimeLocal.timeZoneName);
-                                                                      // print(dateTimeLocal.timeZoneOffset);
-                                                                      DateTime dateTimeLocal2 = dateTimeLocal.subtract(Duration(minutes: calHourFromTZ(dateTimeLocal)));
-
-                                                                      debugPrint('timestamp ' + dateTimeLocal.millisecondsSinceEpoch.toString() + ' | timezonename ' + dateTimeLocal.timeZoneName + ' | timezoneoffset ' + dateTimeLocal.timeZoneOffset.inMinutes.toString());
-                                                                      debugPrint('datecheck ' + dateTimeLocal.toString() + ' | ' + dateTimeLocal2.toString());
+                                                                      //     .then((DocumentSnapshot documentSnapshot) async {
+                                                                      //   if (documentSnapshot.exists) {
+                                                                      //     documentSnapshot['prods'].forEach((key, value) async {
+                                                                      //       prodsArr.set(
+                                                                      //           {
+                                                                      //             'prods': {
+                                                                      //                key.toString(): {
+                                                                      //                 'na': value['na'],
+                                                                      //                 'lm': 0,
+                                                                      //                 'l1': 0,
+                                                                      //                 'l2': 0,
+                                                                      //                 'ar': false,
+                                                                      //                 'co': value['co'],
+                                                                      //                 'im': value['im'],
+                                                                      //                 'i1': value['i1'],
+                                                                      //                 'i2': value['i2'],
+                                                                      //                 'bm': value['bm'],
+                                                                      //                 'b1': value['b1'],
+                                                                      //                 'b2': value['b2'],
+                                                                      //                 'sm': value['sm'],
+                                                                      //                 's1': value['s1'],
+                                                                      //                 's2': value['s2'],
+                                                                      //                 'c1': value['c1'],
+                                                                      //                 'c2': value['c2'],
+                                                                      //                 'nm': value['nm'],
+                                                                      //                 'n1': value['n1'],
+                                                                      //                 'n2': value['n2'],
+                                                                      //                 'se': value['se'],
+                                                                      //                 // 'img_1': photoArray[0],
+                                                                      //               }
+                                                                      //             }
+                                                                      //           },SetOptions(merge: true)
+                                                                      //       );
+                                                                      //     });
+                                                                      //
+                                                                      //   }
+                                                                      //   });
                                                                     },
                                                                     child: Padding(
                                                                         padding: const EdgeInsets.only(
@@ -6711,7 +6740,7 @@ class HomePageState extends State<HomePage>
 
     if(result != null && result != '') {
 
-      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
           .get()
           .then((DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
@@ -9516,7 +9545,7 @@ class HomePageState extends State<HomePage>
                                                                           debugPrint('CHECK POINT 0' + deviceIdNum.toString());
                                                                           debugPrint('CHECK POINT 1');
 
-                                                                          batch = await updateOrderLength(batch);
+                                                                          // batch = await updateOrderLength(batch);
 
                                                                           debugPrint('datacheck' + prodList.toString());
                                                                           for (int k=0; k< prodList.length;  k++) {
@@ -9575,6 +9604,8 @@ class HomePageState extends State<HomePage>
                                                                             }
                                                                           }
 
+                                                                          batch = await updateOrderLength(batch);
+
                                                                           if( debt.toString() != '0.0') {
                                                                             debts = 1;
                                                                             debtAmounts = debt;
@@ -9593,12 +9624,14 @@ class HomePageState extends State<HomePage>
                                                                           batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                           DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                          //notworking
                                                                           batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                          //notworking
                                                                           batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
-
+                                                                          //notworking
                                                                           batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                          batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
 
                                                                           // if (dateExist) {
                                                                           //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
@@ -9883,7 +9916,7 @@ class HomePageState extends State<HomePage>
                                                       stream: FirebaseFirestore.instance
                                                           .collection('shops')
                                                           .doc(shopId)
-                                                          .collection('collArr')
+                                                          .collection('collArr2')
                                                           .doc('prodsArr')
                                                           .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
                                                       if (snapshot2.hasData) {
@@ -12035,7 +12068,7 @@ class HomePageState extends State<HomePage>
 
   updateCusOrder(WriteBatch batch, ttlOrders, debts , debtAmount){
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('^')[0]);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('cusArr');
     if(customerId.split('^')[0].toString() != 'name') {
       batch.update(documentReference2, {
         'cus.' + customerId.split('^')[0] +'.or':FieldValue.increment(double.parse(ttlOrders.toString())),
@@ -12086,7 +12119,7 @@ class HomePageState extends State<HomePage>
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
     debugPrint('Double Check Sub1' + '$id.im');
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
 
@@ -12094,7 +12127,7 @@ class HomePageState extends State<HomePage>
   }
 
   incStockFromInv(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
@@ -12146,18 +12179,22 @@ class HomePageState extends State<HomePage>
     return batch;
   }
 
-  Future<void> DatenotExist(dOrder, date, length) async {
+  DatenotExist(WriteBatch batch, dOrder, date, length) async {
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString());
     // String ttlProdListPriceFut = await TtlProdListPriceFut();
-    daily.doc(customId).set({
+    batch.set(
+        daily.doc(customId), {
       'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
       // 'date' : date
       'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
-    },SetOptions(merge: true)).then((value) {
-      debugPrint('date Exist added');
-    }).catchError((error) => debugPrint("Failed to update user: $error"));
+    },SetOptions(merge: true));
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
+    return batch;
   }
 
   void smartKyatFlash(String text, String type) {

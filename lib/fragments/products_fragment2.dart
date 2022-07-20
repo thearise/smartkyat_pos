@@ -192,7 +192,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       }
     });
 
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
 
@@ -692,7 +692,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     FirebaseFirestore.instance
                                         .collection('shops')
                                         .doc(widget.shopId)
-                                        .collection('collArr')
+                                        .collection('collArr2')
                                         .doc('prodsArr')
                                         .update(
                                       {
