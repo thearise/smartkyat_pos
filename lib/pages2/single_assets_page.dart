@@ -1731,7 +1731,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
 
-                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
                                                 .get()
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
@@ -1766,7 +1766,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               }
                                               else {
                                                 debugPrint('adding nmow');
-                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
                                                 FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                     .get()
@@ -1808,10 +1808,16 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       },SetOptions(merge: true)
                                                   );
 
-                                                  batch.update(
+                                                   batch.update(
                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
                                                       {'count': FieldValue.increment(1)}
                                                   );
+
+                                                  DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+                                                  batch.set(nonceRef, {
+                                                    'time': FieldValue.serverTimestamp(),
+                                                  });
+
                                                   try {
                                                     batch.commit();
                                                     Future.delayed(
@@ -1928,7 +1934,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                           }
                                           else {
-                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
                                                 .get()
                                                 .then((DocumentSnapshot documentSnapshot) async {
                                               if (documentSnapshot.exists) {
@@ -2088,7 +2094,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
 
-                                                        DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+                                                        DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
 
                                                         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt')
                                                             .get()
@@ -2144,6 +2150,11 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                 }
                                                               },SetOptions(merge: true)
                                                           );
+
+                                                          DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+                                                          batch.set(nonceRef, {
+                                                            'time': FieldValue.serverTimestamp(),
+                                                          });
 
                                                           try {
                                                             batch.commit();

@@ -984,7 +984,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr')
                                                       .get()
                                                       .then((DocumentSnapshot documentSnapshot) async {
                                                     if (documentSnapshot.exists) {
@@ -1077,10 +1077,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 chgTotal = 0;
                                               }
 
-                                              var refundId = '';
-
-
-                                                 batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
+                                              batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
+                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
 
                                               if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != DateTime.now().year.toString() +  zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())) {
                                                 batch = await updateMonthlyData2(batch,
@@ -1088,121 +1086,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                         zeroToTen(now.month.toString()),
                                                     now.year.toString() +
                                                         zeroToTen(now.month.toString()) +
-                                                        zeroToTen(now.day.toString()) + 'refu_cust',
+                                                        zeroToTen(now.day.toString()) + 'refu_merc',
                                                     chgTotal);
+                                                batch = await updateYearlyData2(batch,  now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
                                               }
-
-                                                batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
-
-                                               batch = await updateYearlyData2(batch,  now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-
-
-                                                //batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-
-                                              // CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly');
-                                              //
-                                              // monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) + '-' +  widget.data.split('^')[0].substring(4,6) + '-' + '01' + ' 00:00:00'))
-                                              //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( widget.data.split('^')[0].substring(0,4) +  '-' +  widget.data.split('^')[0].substring(4,6) +  '-' + '31' + ' 23:59:59'))
-                                              //     .get()
-                                              //     .then((QuerySnapshot querySnapshot)  async {
-                                              //   querySnapshot.docs.forEach((doc) {
-                                              //     refundId = doc.id;
-                                              //   });
-                                              //   batch = await updateMonthlyData1(batch, refundId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_merc', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', chgTotal, chgDebts);
-                                              //
-                                              //
-                                              //
-                                              //
-                                              //   monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) +  '-' + '01' + ' 00:00:00'))
-                                              //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + zeroToTen(now.month.toString()) +  '-' + '31' + ' 23:59:59'))
-                                              //       .get()
-                                              //       .then((QuerySnapshot querySnapshot)  async {
-                                              //     querySnapshot.docs.forEach((doc) {
-                                              //       monthExist = true;
-                                              //       monthId = doc.id;
-                                              //     });
-                                              //     debugPrint('month ' + monthExist.toString());
-                                              //     if (monthExist) {
-                                              //       batch = await updateMonthlyData2(batch, monthId, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_cust', chgTotal);
-                                              //     }
-                                              //     else {
-                                              //       monthlyData.add({
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              //         for(int j = 1; j<= 31; j++)
-                                              //           now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                              //
-                                              //         'date': now,
-                                              //
-                                              //       }).then((value) async {
-                                              //         debugPrint('valueid' + value.id.toString());
-                                              //         batch = await updateMonthlyData2(batch, value.id, now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'refu_merc', chgTotal);
-                                              //       }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                              //     }
-                                              //
-                                              //
-                                              //
-                                              //     CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_yearly');
-                                              //     var refundYearId = '';
-                                              //
-                                              //     yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) +  '-' + '01' +  '-' + '01' + ' 00:00:00'))
-                                              //         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) +  '-' + '12' +  '-' + '31' + ' 23:59:59'))
-                                              //         .get()
-                                              //         .then((QuerySnapshot querySnapshot)  async {
-                                              //       querySnapshot.docs.forEach((doc) {
-                                              //         refundYearId = doc.id;
-                                              //       });
-                                              //       batch = await updateYearlyData1(batch, refundYearId, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_merc',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', chgTotal, chgDebts);
-                                              //
-                                              //       yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                              //           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() +  '-' + '12' +  '-'+ '31' + ' 23:59:59'))
-                                              //           .get()
-                                              //           .then((QuerySnapshot querySnapshot)  async {
-                                              //         querySnapshot.docs.forEach((doc) {
-                                              //           yearExist = true;
-                                              //           yearId = doc.id;
-                                              //         });
-                                              //         debugPrint('year ' + yearExist.toString());
-                                              //         if (yearExist) {
-                                              //           batch = await updateYearlyData2(batch, yearId, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-                                              //         }
-                                              //         else {
-                                              //           yearlyData.add({
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString()  + zeroToTen(j.toString()) + 'cash_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString()  + zeroToTen(j.toString()) + 'cash_merc' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'debt_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'debt_merc' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'loss_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'refu_cust' : 0,
-                                              //             for(int j = 1; j<= 12; j++)
-                                              //               now.year.toString() + zeroToTen(j.toString()) + 'refu_merc' : 0,
-                                              //
-                                              //             'date': now,
-                                              //
-                                              //           }).then((value12) async {
-                                              //
-                                              //             batch = await updateYearlyData2(batch, value12.id, now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_merc', chgTotal);
-                                              //
-                                              //           }).catchError((error) => debugPrint("Failed to update user: $error"));
-                                              //         }
-
-
                                                       String data = widget.data;
 
                                                       String noCustomer = '';
@@ -1236,7 +1123,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                       batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                                       //
 
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr')
+                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr')
                                                   .get()
                                                   .then((DocumentSnapshot documentSnapshot) async {
                                                 if (documentSnapshot.exists) {
@@ -1504,7 +1391,7 @@ class _BuyListRefundState extends State<BuyListRefund>
   }
 
   updateProduct(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.' + changeUnitName2Stock(unit): FieldValue.increment(0 - double.parse(num.toString())),});
 
@@ -1562,6 +1449,11 @@ class _BuyListRefundState extends State<BuyListRefund>
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
     });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
     return batch;
   }
 
@@ -1581,7 +1473,7 @@ class _BuyListRefundState extends State<BuyListRefund>
 
   updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(id);
-    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
+    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'mer.' + id +'.re': FieldValue.increment(double.parse(totalRefs.toString())),

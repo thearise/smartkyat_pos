@@ -767,7 +767,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalRefundBySlide().toString(), textScaleFactor: 1,
+                                                  child: Text(yearRefundTotal.toString(), textScaleFactor: 1,
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -1644,17 +1644,11 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     }
   }
 
-  String totalRefundBySlide() {
-    if(_sliding == 0) {
-      return todayRefundTotal.toString();
-    } else if(_sliding == 1) {
-      return weekRefundTotal.toString();
-    } else if(_sliding == 2) {
-      return monthRefundTotal.toString();
-    } else {
-      return yearRefundTotal.toString();
-    }
-  }
+  // String totalRefundBySlide() {
+  //   if(_sliding == 3) {
+  //     return yearRefundTotal.toString();
+  //   }
+  // }
 
   String totalBySlide() {
     double todayTotal=0.0;
@@ -2670,7 +2664,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         debugPrint('looping');
         if(data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'] != null) {
           yearRefundTotal +=  data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'];
-          debugPrint('George Y ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
+          debugPrint('George Dollar ' + data[today.year.toString() + zeroToTen(i.toString()) + 'refu_cust'].toString());
         }
       }
 

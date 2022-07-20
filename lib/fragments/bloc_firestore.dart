@@ -1400,8 +1400,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                       Text(
                         // "TODAY",
                         // checkTest(section.header),
-                        //dayShowV2(section.header),
-                        covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                        dayShowV2(section.header),
+                        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         textScaleFactor: 1, style: TextStyle(
                           height: 0.8,
                           fontSize: 14,

@@ -1248,77 +1248,36 @@ class MerchantCartState extends State<MerchantCart>
     }
   }
 
-  Future<void> buyOrderLengthIncrease() async {
-    debugPrint('CHECKING PRODSALE ORD');
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops');
-
-    // debugPrint('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
-
-    users
-        .doc(shopId)
-        .update({'buyOrders_length': FieldValue.increment(1)})
-        .then((value) => debugPrint("User Updated"))
-        .catchError((error) => debugPrint("Failed to update user: $error"));
-  }
-
-  Future<void> addDateExist(id1, dOrder , length) async {
-    CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
-    daily.doc(id1).update({
-      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
-    })
-        .then((value) => debugPrint("User Updated"))
-        .catchError((error) => debugPrint("Failed to update user: $error"));
-  }
-
-  Future<void> DatenotExist(dOrder, date, length) async {
+  DatenotExist(WriteBatch batch, dOrder, date, length) async {
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
 
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString());
-
-    daily.doc(customId).set({
+    // String ttlProdListPriceFut = await TtlProdListPriceFut();
+    batch.set(
+        daily.doc(customId), {
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
-      'date' : date
-    },SetOptions(merge: true)).then((value) {
-    debugPrint('date Exist added');
-    }).catchError((error) => debugPrint("Failed to update user: $error"));
+      // 'date' : date
+      'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
+    },SetOptions(merge: true));
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
+    return batch;
   }
 
-  Future<void> Detail2(date, length , subs, docId, reFilter, deFilter, dateTime) async {
-    CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
-    String customId = deviceIdNum.toString() + length.toString();
-    debugPrint('detailsub3 ' + subs.toString());
-    detail.doc(customId).set({
-      'date' : date,
-      'total': TtlProdListPrice2(),
-      'debt' : debt2,
-      'discount' : discountAmount2.toString() + disText2,
-      'refund': 'F',
-      'subs': subs,
-      'merchantId' : merchRealId,
-      'deviceId' : deviceIdNum.toString() + '-',
-      'orderId' : length.toString(),
-      'documentId' : docId,
-      'refund_filter': reFilter,
-      'debt_filter': deFilter,
-      'dateTime': dateTime.toString()
-    })
-
-        .then((value) => debugPrint("User Updated"))
-        .catchError((error) => debugPrint("Failed to update user: $error"));
-  }
-
-  Future<void> merchOrder(ttlOrders, debts , debtAmount) async {
-    debugPrint('CHECKING PRODSALE ORD');
-    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants');
-
-    cusOrder.doc(merchRealId).update({
-      'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
-      'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
-      'debts': FieldValue.increment(double.parse(debts.toString())),
-    })
-        .then((value) => debugPrint("User Updated"))
-        .catchError((error) => debugPrint("Failed to update user: $error"));
-  }
+  // Future<void> DatenotExist(dOrder, date, length) async {
+  //   CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
+  //
+  //   String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString());
+  //
+  //   daily.doc(customId).set({
+  //     'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+  //     'date' : date
+  //   },SetOptions(merge: true)).then((value) {
+  //   debugPrint('date Exist added');
+  //   }).catchError((error) => debugPrint("Failed to update user: $error"));
+  // }
 
   double totalFixAmount = 0.0;
   double titlePrice = 0;
@@ -1448,7 +1407,7 @@ class MerchantCartState extends State<MerchantCart>
                       stream: FirebaseFirestore.instance
                           .collection('shops')
                           .doc(shopId)
-                          .collection('collArr')
+                          .collection('collArr2')
                           .doc('prodsArr')
                           .snapshots(),
                       builder: (BuildContext context, snapshot2) {
@@ -2576,8 +2535,8 @@ class MerchantCartState extends State<MerchantCart>
                                       //buyOrderLengthIncrease();
                                       batch = await updateOrderLength(batch);
 
-                                      String sub1Buy = '0';
-                                      String sub2Buy = '0';
+                                      double sub1Buy = 0;
+                                      double sub2Buy = 0;
                                       for (String str in widget.prodList2) {
                                         subList2.add(
                                             str.split('^')[0] + '^' +  str.split('^')[7] +
@@ -2595,14 +2554,14 @@ class MerchantCartState extends State<MerchantCart>
                                         if (str.split('^')[4] == 'unit_name') {
 
                                           if(double.parse(str.split('^')[12].toString()) == 1) {
-                                              sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])).toString();
-                                              sub2Buy = '0';
+                                              sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10]));
+                                              sub2Buy = 0;
                                           } else if(double.parse(str.split('^')[12].toString()) == 2) {
-                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])).toString();
-                                            sub2Buy = ((double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])) / double.parse(str.split('^')[11])).toString();
+                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[10]));
+                                            sub2Buy = ((double.parse(str.split('^')[1])/ double.parse(str.split('^')[10])) / double.parse(str.split('^')[11]));
                                           } else {
-                                            sub1Buy = '0';
-                                            sub2Buy = '0';
+                                            sub1Buy = 0;
+                                            sub2Buy = 0;
                                           }
                                           batch = await updateProduct1(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy, sub2Buy);
 
@@ -2611,9 +2570,9 @@ class MerchantCartState extends State<MerchantCart>
                                         if (str.split('^')[4] == 'sub1_name') {
 
                                           if(double.parse(str.split('^')[12].toString()) == 2) {
-                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[11])).toString();
+                                            sub1Buy = (double.parse(str.split('^')[1])/ double.parse(str.split('^')[11]));
                                           } else {
-                                            sub1Buy = '0';
+                                            sub1Buy = 0;
                                           }
 
                                           batch = await updateProduct2(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1], sub1Buy);
@@ -2621,10 +2580,7 @@ class MerchantCartState extends State<MerchantCart>
                                         } else
                                         if (str.split('^')[4] == 'sub2_name') {
                                           batch = await updateProduct3(batch, str.split('^')[0], str.split('^')[2], str.split('^')[1]);
-
                                         }
-
-                                        print('buy price text4 ' + sub1Buy + ', ' + sub2Buy);
                                       }
 
                                       if(debt2.toString() != '0.0') {
@@ -2648,7 +2604,7 @@ class MerchantCartState extends State<MerchantCart>
 
 
                                       batch = await updateDetail(batch, now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                      DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                      batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchRealId + '<>' + merchId + '^F' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
                                       // CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
                                       //
                                       // monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
@@ -2891,7 +2847,7 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   updateProduct1(WriteBatch batch, id, amount, price, price2, price3){
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.im' : FieldValue.increment(double.parse(amount.toString())),
       'prods.$id.bm' : double.parse(price.toString()),
@@ -2902,7 +2858,7 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   updateProduct2(WriteBatch batch, id,  amount, price,  price2){
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.i1' : FieldValue.increment(double.parse(amount.toString())),
       'prods.$id.b1': double.parse(price.toString()),
@@ -2912,7 +2868,7 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   updateProduct3(WriteBatch batch, id, amount, price){
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
     batch.update(documentReference, {
       'prods.$id.i2' : FieldValue.increment(double.parse(amount.toString())),
       'prods.$id.b2': double.parse(price.toString()),
@@ -2922,7 +2878,7 @@ class MerchantCartState extends State<MerchantCart>
 
   updateMerchOrder(WriteBatch batch, id, totalOrds, debt, debtAmt) async {
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(id);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('merArr');
     if(id.toString() != 'name') {
       batch.update(documentReference2, {
         'mer.' + id +'.or': FieldValue.increment(double.parse(totalOrds.toString())),

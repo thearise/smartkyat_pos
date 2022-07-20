@@ -462,7 +462,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
                               batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
                               double paidCus = paidAmount;
-                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr')
+                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr')
                                   .get()
                                   .then((DocumentSnapshot documentSnapshot) async {
                                 if (documentSnapshot.exists) {
@@ -724,6 +724,11 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
     });
+
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    batch.set(nonceRef, {
+      'time': FieldValue.serverTimestamp(),
+    });
     return batch;
   }
 
@@ -740,7 +745,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
   updateRefund(WriteBatch batch, id, totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(id);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'mer.' + id +'.de': FieldValue.increment(0 - double.parse(totalDes.toString())),

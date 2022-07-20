@@ -401,7 +401,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     buyPrice3 = widget.buyPrice3;
     image = widget.imgUrl;
 
-
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -2080,7 +2079,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             borderRadius: BorderRadius.circular(10.0),
                                                           ),
                                                           onPressed: () async {
-                                                            DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
+                                                            DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
                                                             DocumentReference productImg = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr');
 
                                                             showOkCancelAlertDialog(

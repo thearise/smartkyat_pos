@@ -206,7 +206,7 @@
 //   @override
 //   initState() {
 //     debugPrint("inittttt2");
-//     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+//     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
 //     _scrollController.addListener(() {
 //       if (_scrollController.position.maxScrollExtent ==
 //           _scrollController.position.pixels) {
@@ -218,11 +218,11 @@
 //       }
 //     });
 //
-//     productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+//     productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
 //     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 //
-//     customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
-//     merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
+//     customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr').snapshots();
+//     merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr').snapshots();
 //
 //
 //
