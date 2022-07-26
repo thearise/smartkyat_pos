@@ -176,7 +176,6 @@ class HomePageState extends State<HomePage>
       r'[0-9]';
 
   List<String> subList = [];
-  List<String> subList2 = [];
 //bool saleLoadingState = false;
   testFunc() async {
     debugPrint('hi');
@@ -414,7 +413,6 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
-
     // FirebaseAuth.instance.signOut();
 
     // showOkCancelAlertDialog(
@@ -2948,13 +2946,33 @@ class HomePageState extends State<HomePage>
                                                                 ],
                                                               );
                                                               debugPrint('clicked log ' + result.toString());
-                                                              if(result.toString() == textSetLogOut) {
-                                                                // _selectTab(0);
-                                                                await FirebaseAuth.instance.signOut();
-                                                                setStoreId('');
-                                                                Navigator.of(context).pushReplacement(
-                                                                  FadeRoute(page: Welcome()),
-                                                                );
+                                                              QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').get(GetOptions(source: Source.cache));
+                                                              bool hasPW = false;
+                                                              for(int i = 0; i < querySnapshot.docs.length; i++) {
+                                                                debugPrint('wtf log? ' + querySnapshot.docs[i].id.toString() + querySnapshot.docs[i].metadata.hasPendingWrites.toString());
+                                                                if(querySnapshot.docs[i].metadata.hasPendingWrites == true) {
+                                                                  hasPW = true;
+                                                                  break;
+                                                                }
+                                                              }
+
+                                                              if(hasPW) {
+                                                                showOkAlertDialog(
+                                                                    context: OneContext().context!,
+                                                                    title: 'You have pending offline orders',
+                                                                    message: 'Before you logout, you need to upload your data from selling offline.'
+                                                                ).then((result) async {
+
+                                                                });
+                                                              } else {
+                                                                if(result.toString() == textSetLogOut) {
+                                                                  // _selectTab(0);
+                                                                  await FirebaseAuth.instance.signOut();
+                                                                  setStoreId('');
+                                                                  Navigator.of(context).pushReplacement(
+                                                                    FadeRoute(page: Welcome()),
+                                                                  );
+                                                                }
                                                               }
                                                             },
                                                             child: Container(
@@ -3166,18 +3184,7 @@ class HomePageState extends State<HomePage>
                                                                       width: double.infinity,
                                                                       child: Stack(
                                                                         children: [
-                                                                          StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                                                              stream: FirebaseFirestore.instance
-                                                                                  .collection('shops')
-                                                                                  .doc(shopId)
-                                                                                  .collection('customers')
-                                                                                  .doc(customerId.split('^')[0].toString())
-                                                                                  .snapshots(),
-                                                                              builder: (BuildContext context, snapshot5) {
-                                                                                if(snapshot5.hasData){
-                                                                                  var output3 = snapshot5.data!.data();
-                                                                                  var address = output3?['customer_address'];
-                                                                                  return Padding(
+                                                                           Padding(
                                                                                     padding: const EdgeInsets.only(
                                                                                         top: 67.0,
                                                                                         left: 0.0,
@@ -3361,11 +3368,7 @@ class HomePageState extends State<HomePage>
                                                                                           ],
                                                                                         )
                                                                                     ),
-                                                                                  );
-                                                                                }
-                                                                                return Container();
-                                                                              }
-                                                                          ),
+                                                                                  ),
                                                                           Container(
                                                                             height: 67,
                                                                             decoration: BoxDecoration(
@@ -4027,6 +4030,7 @@ class HomePageState extends State<HomePage>
                                                                                                     if((paidAmount - totalAmount).isNegative){
                                                                                                       refund = 0;
                                                                                                     } else { refund = (paidAmount - totalAmount);
+
                                                                                                     }
                                                                                                   });
                                                                                                 },
@@ -4296,17 +4300,27 @@ class HomePageState extends State<HomePage>
                                                                                               GestureDetector(
                                                                                                 onTap: () async {
                                                                                                   WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                                                                  discountAmount = discount;
-                                                                                                  subList = [];
                                                                                                   DateTime now = DateTime.now();
-                                                                                                  now = now.subtract(Duration(minutes: calHourFromTZ(now)));
+                                                                                                  if (calHourFromTZ(now).toString() != "390") {
+                                                                                                    await showOkAlertDialog(
+                                                                                                      context: context,
+                                                                                                      title:  'Unsupported TimeZone!',
+                                                                                                      message:
+                                                                                                      'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+                                                                                                      okLabel: 'OK',
+                                                                                                    );
+                                                                                                  } else {
+
+                                                                                                  discountAmount = discount;
+                                                                                                 // now = now.subtract(Duration(minutes: calHourFromTZ(now)));
                                                                                                   //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                                                   int length = 0;
                                                                                                   int totalOrders = 0;
                                                                                                   int debts = 0;
                                                                                                   bool reFilter = false;
                                                                                                   bool deFilter = false;
-                                                                                                  double debtAmounts = 0 ;
+                                                                                                  String ttlPrice = '0';
+                                                                                                  double debtAmounts = 0;
                                                                                                   debugPrint('order creating');
                                                                                                   setState(() {
                                                                                                     orderCreating = true;
@@ -4327,8 +4341,8 @@ class HomePageState extends State<HomePage>
                                                                                                     debugPrint('CHECK POINT 1');
 
                                                                                                     batch = await updateOrderLength(batch);
-
-                                                                                                    debugPrint('datacheck' + prodList.toString());
+                                                                                                    ttlPrice = TtlProdListPrice();
+                                                                                                    subList = [];
                                                                                                     for (int k=0; k< prodList.length;  k++) {
                                                                                                       //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -4403,20 +4417,25 @@ class HomePageState extends State<HomePage>
                                                                                                     batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
                                                                                                     DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                                                    batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-                                                                                                    batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                                                    batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                                                    batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
 
-                                                                                                    batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                                                    batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                                                    batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
+                                                                                                    batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
 
-                                                                                                    tabletPrice = TtlProdListPrice().toString();
+                                                                                                    tabletPrice = ttlPrice.toString();
 
                                                                                                     debugPrint('prodList--' + prodList.toString());
                                                                                                     try {
                                                                                                       batch.commit();
                                                                                                       Future.delayed(const Duration(milliseconds: 2000), () {
-
+                                                                                                        if(searchGlobalKey.currentState != null) {
+                                                                                                          searchGlobalKey.currentState!.navigatorPop();
+                                                                                                        }
+                                                                                                        if(prodGlobalKey.currentState != null) {
+                                                                                                          prodGlobalKey.currentState!.navigatorPop();
+                                                                                                        }
                                                                                                         List<String> subNameList = [];
                                                                                                         int subNameListLength = 0;
                                                                                                         for (String str in prodList) {
@@ -4535,6 +4554,7 @@ class HomePageState extends State<HomePage>
 
 
                                                                                                   });
+                                                                                                  }
 
                                                                                                 },
                                                                                                 child: Container(
@@ -4670,7 +4690,7 @@ class HomePageState extends State<HomePage>
                                                                               stream: FirebaseFirestore.instance
                                                                                   .collection('shops')
                                                                                   .doc(shopId)
-                                                                                  .collection('collArr2')
+                                                                                  .collection('collArr')
                                                                                   .doc('prodsArr')
                                                                                   .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
                                                                               if (snapshot2.hasData) {
@@ -5184,7 +5204,7 @@ class HomePageState extends State<HomePage>
                                                                                                       paidAmount = 0;
                                                                                                       debt = 0;
                                                                                                       refund = 0;
-                                                                                                      totalAmount = double.parse(TtlProdListPrice().toString());
+                                                                                                      totalAmount = double.parse(TtlProdListPrice.toString());
 
                                                                                                     });
 
@@ -6394,9 +6414,25 @@ class HomePageState extends State<HomePage>
                                                                   //SizedBox(width:15),
                                                                   GestureDetector(
                                                                     onTap: () async {
-                                                                      // DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
+                                                                      debugPrint('clicked tether' + calHourFromTZ(DateTime.now()).toString());
+
+                                                                      calHourFromTZ(DateTime.now());
+                                                                    //  prodGlobalKey.currentState!.navigatorPop();
+
+                                                                      // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                                                                      //     .get()
+                                                                      //     .then((DocumentSnapshot documentSnapshot) async {
+                                                                      //   debugPrint('What the fuck2');
+                                                                      //   if (documentSnapshot.exists) {
+                                                                      //     debugPrint('What the fuck2 ' + documentSnapshot['prods'].length.toString());
+                                                                      //     // documentSnapshot['prods'].forEach((key, value) async {
+                                                                      //     //   debugPrint('Caster ' + value.toString() );
+                                                                      //     // });
+                                                                      //   }
+                                                                      // });
+                                                                      // DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
                                                                       //
-                                                                      // FirebaseFirestore.instance.collection('shops').doc('CSvwPYk2ayFDo9Ou5VXg').collection('collArr2').doc('prodsArr')
+                                                                      // FirebaseFirestore.instance.collection('shops').doc('CSvwPYk2ayFDo9Ou5VXg').collection('collArr').doc('prodsArr')
                                                                       //     .get()
                                                                       //     .then((DocumentSnapshot documentSnapshot) async {
                                                                       //   if (documentSnapshot.exists) {
@@ -6740,7 +6776,7 @@ class HomePageState extends State<HomePage>
 
     if(result != null && result != '') {
 
-      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr')
+      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
           .get()
           .then((DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
@@ -8776,18 +8812,7 @@ class HomePageState extends State<HomePage>
                                                   ),
                                                 ),
                                               ),
-                                              StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                                  stream: FirebaseFirestore.instance
-                                                      .collection('shops')
-                                                      .doc(shopId)
-                                                      .collection('customers')
-                                                      .doc(customerId.split('^')[0].toString())
-                                                      .snapshots(),
-                                                  builder: (BuildContext context, snapshot5) {
-                                                    if(snapshot5.hasData){
-                                                      var output3 = snapshot5.data!.data();
-                                                      var address = output3?['customer_address'];
-                                                      return Padding(
+                                             Padding(
                                                         padding: EdgeInsets.only(
                                                             top: 67.0,
                                                             left: 0.0,
@@ -8961,10 +8986,7 @@ class HomePageState extends State<HomePage>
                                                                 // orderLoading?Text('Loading'):Text('')
                                                               ],
                                                             )),
-                                                      );
-                                                    }
-                                                    return Container();
-                                                  }),
+                                                      ),
                                               Align(
                                                 alignment: Alignment.bottomCenter,
                                                 child: Padding(
@@ -9502,22 +9524,23 @@ class HomePageState extends State<HomePage>
                                                                     Spacer(),
                                                                     GestureDetector(
                                                                       onTap: () async {
-
                                                                         WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                                                                        discountAmount = discount;
-                                                                        subList = [];
                                                                         DateTime now = DateTime.now();
-                                                                        now = now.subtract(Duration(minutes: calHourFromTZ(now)));
+                                                                        if (calHourFromTZ(now).toString() != "390") {
+                                                                          await showOkAlertDialog(
+                                                                            context: context,
+                                                                            title:  'Unsupported TimeZone!',
+                                                                            message:
+                                                                           'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+                                                                            okLabel: 'OK',
+                                                                          );
+                                                                        } else {
+                                                                          discountAmount = discount;
+                                                                        //now = now.subtract(Duration(minutes: calHourFromTZ(now)));
                                                                         int length = 0;
                                                                         int totalOrders = 0;
                                                                         int debts = 0;
-                                                                        var dateExist = false;
-                                                                        var dateId = '';
-                                                                        var monthId = '';
-                                                                        bool monthExist = false;
-                                                                        var yearId = '';
-                                                                        bool yearExist = false;
+                                                                        String ttlPrice = '0';
                                                                         bool reFilter = false;
                                                                         bool deFilter = false;
                                                                         double debtAmounts = 0 ;
@@ -9528,6 +9551,7 @@ class HomePageState extends State<HomePage>
                                                                             //    saleCartDrag = false;
                                                                           });
                                                                         });
+
                                                                         Navigator.of(context).push(
                                                                             FadeRoute(page: Transparent(key: tranGlobalKey),)
                                                                         );
@@ -9548,6 +9572,8 @@ class HomePageState extends State<HomePage>
                                                                           // batch = await updateOrderLength(batch);
 
                                                                           debugPrint('datacheck' + prodList.toString());
+                                                                          ttlPrice = TtlProdListPrice();
+                                                                          subList = [];
                                                                           for (int k=0; k< prodList.length;  k++) {
                                                                             //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -9625,13 +9651,13 @@ class HomePageState extends State<HomePage>
 
                                                                           DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                                                           //notworking
-                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
                                                                           //notworking
-                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital',TtlProdListPrice().toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
                                                                           //notworking
-                                                                          batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                          batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                          batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
+                                                                          batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
 
                                                                           // if (dateExist) {
                                                                           //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
@@ -9653,6 +9679,12 @@ class HomePageState extends State<HomePage>
                                                                           try {
                                                                             batch.commit();
                                                                             Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                              if(searchGlobalKey.currentState != null) {
+                                                                                searchGlobalKey.currentState!.navigatorPop();
+                                                                              }
+                                                                              if(prodGlobalKey.currentState != null) {
+                                                                                prodGlobalKey.currentState!.navigatorPop();
+                                                                              }
                                                                               List<String> subNameList = [];
                                                                               int subNameListLength = 0;
                                                                               for (String str in prodList) {
@@ -9798,6 +9830,7 @@ class HomePageState extends State<HomePage>
 
 
                                                                         });
+                                                                      }
                                                                       },
                                                                       child: Container(
                                                                         width: (MediaQuery.of(context).size.width - 45)/2,
@@ -9916,7 +9949,7 @@ class HomePageState extends State<HomePage>
                                                       stream: FirebaseFirestore.instance
                                                           .collection('shops')
                                                           .doc(shopId)
-                                                          .collection('collArr2')
+                                                          .collection('collArr')
                                                           .doc('prodsArr')
                                                           .snapshots(),                                                  builder: (BuildContext context, snapshot2) {
                                                       if (snapshot2.hasData) {
@@ -12068,7 +12101,7 @@ class HomePageState extends State<HomePage>
 
   updateCusOrder(WriteBatch batch, ttlOrders, debts , debtAmount){
     DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('^')[0]);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('cusArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('cusArr');
     if(customerId.split('^')[0].toString() != 'name') {
       batch.update(documentReference2, {
         'cus.' + customerId.split('^')[0] +'.or':FieldValue.increment(double.parse(ttlOrders.toString())),
@@ -12119,7 +12152,7 @@ class HomePageState extends State<HomePage>
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
     debugPrint('Double Check Sub1' + '$id.im');
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
 
@@ -12127,7 +12160,7 @@ class HomePageState extends State<HomePage>
   }
 
   incStockFromInv(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
@@ -12186,11 +12219,11 @@ class HomePageState extends State<HomePage>
     // String ttlProdListPriceFut = await TtlProdListPriceFut();
     batch.set(
         daily.doc(customId), {
-      'daily_order': FieldValue.arrayUnion([dOrder + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice().toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       // 'date' : date
       'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
     },SetOptions(merge: true));
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
       'time': FieldValue.serverTimestamp(),
     });

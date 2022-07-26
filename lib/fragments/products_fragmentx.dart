@@ -169,7 +169,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
 
 
     // if(!searchOpening) {
@@ -618,7 +618,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                   FirebaseFirestore.instance
                                       .collection('shops')
                                       .doc(widget.shopId)
-                                      .collection('collArr2')
+                                      .collection('collArr')
                                       .doc('prodsArr')
                                       .update(
                                     {

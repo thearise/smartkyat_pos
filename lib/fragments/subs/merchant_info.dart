@@ -138,7 +138,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
         stream:  FirebaseFirestore.instance
             .collection('shops')
         .doc(widget.shopId)
-        .collection('collArr2')
+        .collection('collArr')
         .doc('merArr')
         .snapshots(),
     builder: (BuildContext context, snapshot) {
@@ -972,7 +972,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               DocumentReference product = await FirebaseFirestore.instance
                                                   .collection('shops')
                                                   .doc(widget.shopId)
-                                                  .collection('collArr2')
+                                                  .collection('collArr')
                                                   .doc('merArr');
                                               showOkCancelAlertDialog(
                                                 context: context,

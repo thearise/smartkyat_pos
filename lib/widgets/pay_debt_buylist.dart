@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,6 +72,10 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     Navigator.pop(dialogContext);
   }
 
+  calHourFromTZ(DateTime dateTime) {
+
+    return dateTime.timeZoneOffset.inMinutes;
+  }
   @override
   initState() {
 
@@ -410,7 +415,15 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               WriteBatch batch = FirebaseFirestore.instance.batch();
-
+                              if (calHourFromTZ(DateTime.now()).toString() != "390") {
+                                await showOkAlertDialog(
+                                  context: context,
+                                  title:  'Unsupported TimeZone!',
+                                  message:
+                                  'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+                                  okLabel: 'OK',
+                                );
+                              } else {
                               setState(() {
                                 loadingState = true;
                                 disableTouch = true;
@@ -462,7 +475,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
                               batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
                               double paidCus = paidAmount;
-                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr')
+                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr')
                                   .get()
                                   .then((DocumentSnapshot documentSnapshot) async {
                                 if (documentSnapshot.exists) {
@@ -508,7 +521,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               });
 
 
-                            } },
+                            } } },
                           child: loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                               child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                             padding: const EdgeInsets.only(
@@ -725,7 +738,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
       'daily_order': FieldValue.arrayUnion([updateData])
     });
 
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
       'time': FieldValue.serverTimestamp(),
     });
@@ -745,7 +758,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
 
   updateRefund(WriteBatch batch, id, totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(id);
-    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr');
+    DocumentReference documentReference2 =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'mer.' + id +'.de': FieldValue.increment(0 - double.parse(totalDes.toString())),
