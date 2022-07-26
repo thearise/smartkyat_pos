@@ -457,15 +457,15 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                   itemBuilder: (context1, documentSnapshots, index) {
                     Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
                     String item = '';
-                    // DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(data['dateTime'].substring(0,4) + '-' +data['dateTime'].substring(4,6)  + '-' +data['dateTime'].substring(6,8) + ' ' +data['dateTime'].substring(8,10)  + ':' +data['dateTime'].substring(10,12));
-                    // debugPrint('chgDate' + chgDate.toString());
-                    // chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
-                    // String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
+                    DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(data['dateTime'].substring(0,4) + '-' +data['dateTime'].substring(4,6)  + '-' +data['dateTime'].substring(6,8) + ' ' +data['dateTime'].substring(8,10)  + ':' +data['dateTime'].substring(10,12));
+                    debugPrint('chgDate' + chgDate.toString());
+                    chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                    String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
                     if(data['dateTime'] == null) {
-                      item = data['dateTime'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      item = modDateTime +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                       debugPrint('tmNow ' + data['date'].toDate().toString());
                     } else {
-                      item = data['dateTime']  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      item = modDateTime  +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.custName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                       debugPrint('date wrong ' + data['dateTime'].toString());
                     }
                     //DateTime.fromMicrosecondsSinceEpoch(data['date'], isUtc: true);
@@ -519,14 +519,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                covertToDayNum(data['dateTime'].substring(6,8).toString()) + '/' + data['dateTime'].substring(4,6).toString() + '/' + data['dateTime'].substring(0,4).toString() + ' ',
+                                                covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ',
                                                 textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey,
                                               ),
                                               ),
-                                              Text(convertToHour(data['dateTime'].substring(8,10).toString()) + ':' + (data['dateTime'].substring(10,12).toString()) + ' ' + convertToAMPM(data['dateTime'].substring(8,10).toString()),
+                                              Text(convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
                                                 textScaleFactor: 1, style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,

@@ -18,7 +18,7 @@ import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/fragments/bloc_home_month.dart' as BlocHomeMonthImp;
+import 'package:smartkyat_pos/fragments/bloc_home_month_dc.dart' as BlocHomeMonthDcImp;
 import 'package:smartkyat_pos/fragments/bloc_home_week.dart';
 import 'package:smartkyat_pos/fragments/bloc_home_year.dart' as BlocHomeYearImp;
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
@@ -1864,7 +1864,7 @@ class HomeFragmentState extends State<HomeFragment>
                               BlocHomeYearImp.PaginateBuilderType.listView,
                               isLive: true,
                             ):
-                            BlocHomeMonthImp.BlocHomeMonth(
+                            BlocHomeMonthDcImp.BlocHomeMonthDC(
                               dateTime: today,
                               isEnglish: widget.isEnglish,
                               key: valueKeyTog(),
@@ -1883,7 +1883,7 @@ class HomeFragmentState extends State<HomeFragment>
                               selectedIntVal: selectedIntVal,
                               intValIni : cateScIndex,
                               itemBuilderType:
-                              BlocHomeMonthImp.PaginateBuilderType.listView,
+                              BlocHomeMonthDcImp.PaginateBuilderType.listView,
                               isLive: true,
                             )
                             ,
@@ -2418,7 +2418,7 @@ class HomeFragmentState extends State<HomeFragment>
   ordersQuery() {
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders')
         .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen((today.month).toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.add(Duration(days: 1)).year.toString() + '-' + zeroToTen((today.add(Duration(days: 1)).month).toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 23:59:59'))
         .orderBy('date', descending: true);
   }
 
@@ -2429,12 +2429,53 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   ordersQueryMonth() {
-    debugPrint('inside loss leeeee2 ' + (calYear(today.month, today.year).toString() + '-' + zeroToTen(ordersMonthAyin(today.month).toString()) + '-01' + ' 00:00:00'));
+    debugPrint('inside loss lol2 ' + naLaNokY(today.month, today.year).toString() + zeroToTen(naLaNokM(today.month).toString()) + '27');
     debugPrint('wtshit ' + DateTime(today.year, nokLa(today.month), 0).day.toString());
     debugPrint('inside loss leeeee ' + (today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (zeroToTen(DateTime(today.year, nokLa(today.month), 0).day.toString())).toString() + ' 23:59:59').toString());
-    return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen(ordersMonthAyin(today.month).toString()) + '-01' + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + (zeroToTen(DateTime(today.year, nokLa(today.month), 0).day.toString())).toString() + ' 23:59:59'));
+    return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_daily_cus')
+        .where('dstr', isGreaterThanOrEqualTo: int.parse(naLaNokY(today.month, today.year).toString() + zeroToTen(naLaNokM(today.month).toString()) + '27'))
+        .where('dstr', isLessThanOrEqualTo: int.parse(nextYear(today.month, today.year).toString() + zeroToTen(nextMonth(today.month).toString()) + '02'))
+        .orderBy('dstr')
+        .startAt([20220530])
+        .endAt([20220701])
+        .startAt([20220702])
+        .endAt([20220801])
+    ;
+    // .where('dstr', isEqualTo: );
+  }
+
+  naLaNokM(int month) {
+    if(month == 1) {
+      return 11;
+    } else if(month == 2) {
+      return 12;
+    } else {
+      return month - 2;
+    }
+  }
+
+  naLaNokY(int month, int year) {
+    if(month == 1 || month == 2) {
+      return year-1;
+    } else {
+      return year;
+    }
+  }
+
+  nextMonth(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month + 1;
+    }
+  }
+
+  nextYear(int month, int year) {
+    if(month == 12) {
+      return year+1;
+    } else {
+      return year;
+    }
   }
 
   ordersMonthAyin(int month) {
@@ -2481,4 +2522,5 @@ class HomeFragmentState extends State<HomeFragment>
     });
   }
 }
+
 

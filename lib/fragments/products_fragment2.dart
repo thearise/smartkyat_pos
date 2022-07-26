@@ -123,6 +123,8 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   bool endOfResult = false;
 
+  GlobalKey<ProductDetailsViewState2> prodDetGlobalKey = GlobalKey();
+
   @override
   bool get wantKeepAlive => true;
 
@@ -162,6 +164,12 @@ class ProductsFragmentState extends State<ProductsFragment>
     });
   }
 
+  navigatorPop() {
+    if(prodDetGlobalKey.currentState != null) {
+      prodDetGlobalKey.currentState!.naviDetPop();
+    }
+  }
+
   // getLangId() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   if(prefs.getString('lang') == null) {
@@ -192,7 +200,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       }
     });
 
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
 
@@ -269,7 +277,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     //   }
     // });
 
-      if(widget.isEnglish == true)
+    if(widget.isEnglish == true)
     {
       setState(() {
         textSetNewItem = 'New item';
@@ -278,14 +286,14 @@ class ProductsFragmentState extends State<ProductsFragment>
         textSetSearch = 'Search';
       });
     }
-      else {
-        setState(() {
-          textSetNewItem = 'ကုန်ပစ္စည်း';
-          textSetAll = 'အားလုံး';
-          textSetLowStocks = 'အနည်းမှ အများ';
-          textSetSearch = 'ရှာဖွေရန်';
-        });
-      }
+    else {
+      setState(() {
+        textSetNewItem = 'ကုန်ပစ္စည်း';
+        textSetAll = 'အားလုံး';
+        textSetLowStocks = 'အနည်းမှ အများ';
+        textSetSearch = 'ရှာဖွေရန်';
+      });
+    }
 
 
     super.initState();
@@ -543,12 +551,12 @@ class ProductsFragmentState extends State<ProductsFragment>
         // '#' + sectionList[sectionIndex].items.length.toString(),
         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
         textScaleFactor: 1, style: TextStyle(
-          height: 0.8,
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1.2,
-          color: Colors.black,
-        ),
+        height: 0.8,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1.2,
+        color: Colors.black,
+      ),
         textAlign: TextAlign.right,
       );
     } else {
@@ -692,7 +700,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     FirebaseFirestore.instance
                                         .collection('shops')
                                         .doc(widget.shopId)
-                                        .collection('collArr2')
+                                        .collection('collArr')
                                         .doc('prodsArr')
                                         .update(
                                       {
@@ -926,7 +934,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     closeDrawerFrom();
                                                     await Navigator.of(context).push(
                                                       MaterialPageRoute(
-                                                          builder: (context) => ProductDetailsView2(idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                                                          builder: (context) => ProductDetailsView2(key: prodDetGlobalKey,idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
                                                             mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
                                                             sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(), isEnglish: widget.isEnglish,
                                                             sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),

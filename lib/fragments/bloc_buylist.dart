@@ -1,6 +1,5 @@
 library paginate_firestore;
 
-import 'dart:math';
 import 'dart:io';
 
 import 'package:blue_print_pos/models/blue_device.dart';
@@ -9,12 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
-import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'bloc/pagination_cubit.dart';
@@ -325,96 +322,19 @@ class _BlocBuyListState extends State<BlocBuyList> {
     int allItems = 0;
     int itemsForEof = 0;
 
-    List<dynamic> modifiedDocs = [];
-    int firstDate = 0;
-    int ayinDay = -1;
-    int iter = -1;
-    List<dynamic> dailyOrdPrep = [];
-
-
-    for(int i = 0; i < 31; i++) {
-      dailyOrdPrep.add([]);
-    }
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-      Map<dynamic, dynamic> temp = {};
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      List<dynamic> dailyOrdTemp = data['daily_order'];
-      for(int ii = dailyOrdTemp.length-1; ii >= 0; ii--) {
-
-        String dailyOrdTempDate = dailyOrdTemp[ii].split('^')[0];
-        String year = dailyOrdTempDate.substring(0,4);
-        String month = dailyOrdTempDate.substring(4,6);
-        String day = dailyOrdTempDate.substring(6,8);
-        String hour = dailyOrdTempDate.substring(8,10);
-        String minute = dailyOrdTempDate.substring(10,12);
-        if(i == 0 && ii == 0) {
-          firstDate = int.parse(day);
-          // ayinDay = firstDate;
-        }
-
-        DateTime changeDate = DateFormat("yyyy-MM-dd HH:mm").parse(year + '-' + month + '-' + day + ' ' + hour + ':' + minute);
-        debugPrint('ayin ' + changeDate.toString());
-        changeDate = changeDate.add(Duration(minutes: calHourFromTZ(changeDate)));
-        debugPrint('aguc ' + changeDate.toString());
-        String modChgDocStr = changeDate.year.toString() + zeroToTen(changeDate.month.toString()) + zeroToTen(changeDate.day.toString()) + zeroToTen(changeDate.hour.toString()) + zeroToTen(changeDate.minute.toString()) + '^' +
-            dailyOrdTemp[ii].split('^')[1] + '^' +
-            dailyOrdTemp[ii].split('^')[2] + '^' +
-            dailyOrdTemp[ii].split('^')[3] + '^' +
-            dailyOrdTemp[ii].split('^')[4] + '^' +
-            dailyOrdTemp[ii].split('^')[5] + '^' +
-            dailyOrdTemp[ii].split('^')[6];
-        debugPrint('dchg ' + modChgDocStr);
-        debugPrint('chdy ' + ayinDay.toString() + ' -- ' + changeDate.day.toString());
-        dailyOrdPrep[changeDate.day].add(modChgDocStr);
-        // if(ayinDay == changeDate.day) {
-        //   modifiedDocs[iter]['daily_order'].add(modChgDocStr);
-        // } else {
-        //   temp['daily_order'] = [modChgDocStr];
-        //   temp['date'] = data['date'];
-        //   modifiedDocs.add(temp);
-        //   iter++;
-        // }
-        // print('chdy2' + modifiedDocs.toString());
-        // ayinDay = changeDate.day;
-      }
-      // temp['daily_order'] = data['daily_order'];
-      // temp['date'] = data['date'];
-      // modifiedDocs.add(temp);
-
-      // for(int ii = 0; ii < data['daily_order'].length; ii++) {
-      //   modifiedDocs.add(data['daily_order'][ii]);
-      // }
-    }
-
-
-    debugPrint('mode ' + dailyOrdPrep.toString());
-    for(int i = 0; i < dailyOrdPrep.length; i++) {
-      Map<dynamic, dynamic> temp = {};
-      if(dailyOrdPrep[i].length > 0) {
-        debugPrint('mode2' + dailyOrdPrep[i].toString());
-        temp['daily_order'] = dailyOrdPrep[i];
-        temp['date'] = Timestamp.fromDate(DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(i.toString())));
-        modifiedDocs.add(temp);
-      }
-    }
-
-    modifiedDocs = modifiedDocs.reversed.toList();
-    debugPrint('modDocs ' + modifiedDocs.toString());
-
-    for(int i = 0; i < modifiedDocs.length; i++) {
-      List<dynamic> data = modifiedDocs[i]['daily_order'];
-      // Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      for(int ii = 0; ii < data.length; ii++) {
+      for(int ii = 0; ii < data['daily_order'].length; ii++) {
         if(cateScIndex == 2) {
-          if(data[ii].split('^')[4] == 'P' || data[ii].split('^')[4] == 'T') {
+          if(data['daily_order'][ii].split('^')[4] == 'P' || data['daily_order'][ii].split('^')[4] == 'T') {
             itemsForEof++;
           }
         } else if(cateScIndex == 1) {
-          if(data[ii].split('^')[5] != '0.0') {
+          if(data['daily_order'][ii].split('^')[5] != '0.0') {
             itemsForEof++;
           }
         } else if(cateScIndex == 3) {
-          if(data[ii].split('^')[5] == '0.0') {
+          if(data['daily_order'][ii].split('^')[5] == '0.0') {
             itemsForEof++;
           }
         } else if(cateScIndex == 0) {
@@ -428,34 +348,32 @@ class _BlocBuyListState extends State<BlocBuyList> {
       noFind = true;
     }
     outerLoop:
-    for(int i = 0; i < modifiedDocs.length; i++) {
-      List<dynamic> data = modifiedDocs[i]['daily_order'];
-      var dataDate = modifiedDocs[i]['date'];
-      // Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
+    for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
+      Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
       List sortedDailyOrder = [];
       List filtDailyOrder = [];
-      for(int ii = 0; ii < data.length; ii++) {
+      for(int ii = 0; ii < data['daily_order'].length; ii++) {
         if(cateScIndex == 2) {
-          if(data[ii].split('^')[4] == 'P' || data[ii].split('^')[4] == 'T') {
-            filtDailyOrder.add(data[ii]);
+          if(data['daily_order'][ii].split('^')[4] == 'P' || data['daily_order'][ii].split('^')[4] == 'T') {
+            filtDailyOrder.add(data['daily_order'][ii]);
             // itemsForPag++;
           }
         } else if(cateScIndex == 1) {
-          if(data[ii].split('^')[5] != '0.0') {
-            filtDailyOrder.add(data[ii]);
+          if(data['daily_order'][ii].split('^')[5] != '0.0') {
+            filtDailyOrder.add(data['daily_order'][ii]);
             // itemsForPag++;
           }
         } else if(cateScIndex == 3) {
-          if(data[ii].split('^')[5] == '0.0') {
-            filtDailyOrder.add(data[ii]);
+          if(data['daily_order'][ii].split('^')[5] == '0.0') {
+            filtDailyOrder.add(data['daily_order'][ii]);
             // itemsForPag++;
           }
         } else if(cateScIndex == 0) {
-          debugPrint('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
+          //   debugPrint('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
           // if(dailyOrders.length >= itemPerPage) {
           //   break;
           // }
-          filtDailyOrder.add(data[ii]);
+          filtDailyOrder.add(data['daily_order'][ii]);
           // itemsForPag++;
           // itemsForEof++;
         }
@@ -466,7 +384,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
       //   endOfResult = true;
       // }
 
-      countMap[dataDate.toDate().year.toString() + zeroToTen(dataDate.toDate().month.toString()) + zeroToTen(dataDate.toDate().day.toString())]
+      countMap[data['date'].toDate().year.toString() + zeroToTen(data['date'].toDate().month.toString()) + zeroToTen(data['date'].toDate().day.toString())]
       = filtDailyOrder.length.toString();
 
       sortedDailyOrder = sortList(filtDailyOrder);
@@ -483,7 +401,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
         if(allItems>=itemPerPage) {
           temp['daily_order'] = daily;
           // itemsForPag += daily.length;
-          temp['date'] = dataDate;
+          temp['date'] = data['date'];
           viewDocList.add(temp);
           break outerLoop;
         }
@@ -496,7 +414,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
         endOfResult = false;
       }
       temp['daily_order'] = daily;
-      temp['date'] = dataDate;
+      temp['date'] = data['date'];
       viewDocList.add(temp);
     }
     debugPrint('itemsForEof ' + itemsForEof.toString());
@@ -534,15 +452,11 @@ class _BlocBuyListState extends State<BlocBuyList> {
         // }
         dailyOrders.add(str);
       }
-      debugPrint('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
-      // debugPrint('where is 2 ' + viewDocList[l]['date'].toDate().add(Duration(minutes: calHourFromTZ(viewDocList[l]['date'].toDate()))).year.toString() + zeroToTen(viewDocList[l]['date'].toDate().add(Duration(minutes: calHourFromTZ(viewDocList[l]['date'].toDate()))).month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().add(Duration(minutes: calHourFromTZ(viewDocList[l]['date'].toDate()))).day.toString()));
-      debugPrint('where is 2 ' + viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString()));
+      //  debugPrint('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+      debugPrint('where is 2');
       // debugPrint('herre ' + document.id);
       var section = ExampleSection()
-        ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString()) + zeroToTen(viewDocList[l]['date'].toDate().hour.toString()) + zeroToTen(viewDocList[l]['date'].toDate().minute.toString())
-      // ..header = '20220202'
-
-
+        ..header = viewDocList[l]['date'].toDate().year.toString() + zeroToTen(viewDocList[l]['date'].toDate().month.toString()) + zeroToTen(viewDocList[l]['date'].toDate().day.toString())
       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
       //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 

@@ -418,7 +418,7 @@
 //             stream: FirebaseFirestore.instance
 //                 .collection('shops')
 //                 .doc(widget.shopId)
-//                 .collection('collArr2')
+//                 .collection('collArr')
 //                 .doc('prodsArr')
 //                 .snapshots(),
 //             builder: (BuildContext context, snapshot) {
@@ -2028,7 +2028,7 @@
 //                                                             borderRadius: BorderRadius.circular(10.0),
 //                                                           ),
 //                                                           onPressed: () async {
-//                                                             DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+//                                                             DocumentReference product = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 //                                                             CollectionReference productCount = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('countColl');
 //                                                             showOkCancelAlertDialog(
 //                                                               context: context,

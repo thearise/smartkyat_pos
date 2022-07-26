@@ -134,7 +134,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
             stream:  FirebaseFirestore.instance
             .collection('shops')
         .doc(widget.shopId)
-        .collection('collArr2')
+        .collection('collArr')
         .doc('cusArr')
         .snapshots(),
          builder: (BuildContext context, snapshot) {
@@ -1079,7 +1079,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      DocumentReference product = await FirebaseFirestore.instance
                                                          .collection('shops')
                                                          .doc(widget.shopId)
-                                                         .collection('collArr2')
+                                                         .collection('collArr')
                                                          .doc('cusArr');
                                                      showOkCancelAlertDialog(
                                                        context: context,

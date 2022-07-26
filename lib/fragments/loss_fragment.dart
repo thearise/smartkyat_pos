@@ -755,7 +755,7 @@ class _LossProductState extends State<LossProduct> {
 
   updateLoss(WriteBatch batch, id, unit, num){
 
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;
@@ -763,7 +763,7 @@ class _LossProductState extends State<LossProduct> {
 
   decStockFromInv(WriteBatch batch, id, unit, num) {
     debugPrint('Double Check Sub1' + '$id.im');
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment(0- (double.parse(num.toString()))),});
 
@@ -771,7 +771,7 @@ class _LossProductState extends State<LossProduct> {
   }
 
   incStockFromInv(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.$unit': FieldValue.increment((double.parse(num.toString()))),});
     return batch;

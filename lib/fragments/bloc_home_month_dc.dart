@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
+import 'package:smartkyat_pos/fragments/bloc_home_month.dart' as BlocHomeMonthVar;
 import 'package:smartkyat_pos/fragments/bloc_home_week_buy.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
@@ -48,9 +49,9 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocHomeWeek extends StatefulWidget {
+class BlocHomeMonthDC extends StatefulWidget {
 
-  const BlocHomeWeek({
+  const BlocHomeMonthDC({
     Key? key,
     required this.isEnglish,
     required this.itemBuilder,
@@ -127,7 +128,7 @@ class BlocHomeWeek extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocHomeWeekState createState() => _BlocHomeWeekState();
+  _BlocHomeMonthDCState createState() => _BlocHomeMonthDCState();
 
   final Widget Function(Exception)? onError;
 
@@ -140,7 +141,7 @@ class BlocHomeWeek extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocHomeWeekState extends State<BlocHomeWeek> {
+class _BlocHomeMonthDCState extends State<BlocHomeMonthDC> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
   @override
@@ -249,23 +250,23 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
 
   ordersQuery() {
     debugPrint('buyorder query ' + today.toString() + ' ' + widget.shopId.toString());
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrders')
-        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59'))
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders_yearly')
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd").parse((today.year-1).toString() + '-01-01'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-12-31'))
         .orderBy('date', descending: true);
   }
 
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      //debugPrint('bloc_fire sale 1st data ' + data.toString());
+      debugPrint('bloc_home_month_dc sale 1st data ' + data.toString());
     }
 
     var listView = Container(
-      child: BlocHomeWeekBuy(
+      child: BlocHomeMonthVar.BlocHomeMonth(
         isEnglish: widget.isEnglish,
         shopId: widget.shopId,
-        sale: loadedState.documentSnapshots,
+        // dailCus: loadedState.documentSnapshots,
         key: valueKeyTog(),
         query: ordersQuery(),
         itemBuilder: (context1, documentSnapshots, index) {
@@ -282,6 +283,8 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
         intValIni: widget.intValIni,
         dateTime: widget.dateTime,
         isLive: true,
+        itemBuilderType:
+        BlocHomeMonthVar.PaginateBuilderType.listView,
       ),
     );
 

@@ -202,13 +202,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
   }
-
+  DateTime? _dateMod;
   @override
   void initState() {
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
+    _dateMod = DateFormat("yyyy-MM-dd hh:mm:ss").parse(_dateTime!.year.toString() + '-' + zeroToTen(_dateTime!.month.toString()) + '-' + zeroToTen(_dateTime!.day.toString()) + ' 23:59:59');
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -317,12 +318,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     for(int i = 0; i < widget.sale.length; i++) {
       Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
-      // debugPrint('inside loss sale ' + data.toString());
+      debugPrint('inside loss sale ' + data.toString());
     }
 
     for(int i = 0; i < widget.buy.length; i++) {
       Map<String, dynamic> data = widget.buy[i].data() as Map<String, dynamic>;
-      //debugPrint('inside loss buy ' + data.toString());
+      debugPrint('inside loss buy ' + data.toString());
     }
 
     fetchOrdersMY(loadedState.documentSnapshots);
@@ -2311,13 +2312,66 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     lastWeekCost = 0;
     lastWeekUnpaid = 0;
 
-
-
+    List<dynamic> modifiedDocs = [{}, {}, {}, {}, {}, {}, {}];
+    List<List> twoDList = [[], [], [], [], [], [], []];
+    // modifiedDocs[0]['daily_order'] = 'shit';
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
-      // debugPrint('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
+      debugPrint('wtfisthat ' + data['daily_order'].toString());
+      for(int i = 0; i < data['daily_order'].length; i++) {
+        String dateString = data['daily_order'][i].split('^')[0];
+        String leftString = data['daily_order'][i].split('^')[1] + '^' + data['daily_order'][i].split('^')[2] + '^' + data['daily_order'][i].split('^')[3] + '^' + data['daily_order'][i].split('^')[4] + '^' + data['daily_order'][i].split('^')[5] + '^' + data['daily_order'][i].split('^')[6];
+        String year = dateString.substring(0,4);
+        String month = dateString.substring(4,6);
+        String day = dateString.substring(6,8);
+        String hour = dateString.substring(8,10);
+        String minute = dateString.substring(10,12);
+        DateTime orgDate = DateFormat("yyyy-MM-dd HH-mm").parse(year.toString() + '-' + zeroToTen(month.toString()) + '-' + zeroToTen(day.toString()) + ' ' + zeroToTen(hour.toString()) + '-' + zeroToTen(minute.toString()));
+        DateTime modDate = orgDate.add(Duration(minutes: calHourFromTZ()));
+        debugPrint('situat ion1 ' + _dateTime!.difference(modDate).isNegative.toString());
+        DateTime sevDate = _dateTime!.subtract(Duration(days: 6));
+        DateTime curDateMid = DateFormat("yyyy-MM-dd HH-mm-ss").parse(_dateTime!.year.toString() + '-' + zeroToTen(_dateTime!.month.toString()) + '-' + zeroToTen(_dateTime!.day.toString()) + ' 23-59-59');
+        DateTime sevDateMid = DateFormat("yyyy-MM-dd HH-mm-ss").parse(sevDate.year.toString() + '-' + zeroToTen(sevDate.month.toString()) + '-' + zeroToTen(sevDate.day.toString()) + ' 23-59-59');
+        debugPrint('sevDateMidnight ' + sevDateMid.toString());
+        debugPrint('situat ion2 ' + sevDateMid.difference(modDate).inDays.toString() + '  --- ' + modDate.toString());
+        if(sevDateMid.difference(modDate).inDays <= 0 && curDateMid.difference(modDate).isNegative == false) {
+          // if(true) {
+          // debugPrint('wtf happening ' + modDate.day.toString());
+          if(modDate.day == 17) {
+            debugPrint('wtf happening ' + modDate.day.toString());
+          }
+          twoDList[_dateMod!.difference(modDate).inDays].add(modDate.year.toString() + zeroToTen(modDate.month.toString()) + zeroToTen(modDate.day.toString()) + zeroToTen(modDate.hour.toString()) + zeroToTen(modDate.minute.toString()) + '^' +
+              leftString);
+        }
 
-      DateTime dateTimeOrders = data['date'].toDate();
+      }
+      // Map<dynamic, dynamic> temp = {};
+      // data['daily_order']
+      // temp['daily_order'] = dailyOrdPrep[i];
+      // temp['date'] = Timestamp.fromDate(DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(i.toString())));
+      // modifiedDocs.add(temp);
+    }
+
+
+    debugPrint('situat twoDList ' + twoDList.toString());
+
+    // WidgetsBinding.instance!
+    //     .addPostFrameCallback((_) => setState(() {}));
+
+    for(int i = 0; i < twoDList.length; i++) {
+      modifiedDocs[i]['daily_order'] = twoDList[i];
+      modifiedDocs[i]['date'] = _dateMod!.subtract(Duration(days: i));
+    }
+
+    debugPrint('situat modifiedDocs ' + modifiedDocs.toString());
+
+    for(int loopOrd = 0; loopOrd < modifiedDocs.length; loopOrd++) {
+      // debugPrint('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
+      // Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
+      DateTime dateDate = modifiedDocs[loopOrd]['date'];
+      List<dynamic> dataOrder = modifiedDocs[loopOrd]['daily_order'];
+
+      DateTime dateTimeOrders = dateDate;
       String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
       debugPrint('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
@@ -2332,8 +2386,8 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
           double total = 0;
           // debugPrint(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // debugPrint(double.parse(str));
+          for(String str in dataOrder) {
+            // debugPrint('WTF IS THAT ? ' + str);
             total += double.parse(str.split('^')[2]);
             weekCostsTotal += double.parse(str.split('^')[5]);
           }
@@ -2349,7 +2403,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         debugPrint('youare ' + twoWeeksAgo.toString());
         if(dataDate == twoWeeksAgo.year.toString() + zeroToTen(twoWeeksAgo.month.toString()) + zeroToTen(twoWeeksAgo.day.toString())) {
 
-          for(String str in data['daily_order']) {
+          for(String str in dataOrder) {
             debugPrint('1369' + '1');
             lastWeekOrderChart  += double.parse(str.split('^')[2]);
             lastWeekUnpaid  += double.parse(str.split('^')[5]);
@@ -2365,7 +2419,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           zeroToTen(today.month.toString()) +
           zeroToTen(today.day.toString())) {
         double total = 0;
-        for (String str in data['daily_order']) {
+        for (String str in dataOrder) {
           for(int i=0; i<=24 ; i++ ){
             if(str.split('^')[0].substring(0, 10) == today.year.toString() +
                 zeroToTen(today.month.toString()) +
@@ -2393,7 +2447,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
         yestOrdersChart = 0;
 
-        for (String str in data['daily_order']) {
+        for (String str in dataOrder) {
           yestOrdersChart += double.parse(str.split('^')[2]);
           yestUnpaidChart += double.parse(str.split('^')[5]);
         }
@@ -2868,6 +2922,17 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     } else {
       return percentBySale.toString() + '% ';
     }
+  }
+
+  // modifyZone(String substring) {
+  //   print('sub string ' + substring);
+  //   DateTime dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss").parse(substring.substring(0,4) + '-' + zeroToTen(substring.substring(4,6)) + '-' + zeroToTen(substring.substring(6,8)) + ' ' + zeroToTen(substring.substring(8,10)) + ':' + zeroToTen(substring.substring(10,12)) + ':00');
+  //   dateFormat.add(duration)
+  // }
+
+  calHourFromTZ() {
+    DateTime now = DateTime.now();
+    return now.timeZoneOffset.inMinutes;
   }
 
 }
