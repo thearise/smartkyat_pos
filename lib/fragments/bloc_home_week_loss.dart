@@ -317,7 +317,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     for(int i = 0; i < widget.sale.length; i++) {
       Map<String, dynamic> data = widget.sale[i].data() as Map<String, dynamic>;
-      // debugPrint('inside loss sale ' + data.toString());
+     // debugPrint('inside loss sale ' + data.toString());
     }
 
     for(int i = 0; i < widget.buy.length; i++) {

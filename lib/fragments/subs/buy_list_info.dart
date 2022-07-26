@@ -83,38 +83,38 @@ class _BuyListInfoState extends State<BuyListInfo>
     //   debugPrint('list check ' + prodListView.toString());
     // });
 
-    if(widget.isEnglish == true) {
+      if(widget.isEnglish == true) {
 
-      setState(() {
-        textSetPurchase = 'PURCHASED ITEMS';
-        textSetRefund = 'REFUNDED ITEMS';
-        textSetDebt = 'Debt Amount';
-        textSetDiscount = 'Discount';
-        textSetAmount = 'Amount applied';
-        textSetRefBtn = 'Refund\nitems';
-        textSetPayCashBtn = 'Pay cash\nremains';
-        textSetPrint = 'Print\nreceipt';
-        textSetPercent = 'Percentage';
-        textSetAllRefund = 'All Items Refunded';
-        textSetFullyRef = 'FULLY REFUNDED';
-        isEnglish = true;
-      });
-    } else {
-      setState(() {
-        textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
-        textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
-        textSetDebt = 'ကျန်ငွေ';
-        textSetDiscount = 'လျှော့ငွေ';
-        textSetAmount = 'Amount applied';
-        textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
-        textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
-        textSetPrint = 'ဘောင်ချာထုတ်ရန်';
-        textSetPercent = 'Percentage';
-        textSetAllRefund = 'All Items Refunded';
-        textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
-        isEnglish = false;
-      });
-    }
+        setState(() {
+          textSetPurchase = 'PURCHASED ITEMS';
+          textSetRefund = 'REFUNDED ITEMS';
+          textSetDebt = 'Debt Amount';
+          textSetDiscount = 'Discount';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'Refund\nitems';
+          textSetPayCashBtn = 'Pay cash\nremains';
+          textSetPrint = 'Print\nreceipt';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'FULLY REFUNDED';
+          isEnglish = true;
+        });
+      } else {
+        setState(() {
+          textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
+          isEnglish = false;
+        });
+      }
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -389,7 +389,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             disableTouch = false;
                                                           });
                                                           smartKyatFMod(context,
-                                                              'Internet connection is required to take this action.', 'w');
+                                                          'Internet connection is required to take this action.', 'w');
                                                           // setState(() {
                                                           //   smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                           // });
@@ -1637,91 +1637,91 @@ class _BuyListInfoState extends State<BuyListInfo>
       transitionDuration: Duration(milliseconds: 300),
       builder: (_, noIntCtl) {
         return Builder(
-            builder: (context) {
-              return Flash(
-                controller: noIntCtl,
-                backgroundColor: Colors.transparent,
-                brightness: Brightness.light,
-                // boxShadows: [BoxShadow(blurRadius: 4)],
-                // barrierBlur: 3.0,
-                // barrierColor: Colors.black38,
-                barrierDismissible: true,
-                behavior: FlashBehavior.floating,
-                position: FlashPosition.top,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 93.0, left: 15, right: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      color: bgColor,
-                      border: Border.all(
-                          color: bdColor,
-                          width: 1.0
-                      ),
+          builder: (context) {
+            return Flash(
+              controller: noIntCtl,
+              backgroundColor: Colors.transparent,
+              brightness: Brightness.light,
+              // boxShadows: [BoxShadow(blurRadius: 4)],
+              // barrierBlur: 3.0,
+              // barrierColor: Colors.black38,
+              barrierDismissible: true,
+              behavior: FlashBehavior.floating,
+              position: FlashPosition.top,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 93.0, left: 15, right: 15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
                     ),
-                    child: ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 2.0),
-                        child: widgetCon,
-                      ),
-                      minLeadingWidth: 15,
-                      horizontalTitleGap: 10,
-                      minVerticalPadding: 0,
-                      title: Padding(
-                        padding: const EdgeInsets.only(top: 15, bottom: 16.3),
-                        child: Container(
-                          child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
-                        ),
-                      ),
-                      // subtitle: Text('shit2'),
-                      // trailing: Text('GGG',
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.w500,
-                      //   ),),
+                    color: bgColor,
+                    border: Border.all(
+                        color: bdColor,
+                        width: 1.0
                     ),
                   ),
+                  child: ListTile(
+                    leading: Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: widgetCon,
+                    ),
+                    minLeadingWidth: 15,
+                    horizontalTitleGap: 10,
+                    minVerticalPadding: 0,
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                      child: Container(
+                        child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                      ),
+                    ),
+                    // subtitle: Text('shit2'),
+                    // trailing: Text('GGG',
+                    //   style: TextStyle(
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.w500,
+                    //   ),),
+                  ),
                 ),
-                // child: Padding(
-                //   padding: const EdgeInsets.only(
-                //       top: 93.0, left: 15, right: 15),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.all(
-                //         Radius.circular(10.0),
-                //       ),
-                //       color: bgColor,
-                //       border: Border.all(
-                //           color: bdColor,
-                //           width: 1.0
-                //       ),
-                //     ),
-                //     child: Padding(
-                //         padding: const EdgeInsets.only(
-                //             top: 15.0, left: 10, right: 10, bottom: 15),
-                //         child: Row(
-                //           children: [
-                //             SizedBox(width: 5),
-                //             widgetCon,
-                //             SizedBox(width: 10),
-                //             Padding(
-                //               padding: const EdgeInsets.only(bottom: 2.5),
-                //               child: Container(
-                //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
-                //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
-                //               ),
-                //             )
-                //           ],
-                //         )
-                //     ),
-                //   ),
-                // ),
-              );
-            }
+              ),
+              // child: Padding(
+              //   padding: const EdgeInsets.only(
+              //       top: 93.0, left: 15, right: 15),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(10.0),
+              //       ),
+              //       color: bgColor,
+              //       border: Border.all(
+              //           color: bdColor,
+              //           width: 1.0
+              //       ),
+              //     ),
+              //     child: Padding(
+              //         padding: const EdgeInsets.only(
+              //             top: 15.0, left: 10, right: 10, bottom: 15),
+              //         child: Row(
+              //           children: [
+              //             SizedBox(width: 5),
+              //             widgetCon,
+              //             SizedBox(width: 10),
+              //             Padding(
+              //               padding: const EdgeInsets.only(bottom: 2.5),
+              //               child: Container(
+              //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
+              //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
+              //               ),
+              //             )
+              //           ],
+              //         )
+              //     ),
+              //   ),
+              // ),
+            );
+          }
         );
       },
     );
@@ -1796,38 +1796,38 @@ class _BuyListInfoState extends State<BuyListInfo>
       }
     }
   }
-// bool firstRetFPrint = true;
-// List<String> prodListPrintMod = [];
-// Future<void> retrieveFordebugPrint() async {
-//   if(firstRetFPrint) {
-//     firstRetFPrint = false;
-//     debugPrint('retrieveForPrint ' + prodListView.toString());
-//
-//     for(int i = 0; i< prodListView.length; i++) {
-//       await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
-//           .get().then((value) async {
-//         if(value.exists) {
-//           prodListPrintMod.add(
-//               value.data()!['prod_name'] + '^' +
-//                   value.data()![prodListView[i].split('-')[5]] + '^' +
-//                   prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-//           );
-//         } else {
-//           prodListPrintMod.add(
-//               'Product' + '^' +
-//                   prodListView[i].split('-')[5] + '^' +
-//                   prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-//           );
-//         }
-//
-//         if(i == prodListView.length - 1) {
-//           debugPrint('GGG ' + prodListPrintMod.toString());
-//         }
-//
-//       });
-//
-//     }
-//
-//   }
-// }
+  // bool firstRetFPrint = true;
+  // List<String> prodListPrintMod = [];
+  // Future<void> retrieveFordebugPrint() async {
+  //   if(firstRetFPrint) {
+  //     firstRetFPrint = false;
+  //     debugPrint('retrieveForPrint ' + prodListView.toString());
+  //
+  //     for(int i = 0; i< prodListView.length; i++) {
+  //       await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodListView[i].split('-')[0])
+  //           .get().then((value) async {
+  //         if(value.exists) {
+  //           prodListPrintMod.add(
+  //               value.data()!['prod_name'] + '^' +
+  //                   value.data()![prodListView[i].split('-')[5]] + '^' +
+  //                   prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+  //           );
+  //         } else {
+  //           prodListPrintMod.add(
+  //               'Product' + '^' +
+  //                   prodListView[i].split('-')[5] + '^' +
+  //                   prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+  //           );
+  //         }
+  //
+  //         if(i == prodListView.length - 1) {
+  //           debugPrint('GGG ' + prodListPrintMod.toString());
+  //         }
+  //
+  //       });
+  //
+  //     }
+  //
+  //   }
+  // }
 }

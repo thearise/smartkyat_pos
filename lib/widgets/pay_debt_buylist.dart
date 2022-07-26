@@ -79,22 +79,22 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
   @override
   initState() {
 
-    if(widget.isEnglish == true) {
+      if(widget.isEnglish == true) {
 
-      setState(() {
-        textSetDebt = 'Debt Remaining';
-        textSetCashRec = 'PAID AMOUNT';
-        textSetCusPrice = 'Custom amount';
-        textSetDone = 'Done';
-      });
-    } else {
-      setState(() {
-        textSetDebt = 'ကျန်ငွေ';
-        textSetCashRec = 'ပေးငွေ';
-        textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
-        textSetDone = 'ပြီးပြီ';
-      });
-    }
+        setState(() {
+          textSetDebt = 'Debt Remaining';
+          textSetCashRec = 'PAID AMOUNT';
+          textSetCusPrice = 'Custom amount';
+          textSetDone = 'Done';
+        });
+      } else {
+        setState(() {
+          textSetDebt = 'ကျန်ငွေ';
+          textSetCashRec = 'ပေးငွေ';
+          textSetCusPrice = 'စိတ်ကြိုက်ပမာဏ';
+          textSetDone = 'ပြီးပြီ';
+        });
+      }
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -424,104 +424,104 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                   okLabel: 'OK',
                                 );
                               } else {
-                                setState(() {
-                                  loadingState = true;
-                                  disableTouch = true;
-                                });
+                              setState(() {
+                                loadingState = true;
+                                disableTouch = true;
+                              });
 
-                                openOverAllSubLoading();
+                              openOverAllSubLoading();
 
-                                String noCustomer = '';
+                              String noCustomer = '';
 
-                                if(widget.data.split('^')[3].split('&')[0] == 'No merchant') {
-                                  noCustomer = 'name';
-                                } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
+                              if(widget.data.split('^')[3].split('&')[0] == 'No merchant') {
+                                noCustomer = 'name';
+                              } else {noCustomer = widget.data.split('^')[3].split('&')[0];}
 
-                                var refundId = '';
-                                debugPrint('textpaid ' + paidAmount.toString());
+                              var refundId = '';
+                              debugPrint('textpaid ' + paidAmount.toString());
 
-                                String dataRm = widget.data.split('^')[0] +
-                                    '^' +
-                                    widget.data.split('^')[1] +
-                                    '^' +
-                                    widget.data.split('^')[2] +
-                                    '^' +
-                                    widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                    '^' +
-                                    widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-                                String data = widget.data.split('^')[0] +
-                                    '^' +
-                                    widget.data.split('^')[1] +
-                                    '^' +
-                                    widget.data.split('^')[2] +
-                                    '^' +
-                                    widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                    '^' +
-                                    widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-                                bool deFilter = false;
-                                double debts = 0;
-                                if(debtAmount == 0.0) {
-                                  deFilter = false;
-                                  debts = 1;
-                                } else {
-                                  deFilter = true;
-                                  debts = 0;
+                              String dataRm = widget.data.split('^')[0] +
+                                  '^' +
+                                  widget.data.split('^')[1] +
+                                  '^' +
+                                  widget.data.split('^')[2] +
+                                  '^' +
+                                  widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                  '^' +
+                                  widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
+                              String data = widget.data.split('^')[0] +
+                                  '^' +
+                                  widget.data.split('^')[1] +
+                                  '^' +
+                                  widget.data.split('^')[2] +
+                                  '^' +
+                                  widget.data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                  '^' +
+                                  widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
+                              bool deFilter = false;
+                              double debts = 0;
+                              if(debtAmount == 0.0) {
+                                deFilter = false;
+                                debts = 1;
+                              } else {
+                                deFilter = true;
+                                debts = 0;
+                              }
+
+
+                              batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+
+                              debugPrint('detAmount' + debtAmount.toString());
+
+                              batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
+                              double paidCus = paidAmount;
+                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr')
+                                  .get()
+                                  .then((DocumentSnapshot documentSnapshot) async {
+                                if (documentSnapshot.exists) {
+                                  documentSnapshot['mer'].forEach((key, value) async {
+                                    if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
+                                      batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
+                                    }
+                                  });
+                                }
+                                if( widget.data.split('^')[3].split('&')[1] == 'name') {
+                                  batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
+                                }
+
+                                batch = await updateMonthlyData(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', paidCus);
+                                batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', paidCus);
+
+                                try {
+                                  batch.commit();
+                                  Future.delayed(const Duration(milliseconds: 2000), () {
+                                    setState(() {
+                                      loadingState = false;
+                                      disableTouch = false;
+                                    });
+                                    closeOverAllSubLoading();
+                                    _textFieldController.clear();
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                    smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+                                  });
+                                } catch(error) {
+                                  Future.delayed(const Duration(milliseconds: 2000), () {
+                                    setState(() {
+                                      loadingState = false;
+                                      disableTouch = false;
+                                    });
+                                    closeOverAllSubLoading();
+                                    _textFieldController.clear();
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                    smartKyatFlash('An error occurred while payment process. Please try again later.', 'e');
+                                  });
                                 }
 
 
-                                batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
-
-                                debugPrint('detAmount' + debtAmount.toString());
-
-                                batch = await updateOrderDetail(batch, widget.docId, debtAmount, deFilter);
-                                double paidCus = paidAmount;
-                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr')
-                                    .get()
-                                    .then((DocumentSnapshot documentSnapshot) async {
-                                  if (documentSnapshot.exists) {
-                                    documentSnapshot['mer'].forEach((key, value) async {
-                                      if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
-                                        batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
-                                      }
-                                    });
-                                  }
-                                  if( widget.data.split('^')[3].split('&')[1] == 'name') {
-                                    batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
-                                  }
-
-                                  batch = await updateMonthlyData(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_merc', paidCus);
-                                  batch = await updateYearlyData(batch, widget.data.split('^')[0].substring(0,4),  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_merc', paidCus);
-
-                                  try {
-                                    batch.commit();
-                                    Future.delayed(const Duration(milliseconds: 2000), () {
-                                      setState(() {
-                                        loadingState = false;
-                                        disableTouch = false;
-                                      });
-                                      closeOverAllSubLoading();
-                                      _textFieldController.clear();
-                                      Navigator.of(context).popUntil((route) => route.isFirst);
-                                      smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
-                                    });
-                                  } catch(error) {
-                                    Future.delayed(const Duration(milliseconds: 2000), () {
-                                      setState(() {
-                                        loadingState = false;
-                                        disableTouch = false;
-                                      });
-                                      closeOverAllSubLoading();
-                                      _textFieldController.clear();
-                                      Navigator.of(context).popUntil((route) => route.isFirst);
-                                      smartKyatFlash('An error occurred while payment process. Please try again later.', 'e');
-                                    });
-                                  }
+                              });
 
 
-                                });
-
-
-                              } } },
+                            } } },
                           child: loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                               child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                             padding: const EdgeInsets.only(

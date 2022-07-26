@@ -90,36 +90,36 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   @override
   initState() {
 
-    if(widget.isEnglish == true) {
+      if(widget.isEnglish == true) {
 
-      setState(() {
-        textSetPurchase = 'PURCHASED ITEMS';
-        textSetRefund = 'REFUNDED ITEMS';
-        textSetDebt = 'Debt Amount';
-        textSetDiscount = 'Discount';
-        textSetAmount = 'Amount applied';
-        textSetRefBtn = 'Refund\nitems';
-        textSetPayCashBtn = 'Pay cash\nremains';
-        textSetPrint = 'Print\nreceipt';
-        textSetPercent = 'Percentage';
-        textSetAllRefund = 'All Items Refunded';
-        textSetFullyRef = 'FULLY REFUNDED';
-      });
-    } else  {
-      setState(() {
-        textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
-        textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
-        textSetDebt = 'ကျန်ငွေ';
-        textSetDiscount = 'လျှော့ငွေ';
-        textSetAmount = 'Amount applied';
-        textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
-        textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
-        textSetPrint = 'ဘောင်ချာထုတ်ရန်';
-        textSetPercent = 'Percentage';
-        textSetAllRefund = 'All Items Refunded';
-        textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
-      });
-    }
+        setState(() {
+          textSetPurchase = 'PURCHASED ITEMS';
+          textSetRefund = 'REFUNDED ITEMS';
+          textSetDebt = 'Debt Amount';
+          textSetDiscount = 'Discount';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'Refund\nitems';
+          textSetPayCashBtn = 'Pay cash\nremains';
+          textSetPrint = 'Print\nreceipt';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'FULLY REFUNDED';
+        });
+      } else  {
+        setState(() {
+          textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
+          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetDebt = 'ကျန်ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
+          textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
+          textSetPrint = 'ဘောင်ချာထုတ်ရန်';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'ပစ္စည်းအားလုံးပြန်ပေးပြီး';
+        });
+      }
 
 
     getCurrency().then((value){
@@ -273,29 +273,29 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             for (int i = 0; i < prodListView.length; i++) {
                               ttlR += double.parse(prodListView[i].split('^')[7]);
                               ttlQ += double.parse(prodListView[i].split('^')[3]);
-                              if (firstBuild) {
-                                prodListPrint.add(
-                                    prodListView[i].split(
-                                        '^')[1] + '^' +
-                                        prodListView[i].split(
-                                            '^')[2] + '^' +
-                                        prodListView[i].split(
-                                            '^')[4] + '^' +
-                                        (double.parse(
-                                            prodListView[i]
-                                                .split(
-                                                '^')[3]) -
-                                            double.parse(
-                                                prodListView[i]
-                                                    .split(
-                                                    '^')[7]))
-                                            .toString() + '^'
-                                );
-                              }
-                              if (i == prodListView.length - 1) {
-                                firstBuild = false;
-                                retrieveFordebugPrint();
-                              }  }
+                            if (firstBuild) {
+                              prodListPrint.add(
+                                  prodListView[i].split(
+                                      '^')[1] + '^' +
+                                      prodListView[i].split(
+                                          '^')[2] + '^' +
+                                      prodListView[i].split(
+                                          '^')[4] + '^' +
+                                      (double.parse(
+                                          prodListView[i]
+                                              .split(
+                                              '^')[3]) -
+                                          double.parse(
+                                              prodListView[i]
+                                                  .split(
+                                                  '^')[7]))
+                                          .toString() + '^'
+                              );
+                            }
+                            if (i == prodListView.length - 1) {
+                              firstBuild = false;
+                              retrieveFordebugPrint();
+                            }  }
 
                             return Expanded(
                               // height: 580,
@@ -311,7 +311,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
+                                             Container(
                                               height: 100,
                                               child: ListView(
                                                 scrollDirection: Axis.horizontal,
@@ -379,7 +379,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             loadingState = false;
                                                             disableTouch = false;
                                                           });
-                                                          smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                            smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
 
                                                         }
                                                       },
@@ -429,99 +429,99 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   debt.toString() != '0.0' ? ButtonTheme(
                                                     minWidth: 133,
                                                     child: FlatButton(
-                                                        color: AppTheme.buttonColor2,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                          BorderRadius.circular(7.0),
-                                                          side: BorderSide(
-                                                            color: Colors.white.withOpacity(0.85),
-                                                          ),
+                                                      color: AppTheme.buttonColor2,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(7.0),
+                                                        side: BorderSide(
+                                                          color: Colors.white.withOpacity(0.85),
                                                         ),
-                                                        onPressed: () async {
-                                                          try {
-                                                            setState(() {
-                                                              loadingState = true;
-                                                              disableTouch = true;
-                                                            });
-                                                            final resultInt = await InternetAddress.lookup('google.com');
-                                                            setState(() {
-                                                              loadingState = false;
-                                                              disableTouch = false;
-                                                            });
-                                                            if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
-                                                              widget._closeCartBtn();
+                                                      ),
+                                                      onPressed: () async {
+                                                        try {
+                                                          setState(() {
+                                                            loadingState = true;
+                                                            disableTouch = true;
+                                                          });
+                                                          final resultInt = await InternetAddress.lookup('google.com');
+                                                          setState(() {
+                                                            loadingState = false;
+                                                            disableTouch = false;
+                                                          });
+                                                          if (resultInt.isNotEmpty && resultInt[0].rawAddress.isNotEmpty) {
+                                                            widget._closeCartBtn();
 
-                                                              result = dateOrg.toString() +
-                                                                  '^' +
-                                                                  widget.data
-                                                                      .split('^')[1] +
-                                                                  '^' +
-                                                                  totalPrice
-                                                                      .toString() +
-                                                                  '^' +
-                                                                  widget.data
-                                                                      .split('^')[3] +
-                                                                  '^' +
-                                                                  widget.data
-                                                                      .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                                  .split('^')[6];
+                                                            result = dateOrg.toString() +
+                                                                '^' +
+                                                                widget.data
+                                                                    .split('^')[1] +
+                                                                '^' +
+                                                                totalPrice
+                                                                    .toString() +
+                                                                '^' +
+                                                                widget.data
+                                                                    .split('^')[3] +
+                                                                '^' +
+                                                                widget.data
+                                                                    .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                                .split('^')[6];
 
-                                                              await Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) => PayDebtItems(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: result, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
-                                                              );
-                                                              widget._openCartBtn();
-                                                            }
-                                                          } on SocketException catch (_) {
+                                                            await Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => PayDebtItems(isEnglish: widget.isEnglish, fromSearch: widget.fromSearch, debt: debt.toString(), data: result, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                            );
+                                                            widget._openCartBtn();
+                                                          }
+                                                        } on SocketException catch (_) {
 
                                                             setState(() {
                                                               loadingState = false;
                                                               disableTouch = false;
                                                             });
                                                             smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
-                                                          }
-                                                        },
-                                                        child: Container(
-                                                          width: 100,
-                                                          height: 100,
-                                                          child: loadingState ? Center(
-                                                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                child: CupertinoActivityIndicator(radius: 15,)),
-                                                          ) : Stack(
-                                                            children: [
-                                                              Positioned(
-                                                                top: 15,
-                                                                left: 0,
-                                                                child: Icon(
-                                                                  SmartKyat_POS.pay,
-                                                                  size: 22,
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        child: loadingState ? Center(
+                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                              child: CupertinoActivityIndicator(radius: 15,)),
+                                                        ) : Stack(
+                                                          children: [
+                                                            Positioned(
+                                                              top: 15,
+                                                              left: 0,
+                                                              child: Icon(
+                                                                SmartKyat_POS.pay,
+                                                                size: 22,
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              bottom: 15,
+                                                              left: 0,
+                                                              child: Container(
+                                                                width: 80,
+                                                                child: Text(
+                                                                    textSetPayCashBtn,  textScaleFactor: 1,
+                                                                    style: TextStyle(
+                                                                      fontWeight: FontWeight
+                                                                          .w600,
+                                                                      fontSize: 16,
+                                                                    ),
+                                                                    strutStyle: StrutStyle(
+                                                                      height: widget.isEnglish
+                                                                          ? 1.4
+                                                                          : 1.6,
+                                                                      forceStrutHeight: true,
+                                                                    )
                                                                 ),
                                                               ),
-                                                              Positioned(
-                                                                bottom: 15,
-                                                                left: 0,
-                                                                child: Container(
-                                                                  width: 80,
-                                                                  child: Text(
-                                                                      textSetPayCashBtn,  textScaleFactor: 1,
-                                                                      style: TextStyle(
-                                                                        fontWeight: FontWeight
-                                                                            .w600,
-                                                                        fontSize: 16,
-                                                                      ),
-                                                                      strutStyle: StrutStyle(
-                                                                        height: widget.isEnglish
-                                                                            ? 1.4
-                                                                            : 1.6,
-                                                                        forceStrutHeight: true,
-                                                                      )
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
                                                     ),
                                                   ) : Container(),
                                                   debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
@@ -636,253 +636,253 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         (double.parse(prodListView[i].split('^')[3]) - double.parse(prodListView[i].split('^')[7])).round().toString() != '0' ?
                                         StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                                             stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots(),
-                                            builder: (context, imageSnapshot) {
-                                              if(imageSnapshot.hasData) {
-                                                var imgSnap = imageSnapshot.data != null? imageSnapshot.data!.data(): null;
-                                                var imgArr = imgSnap?['prods'];
-                                                if(imgArr == null) {
-                                                  return Container();
-                                                }
-                                                String imgUrl = '';
-                                                if(imgArr[prodListView[i].split('^')[0]] != null) {
-                                                  imgUrl = imgArr[prodListView[i].split('^')[0]]['img'].toString();
-                                                } else imgUrl = '';
-                                                return Stack( children: [
-                                                  Container(
-                                                    color: Colors.white,
-                                                    child: Column(
-                                                      children: [
-                                                        SizedBox(height: 12),
-                                                        ListTile(
-                                                          leading: ClipRRect(
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                5.0),
-                                                            child: imgUrl != ""
-                                                                ? CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://htoomedia.info/smartkyat_pos/api/uploads/' +
-                                                                  imgUrl,
-                                                              width: 56.5,
-                                                              height: 56.5,
-                                                              placeholder: (
-                                                                  context,
-                                                                  url) =>
-                                                                  Image(
-                                                                    image: AssetImage(
-                                                                        'assets/system/default-product.png'),
-                                                                    height: 58,
-                                                                    width: 58,),
-                                                              errorWidget: (
-                                                                  context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Image(
-                                                                    image: AssetImage(
-                                                                        'assets/system/default-product.png'),
-                                                                    height: 58,
-                                                                    width: 58,),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                            )
-                                                                : Image.asset(
-                                                                'assets/system/default-product.png',
-                                                                height: 58,
-                                                                width: 58),),
-                                                          title: Tooltip(
-                                                            message: prodListView[i]
-                                                                .split('^')[1],
-                                                            // preferOri: PreferOrientation.up,
-                                                            // isShow: false,
-                                                            child: Text(
-                                                              prodListView[i]
-                                                                  .split(
-                                                                  '^')[1],
-                                                              maxLines: 1,  textScaleFactor: 1,
-                                                              style:
-                                                              TextStyle(
-                                                                fontWeight: FontWeight
-                                                                    .w500,
-                                                                fontSize: 16,
-                                                                height: 1.3,
-                                                                overflow: TextOverflow
-                                                                    .ellipsis,),
-                                                            ),
-                                                          ),
-                                                          subtitle: Padding(
-                                                            padding: const EdgeInsets
-                                                                .only(top: 4.0),
-                                                            child: Row(
-                                                              children: [
-                                                                if (prodListView[i]
-                                                                    .split(
-                                                                    '^')[5] ==
-                                                                    'unit_name') Icon(
-                                                                  SmartKyat_POS
-                                                                      .prodm,
-                                                                  size: 17,
-                                                                  color: Colors
-                                                                      .grey,)
-                                                                else
-                                                                  if(prodListView[i]
-                                                                      .split(
-                                                                      '^')[5] ==
-                                                                      'sub1_name')Icon(
-                                                                    SmartKyat_POS
-                                                                        .prods1,
-                                                                    size: 17,
-                                                                    color: Colors
-                                                                        .grey,)
-                                                                  else
-                                                                    Icon(
-                                                                      SmartKyat_POS
-                                                                          .prods2,
-                                                                      size: 17,
-                                                                      color: Colors
-                                                                          .grey,),
-                                                                Text(' ' +
+                                          builder: (context, imageSnapshot) {
+                                            if(imageSnapshot.hasData) {
+                                              var imgSnap = imageSnapshot.data != null? imageSnapshot.data!.data(): null;
+                                              var imgArr = imgSnap?['prods'];
+                                              if(imgArr == null) {
+                                                return Container();
+                                              }
+                                              String imgUrl = '';
+                                              if(imgArr[prodListView[i].split('^')[0]] != null) {
+                                                imgUrl = imgArr[prodListView[i].split('^')[0]]['img'].toString();
+                                              } else imgUrl = '';
+                                            return Stack( children: [
+                                                        Container(
+                                                          color: Colors.white,
+                                                          child: Column(
+                                                            children: [
+                                                              SizedBox(height: 12),
+                                                              ListTile(
+                                                                leading: ClipRRect(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      5.0),
+                                                                  child: imgUrl != ""
+                                                                      ? CachedNetworkImage(
+                                                                    imageUrl:
+                                                                    'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                                        imgUrl,
+                                                                    width: 56.5,
+                                                                    height: 56.5,
+                                                                    placeholder: (
+                                                                        context,
+                                                                        url) =>
+                                                                        Image(
+                                                                          image: AssetImage(
+                                                                              'assets/system/default-product.png'),
+                                                                          height: 58,
+                                                                          width: 58,),
+                                                                    errorWidget: (
+                                                                        context,
+                                                                        url,
+                                                                        error) =>
+                                                                        Image(
+                                                                          image: AssetImage(
+                                                                              'assets/system/default-product.png'),
+                                                                          height: 58,
+                                                                          width: 58,),
+                                                                    fadeInDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        100),
+                                                                    fadeOutDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        10),
+                                                                    fadeInCurve:
+                                                                    Curves
+                                                                        .bounceIn,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                      : Image.asset(
+                                                                      'assets/system/default-product.png',
+                                                                      height: 58,
+                                                                      width: 58),),
+                                                                title: Tooltip(
+                                                                  message: prodListView[i]
+                                                                      .split('^')[1],
+                                                                  // preferOri: PreferOrientation.up,
+                                                                  // isShow: false,
+                                                                  child: Text(
                                                                     prodListView[i]
                                                                         .split(
-                                                                        '^')[2] +
-                                                                    ' ',  textScaleFactor: 1,
-                                                                    style:  TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        fontWeight: FontWeight
-                                                                            .w500,
+                                                                        '^')[1],
+                                                                    maxLines: 1,  textScaleFactor: 1,
+                                                                    style:
+                                                                    TextStyle(
+                                                                      fontWeight: FontWeight
+                                                                          .w500,
+                                                                      fontSize: 16,
+                                                                      height: 1.3,
+                                                                      overflow: TextOverflow
+                                                                          .ellipsis,),
+                                                                  ),
+                                                                ),
+                                                                subtitle: Padding(
+                                                                  padding: const EdgeInsets
+                                                                      .only(top: 4.0),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      if (prodListView[i]
+                                                                          .split(
+                                                                          '^')[5] ==
+                                                                          'unit_name') Icon(
+                                                                        SmartKyat_POS
+                                                                            .prodm,
+                                                                        size: 17,
                                                                         color: Colors
-                                                                            .grey,
-                                                                        height: 0.9
-                                                                    )),
-                                                              ],
-                                                            ),
+                                                                            .grey,)
+                                                                      else
+                                                                        if(prodListView[i]
+                                                                            .split(
+                                                                            '^')[5] ==
+                                                                            'sub1_name')Icon(
+                                                                          SmartKyat_POS
+                                                                              .prods1,
+                                                                          size: 17,
+                                                                          color: Colors
+                                                                              .grey,)
+                                                                        else
+                                                                          Icon(
+                                                                            SmartKyat_POS
+                                                                                .prods2,
+                                                                            size: 17,
+                                                                            color: Colors
+                                                                                .grey,),
+                                                                      Text(' ' +
+                                                                          prodListView[i]
+                                                                              .split(
+                                                                              '^')[2] +
+                                                                          ' ',  textScaleFactor: 1,
+                                                                          style:  TextStyle(
+                                                                              fontSize: 12.5,
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              color: Colors
+                                                                                  .grey,
+                                                                              height: 0.9
+                                                                          )),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                trailing: Text(
+                                                                  '$currencyUnit ' +
+                                                                      (double.parse(
+                                                                          prodListView[i]
+                                                                              .split(
+                                                                              '^')[4]) *
+                                                                          (double
+                                                                              .parse(
+                                                                              prodListView[i]
+                                                                                  .split(
+                                                                                  '^')[3]) -
+                                                                              double
+                                                                                  .parse(
+                                                                                  prodListView[i]
+                                                                                      .split(
+                                                                                      '^')[7])))
+                                                                          .toString()
+                                                                          .replaceAllMapped(
+                                                                          RegExp(
+                                                                              r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
+                                                                          Match m) => '${m[1]},'),  textScaleFactor: 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight
+                                                                          .w500,
+                                                                      overflow: TextOverflow
+                                                                          .ellipsis
+                                                                  ),),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only(left: 15.0),
+                                                                child: Container(
+                                                                  height: 12,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border(
+                                                                        bottom:
+                                                                        BorderSide(
+                                                                            color: i ==
+                                                                                prodListView
+                                                                                    .length -
+                                                                                    1
+                                                                                ? Colors
+                                                                                .transparent
+                                                                                : AppTheme
+                                                                                .skBorderColor2,
+                                                                            width: 0.5),
+                                                                      )),),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          trailing: Text(
-                                                            '$currencyUnit ' +
-                                                                (double.parse(
+                                                        ),
+                                                        Positioned(
+                                                          top: 11,
+                                                          right: (MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width > 900
+                                                              ? (MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width * (2 / 3.5))
+                                                              : MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width) - 80,
+                                                          child: Center(
+                                                            child: Container(
+                                                              // height: 20,
+                                                              // width: 30,
+                                                              alignment: Alignment
+                                                                  .center,
+                                                              decoration: BoxDecoration(
+                                                                  color: AppTheme
+                                                                      .skBorderColor2,
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      10.0),
+                                                                  border: Border.all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 2,
+                                                                  )),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only(left: 8.5,
+                                                                    right: 8.5,
+                                                                    top: 1,
+                                                                    bottom: 1),
+                                                                child: Text((double
+                                                                    .parse(
                                                                     prodListView[i]
                                                                         .split(
-                                                                        '^')[4]) *
-                                                                    (double
-                                                                        .parse(
+                                                                        '^')[3]) -
+                                                                    double.parse(
                                                                         prodListView[i]
                                                                             .split(
-                                                                            '^')[3]) -
-                                                                        double
-                                                                            .parse(
-                                                                            prodListView[i]
-                                                                                .split(
-                                                                                '^')[7])))
-                                                                    .toString()
-                                                                    .replaceAllMapped(
-                                                                    RegExp(
-                                                                        r'(\d{1,3})(?=(\d{3})+(?!\d))'), (
-                                                                    Match m) => '${m[1]},'),  textScaleFactor: 1,
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight
-                                                                    .w500,
-                                                                overflow: TextOverflow
-                                                                    .ellipsis
-                                                            ),),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
-                                                          child: Container(
-                                                            height: 12,
-                                                            decoration: BoxDecoration(
-                                                                border: Border(
-                                                                  bottom:
-                                                                  BorderSide(
-                                                                      color: i ==
-                                                                          prodListView
-                                                                              .length -
-                                                                              1
-                                                                          ? Colors
-                                                                          .transparent
-                                                                          : AppTheme
-                                                                          .skBorderColor2,
-                                                                      width: 0.5),
-                                                                )),),
+                                                                            '^')[7]))
+                                                                    .round()
+                                                                    .toString(),  textScaleFactor: 1,
+                                                                    style: TextStyle(
+                                                                        fontSize: 11,
+                                                                        fontWeight: FontWeight
+                                                                            .w500
+                                                                    )),
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ],
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 11,
-                                                    right: (MediaQuery
-                                                        .of(context)
-                                                        .size
-                                                        .width > 900
-                                                        ? (MediaQuery
-                                                        .of(context)
-                                                        .size
-                                                        .width * (2 / 3.5))
-                                                        : MediaQuery
-                                                        .of(context)
-                                                        .size
-                                                        .width) - 80,
-                                                    child: Center(
-                                                      child: Container(
-                                                        // height: 20,
-                                                        // width: 30,
-                                                        alignment: Alignment
-                                                            .center,
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme
-                                                                .skBorderColor2,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                10.0),
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .white,
-                                                              width: 2,
-                                                            )),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 8.5,
-                                                              right: 8.5,
-                                                              top: 1,
-                                                              bottom: 1),
-                                                          child: Text((double
-                                                              .parse(
-                                                              prodListView[i]
-                                                                  .split(
-                                                                  '^')[3]) -
-                                                              double.parse(
-                                                                  prodListView[i]
-                                                                      .split(
-                                                                      '^')[7]))
-                                                              .round()
-                                                              .toString(),  textScaleFactor: 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 11,
-                                                                  fontWeight: FontWeight
-                                                                      .w500
-                                                              )),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                                );
-                                              }
-                                              return Container();
+                                                    );
                                             }
+                                            return Container();
+                                          }
                                         ) : Container(),
                                       Container(
                                         // color: Colors.blue,
@@ -982,255 +982,255 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       for (int i = 0; i < prodListView.length; i++)
                                         if (prodListView[i].split('^')[7] != '0')
                                           double.parse(prodListView[i].split('^')[7]).round().toString() != '0' ?
-                                          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                              stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots(),
-                                              builder: (context, imageRSnapshot) {
-                                                if (imageRSnapshot.hasData) {
-                                                  var imgSnap = imageRSnapshot.data != null ? imageRSnapshot.data!.data() : null;
-                                                  var imgArr = imgSnap?['prods'];
-                                                  if (imgArr == null) {
-                                                    return Container();
-                                                  }
-                                                  String imgUrl = '';
-                                                  if (imgArr[prodListView[i].split('^')[0]] != null) {
-                                                    imgUrl = imgArr[prodListView[i].split('^')[0]]['img'].toString();
-                                                  } else {
-                                                    imgUrl = '';
-                                                  }
-                                                  return Stack(
-                                                    children: [
-                                                      Container(
-                                                        color: Colors.white,
-                                                        child: Column(
-                                                          children: [
-                                                            SizedBox(height: 12),
-                                                            Container(
-                                                              child: ListTile(
-                                                                leading: ClipRRect(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      5.0),
-                                                                  child: imgUrl !=
-                                                                      ""
-                                                                      ? CachedNetworkImage(
-                                                                    imageUrl:
-                                                                    'https://htoomedia.info/smartkyat_pos/api/uploads/' +
-                                                                        imgUrl,
-                                                                    width: 56.5,
-                                                                    height: 56.5,
-                                                                    placeholder: (context,
-                                                                        url) =>
-                                                                        Image(
-                                                                          image: AssetImage(
-                                                                              'assets/system/default-product.png'),
-                                                                          height: 58,
-                                                                          width: 58,),
-                                                                    errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                        Image(
-                                                                          image: AssetImage(
-                                                                              'assets/system/default-product.png'),
-                                                                          height: 58,
-                                                                          width: 58,),
-                                                                    fadeInDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        100),
-                                                                    fadeOutDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        10),
-                                                                    fadeInCurve:
-                                                                    Curves
-                                                                        .bounceIn,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  )
-                                                                      : Image
-                                                                      .asset(
-                                                                      'assets/system/default-product.png',
-                                                                      height: 58,
-                                                                      width: 58),),
-                                                                title: Tooltip(
-                                                                  message: prodListView[i]
-                                                                      .split(
-                                                                      '^')[1],
-                                                                  // preferOri: PreferOrientation.up,
-                                                                  // isShow: false,
-                                                                  child: Text(
-                                                                    prodListView[i]
-                                                                        .split(
-                                                                        '^')[1],
-                                                                    maxLines: 1,  textScaleFactor: 1,
-                                                                    style:
-                                                                    TextStyle(
-                                                                      fontWeight: FontWeight
-                                                                          .w500,
-                                                                      fontSize: 16,
-                                                                      height: 1.3,
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,),
-                                                                  ),
-                                                                ),
-                                                                subtitle: Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only(
-                                                                      top: 4.0),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      if (prodListView[i]
-                                                                          .split(
-                                                                          '^')[5] ==
-                                                                          'unit_name') Icon(
-                                                                        SmartKyat_POS
-                                                                            .prodm,
-                                                                        size: 17,
-                                                                        color: Colors
-                                                                            .grey,)
-                                                                      else
-                                                                        if(prodListView[i]
-                                                                            .split(
-                                                                            '^')[5] ==
-                                                                            'sub1_name')Icon(
-                                                                          SmartKyat_POS
-                                                                              .prods1,
-                                                                          size: 17,
-                                                                          color: Colors
-                                                                              .grey,)
-                                                                        else
-                                                                          Icon(
-                                                                            SmartKyat_POS
-                                                                                .prods2,
-                                                                            size: 17,
-                                                                            color: Colors
-                                                                                .grey,),
-                                                                      Text(' ' +
-                                                                          prodListView[i]
-                                                                              .split(
-                                                                              '^')[2] +
-                                                                          ' ',  textScaleFactor: 1,
-                                                                          style: TextStyle(
-                                                                              fontSize: 12.5,
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              color: Colors
-                                                                                  .grey,
-                                                                              height: 0.9
-                                                                          )),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                trailing: discTra(
-                                                                    widget.data
-                                                                        .split(
-                                                                        '^')[6],
-                                                                    prodListView[i]),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                  left: 15.0),
-                                                              child: Container(
-                                                                height: 12,
-                                                                decoration: BoxDecoration(
-                                                                    border: Border(
-                                                                      bottom:
-                                                                      BorderSide(
-                                                                          color: i ==
-                                                                              prodListView
-                                                                                  .length -
-                                                                                  1
-                                                                              ? Colors
-                                                                              .transparent
-                                                                              : AppTheme
-                                                                              .skBorderColor2,
-                                                                          width: 0.5),
-                                                                    )),),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      // Positioned(
-                                                      //   top : 8,
-                                                      //   left : 50,
-                                                      //   child: Container(
-                                                      //     height: 20,
-                                                      //     width: 30,
-                                                      //     alignment: Alignment.center,
-                                                      //     decoration: BoxDecoration(
-                                                      //         color: AppTheme.skBorderColor2,
-                                                      //         borderRadius:
-                                                      //         BorderRadius.circular(
-                                                      //             10.0),
-                                                      //         border: Border.all(
-                                                      //           color: Colors.white,
-                                                      //           width: 2,
-                                                      //         )),
-                                                      //     child: Text(prodListView[i].split('^')[7].toString(), style: TextStyle(
-                                                      //       fontSize: 11, fontWeight: FontWeight.w500,
-                                                      //     )),
-                                                      //   ),
-                                                      // ),
-                                                      Positioned(
-                                                        top: 11,
-                                                        right: (MediaQuery
-                                                            .of(context)
-                                                            .size
-                                                            .width > 900
-                                                            ? (MediaQuery
-                                                            .of(context)
-                                                            .size
-                                                            .width * (2 / 3.5))
-                                                            : MediaQuery
-                                                            .of(context)
-                                                            .size
-                                                            .width) - 80,
-                                                        child: Container(
-                                                          // height: 20,
-                                                          // width: 30,
-                                                          alignment: Alignment
-                                                              .center,
-                                                          decoration: BoxDecoration(
-                                                              color: AppTheme
-                                                                  .skBorderColor2,
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  10.0),
-                                                              border: Border.all(
-                                                                color: Colors
-                                                                    .white,
-                                                                width: 2,
-                                                              )),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets
-                                                                .only(left: 8.5,
-                                                                right: 8.5,
-                                                                top: 1,
-                                                                bottom: 1),
-                                                            child: Text(
-                                                                double.parse(
-                                                                    prodListView[i]
-                                                                        .split(
-                                                                        '^')[7])
-                                                                    .round()
-                                                                    .toString(),  textScaleFactor: 1,
-                                                                style: TextStyle(
-                                                                    fontSize: 11,
-                                                                    fontWeight: FontWeight
-                                                                        .w500
-                                                                )),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                }
-                                                return Container();
-                                              }) : Container(),
+                          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                          stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots(),
+                          builder: (context, imageRSnapshot) {
+                            if (imageRSnapshot.hasData) {
+                              var imgSnap = imageRSnapshot.data != null ? imageRSnapshot.data!.data() : null;
+                              var imgArr = imgSnap?['prods'];
+                              if (imgArr == null) {
+                                return Container();
+                              }
+                              String imgUrl = '';
+                              if (imgArr[prodListView[i].split('^')[0]] != null) {
+                                imgUrl = imgArr[prodListView[i].split('^')[0]]['img'].toString();
+                              } else {
+                                imgUrl = '';
+                              }
+                                return Stack(
+                                children: [
+                                  Container(
+                                    color: Colors.white,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 12),
+                                        Container(
+                                          child: ListTile(
+                                            leading: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  5.0),
+                                              child: imgUrl !=
+                                                  ""
+                                                  ? CachedNetworkImage(
+                                                imageUrl:
+                                                'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                    imgUrl,
+                                                width: 56.5,
+                                                height: 56.5,
+                                                placeholder: (context,
+                                                    url) =>
+                                                    Image(
+                                                      image: AssetImage(
+                                                          'assets/system/default-product.png'),
+                                                      height: 58,
+                                                      width: 58,),
+                                                errorWidget: (context,
+                                                    url,
+                                                    error) =>
+                                                    Image(
+                                                      image: AssetImage(
+                                                          'assets/system/default-product.png'),
+                                                      height: 58,
+                                                      width: 58,),
+                                                fadeInDuration:
+                                                Duration(
+                                                    milliseconds:
+                                                    100),
+                                                fadeOutDuration:
+                                                Duration(
+                                                    milliseconds:
+                                                    10),
+                                                fadeInCurve:
+                                                Curves
+                                                    .bounceIn,
+                                                fit: BoxFit
+                                                    .cover,
+                                              )
+                                                  : Image
+                                                  .asset(
+                                                  'assets/system/default-product.png',
+                                                  height: 58,
+                                                  width: 58),),
+                                            title: Tooltip(
+                                              message: prodListView[i]
+                                                  .split(
+                                                  '^')[1],
+                                              // preferOri: PreferOrientation.up,
+                                              // isShow: false,
+                                              child: Text(
+                                                prodListView[i]
+                                                    .split(
+                                                    '^')[1],
+                                                maxLines: 1,  textScaleFactor: 1,
+                                                style:
+                                                TextStyle(
+                                                  fontWeight: FontWeight
+                                                      .w500,
+                                                  fontSize: 16,
+                                                  height: 1.3,
+                                                  overflow: TextOverflow
+                                                      .ellipsis,),
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding: const EdgeInsets
+                                                  .only(
+                                                  top: 4.0),
+                                              child: Row(
+                                                children: [
+                                                  if (prodListView[i]
+                                                      .split(
+                                                      '^')[5] ==
+                                                      'unit_name') Icon(
+                                                    SmartKyat_POS
+                                                        .prodm,
+                                                    size: 17,
+                                                    color: Colors
+                                                        .grey,)
+                                                  else
+                                                    if(prodListView[i]
+                                                        .split(
+                                                        '^')[5] ==
+                                                        'sub1_name')Icon(
+                                                      SmartKyat_POS
+                                                          .prods1,
+                                                      size: 17,
+                                                      color: Colors
+                                                          .grey,)
+                                                    else
+                                                      Icon(
+                                                        SmartKyat_POS
+                                                            .prods2,
+                                                        size: 17,
+                                                        color: Colors
+                                                            .grey,),
+                                                  Text(' ' +
+                                                      prodListView[i]
+                                                          .split(
+                                                          '^')[2] +
+                                                      ' ',  textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                          fontSize: 12.5,
+                                                          fontWeight: FontWeight
+                                                              .w500,
+                                                          color: Colors
+                                                              .grey,
+                                                          height: 0.9
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                            trailing: discTra(
+                                                widget.data
+                                                    .split(
+                                                    '^')[6],
+                                                prodListView[i]),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets
+                                              .only(
+                                              left: 15.0),
+                                          child: Container(
+                                            height: 12,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                  bottom:
+                                                  BorderSide(
+                                                      color: i ==
+                                                          prodListView
+                                                              .length -
+                                                              1
+                                                          ? Colors
+                                                          .transparent
+                                                          : AppTheme
+                                                          .skBorderColor2,
+                                                      width: 0.5),
+                                                )),),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Positioned(
+                                  //   top : 8,
+                                  //   left : 50,
+                                  //   child: Container(
+                                  //     height: 20,
+                                  //     width: 30,
+                                  //     alignment: Alignment.center,
+                                  //     decoration: BoxDecoration(
+                                  //         color: AppTheme.skBorderColor2,
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(
+                                  //             10.0),
+                                  //         border: Border.all(
+                                  //           color: Colors.white,
+                                  //           width: 2,
+                                  //         )),
+                                  //     child: Text(prodListView[i].split('^')[7].toString(), style: TextStyle(
+                                  //       fontSize: 11, fontWeight: FontWeight.w500,
+                                  //     )),
+                                  //   ),
+                                  // ),
+                                  Positioned(
+                                    top: 11,
+                                    right: (MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width > 900
+                                        ? (MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * (2 / 3.5))
+                                        : MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width) - 80,
+                                    child: Container(
+                                      // height: 20,
+                                      // width: 30,
+                                      alignment: Alignment
+                                          .center,
+                                      decoration: BoxDecoration(
+                                          color: AppTheme
+                                              .skBorderColor2,
+                                          borderRadius:
+                                          BorderRadius
+                                              .circular(
+                                              10.0),
+                                          border: Border.all(
+                                            color: Colors
+                                                .white,
+                                            width: 2,
+                                          )),
+                                      child: Padding(
+                                        padding: const EdgeInsets
+                                            .only(left: 8.5,
+                                            right: 8.5,
+                                            top: 1,
+                                            bottom: 1),
+                                        child: Text(
+                                            double.parse(
+                                                prodListView[i]
+                                                    .split(
+                                                    '^')[7])
+                                                .round()
+                                                .toString(),  textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight
+                                                    .w500
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return Container();
+                          }) : Container(),
 
                                       // orderLoading?Text('Loading'):Text('')
                                     ],
@@ -1778,9 +1778,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                 prodListView[i].split('^')[2] + '^' +
                 prodListView[i].split('^')[4] + '^' + (double.parse(prodListView[i].split('^')[3]) - double.parse(prodListView[i].split('^')[7])).toString() + '^'
         );
-        if(i == prodListView.length - 1) {
-          debugPrint('GGG ' + prodListPrintMod.toString() + prodListView.length.toString());
-        }
+          if(i == prodListView.length - 1) {
+            debugPrint('GGG ' + prodListPrintMod.toString() + prodListView.length.toString());
+          }
 
       }
     }

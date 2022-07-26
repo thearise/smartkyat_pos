@@ -376,7 +376,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
             // itemsForPag++;
           }
         } else if(cateScIndex == 0) {
-          //  debugPrint('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
+        //  debugPrint('length checker ' + filtDailyOrder.length.toString() + ' ' + filtDailyOrder.toString());
           // if(dailyOrders.length >= itemPerPage) {
           //   break;
           // }
@@ -459,7 +459,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
         // }
         dailyOrders.add(str);
       }
-      //  debugPrint('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
+    //  debugPrint('length checker outer ' + dailyOrders.length.toString() + ' ' + dailyOrders.toString());
       debugPrint('where is 2');
       // debugPrint('herre ' + document.id);
       var section = ExampleSection()

@@ -1905,7 +1905,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                       height: 1,
                                     ),
                                     ( role == 'admin' || role == 'owner' ) ? Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
                                         SizedBox(height: 15,),
                                         Padding(
