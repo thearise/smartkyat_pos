@@ -76,6 +76,10 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     Navigator.pop(dialogContext);
   }
 
+  calHourFromTZ(DateTime dateTime) {
+
+    return dateTime.timeZoneOffset.inMinutes;
+  }
 
   String textSetTtlRefund = 'Refunded items price';
   String textSetTtlRefundAmount = 'Total refund amount';
@@ -177,8 +181,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                             for (int j=1;j< prodList.length; j++) {
                               int k = prodListView.length-1;
                               if(prodList[j].split('^')[0] == prodListView[k].split('^')[0] && prodList[j].split('^')[5] == prodListView[k].split('^')[5]) {
-                                ttlQtity += int.parse(prodList[j].split('^')[3]);
-                                ttlRefun += int.parse(prodList[j].split('^')[7]);
+                                ttlQtity += double.parse(prodList[j].split('^')[3]);
+                                ttlRefun += double.parse(prodList[j].split('^')[7]);
                                 prodListView[k] = prodListView[k].split('^')[0] + '^' + prodListView[k].split('^')[1] + '^' + prodListView[k].split('^')[2] + '^' + ttlQtity.toString() + '^' +
                                     prodListView[k].split('^')[4] + '^' + prodListView[k].split('^')[5] + '^' + prodListView[k].split('^')[6] + '^' + (int.parse(prodListView[k].split('^')[7])+int.parse(prodList[j].split('^')[7])).toString() + '^' +
                                     prodListView[k].split('^')[8] ;
@@ -719,6 +723,17 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             ),
                                             onPressed: ()  async {
                                               WriteBatch batch = FirebaseFirestore.instance.batch();
+                                              DateTime now = DateTime.now();
+                                              if (calHourFromTZ(now).toString() != "390") {
+                                                await showOkAlertDialog(
+                                                  context: context,
+                                                  title:  'Unsupported TimeZone!',
+                                                  message:
+                                                  'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+                                                  okLabel: 'OK',
+                                                );
+                                              }
+                                              else {
                                               setState(() {
                                                 loadingState = true;
                                                 disableTouch = true;
@@ -731,7 +746,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               bool monthExist = false;
                                               var yearId = '';
                                               bool yearExist = false;
-                                              DateTime now = DateTime.now();
+
                                               List<String> ref2Cust = [];
                                               List<String> ref2Shop = [];
                                               for (int i = 0; i < refundItems.length; i++) {
@@ -817,7 +832,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr')
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                                       .get()
                                                       .then((DocumentSnapshot documentSnapshot) async {
                                                     if (documentSnapshot.exists) {
@@ -962,7 +977,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
                                               //
 
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr')
+                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
                                                   .get()
                                                   .then((DocumentSnapshot documentSnapshot) async {
                                                 if (documentSnapshot.exists) {
@@ -998,8 +1013,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                closeOverAllSubLoading();
                                              }
                                               });
-
-
+                                              }
                                             },
                                             child:  loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                                 child: CupertinoActivityIndicator(radius: 10,)) : Padding(
@@ -1301,7 +1315,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   }
 
   updateProduct(WriteBatch batch, id, unit, num) {
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
     batch.update(documentReference, {'prods.$id.' + changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString())),});
 
@@ -1358,7 +1372,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       'daily_order': FieldValue.arrayUnion([updateData])
     });
 
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
       'time': FieldValue.serverTimestamp(),
     });
@@ -1381,7 +1395,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateRefund(WriteBatch batch, id, totalRefs,  totalDes, changeDes) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(id);
-    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
+    DocumentReference documentReference2 = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
     if(id != 'name') {
       batch.update(documentReference2, {
         'cus.' + id +'.re': FieldValue.increment(double.parse(totalRefs.toString())),

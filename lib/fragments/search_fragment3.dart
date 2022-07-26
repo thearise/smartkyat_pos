@@ -121,6 +121,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   String currencyUnit = 'MMK';
 
+  GlobalKey<ProductDetailsViewState2> prodDetGlobalKey = GlobalKey();
+
   var prodsArrSnaps;
 
   List<QueryDocumentSnapshot<Object?>> workCacheProds = [];
@@ -182,6 +184,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     widget._openDrawerBtn('search');
   }
 
+  navigatorPop() {
+    if(prodDetGlobalKey.currentState != null) {
+      prodDetGlobalKey.currentState!.naviDetPop();
+    }
+  }
+
   void printFromOrdersFun(File file, var prodListPR) {
     widget._printFromOrders(file, prodListPR);
   }
@@ -229,7 +237,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   @override
   initState() {
-    final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+    final docRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
     docRef.snapshots().listen(
           (event) {
         debugPrint("current data: ${event.data()}");
@@ -256,7 +264,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       onError: (error) => debugPrint("Listen failed: $error"),
     );
 
-    final custsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr');
+    final custsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr');
     custsRef.snapshots().listen(
           (event) {
         debugPrint("current data cus: ${event.data()}");
@@ -269,7 +277,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       onError: (error) => debugPrint("Listen failed: $error"),
     );
 
-    final mercsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr');
+    final mercsRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr');
     mercsRef.snapshots().listen(
           (event) {
         debugPrint("current data mer: ${event.data()}");
@@ -284,7 +292,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
     debugPrint("inittttt2");
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
@@ -298,11 +306,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
     });
 
-    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').snapshots();
+    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     prodsImgSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('imgArr').doc('prodsArr').snapshots();
 
-    customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr').snapshots();
-    merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('merArr').snapshots();
+    customersSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
+    merchantsSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
 
 
 
@@ -4072,7 +4080,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                         maintainState: false,
-                        builder: (context) => ProductDetailsView2(isEnglish : widget.isEnglish, idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
+                        builder: (context) => ProductDetailsView2(key: prodDetGlobalKey, isEnglish : widget.isEnglish, idString: prodKey.toString(), prodName: prodVal['na'], mainSell: prodVal['sm'],
                           mainName: prodVal['nm'], sub1Name: prodVal['n1'].toString(),
                           sub2Name: prodVal['n2'], barcode: prodVal['co'].toString(),
                           sub1Price: double.parse(prodVal['s1'].toString()), sub2Price:  double.parse(prodVal['s2'].toString()),
@@ -4810,11 +4818,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         }
 
                       }
-                      DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot1.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot1.data!.docs[index]['dateTime'].substring(4,6)  + '-' + snapshot1.data!.docs[index]['dateTime'].substring(6,8) + ' ' + snapshot1.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot1.data!.docs[index]['dateTime'].substring(10,12));
-                      debugPrint('chgDate' + chgDate.toString());
-                      chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
-                      String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
-                      debugPrint('modDateTime' + modDateTime.toString());
+                      // DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot1.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot1.data!.docs[index]['dateTime'].substring(4,6)  + '-' + snapshot1.data!.docs[index]['dateTime'].substring(6,8) + ' ' + snapshot1.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot1.data!.docs[index]['dateTime'].substring(10,12));
+                      // debugPrint('chgDate' + chgDate.toString());
+                      // chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                      // String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
+                      // debugPrint('modDateTime' + modDateTime.toString());
                       return GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).unfocus();
@@ -4823,7 +4831,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => OrderInfoSub(isEnglish : widget.isEnglish, fromSearch: true, data: modDateTime + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => OrderInfoSub(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot1.data!.docs[index]['dateTime'] + '^' + snapshot1.data!.docs[index]['deviceId'] + snapshot1.data!.docs[index]['orderId'] + '^' + snapshot1.data!.docs[index]['total'].toString() + '^' + snapshot1.data!.docs[index]['cusName'] + '&' + snapshot1.data!.docs[index]['customerId'] + '^' +  snapshot1.data!.docs[index]['refund'] + '^' + snapshot1.data!.docs[index]['debt'].toString() + '^' +  snapshot1.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});
@@ -4867,7 +4875,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   SizedBox(width: 4),
                                                   Text(
                                                     // '',
-                                                    covertToDayNum(modDateTime.substring(6,8).toString()) + '/' + modDateTime.substring(4,6).toString() + '/' + modDateTime.substring(0,4).toString() + ' ' + convertToHour(modDateTime.substring(8,10).toString()) + ':' + (modDateTime.substring(10,12).toString()) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
+                                                    covertToDayNum(snapshot1.data!.docs[index]['dateTime'].substring(6,8).toString()) + '/' + snapshot1.data!.docs[index]['dateTime'].substring(4,6).toString() + '/' + snapshot1.data!.docs[index]['dateTime'].substring(0,4).toString() + ' ' + convertToHour(snapshot1.data!.docs[index]['dateTime'].substring(8,10).toString()) + ':' + (snapshot1.data!.docs[index]['dateTime'].substring(10,12).toString()) + ' ' + convertToAMPM(snapshot1.data!.docs[index]['dateTime'].substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
@@ -5195,11 +5203,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         }
 
                       }
-                      DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot2.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot2.data!.docs[index]['dateTime'].substring(4,6)  + '-' +snapshot2.data!.docs[index]['dateTime'].substring(6,8) + ' ' +snapshot2.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot2.data!.docs[index]['dateTime'].substring(10,12));
-                      debugPrint('chgDate' + chgDate.toString());
-                      chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
-                      String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
-                      debugPrint('modDateTime' + modDateTime.toString());
+                      // DateTime chgDate = DateFormat("yyyy-MM-dd HH:mm").parse(snapshot2.data!.docs[index]['dateTime'].substring(0,4) + '-' +snapshot2.data!.docs[index]['dateTime'].substring(4,6)  + '-' +snapshot2.data!.docs[index]['dateTime'].substring(6,8) + ' ' +snapshot2.data!.docs[index]['dateTime'].substring(8,10)  + ':' +snapshot2.data!.docs[index]['dateTime'].substring(10,12));
+                      // debugPrint('chgDate' + chgDate.toString());
+                      // chgDate = chgDate.add(Duration(minutes: calHourFromTZ(chgDate)));
+                      // String modDateTime = chgDate.year.toString() + zeroToTen(chgDate.month.toString()) + zeroToTen(chgDate.day.toString()) + zeroToTen(chgDate.hour.toString()) + zeroToTen(chgDate.minute.toString());
+                      // debugPrint('modDateTime' + modDateTime.toString());
                       return GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).unfocus();
@@ -5208,7 +5216,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                             context,
                             MaterialPageRoute(
 
-                                builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: true, data: modDateTime + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                builder: (context) => BuyListInfo(isEnglish : widget.isEnglish, fromSearch: true, data: snapshot2.data!.docs[index]['dateTime'] + '^' + snapshot2.data!.docs[index]['deviceId'] + snapshot2.data!.docs[index]['orderId'] + '^' + snapshot2.data!.docs[index]['total'].toString() + '^' + snapshot2.data!.docs[index]['merName'] + '&' +snapshot2.data!.docs[index]['merchantId'] + '^' +  snapshot2.data!.docs[index]['refund'] + '^' + snapshot2.data!.docs[index]['debt'].toString() + '^' +  snapshot2.data!.docs[index]['discount'].toString(), toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                           );
                           openDrawerFrom();
                           setState(() {});
@@ -5252,7 +5260,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   SizedBox(width: 4),
                                                   Text(
                                                     // '',
-                                                    covertToDayNum(modDateTime.substring(6,8)) + '/' + modDateTime.substring(4,6) + '/' + modDateTime.substring(0,4) + ' ' + convertToHour(modDateTime.substring(8,10)) + ':' + (modDateTime.substring(10,12)) + ' ' + convertToAMPM(modDateTime.substring(8,10).toString()),
+                                                    covertToDayNum(snapshot2.data!.docs[index]['dateTime'].substring(6,8)) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(4,6) + '/' + snapshot2.data!.docs[index]['dateTime'].substring(0,4) + ' ' + convertToHour(snapshot2.data!.docs[index]['dateTime'].substring(8,10)) + ':' + (snapshot2.data!.docs[index]['dateTime'].substring(10,12)) + ' ' + convertToAMPM(snapshot2.data!.docs[index]['dateTime'].substring(8,10).toString()),
                                                     textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,

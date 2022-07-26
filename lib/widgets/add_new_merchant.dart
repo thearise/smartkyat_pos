@@ -715,7 +715,7 @@ class _AddMerchantState extends State<AddMerchant> {
 
   addCustomer(WriteBatch batch, id) {
 
-    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('merArr');
+    DocumentReference documentReference =FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('merArr');
     batch.update(documentReference, {
       'mer.$id.na': merchFieldsValue[0],
       'mer.$id.ad': merchFieldsValue[1],
@@ -727,7 +727,7 @@ class _AddMerchantState extends State<AddMerchant> {
       'mer.$id.ar': false,
     });
 
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr2').doc('nonce_doc').collection('nonce_col').doc();
+    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
       'time': FieldValue.serverTimestamp(),
     });

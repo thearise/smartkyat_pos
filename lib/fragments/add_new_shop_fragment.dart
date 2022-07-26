@@ -540,11 +540,11 @@ class _AddNewShopState extends State<AddNewShop> {
                                           debugPrint('wworked here 2');
                                           addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
-                                          addMapData(batch, value.id, 'collArr2', 'prodsArr', 'prods');
+                                          addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
 
-                                          addMapData(batch, value.id, 'collArr2', 'cusArr', 'cus');
+                                          addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
 
-                                          addMapData(batch, value.id, 'collArr2', 'merArr', 'mer');
+                                          addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
 
                                           addCountData(batch, value.id, 'prodsCnt', 0);
 
@@ -590,7 +590,7 @@ class _AddNewShopState extends State<AddNewShop> {
                                           // }).then((value) {})
                                           //     .catchError((error) => debugPrint("Failed to update user: $error"));
                                           //
-                                          // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr2');
+                                          // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
                                           // collectionArr.doc('cusArr').set({
                                           //   'cus' : {}
                                           // }).then((value) {})

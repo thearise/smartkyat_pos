@@ -258,7 +258,7 @@ class _BlocHomeWeekState extends State<BlocHomeWeek> {
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      debugPrint('bloc_fire sale 1st data ' + data.toString());
+      //debugPrint('bloc_fire sale 1st data ' + data.toString());
     }
 
     var listView = Container(

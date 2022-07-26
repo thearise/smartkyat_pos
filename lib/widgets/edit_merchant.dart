@@ -470,7 +470,7 @@ class _EditMerchantState extends State<EditMerchant> {
 
                             DocumentReference customerLocate = await FirebaseFirestore.instance.collection('shops')
                                 .doc(widget.shopId)
-                                .collection('collArr2').doc('merArr');
+                                .collection('collArr').doc('merArr');
                             if (_formKey.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
                               setState(() {

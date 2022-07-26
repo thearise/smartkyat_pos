@@ -1009,7 +1009,7 @@ class _EditProductState extends State<EditProduct> {
                                         debugPrint('whatting 0 ?' + subExistChange + ' ' + sub2perUnitCtrl.text);
 
 
-                                        FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr')
+                                        FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                             .get()
                                             .then((DocumentSnapshot documentSnapshot) async {
                                           debugPrint('whatting? 2');
@@ -1077,12 +1077,12 @@ class _EditProductState extends State<EditProduct> {
                                           else {
                                             if(assets.length == 0) {
                                               debugPrint('printedhere');
-                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
                                               WriteBatch batch = FirebaseFirestore.instance.batch();
 
                                               // data edit start
-                                              // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').set({
+                                              // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').set({
                                               //   'prods': {
                                               //     widget.prodId: {
                                               //       'na': prodNameCtrl.text,
@@ -1179,7 +1179,7 @@ class _EditProductState extends State<EditProduct> {
                                                           debugPrint('debug vlaue ' + val.toString());
                                                           if(val != 'error img upload') {
 
-                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
                                                             WriteBatch batch = FirebaseFirestore.instance.batch();
 
@@ -1253,7 +1253,7 @@ class _EditProductState extends State<EditProduct> {
                                                       } else {
                                                         addProductRe(value!, photoArray).then((val) async {
                                                           if(val != 'error img upload') {
-                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr');
+                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr');
 
                                                             WriteBatch batch = FirebaseFirestore.instance.batch();
 
@@ -1368,7 +1368,7 @@ class _EditProductState extends State<EditProduct> {
                                         //     });
                                         //   } else {
                                         //     if (assets.length == 0) {
-                                        //       FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('prodsArr').update({
+                                        //       FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').update({
                                         //         'prods': {
                                         //           widget.prodId: {
                                         //             'na': prodNameCtrl.text,

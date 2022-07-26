@@ -163,7 +163,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
       }
     });
 
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr2').doc('cusArr').snapshots();
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
 
       if(widget.isEnglish == true){
       setState(() {
@@ -330,7 +330,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                         FirebaseFirestore.instance
                                             .collection('shops')
                                             .doc(widget.shopId)
-                                            .collection('collArr2')
+                                            .collection('collArr')
                                             .doc('cusArr')
                                             .update(
                                           {

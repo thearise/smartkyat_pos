@@ -612,11 +612,11 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
 
                                             addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
-                                            addMapData(batch, value.id, 'collArr2', 'prodsArr', 'prods');
+                                            addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
 
-                                            addMapData(batch, value.id, 'collArr2', 'cusArr', 'cus');
+                                            addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
 
-                                            addMapData(batch, value.id, 'collArr2', 'merArr', 'mer');
+                                            addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
 
                                             addCountData(batch, value.id, 'prodsCnt', 0);
 
