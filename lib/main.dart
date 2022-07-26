@@ -30,6 +30,9 @@ Future<void> main() async {
   // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100 * 1000 * 1000);
   // final scoresRef = FirebaseDatabase.instance.ref("products");
   // scoresRef.keepSynced(true);
+  // FirebaseFirestore.instance.disableNetwork().then((_) {
+  //   runApp(MyApp());
+  // });
   runApp(MyApp());
 }
 

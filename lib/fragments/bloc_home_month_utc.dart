@@ -89,11 +89,13 @@ class BlocHomeMonth extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
+    required this.dailCus,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
         super(key: key);
 
+  final List<DocumentSnapshot<Object?>> dailCus;
   final int intValIni;
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -269,7 +271,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       });
     }
 
-    //debugPrint('inside loss leeeee ' + widget.query.toString());
+    // debugPrint('inside loss testing ' + widget.query.toString());
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
     today = widget.dateTime!;
@@ -322,22 +324,22 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     super.initState();
   }
 
-  ordersQuery() {
-    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
-    // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
-    //     .orderBy('date', descending: true);
-    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-  }
+  // ordersQuery() {
+  //   // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+  //   // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
+  //   //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+  //   //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+  //   //     .orderBy('date', descending: true);
+  //   return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
+  // }
 
   Widget _buildListView(PaginationLoaded loadedState) {
-    for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-      Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      debugPrint('inside loss loss ' + data.toString());
+    for(int i = 0; i < widget.dailCus.length; i++) {
+      Map<String, dynamic> data = widget.dailCus[i].data() as Map<String, dynamic>;
+      // debugPrint('inside loss lar ' + data.toString());
     }
 
-    fetchOrdersMY(loadedState.documentSnapshots);
+    fetchOrdersMY(widget.dailCus, loadedState.documentSnapshots);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if(widget.intValIni == 2 || widget.intValIni == 3) {
         debugPrint('animating to ');
@@ -2685,8 +2687,39 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     return profit;
   }
 
+  ayinMonth(int month) {
+    if(month == 1) {
+      return 12;
+    } else {
+      return month - 1;
+    }
+  }
 
-  fetchOrdersMY(snapshot0) async {
+  ayinYear(int month, int year) {
+    if(month == 1) {
+      return year-1;
+    } else {
+      return year;
+    }
+  }
+
+  nextMonth(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month + 1;
+    }
+  }
+
+  nextYear(int month, int year) {
+    if(month == 12) {
+      return year+1;
+    } else {
+      return year;
+    }
+  }
+
+  fetchOrdersMY(snapshot0, yearlySnap) async {
 
     thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -2709,11 +2742,129 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     monthCapital = 0;
     lastMonthCapital = 0;
 
+    bool timeZoneNeg = today.timeZoneOffset.isNegative;
+    int timeZoneMin = today.timeZoneOffset.inMinutes;
+    int timeZoneHou = today.timeZoneOffset.inHours;
+    DateTime lastDayOfMonth = DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen('00'));
+    DateTime firsdayofMonth = DateFormat("yyyy-MM-dd").parse(nextYear(today.month, today.year).toString() + '-' + zeroToTen(nextMonth(today.month).toString()) + '-' + zeroToTen('01'));
+    DateTime lastDayOfTmnth = DateFormat("yyyy-MM-dd").parse(nextYear(today.month, today.year).toString() + '-' + zeroToTen(nextMonth(today.month).toString()) + '-' + zeroToTen('00'));
+    debugPrint('whatting ? ' + lastDayOfTmnth.day.toString());
 
     for(int loopOrd = 0; loopOrd < snapshot0.length; loopOrd++) {
-
       debugPrint('George sai 0 ' + snapshot0[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot0[loopOrd].data()! as Map<String, dynamic>;
+      if(!timeZoneNeg) {
+        for(int j=0; j< 24; j++) {
+          int absLute = -(j-timeZoneHou);
+          if(24-timeZoneHou == (24-absLute)) {
+            if(timeZoneMin%60 == 30) {
+              debugPrint('What is that0 ' + 'cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute-1).toString()) + '1');
+              if(data['cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute-1).toString()) + '1'] != null) {
+                thisMonthOrdersChart[1] += data['cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute-1).toString()) + '1'];
+              }
+            }
+          }
+          for(int k=0; k< 2; k++) {
+            if(!(j-timeZoneHou).isNegative && (j-timeZoneHou) < (24-timeZoneHou)) {
+
+            } else {
+              debugPrint('What is that1 ' + 'cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute).toString()) + k.toString());
+              if(data['cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute).toString()) + k.toString()] != null) {
+                thisMonthOrdersChart[1] += data['cc' + lastDayOfMonth.year.toString() + zeroToTen(lastDayOfMonth.month.toString()) + zeroToTen(lastDayOfMonth.day.toString()) + zeroToTen((24-absLute).toString()) + k.toString()];
+              }
+            }
+
+          }
+        }
+      } else {
+        for(int j=0; j< 24; j++) {
+          int absLute = (j-timeZoneHou);
+          for(int k=0; k< 2; k++) {
+            if(!(24-absLute > 0)) {
+              debugPrint('abslut ' + (absLute-24).toString());
+              debugPrint('What is thatzero 0 ' + 'cc' + firsdayofMonth.year.toString() + zeroToTen(firsdayofMonth.month.toString()) + zeroToTen(firsdayofMonth.day.toString()) + zeroToTen((absLute-24).toString()) + k.toString());
+              if(data['cc' + firsdayofMonth.year.toString() + zeroToTen(firsdayofMonth.month.toString()) + zeroToTen(firsdayofMonth.day.toString()) + zeroToTen((absLute-24).toString()) + k.toString()] != null) {
+                thisMonthOrdersChart[lastDayOfTmnth.day] += data['cc' + firsdayofMonth.year.toString() + zeroToTen(firsdayofMonth.month.toString()) + zeroToTen(firsdayofMonth.day.toString()) + zeroToTen((absLute-24).toString()) + k.toString()];
+              }
+            }
+
+
+
+          }
+        }
+      }
+
+      for(int i = 1; i< 32; i++) {
+        for(int j = 0; j< 24; j++) {
+          for(int k = 0; k < 2; k++) {
+            if(!timeZoneNeg) {
+
+
+              if(!(j-timeZoneHou).isNegative && (j-timeZoneHou) < (24-timeZoneHou)) {
+                if((j-timeZoneHou+1) == (24-timeZoneHou)) {
+                  if(timeZoneMin%60 == 30 && k==1) {
+                    debugPrint('we are testing ' + (j-timeZoneHou).toString() + ' -- ' + k.toString());
+                    if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()] != null) {
+                      thisMonthOrdersChart[i+1] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()];
+                    }
+                    break;
+                  }
+                }
+                debugPrint('baby 2 ' + 'cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString());
+                debugPrint('baby 3 ' + data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()].toString());
+
+                if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()] != null) {
+                  thisMonthOrdersChart[i] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()];
+                }
+              } else {
+                int absLute = -(j-timeZoneHou);
+                print('what the data is ' + 'cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((24-absLute).toString()) + k.toString());
+
+                if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((24-absLute).toString()) + k.toString()] != null) {
+                  thisMonthOrdersChart[i+1] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((24-absLute).toString()) + k.toString()];
+                }
+              }
+
+
+            } else {
+
+
+              if(!((24-(j-timeZoneHou))).isNegative && (j-timeZoneHou) < 24) {
+                // if((j-timeZoneHou+1) == (24-timeZoneHou)) {
+                //   if(timeZoneMin%60 == 30 && k==1) {
+                //     debugPrint('we are testing ' + (j-timeZoneHou).toString() + ' -- ' + k.toString());
+                //     // if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()] != null) {
+                //     //   thisMonthOrdersChart[i+1] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()];
+                //     // }
+                //     break;
+                //   }
+                // }
+                debugPrint(timeZoneHou.toString() + 'what the data21 ' + 'cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString());
+                debugPrint(timeZoneMin.toString() + 'baby 3 ' + data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()].toString());
+
+                if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()] != null) {
+                  thisMonthOrdersChart[i] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((j-timeZoneHou).toString()) + k.toString()];
+                }
+              } else {
+                int absLute = -(24+timeZoneHou-0-j);
+
+                debugPrint((24+timeZoneHou-1).toString() + 'what the data22 is ' + j.toString() + ' cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((absLute).toString()) + k.toString());
+
+                if(data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((absLute).toString()) + k.toString()] != null) {
+                  thisMonthOrdersChart[i-1] += data['cc' + today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + zeroToTen((absLute).toString()) + k.toString()];
+                }
+              }
+
+
+            }
+          }
+        }
+      }
+    }
+
+    for(int loopOrd = 0; loopOrd < yearlySnap.length; loopOrd++) {
+      debugPrint('George saisapa 0 ' + yearlySnap[loopOrd].id.toString());
+      Map<String, dynamic> data = yearlySnap[loopOrd].data()! as Map<String, dynamic>;
 
       for(int i = 1; i< 32; i++) {
         if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
@@ -2733,10 +2884,16 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         }
       }
 
-      for(int i = 1; i< 32; i++) {
-        if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
-          lastMonthSale += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'];
-        }
+      // for(int i = 1; i< 32; i++) {
+      //   // if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + zeroToTen(i.toString()) + 'cash_cust'] != null) {
+      //   if(data['202206cash_cust'] != null) {
+      //     lastMonthSale += data['202206cash_cust'];
+      //     debugPrint('lastmonthsale ' + lastMonthSale.toString());
+      //   }
+      // }
+      if(data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + 'cash_cust'] != null) {
+        lastMonthSale += data[calYear(today.month, today.year).toString() + zeroToTen(calMonth(today.month).toString()) + 'cash_cust'];
+        debugPrint('lastmonthsale ' + lastMonthSale.toString());
       }
 
       for(int i = 1; i< 32; i++) {
