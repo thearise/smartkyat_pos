@@ -457,7 +457,7 @@ class _LossProductState extends State<LossProduct> {
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l2', lossAmount.text.toString());
                                   }
 
-                                  DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                  DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                   double ttlLossAmount = 0.0;
                                   ttlLossAmount = double.parse(lossAmount.text.toString()) * double.parse(priceAmount.text.toString());
                                   batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'loss_cust', ttlLossAmount.toString(), ordCntDate);

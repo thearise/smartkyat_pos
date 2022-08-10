@@ -1257,7 +1257,7 @@ class MerchantCartState extends State<MerchantCart>
         daily.doc(customId), {
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       // 'date' : date
-      'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
+      'date' : (DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
     },SetOptions(merge: true));
     DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
@@ -2614,7 +2614,7 @@ class MerchantCartState extends State<MerchantCart>
 
                                         debugPrint('subList2 Two' + subList2.toString());
 
-                                        DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(
+                                        DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(
                                             now.year.toString() + '-' + zeroToTen(now.month.toString()) +
                                                 '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                         batch = await updateMonthlyData(
@@ -2664,8 +2664,8 @@ class MerchantCartState extends State<MerchantCart>
                                             length.toString());
                                         // CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
                                         //
-                                        // monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-                                        //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+                                        // monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+                                        //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
                                         //     .get()
                                         //     .then((QuerySnapshot querySnapshot)  async {
                                         //   querySnapshot.docs.forEach((doc) {
@@ -2714,8 +2714,8 @@ class MerchantCartState extends State<MerchantCart>
                                         //
                                         //   CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
                                         //
-                                        //   yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-                                        //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+                                        //   yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+                                        //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
                                         //       .get()
                                         //       .then((QuerySnapshot querySnapshot)  async {
                                         //     querySnapshot.docs.forEach((doc) {
@@ -2764,8 +2764,8 @@ class MerchantCartState extends State<MerchantCart>
                                         //     }
 
                                         // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-                                        //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                        //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                        //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                        //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
                                         //     .get()
                                         //     .then((QuerySnapshot querySnapshot) async {
                                         //   querySnapshot.docs.forEach((doc) {
