@@ -2500,10 +2500,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     weekCapital = 0;
 
 
-
+    debugPrint('what now nigga? ' + snapshot2.toString());
     for(int loopOrd = 0; loopOrd < snapshot2.length; loopOrd++) {
 
-      debugPrint('George sai 0 ' + snapshot2[loopOrd].id.toString());
+      debugPrint('George sai 09 ' + snapshot2[loopOrd].id.toString());
       Map<String, dynamic> data = snapshot2[loopOrd].data()! as Map<String, dynamic>;
 
       sevenDayAgo = today.subtract(const Duration(days: 7));
