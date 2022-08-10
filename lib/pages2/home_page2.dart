@@ -624,7 +624,7 @@
 //   DateTime lossDayStart() {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     String endDateOfMonth = '31';
 //     if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
@@ -634,7 +634,7 @@
 //     } else {
 //       endDateOfMonth = '31';
 //     }
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
 //     debugPrint('DDDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
@@ -642,11 +642,11 @@
 //   DateTime lossDayEnd() {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     DateTime notTday = today;
 //     notTday = today;
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
 //     debugPrint('DDDDDD ' + yearStart.toString());
 //     return yearStart;
 //
@@ -655,7 +655,7 @@
 //   DateTime lossDayStartByDate(DateTime date) {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     String endDateOfMonth = '31';
 //     if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
@@ -665,7 +665,7 @@
 //     } else {
 //       endDateOfMonth = '31';
 //     }
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
 //     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
@@ -673,7 +673,7 @@
 //   DateTime lossDayEndByDate(DateTime date) {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     DateTime notTday = date;
 //     notTday = date;
@@ -684,7 +684,7 @@
 //     } else {
 //       ayinMonth = month - 1;
 //     }
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
 //     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
@@ -3877,8 +3877,8 @@
 //
 //                                                                                                       CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 //
-//                                                                                                       monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-//                                                                                                           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+//                                                                                                       monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+//                                                                                                           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
 //                                                                                                           .get()
 //                                                                                                           .then((QuerySnapshot querySnapshot)  async {
 //                                                                                                         querySnapshot.docs.forEach((doc) {
@@ -3916,8 +3916,8 @@
 //
 //                                                                                                         CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
 //
-//                                                                                                         yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-//                                                                                                             .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+//                                                                                                         yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+//                                                                                                             .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
 //                                                                                                             .get()
 //                                                                                                             .then((QuerySnapshot querySnapshot)  async {
 //                                                                                                           querySnapshot.docs.forEach((doc) {
@@ -3955,8 +3955,8 @@
 //
 //
 //                                                                                                           FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-//                                                                                                               .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-//                                                                                                               .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+//                                                                                                               .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+//                                                                                                               .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
 //                                                                                                               .get()
 //                                                                                                               .then((QuerySnapshot querySnapshot)  async {
 //                                                                                                             querySnapshot.docs.forEach((doc) {
@@ -7721,7 +7721,7 @@
 //                     size: ReceiptTextSizeType.extraextraSmall,
 //                   );
 //                   var dateNow = DateTime.now();
-//                   final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+//                   final date2 = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
 //                   receiptText.addLeftText(
 //                     'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
 //                     size: ReceiptTextSizeType.extraextraSmall,
@@ -8917,8 +8917,8 @@
 //
 //                                                                       CollectionReference monthlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_monthly');
 //
-//                                                                       monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
-//                                                                           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
+//                                                                       monthlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '01' + ' 00:00:00'))
+//                                                                           .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + '31' + ' 23:59:59'))
 //                                                                           .get()
 //                                                                           .then((QuerySnapshot querySnapshot)  async {
 //                                                                         querySnapshot.docs.forEach((doc) {
@@ -8971,8 +8971,8 @@
 //
 //                                                                         CollectionReference yearlyData = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders_yearly');
 //
-//                                                                         yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
-//                                                                             .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
+//                                                                         yearlyData.where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '01' + '-' + '01' + ' 00:00:00'))
+//                                                                             .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + '12' + '-' + '31' + ' 23:59:59'))
 //                                                                             .get()
 //                                                                             .then((QuerySnapshot querySnapshot)  async {
 //                                                                           querySnapshot.docs.forEach((doc) {
@@ -9023,8 +9023,8 @@
 //
 //
 //                                                                           FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-//                                                                               .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-//                                                                               .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+//                                                                               .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+//                                                                               .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
 //                                                                               .get()
 //                                                                               .then((QuerySnapshot querySnapshot)  async {
 //                                                                             querySnapshot.docs.forEach((doc) {
@@ -11299,7 +11299,7 @@
 //   }
 //
 //   todayToYearStart(DateTime now) {
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
 //     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }

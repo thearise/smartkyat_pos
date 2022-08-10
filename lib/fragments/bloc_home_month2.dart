@@ -323,10 +323,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
   ordersQuery() {
-    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+    // DateTime greaterThan = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
     // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
     //     .orderBy('date', descending: true);
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
   }
@@ -1493,7 +1493,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
-        today = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateTime.year.toString() + '-' + dateTime.month.toString() + '-' + today.day.toString() + ' 00:00:00');
+        today = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime.year.toString() + '-' + dateTime.month.toString() + '-' + today.day.toString() + ' 00:00:00');
         _dateTime = today;
         // });
 

@@ -209,7 +209,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
-    _dateMod = DateFormat("yyyy-MM-dd hh:mm:ss").parse(_dateTime!.year.toString() + '-' + zeroToTen(_dateTime!.month.toString()) + '-' + zeroToTen(_dateTime!.day.toString()) + ' 23:59:59');
+    _dateMod = DateFormat("yyyy-MM-dd HH:mm:ss").parse(_dateTime!.year.toString() + '-' + zeroToTen(_dateTime!.month.toString()) + '-' + zeroToTen(_dateTime!.day.toString()) + ' 23:59:59');
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -300,10 +300,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   ordersQuery() {
-    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+    // DateTime greaterThan = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
     // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
     //     .orderBy('date', descending: true);
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
   }

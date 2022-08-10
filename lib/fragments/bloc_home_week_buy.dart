@@ -276,8 +276,9 @@ class _BlocHomeWeekBuyState extends State<BlocHomeWeekBuy> {
 
   ordersQuery() {
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders_monthly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse( calYear(today.month, today.year).toString() + '-' + zeroToTen( calMonth(today.month).toString()) + '-01' + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' +  ((DateTime(today.year, today.month + 1, 0).day+1).toInt() - 2).toString() + ' 23:59:59'));
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' +  zeroToTen(today.day.toString()) + ' 00:00:00').subtract(Duration(days: 14)))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' +  zeroToTen(today.day.toString()) + ' 23:59:59'))
+    ;
   }
 
   Widget _buildListView(PaginationLoaded loadedState) {
