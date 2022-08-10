@@ -108,10 +108,10 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
   List ttlInfoList = [];
   infoData() async {
     List <String> infoList = [];
-    final date = DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
+    final date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
     final dueDate = date.add(Duration(days: 7));
     final String discount = widget.data.split('^')[6] != '0.0' ?  (widget.data.split('^')[6].split('-')[1]).toString() : '';
-    final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
+    final date2 = DateFormat("yyyy-MM-dd HH:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
     infoList.add(widget.data.split('^')[1]+ '<>' +widget.data.split('^')[3].split('&')[0]+ '<>' + dueDate.toString() + '<>' + discount + '<>' +widget.data.split('^')[6].split('-')[0]+ '<>' + widget.data.split('^')[5] + '<>' + widget.data.split('^')[1].toString() + '<>' + widget.data.split('^')[3].split('&')[0].toString() + '<>' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString());
     ttlInfoList = widget.prodList + infoList;
 
@@ -126,7 +126,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
     List prodList = widget.prodList;
 
-    final date = DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
+    final date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8) + ' 00:00:00');
     final dueDate = date.add(Duration(days: 7));
     // debugPrint('CUZMER CHECK ' + customerId.toString());
     var shopDocSnap = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)

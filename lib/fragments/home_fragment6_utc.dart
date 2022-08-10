@@ -218,7 +218,7 @@ class HomeFragmentState extends State<HomeFragment>
   DateTime lossDayStartByDate(DateTime date) {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     String endDateOfMonth = '31';
     if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
@@ -228,7 +228,7 @@ class HomeFragmentState extends State<HomeFragment>
     } else {
       endDateOfMonth = '31';
     }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -236,7 +236,7 @@ class HomeFragmentState extends State<HomeFragment>
   DateTime lossDayEndByDate(DateTime date) {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime notTday = date;
     notTday = date;
@@ -247,7 +247,7 @@ class HomeFragmentState extends State<HomeFragment>
     } else {
       ayinMonth = month - 1;
     }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -2346,9 +2346,9 @@ class HomeFragmentState extends State<HomeFragment>
   todayToYearStart() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -2356,9 +2356,9 @@ class HomeFragmentState extends State<HomeFragment>
   lossDayStart() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -2366,26 +2366,26 @@ class HomeFragmentState extends State<HomeFragment>
   lossDayEnd() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime notTday = today;
     if(cateScIndex == 0) {
       notTday = today;
-      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
       debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else if(cateScIndex == 1) {
       notTday = today.subtract(Duration(days: 6));
-      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
       debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else if(cateScIndex == 2) {
       notTday = today.subtract(Duration(days: 27));
-      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
       debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     } else {
-      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
+      DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
       debugPrint('DDDD ' + yearStart.toString());
       return yearStart;
     }
@@ -2417,15 +2417,15 @@ class HomeFragmentState extends State<HomeFragment>
 
   ordersQuery() {
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders')
-        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.add(Duration(days: 1)).year.toString() + '-' + zeroToTen((today.add(Duration(days: 1)).month).toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 23:59:59'))
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 13)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 13)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 13)).day.toString()) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.add(Duration(days: 1)).year.toString() + '-' + zeroToTen((today.add(Duration(days: 1)).month).toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 23:59:59'))
         .orderBy('date', descending: true);
   }
 
   ordersQueryYear() {
     return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_yearly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse((today.year - 1).toString() + '-01-00' + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'));
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse((today.year - 1).toString() + '-01-00' + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString()  + '-12-00 00:00:00'));
   }
 
   ordersQueryMonth() {

@@ -323,10 +323,10 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   }
 
   ordersQuery() {
-    // DateTime greaterThan = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
+    // DateTime greaterThan = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00');
     // return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders')
-    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.subtract(Duration(days: 6)).year.toString() + '-' + zeroToTen(today.subtract(Duration(days: 6)).month.toString()) + '-' + zeroToTen(today.subtract(Duration(days: 6)).day.toString()) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.add(Duration(days: 1)).day.toString()) + ' 00:00:00'))
     //     .orderBy('date', descending: true);
     return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
   }
@@ -860,7 +860,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(monthLossTotal.round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                  child: Text(monthLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                     textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -946,7 +946,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(profitByMonth().round().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                  child: Text(profitByMonth().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                     textScaleFactor: 1, textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
                                                         textStyle: TextStyle(
@@ -1493,7 +1493,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       onCancel: () => debugPrint('onCancel'),
       onChange: (dateTime, List<int> index) {
         // setState(() {
-        today = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateTime.year.toString() + '-' + dateTime.month.toString() + '-' + today.day.toString() + ' 00:00:00');
+        today = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime.year.toString() + '-' + dateTime.month.toString() + '-' + today.day.toString() + ' 00:00:00');
         _dateTime = today;
         // });
 
@@ -1621,9 +1621,9 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     } else if(_sliding == 1) {
       return weekCostsTotalR.toString();
     } else if(_sliding == 2) {
-      return monthCostsTotal2.toString();
+      return monthCostsTotal2.toStringAsFixed(1);
     } else {
-      return yearCostsTotal2.toString();
+      return yearCostsTotal2.toStringAsFixed(1);
     }
   }
 
@@ -1633,9 +1633,9 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
     } else if(_sliding == 1) {
       return weekRefundTotal.toString();
     } else if(_sliding == 2) {
-      return monthRefundTotal.toString();
+      return monthRefundTotal.toStringAsFixed(1);
     } else {
-      return yearRefundTotal.toString();
+      return yearRefundTotal.toStringAsFixed(1);
     }
   }
 
@@ -1661,13 +1661,13 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
       yearlyTotal += thisYearOrdersChart[i];
     }
     if(_sliding == 0) {
-      return todayTotal.toStringAsFixed(2);
+      return todayTotal.toStringAsFixed(1);
     } else if(_sliding == 1) {
-      return weeklyTotal.toStringAsFixed(2);
+      return weeklyTotal.toStringAsFixed(1);
     } else if(_sliding == 2) {
-      return monthlyTotal.toStringAsFixed(2);
+      return monthlyTotal.toStringAsFixed(1);
     } else {
-      return yearlyTotal.toStringAsFixed(2);
+      return yearlyTotal.toStringAsFixed(1);
     }
   }
 

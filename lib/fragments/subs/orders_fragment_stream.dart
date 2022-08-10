@@ -2898,7 +2898,7 @@
 //   DateTime lossDayStart() {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     String endDateOfMonth = '31';
 //     if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
@@ -2908,7 +2908,7 @@
 //     } else {
 //       endDateOfMonth = '31';
 //     }
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
 //     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //   }
@@ -2916,11 +2916,11 @@
 //   lossDayEnd() {
 //     // DateTime today = DateTime.now();
 //     // DateTime yearStart = DateTime.now();
-//     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+//     // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
 //     // today.
 //     DateTime notTday = today;
 //     notTday = today;
-//     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
+//     DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
 //     debugPrint('DDDD ' + yearStart.toString());
 //     return yearStart;
 //

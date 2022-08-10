@@ -803,7 +803,7 @@ class HomePageState extends State<HomePage>
   DateTime lossDayStart() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     String endDateOfMonth = '31';
     if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
@@ -813,7 +813,7 @@ class HomePageState extends State<HomePage>
     } else {
       endDateOfMonth = '31';
     }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
     debugPrint('DDDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -821,11 +821,11 @@ class HomePageState extends State<HomePage>
   DateTime lossDayEnd() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime notTday = today;
     notTday = today;
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
     debugPrint('DDDDDD ' + yearStart.toString());
     return yearStart;
 
@@ -834,7 +834,7 @@ class HomePageState extends State<HomePage>
   DateTime lossDayStartByDate(DateTime date) {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     String endDateOfMonth = '31';
     if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
@@ -844,7 +844,7 @@ class HomePageState extends State<HomePage>
     } else {
       endDateOfMonth = '31';
     }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -852,7 +852,7 @@ class HomePageState extends State<HomePage>
   DateTime lossDayEndByDate(DateTime date) {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime notTday = date;
     notTday = date;
@@ -863,7 +863,7 @@ class HomePageState extends State<HomePage>
     } else {
       ayinMonth = month - 1;
     }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -4416,7 +4416,7 @@ class HomePageState extends State<HomePage>
 
                                                                                                     batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
-                                                                                                    DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                                                    DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                                                                                     batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
                                                                                                     batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
@@ -7574,7 +7574,7 @@ class HomePageState extends State<HomePage>
       size: ReceiptTextSizeType.extraextraSmall,
     );
     var dateNow = DateTime.now();
-    final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+    final date2 = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
     receiptText.addLeftText(
       'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
       size: ReceiptTextSizeType.extraextraSmall,
@@ -8242,7 +8242,7 @@ class HomePageState extends State<HomePage>
                   size: ReceiptTextSizeType.extraextraSmall,
                 );
                 var dateNow = DateTime.now();
-                final date2 = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
+                final date2 = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateNow.year.toString()  + '-' + zeroToTen(dateNow.month.toString())  + '-' +  zeroToTen(dateNow.day.toString())+ ' 00:00:00');
                 receiptText.addLeftText(
                   'Date: ' + date2.day.toString() + '-' + date2.month.toString() + '-' + date2.year.toString(),
                   size: ReceiptTextSizeType.extraextraSmall,
@@ -9649,7 +9649,7 @@ class HomePageState extends State<HomePage>
 
                                                                           batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
-                                                                          DateTime ordCntDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                          DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
                                                                           //notworking
                                                                           batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
                                                                           //notworking
@@ -12192,7 +12192,7 @@ class HomePageState extends State<HomePage>
   }
 
   todayToYearStart(DateTime now) {
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
+    DateTime yearStart = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
     debugPrint('DDDD ' + yearStart.toString());
     return yearStart;
   }
@@ -12221,7 +12221,7 @@ class HomePageState extends State<HomePage>
         daily.doc(customId), {
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       // 'date' : date
-      'date' : (DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
+      'date' : (DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
     },SetOptions(merge: true));
     DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
     batch.set(nonceRef, {
