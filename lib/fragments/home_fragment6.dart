@@ -2429,10 +2429,43 @@ class HomeFragmentState extends State<HomeFragment>
   }
 
   ordersQueryMonth() {
-    return FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders_monthly')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' +  zeroToTen(today.day.toString()) + ' 00:00:00').subtract(Duration(days: 31)))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' +  zeroToTen(today.day.toString()) + ' 23:59:59'))
-    ;  }
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders_monthly')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM").parse(ayinYear(today.month, today.year).toString() + '-' + zeroToTen(ayinMonth(today.month).toString())))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM").parse(nextYear(today.month, today.year).toString() + '-' + zeroToTen(nextMonth(today.month).toString())))
+    ;
+  }
+
+  ayinMonth(int month) {
+    if(month == 1) {
+      return 12;
+    } else {
+      return month - 1;
+    }
+  }
+
+  ayinYear(int month, int year) {
+    if(month == 1) {
+      return year-1;
+    } else {
+      return year;
+    }
+  }
+
+  nextMonth(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month + 1;
+    }
+  }
+
+  nextYear(int month, int year) {
+    if(month == 12) {
+      return year+1;
+    } else {
+      return year;
+    }
+  }
 
   ordersMonthAyin(int month) {
     if(month == 1) {
