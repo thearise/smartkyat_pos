@@ -193,7 +193,8 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                             )
                                           ),
                                         ],
-                                      )),
+                                      )
+                                  ),
                                   SizedBox(height: 15),
                                   Text(textSetCashRec, textScaleFactor: 1, style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -431,6 +432,11 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   openOverAllSubLoading();
 
                                   String noCustomer = '';
+
+                                  DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
+                                  batch.set(nonceRef, {
+                                    'time': FieldValue.serverTimestamp(),
+                                  });
 
                                   if(widget.data.split('^')[3].split('&')[0] == 'No customer') {
                                     noCustomer = 'name';
@@ -782,11 +788,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
     batch.update(documentReference, {
       'daily_order': FieldValue.arrayUnion([updateData])
-    });
-
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
-    batch.set(nonceRef, {
-      'time': FieldValue.serverTimestamp(),
     });
     return batch;
   }
