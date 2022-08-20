@@ -2511,4 +2511,3 @@ class HomeFragmentState extends State<HomeFragment>
     });
   }
 }
-
