@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
@@ -328,12 +329,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     fetchOrdersMY(loadedState.documentSnapshots);
 
     fetchOrders(widget.sale, widget.buy);
+
     var listView = CustomScrollView(
       reverse: widget.reverse,
       controller: widget.scrollController,
       shrinkWrap: widget.shrinkWrap,
       scrollDirection: widget.scrollDirection,
-      physics: widget.physics,
+      physics:
+      const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       slivers: [
         SliverAppBar(
           elevation: 0,
@@ -353,6 +356,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           // Make the initial height of the SliverAppBar larger than normal.
           expandedHeight: 20,
         ),
+        // CupertinoSliverRefreshControl(
+        //
+        //   onRefresh: () async {
+        //     await Future.delayed(Duration(seconds: 2));
+        //   },
+        // ),
         SliverList(
           // Use a delegate to build items as they're scrolled on screen.
           delegate: SliverChildBuilderDelegate(
@@ -1162,10 +1171,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                             ],
                           ),
                         ),
-
-                        SizedBox(
-                          height: 0,
-                        ),
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         //   child: Container(
@@ -1240,6 +1245,513 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                         SizedBox(
                           height: 20,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: FittedBox(
+                                  child: DataTable(
+                                    // columnSpacing: ((MediaQuery.of(context).size.width) / 10) * 0.5,
+                                    columnSpacing: 10,
+                                    horizontalMargin: 15,
+                                    dataRowHeight: 50,
+                                    columns: <DataColumn>[
+                                      DataColumn(
+                                        label: Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                          child: Text(
+                                            'Product',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 16
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            'Main',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                            // style: TextStyle(fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+
+                                      ),
+                                      DataColumn(
+                                        label: Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            'Sub1',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                            // style: TextStyle(fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            'Sub2',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                            // style: TextStyle(fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    rows: [
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'A White Polo Chino Pant',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                      fontSize: 16
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '204',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 16
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 16
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 16
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+
+
+
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Dagger Square Sunglasses',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '168',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'GETOREE Florence Beige Leather',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '150',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Gentleman White Shirt',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '100',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Hawaii Blue Shirt',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '100',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Leather Brand Wallet',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '19',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Macse Foam Leather Gents Purse',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '18',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Men Short Purse Stone',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '10',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Simple Casual Short',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '204',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                                  child: Text(
+                                                    'Energy Drink Carabao',
+                                                    style: TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '204',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                          DataCell(
+                                              Container(
+                                                  width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                                  child: Text(
+                                                    '0',
+                                                    textAlign: TextAlign.right,
+                                                  )
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                         // SizedBox(
                         //   width: 60,
                         //   height: 34,
@@ -1266,6 +1778,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
             childCount: 1,
           ),
         ),
+
       ],
     );
     // var listView = CustomScrollView(
