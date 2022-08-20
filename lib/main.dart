@@ -9,16 +9,21 @@ import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smartkyat_pos/pages2/notificationservice.dart';
 import 'fragments/welcome_fragment.dart';
 import 'src/app.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
+import 'package:timezone/data/latest.dart' as tz;
+
 final themeMode = ValueNotifier(2);
 
 PackageInfo? packageInfo;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
   // FirebaseFirestore.instance.settings = Settings(
