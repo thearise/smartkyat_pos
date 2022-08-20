@@ -77,6 +77,7 @@ import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 
 import 'first_launch_page.dart';
+import 'notificationservice.dart';
 import 'transparent.dart';
 
 class HomePage extends StatefulWidget {
@@ -413,19 +414,9 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
-    // FirebaseAuth.instance.signOut();
 
-    // showOkCancelAlertDialog(
-    //   context: context,
-    //   title: 'Are you sure you want to switch?',
-    //   message: 'This action will restart the application',
-    //   defaultType: OkCancelAlertDefaultType.cancel,
-    // ).then((result) async {
-    //   if(result == OkCancelResult.ok) {
-    //
-    //   }
-    // }
-    // );
+
+
     debugPrint('dev check ' + widget.deviceId.toString());
     getLangId().then((value) {
       if(value=='burmese') {
@@ -655,6 +646,20 @@ class HomePageState extends State<HomePage>
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
     getStoreId().then((value0) {
+      FirebaseFirestore.instance.collection('shops').doc(value0)
+          .get().then((value2) async {
+        var isPro = value2.data()!['is_pro'];
+        Timestamp isProEnd = isPro['end'];
+        DateTime endDate = isProEnd.toDate();
+        DateTime nowCheck = DateTime.now().add(const Duration(days: 6));
+
+        if(!(endDate.isAfter(nowCheck))) {
+          debugPrint('End Date Noti '+ endDate.toString());
+          NotificationService().scheduleDailyTenAMNotification();
+        } else {
+          NotificationService().cancelAllNotifications();
+        }
+      });
       debugPrint('value check ' + value0.toString());
       if(value0 == '' || value0 == null) {
         Navigator.of(context).pushReplacement(
@@ -4327,6 +4332,11 @@ class HomePageState extends State<HomePage>
                                                                                                     disableTouch = true;
                                                                                                   });
 
+                                                                                                  DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
+                                                                                                  batch.set(nonceRef, {
+                                                                                                    'time': FieldValue.serverTimestamp(),
+                                                                                                  });
+
                                                                                                   FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
                                                                                                       .get().then((value) async {
                                                                                                     length = int.parse(value.data()!['count'].toString());
@@ -4343,6 +4353,8 @@ class HomePageState extends State<HomePage>
                                                                                                     batch = await updateOrderLength(batch);
                                                                                                     ttlPrice = TtlProdListPrice();
                                                                                                     subList = [];
+                                                                                                    DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+
                                                                                                     for (int k=0; k< prodList.length;  k++) {
                                                                                                       //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -4375,6 +4387,18 @@ class HomePageState extends State<HomePage>
 
                                                                                                       if(prodList[k].split('^')[3] == 'unit_name') {
                                                                                                         batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+
+                                                                                                        batch.set(
+                                                                                                            prodsArr,
+                                                                                                            {
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
                                                                                                         debugPrint('decStock ' + prodList[k].split('^')[0].toString());
                                                                                                         //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                                                         //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
@@ -4387,12 +4411,34 @@ class HomePageState extends State<HomePage>
                                                                                                       else if(prodList[k].split('^')[3] == 'sub1_name') {
                                                                                                         debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
                                                                                                         batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                        batch.set(
+                                                                                                            prodsArr,
+                                                                                                            {
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
                                                                                                         // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                                                         //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                                                         //});
                                                                                                       }
                                                                                                       else if(prodList[k].split('^')[3] == 'sub2_name') {
                                                                                                         batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                        batch.set(
+                                                                                                            prodsArr,
+                                                                                                            {
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
                                                                                                         // productsFire.doc(str.split('^')[0]).update({
                                                                                                         //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                                                         // });
@@ -6414,9 +6460,25 @@ class HomePageState extends State<HomePage>
                                                                   //SizedBox(width:15),
                                                                   GestureDetector(
                                                                     onTap: () async {
-                                                                      debugPrint('clicked tether' + calHourFromTZ(DateTime.now()).toString());
-
-                                                                      calHourFromTZ(DateTime.now());
+                                                                      // smartKyatFlash('Wait a second, fucker', 'w');
+                                                                      //
+                                                                      // await FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                      //     .get().then((value2) async {
+                                                                      //   var isPro = value2.data()!['is_pro'];
+                                                                      //   Timestamp isProEnd = isPro['end'];
+                                                                      //   DateTime endDate = isProEnd.toDate();
+                                                                      //   DateTime nowCheck = DateTime.now().add(const Duration(days: 6));
+                                                                      //
+                                                                      //   if(!(endDate.isAfter(nowCheck))) {
+                                                                      //     smartKyatFlash('End tot ml naw', 'w');
+                                                                      //     NotificationService().scheduleDailyTenNotification();
+                                                                      //   } else {
+                                                                      //     NotificationService().cancelAllNotifications();
+                                                                      //     smartKyatFlash('toe p: par p', 'w');
+                                                                      //   }
+                                                                      // });
+                                                                     // debugPrint('clicked tether' + calHourFromTZ(DateTime.now()).toString());
+                                                                    //  NotificationService().scheduleDailyTenNotification();
                                                                     //  prodGlobalKey.currentState!.navigatorPop();
 
                                                                       // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
@@ -6786,8 +6848,12 @@ class HomePageState extends State<HomePage>
 
               //debugPrint('CHECK ' + doc['prod_name'].toString());
               scannedResult(key.toString() + '^' + value['na'] + '^' + value['sm'].toString() + '^' + value['s1'].toString()
-                  + '^' + value['s2'].toString() + '^' + value['im'].toString() + '^' + value['i1'].toString() + '^' + value['i2'].toString() + '^' +value['se'].toString() + '^' +
-                  value['nm'] + '^' + value['n1'] + '^' + value['n2'] + '^' + value['co'] + '^' + '' + '^' + value['c1'].toString() + '^' + value['c2'].toString());
+                  + '^' + value['s2'].toString() + '^' + value['im'].toString() + '^' + value['i1'].toString() + '^' + value['i2'].toString()
+                  + '^' +value['se'].toString() + '^' +
+                  value['nm'] + '^' + value['n1'] + '^' + value['n2'] + '^' + value['co'] + '^' + '' + '^' + value['c1'].toString() +
+                  '^' + value['c2'].toString() +  '^' + value['bm'].toString()
+                  +  '^' + value['b1'].toString()
+                  +  '^' + value['b2'].toString());
 
               value['n1'] != ''  && value['n2'] == '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}]:
               value['n1'].toString() != ''  && value['n2'] != '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}, {'no': 3, 'keyword': value['n2']}] :
@@ -6808,6 +6874,7 @@ class HomePageState extends State<HomePage>
   double totalFixAmount2 = 0;
   double titlePrice2 = 0;
   double price4 = 0;
+  String price5 = '0';
   String sellprice5 = '0';
   String instock = '';
   String loss5 = '0';
@@ -6829,6 +6896,7 @@ class HomePageState extends State<HomePage>
           barcode5 = result.split('^')[12];
           pName = result.split('^')[1];
           sellprice5 = result.split('^')[2];
+          price5 = result.split('^')[16];
           totalFixAmount2 = double.parse(result.split('^')[2].toString());
           final double scaleFactor = MediaQuery.of(context).textScaleFactor;
           return StatefulBuilder(
@@ -6840,6 +6908,7 @@ class HomePageState extends State<HomePage>
                   name5 = result.split('^')[11];
                   data ='^sub2_name^';
                   pLink = result.split('^')[15];
+                  price5 = result.split('^')[18];
                 });
                 debugPrint('selected test is true');
               } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
@@ -6849,6 +6918,7 @@ class HomePageState extends State<HomePage>
                   name5 = result.split('^')[10];
                   data ='^sub1_name^';
                   pLink = result.split('^')[14];
+                  price5 = result.split('^')[17];
                 });
                 debugPrint('selected test is false');
               } else{
@@ -6858,6 +6928,7 @@ class HomePageState extends State<HomePage>
                   name5 = result.split('^')[9];
                   data ='^unit_name^';
                   pLink = '';
+                  price5 = result.split('^')[16];
                 });
                 debugPrint('selected test is tf');}
 
@@ -7389,7 +7460,7 @@ class HomePageState extends State<HomePage>
                                                           setState(() {
                                                             productSale = [];
                                                             saleInfo = '';
-                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage + '^' + instock + '^' + pLink  );
+                                                            addProduct(result.split('^')[0] + '^' + price5.toString() + '^' + price4.toString() + data + qty.toString() + '^' + pName + '^' + name5.toString() + '^' + pImage + '^' + instock + '^' + pLink  );
                                                           });
                                                           debugPrint('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
@@ -9558,6 +9629,11 @@ class HomePageState extends State<HomePage>
 
                                                                         debugPrint('order creating');
 
+                                                                          DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
+                                                                          batch.set(nonceRef, {
+                                                                            'time': FieldValue.serverTimestamp(),
+                                                                          });
+
                                                                         FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
                                                                             .get().then((value) async {
                                                                           length = int.parse(value.data()!['count'].toString());
@@ -9574,6 +9650,8 @@ class HomePageState extends State<HomePage>
                                                                           debugPrint('datacheck' + prodList.toString());
                                                                           ttlPrice = TtlProdListPrice();
                                                                           subList = [];
+                                                                          DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+
                                                                           for (int k=0; k< prodList.length;  k++) {
                                                                             //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -9605,7 +9683,19 @@ class HomePageState extends State<HomePage>
                                                                             debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
 
                                                                             if(prodList[k].split('^')[3] == 'unit_name') {
+
                                                                               batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+                                                                              batch.set(
+                                                                                  prodsArr,
+                                                                                  {
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
                                                                               debugPrint('decStock ' + prodList[k].split('^')[0].toString());
                                                                               //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                               //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
@@ -9618,12 +9708,34 @@ class HomePageState extends State<HomePage>
                                                                             else if(prodList[k].split('^')[3] == 'sub1_name') {
                                                                               debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
                                                                               batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                              batch.set(
+                                                                                  prodsArr,
+                                                                                  {
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
                                                                               // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                               //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                               //});
                                                                             }
                                                                             else if(prodList[k].split('^')[3] == 'sub2_name') {
                                                                               batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                              batch.set(
+                                                                                  prodsArr,
+                                                                                  {
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
                                                                               // productsFire.doc(str.split('^')[0]).update({
                                                                               //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                               // });
@@ -9658,6 +9770,7 @@ class HomePageState extends State<HomePage>
                                                                           //notworking
                                                                           batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
                                                                           batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+
 
                                                                           // if (dateExist) {
                                                                           //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
@@ -12223,10 +12336,6 @@ class HomePageState extends State<HomePage>
       // 'date' : date
       'date' : (DateFormat("yyyy-MM-dd HH:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + zeroToTen(date.day.toString()) + ' ' + zeroToTen(date.hour.toString()) + ':' + zeroToTen(date.minute.toString()) + ':' + zeroToTen(date.second.toString()))),
     },SetOptions(merge: true));
-    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
-    batch.set(nonceRef, {
-      'time': FieldValue.serverTimestamp(),
-    });
     return batch;
   }
 
