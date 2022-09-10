@@ -1144,7 +1144,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 if (documentSnapshot.exists) {
                                                   documentSnapshot['mer'].forEach((key, value) async {
                                                     debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
-                                                    if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
+                                                    if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
                                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                                     }
                                                   });
