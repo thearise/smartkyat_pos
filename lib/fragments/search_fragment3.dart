@@ -3629,17 +3629,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   Map<dynamic, dynamic> searchProds = {};
 
   void searchKeyChanged() {
-    // prodResults = [];
-    // int i = 0;
-    // workCacheProds.forEach((element) {
-    //   if(i == workCacheProds.length-1) {
-    //     setState(() {});
-    //   }
-    //   if(element['prod_name'].toLowerCase().contains(searchValue)) {
-    //     prodResults.add(element['prod_name'] + ' ' + element.id);
-    //   }
-    //   i += 1;
-    // });
 
     debugPrint('setting state ');
     prods = {};
@@ -3665,6 +3654,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
               actualLen++;
             }
           }
+          if(eachMap.value['co'] != null) {
+            if(eachMap.value['co'].contains(searchValue)) {
+              actualLen++;
+            }
+          }
         }
 
         for(int i = 0; i < prods.length; i++) {
@@ -3672,6 +3666,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           if(eachMap.value['na'] != null) {
             if(eachMap.value['na'].toLowerCase().contains(searchValue)) {
               debugPrint('each map ' + eachMap.value['na'].toString());
+              searchProds[eachMap.key] = eachMap.value;
+              noResult = false;
+              if(searchProds.length >= itemPerPage) {
+                break;
+              }
+            }
+          }
+          if(eachMap.value['co'] != null) {
+            if(eachMap.value['co'].contains(searchValue)) {
               searchProds[eachMap.key] = eachMap.value;
               noResult = false;
               if(searchProds.length >= itemPerPage) {
@@ -3691,7 +3694,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         }
         // searchProds = sortMapByNaS(searchProds);
       }
-    } else if(cateScIndex == 1) {
+    }
+    else if(cateScIndex == 1) {
       if(searchValue != '' && searchValue != ' ') {
         var prodsSnapOut = custsEvent != null? custsEvent: null;
         prods = prodsSnapOut?['cus'];
@@ -3734,7 +3738,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           noResult = true;
         }
       }
-    } else if(cateScIndex == 2) {
+    }
+    else if(cateScIndex == 2) {
       if(searchValue != '' && searchValue != ' ') {
         var prodsSnapOut = mercsEvent != null? mercsEvent: null;
         prods = prodsSnapOut?['mer'];

@@ -829,6 +829,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
                                               debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
+                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
+                                              DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
+
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
@@ -839,6 +842,29 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                       documentSnapshot['prods'].forEach((key, value) async {
                                                         if(key.toString() ==  prodList[i].split('^')[0].toString()) {
                                                           batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
+                                                          batch.set(
+                                                              prodsArr,
+                                                              {
+                                                                'prods': {
+                                                                  prodList[i].split('^')[0].toString(): {
+                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+
+                                                                  }
+                                                                }
+                                                              },SetOptions(merge: true)
+                                                          );
+
+                                                          batch.set(
+                                                              prodsMonthly,
+                                                              {
+                                                                'prods': {
+                                                                  prodList[i].split('^')[0].toString(): {
+                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+
+                                                                  }
+                                                                }
+                                                              },SetOptions(merge: true)
+                                                          );
                                                         }
                                                       });
 
@@ -983,7 +1009,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 if (documentSnapshot.exists) {
                                                   documentSnapshot['cus'].forEach((key, value) async {
                                                     debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
-                                                    if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
+                                                    if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
                                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
                                                     }
                                                   });
