@@ -480,7 +480,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                   .then((DocumentSnapshot documentSnapshot) async {
                                 if (documentSnapshot.exists) {
                                   documentSnapshot['mer'].forEach((key, value) async {
-                                    if(value['na'].toString() ==  widget.data.split('^')[3].split('&')[0].toString()) {
+                                    if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
                                       batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], debts, paidCus);
                                     }
                                   });

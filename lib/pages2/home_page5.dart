@@ -4355,6 +4355,8 @@ class HomePageState extends State<HomePage>
                                                                                                     subList = [];
                                                                                                     DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
 
+                                                                                                    DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+
                                                                                                     for (int k=0; k< prodList.length;  k++) {
                                                                                                       //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -4388,9 +4390,23 @@ class HomePageState extends State<HomePage>
                                                                                                       if(prodList[k].split('^')[3] == 'unit_name') {
                                                                                                         batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
 
-                                                                                                        batch.set(
+                                                                                                         batch.set(
                                                                                                             prodsArr,
                                                                                                             {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
+
+                                                                                                         batch.set(
+                                                                                                             prodsMonthly,
+                                                                                                            {
+                                                                                                              'date' : now,
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
@@ -4414,6 +4430,19 @@ class HomePageState extends State<HomePage>
                                                                                                         batch.set(
                                                                                                             prodsArr,
                                                                                                             {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
+                                                                                                        batch.set(
+                                                                                                            prodsMonthly,
+                                                                                                            {
+                                                                                                              'date' : now,
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
@@ -4431,6 +4460,19 @@ class HomePageState extends State<HomePage>
                                                                                                         batch.set(
                                                                                                             prodsArr,
                                                                                                             {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
+                                                                                                        batch.set(
+                                                                                                            prodsMonthly,
+                                                                                                            {
+                                                                                                              'date' : now,
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
@@ -9651,6 +9693,7 @@ class HomePageState extends State<HomePage>
                                                                           ttlPrice = TtlProdListPrice();
                                                                           subList = [];
                                                                           DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+                                                                          DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
 
                                                                           for (int k=0; k< prodList.length;  k++) {
                                                                             //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
@@ -9683,11 +9726,25 @@ class HomePageState extends State<HomePage>
                                                                             debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
 
                                                                             if(prodList[k].split('^')[3] == 'unit_name') {
-
                                                                               batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+
                                                                               batch.set(
                                                                                   prodsArr,
                                                                                   {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
+
+                                                                              batch.set(
+                                                                                  prodsMonthly,
+                                                                                  {
+                                                                                    'date' : now,
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
@@ -9711,6 +9768,19 @@ class HomePageState extends State<HomePage>
                                                                               batch.set(
                                                                                   prodsArr,
                                                                                   {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
+                                                                              batch.set(
+                                                                                  prodsMonthly,
+                                                                                  {
+                                                                                    'date' : now,
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
@@ -9728,6 +9798,19 @@ class HomePageState extends State<HomePage>
                                                                               batch.set(
                                                                                   prodsArr,
                                                                                   {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
+                                                                              batch.set(
+                                                                                  prodsMonthly,
+                                                                                  {
+                                                                                    'date' : now,
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
