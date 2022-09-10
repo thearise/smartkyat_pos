@@ -667,7 +667,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                               prods = prodsSnapOut?['prods'];
-                              //  debugPrint('prods length' + prods.length.toString());
+                               // debugPrint('prods length' + prods.runtimeType.toString());
                               if(itemPerPage >= prods.length) {
                                 endOfResult = true;
                               }
