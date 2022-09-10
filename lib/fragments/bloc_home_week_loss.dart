@@ -1297,103 +1297,103 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                           height: 20,
                         ),
                         StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                            stream: prodsSnap,
-                            builder: (BuildContext context, prodsSB) {
-                              if(prodsSB.hasData) {
-                                var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
-                                var prodsSc = prodsSnapOut?['prods'];
-                                return StreamBuilder(
-                                    stream: prodSaleData,
-                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if(snapshot.hasData) {
-                                        debugPrint('snapshot len ' + snapshot.data!.docs.length.toString());
-                                        if(cateScIndex == 0) {
-                                          var prodsDoc;
-                                          // Map<String, dynamic>
-                                          for(int i=0; i<snapshot.data!.docs.length; i++) {
-                                            Map<String, dynamic> eachDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
-                                            DateTime docDate = eachDoc['date'].toDate();
-                                            if(today.day == docDate.day) {
-                                              prodsDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
-                                            }
-                                            debugPrint('iphone ' + eachDoc['date'].toDate().toString());
+                          stream: prodsSnap,
+                          builder: (BuildContext context, prodsSB) {
+                            if(prodsSB.hasData) {
+                              var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                              var prodsSc = prodsSnapOut?['prods'];
+                              return StreamBuilder(
+                                  stream: prodSaleData,
+                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if(snapshot.hasData) {
+                                      debugPrint('snapshot len ' + snapshot.data!.docs.length.toString());
+                                      if(cateScIndex == 0) {
+                                        var prodsDoc;
+                                        // Map<String, dynamic>
+                                        for(int i=0; i<snapshot.data!.docs.length; i++) {
+                                          Map<String, dynamic> eachDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
+                                          DateTime docDate = eachDoc['date'].toDate();
+                                          if(today.day == docDate.day) {
+                                            prodsDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
                                           }
-                                          if(prodsDoc != null) {
-                                            var prods = prodsDoc['prods'];
-                                            var prodsPrep = {};
-
-                                            for(int i = 0; i < prods.length; i++) {
-                                              var eachMap = prods.entries.elementAt(i);
-                                              debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
-                                              var assign = {
-                                                'name': prodsSc[eachMap.key]['na'],
-                                                'main': eachMap.value['im'] == null? 0: eachMap.value['im'].toInt(),
-                                                'sub1': eachMap.value['i1'] == null? 0: eachMap.value['i1'].toInt(),
-                                                'sub2': eachMap.value['i2'] == null? 0: eachMap.value['i2'].toInt(),
-                                                'sort': 0,
-                                                'mana': prodsSc[eachMap.key]['nm'],
-                                                's1na': prodsSc[eachMap.key]['n1'],
-                                                's2na': prodsSc[eachMap.key]['n2']
-                                              };
-                                              prodsPrep.addAll({eachMap.key.toString(): assign});
-                                            }
-                                            prodsPrep = sortMapByAvg(prodsPrep);
-                                            debugPrint('lalisa ' + prodsPrep.toString());
-                                            return prodsDataTable(prodsPrep);
-                                          }
-                                          return Container();
-                                        } else {
-                                          debugPrint('docs snap len ' + snapshot.data!.docs.length.toString());
-                                          var prodsDoc;
+                                          debugPrint('iphone ' + eachDoc['date'].toDate().toString());
+                                        }
+                                        if(prodsDoc != null) {
+                                          var prods = prodsDoc['prods'];
                                           var prodsPrep = {};
-                                          for(int j=0; j<snapshot.data!.docs.length; j++) {
-                                            debugPrint('looping ');
-                                            Map<String, dynamic> eachDoc = snapshot.data!.docs[j].data()! as Map<String, dynamic>;
-                                            DateTime docDate = eachDoc['date'].toDate();
-                                            var prods = eachDoc['prods'];
-                                            debugPrint('eachDoc ' + prods.toString());
 
-                                            for(int i = 0; i < prods.length; i++) {
-                                              var eachMap = prods.entries.elementAt(i);
-                                              debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
-                                              var assign = {
-                                                'name': prodsSc[eachMap.key]['na'],
-                                                'main': eachMap.value['im'] == null? 0: eachMap.value['im'].toInt(),
-                                                'sub1': eachMap.value['i1'] == null? 0: eachMap.value['i1'].toInt(),
-                                                'sub2': eachMap.value['i2'] == null? 0: eachMap.value['i2'].toInt(),
-                                                'sort': 0,
-                                                'mana': prodsSc[eachMap.key]['nm'],
-                                                's1na': prodsSc[eachMap.key]['n1'],
-                                                's2na': prodsSc[eachMap.key]['n2']
-                                              };
-                                              if(prodsPrep.containsKey(eachMap.key)) {
-                                                debugPrint('prodsPrep ' + prodsPrep[eachMap.key].toString());
-                                                assign['main'] = assign['main'] + prodsPrep[eachMap.key]['main'];
-                                                assign['sub1'] = assign['sub1'] + prodsPrep[eachMap.key]['sub1'];
-                                                assign['sub2'] = assign['sub2'] + prodsPrep[eachMap.key]['sub2'];
-                                                prodsPrep[eachMap.key] = assign;
-                                              } else {
-                                                prodsPrep[eachMap.key] = assign;
-                                              }
-                                              // prodsPrep.addAll({eachMap.key.toString(): assign});
-                                            }
-
-
-
+                                          for(int i = 0; i < prods.length; i++) {
+                                            var eachMap = prods.entries.elementAt(i);
+                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                                            var assign = {
+                                              'name': prodsSc[eachMap.key]['na'],
+                                              'main': eachMap.value['im'] == null? 0: eachMap.value['im'].toInt(),
+                                              'sub1': eachMap.value['i1'] == null? 0: eachMap.value['i1'].toInt(),
+                                              'sub2': eachMap.value['i2'] == null? 0: eachMap.value['i2'].toInt(),
+                                              'sort': 0,
+                                              'mana': prodsSc[eachMap.key]['nm'],
+                                              's1na': prodsSc[eachMap.key]['n1'],
+                                              's2na': prodsSc[eachMap.key]['n2']
+                                            };
+                                            prodsPrep.addAll({eachMap.key.toString(): assign});
                                           }
-
-                                          debugPrint('iphone2 ' + prodsPrep.toString());
                                           prodsPrep = sortMapByAvg(prodsPrep);
+                                          debugPrint('lalisa ' + prodsPrep.toString());
                                           return prodsDataTable(prodsPrep);
                                         }
+                                        return Container();
+                                      } else {
+                                        debugPrint('docs snap len ' + snapshot.data!.docs.length.toString());
+                                        var prodsDoc;
+                                        var prodsPrep = {};
+                                        for(int j=0; j<snapshot.data!.docs.length; j++) {
+                                          debugPrint('looping ');
+                                          Map<String, dynamic> eachDoc = snapshot.data!.docs[j].data()! as Map<String, dynamic>;
+                                          DateTime docDate = eachDoc['date'].toDate();
+                                          var prods = eachDoc['prods'];
+                                          debugPrint('eachDoc ' + prods.toString());
 
+                                          for(int i = 0; i < prods.length; i++) {
+                                            var eachMap = prods.entries.elementAt(i);
+                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                                            var assign = {
+                                              'name': prodsSc[eachMap.key]['na'],
+                                              'main': eachMap.value['im'] == null? 0: eachMap.value['im'].toInt(),
+                                              'sub1': eachMap.value['i1'] == null? 0: eachMap.value['i1'].toInt(),
+                                              'sub2': eachMap.value['i2'] == null? 0: eachMap.value['i2'].toInt(),
+                                              'sort': 0,
+                                              'mana': prodsSc[eachMap.key]['nm'],
+                                              's1na': prodsSc[eachMap.key]['n1'],
+                                              's2na': prodsSc[eachMap.key]['n2']
+                                            };
+                                            if(prodsPrep.containsKey(eachMap.key)) {
+                                              debugPrint('prodsPrep ' + prodsPrep[eachMap.key].toString());
+                                              assign['main'] = assign['main'] + prodsPrep[eachMap.key]['main'];
+                                              assign['sub1'] = assign['sub1'] + prodsPrep[eachMap.key]['sub1'];
+                                              assign['sub2'] = assign['sub2'] + prodsPrep[eachMap.key]['sub2'];
+                                              prodsPrep[eachMap.key] = assign;
+                                            } else {
+                                              prodsPrep[eachMap.key] = assign;
+                                            }
+                                            // prodsPrep.addAll({eachMap.key.toString(): assign});
+                                          }
+
+
+
+                                        }
+
+                                        debugPrint('iphone2 ' + prodsPrep.toString());
+                                        prodsPrep = sortMapByAvg(prodsPrep);
+                                        return prodsDataTable(prodsPrep);
                                       }
-                                      return Container();
+
                                     }
-                                );
-                              }
-                              return Container();
+                                    return Container();
+                                  }
+                              );
                             }
+                            return Container();
+                          }
                         )
                       ],
                     ),
