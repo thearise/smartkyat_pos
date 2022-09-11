@@ -461,11 +461,6 @@ class _ProductAdjustmentState extends State<ProductAdjustment> {
 
                               WriteBatch batch = FirebaseFirestore.instance.batch();
 
-                              var monthId = '';
-                              bool monthExist = false;
-                              var yearId = '';
-                              bool yearExist = false;
-
                               DateTime now = DateTime.now();
                               DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodAdj').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
 
@@ -484,7 +479,7 @@ class _ProductAdjustmentState extends State<ProductAdjustment> {
                                           'date' : now,
                                           'prods': {
                                             widget.prodID.split('^')[0].toString(): {
-                                              'lm': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                              'lm': FieldValue.increment(double.parse(widget.prodID.split('^')[4].toString()) - double.parse(lossAmount.text.toString())),
 
                                             }
                                           }
