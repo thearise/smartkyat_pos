@@ -171,6 +171,10 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String textSetLast12M = 'LAST 12 MONTHS';
   String textSetSearch = 'Search';
   String textSetProfit = 'Average profit';
+
+  var prodsSnap;
+  var prodSaleData;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit, PaginationState>(
@@ -227,46 +231,70 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     return prefs.getString('currency');
   }
 
+  nextMonth(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month + 1;
+    }
+  }
+
+  nextYear(int month, int year) {
+    if(month == 12) {
+      return year+1;
+    } else {
+      return year;
+    }
+  }
+
   @override
   void initState() {
+    debugPrint('lengthing year 1 ' + DateFormat("yyyy-MM").parse(widget.dateTime!.year.toString() + '-01').toString());
+    debugPrint('lengthing year 2 ' + DateFormat("yyyy-MM-dd").parse(widget.dateTime!.year.toString() + '-12-32').toString());
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
+    prodSaleData =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM").parse(widget.dateTime!.year.toString() + '-01'))
+        .where('date', isLessThan: DateFormat("yyyy-MM-dd").parse(widget.dateTime!.year.toString() + '-12-32'))
+        .orderBy('date', descending: true)
+        .snapshots();
 
-      if(widget.isEnglish == true) {
-        setState(() {
-          textSetTotalSales = 'TOTAL SALES';
-          textSetTodaySoFar = 'TODAY SO FAR';
-          textSetStockCosts = 'Stock costs';
-          textSetUnpaid = 'Unpaid';
-          textSetBuys = 'Refunds';
-          textSetLoss = 'Loss';
-          textSetToday = 'Day';
-          textSetLastWeek = 'Last week';
-          textSetLastMonth = 'This month';
-          textSetLastYear = 'This year';
-          textSetLast7Days = 'Last 7 Days';
-          textSetLast28D = 'LAST 28 DAYS';
-          textSetLast12M = 'LAST 12 MONTHS';
-          textSetSearch = 'Search';
-          textSetProfit = 'Average profit';
-        });
-      } else {
-        setState(() {
-          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-          textSetStockCosts = 'ဝယ်ယူစရိတ်';
-          textSetUnpaid = 'အကြွေးရရန်';
-          textSetBuys = 'ပြန်ပေးငွေ';
-          textSetLoss = 'ဆုံးရှုံး';
-          textSetToday = 'နေ့စဉ်';
-          textSetLastWeek = 'အပတ်စဉ်';
-          textSetLastMonth = 'လစဉ်';
-          textSetLastYear = 'နှစ်စဉ်';
-          textSetLast7Days = '၇ရက်အတွင်း';
-          textSetLast28D = '၂၈ရက်အတွင်း';
-          textSetLast12M = '၁၂လအတွင်း';
-          textSetSearch = 'ရှာဖွေရန်';
-          textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
-        });
-      }
+    if(widget.isEnglish == true) {
+      setState(() {
+        textSetTotalSales = 'TOTAL SALES';
+        textSetTodaySoFar = 'TODAY SO FAR';
+        textSetStockCosts = 'Stock costs';
+        textSetUnpaid = 'Unpaid';
+        textSetBuys = 'Refunds';
+        textSetLoss = 'Loss';
+        textSetToday = 'Day';
+        textSetLastWeek = 'Last week';
+        textSetLastMonth = 'This month';
+        textSetLastYear = 'This year';
+        textSetLast7Days = 'Last 7 Days';
+        textSetLast28D = 'LAST 28 DAYS';
+        textSetLast12M = 'LAST 12 MONTHS';
+        textSetSearch = 'Search';
+        textSetProfit = 'Average profit';
+      });
+    } else {
+      setState(() {
+        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+        textSetStockCosts = 'ဝယ်ယူစရိတ်';
+        textSetUnpaid = 'အကြွေးရရန်';
+        textSetBuys = 'ပြန်ပေးငွေ';
+        textSetLoss = 'ဆုံးရှုံး';
+        textSetToday = 'နေ့စဉ်';
+        textSetLastWeek = 'အပတ်စဉ်';
+        textSetLastMonth = 'လစဉ်';
+        textSetLastYear = 'နှစ်စဉ်';
+        textSetLast7Days = '၇ရက်အတွင်း';
+        textSetLast28D = '၂၈ရက်အတွင်း';
+        textSetLast12M = '၁၂လအတွင်း';
+        textSetSearch = 'ရှာဖွေရန်';
+        textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
+      });
+    }
 
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
@@ -1179,24 +1207,65 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                         //   ),
                         // ),
                         SizedBox(
-                          height: 20,
+                          height: 5,
                         ),
-                        // SizedBox(
-                        //   width: 60,
-                        //   height: 34,
-                        //   child: TextButton(
-                        //     onPressed: () {
-                        //       setState(() {
-                        //         showAvg = !showAvg;
-                        //       });
-                        //     },
-                        //     child: Text(
-                        //       'avg',
-                        //       style: TextStyle(
-                        //           fontSize: 12, color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-                        //     ),
-                        //   ),
-                        // ),
+                        StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                            stream: prodsSnap,
+                            builder: (BuildContext context, prodsSB) {
+                              if(prodsSB.hasData) {
+                                var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                                var prodsSc = prodsSnapOut?['prods'];
+                                debugPrint('iphone year test');
+
+                                return StreamBuilder(
+                                    stream: prodSaleData,
+                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if(snapshot.hasData) {
+                                        debugPrint('iphone year len ' + snapshot.data!.docs.length.toString());
+                                        var prodsDoc;
+                                        // Map<String, dynamic>
+                                        // for(int i=0; i<snapshot.data!.docs.length; i++) {
+                                        //   Map<String, dynamic> eachDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
+                                        //   DateTime docDate = eachDoc['date'].toDate();
+                                        //   if(today.day == docDate.day) {
+                                        //     prodsDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
+                                        //   }
+                                        //   debugPrint('iphone ' + eachDoc['date'].toDate().toString());
+                                        // }
+                                        prodsDoc = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
+                                        debugPrint('iphone year ' + prodsDoc['date'].toDate().toString());
+                                        if(prodsDoc != null) {
+                                          var prods = prodsDoc['prods'];
+                                          var prodsPrep = {};
+
+                                          for(int i = 0; i < prods.length; i++) {
+                                            var eachMap = prods.entries.elementAt(i);
+                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                                            var assign = {
+                                              'name': prodsSc[eachMap.key]['na'],
+                                              'main': eachMap.value['im'] == null? 0: eachMap.value['im'].toInt(),
+                                              'sub1': eachMap.value['i1'] == null? 0: eachMap.value['i1'].toInt(),
+                                              'sub2': eachMap.value['i2'] == null? 0: eachMap.value['i2'].toInt(),
+                                              'sort': 0,
+                                              'mana': prodsSc[eachMap.key]['nm'],
+                                              's1na': prodsSc[eachMap.key]['n1'],
+                                              's2na': prodsSc[eachMap.key]['n2']
+                                            };
+                                            prodsPrep.addAll({eachMap.key.toString(): assign});
+                                          }
+                                          prodsPrep = sortMapByAvg(prodsPrep);
+                                          debugPrint('lalisa ' + prodsPrep.toString());
+                                          return prodsDataTable(prodsPrep);
+                                        }
+                                        return Container();
+                                      }
+                                      return Container();
+                                    }
+                                );
+                              }
+                              return Container();
+                            }
+                        )
                       ],
                     ),
                   ),
@@ -1251,6 +1320,770 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     }
 
     return listView;
+  }
+
+  int initProdPagi = 0;
+  bool firstProdTable = true;
+  int ayinProdLeng = 0;
+  var dropdownValue;
+  Widget prodsDataTable(prodsPrep) {
+    int length = prodsPrep.length;
+    // int length = 101;
+    List<String> list = <String>[];
+    for(int i=0; i<(length/10); i++) {
+      String last = '';
+      if(i==0 && length>10) {
+        last = '10';
+      } else if(i==0 && length<=10) {
+        last = length.toString();
+      } else if(i+1>(length/10)) {
+        last = length.toString();
+      } else {
+        last = ((i*10)+10).toString();
+      }
+      list.add(((i*10)+1).toString() + '-' + last);
+    }
+
+    if(ayinProdLeng!= length) {
+      firstProdTable = true;
+      ayinProdLeng = length;
+    }
+
+    if(firstProdTable) {
+      dropdownValue = list.first;
+      firstProdTable = false;
+    }
+
+    var prodsPrepMod = {};
+    for(int i=int.parse(dropdownValue.split('-')[0]); i <= int.parse(dropdownValue.split('-')[1]); i++) {
+      var eachMap = prodsPrep.entries.elementAt(i-1);
+      print('sps ' + eachMap.toString());
+      prodsPrepMod.addAll({eachMap.key.toString(): eachMap.value});
+    }
+    String type = 'type';
+    if(length>1) {
+      type = 'types';
+    }
+
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Container(
+              height: 0.5,
+              color: Colors.grey.withOpacity(0.3),
+            ),
+          ),
+          Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 22, bottom: 15.0, left: 15.0, right: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'PRODUCT SALE RECORD',
+                            textScaleFactor: 1,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              height: 0.9,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,color: Colors.black,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 7.0),
+                            child: Text(
+                              length.toString() + ' product ' + type + ' sold',
+                              textScaleFactor: 1,
+                              style: TextStyle(
+                                height: 0.9,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,color: Colors.black.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 2.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border(
+                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                          ),
+                          color: AppTheme.secButtonColor,
+                        ),
+                        height: 32,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 8.0),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              canvasColor: Colors.white,
+                            ),
+                            child: DropdownButton<String>(
+                              menuMaxHeight: 500,
+                              value: dropdownValue,
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded, size: 16, color: Colors.black,
+                              ),
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.black),
+                              underline: Container(
+                                height: 0,
+                                color: Colors.transparent,
+                              ),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  dropdownValue = value!;
+                                });
+                              },
+                              items: list.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border(
+                    bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                    top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                    left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                    right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                  ),
+                  color: AppTheme.lightBgColor
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                        child: DataTable(
+                          // columnSpacing: ((MediaQuery.of(context).size.width) / 10) * 0.5,
+                          columnSpacing: 10,
+                          horizontalMargin: 15,
+                          dataRowHeight: 50,
+                          columns: <DataColumn>[
+                            DataColumn(
+                              label: Container(
+                                width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                child: Text(
+                                  'Product',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                child: Text(
+                                  'Main',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                  // style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+
+                            ),
+                            DataColumn(
+                              label: Container(
+                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                child: Text(
+                                  'Sub1',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                  // style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                child: Text(
+                                  'Sub2',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                  // style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                          ],
+                          rows: [
+                            for(int i=0; i<prodsPrepMod.length; i++)
+                              DataRow(
+                                cells: <DataCell>[
+                                  DataCell(
+                                      Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                                          child: Text(
+                                            prodsPrepMod.entries.elementAt(i).value['name'],
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16
+                                            ),
+                                          )
+                                      )
+                                  ),
+                                  DataCell(
+                                      Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            prodsPrepMod.entries.elementAt(i).value['main'].toString(),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                          )
+                                      )
+                                  ),
+                                  DataCell(
+                                      Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            prodsPrepMod.entries.elementAt(i).value['sub1'].toString(),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                          )
+                                      )
+                                  ),
+                                  DataCell(
+                                      Container(
+                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                                          child: Text(
+                                            prodsPrepMod.entries.elementAt(i).value['sub2'].toString(),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontSize: 16
+                                            ),
+                                          )
+                                      )
+                                  ),
+                                ],
+                              ),
+
+
+
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Dagger Square Sunglasses',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '168',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'GETOREE Florence Beige Leather',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '150',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Gentleman White Shirt',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '100',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Hawaii Blue Shirt',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '100',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Leather Brand Wallet',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '19',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Macse Foam Leather Gents Purse',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '18',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Men Short Purse Stone',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '10',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Simple Casual Short',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '204',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
+                            //             child: Text(
+                            //               'Energy Drink Carabao',
+                            //               style: TextStyle(
+                            //                   overflow: TextOverflow.ellipsis,
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '204',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //     DataCell(
+                            //         Container(
+                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
+                            //             child: Text(
+                            //               '0',
+                            //               textAlign: TextAlign.right,
+                            //               style: TextStyle(
+                            //                   fontSize: 16
+                            //               ),
+                            //             )
+                            //         )
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
+                        )
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Map sortMapByAvg(Map map) {
+    final sortedKeys = map.keys.toList(growable: false)
+      ..sort((k1, k2) => ((map[k2]['main'].compareTo(map[k1]['main']))));
+
+    return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
 
   headerAppBar() {
