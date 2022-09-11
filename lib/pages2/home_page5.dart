@@ -4357,6 +4357,8 @@ class HomePageState extends State<HomePage>
 
                                                                                                     DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
 
+                                                                                                    DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
+
                                                                                                     for (int k=0; k< prodList.length;  k++) {
                                                                                                       //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -4415,6 +4417,19 @@ class HomePageState extends State<HomePage>
                                                                                                               }
                                                                                                             },SetOptions(merge: true)
                                                                                                         );
+
+                                                                                                        batch.set(
+                                                                                                            prodsYearly,
+                                                                                                            {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
                                                                                                         debugPrint('decStock ' + prodList[k].split('^')[0].toString());
                                                                                                         //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                                                         //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
@@ -4451,6 +4466,19 @@ class HomePageState extends State<HomePage>
                                                                                                               }
                                                                                                             },SetOptions(merge: true)
                                                                                                         );
+
+                                                                                                        batch.set(
+                                                                                                            prodsYearly,
+                                                                                                            {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
                                                                                                         // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                                                         //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                                                         //});
@@ -4471,6 +4499,19 @@ class HomePageState extends State<HomePage>
                                                                                                         );
                                                                                                         batch.set(
                                                                                                             prodsMonthly,
+                                                                                                            {
+                                                                                                              'date' : now,
+                                                                                                              'prods': {
+                                                                                                                prodList[k].split('^')[0].toString(): {
+                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },SetOptions(merge: true)
+                                                                                                        );
+
+                                                                                                        batch.set(
+                                                                                                            prodsYearly,
                                                                                                             {
                                                                                                               'date' : now,
                                                                                                               'prods': {
@@ -9694,6 +9735,7 @@ class HomePageState extends State<HomePage>
                                                                           subList = [];
                                                                           DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
                                                                           DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+                                                                          DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
 
                                                                           for (int k=0; k< prodList.length;  k++) {
                                                                             //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
@@ -9753,6 +9795,19 @@ class HomePageState extends State<HomePage>
                                                                                     }
                                                                                   },SetOptions(merge: true)
                                                                               );
+
+                                                                              batch.set(
+                                                                                  prodsYearly,
+                                                                                  {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
                                                                               debugPrint('decStock ' + prodList[k].split('^')[0].toString());
                                                                               //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                               //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
@@ -9789,6 +9844,19 @@ class HomePageState extends State<HomePage>
                                                                                     }
                                                                                   },SetOptions(merge: true)
                                                                               );
+
+                                                                              batch.set(
+                                                                                  prodsYearly,
+                                                                                  {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
                                                                               // productsFire.doc(prodList[k].split('^')[0]).update({
                                                                               //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
                                                                               //});
@@ -9809,6 +9877,19 @@ class HomePageState extends State<HomePage>
                                                                               );
                                                                               batch.set(
                                                                                   prodsMonthly,
+                                                                                  {
+                                                                                    'date' : now,
+                                                                                    'prods': {
+                                                                                      prodList[k].split('^')[0].toString(): {
+                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+
+                                                                                      }
+                                                                                    }
+                                                                                  },SetOptions(merge: true)
+                                                                              );
+
+                                                                              batch.set(
+                                                                                  prodsYearly,
                                                                                   {
                                                                                     'date' : now,
                                                                                     'prods': {
