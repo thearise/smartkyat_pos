@@ -4392,27 +4392,29 @@ class HomePageState extends State<HomePage>
                                                                                                       if(prodList[k].split('^')[3] == 'unit_name') {
                                                                                                         batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
 
-                                                                                                         batch.set(
+                                                                                                        batch.set(
                                                                                                             prodsArr,
                                                                                                             {
                                                                                                               'date' : now,
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-
+                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
                                                                                                                 }
                                                                                                               }
                                                                                                             },SetOptions(merge: true)
                                                                                                         );
 
-                                                                                                         batch.set(
-                                                                                                             prodsMonthly,
+                                                                                                        batch.set(
+                                                                                                            prodsMonthly,
                                                                                                             {
                                                                                                               'date' : now,
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-
+                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
                                                                                                                 }
                                                                                                               }
                                                                                                             },SetOptions(merge: true)
@@ -4425,6 +4427,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4449,6 +4453,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4461,6 +4467,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4474,6 +4482,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4492,6 +4502,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4504,6 +4516,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -4517,6 +4531,8 @@ class HomePageState extends State<HomePage>
                                                                                                               'prods': {
                                                                                                                 prodList[k].split('^')[0].toString(): {
                                                                                                                   'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                                                 }
                                                                                                               }
@@ -9777,7 +9793,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-
+                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
                                                                                       }
                                                                                     }
                                                                                   },SetOptions(merge: true)
@@ -9790,7 +9807,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-
+                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
                                                                                       }
                                                                                     }
                                                                                   },SetOptions(merge: true)
@@ -9803,6 +9821,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9827,6 +9847,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9839,6 +9861,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9852,6 +9876,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9870,6 +9896,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9882,6 +9910,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
@@ -9895,6 +9925,8 @@ class HomePageState extends State<HomePage>
                                                                                     'prods': {
                                                                                       prodList[k].split('^')[0].toString(): {
                                                                                         'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
 
                                                                                       }
                                                                                     }
