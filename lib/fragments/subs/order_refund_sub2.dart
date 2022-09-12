@@ -831,6 +831,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               List prodRets = prodList;
                                               DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
                                               DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
+                                              DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
 
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
@@ -848,7 +849,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                 'prods': {
                                                                   prodList[i].split('^')[0].toString(): {
                                                                     changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-
+                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
                                                                   }
                                                                 }
                                                               },SetOptions(merge: true)
@@ -860,7 +862,21 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                 'prods': {
                                                                   prodList[i].split('^')[0].toString(): {
                                                                     changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+                                                                  }
+                                                                }
+                                                              },SetOptions(merge: true)
+                                                          );
 
+                                                          batch.set(
+                                                              prodsYearly,
+                                                              {
+                                                                'prods': {
+                                                                  prodList[i].split('^')[0].toString(): {
+                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
                                                                   }
                                                                 }
                                                               },SetOptions(merge: true)
@@ -1337,6 +1353,22 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     } else {
       debugPrint('split 3 ' +split[3].toString());
       return 'i' + (int.parse(split[3])).toString();
+    }
+  }
+
+  changeSaleUnit2Stock(String split) {
+    if(split == 'unit_name') {
+      return 'sm';
+    } else {
+      return 's' + (int.parse(split[3])).toString();
+    }
+  }
+
+  changeBuyUnit2Stock(String split) {
+    if(split == 'unit_name') {
+      return 'bm';
+    } else {
+      return 'b' + (int.parse(split[3])).toString();
     }
   }
 
