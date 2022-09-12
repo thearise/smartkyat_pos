@@ -3106,6 +3106,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       type = 'types';
     }
 
+    double width = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width * (2 / 3.5)
+        : MediaQuery.of(context).size.width;
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3228,587 +3232,123 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                 children: [
                   Expanded(
                     child: FittedBox(
-                        child: DataTable(
-                          // columnSpacing: ((MediaQuery.of(context).size.width) / 10) * 0.5,
-                          columnSpacing: 10,
-                          horizontalMargin: 15,
-                          dataRowHeight: 50,
-                          columns: <DataColumn>[
-                            DataColumn(
-                              label: Container(
-                                width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                                child: Text(
-                                  'Product',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontSize: 16
-                                  ),
+                      // scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        // columnSpacing: ((MediaQuery.of(context).size.width) / 10) * 0.5,
+                        columnSpacing: 10,
+                        horizontalMargin: 15,
+                        dataRowHeight: 50,
+                        columns: <DataColumn>[
+                          DataColumn(
+                            label: Container(
+                              width: ((width-30) / 10) * 5.5,
+                              child: Text(
+                                'Product',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize: 16
                                 ),
                               ),
                             ),
-                            DataColumn(
-                              label: Container(
-                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                child: Text(
-                                  'Main',
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 16
-                                  ),
-                                  // style: TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                          DataColumn(
+                            label: Container(
+                              width: ((width-30) / 10) * 1.5,
+                              child: Text(
+                                'Main',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 16
                                 ),
-                              ),
-
-                            ),
-                            DataColumn(
-                              label: Container(
-                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                child: Text(
-                                  'Sub1',
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 16
-                                  ),
-                                  // style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                                // style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Container(
-                                width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                child: Text(
-                                  'Sub2',
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 16
-                                  ),
-                                  // style: TextStyle(fontStyle: FontStyle.italic),
+
+                          ),
+                          DataColumn(
+                            label: Container(
+                              width: ((width-30) / 10) * 1.5,
+                              child: Text(
+                                'Sub1',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 16
                                 ),
+                                // style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                          ],
-                          rows: [
-                            for(int i=0; i<prodsPrepMod.length; i++)
-                              DataRow(
-                                cells: <DataCell>[
-                                  DataCell(
-                                      Container(
-                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                                          child: Text(
-                                            prodsPrepMod.entries.elementAt(i).value['name'],
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 16
-                                            ),
-                                          )
-                                      )
-                                  ),
-                                  DataCell(
-                                      Container(
-                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                          child: Text(
-                                            prodsPrepMod.entries.elementAt(i).value['main'].toString(),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                fontSize: 16
-                                            ),
-                                          )
-                                      )
-                                  ),
-                                  DataCell(
-                                      Container(
-                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                          child: Text(
-                                            prodsPrepMod.entries.elementAt(i).value['sub1'].toString(),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                fontSize: 16
-                                            ),
-                                          )
-                                      )
-                                  ),
-                                  DataCell(
-                                      Container(
-                                          width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                                          child: Text(
-                                            prodsPrepMod.entries.elementAt(i).value['sub2'].toString(),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                fontSize: 16
-                                            ),
-                                          )
-                                      )
-                                  ),
-                                ],
+                          ),
+                          DataColumn(
+                            label: Container(
+                              width: ((width-30) / 10) * 1.5,
+                              child: Text(
+                                'Sub2',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 16
+                                ),
+                                // style: TextStyle(fontStyle: FontStyle.italic),
                               ),
-
-
-
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Dagger Square Sunglasses',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '168',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'GETOREE Florence Beige Leather',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '150',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Gentleman White Shirt',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '100',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Hawaii Blue Shirt',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '100',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Leather Brand Wallet',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '19',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Macse Foam Leather Gents Purse',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '18',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Men Short Purse Stone',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '10',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Simple Casual Short',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '204',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                            // DataRow(
-                            //   cells: <DataCell>[
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 5.5,
-                            //             child: Text(
-                            //               'Energy Drink Carabao',
-                            //               style: TextStyle(
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '204',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //     DataCell(
-                            //         Container(
-                            //             width: ((MediaQuery.of(context).size.width-30) / 10) * 1.5,
-                            //             child: Text(
-                            //               '0',
-                            //               textAlign: TextAlign.right,
-                            //               style: TextStyle(
-                            //                   fontSize: 16
-                            //               ),
-                            //             )
-                            //         )
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
-                        )
+                            ),
+                          ),
+                        ],
+                        rows: [
+                          for(int i=0; i<prodsPrepMod.length; i++)
+                            DataRow(
+                              cells: <DataCell>[
+                                DataCell(
+                                    Container(
+                                        width: ((width-30) / 10) * 5.5,
+                                        child: Text(
+                                          prodsPrepMod.entries.elementAt(i).value['name'],
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16
+                                          ),
+                                        )
+                                    )
+                                ),
+                                DataCell(
+                                    Container(
+                                        width: ((width-30) / 10) * 1.5,
+                                        child: Text(
+                                          prodsPrepMod.entries.elementAt(i).value['main'].toString(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontSize: 16
+                                          ),
+                                        )
+                                    )
+                                ),
+                                DataCell(
+                                    Container(
+                                        width: ((width-30) / 10) * 1.5,
+                                        child: Text(
+                                          prodsPrepMod.entries.elementAt(i).value['sub1'].toString(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontSize: 16
+                                          ),
+                                        )
+                                    )
+                                ),
+                                DataCell(
+                                    Container(
+                                        width: ((width-30) / 10) * 1.5,
+                                        child: Text(
+                                          prodsPrepMod.entries.elementAt(i).value['sub2'].toString(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontSize: 16
+                                          ),
+                                        )
+                                    )
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
