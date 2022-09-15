@@ -9,6 +9,7 @@ class AppTheme {
   static const Color skBorderColor2 = Color(0xFFe6e6e6);
   static const Color secButtonColor = Color(0xFFE7E8EA);
   static const Color lightBgColor = Color(0xFFF5F5F5);
+  static const Color lightBgColorCell = Color(0xFFFAFAFA);
   static const Color themeColor = Color(0xFFF8CE58);
   static const Color clearColor = Color(0xFFFFDFD8);
 

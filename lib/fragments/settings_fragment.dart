@@ -354,7 +354,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text(textInfo, textScaleFactor: 1, style: TextStyle(
-                            letterSpacing: 1.5,
+                            letterSpacing: 2,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
                           ),),),
@@ -424,7 +424,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text(textDisplay, textScaleFactor: 1, style: TextStyle(
-                            letterSpacing: 1.5,
+                            letterSpacing: 2,
                             fontWeight: FontWeight.bold,
                             fontSize: 14, color: Colors.grey,
                           ),),
@@ -529,7 +529,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text('OTHERS', textScaleFactor: 1, style: TextStyle(
-                            letterSpacing: 1.5,
+                            letterSpacing: 2,
                             fontWeight: FontWeight.bold,
                             fontSize: 14, color: Colors.grey,
                           ),),
@@ -654,7 +654,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
                             child: Text('CURRENT SHOP', textScaleFactor: 1, style: TextStyle(
-                              letterSpacing: 1.5,
+                              letterSpacing: 2,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,color: Colors.grey,
                             ),),

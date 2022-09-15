@@ -59,49 +59,47 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
   @override
   void initState() {
+    if(widget.isEnglish == true) {
+      setState(() {
 
-      if(widget.isEnglish == true) {
-        setState(() {
+        textSetSaleCart = 'Add to\nsale cart';
+        textSetPurchasedOrders = 'Purchased\norders';
+        textSetEdit = 'Edit customer';
+        textSetSaleInfo = 'Sale info';
+        textSetContactInfo = 'Contact info';
+        textSetInfo = 'CUSTOMER INFORMATION';
+        textSetName = 'Name';
+        textSetPhone = 'Phone';
+        textSetAddress = 'Address';
+        textSetBarcode = 'Barcode';
+        textSetDebtAmount = 'Total Unpaid Amount';
+        textSetDebts = 'Total Unpaid Orders';
+        textSetTtlOrders = 'Total Orders';
+        textSetRefunds = 'Total Refunded Orders';
+        textSetSaleTitle = 'SALE INFORMATION';
+      });
+    }
+    else {
+      setState(() {
 
-          textSetSaleCart = 'Add to\nsale cart';
-          textSetPurchasedOrders = 'Purchased\norders';
-          textSetEdit = 'Edit customer';
-          textSetSaleInfo = 'Sale info';
-          textSetContactInfo = 'Contact info';
-          textSetInfo = 'CUSTOMER INFORMATION';
-          textSetName = 'Name';
-          textSetPhone = 'Phone';
-          textSetAddress = 'Address';
-          textSetBarcode = 'Barcode';
-          textSetDebtAmount = 'Total Unpaid Amount';
-          textSetDebts = 'Total Unpaid Orders';
-          textSetTtlOrders = 'Total Orders';
-          textSetRefunds = 'Total Refunded Orders';
-          textSetSaleTitle = 'SALE INFORMATION';
-        });
-      }
-      else {
-        setState(() {
+        textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
+        textSetPurchasedOrders = 'ရောင်းပြီး\norders များ';
+        textSetEdit = 'Edit customer';
+        textSetSaleInfo = 'အရောင်းဆိုင်ရာ';
+        textSetContactInfo = 'ဆက်သွယ်ရန်';
+        textSetInfo = 'ဖောက်သည် အချက်အလက်';
+        textSetName = 'နာမည်';
+        textSetPhone = 'ဖုန်းနံပါတ်';
+        textSetAddress = 'လိပ်စာ';
+        textSetBarcode = 'ဘားကုဒ်';
+        textSetDebtAmount = 'ရရန် စုစုပေါင်း';
+        textSetDebts = 'ရရန် အော်ဒါ အရေအတွက်';
+        textSetTtlOrders = 'ရောင်းထားသော အော်ဒါများ';
+        textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
+        textSetSaleTitle = 'အရောင်းဆိုင်ရာ အချက်အလက်';
 
-          textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
-          textSetPurchasedOrders = 'ရောင်းပြီး\norders များ';
-          textSetEdit = 'Edit customer';
-          textSetSaleInfo = 'အရောင်းဆိုင်ရာ';
-          textSetContactInfo = 'ဆက်သွယ်ရန်';
-          textSetInfo = 'ဖောက်သည် အချက်အလက်';
-          textSetName = 'နာမည်';
-          textSetPhone = 'ဖုန်းနံပါတ်';
-          textSetAddress = 'လိပ်စာ';
-          textSetBarcode = 'ဘားကုဒ်';
-          textSetDebtAmount = 'ရရန် စုစုပေါင်း';
-          textSetDebts = 'ရရန် အော်ဒါ အရေအတွက်';
-          textSetTtlOrders = 'ရောင်းထားသော အော်ဒါများ';
-          textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
-          textSetSaleTitle = 'အရောင်းဆိုင်ရာ အချက်အလက်';
-
-        });
-      }
-
+      });
+    }
 
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
@@ -275,13 +273,36 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      ),
                                                    ),
                                                    onPressed: () async {
-                                                     await widget._callback(
-                                                         widget.id.toString() +
-                                                             '^' + customerName);
-                                                     smartKyatFlash(
-                                                         customerName.toString() +
-                                                             ' has been successfully added to the sale cart.',
-                                                         's');
+                                                     // await widget._callback(
+                                                     //     widget.id.toString() +
+                                                     //         '^' + customerName);
+                                                     // smartKyatFlash(
+                                                     //     customerName.toString() +
+                                                     //         ' has been successfully added to the sale cart.',
+                                                     //     's');
+
+                                                     // // Get the position of the current widget when clicked, and pass in overlayEntry
+                                                     // OverlayEntry? _overlayEntry = OverlayEntry(builder: (_) {
+                                                     //   RenderBox? renderBox = context.findRenderObject() as RenderBox;
+                                                     //   var offset = renderBox!.localToGlobal(Offset.zero);
+                                                     //   return EasyCartAnimation(
+                                                     //     startPosition: offset,
+                                                     //     endPosition: _endOffset,
+                                                     //     height: 14,
+                                                     //     width: 14,
+                                                     //     color: Colors.blue,
+                                                     //     dxCurveAnimation: 250,
+                                                     //     dyCurveAnimation: 50,
+                                                     //     opacity: 0.5,
+                                                     //   );
+                                                     // });
+                                                     // // Show Overlay
+                                                     // Overlay.of(context)!.insert(_overlayEntry);
+                                                     // // wait for the animation to end
+                                                     // Future.delayed(Duration(milliseconds: 800), () {
+                                                     //   _overlayEntry!.remove();
+                                                     //   _overlayEntry = null;
+                                                     // });
                                                    },
                                                    child: Container(
                                                      width: 100,
