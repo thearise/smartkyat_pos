@@ -240,6 +240,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   var dropdownValue;
+  int segmentedControlGroupValue = 0;
+  final Map<int, Widget> myTabs = const <int, Widget>{
+    0: Text("Today"),
+    2: Text("This month"),
+    3: Text("This year")
+  };
 
   @override
   void initState() {
@@ -390,6 +396,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       physics:
       const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       slivers: [
+        // CupertinoSliverRefreshControl(
+        //
+        //   onRefresh: () async {
+        //     await Future.delayed(Duration(seconds: 2));
+        //   },
+        // ),
         SliverAppBar(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -408,12 +420,34 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           // Make the initial height of the SliverAppBar larger than normal.
           expandedHeight: 20,
         ),
-        // CupertinoSliverRefreshControl(
+        SliverAppBar(
+          // automaticallyImplyLeading: false,
+          title: Text('2'),
+          backgroundColor: Colors.white,
+          // floating: true,
+          pinned: true,
+          elevation: 1,
+        ),
+        // SliverAppBar(
+        //   elevation: 0,
+        //   backgroundColor: Colors.white,
         //
-        //   onRefresh: () async {
-        //     await Future.delayed(Duration(seconds: 2));
-        //   },
+        //   // Provide a standard title.
+        //
+        //   // Allows the user to reveal the app bar if they begin scrolling
+        //   // back up the list of items.
+        //   floating: true,
+        //   bottom: PreferredSize(                       // Add this code
+        //     preferredSize: Size.fromHeight(-2.0),      // Add this code
+        //     child: Container(),                           // Add this code
+        //   ),
+        //   flexibleSpace: headerAppBar2(),
+        //   // Display a placeholder widget to visualize the shrinking size.
+        //   // Make the initial height of the SliverAppBar larger than normal.
+        //   expandedHeight: 20,
+        //   pinned: true,
         // ),
+
         SliverList(
           // Use a delegate to build items as they're scrolled on screen.
           delegate: SliverChildBuilderDelegate(
@@ -1496,206 +1530,434 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
   headerAppBar() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0, right: 15.0),
       child: Container(
         height: 32,
         width: MediaQuery.of(context).size.width,
         // color: Colors.yellow,
-        child: Row(
-          children: [
-            Row(
-              children: [
-                FlatButton(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  color: AppTheme.secButtonColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    side: BorderSide(
-                      color: AppTheme.skBorderColor2,
-                    ),
-                  ),
-                  onPressed: () {
-                    // widget._callback();
-                    _showDatePicker(OneContext().context);
-                  },
-                  child: Container(
-                    child: Row(
-                      // mainAxisAlignment: Main,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 3.0),
-                          child: Icon(
-                            Icons.calendar_view_day_rounded,
-                            size: 18,
-                          ),
-                        ),
-                        Text(
-                          selectDaysCast(), textScaleFactor: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12),
-                Container(
-                  color: Colors.grey.withOpacity(0.2),
-                  width: 1.5,
-                  height: 30,
-                )
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                controller: cateScCtler,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(
-                          color: AppTheme.skBorderColor2,
-                        ),
-                      ),
-                      onPressed: () {
-                        _animateToIndex(0);
-                        setState(() {
-                          cateScIndex = 0;
-                          _sliding = 0;
-                        });
-                        widget._selectedIntVal(0);
-                      },
-                      child: Container(
-                        child: Text(
-                          textSetToday, textScaleFactor: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(
-                          color: AppTheme.skBorderColor2,
-                        ),
-                      ),
-                      onPressed: () {
-                        _animateToIndex(5.9);
-                        setState(() {
-                          cateScIndex = 1;
-                          _sliding = 1;
-                        });
-                        widget._selectedIntVal(1);
-                      },
-                      child: Container(
-                        child: Text(
-                          textSetLastWeek, textScaleFactor: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(
-                          color: AppTheme.skBorderColor2,
-                        ),
-                      ),
-                      onPressed: () {
-                        _animateToIndex(15.5);
-                        setState(() {
-                          cateScIndex = 2;
-                          _sliding = 2;
-                        });
-                        widget._selectedIntVal(2);
-                      },
-                      child: Container(
-                        child: Text(
-                          textSetLastMonth, textScaleFactor: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(
-                          color: AppTheme.skBorderColor2,
-                        ),
-                      ),
-                      onPressed: () {
-                        _animateToIndex(20);
-                        setState(() {
-                          cateScIndex = 3;
-                          _sliding = 3;
-                        });
-                        widget._selectedIntVal(3);
-                      },
-                      child: Container(
-                        child: Text(
-                          textSetLastYear, textScaleFactor: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 11,
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+        child: CupertinoSlidingSegmentedControl(
+            groupValue: segmentedControlGroupValue,
+            children: myTabs,
+            onValueChanged: (i) {
+              // setState(() {
+              //   segmentedControlGroupValue = i;
+              // });
+            }),
 
       ),
     );
+    // return Padding(
+    //   padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+    //   child: Container(
+    //     height: 32,
+    //     width: MediaQuery.of(context).size.width,
+    //     // color: Colors.yellow,
+    //     child: Row(
+    //       children: [
+    //         Row(
+    //           children: [
+    //             FlatButton(
+    //               padding: EdgeInsets.only(left: 10, right: 10),
+    //               color: AppTheme.secButtonColor,
+    //               shape: RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.circular(8.0),
+    //                 side: BorderSide(
+    //                   color: AppTheme.skBorderColor2,
+    //                 ),
+    //               ),
+    //               onPressed: () {
+    //                 // widget._callback();
+    //                 _showDatePicker(OneContext().context);
+    //               },
+    //               child: Container(
+    //                 child: Row(
+    //                   // mainAxisAlignment: Main,
+    //                   children: [
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(right: 3.0),
+    //                       child: Icon(
+    //                         Icons.calendar_view_day_rounded,
+    //                         size: 18,
+    //                       ),
+    //                     ),
+    //                     Text(
+    //                       selectDaysCast(), textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //             SizedBox(width: 12),
+    //             Container(
+    //               color: Colors.grey.withOpacity(0.2),
+    //               width: 1.5,
+    //               height: 30,
+    //             )
+    //           ],
+    //         ),
+    //         Expanded(
+    //           child: ListView(
+    //             controller: cateScCtler,
+    //             scrollDirection: Axis.horizontal,
+    //             children: [
+    //               SizedBox(
+    //                 width: 4,
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(0);
+    //                     setState(() {
+    //                       cateScIndex = 0;
+    //                       _sliding = 0;
+    //                     });
+    //                     widget._selectedIntVal(0);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetToday, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(5.9);
+    //                     setState(() {
+    //                       cateScIndex = 1;
+    //                       _sliding = 1;
+    //                     });
+    //                     widget._selectedIntVal(1);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastWeek, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(15.5);
+    //                     setState(() {
+    //                       cateScIndex = 2;
+    //                       _sliding = 2;
+    //                     });
+    //                     widget._selectedIntVal(2);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastMonth, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(20);
+    //                     setState(() {
+    //                       cateScIndex = 3;
+    //                       _sliding = 3;
+    //                     });
+    //                     widget._selectedIntVal(3);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastYear, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               SizedBox(
+    //                 width: 11,
+    //               )
+    //             ],
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //
+    //   ),
+    // );
+  }
+
+  headerAppBar2() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0, right: 15.0),
+      child: Container(
+        height: 32,
+        width: MediaQuery.of(context).size.width,
+      ),
+    );
+    // return Padding(
+    //   padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+    //   child: Container(
+    //     height: 32,
+    //     width: MediaQuery.of(context).size.width,
+    //     // color: Colors.yellow,
+    //     child: Row(
+    //       children: [
+    //         Row(
+    //           children: [
+    //             FlatButton(
+    //               padding: EdgeInsets.only(left: 10, right: 10),
+    //               color: AppTheme.secButtonColor,
+    //               shape: RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.circular(8.0),
+    //                 side: BorderSide(
+    //                   color: AppTheme.skBorderColor2,
+    //                 ),
+    //               ),
+    //               onPressed: () {
+    //                 // widget._callback();
+    //                 _showDatePicker(OneContext().context);
+    //               },
+    //               child: Container(
+    //                 child: Row(
+    //                   // mainAxisAlignment: Main,
+    //                   children: [
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(right: 3.0),
+    //                       child: Icon(
+    //                         Icons.calendar_view_day_rounded,
+    //                         size: 18,
+    //                       ),
+    //                     ),
+    //                     Text(
+    //                       selectDaysCast(), textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //             SizedBox(width: 12),
+    //             Container(
+    //               color: Colors.grey.withOpacity(0.2),
+    //               width: 1.5,
+    //               height: 30,
+    //             )
+    //           ],
+    //         ),
+    //         Expanded(
+    //           child: ListView(
+    //             controller: cateScCtler,
+    //             scrollDirection: Axis.horizontal,
+    //             children: [
+    //               SizedBox(
+    //                 width: 4,
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(0);
+    //                     setState(() {
+    //                       cateScIndex = 0;
+    //                       _sliding = 0;
+    //                     });
+    //                     widget._selectedIntVal(0);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetToday, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(5.9);
+    //                     setState(() {
+    //                       cateScIndex = 1;
+    //                       _sliding = 1;
+    //                     });
+    //                     widget._selectedIntVal(1);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastWeek, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(15.5);
+    //                     setState(() {
+    //                       cateScIndex = 2;
+    //                       _sliding = 2;
+    //                     });
+    //                     widget._selectedIntVal(2);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastMonth, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+    //                 child: FlatButton(
+    //                   minWidth: 0,
+    //                   padding: EdgeInsets.only(left: 12, right: 12),
+    //                   color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+    //                   shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(20.0),
+    //                     side: BorderSide(
+    //                       color: AppTheme.skBorderColor2,
+    //                     ),
+    //                   ),
+    //                   onPressed: () {
+    //                     _animateToIndex(20);
+    //                     setState(() {
+    //                       cateScIndex = 3;
+    //                       _sliding = 3;
+    //                     });
+    //                     widget._selectedIntVal(3);
+    //                   },
+    //                   child: Container(
+    //                     child: Text(
+    //                       textSetLastYear, textScaleFactor: 1,
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 14,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Colors.black),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               SizedBox(
+    //                 width: 11,
+    //               )
+    //             ],
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //
+    //   ),
+    // );
   }
 
   int _sliding = 0;
@@ -3295,6 +3557,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                         rows: [
                           for(int i=0; i<prodsPrepMod.length; i++)
                             DataRow(
+                              color: i%2==0?MaterialStateProperty.all<Color>(Colors.white):MaterialStateProperty.all<Color>(AppTheme.lightBgColorCell),
                               cells: <DataCell>[
                                 DataCell(
                                     Container(
