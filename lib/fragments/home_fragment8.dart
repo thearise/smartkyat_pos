@@ -54,10 +54,11 @@ import '../behaviors/behaviors_gallery.dart' as behaviors show buildGallery;
 import '../i18n/i18n_gallery.dart' as i18n show buildGallery;
 import '../legends/legends_gallery.dart' as legends show buildGallery;
 import 'ad_helper.dart';
+import 'home_fragment6.dart';
 import 'subs/customer_info.dart';
 
 
-class HomeFragment extends StatefulWidget {
+class OverviewPage extends StatefulWidget {
   final _callback;
   final _callback2;
   final _callback3;
@@ -67,7 +68,7 @@ class HomeFragment extends StatefulWidget {
   final _openDrawerBtn;
   final _closeDrawerBtn;
 
-  HomeFragment({
+  OverviewPage({
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
     required this.ordersSnapshot,
@@ -97,16 +98,16 @@ class HomeFragment extends StatefulWidget {
   final lossSnapshot;
   final bool isEnglish;
   @override
-  HomeFragmentState createState() => HomeFragmentState();
+  OverviewPageState createState() => OverviewPageState();
 
-// HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
+// OverviewPage({Key? key, required void toggleCoinCallback()}) : super(key: key);
 //
 // @override
-// _HomeFragmentState createState() => _HomeFragmentState();
+// _OverviewPageState createState() => _OverviewPageState();
 }
 
-class HomeFragmentState extends State<HomeFragment>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment> {
+class OverviewPageState extends State<OverviewPage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OverviewPage> {
   String? shopId;
   TextEditingController _searchController = TextEditingController();
 
@@ -2225,6 +2226,17 @@ class HomeFragmentState extends State<HomeFragment>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  closeDrawerFrom();
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (
+                                                            context) =>
+                                                            HomeFragment(barcodeBtn: widget._barcodeBtn, searchBtn: widget._searchBtn,
+                                                              toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: widget._callback2, toggleCoinCallback3: widget._callback3, toggleCoinCallback4: widget._callback4, shopId: shopId, ordersSnapshot: widget.ordersSnapshot, buyOrdersSnapshot: widget.buyOrdersSnapshot, lossSnapshot: widget.lossSnapshot, openDrawerBtn: widget._openDrawerBtn, closeDrawerBtn: widget._closeDrawerBtn, isEnglish: widget.isEnglish,
+                                                            )),
+                                                  );
+                                                  openDrawerFrom();
 
                                                 },
                                                 child: Padding(

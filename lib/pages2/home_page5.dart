@@ -41,6 +41,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/buylist_fragment2.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
+import 'package:smartkyat_pos/fragments/home_fragment6.dart';
 import 'package:smartkyat_pos/fragments/home_fragment8.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment2.dart';
@@ -244,7 +245,7 @@ class HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
+  GlobalKey<OverviewPageState> homeGlobalKey = GlobalKey();
   GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
   GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
   GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
@@ -704,7 +705,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
+            page: OverviewPage(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
               toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, isEnglish: isEnglish,
             ),
           ),
